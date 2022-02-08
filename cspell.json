@@ -1,0 +1,14 @@
+{
+    "dictionaryDefinitions": [
+      { "name": "meow-music", "path": "./dictionaries/meow-music.txt" },
+      { "name": "dependencies", "path": "./dictionaries/dependencies.txt" }
+    ],
+    "dictionaries": ["meow-music", "dependencies"],
+    "ignorePaths": [
+      "*.freezed.dart",
+      "*.g.dart",
+      "/lib/generated_plugin_registrant.dart"
+    ],
+    "enabledLanguageIds": ["dart", "swift", "kotlin"]
+  }
+  
