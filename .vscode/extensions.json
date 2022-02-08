@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "blaxou.freezed",
+        "dart-code.flutter",
+        "esbenp.prettier-vscode",
+        "gaetschwartz.build-runner",
+        "localizely.flutter-intl",
+        "streetsidesoftware.code-spell-checker",
+        "vknabel.vscode-swiftlint",
+    ],
+}
