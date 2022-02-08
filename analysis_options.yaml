@@ -1,6 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  plugins:
+    - dart_code_metrics
   exclude:
     - "build/**"
     - "**/*.freezed.dart"
@@ -101,3 +103,50 @@ linter:
     - use_setters_to_change_properties
     - use_string_buffers
     - use_to_and_as_if_applicable
+
+dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 20
+    number-of-parameters: 4
+    maximum-nesting-level: 5
+    maintainability-index: 50
+  rules:
+    - avoid-global-state
+    - avoid-nested-conditional-expressions:
+        acceptable-level: 1
+    - avoid-throw-in-catch-block
+    - avoid-unnecessary-type-assertions
+    - avoid-unnecessary-type-casts
+    - avoid-unrelated-type-assertions
+    - avoid-unused-parameters
+    - binary-expression-operand-order
+    - member-ordering-extended:
+        order:
+          - constructors
+          - public-static-const-fields
+          - public-static-final-fields
+          - public-static-var-fields
+          - private-static-const-fields
+          - private-static-final-fields
+          - private-static-var-fields
+          - public-fields
+          - private-fields
+          - public-getters
+          - private-getters
+          - public-setters
+          - private-setters
+          - public-static-methods
+          - private-static-methods
+          - overridden-methods
+          - public-methods
+          - private-methods
+    - no-boolean-literal-compare
+    - no-equal-then-else
+    # - no-magic-number
+    - no-object-declaration
+    - prefer-first
+    - prefer-last
+    - prefer-match-file-name
+    - avoid-wrapping-in-padding
+  rules-exclude:
+    - prefer-conditional-expressions
