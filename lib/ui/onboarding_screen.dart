@@ -10,7 +10,7 @@ import 'package:meow_music/ui/select_template_screen.dart';
 final onboardingViewModelProvider =
     StateNotifierProvider.autoDispose<OnboardingViewModel, OnboardingState>(
   (ref) => OnboardingViewModel(
-    pieceUseCase: ref.watch(pieceUseCaseProvider),
+    settingsUseCase: ref.watch(settingsUseCaseProvider),
   ),
 );
 
@@ -33,22 +33,36 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
-    return IntroductionScreen(
-      pages: [
-        PageViewModel(
-          title: 'あなたのわんちゃんのオリジナル曲を作ろう',
-        ),
-        PageViewModel(
-          title: '３つ鳴き声を録音してかんたん完成！',
-        ),
-        PageViewModel(
-          title: 'できた作品はみんなにシェアしよう',
-        ),
-      ],
-      skip: const Text('スキップ'),
-      next: const Text('次へ'),
-      done: const Text('始める'),
-      onDone: _onDone,
+    return SafeArea(
+      child: IntroductionScreen(
+        pages: [
+          PageViewModel(
+            title: 'あなたのわんちゃんのオリジナル曲を作ろう',
+            bodyWidget: const Icon(
+              Icons.abc,
+              size: 128,
+            ),
+          ),
+          PageViewModel(
+            title: '３つ鳴き声を録音してかんたん完成！',
+            bodyWidget: const Icon(
+              Icons.abc,
+              size: 128,
+            ),
+          ),
+          PageViewModel(
+            title: 'できた作品はみんなにシェアしよう',
+            bodyWidget: const Icon(
+              Icons.abc,
+              size: 128,
+            ),
+          ),
+        ],
+        skip: const Text('スキップ'),
+        next: const Text('次へ'),
+        done: const Text('始める'),
+        onDone: _onDone,
+      ),
     );
   }
 

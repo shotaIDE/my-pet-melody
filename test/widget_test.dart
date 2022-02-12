@@ -4,7 +4,7 @@ import 'package:meow_music/root_app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (tester) async {
-    await tester.pumpWidget(const RootApp());
+    await tester.pumpWidget(RootApp());
 
     expect(find.text('0'), findsOneWidget);
     expect(find.text('1'), findsNothing);
