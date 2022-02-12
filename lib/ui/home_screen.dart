@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
@@ -38,13 +39,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             itemBuilder: (_, index) {
               final piece = pieces[index];
               final status = piece.status;
+              final dateFormatter = DateFormat.yMd('ja');
+              final timeFormatter = DateFormat.Hm('ja');
+
+              final subtitleLabel = status.when(
+                generating: (submitted) => '${dateFormatter.format(submitted)} '
+                    '${timeFormatter.format(submitted)}   '
+                    '製作中',
+                generated: (generated) => '${dateFormatter.format(generated)} '
+                    '${timeFormatter.format(generated)}',
+              );
 
               return ListTile(
                 title: Text(piece.name),
-                subtitle: status.when(
-                  generating: (submitted) => Text('製作中 $submitted'),
-                  generated: (generated) => Text('$generated'),
-                ),
+                subtitle: Text(subtitleLabel),
                 tileColor: status.when(
                   generating: (_) => Colors.grey[300],
                   generated: (_) => null,
