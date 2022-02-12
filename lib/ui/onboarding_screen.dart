@@ -33,36 +33,38 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: IntroductionScreen(
-        pages: [
-          PageViewModel(
-            title: 'あなたのわんちゃんのオリジナル曲を作ろう',
-            bodyWidget: const Icon(
-              Icons.abc,
-              size: 128,
-            ),
+    return IntroductionScreen(
+      pages: [
+        PageViewModel(
+          title: 'あなたのわんちゃんのオリジナル曲を作ろう',
+          bodyWidget: const Icon(
+            Icons.abc,
+            size: 128,
           ),
-          PageViewModel(
-            title: '３つ鳴き声を録音してかんたん完成！',
-            bodyWidget: const Icon(
-              Icons.abc,
-              size: 128,
-            ),
+        ),
+        PageViewModel(
+          title: '３つ鳴き声を録音してかんたん完成！',
+          bodyWidget: const Icon(
+            Icons.abc,
+            size: 128,
           ),
-          PageViewModel(
-            title: 'できた作品はみんなにシェアしよう',
-            bodyWidget: const Icon(
-              Icons.abc,
-              size: 128,
-            ),
+        ),
+        PageViewModel(
+          title: 'できた作品はみんなにシェアしよう',
+          bodyWidget: const Icon(
+            Icons.abc,
+            size: 128,
           ),
-        ],
-        skip: const Text('スキップ'),
-        next: const Text('次へ'),
-        done: const Text('始める'),
-        onDone: _onDone,
-      ),
+        ),
+      ],
+      showSkipButton: true,
+      skip: const Text('スキップ'),
+      next: const Text('次へ'),
+      done: const Text('始める'),
+      onDone: _onDone,
+      controlsPadding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+      isTopSafeArea: true,
+      isBottomSafeArea: true,
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:meow_music/data/service/preference_service.dart';
 
 class SettingsLocalDataSource {
   Future<bool> getIsOnboardingFinished() async {
+    return false;
     final isFinished =
         await PreferenceService.getBool(PreferenceKey.isOnboardingFinished);
 
