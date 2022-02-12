@@ -44,15 +44,45 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
         Text(
           '完成までしばらくお待ちください。\n'
           '完成したらすぐに通知を受けとるために、通知を許可してください。',
+          textAlign: TextAlign.center,
         ),
         Padding(
-          padding: EdgeInsets.only(top: 16),
+          padding: EdgeInsets.only(top: 32),
           child: Icon(
             Icons.notifications,
             size: 128,
           ),
         ),
       ],
+    );
+
+    final footer = Container(
+      alignment: Alignment.center,
+      color: Theme.of(context).secondaryHeaderColor,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('プッシュ通知を許可する'),
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: TextButton(
+                  onPressed: () {},
+                  child: const Text('プッシュ通知を許可しない'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
 
     return Scaffold(
@@ -63,20 +93,21 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(top: 32),
               child: title,
             ),
             Expanded(
               child: SafeArea(
-                child: Center(
+                child: SingleChildScrollView(
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(top: 16, left: 16, right: 16),
+                        const EdgeInsets.only(top: 64, left: 32, right: 32),
                     child: body,
                   ),
                 ),
               ),
             ),
+            footer,
           ],
         ),
       ),

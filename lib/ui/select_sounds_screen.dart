@@ -98,7 +98,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final bottomActionSheet = Container(
+    final footer = Container(
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
       child: SafeArea(
@@ -131,7 +131,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               child: body,
             ),
           ),
-          bottomActionSheet,
+          footer,
         ],
       ),
     );
