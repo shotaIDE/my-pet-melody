@@ -61,6 +61,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final soundsList = ReorderableListView(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: List.generate(
         3,
         (index) => ListTile(
@@ -95,6 +96,20 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
+    final bottomActionSheet = Container(
+      alignment: Alignment.center,
+      color: Theme.of(context).secondaryHeaderColor,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ElevatedButton(
+            child: const Text('作品を作る'),
+            onPressed: () {},
+          ),
+        ),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('STEP 2/2'),
@@ -111,6 +126,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               child: body,
             ),
           ),
+          bottomActionSheet,
         ],
       ),
     );
