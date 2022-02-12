@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meow_music/data/api/my_dio.dart';
 
@@ -8,6 +10,18 @@ class SubmissionApi {
   SubmissionApi({required MyDio dio}) : _dio = dio;
 
   final MyDio _dio;
+
+  Future<void> upload(
+    File file, {
+    required String fileName,
+  }) async {
+    return _dio.postFile(
+      path: '/upload',
+      file: file,
+      fileName: fileName,
+      responseParser: (json) => null,
+    );
+  }
 
   Future<void> submit(SubmitRequest request) async {
     return _dio.post(

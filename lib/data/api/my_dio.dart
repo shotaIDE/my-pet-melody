@@ -8,9 +8,9 @@ class MyDio {
   MyDio() : _dio = Dio();
 
   static const _contentTypeJson = 'application/json';
-  static const _errorCodeKey = 'errorCode';
+  static const _contentTypeForm = 'application/x-www-form-urlencoded';
 
-  final String _baseUrl = 'http://127.0.0.1:5000';
+  final String _baseUrl = 'http://192.168.11.3:5000';
   final Dio _dio;
 
   Future<void> post<T>({
@@ -21,6 +21,31 @@ class MyDio {
     return _getResult<T>(
       path: path,
       contentType: _contentTypeJson,
+      connectionExecutor: (url, options) async =>
+          _dio.post<Map<String, dynamic>>(
+        url,
+        data: data,
+        options: options,
+      ),
+      responseParser: responseParser,
+    );
+  }
+
+  Future<void> postFile<T>({
+    required String path,
+    required File file,
+    required String fileName,
+    required T Function(Map<String, dynamic> json) responseParser,
+  }) async {
+    final fileData =
+        await MultipartFile.fromFile(file.path, filename: fileName);
+    final data = FormData.fromMap(<String, dynamic>{
+      'file': fileData,
+    });
+
+    return _getResult<T>(
+      path: path,
+      contentType: _contentTypeForm,
       connectionExecutor: (url, options) async =>
           _dio.post<Map<String, dynamic>>(
         url,
@@ -56,16 +81,6 @@ class MyDio {
     } on DioError catch (error) {
       debugPrint('DioError: $responseDataRaw');
       debugPrint('$error');
-
-      final String? errorCode;
-      final dynamic notCastedData = error.response?.data;
-      final data = notCastedData is Map<String, dynamic> ? notCastedData : null;
-      if (data != null && data.containsKey(_errorCodeKey)) {
-        final dynamic notCastedErrorCode = data[_errorCodeKey];
-        errorCode = notCastedErrorCode is String ? notCastedErrorCode : null;
-      } else {
-        errorCode = null;
-      }
 
       return;
     } on SocketException catch (error) {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/repository/remote/submission_remote_data_source.dart';
 
@@ -15,6 +17,16 @@ class SubmissionRepository {
         url: 'about:blank',
       ),
     ];
+  }
+
+  Future<void> upload(
+    File file, {
+    required String fileName,
+  }) async {
+    return _remote.upload(
+      file,
+      fileName: fileName,
+    );
   }
 
   Future<void> submit({

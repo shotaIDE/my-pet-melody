@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
 
@@ -9,6 +11,16 @@ class SubmissionUseCase {
 
   Future<List<Template>> getTemplates() async {
     return _repository.getTemplates();
+  }
+
+  Future<void> upload(
+    File file, {
+    required String fileName,
+  }) async {
+    return _repository.upload(
+      file,
+      fileName: fileName,
+    );
   }
 
   Future<void> submit() async {

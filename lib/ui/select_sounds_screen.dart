@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
@@ -74,7 +77,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             icon: const Icon(Icons.close),
             onPressed: () {},
           ),
-          onTap: () {},
+          onTap: _selectSound,
         ),
       ),
       onReorder: (src, dst) {},
@@ -163,6 +166,25 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ],
           )
         : scaffold;
+  }
+
+  Future<void> _selectSound() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['wav', 'm4a', 'mp3'],
+    );
+
+    if (result == null) {
+      return;
+    }
+
+    // final tempDirectory = await getTemporaryDirectory();
+
+    final file = File(result.files.single.path!);
+
+    // file.copy('$tempDirectory/${file.path}');
+
+    await ref.read(widget.viewModel.notifier).upload(file);
   }
 
   Future<void> _submit() async {
