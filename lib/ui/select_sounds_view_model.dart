@@ -19,7 +19,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   Future<void> submit() async {
     state = state.copyWith(isProcessing: true);
 
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await _submissionUseCase.submit();
 
     state = state.copyWith(isProcessing: false);
   }

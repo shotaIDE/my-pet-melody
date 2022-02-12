@@ -10,4 +10,8 @@ class SubmissionUseCase {
   Future<List<Template>> getTemplates() async {
     return _repository.getTemplates();
   }
+
+  Future<void> submit() async {
+    return _repository.submit(userId: 'test-user-id');
+  }
 }

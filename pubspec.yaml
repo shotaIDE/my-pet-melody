@@ -21,6 +21,7 @@ dependencies:
   intl: ^0.17.0
   introduction_screen: ^2.1.0
   shared_preferences: ^2.0.13
+  dio: ^4.0.4
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +31,7 @@ dev_dependencies:
   dart_code_metrics: ^4.10.1
   build_runner: ^2.1.7
   freezed: ^1.1.1
+  json_serializable: ^6.1.4
 
 flutter:
   uses-material-design: true
