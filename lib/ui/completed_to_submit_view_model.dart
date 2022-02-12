@@ -9,4 +9,6 @@ class CompletedToSubmitViewModel extends StateNotifier<CompletedToSubmitState> {
         super(const CompletedToSubmitState());
 
   final SubmissionUseCase _submissionUseCase;
+
+  Future<void> enablePushNotification() async {}
 }

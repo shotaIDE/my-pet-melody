@@ -68,14 +68,14 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _enablePushNotification,
                   child: const Text('プッシュ通知を許可する'),
                 ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: _notEnablePushNotification,
                   child: const Text('プッシュ通知を許可しない'),
                 ),
               ),
@@ -112,5 +112,15 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _enablePushNotification() async {
+    await ref.read(widget.viewModel.notifier).enablePushNotification();
+
+    Navigator.pop(context);
+  }
+
+  Future<void> _notEnablePushNotification() async {
+    Navigator.pop(context);
   }
 }
