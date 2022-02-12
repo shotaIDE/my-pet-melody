@@ -15,6 +15,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  freezed_annotation: ^1.1.0
+  rxdart: ^0.27.3
 
 dev_dependencies:
   flutter_test:
@@ -22,6 +24,8 @@ dev_dependencies:
 
   flutter_lints: ^1.0.0
   dart_code_metrics: ^4.10.1
+  build_runner: ^2.1.7
+  freezed: ^1.1.1
 
 flutter:
   uses-material-design: true
