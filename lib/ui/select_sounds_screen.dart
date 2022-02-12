@@ -101,16 +101,19 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       color: Theme.of(context).secondaryHeaderColor,
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: ElevatedButton(
-            child: const Text('作品を作る'),
-            onPressed: () {},
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: ElevatedButton(
+              onPressed: _submit,
+              child: const Text('作品を提出する'),
+            ),
           ),
         ),
       ),
     );
 
-    return Scaffold(
+    final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('STEP 2/2'),
       ),
@@ -130,5 +133,37 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         ],
       ),
     );
+
+    return state.isProcessing
+        ? Stack(
+            children: [
+              scaffold,
+              Container(
+                alignment: Alignment.center,
+                color: Colors.black.withOpacity(0.5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '提出しています',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(color: Colors.white),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: LinearProgressIndicator(),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        : scaffold;
+  }
+
+  Future<void> _submit() async {
+    await ref.read(widget.viewModel.notifier).submit();
   }
 }

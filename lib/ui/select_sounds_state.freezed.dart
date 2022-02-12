@@ -18,9 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SelectSoundsStateTearOff {
   const _$SelectSoundsStateTearOff();
 
-  _SelectSoundsState call({required Template template}) {
+  _SelectSoundsState call(
+      {required Template template, bool isProcessing = false}) {
     return _SelectSoundsState(
       template: template,
+      isProcessing: isProcessing,
     );
   }
 }
@@ -31,6 +33,7 @@ const $SelectSoundsState = _$SelectSoundsStateTearOff();
 /// @nodoc
 mixin _$SelectSoundsState {
   Template get template => throw _privateConstructorUsedError;
+  bool get isProcessing => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SelectSoundsStateCopyWith<SelectSoundsState> get copyWith =>
@@ -42,7 +45,7 @@ abstract class $SelectSoundsStateCopyWith<$Res> {
   factory $SelectSoundsStateCopyWith(
           SelectSoundsState value, $Res Function(SelectSoundsState) then) =
       _$SelectSoundsStateCopyWithImpl<$Res>;
-  $Res call({Template template});
+  $Res call({Template template, bool isProcessing});
 
   $TemplateCopyWith<$Res> get template;
 }
@@ -59,12 +62,17 @@ class _$SelectSoundsStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? template = freezed,
+    Object? isProcessing = freezed,
   }) {
     return _then(_value.copyWith(
       template: template == freezed
           ? _value.template
           : template // ignore: cast_nullable_to_non_nullable
               as Template,
+      isProcessing: isProcessing == freezed
+          ? _value.isProcessing
+          : isProcessing // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -83,7 +91,7 @@ abstract class _$SelectSoundsStateCopyWith<$Res>
           _SelectSoundsState value, $Res Function(_SelectSoundsState) then) =
       __$SelectSoundsStateCopyWithImpl<$Res>;
   @override
-  $Res call({Template template});
+  $Res call({Template template, bool isProcessing});
 
   @override
   $TemplateCopyWith<$Res> get template;
@@ -103,12 +111,17 @@ class __$SelectSoundsStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? template = freezed,
+    Object? isProcessing = freezed,
   }) {
     return _then(_SelectSoundsState(
       template: template == freezed
           ? _value.template
           : template // ignore: cast_nullable_to_non_nullable
               as Template,
+      isProcessing: isProcessing == freezed
+          ? _value.isProcessing
+          : isProcessing // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -116,14 +129,17 @@ class __$SelectSoundsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SelectSoundsState implements _SelectSoundsState {
-  _$_SelectSoundsState({required this.template});
+  _$_SelectSoundsState({required this.template, this.isProcessing = false});
 
   @override
   final Template template;
+  @JsonKey()
+  @override
+  final bool isProcessing;
 
   @override
   String toString() {
-    return 'SelectSoundsState(template: $template)';
+    return 'SelectSoundsState(template: $template, isProcessing: $isProcessing)';
   }
 
   @override
@@ -131,12 +147,16 @@ class _$_SelectSoundsState implements _SelectSoundsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _SelectSoundsState &&
-            const DeepCollectionEquality().equals(other.template, template));
+            const DeepCollectionEquality().equals(other.template, template) &&
+            const DeepCollectionEquality()
+                .equals(other.isProcessing, isProcessing));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(template));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(template),
+      const DeepCollectionEquality().hash(isProcessing));
 
   @JsonKey(ignore: true)
   @override
@@ -145,11 +165,13 @@ class _$_SelectSoundsState implements _SelectSoundsState {
 }
 
 abstract class _SelectSoundsState implements SelectSoundsState {
-  factory _SelectSoundsState({required Template template}) =
+  factory _SelectSoundsState({required Template template, bool isProcessing}) =
       _$_SelectSoundsState;
 
   @override
   Template get template;
+  @override
+  bool get isProcessing;
   @override
   @JsonKey(ignore: true)
   _$SelectSoundsStateCopyWith<_SelectSoundsState> get copyWith =>
