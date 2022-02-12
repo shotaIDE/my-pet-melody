@@ -47,14 +47,30 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       style: Theme.of(context).textTheme.headline5,
     );
 
+    final templateTile = ListTile(
+      leading: const Icon(Icons.play_arrow_rounded),
+      title: Text(template.name),
+      onTap: () {},
+    );
+    final description = Text(
+      'お手元でトリミングした鳴き声をアップロードしてください',
+      style: Theme.of(context).textTheme.bodyText1,
+    );
+    final trimmingButton =
+        TextButton(onPressed: () {}, child: const Text('トリミングの方法を見る'));
+
     final body = SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ListTile(
-            leading: const Icon(Icons.play_arrow_rounded),
-            title: Text(template.name),
-            onTap: () {},
+          templateTile,
+          Padding(
+            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+            child: description,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: trimmingButton,
           ),
         ],
       ),
