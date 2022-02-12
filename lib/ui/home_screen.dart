@@ -53,6 +53,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               return ListTile(
                 title: Text(piece.name),
                 subtitle: Text(subtitleLabel),
+                trailing: IconButton(
+                  icon: const Icon(Icons.share),
+                  onPressed: () {},
+                ),
                 tileColor: status.when(
                   generating: (_) => Colors.grey[300],
                   generated: (_) => null,
