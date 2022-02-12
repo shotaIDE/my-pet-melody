@@ -17,6 +17,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   freezed_annotation: ^1.1.0
   rxdart: ^0.27.3
+  flutter_riverpod: ^1.0.3
 
 dev_dependencies:
   flutter_test:
