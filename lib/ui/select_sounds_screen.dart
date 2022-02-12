@@ -59,6 +59,24 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final trimmingButton =
         TextButton(onPressed: () {}, child: const Text('トリミングの方法を見る'));
 
+    final soundsList = ReorderableListView(
+      shrinkWrap: true,
+      children: List.generate(
+        3,
+        (index) => ListTile(
+          key: Key('reorderable_list_$index'),
+          leading: const Icon(Icons.drag_handle),
+          title: const Text('鳴き声を選択する'),
+          trailing: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {},
+          ),
+          onTap: () {},
+        ),
+      ),
+      onReorder: (src, dst) {},
+    );
+
     final body = SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -72,6 +90,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: trimmingButton,
           ),
+          soundsList,
         ],
       ),
     );
