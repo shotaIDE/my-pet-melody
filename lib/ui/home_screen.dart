@@ -67,6 +67,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         title: const Text('Meow Music'),
       ),
       body: body,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {},
+      ),
     );
   }
 }
