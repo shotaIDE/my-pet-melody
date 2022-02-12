@@ -21,10 +21,12 @@ class _$SelectSoundsStateTearOff {
   _SelectSoundsState call(
       {required Template template,
       required List<SelectedSound?> sounds,
+      bool isAvailableSubmission = false,
       bool isProcessing = false}) {
     return _SelectSoundsState(
       template: template,
       sounds: sounds,
+      isAvailableSubmission: isAvailableSubmission,
       isProcessing: isProcessing,
     );
   }
@@ -37,6 +39,7 @@ const $SelectSoundsState = _$SelectSoundsStateTearOff();
 mixin _$SelectSoundsState {
   Template get template => throw _privateConstructorUsedError;
   List<SelectedSound?> get sounds => throw _privateConstructorUsedError;
+  bool get isAvailableSubmission => throw _privateConstructorUsedError;
   bool get isProcessing => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -50,7 +53,10 @@ abstract class $SelectSoundsStateCopyWith<$Res> {
           SelectSoundsState value, $Res Function(SelectSoundsState) then) =
       _$SelectSoundsStateCopyWithImpl<$Res>;
   $Res call(
-      {Template template, List<SelectedSound?> sounds, bool isProcessing});
+      {Template template,
+      List<SelectedSound?> sounds,
+      bool isAvailableSubmission,
+      bool isProcessing});
 
   $TemplateCopyWith<$Res> get template;
 }
@@ -68,6 +74,7 @@ class _$SelectSoundsStateCopyWithImpl<$Res>
   $Res call({
     Object? template = freezed,
     Object? sounds = freezed,
+    Object? isAvailableSubmission = freezed,
     Object? isProcessing = freezed,
   }) {
     return _then(_value.copyWith(
@@ -79,6 +86,10 @@ class _$SelectSoundsStateCopyWithImpl<$Res>
           ? _value.sounds
           : sounds // ignore: cast_nullable_to_non_nullable
               as List<SelectedSound?>,
+      isAvailableSubmission: isAvailableSubmission == freezed
+          ? _value.isAvailableSubmission
+          : isAvailableSubmission // ignore: cast_nullable_to_non_nullable
+              as bool,
       isProcessing: isProcessing == freezed
           ? _value.isProcessing
           : isProcessing // ignore: cast_nullable_to_non_nullable
@@ -102,7 +113,10 @@ abstract class _$SelectSoundsStateCopyWith<$Res>
       __$SelectSoundsStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Template template, List<SelectedSound?> sounds, bool isProcessing});
+      {Template template,
+      List<SelectedSound?> sounds,
+      bool isAvailableSubmission,
+      bool isProcessing});
 
   @override
   $TemplateCopyWith<$Res> get template;
@@ -123,6 +137,7 @@ class __$SelectSoundsStateCopyWithImpl<$Res>
   $Res call({
     Object? template = freezed,
     Object? sounds = freezed,
+    Object? isAvailableSubmission = freezed,
     Object? isProcessing = freezed,
   }) {
     return _then(_SelectSoundsState(
@@ -134,6 +149,10 @@ class __$SelectSoundsStateCopyWithImpl<$Res>
           ? _value.sounds
           : sounds // ignore: cast_nullable_to_non_nullable
               as List<SelectedSound?>,
+      isAvailableSubmission: isAvailableSubmission == freezed
+          ? _value.isAvailableSubmission
+          : isAvailableSubmission // ignore: cast_nullable_to_non_nullable
+              as bool,
       isProcessing: isProcessing == freezed
           ? _value.isProcessing
           : isProcessing // ignore: cast_nullable_to_non_nullable
@@ -148,6 +167,7 @@ class _$_SelectSoundsState implements _SelectSoundsState {
   const _$_SelectSoundsState(
       {required this.template,
       required this.sounds,
+      this.isAvailableSubmission = false,
       this.isProcessing = false});
 
   @override
@@ -156,11 +176,14 @@ class _$_SelectSoundsState implements _SelectSoundsState {
   final List<SelectedSound?> sounds;
   @JsonKey()
   @override
+  final bool isAvailableSubmission;
+  @JsonKey()
+  @override
   final bool isProcessing;
 
   @override
   String toString() {
-    return 'SelectSoundsState(template: $template, sounds: $sounds, isProcessing: $isProcessing)';
+    return 'SelectSoundsState(template: $template, sounds: $sounds, isAvailableSubmission: $isAvailableSubmission, isProcessing: $isProcessing)';
   }
 
   @override
@@ -171,6 +194,8 @@ class _$_SelectSoundsState implements _SelectSoundsState {
             const DeepCollectionEquality().equals(other.template, template) &&
             const DeepCollectionEquality().equals(other.sounds, sounds) &&
             const DeepCollectionEquality()
+                .equals(other.isAvailableSubmission, isAvailableSubmission) &&
+            const DeepCollectionEquality()
                 .equals(other.isProcessing, isProcessing));
   }
 
@@ -179,6 +204,7 @@ class _$_SelectSoundsState implements _SelectSoundsState {
       runtimeType,
       const DeepCollectionEquality().hash(template),
       const DeepCollectionEquality().hash(sounds),
+      const DeepCollectionEquality().hash(isAvailableSubmission),
       const DeepCollectionEquality().hash(isProcessing));
 
   @JsonKey(ignore: true)
@@ -191,12 +217,15 @@ abstract class _SelectSoundsState implements SelectSoundsState {
   const factory _SelectSoundsState(
       {required Template template,
       required List<SelectedSound?> sounds,
+      bool isAvailableSubmission,
       bool isProcessing}) = _$_SelectSoundsState;
 
   @override
   Template get template;
   @override
   List<SelectedSound?> get sounds;
+  @override
+  bool get isAvailableSubmission;
   @override
   bool get isProcessing;
   @override

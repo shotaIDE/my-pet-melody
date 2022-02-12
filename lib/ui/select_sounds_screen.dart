@@ -76,8 +76,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               key: Key('reorderable_list_$index'),
               leading: const Icon(Icons.drag_handle),
               title: const Text(
-                '鳴き声を選択する',
+                '鳴き声をアップロードする',
                 style: TextStyle(color: Colors.grey),
+                overflow: TextOverflow.ellipsis,
               ),
               onTap: () => _selectSound(index: index),
             );
@@ -87,13 +88,19 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             uploading: (localFileName) => ListTile(
               key: Key('reorderable_list_$index'),
               leading: const Icon(Icons.drag_handle),
-              title: Text(localFileName),
+              title: Text(
+                localFileName,
+                overflow: TextOverflow.ellipsis,
+              ),
               trailing: const CircularProgressIndicator(),
             ),
             uploaded: (localFileName, remoteFileName) => ListTile(
               key: Key('reorderable_list_$index'),
               leading: const Icon(Icons.drag_handle),
-              title: Text(localFileName),
+              title: Text(
+                localFileName,
+                overflow: TextOverflow.ellipsis,
+              ),
               trailing: IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () =>
@@ -133,7 +140,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.8,
             child: ElevatedButton(
-              onPressed: _submit,
+              onPressed: state.isAvailableSubmission ? _submit : null,
               child: const Text('作品を提出する'),
             ),
           ),

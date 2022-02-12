@@ -24,12 +24,12 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     File file, {
     required int index,
   }) async {
-    final replacedSounds = state.sounds;
+    final sounds = state.sounds;
     final localFileName = basename(file.path);
     final uploading = SelectedSound.uploading(localFileName: localFileName);
-    replacedSounds[index] = uploading;
+    sounds[index] = uploading;
 
-    state = state.copyWith(sounds: replacedSounds);
+    state = state.copyWith(sounds: sounds);
 
     final remoteFileName = await _submissionUseCase.upload(
       file,
@@ -37,26 +37,35 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
 
     if (remoteFileName == null) {
-      replacedSounds[index] = null;
+      sounds[index] = null;
 
-      state = state.copyWith(sounds: replacedSounds);
+      state = state.copyWith(
+        sounds: sounds,
+        isAvailableSubmission: _getIsAvailableSubmission(),
+      );
 
       return;
     }
 
-    replacedSounds[index] = SelectedSound.uploaded(
+    sounds[index] = SelectedSound.uploaded(
       localFileName: localFileName,
       remoteFileName: remoteFileName,
     );
 
-    state = state.copyWith(sounds: replacedSounds);
+    state = state.copyWith(
+      sounds: sounds,
+      isAvailableSubmission: _getIsAvailableSubmission(),
+    );
   }
 
   Future<void> delete({required int index}) async {
     final sounds = state.sounds;
     sounds[index] = null;
 
-    state = state.copyWith(sounds: sounds);
+    state = state.copyWith(
+      sounds: sounds,
+      isAvailableSubmission: _getIsAvailableSubmission(),
+    );
   }
 
   Future<void> submit() async {
@@ -65,5 +74,17 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await _submissionUseCase.submit();
 
     state = state.copyWith(isProcessing: false);
+  }
+
+  bool _getIsAvailableSubmission() {
+    final sounds = state.sounds;
+
+    return sounds.fold(
+      true,
+      (previousValue, sound) =>
+          previousValue &&
+          sound != null &&
+          sound.map(uploading: (_) => false, uploaded: (_) => true),
+    );
   }
 }

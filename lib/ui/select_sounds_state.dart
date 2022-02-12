@@ -8,6 +8,7 @@ class SelectSoundsState with _$SelectSoundsState {
   const factory SelectSoundsState({
     required Template template,
     required List<SelectedSound?> sounds,
+    @Default(false) bool isAvailableSubmission,
     @Default(false) bool isProcessing,
   }) = _SelectSoundsState;
 }
