@@ -5,12 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class MyDio {
-  MyDio() : _dio = Dio();
+  MyDio() : _dio = Dio(BaseOptions());
 
   static const _contentTypeJson = 'application/json';
   static const _contentTypeForm = 'application/x-www-form-urlencoded';
 
-  final String _baseUrl = 'http://192.168.11.3:5000';
+  final String _baseUrl = 'http://127.0.0.1:5000';
   final Dio _dio;
 
   Future<void> post<T>({

@@ -16,5 +16,5 @@ def hello_world():
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
-        f = request.files['the_file']
-        f.save('uploads/uploaded_file.txt')
+        f = request.files['file']
+        f.save('uploads/uploaded_file.mp3')
