@@ -178,11 +178,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       return;
     }
 
-    // final tempDirectory = await getTemporaryDirectory();
-
     final file = File(result.files.single.path!);
-
-    // file.copy('$tempDirectory/${file.path}');
 
     await ref.read(widget.viewModel.notifier).upload(file);
   }
