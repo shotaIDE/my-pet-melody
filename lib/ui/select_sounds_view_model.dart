@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
+import 'package:path/path.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
@@ -21,7 +22,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   Future<void> upload(File file) async {
     await _submissionUseCase.upload(
       file,
-      fileName: 'test',
+      fileName: basename(file.path),
     );
   }
 

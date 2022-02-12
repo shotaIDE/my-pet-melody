@@ -19,7 +19,7 @@ class SubmissionRepository {
     ];
   }
 
-  Future<void> upload(
+  Future<String?> upload(
     File file, {
     required String fileName,
   }) async {

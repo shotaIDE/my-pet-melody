@@ -11,7 +11,7 @@ class SubmissionApi {
 
   final MyDio _dio;
 
-  Future<void> upload(
+  Future<UploadResponse?> upload(
     File file, {
     required String fileName,
   }) async {
@@ -19,7 +19,7 @@ class SubmissionApi {
       path: '/upload',
       file: file,
       fileName: fileName,
-      responseParser: (json) => null,
+      responseParser: UploadResponse.fromJson,
     );
   }
 
@@ -30,6 +30,16 @@ class SubmissionApi {
       data: request.toJson(),
     );
   }
+}
+
+@freezed
+class UploadResponse with _$UploadResponse {
+  const factory UploadResponse({
+    required String fileName,
+  }) = _UploadResponse;
+
+  factory UploadResponse.fromJson(Map<String, dynamic> json) =>
+      _$UploadResponseFromJson(json);
 }
 
 @freezed

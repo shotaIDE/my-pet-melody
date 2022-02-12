@@ -13,7 +13,7 @@ class MyDio {
   final String _baseUrl = 'http://127.0.0.1:5000';
   final Dio _dio;
 
-  Future<void> post<T>({
+  Future<T?> post<T>({
     required String path,
     required T Function(Map<String, dynamic> json) responseParser,
     Map<String, dynamic>? data,
@@ -31,7 +31,7 @@ class MyDio {
     );
   }
 
-  Future<void> postFile<T>({
+  Future<T?> postFile<T>({
     required String path,
     required File file,
     required String fileName,
@@ -56,7 +56,7 @@ class MyDio {
     );
   }
 
-  Future<void> _getResult<T>({
+  Future<T?> _getResult<T>({
     required String path,
     required String contentType,
     required Future<Response<dynamic>> Function(String url, Options options)
@@ -77,17 +77,18 @@ class MyDio {
 
       final responseData =
           responseParser(response.data as Map<String, dynamic>);
-      return;
+
+      return responseData;
     } on DioError catch (error) {
       debugPrint('DioError: $responseDataRaw');
       debugPrint('$error');
 
-      return;
+      return null;
     } on SocketException catch (error) {
       debugPrint('SocketException: $responseDataRaw');
       debugPrint('$error');
 
-      return;
+      return null;
     }
   }
 }

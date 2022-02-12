@@ -7,14 +7,16 @@ class SubmissionRemoteDataSource {
 
   final SubmissionApi _api;
 
-  Future<void> upload(
+  Future<String?> upload(
     File file, {
     required String fileName,
   }) async {
-    return _api.upload(
+    final response = await _api.upload(
       file,
       fileName: fileName,
     );
+
+    return response?.fileName;
   }
 
   Future<void> submit({

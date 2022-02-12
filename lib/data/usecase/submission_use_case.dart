@@ -13,7 +13,7 @@ class SubmissionUseCase {
     return _repository.getTemplates();
   }
 
-  Future<void> upload(
+  Future<String?> upload(
     File file, {
     required String fileName,
   }) async {
