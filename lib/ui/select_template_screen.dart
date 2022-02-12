@@ -33,8 +33,15 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     final state = ref.watch(widget.viewModel);
     final templates = state.templates;
 
+    final title = Text(
+      'テンプレート曲を\n設定しよう',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.headline5,
+    );
+
     final body = templates != null
         ? ListView.separated(
+            shrinkWrap: true,
             itemBuilder: (_, index) {
               final template = templates[index];
 
@@ -65,7 +72,20 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       appBar: AppBar(
         title: const Text('STEP 1/2'),
       ),
-      body: body,
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: title,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: body,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
