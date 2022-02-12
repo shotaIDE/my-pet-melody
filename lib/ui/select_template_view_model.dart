@@ -8,7 +8,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   SelectTemplateViewModel({
     required SubmissionUseCase submissionUseCase,
   })  : _submissionUseCase = submissionUseCase,
-        super(SelectTemplateState()) {
+        super(const SelectTemplateState()) {
     _setup();
   }
 

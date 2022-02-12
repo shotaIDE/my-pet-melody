@@ -9,7 +9,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   HomeViewModel({
     required PieceUseCase pieceUseCase,
   })  : _pieceUseCase = pieceUseCase,
-        super(HomeState()) {
+        super(const HomeState()) {
     _setup();
   }
 
