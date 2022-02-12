@@ -20,7 +20,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
   final viewModel = homeViewModelProvider;
 
-  static MaterialPageRoute route() => MaterialPageRoute<HomeScreen>(
+  static MaterialPageRoute<HomeScreen> route() => MaterialPageRoute<HomeScreen>(
         builder: (_) => HomeScreen(),
         settings: const RouteSettings(name: name),
       );
