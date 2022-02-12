@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
+import 'package:meow_music/ui/select_template_screen.dart';
 
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
@@ -81,7 +82,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: body,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () =>
+            Navigator.push<void>(context, SelectTemplateScreen.route()),
       ),
     );
   }
