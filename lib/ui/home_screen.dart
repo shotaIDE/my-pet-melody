@@ -42,13 +42,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               return ListTile(
                 title: Text(piece.name),
                 subtitle: status.when(
-                  generating: (submitted) => Text('$submitted'),
+                  generating: (submitted) => Text('製作中 $submitted'),
                   generated: (generated) => Text('$generated'),
+                ),
+                tileColor: status.when(
+                  generating: (_) => Colors.grey[300],
+                  generated: (_) => null,
+                ),
+                onTap: status.when(
+                  generating: (_) => null,
+                  generated: (_) => () {},
                 ),
               );
             },
             itemCount: pieces.length,
-            separatorBuilder: (_, __) => const Divider(),
+            separatorBuilder: (_, __) => const Divider(height: 0),
           )
         : const Center(
             child: CircularProgressIndicator(),
