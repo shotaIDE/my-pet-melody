@@ -7,6 +7,19 @@ part 'select_sounds_state.freezed.dart';
 class SelectSoundsState with _$SelectSoundsState {
   const factory SelectSoundsState({
     required Template template,
+    required List<SelectedSound?> sounds,
     @Default(false) bool isProcessing,
   }) = _SelectSoundsState;
+}
+
+@freezed
+class SelectedSound with _$SelectedSound {
+  const factory SelectedSound.uploading({
+    required String localFileName,
+  }) = _SelectedSoundUploading;
+
+  const factory SelectedSound.uploaded({
+    required String localFileName,
+    required String remoteFileName,
+  }) = _SelectedSoundUploaded;
 }

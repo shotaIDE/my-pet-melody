@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,7 +45,6 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
-    final template = state.template;
 
     final title = Text(
       '鳴き声を3つ\n設定しよう',
@@ -52,6 +52,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       style: Theme.of(context).textTheme.headline5,
     );
 
+    final template = state.template;
     final templateTile = ListTile(
       leading: const Icon(Icons.play_arrow_rounded),
       title: Text(template.name),
@@ -64,22 +65,44 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final trimmingButton =
         TextButton(onPressed: () {}, child: const Text('トリミングの方法を見る'));
 
+    final sounds = state.sounds;
     final soundsList = ReorderableListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      children: List.generate(
-        3,
-        (index) => ListTile(
-          key: Key('reorderable_list_$index'),
-          leading: const Icon(Icons.drag_handle),
-          title: const Text('鳴き声を選択する'),
-          trailing: IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {},
-          ),
-          onTap: _selectSound,
-        ),
-      ),
+      children: sounds.mapIndexed(
+        (index, sound) {
+          if (sound == null) {
+            return ListTile(
+              key: Key('reorderable_list_$index'),
+              leading: const Icon(Icons.drag_handle),
+              title: const Text(
+                '鳴き声を選択する',
+                style: TextStyle(color: Colors.grey),
+              ),
+              onTap: () => _selectSound(index: index),
+            );
+          }
+
+          return sound.when(
+            uploading: (localFileName) => ListTile(
+              key: Key('reorderable_list_$index'),
+              leading: const Icon(Icons.drag_handle),
+              title: Text(localFileName),
+              trailing: const CircularProgressIndicator(),
+            ),
+            uploaded: (localFileName, remoteFileName) => ListTile(
+              key: Key('reorderable_list_$index'),
+              leading: const Icon(Icons.drag_handle),
+              title: Text(localFileName),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () =>
+                    ref.read(widget.viewModel.notifier).delete(index: index),
+              ),
+            ),
+          );
+        },
+      ).toList(),
       onReorder: (src, dst) {},
     );
 
@@ -168,7 +191,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         : scaffold;
   }
 
-  Future<void> _selectSound() async {
+  Future<void> _selectSound({required int index}) async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['wav', 'm4a', 'mp3'],
@@ -180,7 +203,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final file = File(result.files.single.path!);
 
-    await ref.read(widget.viewModel.notifier).upload(file);
+    await ref.read(widget.viewModel.notifier).upload(file, index: index);
   }
 
   Future<void> _submit() async {
