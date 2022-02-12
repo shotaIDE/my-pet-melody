@@ -104,7 +104,7 @@ class __$SelectTemplateStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SelectTemplateState implements _SelectTemplateState {
-  _$_SelectTemplateState({this.templates = null});
+  const _$_SelectTemplateState({this.templates = null});
 
   @JsonKey()
   @override
@@ -135,7 +135,7 @@ class _$_SelectTemplateState implements _SelectTemplateState {
 }
 
 abstract class _SelectTemplateState implements SelectTemplateState {
-  factory _SelectTemplateState({List<Template>? templates}) =
+  const factory _SelectTemplateState({List<Template>? templates}) =
       _$_SelectTemplateState;
 
   @override

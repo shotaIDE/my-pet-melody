@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
+import 'package:meow_music/ui/select_template_screen.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
@@ -165,5 +167,14 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
   Future<void> _submit() async {
     await ref.read(widget.viewModel.notifier).submit();
+
+    Navigator.popUntil(
+      context,
+      (route) => route.settings.name == SelectTemplateScreen.name,
+    );
+    await Navigator.pushReplacement<CompletedToSubmitScreen, void>(
+      context,
+      CompletedToSubmitScreen.route(),
+    );
   }
 }

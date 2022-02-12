@@ -5,7 +5,7 @@ part 'home_state.freezed.dart';
 
 @freezed
 class HomeState with _$HomeState {
-  factory HomeState({
+  const factory HomeState({
     @Default(null) List<Piece>? pieces,
   }) = _HomeState;
 }

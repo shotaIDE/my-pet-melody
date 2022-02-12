@@ -5,7 +5,7 @@ part 'select_sounds_state.freezed.dart';
 
 @freezed
 class SelectSoundsState with _$SelectSoundsState {
-  factory SelectSoundsState({
+  const factory SelectSoundsState({
     required Template template,
     @Default(false) bool isProcessing,
   }) = _SelectSoundsState;

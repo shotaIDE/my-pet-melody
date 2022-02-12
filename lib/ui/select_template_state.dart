@@ -5,7 +5,7 @@ part 'select_template_state.freezed.dart';
 
 @freezed
 class SelectTemplateState with _$SelectTemplateState {
-  factory SelectTemplateState({
+  const factory SelectTemplateState({
     @Default(null) List<Template>? templates,
   }) = _SelectTemplateState;
 }

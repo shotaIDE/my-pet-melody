@@ -129,7 +129,8 @@ class __$SelectSoundsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SelectSoundsState implements _SelectSoundsState {
-  _$_SelectSoundsState({required this.template, this.isProcessing = false});
+  const _$_SelectSoundsState(
+      {required this.template, this.isProcessing = false});
 
   @override
   final Template template;
@@ -165,8 +166,8 @@ class _$_SelectSoundsState implements _SelectSoundsState {
 }
 
 abstract class _SelectSoundsState implements SelectSoundsState {
-  factory _SelectSoundsState({required Template template, bool isProcessing}) =
-      _$_SelectSoundsState;
+  const factory _SelectSoundsState(
+      {required Template template, bool isProcessing}) = _$_SelectSoundsState;
 
   @override
   Template get template;

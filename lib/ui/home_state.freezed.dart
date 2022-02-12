@@ -99,7 +99,7 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeState implements _HomeState {
-  _$_HomeState({this.pieces = null});
+  const _$_HomeState({this.pieces = null});
 
   @JsonKey()
   @override
@@ -129,7 +129,7 @@ class _$_HomeState implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  factory _HomeState({List<Piece>? pieces}) = _$_HomeState;
+  const factory _HomeState({List<Piece>? pieces}) = _$_HomeState;
 
   @override
   List<Piece>? get pieces;
