@@ -23,15 +23,17 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final _player = AudioPlayer();
 
   Duration? _currentAudioLength;
-  StreamSubscription<List<Piece>>? _subscription;
+  StreamSubscription<List<Piece>>? _piecesSubscription;
   StreamSubscription<Duration>? _audioLengthSubscription;
   StreamSubscription<Duration>? _audioPositionSubscription;
+  StreamSubscription<void>? _audioStoppedSubscription;
 
   @override
   Future<void> dispose() async {
-    await _subscription?.cancel();
+    await _piecesSubscription?.cancel();
     await _audioLengthSubscription?.cancel();
     await _audioPositionSubscription?.cancel();
+    await _audioStoppedSubscription?.cancel();
 
     super.dispose();
   }
@@ -101,7 +103,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   Future<void> _setup() async {
     final piecesStream = await _pieceUseCase.getPiecesStream();
-    _subscription = piecesStream.listen((pieces) {
+    _piecesSubscription = piecesStream.listen((pieces) {
       final playablePieces = pieces
           .map(
             (piece) => PlayablePiece(
@@ -124,13 +126,35 @@ class HomeViewModel extends StateNotifier<HomeState> {
         return;
       }
 
-      final currentLengthSeconds = currentLength.inSeconds;
-      final currentPositionSeconds = currentPosition.inSeconds;
+      final currentLengthSeconds = currentLength.inMilliseconds;
+      final currentPositionSeconds = currentPosition.inMilliseconds;
 
       final currentPositionRatio =
           currentPositionSeconds / currentLengthSeconds;
 
       _updatePosition(currentPositionRatio);
+    });
+
+    _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
+      final pieces = state.pieces;
+      if (pieces == null) {
+        return;
+      }
+
+      final currentPlayingPiece = pieces.firstWhereOrNull(
+        (playablePiece) => playablePiece.playStatus
+            .map(stop: (_) => false, playing: (_) => true),
+      );
+      if (currentPlayingPiece == null) {
+        return;
+      }
+
+      final replaced = _replaceStatusToStop(
+        pieces: pieces,
+        target: currentPlayingPiece,
+      );
+
+      state = state.copyWith(pieces: replaced);
     });
   }
 
