@@ -30,10 +30,14 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   @override
   Future<void> dispose() async {
-    await _piecesSubscription?.cancel();
-    await _audioLengthSubscription?.cancel();
-    await _audioPositionSubscription?.cancel();
-    await _audioStoppedSubscription?.cancel();
+    final tasks = [
+      _piecesSubscription?.cancel(),
+      _audioLengthSubscription?.cancel(),
+      _audioPositionSubscription?.cancel(),
+      _audioStoppedSubscription?.cancel(),
+    ].whereType<Future<void>>().toList();
+
+    await Future.wait<void>(tasks);
 
     super.dispose();
   }
