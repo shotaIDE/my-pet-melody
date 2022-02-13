@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/piece_use_case.dart';
 import 'package:meow_music/ui/home_state.dart';
+import 'package:meow_music/ui/play_status.dart';
+import 'package:meow_music/ui/playable.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -49,8 +51,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
 
     final currentPlayingPiece = pieces.firstWhereOrNull(
-      (playablePiece) => playablePiece.playStatus
-          .map(stop: (_) => false, playing: (_) => true),
+      (playablePiece) =>
+          playablePiece.status.map(stop: (_) => false, playing: (_) => true),
     );
     final List<PlayablePiece> stoppedPieces;
     if (currentPlayingPiece != null) {
@@ -65,8 +67,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     final replacedPieces = _getReplacedPieces(
       originalPieces: stoppedPieces,
       id: piece.piece.id,
-      newPiece:
-          piece.copyWith(playStatus: const PlayStatus.playing(position: 0)),
+      newPiece: piece.copyWith(status: const PlayStatus.playing(position: 0)),
     );
 
     state = state.copyWith(pieces: replacedPieces);
@@ -112,11 +113,12 @@ class HomeViewModel extends StateNotifier<HomeState> {
     _piecesSubscription = piecesStream.listen((pieces) {
       final playablePieces = pieces
           .map(
-            (piece) => PlayablePiece(
+            (piece) => Playable.piece(
+              status: const PlayStatus.stop(),
               piece: piece,
-              playStatus: const PlayStatus.stop(),
             ),
           )
+          .whereType<PlayablePiece>()
           .toList();
       state = state.copyWith(pieces: playablePieces);
     });
@@ -150,15 +152,15 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
 
     final currentPlayingPiece = pieces.firstWhereOrNull(
-      (playablePiece) => playablePiece.playStatus
-          .map(stop: (_) => false, playing: (_) => true),
+      (playablePiece) =>
+          playablePiece.status.map(stop: (_) => false, playing: (_) => true),
     );
     if (currentPlayingPiece == null) {
       return;
     }
 
     final newPiece = currentPlayingPiece.copyWith(
-      playStatus: PlayStatus.playing(position: positionRatio),
+      status: PlayStatus.playing(position: positionRatio),
     );
 
     final replaced = _getReplacedPieces(
@@ -177,8 +179,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
 
     final currentPlayingPiece = pieces.firstWhereOrNull(
-      (playablePiece) => playablePiece.playStatus
-          .map(stop: (_) => false, playing: (_) => true),
+      (playablePiece) =>
+          playablePiece.status.map(stop: (_) => false, playing: (_) => true),
     );
     if (currentPlayingPiece == null) {
       return;
@@ -198,7 +200,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }) {
     final target = originalPieces.firstWhere((piece) => piece.piece.id == id);
 
-    final newPiece = target.copyWith(playStatus: const PlayStatus.stop());
+    final newPiece = target.copyWith(status: const PlayStatus.stop());
 
     return _getReplacedPieces(
       originalPieces: originalPieces,

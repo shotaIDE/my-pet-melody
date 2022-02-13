@@ -65,17 +65,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         body = ListView.separated(
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
-            final playStatus = playablePiece.playStatus;
+            final playStatus = playablePiece.status;
             final leading = playStatus.when(
               stop: () => const Icon(Icons.play_arrow),
               playing: (_) => const Icon(Icons.stop),
             );
 
             final piece = playablePiece.piece;
-            final status = piece.status;
+            final pieceStatus = piece.status;
             final dateFormatter = DateFormat.yMd('ja');
             final timeFormatter = DateFormat.Hm('ja');
-            final subtitleLabel = status.when(
+            final subtitleLabel = pieceStatus.when(
               generating: (submitted) => '${dateFormatter.format(submitted)} '
                   '${timeFormatter.format(submitted)}   '
                   '製作中',
@@ -84,7 +84,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
 
             final void Function()? onTap;
-            onTap = status.when(
+            onTap = pieceStatus.when(
               generating: (_) => null,
               generated: (_) => playStatus.when(
                 stop: () => () => ref
@@ -109,7 +109,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 onPressed: () =>
                     ref.read(widget.viewModel.notifier).share(piece: piece),
               ),
-              tileColor: status.when(
+              tileColor: pieceStatus.when(
                 generating: (_) => Colors.grey[300],
                 generated: (_) => null,
               ),
