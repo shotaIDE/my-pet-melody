@@ -60,7 +60,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final leading = InkWell(
                 onTap: onTapLeading,
                 child: Container(
-                  color: Colors.grey,
+                  color: Colors.white,
                   width: 80,
                   height: 80,
                   child: Stack(
@@ -72,6 +72,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                         Center(
                           child: CircularProgressIndicator(
                             value: position,
+                            backgroundColor: Colors.grey,
                           ),
                         ),
                         const Center(child: Icon(Icons.stop)),
