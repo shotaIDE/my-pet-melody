@@ -1,3 +1,5 @@
 enum PreferenceKey {
   isOnboardingFinished,
+
+  temporaryPiecesJsonString,
 }

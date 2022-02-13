@@ -48,7 +48,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<void> _setup() async {
-    _subscription = _pieceUseCase.getPiecesStream().listen((pieces) {
+    final piecesStream = await _pieceUseCase.getPiecesStream();
+    _subscription = piecesStream.listen((pieces) {
       state = state.copyWith(pieces: pieces);
     });
   }

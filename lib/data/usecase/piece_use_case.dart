@@ -8,23 +8,25 @@ class PieceUseCase {
 
   final PieceRepository _repository;
 
-  Stream<List<Piece>> getPiecesStream() {
-    return _repository.getPiecesStream().map(
-          (pieces) => pieces.sorted(
-            (a, b) {
-              final dateTimeA = a.status.when(
-                generating: (generating) => generating,
-                generated: (generated) => generated,
-              );
+  Future<Stream<List<Piece>>> getPiecesStream() async {
+    final stream = await _repository.getPiecesStream();
 
-              final dateTimeB = b.status.when(
-                generating: (generating) => generating,
-                generated: (generated) => generated,
-              );
+    return stream.map(
+      (pieces) => pieces.sorted(
+        (a, b) {
+          final dateTimeA = a.status.when(
+            generating: (generating) => generating,
+            generated: (generated) => generated,
+          );
 
-              return dateTimeB.compareTo(dateTimeA);
-            },
-          ),
-        );
+          final dateTimeB = b.status.when(
+            generating: (generating) => generating,
+            generated: (generated) => generated,
+          );
+
+          return dateTimeB.compareTo(dateTimeA);
+        },
+      ),
+    );
   }
 }

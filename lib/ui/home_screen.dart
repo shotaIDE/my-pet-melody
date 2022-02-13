@@ -57,46 +57,65 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final state = ref.watch(widget.viewModel);
     final pieces = state.pieces;
 
-    final body = pieces != null
-        ? ListView.separated(
-            itemBuilder: (_, index) {
-              final piece = pieces[index];
-              final status = piece.status;
-              final dateFormatter = DateFormat.yMd('ja');
-              final timeFormatter = DateFormat.Hm('ja');
+    final Widget body;
+    if (pieces == null) {
+      body = const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      if (pieces.isNotEmpty) {
+        body = ListView.separated(
+          itemBuilder: (_, index) {
+            final piece = pieces[index];
+            final status = piece.status;
+            final dateFormatter = DateFormat.yMd('ja');
+            final timeFormatter = DateFormat.Hm('ja');
 
-              final subtitleLabel = status.when(
-                generating: (submitted) => '${dateFormatter.format(submitted)} '
-                    '${timeFormatter.format(submitted)}   '
-                    '製作中',
-                generated: (generated) => '${dateFormatter.format(generated)} '
-                    '${timeFormatter.format(generated)}',
-              );
+            final subtitleLabel = status.when(
+              generating: (submitted) => '${dateFormatter.format(submitted)} '
+                  '${timeFormatter.format(submitted)}   '
+                  '製作中',
+              generated: (generated) => '${dateFormatter.format(generated)} '
+                  '${timeFormatter.format(generated)}',
+            );
 
-              return ListTile(
-                title: Text(piece.name),
-                subtitle: Text(subtitleLabel),
-                trailing: IconButton(
-                  icon: const Icon(Icons.share),
-                  onPressed: () =>
-                      ref.read(widget.viewModel.notifier).share(piece: piece),
-                ),
-                tileColor: status.when(
-                  generating: (_) => Colors.grey[300],
-                  generated: (_) => null,
-                ),
-                onTap: status.when(
-                  generating: (_) => null,
-                  generated: (_) => () => _play(piece: piece),
-                ),
-              );
-            },
-            itemCount: pieces.length,
-            separatorBuilder: (_, __) => const Divider(height: 0),
-          )
-        : const Center(
-            child: CircularProgressIndicator(),
-          );
+            return ListTile(
+              title: Text(piece.name),
+              subtitle: Text(subtitleLabel),
+              trailing: IconButton(
+                icon: const Icon(Icons.share),
+                onPressed: () =>
+                    ref.read(widget.viewModel.notifier).share(piece: piece),
+              ),
+              tileColor: status.when(
+                generating: (_) => Colors.grey[300],
+                generated: (_) => null,
+              ),
+              onTap: status.when(
+                generating: (_) => null,
+                generated: (_) => () => _play(piece: piece),
+              ),
+            );
+          },
+          itemCount: pieces.length,
+          separatorBuilder: (_, __) => const Divider(height: 0),
+        );
+      } else {
+        body = Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'まだ作品を製作していません。\n右下の “+” ボタンから作品を製作しましょう。',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Theme.of(context).disabledColor),
+            ),
+          ),
+        );
+      }
+    }
 
     final scaffold = Scaffold(
       appBar: AppBar(
