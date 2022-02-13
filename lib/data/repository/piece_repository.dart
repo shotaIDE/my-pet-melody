@@ -30,8 +30,18 @@ class PieceRepository {
     return _pieces.stream;
   }
 
-  Future<void> addPiece(Piece piece) async {
+  Future<void> add(Piece piece) async {
     final pieces = _pieces.value..add(piece);
+
+    _pieces.add(pieces);
+  }
+
+  Future<void> replace(Piece replacedPiece) async {
+    final pieces = _pieces.value;
+
+    final index = pieces.indexWhere((piece) => piece.id == replacedPiece.id);
+
+    pieces[index] = replacedPiece;
 
     _pieces.add(pieces);
   }

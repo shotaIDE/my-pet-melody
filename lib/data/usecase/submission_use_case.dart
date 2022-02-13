@@ -48,16 +48,23 @@ class SubmissionUseCase {
     final piece = Piece(
       id: generated.id,
       name: template.name,
-      status: PieceStatus.generated(generated: DateTime.now()),
+      status: PieceStatus.generating(submitted: DateTime.now()),
       url: generated.url,
     );
 
-    unawaited(_setTimerToNotify(piece: piece));
+    unawaited(_setTimerToNotifyCompletingToGenerate(generating: piece));
   }
 
-  Future<void> _setTimerToNotify({required Piece piece}) async {
-    await Future<void>.delayed(const Duration(seconds: 3));
+  Future<void> _setTimerToNotifyCompletingToGenerate({
+    required Piece generating,
+  }) async {
+    await _pieceRepository.add(generating);
 
-    await _pieceRepository.addPiece(piece);
+    await Future<void>.delayed(const Duration(seconds: 5));
+
+    final generated = generating.copyWith(
+      status: PieceStatus.generated(generated: DateTime.now()),
+    );
+    await _pieceRepository.replace(generated);
   }
 }
