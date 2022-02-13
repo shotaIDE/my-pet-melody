@@ -44,7 +44,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     super.dispose();
   }
 
-  Future<void> play({required PlayablePiece piece}) async {
+  Future<void> play({required Playable piece}) async {
     final pieces = state.pieces;
     if (pieces == null) {
       return;
@@ -54,25 +54,25 @@ class HomeViewModel extends StateNotifier<HomeState> {
       (playablePiece) =>
           playablePiece.status.map(stop: (_) => false, playing: (_) => true),
     );
-    final List<PlayablePiece> stoppedPieces;
+    final List<Playable> stoppedPieces;
     if (currentPlayingPiece != null) {
-      stoppedPieces = _getReplacedPiecesToStopped(
+      stoppedPieces = PlayableConverter.getReplacedPlayablesToStopped(
         originalPieces: pieces,
-        id: currentPlayingPiece.piece.id,
+        id: currentPlayingPiece.id,
       );
     } else {
       stoppedPieces = [...pieces];
     }
 
-    final replacedPieces = _getReplacedPieces(
+    final replacedPieces = PlayableConverter.getReplacedPlayables(
       originalPieces: stoppedPieces,
-      id: piece.piece.id,
+      id: piece.id,
       newPiece: piece.copyWith(status: const PlayStatus.playing(position: 0)),
-    );
+    ).whereType<PlayablePiece>().toList();
 
     state = state.copyWith(pieces: replacedPieces);
 
-    await _player.play(piece.piece.url);
+    await _player.play(piece.url);
   }
 
   Future<void> stop({required PlayablePiece piece}) async {
@@ -81,8 +81,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
       return;
     }
 
-    final replaced =
-        _getReplacedPiecesToStopped(originalPieces: pieces, id: piece.piece.id);
+    final replaced = PlayableConverter.getReplacedPlayablesToStopped(
+      originalPieces: pieces,
+      id: piece.piece.id,
+    ).whereType<PlayablePiece>().toList();
 
     state = state.copyWith(pieces: replaced);
 
@@ -163,11 +165,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
       status: PlayStatus.playing(position: positionRatio),
     );
 
-    final replaced = _getReplacedPieces(
+    final replaced = PlayableConverter.getReplacedPlayables(
       originalPieces: pieces,
       id: currentPlayingPiece.piece.id,
       newPiece: newPiece,
-    );
+    ).whereType<PlayablePiece>().toList();
 
     state = state.copyWith(pieces: replaced);
   }
@@ -186,40 +188,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
       return;
     }
 
-    final replaced = _getReplacedPiecesToStopped(
+    final replaced = PlayableConverter.getReplacedPlayablesToStopped(
       originalPieces: pieces,
       id: currentPlayingPiece.piece.id,
-    );
+    ).whereType<PlayablePiece>().toList();
 
     state = state.copyWith(pieces: replaced);
-  }
-
-  List<PlayablePiece> _getReplacedPiecesToStopped({
-    required List<PlayablePiece> originalPieces,
-    required String id,
-  }) {
-    final target = originalPieces.firstWhere((piece) => piece.piece.id == id);
-
-    final newPiece = target.copyWith(status: const PlayStatus.stop());
-
-    return _getReplacedPieces(
-      originalPieces: originalPieces,
-      id: id,
-      newPiece: newPiece,
-    );
-  }
-
-  List<PlayablePiece> _getReplacedPieces({
-    required List<PlayablePiece> originalPieces,
-    required String id,
-    required PlayablePiece newPiece,
-  }) {
-    final index = originalPieces.indexWhere((piece) => piece.piece.id == id);
-
-    final pieces = [...originalPieces];
-
-    pieces[index] = newPiece;
-
-    return pieces;
   }
 }

@@ -51,7 +51,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final onTapLeading = status.map(
                 stop: (_) => () => ref
                     .read(widget.viewModel.notifier)
-                    .play(piece: playableTemplate),
+                    .play(template: playableTemplate),
                 playing: (_) => () => ref
                     .read(widget.viewModel.notifier)
                     .stop(piece: playableTemplate),

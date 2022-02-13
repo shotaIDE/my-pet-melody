@@ -17,3 +17,50 @@ class Playable with _$Playable {
     required Template template,
   }) = PlayableTemplate;
 }
+
+extension PlayableGetter on Playable {
+  String get id {
+    return when(
+      piece: (_, piece) => piece.id,
+      template: (_, template) => template.id,
+    );
+  }
+
+  String get url {
+    return when(
+      piece: (_, piece) => piece.url,
+      template: (_, template) => template.url,
+    );
+  }
+}
+
+extension PlayableConverter on Playable {
+  static List<Playable> getReplacedPlayablesToStopped({
+    required List<Playable> originalPieces,
+    required String id,
+  }) {
+    final target = originalPieces.firstWhere((piece) => piece.id == id);
+
+    final newPiece = target.copyWith(status: const PlayStatus.stop());
+
+    return getReplacedPlayables(
+      originalPieces: originalPieces,
+      id: id,
+      newPiece: newPiece,
+    );
+  }
+
+  static List<Playable> getReplacedPlayables({
+    required List<Playable> originalPieces,
+    required String id,
+    required Playable newPiece,
+  }) {
+    final index = originalPieces.indexWhere((piece) => piece.id == id);
+
+    final pieces = [...originalPieces];
+
+    pieces[index] = newPiece;
+
+    return pieces;
+  }
+}

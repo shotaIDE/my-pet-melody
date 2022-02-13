@@ -4,7 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
-import 'package:meow_music/ui/home_state.dart';
+import 'package:meow_music/ui/play_status.dart';
+import 'package:meow_music/ui/playable.dart';
 import 'package:meow_music/ui/select_template_state.dart';
 
 class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
@@ -36,35 +37,36 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     super.dispose();
   }
 
-  Future<void> play({required PlayableTemplate piece}) async {
-    final pieces = state.templates;
-    if (pieces == null) {
+  Future<void> play({required PlayableTemplate template}) async {
+    final templates = state.templates;
+    if (templates == null) {
       return;
     }
 
-    final currentPlayingPiece = pieces.firstWhereOrNull(
+    final currentPlayingPiece = templates.firstWhereOrNull(
       (playablePiece) =>
           playablePiece.status.map(stop: (_) => false, playing: (_) => true),
     );
-    final List<PlayableTemplate> stoppedPieces;
+    final List<Playable> stoppedTemplates;
     if (currentPlayingPiece != null) {
-      stoppedPieces = _getReplacedPiecesToStopped(
-        originalPieces: pieces,
+      stoppedTemplates = PlayableConverter.getReplacedPlayablesToStopped(
+        originalPieces: templates,
         id: currentPlayingPiece.template.id,
       );
     } else {
-      stoppedPieces = [...pieces];
+      stoppedTemplates = [...templates];
     }
 
-    final replacedPieces = _getReplacedPieces(
-      originalPieces: stoppedPieces,
-      id: piece.template.id,
-      newPiece: piece.copyWith(status: const PlayStatus.playing(position: 0)),
-    );
+    final replacedPieces = PlayableConverter.getReplacedPlayables(
+      originalPieces: stoppedTemplates,
+      id: template.template.id,
+      newPiece:
+          template.copyWith(status: const PlayStatus.playing(position: 0)),
+    ).whereType<PlayableTemplate>().toList();
 
     state = state.copyWith(templates: replacedPieces);
 
-    await _player.play(piece.template.url);
+    await _player.play(template.template.url);
   }
 
   Future<void> stop({required PlayableTemplate piece}) async {
@@ -73,10 +75,10 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       return;
     }
 
-    final replaced = _getReplacedPiecesToStopped(
+    final replaced = PlayableConverter.getReplacedPlayablesToStopped(
       originalPieces: pieces,
       id: piece.template.id,
-    );
+    ).whereType<PlayableTemplate>().toList();
 
     state = state.copyWith(templates: replaced);
 
@@ -135,11 +137,11 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       status: PlayStatus.playing(position: positionRatio),
     );
 
-    final replaced = _getReplacedPieces(
+    final replaced = PlayableConverter.getReplacedPlayables(
       originalPieces: templates,
       id: currentPlayingPiece.template.id,
       newPiece: newPiece,
-    );
+    ).whereType<PlayableTemplate>().toList();
 
     state = state.copyWith(templates: replaced);
   }
@@ -158,41 +160,11 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       return;
     }
 
-    final replaced = _getReplacedPiecesToStopped(
+    final replaced = PlayableConverter.getReplacedPlayablesToStopped(
       originalPieces: pieces,
       id: currentPlayingPiece.template.id,
-    );
+    ).whereType<PlayableTemplate>().toList();
 
     state = state.copyWith(templates: replaced);
-  }
-
-  List<PlayableTemplate> _getReplacedPiecesToStopped({
-    required List<PlayableTemplate> originalPieces,
-    required String id,
-  }) {
-    final target =
-        originalPieces.firstWhere((piece) => piece.template.id == id);
-
-    final newPiece = target.copyWith(status: const PlayStatus.stop());
-
-    return _getReplacedPieces(
-      originalPieces: originalPieces,
-      id: id,
-      newPiece: newPiece,
-    );
-  }
-
-  List<PlayableTemplate> _getReplacedPieces({
-    required List<PlayableTemplate> originalPieces,
-    required String id,
-    required PlayableTemplate newPiece,
-  }) {
-    final index = originalPieces.indexWhere((piece) => piece.template.id == id);
-
-    final pieces = [...originalPieces];
-
-    pieces[index] = newPiece;
-
-    return pieces;
   }
 }
