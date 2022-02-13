@@ -43,32 +43,33 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<void> play({required PlayablePiece piece}) async {
-    final originalPieces = state.pieces;
-    if (originalPieces == null) {
+    final pieces = state.pieces;
+    if (pieces == null) {
       return;
     }
 
-    final currentPlayingPiece = originalPieces.firstWhereOrNull(
+    final currentPlayingPiece = pieces.firstWhereOrNull(
       (playablePiece) => playablePiece.playStatus
           .map(stop: (_) => false, playing: (_) => true),
     );
-    final List<PlayablePiece> pieces;
+    final List<PlayablePiece> stoppedPieces;
     if (currentPlayingPiece != null) {
-      pieces = _replaceStatusToStop(
-        pieces: originalPieces,
-        target: currentPlayingPiece,
+      stoppedPieces = _getReplacedPiecesToStopped(
+        originalPieces: pieces,
+        id: currentPlayingPiece.piece.id,
       );
     } else {
-      pieces = originalPieces;
+      stoppedPieces = [...pieces];
     }
 
-    final index = pieces.indexOf(piece);
+    final replacedPieces = _getReplacedPieces(
+      originalPieces: stoppedPieces,
+      id: piece.piece.id,
+      newPiece:
+          piece.copyWith(playStatus: const PlayStatus.playing(position: 0)),
+    );
 
-    final replaced =
-        piece.copyWith(playStatus: const PlayStatus.playing(position: 0));
-    pieces[index] = replaced;
-
-    state = state.copyWith(pieces: pieces);
+    state = state.copyWith(pieces: replacedPieces);
 
     await _player.play(piece.piece.url);
   }
@@ -79,7 +80,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
       return;
     }
 
-    final replaced = _replaceStatusToStop(pieces: pieces, target: piece);
+    final replaced =
+        _getReplacedPiecesToStopped(originalPieces: pieces, id: piece.piece.id);
 
     state = state.copyWith(pieces: replaced);
 
@@ -124,61 +126,24 @@ class HomeViewModel extends StateNotifier<HomeState> {
     });
 
     _audioPositionSubscription =
-        _player.onAudioPositionChanged.listen((currentPosition) {
-      final currentLength = _currentAudioLength;
-      if (currentLength == null) {
-        return;
-      }
-
-      final currentLengthSeconds = currentLength.inMilliseconds;
-      final currentPositionSeconds = currentPosition.inMilliseconds;
-
-      final currentPositionRatio =
-          currentPositionSeconds / currentLengthSeconds;
-
-      _updatePosition(currentPositionRatio);
-    });
+        _player.onAudioPositionChanged.listen(_onAudioPositionReceived);
 
     _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
-      final pieces = state.pieces;
-      if (pieces == null) {
-        return;
-      }
-
-      final currentPlayingPiece = pieces.firstWhereOrNull(
-        (playablePiece) => playablePiece.playStatus
-            .map(stop: (_) => false, playing: (_) => true),
-      );
-      if (currentPlayingPiece == null) {
-        return;
-      }
-
-      final replaced = _replaceStatusToStop(
-        pieces: pieces,
-        target: currentPlayingPiece,
-      );
-
-      state = state.copyWith(pieces: replaced);
+      _onAudioFinished();
     });
   }
 
-  List<PlayablePiece> _replaceStatusToStop({
-    required List<PlayablePiece> pieces,
-    required PlayablePiece target,
-  }) {
-    final index =
-        pieces.indexWhere((piece) => piece.piece.id == target.piece.id);
+  void _onAudioPositionReceived(Duration position) {
+    final length = _currentAudioLength;
+    if (length == null) {
+      return;
+    }
 
-    final cloned = [...pieces];
+    final lengthSeconds = length.inMilliseconds;
+    final positionSeconds = position.inMilliseconds;
 
-    final replaced = target.copyWith(playStatus: const PlayStatus.stop());
+    final positionRatio = positionSeconds / lengthSeconds;
 
-    cloned[index] = replaced;
-
-    return cloned;
-  }
-
-  void _updatePosition(double position) {
     final pieces = state.pieces;
     if (pieces == null) {
       return;
@@ -192,16 +157,67 @@ class HomeViewModel extends StateNotifier<HomeState> {
       return;
     }
 
-    final index = pieces.indexOf(currentPlayingPiece);
-
-    final cloned = [...pieces];
-
-    final replaced = currentPlayingPiece.copyWith(
-      playStatus: PlayStatus.playing(position: position),
+    final newPiece = currentPlayingPiece.copyWith(
+      playStatus: PlayStatus.playing(position: positionRatio),
     );
 
-    cloned[index] = replaced;
+    final replaced = _getReplacedPieces(
+      originalPieces: pieces,
+      id: currentPlayingPiece.piece.id,
+      newPiece: newPiece,
+    );
 
-    state = state.copyWith(pieces: cloned);
+    state = state.copyWith(pieces: replaced);
+  }
+
+  void _onAudioFinished() {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final currentPlayingPiece = pieces.firstWhereOrNull(
+      (playablePiece) => playablePiece.playStatus
+          .map(stop: (_) => false, playing: (_) => true),
+    );
+    if (currentPlayingPiece == null) {
+      return;
+    }
+
+    final replaced = _getReplacedPiecesToStopped(
+      originalPieces: pieces,
+      id: currentPlayingPiece.piece.id,
+    );
+
+    state = state.copyWith(pieces: replaced);
+  }
+
+  List<PlayablePiece> _getReplacedPiecesToStopped({
+    required List<PlayablePiece> originalPieces,
+    required String id,
+  }) {
+    final target = originalPieces.firstWhere((piece) => piece.piece.id == id);
+
+    final newPiece = target.copyWith(playStatus: const PlayStatus.stop());
+
+    return _getReplacedPieces(
+      originalPieces: originalPieces,
+      id: id,
+      newPiece: newPiece,
+    );
+  }
+
+  List<PlayablePiece> _getReplacedPieces({
+    required List<PlayablePiece> originalPieces,
+    required String id,
+    required PlayablePiece newPiece,
+  }) {
+    final index = originalPieces.indexWhere((piece) => piece.piece.id == id);
+
+    final pieces = [...originalPieces];
+
+    pieces[index] = newPiece;
+
+    return pieces;
   }
 }
