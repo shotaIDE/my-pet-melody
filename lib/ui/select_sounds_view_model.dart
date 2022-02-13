@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
+import 'package:meow_music/ui/model/play_status.dart';
+import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:path/path.dart';
 
@@ -13,8 +15,17 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   })  : _submissionUseCase = submissionUseCase,
         super(
           SelectSoundsState(
-            template: selectedTemplate,
-            sounds: List.generate(3, (index) => null),
+            template: PlayerChoiceTemplate(
+              template: selectedTemplate,
+              status: const PlayStatus.stop(),
+            ),
+            sounds: List.generate(
+              3,
+              (index) => PlayerChoiceSound(
+                status: const PlayStatus.stop(),
+                sound: SelectedSoundNone(id: 'selected-sound-$index'),
+              ),
+            ),
           ),
         );
 
@@ -22,11 +33,17 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
   Future<void> upload(
     File file, {
-    required int index,
+    required PlayerChoiceSound target,
   }) async {
     final sounds = state.sounds;
+    final index = sounds.indexOf(target);
+
     final localFileName = basename(file.path);
-    final uploading = SelectedSound.uploading(localFileName: localFileName);
+    final uploading = target.copyWith(
+      sound:
+          SelectedSound.uploading(id: target.id, localFileName: localFileName),
+    );
+
     sounds[index] = uploading;
 
     state = state.copyWith(sounds: sounds);
@@ -37,7 +54,9 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
 
     if (remoteFileName == null) {
-      sounds[index] = null;
+      sounds[index] = target.copyWith(
+        sound: SelectedSound.none(id: target.id),
+      );
 
       state = state.copyWith(
         sounds: sounds,
@@ -47,9 +66,12 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       return;
     }
 
-    sounds[index] = SelectedSound.uploaded(
-      localFileName: localFileName,
-      remoteFileName: remoteFileName,
+    sounds[index] = target.copyWith(
+      sound: SelectedSound.uploaded(
+        id: target.id,
+        localFileName: localFileName,
+        remoteFileName: remoteFileName,
+      ),
     );
 
     state = state.copyWith(
@@ -58,9 +80,13 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
-  Future<void> delete({required int index}) async {
+  Future<void> delete({required PlayerChoiceSound target}) async {
     final sounds = state.sounds;
-    sounds[index] = null;
+    final index = sounds.indexOf(target);
+
+    sounds[index] = target.copyWith(
+      sound: SelectedSound.none(id: target.id),
+    );
 
     state = state.copyWith(
       sounds: sounds,
@@ -77,7 +103,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
         .toList();
 
     await _submissionUseCase.submit(
-      template: state.template,
+      template: state.template.template,
       remoteFileNames: remoteFileNames,
     );
 
@@ -91,8 +117,11 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       true,
       (previousValue, sound) =>
           previousValue &&
-          sound != null &&
-          sound.map(uploading: (_) => false, uploaded: (_) => true),
+          sound.sound.map(
+            none: (_) => false,
+            uploading: (_) => false,
+            uploaded: (_) => true,
+          ),
     );
   }
 }

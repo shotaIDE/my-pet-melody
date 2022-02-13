@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/model/play_status.dart';
+import 'package:meow_music/ui/select_sounds_state.dart';
 
 part 'player_choice.freezed.dart';
 
@@ -16,6 +17,11 @@ class PlayerChoice with _$PlayerChoice {
     required PlayStatus status,
     required Template template,
   }) = PlayerChoiceTemplate;
+
+  const factory PlayerChoice.sound({
+    required PlayStatus status,
+    required SelectedSound sound,
+  }) = PlayerChoiceSound;
 }
 
 extension PlayerChoiceGetter on PlayerChoice {
@@ -23,6 +29,7 @@ extension PlayerChoiceGetter on PlayerChoice {
     return when(
       piece: (_, piece) => piece.id,
       template: (_, template) => template.id,
+      sound: (_, sound) => sound.id,
     );
   }
 
@@ -31,6 +38,8 @@ extension PlayerChoiceGetter on PlayerChoice {
       piece: (_, piece) =>
           piece.mapOrNull(generated: (generated) => generated.url),
       template: (_, template) => template.url,
+      sound: (_, sound) =>
+          sound.whenOrNull(uploaded: (_, __, remoteFileName) => remoteFileName),
     );
   }
 }
