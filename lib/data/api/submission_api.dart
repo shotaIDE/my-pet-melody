@@ -46,6 +46,7 @@ class UploadResponse with _$UploadResponse {
 class SubmitRequest with _$SubmitRequest {
   const factory SubmitRequest({
     required String userId,
+    required String templateId,
     required List<String> fileNames,
   }) = _SubmitRequest;
 

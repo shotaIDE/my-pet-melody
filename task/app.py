@@ -12,8 +12,11 @@ _UPLOAD_DIRECTORY = 'uploads'
 
 @app.route("/", methods=['POST'])
 def hello_world():
-    user_id = request.json['userId']
-    file_name_bases = request.json['fileNames']
+    request_params_json = request.json
+
+    user_id = request_params_json['userId']
+    template_id = request_params_json['templateId']
+    file_name_bases = request_params_json['fileNames']
     file_names = [
         f'{_UPLOAD_DIRECTORY}/{file_name_base}'
         for file_name_base in file_name_bases

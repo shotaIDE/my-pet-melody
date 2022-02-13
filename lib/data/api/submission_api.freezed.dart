@@ -172,9 +172,12 @@ class _$SubmitRequestTearOff {
   const _$SubmitRequestTearOff();
 
   _SubmitRequest call(
-      {required String userId, required List<String> fileNames}) {
+      {required String userId,
+      required String templateId,
+      required List<String> fileNames}) {
     return _SubmitRequest(
       userId: userId,
+      templateId: templateId,
       fileNames: fileNames,
     );
   }
@@ -190,6 +193,7 @@ const $SubmitRequest = _$SubmitRequestTearOff();
 /// @nodoc
 mixin _$SubmitRequest {
   String get userId => throw _privateConstructorUsedError;
+  String get templateId => throw _privateConstructorUsedError;
   List<String> get fileNames => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -203,7 +207,7 @@ abstract class $SubmitRequestCopyWith<$Res> {
   factory $SubmitRequestCopyWith(
           SubmitRequest value, $Res Function(SubmitRequest) then) =
       _$SubmitRequestCopyWithImpl<$Res>;
-  $Res call({String userId, List<String> fileNames});
+  $Res call({String userId, String templateId, List<String> fileNames});
 }
 
 /// @nodoc
@@ -218,12 +222,17 @@ class _$SubmitRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = freezed,
+    Object? templateId = freezed,
     Object? fileNames = freezed,
   }) {
     return _then(_value.copyWith(
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      templateId: templateId == freezed
+          ? _value.templateId
+          : templateId // ignore: cast_nullable_to_non_nullable
               as String,
       fileNames: fileNames == freezed
           ? _value.fileNames
@@ -240,7 +249,7 @@ abstract class _$SubmitRequestCopyWith<$Res>
           _SubmitRequest value, $Res Function(_SubmitRequest) then) =
       __$SubmitRequestCopyWithImpl<$Res>;
   @override
-  $Res call({String userId, List<String> fileNames});
+  $Res call({String userId, String templateId, List<String> fileNames});
 }
 
 /// @nodoc
@@ -257,12 +266,17 @@ class __$SubmitRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = freezed,
+    Object? templateId = freezed,
     Object? fileNames = freezed,
   }) {
     return _then(_SubmitRequest(
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      templateId: templateId == freezed
+          ? _value.templateId
+          : templateId // ignore: cast_nullable_to_non_nullable
               as String,
       fileNames: fileNames == freezed
           ? _value.fileNames
@@ -275,7 +289,10 @@ class __$SubmitRequestCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_SubmitRequest implements _SubmitRequest {
-  const _$_SubmitRequest({required this.userId, required this.fileNames});
+  const _$_SubmitRequest(
+      {required this.userId,
+      required this.templateId,
+      required this.fileNames});
 
   factory _$_SubmitRequest.fromJson(Map<String, dynamic> json) =>
       _$$_SubmitRequestFromJson(json);
@@ -283,11 +300,13 @@ class _$_SubmitRequest implements _SubmitRequest {
   @override
   final String userId;
   @override
+  final String templateId;
+  @override
   final List<String> fileNames;
 
   @override
   String toString() {
-    return 'SubmitRequest(userId: $userId, fileNames: $fileNames)';
+    return 'SubmitRequest(userId: $userId, templateId: $templateId, fileNames: $fileNames)';
   }
 
   @override
@@ -296,6 +315,8 @@ class _$_SubmitRequest implements _SubmitRequest {
         (other.runtimeType == runtimeType &&
             other is _SubmitRequest &&
             const DeepCollectionEquality().equals(other.userId, userId) &&
+            const DeepCollectionEquality()
+                .equals(other.templateId, templateId) &&
             const DeepCollectionEquality().equals(other.fileNames, fileNames));
   }
 
@@ -303,6 +324,7 @@ class _$_SubmitRequest implements _SubmitRequest {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(userId),
+      const DeepCollectionEquality().hash(templateId),
       const DeepCollectionEquality().hash(fileNames));
 
   @JsonKey(ignore: true)
@@ -319,6 +341,7 @@ class _$_SubmitRequest implements _SubmitRequest {
 abstract class _SubmitRequest implements SubmitRequest {
   const factory _SubmitRequest(
       {required String userId,
+      required String templateId,
       required List<String> fileNames}) = _$_SubmitRequest;
 
   factory _SubmitRequest.fromJson(Map<String, dynamic> json) =
@@ -326,6 +349,8 @@ abstract class _SubmitRequest implements SubmitRequest {
 
   @override
   String get userId;
+  @override
+  String get templateId;
   @override
   List<String> get fileNames;
   @override
