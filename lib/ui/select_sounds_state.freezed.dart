@@ -238,15 +238,15 @@ abstract class _SelectSoundsState implements SelectSoundsState {
 class _$SelectedSoundTearOff {
   const _$SelectedSoundTearOff();
 
-  _SelectedSoundUploading uploading({required String localFileName}) {
-    return _SelectedSoundUploading(
+  SelectedSoundUploading uploading({required String localFileName}) {
+    return SelectedSoundUploading(
       localFileName: localFileName,
     );
   }
 
-  _SelectedSoundUploaded uploaded(
+  SelectedSoundUploaded uploaded(
       {required String localFileName, required String remoteFileName}) {
-    return _SelectedSoundUploaded(
+    return SelectedSoundUploaded(
       localFileName: localFileName,
       remoteFileName: remoteFileName,
     );
@@ -282,20 +282,20 @@ mixin _$SelectedSound {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SelectedSoundUploading value) uploading,
-    required TResult Function(_SelectedSoundUploaded value) uploaded,
+    required TResult Function(SelectedSoundUploading value) uploading,
+    required TResult Function(SelectedSoundUploaded value) uploaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_SelectedSoundUploading value)? uploading,
-    TResult Function(_SelectedSoundUploaded value)? uploaded,
+    TResult Function(SelectedSoundUploading value)? uploading,
+    TResult Function(SelectedSoundUploaded value)? uploaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SelectedSoundUploading value)? uploading,
-    TResult Function(_SelectedSoundUploaded value)? uploaded,
+    TResult Function(SelectedSoundUploading value)? uploading,
+    TResult Function(SelectedSoundUploaded value)? uploaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -336,31 +336,31 @@ class _$SelectedSoundCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$SelectedSoundUploadingCopyWith<$Res>
+abstract class $SelectedSoundUploadingCopyWith<$Res>
     implements $SelectedSoundCopyWith<$Res> {
-  factory _$SelectedSoundUploadingCopyWith(_SelectedSoundUploading value,
-          $Res Function(_SelectedSoundUploading) then) =
-      __$SelectedSoundUploadingCopyWithImpl<$Res>;
+  factory $SelectedSoundUploadingCopyWith(SelectedSoundUploading value,
+          $Res Function(SelectedSoundUploading) then) =
+      _$SelectedSoundUploadingCopyWithImpl<$Res>;
   @override
   $Res call({String localFileName});
 }
 
 /// @nodoc
-class __$SelectedSoundUploadingCopyWithImpl<$Res>
+class _$SelectedSoundUploadingCopyWithImpl<$Res>
     extends _$SelectedSoundCopyWithImpl<$Res>
-    implements _$SelectedSoundUploadingCopyWith<$Res> {
-  __$SelectedSoundUploadingCopyWithImpl(_SelectedSoundUploading _value,
-      $Res Function(_SelectedSoundUploading) _then)
-      : super(_value, (v) => _then(v as _SelectedSoundUploading));
+    implements $SelectedSoundUploadingCopyWith<$Res> {
+  _$SelectedSoundUploadingCopyWithImpl(SelectedSoundUploading _value,
+      $Res Function(SelectedSoundUploading) _then)
+      : super(_value, (v) => _then(v as SelectedSoundUploading));
 
   @override
-  _SelectedSoundUploading get _value => super._value as _SelectedSoundUploading;
+  SelectedSoundUploading get _value => super._value as SelectedSoundUploading;
 
   @override
   $Res call({
     Object? localFileName = freezed,
   }) {
-    return _then(_SelectedSoundUploading(
+    return _then(SelectedSoundUploading(
       localFileName: localFileName == freezed
           ? _value.localFileName
           : localFileName // ignore: cast_nullable_to_non_nullable
@@ -371,8 +371,8 @@ class __$SelectedSoundUploadingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SelectedSoundUploading implements _SelectedSoundUploading {
-  const _$_SelectedSoundUploading({required this.localFileName});
+class _$SelectedSoundUploading implements SelectedSoundUploading {
+  const _$SelectedSoundUploading({required this.localFileName});
 
   @override
   final String localFileName;
@@ -386,7 +386,7 @@ class _$_SelectedSoundUploading implements _SelectedSoundUploading {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SelectedSoundUploading &&
+            other is SelectedSoundUploading &&
             const DeepCollectionEquality()
                 .equals(other.localFileName, localFileName));
   }
@@ -397,8 +397,8 @@ class _$_SelectedSoundUploading implements _SelectedSoundUploading {
 
   @JsonKey(ignore: true)
   @override
-  _$SelectedSoundUploadingCopyWith<_SelectedSoundUploading> get copyWith =>
-      __$SelectedSoundUploadingCopyWithImpl<_SelectedSoundUploading>(
+  $SelectedSoundUploadingCopyWith<SelectedSoundUploading> get copyWith =>
+      _$SelectedSoundUploadingCopyWithImpl<SelectedSoundUploading>(
           this, _$identity);
 
   @override
@@ -436,8 +436,8 @@ class _$_SelectedSoundUploading implements _SelectedSoundUploading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SelectedSoundUploading value) uploading,
-    required TResult Function(_SelectedSoundUploaded value) uploaded,
+    required TResult Function(SelectedSoundUploading value) uploading,
+    required TResult Function(SelectedSoundUploaded value) uploaded,
   }) {
     return uploading(this);
   }
@@ -445,8 +445,8 @@ class _$_SelectedSoundUploading implements _SelectedSoundUploading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_SelectedSoundUploading value)? uploading,
-    TResult Function(_SelectedSoundUploaded value)? uploaded,
+    TResult Function(SelectedSoundUploading value)? uploading,
+    TResult Function(SelectedSoundUploaded value)? uploaded,
   }) {
     return uploading?.call(this);
   }
@@ -454,8 +454,8 @@ class _$_SelectedSoundUploading implements _SelectedSoundUploading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SelectedSoundUploading value)? uploading,
-    TResult Function(_SelectedSoundUploaded value)? uploaded,
+    TResult Function(SelectedSoundUploading value)? uploading,
+    TResult Function(SelectedSoundUploaded value)? uploaded,
     required TResult orElse(),
   }) {
     if (uploading != null) {
@@ -465,45 +465,45 @@ class _$_SelectedSoundUploading implements _SelectedSoundUploading {
   }
 }
 
-abstract class _SelectedSoundUploading implements SelectedSound {
-  const factory _SelectedSoundUploading({required String localFileName}) =
-      _$_SelectedSoundUploading;
+abstract class SelectedSoundUploading implements SelectedSound {
+  const factory SelectedSoundUploading({required String localFileName}) =
+      _$SelectedSoundUploading;
 
   @override
   String get localFileName;
   @override
   @JsonKey(ignore: true)
-  _$SelectedSoundUploadingCopyWith<_SelectedSoundUploading> get copyWith =>
+  $SelectedSoundUploadingCopyWith<SelectedSoundUploading> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$SelectedSoundUploadedCopyWith<$Res>
+abstract class $SelectedSoundUploadedCopyWith<$Res>
     implements $SelectedSoundCopyWith<$Res> {
-  factory _$SelectedSoundUploadedCopyWith(_SelectedSoundUploaded value,
-          $Res Function(_SelectedSoundUploaded) then) =
-      __$SelectedSoundUploadedCopyWithImpl<$Res>;
+  factory $SelectedSoundUploadedCopyWith(SelectedSoundUploaded value,
+          $Res Function(SelectedSoundUploaded) then) =
+      _$SelectedSoundUploadedCopyWithImpl<$Res>;
   @override
   $Res call({String localFileName, String remoteFileName});
 }
 
 /// @nodoc
-class __$SelectedSoundUploadedCopyWithImpl<$Res>
+class _$SelectedSoundUploadedCopyWithImpl<$Res>
     extends _$SelectedSoundCopyWithImpl<$Res>
-    implements _$SelectedSoundUploadedCopyWith<$Res> {
-  __$SelectedSoundUploadedCopyWithImpl(_SelectedSoundUploaded _value,
-      $Res Function(_SelectedSoundUploaded) _then)
-      : super(_value, (v) => _then(v as _SelectedSoundUploaded));
+    implements $SelectedSoundUploadedCopyWith<$Res> {
+  _$SelectedSoundUploadedCopyWithImpl(
+      SelectedSoundUploaded _value, $Res Function(SelectedSoundUploaded) _then)
+      : super(_value, (v) => _then(v as SelectedSoundUploaded));
 
   @override
-  _SelectedSoundUploaded get _value => super._value as _SelectedSoundUploaded;
+  SelectedSoundUploaded get _value => super._value as SelectedSoundUploaded;
 
   @override
   $Res call({
     Object? localFileName = freezed,
     Object? remoteFileName = freezed,
   }) {
-    return _then(_SelectedSoundUploaded(
+    return _then(SelectedSoundUploaded(
       localFileName: localFileName == freezed
           ? _value.localFileName
           : localFileName // ignore: cast_nullable_to_non_nullable
@@ -518,8 +518,8 @@ class __$SelectedSoundUploadedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SelectedSoundUploaded implements _SelectedSoundUploaded {
-  const _$_SelectedSoundUploaded(
+class _$SelectedSoundUploaded implements SelectedSoundUploaded {
+  const _$SelectedSoundUploaded(
       {required this.localFileName, required this.remoteFileName});
 
   @override
@@ -536,7 +536,7 @@ class _$_SelectedSoundUploaded implements _SelectedSoundUploaded {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SelectedSoundUploaded &&
+            other is SelectedSoundUploaded &&
             const DeepCollectionEquality()
                 .equals(other.localFileName, localFileName) &&
             const DeepCollectionEquality()
@@ -551,8 +551,8 @@ class _$_SelectedSoundUploaded implements _SelectedSoundUploaded {
 
   @JsonKey(ignore: true)
   @override
-  _$SelectedSoundUploadedCopyWith<_SelectedSoundUploaded> get copyWith =>
-      __$SelectedSoundUploadedCopyWithImpl<_SelectedSoundUploaded>(
+  $SelectedSoundUploadedCopyWith<SelectedSoundUploaded> get copyWith =>
+      _$SelectedSoundUploadedCopyWithImpl<SelectedSoundUploaded>(
           this, _$identity);
 
   @override
@@ -590,8 +590,8 @@ class _$_SelectedSoundUploaded implements _SelectedSoundUploaded {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SelectedSoundUploading value) uploading,
-    required TResult Function(_SelectedSoundUploaded value) uploaded,
+    required TResult Function(SelectedSoundUploading value) uploading,
+    required TResult Function(SelectedSoundUploaded value) uploaded,
   }) {
     return uploaded(this);
   }
@@ -599,8 +599,8 @@ class _$_SelectedSoundUploaded implements _SelectedSoundUploaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_SelectedSoundUploading value)? uploading,
-    TResult Function(_SelectedSoundUploaded value)? uploaded,
+    TResult Function(SelectedSoundUploading value)? uploading,
+    TResult Function(SelectedSoundUploaded value)? uploaded,
   }) {
     return uploaded?.call(this);
   }
@@ -608,8 +608,8 @@ class _$_SelectedSoundUploaded implements _SelectedSoundUploaded {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SelectedSoundUploading value)? uploading,
-    TResult Function(_SelectedSoundUploaded value)? uploaded,
+    TResult Function(SelectedSoundUploading value)? uploading,
+    TResult Function(SelectedSoundUploaded value)? uploaded,
     required TResult orElse(),
   }) {
     if (uploaded != null) {
@@ -619,16 +619,16 @@ class _$_SelectedSoundUploaded implements _SelectedSoundUploaded {
   }
 }
 
-abstract class _SelectedSoundUploaded implements SelectedSound {
-  const factory _SelectedSoundUploaded(
+abstract class SelectedSoundUploaded implements SelectedSound {
+  const factory SelectedSoundUploaded(
       {required String localFileName,
-      required String remoteFileName}) = _$_SelectedSoundUploaded;
+      required String remoteFileName}) = _$SelectedSoundUploaded;
 
   @override
   String get localFileName;
   String get remoteFileName;
   @override
   @JsonKey(ignore: true)
-  _$SelectedSoundUploadedCopyWith<_SelectedSoundUploaded> get copyWith =>
+  $SelectedSoundUploadedCopyWith<SelectedSoundUploaded> get copyWith =>
       throw _privateConstructorUsedError;
 }

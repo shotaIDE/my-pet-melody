@@ -17,10 +17,10 @@ class SelectSoundsState with _$SelectSoundsState {
 class SelectedSound with _$SelectedSound {
   const factory SelectedSound.uploading({
     required String localFileName,
-  }) = _SelectedSoundUploading;
+  }) = SelectedSoundUploading;
 
   const factory SelectedSound.uploaded({
     required String localFileName,
     required String remoteFileName,
-  }) = _SelectedSoundUploaded;
+  }) = SelectedSoundUploaded;
 }

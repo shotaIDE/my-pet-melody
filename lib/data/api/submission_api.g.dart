@@ -19,9 +19,12 @@ Map<String, dynamic> _$$_UploadResponseToJson(_$_UploadResponse instance) =>
 _$_SubmitRequest _$$_SubmitRequestFromJson(Map<String, dynamic> json) =>
     _$_SubmitRequest(
       userId: json['userId'] as String,
+      fileNames:
+          (json['fileNames'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$_SubmitRequestToJson(_$_SubmitRequest instance) =>
     <String, dynamic>{
       'userId': instance.userId,
+      'fileNames': instance.fileNames,
     };

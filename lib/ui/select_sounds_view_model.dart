@@ -71,7 +71,12 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   Future<void> submit() async {
     state = state.copyWith(isProcessing: true);
 
-    await _submissionUseCase.submit();
+    final remoteFileNames = state.sounds
+        .whereType<SelectedSoundUploaded>()
+        .map((uploaded) => uploaded.remoteFileName)
+        .toList();
+
+    await _submissionUseCase.submit(remoteFileNames: remoteFileNames);
 
     state = state.copyWith(isProcessing: false);
   }

@@ -23,7 +23,10 @@ class SubmissionUseCase {
     );
   }
 
-  Future<void> submit() async {
-    return _repository.submit(userId: 'test-user-id');
+  Future<void> submit({required List<String> remoteFileNames}) async {
+    return _repository.submit(
+      userId: 'test-user-id',
+      remoteFileNames: remoteFileNames,
+    );
   }
 }

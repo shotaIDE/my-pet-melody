@@ -21,9 +21,10 @@ class SubmissionRemoteDataSource {
 
   Future<void> submit({
     required String userId,
+    required List<String> remoteFileNames,
   }) async {
     return _api.submit(
-      SubmitRequest(userId: userId),
+      SubmitRequest(userId: userId, fileNames: remoteFileNames),
     );
   }
 }

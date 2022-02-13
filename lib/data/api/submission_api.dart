@@ -46,6 +46,7 @@ class UploadResponse with _$UploadResponse {
 class SubmitRequest with _$SubmitRequest {
   const factory SubmitRequest({
     required String userId,
+    required List<String> fileNames,
   }) = _SubmitRequest;
 
   factory SubmitRequest.fromJson(Map<String, dynamic> json) =>

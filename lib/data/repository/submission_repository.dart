@@ -31,7 +31,8 @@ class SubmissionRepository {
 
   Future<void> submit({
     required String userId,
+    required List<String> remoteFileNames,
   }) async {
-    return _remote.submit(userId: userId);
+    return _remote.submit(userId: userId, remoteFileNames: remoteFileNames);
   }
 }

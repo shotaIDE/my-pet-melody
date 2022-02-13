@@ -171,9 +171,11 @@ SubmitRequest _$SubmitRequestFromJson(Map<String, dynamic> json) {
 class _$SubmitRequestTearOff {
   const _$SubmitRequestTearOff();
 
-  _SubmitRequest call({required String userId}) {
+  _SubmitRequest call(
+      {required String userId, required List<String> fileNames}) {
     return _SubmitRequest(
       userId: userId,
+      fileNames: fileNames,
     );
   }
 
@@ -188,6 +190,7 @@ const $SubmitRequest = _$SubmitRequestTearOff();
 /// @nodoc
 mixin _$SubmitRequest {
   String get userId => throw _privateConstructorUsedError;
+  List<String> get fileNames => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -200,7 +203,7 @@ abstract class $SubmitRequestCopyWith<$Res> {
   factory $SubmitRequestCopyWith(
           SubmitRequest value, $Res Function(SubmitRequest) then) =
       _$SubmitRequestCopyWithImpl<$Res>;
-  $Res call({String userId});
+  $Res call({String userId, List<String> fileNames});
 }
 
 /// @nodoc
@@ -215,12 +218,17 @@ class _$SubmitRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = freezed,
+    Object? fileNames = freezed,
   }) {
     return _then(_value.copyWith(
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      fileNames: fileNames == freezed
+          ? _value.fileNames
+          : fileNames // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -232,7 +240,7 @@ abstract class _$SubmitRequestCopyWith<$Res>
           _SubmitRequest value, $Res Function(_SubmitRequest) then) =
       __$SubmitRequestCopyWithImpl<$Res>;
   @override
-  $Res call({String userId});
+  $Res call({String userId, List<String> fileNames});
 }
 
 /// @nodoc
@@ -249,12 +257,17 @@ class __$SubmitRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = freezed,
+    Object? fileNames = freezed,
   }) {
     return _then(_SubmitRequest(
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      fileNames: fileNames == freezed
+          ? _value.fileNames
+          : fileNames // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -262,17 +275,19 @@ class __$SubmitRequestCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_SubmitRequest implements _SubmitRequest {
-  const _$_SubmitRequest({required this.userId});
+  const _$_SubmitRequest({required this.userId, required this.fileNames});
 
   factory _$_SubmitRequest.fromJson(Map<String, dynamic> json) =>
       _$$_SubmitRequestFromJson(json);
 
   @override
   final String userId;
+  @override
+  final List<String> fileNames;
 
   @override
   String toString() {
-    return 'SubmitRequest(userId: $userId)';
+    return 'SubmitRequest(userId: $userId, fileNames: $fileNames)';
   }
 
   @override
@@ -280,12 +295,15 @@ class _$_SubmitRequest implements _SubmitRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _SubmitRequest &&
-            const DeepCollectionEquality().equals(other.userId, userId));
+            const DeepCollectionEquality().equals(other.userId, userId) &&
+            const DeepCollectionEquality().equals(other.fileNames, fileNames));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(userId));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(userId),
+      const DeepCollectionEquality().hash(fileNames));
 
   @JsonKey(ignore: true)
   @override
@@ -299,13 +317,17 @@ class _$_SubmitRequest implements _SubmitRequest {
 }
 
 abstract class _SubmitRequest implements SubmitRequest {
-  const factory _SubmitRequest({required String userId}) = _$_SubmitRequest;
+  const factory _SubmitRequest(
+      {required String userId,
+      required List<String> fileNames}) = _$_SubmitRequest;
 
   factory _SubmitRequest.fromJson(Map<String, dynamic> json) =
       _$_SubmitRequest.fromJson;
 
   @override
   String get userId;
+  @override
+  List<String> get fileNames;
   @override
   @JsonKey(ignore: true)
   _$SubmitRequestCopyWith<_SubmitRequest> get copyWith =>
