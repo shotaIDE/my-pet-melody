@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/piece_use_case.dart';
+import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/play_status.dart';
 import 'package:meow_music/ui/playable.dart';
@@ -156,35 +156,27 @@ class HomeViewModel extends StateNotifier<HomeState> {
       return;
     }
 
-    final lengthSeconds = length.inMilliseconds;
-    final positionSeconds = position.inMilliseconds;
-
-    final positionRatio = positionSeconds / lengthSeconds;
+    final positionRatio = AudioPositionHelper.getPositionRatio(
+      length: length,
+      position: position,
+    );
 
     final pieces = state.pieces;
     if (pieces == null) {
       return;
     }
 
-    final currentPlayingPiece = pieces.firstWhereOrNull(
-      (playablePiece) =>
-          playablePiece.status.map(stop: (_) => false, playing: (_) => true),
+    final positionUpdatedList = PlayableListConverter.getPositionUpdatedOrNull(
+      originalList: pieces,
+      position: positionRatio,
     );
-    if (currentPlayingPiece == null) {
+    if (positionUpdatedList == null) {
       return;
     }
 
-    final newPiece = currentPlayingPiece.copyWith(
-      status: PlayStatus.playing(position: positionRatio),
+    state = state.copyWith(
+      pieces: positionUpdatedList.whereType<PlayablePiece>().toList(),
     );
-
-    final replaced = PlayableListConverter.getTargetReplaced(
-      originalList: pieces,
-      targetId: currentPlayingPiece.id,
-      newPlayable: newPiece,
-    ).whereType<PlayablePiece>().toList();
-
-    state = state.copyWith(pieces: replaced);
   }
 
   void _onAudioFinished() {

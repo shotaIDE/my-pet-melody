@@ -53,6 +53,29 @@ extension PlayableListConverter on Playable {
     );
   }
 
+  static List<Playable>? getPositionUpdatedOrNull({
+    required List<Playable> originalList,
+    required double position,
+  }) {
+    final playing = originalList.firstWhereOrNull(
+      (template) =>
+          template.status.map(stop: (_) => false, playing: (_) => true),
+    );
+    if (playing == null) {
+      return null;
+    }
+
+    final newPlayable = playing.copyWith(
+      status: PlayStatus.playing(position: position),
+    );
+
+    return getTargetReplaced(
+      originalList: originalList,
+      targetId: playing.id,
+      newPlayable: newPlayable,
+    );
+  }
+
   static List<Playable> getTargetStopped({
     required List<Playable> originalList,
     required String targetId,
