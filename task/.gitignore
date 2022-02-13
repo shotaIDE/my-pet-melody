@@ -1,3 +1,7 @@
 /env
+/exports
+!/exports/.gitkeep
+/templates
+!/templates/.gitkeep
 /uploads
 !/uploads/.gitkeep
