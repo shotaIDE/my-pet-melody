@@ -24,6 +24,6 @@ class PlayStatus with _$PlayStatus {
   const factory PlayStatus.stop() = _PlayStatusStop;
 
   const factory PlayStatus.playing({
-    required int seek,
+    required double position,
   }) = _PlayStatusPlaying;
 }

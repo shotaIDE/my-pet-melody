@@ -114,11 +114,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
             return playStatus.when(
               stop: () => tile,
-              playing: (_) => Column(
+              playing: (position) => Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   tile,
-                  const LinearProgressIndicator(),
+                  LinearProgressIndicator(value: position),
                 ],
               ),
             );

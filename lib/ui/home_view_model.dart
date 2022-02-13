@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/piece_use_case.dart';
@@ -23,6 +22,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final PieceUseCase _pieceUseCase;
   final _player = AudioPlayer();
 
+  Duration? _currentAudioLength;
   StreamSubscription<List<Piece>>? _subscription;
   StreamSubscription<Duration>? _audioLengthSubscription;
   StreamSubscription<Duration>? _audioPositionSubscription;
@@ -59,7 +59,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     final index = pieces.indexOf(piece);
 
     final replaced =
-        piece.copyWith(playStatus: const PlayStatus.playing(seek: 0));
+        piece.copyWith(playStatus: const PlayStatus.playing(position: 0));
     pieces[index] = replaced;
 
     state = state.copyWith(pieces: pieces);
@@ -114,12 +114,23 @@ class HomeViewModel extends StateNotifier<HomeState> {
     });
 
     _audioLengthSubscription = _player.onDurationChanged.listen((duration) {
-      debugPrint('Length: $duration');
+      _currentAudioLength = duration;
     });
 
     _audioPositionSubscription =
-        _player.onAudioPositionChanged.listen((duration) {
-      debugPrint('Position: $duration');
+        _player.onAudioPositionChanged.listen((currentPosition) {
+      final currentLength = _currentAudioLength;
+      if (currentLength == null) {
+        return;
+      }
+
+      final currentLengthSeconds = currentLength.inSeconds;
+      final currentPositionSeconds = currentPosition.inSeconds;
+
+      final currentPositionRatio =
+          currentPositionSeconds / currentLengthSeconds;
+
+      _updatePosition(currentPositionRatio);
     });
   }
 
@@ -136,5 +147,32 @@ class HomeViewModel extends StateNotifier<HomeState> {
     cloned[index] = replaced;
 
     return cloned;
+  }
+
+  void _updatePosition(double position) {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final currentPlayingPiece = pieces.firstWhereOrNull(
+      (playablePiece) => playablePiece.playStatus
+          .map(stop: (_) => false, playing: (_) => true),
+    );
+    if (currentPlayingPiece == null) {
+      return;
+    }
+
+    final index = pieces.indexOf(currentPlayingPiece);
+
+    final cloned = [...pieces];
+
+    final replaced = currentPlayingPiece.copyWith(
+      playStatus: PlayStatus.playing(position: position),
+    );
+
+    cloned[index] = replaced;
+
+    state = state.copyWith(pieces: cloned);
   }
 }
