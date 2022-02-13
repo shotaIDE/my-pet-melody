@@ -36,6 +36,6 @@ class SubmissionRemoteDataSource {
       return null;
     }
 
-    return FetchedPiece(id: response.id, url: response.url);
+    return FetchedPiece(id: response.id, path: response.path);
   }
 }

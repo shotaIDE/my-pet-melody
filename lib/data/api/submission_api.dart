@@ -36,6 +36,7 @@ class SubmissionApi {
 class UploadResponse with _$UploadResponse {
   const factory UploadResponse({
     required String fileName,
+    required String path,
   }) = _UploadResponse;
 
   factory UploadResponse.fromJson(Map<String, dynamic> json) =>
@@ -58,7 +59,7 @@ class SubmitRequest with _$SubmitRequest {
 class SubmitResponse with _$SubmitResponse {
   const factory SubmitResponse({
     required String id,
-    required String url,
+    required String path,
   }) = _SubmitResponse;
 
   factory SubmitResponse.fromJson(Map<String, dynamic> json) =>
@@ -69,6 +70,6 @@ class SubmitResponse with _$SubmitResponse {
 class FetchedPiece with _$FetchedPiece {
   const factory FetchedPiece({
     required String id,
-    required String url,
+    required String path,
   }) = _FetchedPiece;
 }

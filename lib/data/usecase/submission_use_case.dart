@@ -49,7 +49,7 @@ class SubmissionUseCase {
       id: generated.id,
       name: template.name,
       status: PieceStatus.generating(submitted: DateTime.now()),
-      url: generated.url,
+      url: generated.path,
     );
 
     unawaited(_setTimerToNotifyCompletingToGenerate(generating: piece));

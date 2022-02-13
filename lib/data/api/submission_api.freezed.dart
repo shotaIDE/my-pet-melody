@@ -22,9 +22,10 @@ UploadResponse _$UploadResponseFromJson(Map<String, dynamic> json) {
 class _$UploadResponseTearOff {
   const _$UploadResponseTearOff();
 
-  _UploadResponse call({required String fileName}) {
+  _UploadResponse call({required String fileName, required String path}) {
     return _UploadResponse(
       fileName: fileName,
+      path: path,
     );
   }
 
@@ -39,6 +40,7 @@ const $UploadResponse = _$UploadResponseTearOff();
 /// @nodoc
 mixin _$UploadResponse {
   String get fileName => throw _privateConstructorUsedError;
+  String get path => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +53,7 @@ abstract class $UploadResponseCopyWith<$Res> {
   factory $UploadResponseCopyWith(
           UploadResponse value, $Res Function(UploadResponse) then) =
       _$UploadResponseCopyWithImpl<$Res>;
-  $Res call({String fileName});
+  $Res call({String fileName, String path});
 }
 
 /// @nodoc
@@ -66,11 +68,16 @@ class _$UploadResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileName = freezed,
+    Object? path = freezed,
   }) {
     return _then(_value.copyWith(
       fileName: fileName == freezed
           ? _value.fileName
           : fileName // ignore: cast_nullable_to_non_nullable
+              as String,
+      path: path == freezed
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -83,7 +90,7 @@ abstract class _$UploadResponseCopyWith<$Res>
           _UploadResponse value, $Res Function(_UploadResponse) then) =
       __$UploadResponseCopyWithImpl<$Res>;
   @override
-  $Res call({String fileName});
+  $Res call({String fileName, String path});
 }
 
 /// @nodoc
@@ -100,11 +107,16 @@ class __$UploadResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fileName = freezed,
+    Object? path = freezed,
   }) {
     return _then(_UploadResponse(
       fileName: fileName == freezed
           ? _value.fileName
           : fileName // ignore: cast_nullable_to_non_nullable
+              as String,
+      path: path == freezed
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -113,17 +125,19 @@ class __$UploadResponseCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_UploadResponse implements _UploadResponse {
-  const _$_UploadResponse({required this.fileName});
+  const _$_UploadResponse({required this.fileName, required this.path});
 
   factory _$_UploadResponse.fromJson(Map<String, dynamic> json) =>
       _$$_UploadResponseFromJson(json);
 
   @override
   final String fileName;
+  @override
+  final String path;
 
   @override
   String toString() {
-    return 'UploadResponse(fileName: $fileName)';
+    return 'UploadResponse(fileName: $fileName, path: $path)';
   }
 
   @override
@@ -131,12 +145,15 @@ class _$_UploadResponse implements _UploadResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _UploadResponse &&
-            const DeepCollectionEquality().equals(other.fileName, fileName));
+            const DeepCollectionEquality().equals(other.fileName, fileName) &&
+            const DeepCollectionEquality().equals(other.path, path));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(fileName));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(fileName),
+      const DeepCollectionEquality().hash(path));
 
   @JsonKey(ignore: true)
   @override
@@ -150,13 +167,16 @@ class _$_UploadResponse implements _UploadResponse {
 }
 
 abstract class _UploadResponse implements UploadResponse {
-  const factory _UploadResponse({required String fileName}) = _$_UploadResponse;
+  const factory _UploadResponse(
+      {required String fileName, required String path}) = _$_UploadResponse;
 
   factory _UploadResponse.fromJson(Map<String, dynamic> json) =
       _$_UploadResponse.fromJson;
 
   @override
   String get fileName;
+  @override
+  String get path;
   @override
   @JsonKey(ignore: true)
   _$UploadResponseCopyWith<_UploadResponse> get copyWith =>
@@ -367,10 +387,10 @@ SubmitResponse _$SubmitResponseFromJson(Map<String, dynamic> json) {
 class _$SubmitResponseTearOff {
   const _$SubmitResponseTearOff();
 
-  _SubmitResponse call({required String id, required String url}) {
+  _SubmitResponse call({required String id, required String path}) {
     return _SubmitResponse(
       id: id,
-      url: url,
+      path: path,
     );
   }
 
@@ -385,7 +405,7 @@ const $SubmitResponse = _$SubmitResponseTearOff();
 /// @nodoc
 mixin _$SubmitResponse {
   String get id => throw _privateConstructorUsedError;
-  String get url => throw _privateConstructorUsedError;
+  String get path => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -398,7 +418,7 @@ abstract class $SubmitResponseCopyWith<$Res> {
   factory $SubmitResponseCopyWith(
           SubmitResponse value, $Res Function(SubmitResponse) then) =
       _$SubmitResponseCopyWithImpl<$Res>;
-  $Res call({String id, String url});
+  $Res call({String id, String path});
 }
 
 /// @nodoc
@@ -413,16 +433,16 @@ class _$SubmitResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? url = freezed,
+    Object? path = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
+      path: path == freezed
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -435,7 +455,7 @@ abstract class _$SubmitResponseCopyWith<$Res>
           _SubmitResponse value, $Res Function(_SubmitResponse) then) =
       __$SubmitResponseCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String url});
+  $Res call({String id, String path});
 }
 
 /// @nodoc
@@ -452,16 +472,16 @@ class __$SubmitResponseCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? url = freezed,
+    Object? path = freezed,
   }) {
     return _then(_SubmitResponse(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
+      path: path == freezed
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -470,7 +490,7 @@ class __$SubmitResponseCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_SubmitResponse implements _SubmitResponse {
-  const _$_SubmitResponse({required this.id, required this.url});
+  const _$_SubmitResponse({required this.id, required this.path});
 
   factory _$_SubmitResponse.fromJson(Map<String, dynamic> json) =>
       _$$_SubmitResponseFromJson(json);
@@ -478,11 +498,11 @@ class _$_SubmitResponse implements _SubmitResponse {
   @override
   final String id;
   @override
-  final String url;
+  final String path;
 
   @override
   String toString() {
-    return 'SubmitResponse(id: $id, url: $url)';
+    return 'SubmitResponse(id: $id, path: $path)';
   }
 
   @override
@@ -491,14 +511,14 @@ class _$_SubmitResponse implements _SubmitResponse {
         (other.runtimeType == runtimeType &&
             other is _SubmitResponse &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.url, url));
+            const DeepCollectionEquality().equals(other.path, path));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(url));
+      const DeepCollectionEquality().hash(path));
 
   @JsonKey(ignore: true)
   @override
@@ -512,7 +532,7 @@ class _$_SubmitResponse implements _SubmitResponse {
 }
 
 abstract class _SubmitResponse implements SubmitResponse {
-  const factory _SubmitResponse({required String id, required String url}) =
+  const factory _SubmitResponse({required String id, required String path}) =
       _$_SubmitResponse;
 
   factory _SubmitResponse.fromJson(Map<String, dynamic> json) =
@@ -521,7 +541,7 @@ abstract class _SubmitResponse implements SubmitResponse {
   @override
   String get id;
   @override
-  String get url;
+  String get path;
   @override
   @JsonKey(ignore: true)
   _$SubmitResponseCopyWith<_SubmitResponse> get copyWith =>
@@ -532,10 +552,10 @@ abstract class _SubmitResponse implements SubmitResponse {
 class _$FetchedPieceTearOff {
   const _$FetchedPieceTearOff();
 
-  _FetchedPiece call({required String id, required String url}) {
+  _FetchedPiece call({required String id, required String path}) {
     return _FetchedPiece(
       id: id,
-      url: url,
+      path: path,
     );
   }
 }
@@ -546,7 +566,7 @@ const $FetchedPiece = _$FetchedPieceTearOff();
 /// @nodoc
 mixin _$FetchedPiece {
   String get id => throw _privateConstructorUsedError;
-  String get url => throw _privateConstructorUsedError;
+  String get path => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FetchedPieceCopyWith<FetchedPiece> get copyWith =>
@@ -558,7 +578,7 @@ abstract class $FetchedPieceCopyWith<$Res> {
   factory $FetchedPieceCopyWith(
           FetchedPiece value, $Res Function(FetchedPiece) then) =
       _$FetchedPieceCopyWithImpl<$Res>;
-  $Res call({String id, String url});
+  $Res call({String id, String path});
 }
 
 /// @nodoc
@@ -572,16 +592,16 @@ class _$FetchedPieceCopyWithImpl<$Res> implements $FetchedPieceCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
-    Object? url = freezed,
+    Object? path = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
+      path: path == freezed
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -594,7 +614,7 @@ abstract class _$FetchedPieceCopyWith<$Res>
           _FetchedPiece value, $Res Function(_FetchedPiece) then) =
       __$FetchedPieceCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String url});
+  $Res call({String id, String path});
 }
 
 /// @nodoc
@@ -610,16 +630,16 @@ class __$FetchedPieceCopyWithImpl<$Res> extends _$FetchedPieceCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? url = freezed,
+    Object? path = freezed,
   }) {
     return _then(_FetchedPiece(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      url: url == freezed
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
+      path: path == freezed
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -628,16 +648,16 @@ class __$FetchedPieceCopyWithImpl<$Res> extends _$FetchedPieceCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_FetchedPiece implements _FetchedPiece {
-  const _$_FetchedPiece({required this.id, required this.url});
+  const _$_FetchedPiece({required this.id, required this.path});
 
   @override
   final String id;
   @override
-  final String url;
+  final String path;
 
   @override
   String toString() {
-    return 'FetchedPiece(id: $id, url: $url)';
+    return 'FetchedPiece(id: $id, path: $path)';
   }
 
   @override
@@ -646,14 +666,14 @@ class _$_FetchedPiece implements _FetchedPiece {
         (other.runtimeType == runtimeType &&
             other is _FetchedPiece &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.url, url));
+            const DeepCollectionEquality().equals(other.path, path));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(url));
+      const DeepCollectionEquality().hash(path));
 
   @JsonKey(ignore: true)
   @override
@@ -662,13 +682,13 @@ class _$_FetchedPiece implements _FetchedPiece {
 }
 
 abstract class _FetchedPiece implements FetchedPiece {
-  const factory _FetchedPiece({required String id, required String url}) =
+  const factory _FetchedPiece({required String id, required String path}) =
       _$_FetchedPiece;
 
   @override
   String get id;
   @override
-  String get url;
+  String get path;
   @override
   @JsonKey(ignore: true)
   _$FetchedPieceCopyWith<_FetchedPiece> get copyWith =>
