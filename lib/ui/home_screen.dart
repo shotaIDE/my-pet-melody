@@ -97,7 +97,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
 
             final tile = ListTile(
-              leading: leading,
+              leading: Column(
+                children: [
+                  Expanded(child: leading),
+                ],
+              ),
               title: Text(piece.name),
               subtitle: Text(subtitleLabel),
               trailing: IconButton(
@@ -112,15 +116,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               onTap: onTap,
             );
 
-            return playStatus.when(
-              stop: () => tile,
-              playing: (position) => Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  tile,
-                  LinearProgressIndicator(value: position),
-                ],
-              ),
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                tile,
+                playStatus.when(
+                  stop: () => const Visibility(
+                    visible: false,
+                    maintainState: true,
+                    maintainAnimation: true,
+                    maintainSize: true,
+                    child: LinearProgressIndicator(),
+                  ),
+                  playing: (position) => Visibility(
+                    child: LinearProgressIndicator(value: position),
+                  ),
+                ),
+              ],
             );
           },
           itemCount: pieces.length,

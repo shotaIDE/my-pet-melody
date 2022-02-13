@@ -162,7 +162,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
     required List<PlayablePiece> pieces,
     required PlayablePiece target,
   }) {
-    final index = pieces.indexOf(target);
+    final index =
+        pieces.indexWhere((piece) => piece.piece.id == target.piece.id);
 
     final cloned = [...pieces];
 
