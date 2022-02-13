@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/piece_use_case.dart';
@@ -23,10 +24,14 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final _player = AudioPlayer();
 
   StreamSubscription<List<Piece>>? _subscription;
+  StreamSubscription<Duration>? _audioLengthSubscription;
+  StreamSubscription<Duration>? _audioPositionSubscription;
 
   @override
   Future<void> dispose() async {
     await _subscription?.cancel();
+    await _audioLengthSubscription?.cancel();
+    await _audioPositionSubscription?.cancel();
 
     super.dispose();
   }
@@ -106,6 +111,15 @@ class HomeViewModel extends StateNotifier<HomeState> {
           )
           .toList();
       state = state.copyWith(pieces: playablePieces);
+    });
+
+    _audioLengthSubscription = _player.onDurationChanged.listen((duration) {
+      debugPrint('Length: $duration');
+    });
+
+    _audioPositionSubscription =
+        _player.onAudioPositionChanged.listen((duration) {
+      debugPrint('Position: $duration');
     });
   }
 
