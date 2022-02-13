@@ -80,6 +80,24 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     await _player.stop();
   }
 
+  Future<void> beforeHideScreen() async {
+    final templates = state.templates;
+    if (templates == null) {
+      return;
+    }
+
+    final stoppedList =
+        PlayableListConverter.getStoppedOrNull(originalList: templates);
+
+    if (stoppedList != null) {
+      state = state.copyWith(
+        templates: stoppedList.whereType<PlayableTemplate>().toList(),
+      );
+    }
+
+    await _player.stop();
+  }
+
   Future<void> _setup() async {
     final templates = await _submissionUseCase.getTemplates();
     final playableTemplates = templates

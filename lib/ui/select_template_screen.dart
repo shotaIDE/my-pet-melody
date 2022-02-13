@@ -86,10 +86,18 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                 leading: leading,
                 title: Text(template.name),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () => Navigator.push<void>(
-                  context,
-                  SelectSoundsScreen.route(template: template),
-                ),
+                onTap: () async {
+                  await ref.read(widget.viewModel.notifier).beforeHideScreen();
+
+                  if (!mounted) {
+                    return;
+                  }
+
+                  await Navigator.push<void>(
+                    context,
+                    SelectSoundsScreen.route(template: template),
+                  );
+                },
               );
             },
             itemCount: templates.length,
@@ -99,23 +107,29 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
             child: CircularProgressIndicator(),
           );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('STEP 1/2'),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: title,
-          ),
-          Expanded(
-            child: Padding(
+    return WillPopScope(
+      onWillPop: () async {
+        await ref.read(widget.viewModel.notifier).beforeHideScreen();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('STEP 1/2'),
+        ),
+        body: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: body,
+              child: title,
             ),
-          ),
-        ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: body,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
