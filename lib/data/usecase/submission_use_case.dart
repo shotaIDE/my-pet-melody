@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/repository/piece_repository.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
 
@@ -20,7 +21,7 @@ class SubmissionUseCase {
     return _repository.getTemplates();
   }
 
-  Future<String?> upload(
+  Future<UploadedSound?> upload(
     File file, {
     required String fileName,
   }) async {
@@ -32,12 +33,12 @@ class SubmissionUseCase {
 
   Future<void> submit({
     required Template template,
-    required List<String> remoteFileNames,
+    required List<String> soundIdList,
   }) async {
     final generated = await _repository.submit(
       userId: 'test-user-id',
       templateId: template.id,
-      remoteFileNames: remoteFileNames,
+      soundIdList: soundIdList,
     );
 
     if (generated == null) {

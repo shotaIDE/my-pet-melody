@@ -35,7 +35,7 @@ class SubmissionApi {
 @freezed
 class UploadResponse with _$UploadResponse {
   const factory UploadResponse({
-    required String fileName,
+    required String id,
     required String path,
   }) = _UploadResponse;
 

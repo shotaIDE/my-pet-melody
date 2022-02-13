@@ -179,7 +179,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               ),
             ],
             playing: (position) => [
-              templateTile,
+              tile,
               LinearProgressIndicator(
                 value: position,
               )

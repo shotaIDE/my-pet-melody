@@ -10,9 +10,10 @@ from pydub import AudioSegment
 app = Flask(__name__)
 
 _STATIC_DIRECTORY = 'static'
-_TEMPLATES_DIRECTORY = f'templates'
-_UPLOADS_DIRECTORY = f'uploads'
-_EXPORTS_DIRECTORY = f'exports'
+_TEMPLATES_DIRECTORY = 'templates'
+_UPLOADS_DIRECTORY = 'uploads'
+_EXPORTS_DIRECTORY = 'exports'
+_OUTPUT_SOUND_EXTENSION = '.mp3'
 
 
 @app.route("/", methods=['POST'])
@@ -23,7 +24,8 @@ def hello_world():
     template_id = request_params_json['templateId']
     file_name_bases = request_params_json['fileNames']
     file_names = [
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{file_name_base}'
+        (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
+         f'{file_name_base}{_OUTPUT_SOUND_EXTENSION}')
         for file_name_base in file_name_bases
     ]
 
@@ -55,7 +57,8 @@ def hello_world():
 
     current = datetime.now()
     export_file_name_base_prefix = current.strftime('%Y%m%d%H%M%S')
-    export_file_name_base = f'{export_file_name_base_prefix}.mp3'
+    export_file_name_base = (f'{export_file_name_base_prefix}'
+                             f'{_OUTPUT_SOUND_EXTENSION}')
     export_path_on_static = f'{_EXPORTS_DIRECTORY}/{export_file_name_base}'
 
     export_path = f'{_STATIC_DIRECTORY}/{export_path_on_static}'
@@ -89,6 +92,6 @@ def upload_file():
     store_url_path = url_for('static', filename=store_path_on_static)
 
     return {
-        'fileName': store_file_name,
+        'id': store_file_name_base,
         'path': store_url_path,
     }

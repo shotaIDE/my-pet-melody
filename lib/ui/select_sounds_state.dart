@@ -27,6 +27,6 @@ class SelectedSound with _$SelectedSound {
   const factory SelectedSound.uploaded({
     required String id,
     required String localFileName,
-    required String remoteFileName,
+    required String remoteUrl,
   }) = SelectedSoundUploaded;
 }

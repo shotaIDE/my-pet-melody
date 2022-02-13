@@ -72,12 +72,12 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     state = state.copyWith(sounds: sounds);
 
-    final remoteFileName = await _submissionUseCase.upload(
+    final uploadedSound = await _submissionUseCase.upload(
       file,
       fileName: basename(file.path),
     );
 
-    if (remoteFileName == null) {
+    if (uploadedSound == null) {
       sounds[index] = target.copyWith(
         sound: SelectedSound.none(id: target.id),
       );
@@ -92,9 +92,9 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     sounds[index] = target.copyWith(
       sound: SelectedSound.uploaded(
-        id: target.id,
+        id: uploadedSound.id,
         localFileName: localFileName,
-        remoteFileName: remoteFileName,
+        remoteUrl: uploadedSound.url,
       ),
     );
 
@@ -121,14 +121,15 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   Future<void> submit() async {
     state = state.copyWith(isProcessing: true);
 
-    final remoteFileNames = state.sounds
+    final soundIdList = state.sounds
+        .map((choice) => choice.sound)
         .whereType<SelectedSoundUploaded>()
-        .map((uploaded) => uploaded.remoteFileName)
+        .map((uploaded) => uploaded.id)
         .toList();
 
     await _submissionUseCase.submit(
       template: state.template.template,
-      remoteFileNames: remoteFileNames,
+      soundIdList: soundIdList,
     );
 
     state = state.copyWith(isProcessing: false);
