@@ -18,9 +18,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$HomeStateTearOff {
   const _$HomeStateTearOff();
 
-  _HomeState call({List<Piece>? pieces = null}) {
+  _HomeState call({List<Piece>? pieces = null, bool isProcessing = false}) {
     return _HomeState(
       pieces: pieces,
+      isProcessing: isProcessing,
     );
   }
 }
@@ -31,6 +32,7 @@ const $HomeState = _$HomeStateTearOff();
 /// @nodoc
 mixin _$HomeState {
   List<Piece>? get pieces => throw _privateConstructorUsedError;
+  bool get isProcessing => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -41,7 +43,7 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res>;
-  $Res call({List<Piece>? pieces});
+  $Res call({List<Piece>? pieces, bool isProcessing});
 }
 
 /// @nodoc
@@ -55,12 +57,17 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
   @override
   $Res call({
     Object? pieces = freezed,
+    Object? isProcessing = freezed,
   }) {
     return _then(_value.copyWith(
       pieces: pieces == freezed
           ? _value.pieces
           : pieces // ignore: cast_nullable_to_non_nullable
               as List<Piece>?,
+      isProcessing: isProcessing == freezed
+          ? _value.isProcessing
+          : isProcessing // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -71,7 +78,7 @@ abstract class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
           _HomeState value, $Res Function(_HomeState) then) =
       __$HomeStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<Piece>? pieces});
+  $Res call({List<Piece>? pieces, bool isProcessing});
 }
 
 /// @nodoc
@@ -86,12 +93,17 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? pieces = freezed,
+    Object? isProcessing = freezed,
   }) {
     return _then(_HomeState(
       pieces: pieces == freezed
           ? _value.pieces
           : pieces // ignore: cast_nullable_to_non_nullable
               as List<Piece>?,
+      isProcessing: isProcessing == freezed
+          ? _value.isProcessing
+          : isProcessing // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -99,15 +111,18 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeState implements _HomeState {
-  const _$_HomeState({this.pieces = null});
+  const _$_HomeState({this.pieces = null, this.isProcessing = false});
 
   @JsonKey()
   @override
   final List<Piece>? pieces;
+  @JsonKey()
+  @override
+  final bool isProcessing;
 
   @override
   String toString() {
-    return 'HomeState(pieces: $pieces)';
+    return 'HomeState(pieces: $pieces, isProcessing: $isProcessing)';
   }
 
   @override
@@ -115,12 +130,16 @@ class _$_HomeState implements _HomeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _HomeState &&
-            const DeepCollectionEquality().equals(other.pieces, pieces));
+            const DeepCollectionEquality().equals(other.pieces, pieces) &&
+            const DeepCollectionEquality()
+                .equals(other.isProcessing, isProcessing));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(pieces));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(pieces),
+      const DeepCollectionEquality().hash(isProcessing));
 
   @JsonKey(ignore: true)
   @override
@@ -129,10 +148,13 @@ class _$_HomeState implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState({List<Piece>? pieces}) = _$_HomeState;
+  const factory _HomeState({List<Piece>? pieces, bool isProcessing}) =
+      _$_HomeState;
 
   @override
   List<Piece>? get pieces;
+  @override
+  bool get isProcessing;
   @override
   @JsonKey(ignore: true)
   _$HomeStateCopyWith<_HomeState> get copyWith =>

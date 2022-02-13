@@ -70,6 +70,6 @@ class SubmitResponse with _$SubmitResponse {
 class FetchedPiece with _$FetchedPiece {
   const factory FetchedPiece({
     required String id,
-    required String path,
+    required String url,
   }) = _FetchedPiece;
 }

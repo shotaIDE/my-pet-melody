@@ -552,10 +552,10 @@ abstract class _SubmitResponse implements SubmitResponse {
 class _$FetchedPieceTearOff {
   const _$FetchedPieceTearOff();
 
-  _FetchedPiece call({required String id, required String path}) {
+  _FetchedPiece call({required String id, required String url}) {
     return _FetchedPiece(
       id: id,
-      path: path,
+      url: url,
     );
   }
 }
@@ -566,7 +566,7 @@ const $FetchedPiece = _$FetchedPieceTearOff();
 /// @nodoc
 mixin _$FetchedPiece {
   String get id => throw _privateConstructorUsedError;
-  String get path => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FetchedPieceCopyWith<FetchedPiece> get copyWith =>
@@ -578,7 +578,7 @@ abstract class $FetchedPieceCopyWith<$Res> {
   factory $FetchedPieceCopyWith(
           FetchedPiece value, $Res Function(FetchedPiece) then) =
       _$FetchedPieceCopyWithImpl<$Res>;
-  $Res call({String id, String path});
+  $Res call({String id, String url});
 }
 
 /// @nodoc
@@ -592,16 +592,16 @@ class _$FetchedPieceCopyWithImpl<$Res> implements $FetchedPieceCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
-    Object? path = freezed,
+    Object? url = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      path: path == freezed
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
+      url: url == freezed
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -614,7 +614,7 @@ abstract class _$FetchedPieceCopyWith<$Res>
           _FetchedPiece value, $Res Function(_FetchedPiece) then) =
       __$FetchedPieceCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String path});
+  $Res call({String id, String url});
 }
 
 /// @nodoc
@@ -630,16 +630,16 @@ class __$FetchedPieceCopyWithImpl<$Res> extends _$FetchedPieceCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? path = freezed,
+    Object? url = freezed,
   }) {
     return _then(_FetchedPiece(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      path: path == freezed
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
+      url: url == freezed
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -648,16 +648,16 @@ class __$FetchedPieceCopyWithImpl<$Res> extends _$FetchedPieceCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_FetchedPiece implements _FetchedPiece {
-  const _$_FetchedPiece({required this.id, required this.path});
+  const _$_FetchedPiece({required this.id, required this.url});
 
   @override
   final String id;
   @override
-  final String path;
+  final String url;
 
   @override
   String toString() {
-    return 'FetchedPiece(id: $id, path: $path)';
+    return 'FetchedPiece(id: $id, url: $url)';
   }
 
   @override
@@ -666,14 +666,14 @@ class _$_FetchedPiece implements _FetchedPiece {
         (other.runtimeType == runtimeType &&
             other is _FetchedPiece &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.path, path));
+            const DeepCollectionEquality().equals(other.url, url));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(path));
+      const DeepCollectionEquality().hash(url));
 
   @JsonKey(ignore: true)
   @override
@@ -682,13 +682,13 @@ class _$_FetchedPiece implements _FetchedPiece {
 }
 
 abstract class _FetchedPiece implements FetchedPiece {
-  const factory _FetchedPiece({required String id, required String path}) =
+  const factory _FetchedPiece({required String id, required String url}) =
       _$_FetchedPiece;
 
   @override
   String get id;
   @override
-  String get path;
+  String get url;
   @override
   @JsonKey(ignore: true)
   _$FetchedPieceCopyWith<_FetchedPiece> get copyWith =>

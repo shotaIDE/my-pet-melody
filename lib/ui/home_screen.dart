@@ -58,7 +58,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 subtitle: Text(subtitleLabel),
                 trailing: IconButton(
                   icon: const Icon(Icons.share),
-                  onPressed: () {},
+                  onPressed: () =>
+                      ref.read(widget.viewModel.notifier).share(piece: piece),
                 ),
                 tileColor: status.when(
                   generating: (_) => Colors.grey[300],
@@ -77,7 +78,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: CircularProgressIndicator(),
           );
 
-    return Scaffold(
+    final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('Meow Music'),
       ),
@@ -88,11 +89,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Navigator.push<void>(context, SelectTemplateScreen.route()),
       ),
     );
+
+    return state.isProcessing
+        ? Stack(
+            children: [
+              scaffold,
+              Container(
+                color: Colors.black.withOpacity(0.5),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            ],
+          )
+        : scaffold;
   }
 
   Future<void> _play({required Piece piece}) async {
     final player = AudioPlayer();
-    final url = 'http://127.0.0.1:5000${piece.url}';
-    await player.play(url);
+    await player.play(piece.url);
   }
 }
