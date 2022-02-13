@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/ui/completed_to_submit_state.dart';
 import 'package:meow_music/ui/completed_to_submit_view_model.dart';
 
 final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
     CompletedToSubmitViewModel, CompletedToSubmitState>(
-  (ref) => CompletedToSubmitViewModel(
-    submissionUseCase: ref.watch(submissionUseCaseProvider),
-  ),
+  (_) => CompletedToSubmitViewModel(),
 );
 
 class CompletedToSubmitScreen extends ConsumerStatefulWidget {
