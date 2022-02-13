@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
-import 'package:meow_music/ui/model/playable.dart';
+import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_template_state.dart';
 
 class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
@@ -37,18 +37,18 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     super.dispose();
   }
 
-  Future<void> play({required PlayableTemplate template}) async {
+  Future<void> play({required PlayerChoiceTemplate template}) async {
     final templates = state.templates;
     if (templates == null) {
       return;
     }
 
-    final stoppedList = PlayableListConverter.getStoppedOrNull(
+    final stoppedList = PlayerChoiceConverter.getStoppedOrNull(
           originalList: templates,
         ) ??
         [...templates];
 
-    final playingList = PlayableListConverter.getTargetReplaced(
+    final playingList = PlayerChoiceConverter.getTargetReplaced(
       originalList: stoppedList,
       targetId: template.id,
       newPlayable:
@@ -56,25 +56,25 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     );
 
     state = state.copyWith(
-      templates: playingList.whereType<PlayableTemplate>().toList(),
+      templates: playingList.whereType<PlayerChoiceTemplate>().toList(),
     );
 
     await _player.play(template.url);
   }
 
-  Future<void> stop({required PlayableTemplate template}) async {
+  Future<void> stop({required PlayerChoiceTemplate template}) async {
     final templates = state.templates;
     if (templates == null) {
       return;
     }
 
-    final stoppedList = PlayableListConverter.getTargetStopped(
+    final stoppedList = PlayerChoiceConverter.getTargetStopped(
       originalList: templates,
       targetId: template.id,
     );
 
     state = state.copyWith(
-      templates: stoppedList.whereType<PlayableTemplate>().toList(),
+      templates: stoppedList.whereType<PlayerChoiceTemplate>().toList(),
     );
 
     await _player.stop();
@@ -87,11 +87,11 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     }
 
     final stoppedList =
-        PlayableListConverter.getStoppedOrNull(originalList: templates);
+        PlayerChoiceConverter.getStoppedOrNull(originalList: templates);
 
     if (stoppedList != null) {
       state = state.copyWith(
-        templates: stoppedList.whereType<PlayableTemplate>().toList(),
+        templates: stoppedList.whereType<PlayerChoiceTemplate>().toList(),
       );
     }
 
@@ -102,7 +102,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     final templates = await _submissionUseCase.getTemplates();
     final playableTemplates = templates
         .map(
-          (template) => PlayableTemplate(
+          (template) => PlayerChoiceTemplate(
             template: template,
             status: const PlayStatus.stop(),
           ),
@@ -138,7 +138,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       return;
     }
 
-    final positionUpdatedList = PlayableListConverter.getPositionUpdatedOrNull(
+    final positionUpdatedList = PlayerChoiceConverter.getPositionUpdatedOrNull(
       originalList: templates,
       position: positionRatio,
     );
@@ -147,7 +147,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     }
 
     state = state.copyWith(
-      templates: positionUpdatedList.whereType<PlayableTemplate>().toList(),
+      templates: positionUpdatedList.whereType<PlayerChoiceTemplate>().toList(),
     );
   }
 
@@ -157,7 +157,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       return;
     }
 
-    final stoppedList = PlayableListConverter.getStoppedOrNull(
+    final stoppedList = PlayerChoiceConverter.getStoppedOrNull(
       originalList: templates,
     );
     if (stoppedList == null) {
@@ -165,7 +165,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     }
 
     state = state.copyWith(
-      templates: stoppedList.whereType<PlayableTemplate>().toList(),
+      templates: stoppedList.whereType<PlayerChoiceTemplate>().toList(),
     );
   }
 }

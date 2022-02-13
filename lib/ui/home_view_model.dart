@@ -9,7 +9,7 @@ import 'package:meow_music/data/usecase/piece_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/model/play_status.dart';
-import 'package:meow_music/ui/model/playable.dart';
+import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -44,17 +44,17 @@ class HomeViewModel extends StateNotifier<HomeState> {
     super.dispose();
   }
 
-  Future<void> play({required Playable piece}) async {
+  Future<void> play({required PlayerChoicePiece piece}) async {
     final pieces = state.pieces;
     if (pieces == null) {
       return;
     }
 
     final stoppedList =
-        PlayableListConverter.getStoppedOrNull(originalList: pieces) ??
+        PlayerChoiceConverter.getStoppedOrNull(originalList: pieces) ??
             [...pieces];
 
-    final playingList = PlayableListConverter.getTargetReplaced(
+    final playingList = PlayerChoiceConverter.getTargetReplaced(
       originalList: stoppedList,
       targetId: piece.id,
       newPlayable:
@@ -62,25 +62,25 @@ class HomeViewModel extends StateNotifier<HomeState> {
     );
 
     state = state.copyWith(
-      pieces: playingList.whereType<PlayablePiece>().toList(),
+      pieces: playingList.whereType<PlayerChoicePiece>().toList(),
     );
 
     await _player.play(piece.url);
   }
 
-  Future<void> stop({required PlayablePiece piece}) async {
+  Future<void> stop({required PlayerChoicePiece piece}) async {
     final pieces = state.pieces;
     if (pieces == null) {
       return;
     }
 
-    final stoppedList = PlayableListConverter.getTargetStopped(
+    final stoppedList = PlayerChoiceConverter.getTargetStopped(
       originalList: pieces,
       targetId: piece.id,
     );
 
     state = state.copyWith(
-      pieces: stoppedList.whereType<PlayablePiece>().toList(),
+      pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
     );
 
     await _player.stop();
@@ -112,11 +112,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
 
     final stoppedList =
-        PlayableListConverter.getStoppedOrNull(originalList: pieces);
+        PlayerChoiceConverter.getStoppedOrNull(originalList: pieces);
 
     if (stoppedList != null) {
       state = state.copyWith(
-        pieces: stoppedList.whereType<PlayablePiece>().toList(),
+        pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
       );
     }
 
@@ -128,12 +128,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
     _piecesSubscription = piecesStream.listen((pieces) {
       final playablePieces = pieces
           .map(
-            (piece) => Playable.piece(
+            (piece) => PlayerChoicePiece(
               status: const PlayStatus.stop(),
               piece: piece,
             ),
           )
-          .whereType<PlayablePiece>()
           .toList();
       state = state.copyWith(pieces: playablePieces);
     });
@@ -166,7 +165,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
       return;
     }
 
-    final positionUpdatedList = PlayableListConverter.getPositionUpdatedOrNull(
+    final positionUpdatedList = PlayerChoiceConverter.getPositionUpdatedOrNull(
       originalList: pieces,
       position: positionRatio,
     );
@@ -175,7 +174,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
 
     state = state.copyWith(
-      pieces: positionUpdatedList.whereType<PlayablePiece>().toList(),
+      pieces: positionUpdatedList.whereType<PlayerChoicePiece>().toList(),
     );
   }
 
@@ -185,7 +184,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
       return;
     }
 
-    final stoppedList = PlayableListConverter.getStoppedOrNull(
+    final stoppedList = PlayerChoiceConverter.getStoppedOrNull(
       originalList: pieces,
     );
     if (stoppedList == null) {
@@ -193,7 +192,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
 
     state = state.copyWith(
-      pieces: stoppedList.whereType<PlayablePiece>().toList(),
+      pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
     );
   }
 }

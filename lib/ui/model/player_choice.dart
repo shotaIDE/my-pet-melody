@@ -3,22 +3,22 @@ import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 
-part 'playable.freezed.dart';
+part 'player_choice.freezed.dart';
 
 @freezed
-class Playable with _$Playable {
-  const factory Playable.piece({
+class PlayerChoice with _$PlayerChoice {
+  const factory PlayerChoice.piece({
     required PlayStatus status,
     required Piece piece,
-  }) = PlayablePiece;
+  }) = PlayerChoicePiece;
 
-  const factory Playable.template({
+  const factory PlayerChoice.template({
     required PlayStatus status,
     required Template template,
-  }) = PlayableTemplate;
+  }) = PlayerChoiceTemplate;
 }
 
-extension PlayableGetter on Playable {
+extension PlayerChoiceGetter on PlayerChoice {
   String get id {
     return when(
       piece: (_, piece) => piece.id,
@@ -34,9 +34,9 @@ extension PlayableGetter on Playable {
   }
 }
 
-extension PlayableListConverter on Playable {
-  static List<Playable>? getStoppedOrNull({
-    required List<Playable> originalList,
+extension PlayerChoiceConverter on PlayerChoice {
+  static List<PlayerChoice>? getStoppedOrNull({
+    required List<PlayerChoice> originalList,
   }) {
     final playing = originalList.firstWhereOrNull(
       (playable) =>
@@ -53,8 +53,8 @@ extension PlayableListConverter on Playable {
     );
   }
 
-  static List<Playable>? getPositionUpdatedOrNull({
-    required List<Playable> originalList,
+  static List<PlayerChoice>? getPositionUpdatedOrNull({
+    required List<PlayerChoice> originalList,
     required double position,
   }) {
     final playing = originalList.firstWhereOrNull(
@@ -76,8 +76,8 @@ extension PlayableListConverter on Playable {
     );
   }
 
-  static List<Playable> getTargetStopped({
-    required List<Playable> originalList,
+  static List<PlayerChoice> getTargetStopped({
+    required List<PlayerChoice> originalList,
     required String targetId,
   }) {
     final target = originalList.firstWhere((piece) => piece.id == targetId);
@@ -91,10 +91,10 @@ extension PlayableListConverter on Playable {
     );
   }
 
-  static List<Playable> getTargetReplaced({
-    required List<Playable> originalList,
+  static List<PlayerChoice> getTargetReplaced({
+    required List<PlayerChoice> originalList,
     required String targetId,
-    required Playable newPlayable,
+    required PlayerChoice newPlayable,
   }) {
     final index = originalList.indexWhere((piece) => piece.id == targetId);
 
