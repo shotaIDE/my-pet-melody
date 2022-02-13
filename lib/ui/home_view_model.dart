@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
@@ -18,6 +19,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   final PieceUseCase _pieceUseCase;
+  final _player = AudioPlayer();
 
   StreamSubscription<List<Piece>>? _subscription;
 
@@ -26,6 +28,39 @@ class HomeViewModel extends StateNotifier<HomeState> {
     await _subscription?.cancel();
 
     super.dispose();
+  }
+
+  Future<void> play({required PlayablePiece piece}) async {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final index = pieces.indexOf(piece);
+
+    final replacedPiece =
+        piece.copyWith(playStatus: const PlayStatus.playing(seek: 0));
+    pieces[index] = replacedPiece;
+
+    state = state.copyWith(pieces: pieces);
+
+    await _player.play(piece.piece.url);
+  }
+
+  Future<void> stop({required PlayablePiece piece}) async {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final index = pieces.indexOf(piece);
+
+    final replacedPiece = piece.copyWith(playStatus: const PlayStatus.stop());
+    pieces[index] = replacedPiece;
+
+    state = state.copyWith(pieces: pieces);
+
+    await _player.stop();
   }
 
   Future<void> share({required Piece piece}) async {
@@ -50,7 +85,15 @@ class HomeViewModel extends StateNotifier<HomeState> {
   Future<void> _setup() async {
     final piecesStream = await _pieceUseCase.getPiecesStream();
     _subscription = piecesStream.listen((pieces) {
-      state = state.copyWith(pieces: pieces);
+      final playablePieces = pieces
+          .map(
+            (piece) => PlayablePiece(
+              piece: piece,
+              playStatus: const PlayStatus.stop(),
+            ),
+          )
+          .toList();
+      state = state.copyWith(pieces: playablePieces);
     });
   }
 }

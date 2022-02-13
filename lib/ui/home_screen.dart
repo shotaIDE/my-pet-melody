@@ -1,9 +1,7 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
-import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -66,11 +64,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       if (pieces.isNotEmpty) {
         body = ListView.separated(
           itemBuilder: (_, index) {
-            final piece = pieces[index];
+            final playablePiece = pieces[index];
+            final playStatus = playablePiece.playStatus;
+            final leading = playStatus.when(
+              stop: () => const Icon(Icons.play_arrow),
+              playing: (_) => const Icon(Icons.stop),
+            );
+
+            final piece = playablePiece.piece;
             final status = piece.status;
             final dateFormatter = DateFormat.yMd('ja');
             final timeFormatter = DateFormat.Hm('ja');
-
             final subtitleLabel = status.when(
               generating: (submitted) => '${dateFormatter.format(submitted)} '
                   '${timeFormatter.format(submitted)}   '
@@ -79,7 +83,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   '${timeFormatter.format(generated)}',
             );
 
-            return ListTile(
+            final void Function()? onTap;
+            onTap = status.when(
+              generating: (_) => null,
+              generated: (_) => playStatus.when(
+                stop: () => () => ref
+                    .read(widget.viewModel.notifier)
+                    .play(piece: playablePiece),
+                playing: (_) => () => ref
+                    .read(widget.viewModel.notifier)
+                    .stop(piece: playablePiece),
+              ),
+            );
+
+            final tile = ListTile(
+              leading: leading,
               title: Text(piece.name),
               subtitle: Text(subtitleLabel),
               trailing: IconButton(
@@ -91,9 +109,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 generating: (_) => Colors.grey[300],
                 generated: (_) => null,
               ),
-              onTap: status.when(
-                generating: (_) => null,
-                generated: (_) => () => _play(piece: piece),
+              onTap: onTap,
+            );
+
+            return playStatus.when(
+              stop: () => tile,
+              playing: (_) => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  tile,
+                  const LinearProgressIndicator(),
+                ],
               ),
             );
           },
@@ -142,10 +168,5 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           )
         : scaffold;
-  }
-
-  Future<void> _play({required Piece piece}) async {
-    final player = AudioPlayer();
-    await player.play(piece.url);
   }
 }
