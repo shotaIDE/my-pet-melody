@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,7 +46,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final state = ref.watch(widget.viewModel);
 
     final title = Text(
-      '鳴き声を3つ\n設定しよう',
+      '主役となる鳴き声を\n3つ設定しよう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline5,
     );
@@ -58,59 +57,76 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       title: Text(template.name),
       onTap: () {},
     );
-    final description = Text(
-      'お手元でトリミングした鳴き声をアップロードしてください',
-      style: Theme.of(context).textTheme.bodyText1,
+    final description = RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: 'お手元で',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          TextSpan(
+            text: 'トリミング',
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: 'した鳴き声を設定してください。',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ],
+      ),
     );
+
     final trimmingButton =
-        TextButton(onPressed: () {}, child: const Text('トリミングの方法を見る'));
+        TextButton(onPressed: () {}, child: const Text('トリミングの方法を確認する'));
 
     final sounds = state.sounds;
-    final soundsList = ReorderableListView(
+    final soundsList = ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      children: sounds.mapIndexed(
-        (index, sound) {
-          if (sound == null) {
-            return ListTile(
-              key: Key('reorderable_list_$index'),
-              leading: const Icon(Icons.drag_handle),
-              title: const Text(
-                '鳴き声をアップロードする',
-                style: TextStyle(color: Colors.grey),
-                overflow: TextOverflow.ellipsis,
-              ),
-              onTap: () => _selectSound(index: index),
-            );
-          }
-
-          return sound.when(
-            uploading: (localFileName) => ListTile(
-              key: Key('reorderable_list_$index'),
-              leading: const Icon(Icons.drag_handle),
-              title: Text(
-                localFileName,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: const CircularProgressIndicator(),
+      itemCount: sounds.length,
+      itemBuilder: (context, index) {
+        final sound = sounds[index];
+        if (sound == null) {
+          return ListTile(
+            key: Key('reorderable_list_$index'),
+            title: const Text(
+              '鳴き声を設定する',
+              style: TextStyle(color: Colors.grey),
+              overflow: TextOverflow.ellipsis,
             ),
-            uploaded: (localFileName, remoteFileName) => ListTile(
-              key: Key('reorderable_list_$index'),
-              leading: const Icon(Icons.drag_handle),
-              title: Text(
-                localFileName,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () =>
-                    ref.read(widget.viewModel.notifier).delete(index: index),
-              ),
-            ),
+            onTap: () => _selectSound(index: index),
           );
-        },
-      ).toList(),
-      onReorder: (src, dst) {},
+        }
+
+        return sound.when(
+          uploading: (localFileName) => ListTile(
+            key: Key('reorderable_list_$index'),
+            leading: const Icon(Icons.drag_handle),
+            title: Text(
+              localFileName,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: const CircularProgressIndicator(),
+          ),
+          uploaded: (localFileName, remoteFileName) => ListTile(
+            key: Key('reorderable_list_$index'),
+            leading: const Icon(Icons.drag_handle),
+            title: Text(
+              localFileName,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () =>
+                  ref.read(widget.viewModel.notifier).delete(index: index),
+            ),
+          ),
+        );
+      },
+      separatorBuilder: (_, __) => const Divider(height: 0),
     );
 
     final body = SingleChildScrollView(
@@ -141,7 +157,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             width: MediaQuery.of(context).size.width * 0.8,
             child: ElevatedButton(
               onPressed: state.isAvailableSubmission ? _submit : null,
-              child: const Text('作品を提出する'),
+              child: const Text('製作を依頼する'),
             ),
           ),
         ),
