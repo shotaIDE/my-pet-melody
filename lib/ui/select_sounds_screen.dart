@@ -216,6 +216,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
   Future<void> _submit() async {
     await ref.read(widget.viewModel.notifier).submit();
 
+    if (!mounted) {
+      return;
+    }
+
     Navigator.popUntil(
       context,
       (route) => route.settings.name == SelectTemplateScreen.name,

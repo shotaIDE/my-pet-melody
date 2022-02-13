@@ -33,7 +33,11 @@ class _RootAppState extends ConsumerState<RootApp> {
       return Container();
     }
 
-    final home = shouldLaunchOnboarding ? OnboardingScreen() : HomeScreen();
+    final home = shouldLaunchOnboarding
+        ? OnboardingScreen()
+        : HomeScreen(
+            shouldStartCreationAutomatically: false,
+          );
 
     return MaterialApp(
       title: 'Meow Music',

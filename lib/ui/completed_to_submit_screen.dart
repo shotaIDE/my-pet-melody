@@ -114,6 +114,10 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
   Future<void> _enablePushNotification() async {
     await ref.read(widget.viewModel.notifier).enablePushNotification();
 
+    if (!mounted) {
+      return;
+    }
+
     Navigator.pop(context);
   }
 

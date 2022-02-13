@@ -16,14 +16,23 @@ final homeViewModelProvider =
 );
 
 class HomeScreen extends ConsumerStatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({
+    required this.shouldStartCreationAutomatically,
+    Key? key,
+  }) : super(key: key);
 
   static const name = 'HomeScreen';
 
+  final bool shouldStartCreationAutomatically;
   final viewModel = homeViewModelProvider;
 
-  static MaterialPageRoute<HomeScreen> route() => MaterialPageRoute<HomeScreen>(
-        builder: (_) => HomeScreen(),
+  static MaterialPageRoute<HomeScreen> route({
+    required bool shouldStartCreationAutomatically,
+  }) =>
+      MaterialPageRoute<HomeScreen>(
+        builder: (_) => HomeScreen(
+          shouldStartCreationAutomatically: shouldStartCreationAutomatically,
+        ),
         settings: const RouteSettings(name: name),
       );
 
@@ -32,6 +41,17 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    if (!widget.shouldStartCreationAutomatically) {
+      return;
+    }
+
+    Navigator.push<void>(context, SelectTemplateScreen.route());
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);

@@ -5,7 +5,6 @@ import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/onboarding_state.dart';
 import 'package:meow_music/ui/onboarding_view_model.dart';
-import 'package:meow_music/ui/select_template_screen.dart';
 
 final onboardingViewModelProvider =
     StateNotifierProvider.autoDispose<OnboardingViewModel, OnboardingState>(
@@ -71,10 +70,13 @@ class _HomeScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _onDone() async {
     await ref.read(widget.viewModel.notifier).onDone();
 
+    if (!mounted) {
+      return;
+    }
+
     await Navigator.pushReplacement<HomeScreen, void>(
       context,
-      HomeScreen.route(),
+      HomeScreen.route(shouldStartCreationAutomatically: true),
     );
-    await Navigator.push<void>(context, SelectTemplateScreen.route());
   }
 }
