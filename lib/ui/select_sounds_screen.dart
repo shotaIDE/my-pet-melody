@@ -60,7 +60,12 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
       title: Text(template.template.name),
       tileColor: Colors.grey[300],
-      onTap: () => ref.read(widget.viewModel.notifier).play(choice: template),
+      onTap: template.status.map(
+        stop: (_) =>
+            () => ref.read(widget.viewModel.notifier).play(choice: template),
+        playing: (_) =>
+            () => ref.read(widget.viewModel.notifier).stop(choice: template),
+      ),
     );
     final templateControl = Column(
       mainAxisSize: MainAxisSize.min,
@@ -117,9 +122,14 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       itemBuilder: (context, index) {
         final sound = sounds[index];
 
-        return sound.sound.when(
+        final leading = sound.status.map(
+          stop: (_) => const Icon(Icons.play_arrow),
+          playing: (_) => const Icon(Icons.stop),
+        );
+
+        final tile = sound.sound.when(
           none: (_) => ListTile(
-            key: Key('reorderable_list_$index'),
+            leading: const Icon(Icons.source_rounded),
             title: const Text(
               '鳴き声を設定する',
               style: TextStyle(color: Colors.grey),
@@ -128,8 +138,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             onTap: () => _selectSound(target: sound),
           ),
           uploading: (_, localFileName) => ListTile(
-            key: Key('reorderable_list_$index'),
-            leading: const Icon(Icons.drag_handle),
+            leading: leading,
             title: Text(
               localFileName,
               overflow: TextOverflow.ellipsis,
@@ -137,8 +146,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             trailing: const CircularProgressIndicator(),
           ),
           uploaded: (_, localFileName, remoteFileName) => ListTile(
-            key: Key('reorderable_list_$index'),
-            leading: const Icon(Icons.drag_handle),
+            leading: leading,
             title: Text(
               localFileName,
               overflow: TextOverflow.ellipsis,
@@ -148,6 +156,34 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               onPressed: () =>
                   ref.read(widget.viewModel.notifier).delete(target: sound),
             ),
+            onTap: sound.status.map(
+              stop: (_) =>
+                  () => ref.read(widget.viewModel.notifier).play(choice: sound),
+              playing: (_) =>
+                  () => ref.read(widget.viewModel.notifier).stop(choice: sound),
+            ),
+          ),
+        );
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: sound.status.when(
+            stop: () => [
+              tile,
+              const Visibility(
+                visible: false,
+                maintainState: true,
+                maintainAnimation: true,
+                maintainSize: true,
+                child: LinearProgressIndicator(),
+              ),
+            ],
+            playing: (position) => [
+              templateTile,
+              LinearProgressIndicator(
+                value: position,
+              )
+            ],
           ),
         );
       },

@@ -159,12 +159,12 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await _player.play(url);
   }
 
-  Future<void> stop({required PlayerChoiceTemplate template}) async {
+  Future<void> stop({required PlayerChoice choice}) async {
     final choices = _getPlayerChoices();
 
     final stoppedList = PlayerChoiceConverter.getTargetStopped(
       originalList: choices,
-      targetId: template.id,
+      targetId: choice.id,
     );
 
     _setPlayerChoices(stoppedList);
