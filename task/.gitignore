@@ -1,0 +1,9 @@
+/env
+/static
+!/static/.gitkeep
+/static/exports
+!/static/exports/.gitkeep
+/static/templates
+!/static/templates/.gitkeep
+/static/uploads
+!/static/uploads/.gitkeep

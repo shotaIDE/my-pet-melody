@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meow_music/my_app.dart';
+import 'package:meow_music/root_app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (tester) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(RootApp());
 
     expect(find.text('0'), findsOneWidget);
     expect(find.text('1'), findsNothing);

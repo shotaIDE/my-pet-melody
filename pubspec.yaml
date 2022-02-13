@@ -15,6 +15,19 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  freezed_annotation: ^1.1.0
+  rxdart: ^0.27.3
+  flutter_riverpod: ^1.0.3
+  intl: ^0.17.0
+  introduction_screen: ^2.1.0
+  shared_preferences: ^2.0.13
+  dio: ^4.0.4
+  file_picker: ^4.3.3
+  path: ^1.8.0
+  collection: ^1.15.0
+  audioplayers: ^0.20.1
+  share_plus: ^3.0.4
+  path_provider: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -22,6 +35,9 @@ dev_dependencies:
 
   flutter_lints: ^1.0.0
   dart_code_metrics: ^4.10.1
+  build_runner: ^2.1.7
+  freezed: ^1.1.1
+  json_serializable: ^6.1.4
 
 flutter:
   uses-material-design: true

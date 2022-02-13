@@ -1,0 +1,12 @@
+{
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll": true,
+            "source.organizeImports": true,
+        },
+    },
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true,
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.pylintEnabled": false,
+}
