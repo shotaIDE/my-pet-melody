@@ -15,7 +15,7 @@ class SubmissionRepository {
       const Template(
         id: 'happy_birthday',
         name: 'Happy Birthday',
-        url: 'about:blank',
+        url: 'http://127.0.0.1:5000/static/templates/happy_birthday.wav',
       ),
     ];
   }

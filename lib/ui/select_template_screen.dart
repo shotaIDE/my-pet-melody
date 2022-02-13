@@ -35,7 +35,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     final templates = state.templates;
 
     final title = Text(
-      'テンプレート曲を\n設定しよう',
+      '鳴き声を入れる\nBGMを選択しよう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline5,
     );
@@ -44,19 +44,45 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
         ? ListView.separated(
             shrinkWrap: true,
             itemBuilder: (_, index) {
-              final template = templates[index];
+              final playableTemplate = templates[index];
+              final template = playableTemplate.template;
+              final status = playableTemplate.status;
 
-              return ListTile(
-                leading: Container(
-                  color: Colors.blue,
-                  alignment: Alignment.center,
+              final onTapLeading = status.map(
+                stop: (_) => () => ref
+                    .read(widget.viewModel.notifier)
+                    .play(piece: playableTemplate),
+                playing: (_) => () => ref
+                    .read(widget.viewModel.notifier)
+                    .stop(piece: playableTemplate),
+              );
+
+              final leading = InkWell(
+                onTap: onTapLeading,
+                child: Container(
+                  color: Colors.grey,
                   width: 80,
                   height: 80,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.play_arrow_rounded),
+                  child: Stack(
+                    children: status.when(
+                      stop: () => [
+                        const Center(child: Icon(Icons.play_arrow)),
+                      ],
+                      playing: (position) => [
+                        Center(
+                          child: CircularProgressIndicator(
+                            value: position,
+                          ),
+                        ),
+                        const Center(child: Icon(Icons.stop)),
+                      ],
+                    ),
                   ),
                 ),
+              );
+
+              return ListTile(
+                leading: leading,
                 title: Text(template.name),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () => Navigator.push<void>(
