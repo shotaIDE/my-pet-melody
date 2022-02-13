@@ -34,28 +34,46 @@ extension PlayableGetter on Playable {
   }
 }
 
-extension PlayableConverter on Playable {
-  static List<Playable> getReplacedPlayableListToStopped({
+extension PlayableListConverter on Playable {
+  static List<Playable>? getStoppedOrNull({
     required List<Playable> originalList,
-    required String id,
   }) {
-    final target = originalList.firstWhere((piece) => piece.id == id);
+    final playing = originalList.firstWhereOrNull(
+      (playable) =>
+          playable.status.map(stop: (_) => false, playing: (_) => true),
+    );
+
+    if (playing == null) {
+      return null;
+    }
+
+    return getTargetStopped(
+      originalList: originalList,
+      targetId: playing.id,
+    );
+  }
+
+  static List<Playable> getTargetStopped({
+    required List<Playable> originalList,
+    required String targetId,
+  }) {
+    final target = originalList.firstWhere((piece) => piece.id == targetId);
 
     final newPlayable = target.copyWith(status: const PlayStatus.stop());
 
-    return getReplacedPlayableList(
+    return getTargetReplaced(
       originalList: originalList,
-      id: id,
+      targetId: targetId,
       newPlayable: newPlayable,
     );
   }
 
-  static List<Playable> getReplacedPlayableList({
+  static List<Playable> getTargetReplaced({
     required List<Playable> originalList,
-    required String id,
+    required String targetId,
     required Playable newPlayable,
   }) {
-    final index = originalList.indexWhere((piece) => piece.id == id);
+    final index = originalList.indexWhere((piece) => piece.id == targetId);
 
     final list = [...originalList];
 

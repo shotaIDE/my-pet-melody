@@ -162,8 +162,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: body,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () =>
-            Navigator.push<void>(context, SelectTemplateScreen.route()),
+        onPressed: () async {
+          await ref.read(widget.viewModel.notifier).beforeHideScreen();
+
+          if (!mounted) {
+            return;
+          }
+
+          await Navigator.push<void>(context, SelectTemplateScreen.route());
+        },
       ),
     );
 

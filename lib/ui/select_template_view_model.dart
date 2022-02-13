@@ -43,30 +43,23 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       return;
     }
 
-    final currentPlayingPiece = templates.firstWhereOrNull(
-      (playablePiece) =>
-          playablePiece.status.map(stop: (_) => false, playing: (_) => true),
-    );
-    final List<Playable> stoppedTemplates;
-    if (currentPlayingPiece != null) {
-      stoppedTemplates = PlayableConverter.getReplacedPlayableListToStopped(
-        originalList: templates,
-        id: currentPlayingPiece.id,
-      );
-    } else {
-      stoppedTemplates = [...templates];
-    }
+    final stoppedList = PlayableListConverter.getStoppedOrNull(
+          originalList: templates,
+        ) ??
+        [...templates];
 
-    final playingTemplates = PlayableConverter.getReplacedPlayableList(
-      originalList: stoppedTemplates,
-      id: template.id,
+    final playingList = PlayableListConverter.getTargetReplaced(
+      originalList: stoppedList,
+      targetId: template.id,
       newPlayable:
           template.copyWith(status: const PlayStatus.playing(position: 0)),
-    ).whereType<PlayableTemplate>().toList();
+    );
 
-    state = state.copyWith(templates: playingTemplates);
+    state = state.copyWith(
+      templates: playingList.whereType<PlayableTemplate>().toList(),
+    );
 
-    await _player.play(template.template.url);
+    await _player.play(template.url);
   }
 
   Future<void> stop({required PlayableTemplate template}) async {
@@ -75,12 +68,14 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       return;
     }
 
-    final stoppedTemplates = PlayableConverter.getReplacedPlayableListToStopped(
+    final stoppedList = PlayableListConverter.getTargetStopped(
       originalList: templates,
-      id: template.id,
-    ).whereType<PlayableTemplate>().toList();
+      targetId: template.id,
+    );
 
-    state = state.copyWith(templates: stoppedTemplates);
+    state = state.copyWith(
+      templates: stoppedList.whereType<PlayableTemplate>().toList(),
+    );
 
     await _player.stop();
   }
@@ -137,13 +132,15 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       status: PlayStatus.playing(position: positionRatio),
     );
 
-    final positionUpdatedTemplates = PlayableConverter.getReplacedPlayableList(
+    final positionUpdatedList = PlayableListConverter.getTargetReplaced(
       originalList: templates,
-      id: currentPlayingTemplate.id,
+      targetId: currentPlayingTemplate.id,
       newPlayable: newTemplate,
-    ).whereType<PlayableTemplate>().toList();
+    );
 
-    state = state.copyWith(templates: positionUpdatedTemplates);
+    state = state.copyWith(
+      templates: positionUpdatedList.whereType<PlayableTemplate>().toList(),
+    );
   }
 
   void _onAudioFinished() {
@@ -152,19 +149,15 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       return;
     }
 
-    final currentPlayingTemplate = templates.firstWhereOrNull(
-      (playablePiece) =>
-          playablePiece.status.map(stop: (_) => false, playing: (_) => true),
+    final stoppedList = PlayableListConverter.getStoppedOrNull(
+      originalList: templates,
     );
-    if (currentPlayingTemplate == null) {
+    if (stoppedList == null) {
       return;
     }
 
-    final stoppedTemplates = PlayableConverter.getReplacedPlayableListToStopped(
-      originalList: templates,
-      id: currentPlayingTemplate.id,
-    ).whereType<PlayableTemplate>().toList();
-
-    state = state.copyWith(templates: stoppedTemplates);
+    state = state.copyWith(
+      templates: stoppedList.whereType<PlayableTemplate>().toList(),
+    );
   }
 }
