@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
@@ -31,16 +32,30 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<void> play({required PlayablePiece piece}) async {
-    final pieces = state.pieces;
-    if (pieces == null) {
+    final originalPieces = state.pieces;
+    if (originalPieces == null) {
       return;
+    }
+
+    final currentPlayingPiece = originalPieces.firstWhereOrNull(
+      (playablePiece) => playablePiece.playStatus
+          .map(stop: (_) => false, playing: (_) => true),
+    );
+    final List<PlayablePiece> pieces;
+    if (currentPlayingPiece != null) {
+      pieces = _replaceStatusToStop(
+        pieces: originalPieces,
+        target: currentPlayingPiece,
+      );
+    } else {
+      pieces = originalPieces;
     }
 
     final index = pieces.indexOf(piece);
 
-    final replacedPiece =
+    final replaced =
         piece.copyWith(playStatus: const PlayStatus.playing(seek: 0));
-    pieces[index] = replacedPiece;
+    pieces[index] = replaced;
 
     state = state.copyWith(pieces: pieces);
 
@@ -53,12 +68,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
       return;
     }
 
-    final index = pieces.indexOf(piece);
+    final replaced = _replaceStatusToStop(pieces: pieces, target: piece);
 
-    final replacedPiece = piece.copyWith(playStatus: const PlayStatus.stop());
-    pieces[index] = replacedPiece;
-
-    state = state.copyWith(pieces: pieces);
+    state = state.copyWith(pieces: replaced);
 
     await _player.stop();
   }
@@ -95,5 +107,20 @@ class HomeViewModel extends StateNotifier<HomeState> {
           .toList();
       state = state.copyWith(pieces: playablePieces);
     });
+  }
+
+  List<PlayablePiece> _replaceStatusToStop({
+    required List<PlayablePiece> pieces,
+    required PlayablePiece target,
+  }) {
+    final index = pieces.indexOf(target);
+
+    final cloned = [...pieces];
+
+    final replaced = target.copyWith(playStatus: const PlayStatus.stop());
+
+    cloned[index] = replaced;
+
+    return cloned;
   }
 }
