@@ -54,7 +54,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                     .play(template: playableTemplate),
                 playing: (_) => () => ref
                     .read(widget.viewModel.notifier)
-                    .stop(piece: playableTemplate),
+                    .stop(template: playableTemplate),
               );
 
               final leading = InkWell(

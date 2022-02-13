@@ -49,38 +49,38 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     );
     final List<Playable> stoppedTemplates;
     if (currentPlayingPiece != null) {
-      stoppedTemplates = PlayableConverter.getReplacedPlayablesToStopped(
-        originalPieces: templates,
-        id: currentPlayingPiece.template.id,
+      stoppedTemplates = PlayableConverter.getReplacedPlayableListToStopped(
+        originalList: templates,
+        id: currentPlayingPiece.id,
       );
     } else {
       stoppedTemplates = [...templates];
     }
 
-    final replacedPieces = PlayableConverter.getReplacedPlayables(
-      originalPieces: stoppedTemplates,
-      id: template.template.id,
-      newPiece:
+    final playingTemplates = PlayableConverter.getReplacedPlayableList(
+      originalList: stoppedTemplates,
+      id: template.id,
+      newPlayable:
           template.copyWith(status: const PlayStatus.playing(position: 0)),
     ).whereType<PlayableTemplate>().toList();
 
-    state = state.copyWith(templates: replacedPieces);
+    state = state.copyWith(templates: playingTemplates);
 
     await _player.play(template.template.url);
   }
 
-  Future<void> stop({required PlayableTemplate piece}) async {
-    final pieces = state.templates;
-    if (pieces == null) {
+  Future<void> stop({required PlayableTemplate template}) async {
+    final templates = state.templates;
+    if (templates == null) {
       return;
     }
 
-    final replaced = PlayableConverter.getReplacedPlayablesToStopped(
-      originalPieces: pieces,
-      id: piece.template.id,
+    final stoppedTemplates = PlayableConverter.getReplacedPlayableListToStopped(
+      originalList: templates,
+      id: template.id,
     ).whereType<PlayableTemplate>().toList();
 
-    state = state.copyWith(templates: replaced);
+    state = state.copyWith(templates: stoppedTemplates);
 
     await _player.stop();
   }
@@ -125,46 +125,46 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       return;
     }
 
-    final currentPlayingPiece = templates.firstWhereOrNull(
-      (playablePiece) =>
-          playablePiece.status.map(stop: (_) => false, playing: (_) => true),
+    final currentPlayingTemplate = templates.firstWhereOrNull(
+      (template) =>
+          template.status.map(stop: (_) => false, playing: (_) => true),
     );
-    if (currentPlayingPiece == null) {
+    if (currentPlayingTemplate == null) {
       return;
     }
 
-    final newPiece = currentPlayingPiece.copyWith(
+    final newTemplate = currentPlayingTemplate.copyWith(
       status: PlayStatus.playing(position: positionRatio),
     );
 
-    final replaced = PlayableConverter.getReplacedPlayables(
-      originalPieces: templates,
-      id: currentPlayingPiece.template.id,
-      newPiece: newPiece,
+    final positionUpdatedTemplates = PlayableConverter.getReplacedPlayableList(
+      originalList: templates,
+      id: currentPlayingTemplate.id,
+      newPlayable: newTemplate,
     ).whereType<PlayableTemplate>().toList();
 
-    state = state.copyWith(templates: replaced);
+    state = state.copyWith(templates: positionUpdatedTemplates);
   }
 
   void _onAudioFinished() {
-    final pieces = state.templates;
-    if (pieces == null) {
+    final templates = state.templates;
+    if (templates == null) {
       return;
     }
 
-    final currentPlayingPiece = pieces.firstWhereOrNull(
+    final currentPlayingTemplate = templates.firstWhereOrNull(
       (playablePiece) =>
           playablePiece.status.map(stop: (_) => false, playing: (_) => true),
     );
-    if (currentPlayingPiece == null) {
+    if (currentPlayingTemplate == null) {
       return;
     }
 
-    final replaced = PlayableConverter.getReplacedPlayablesToStopped(
-      originalPieces: pieces,
-      id: currentPlayingPiece.template.id,
+    final stoppedTemplates = PlayableConverter.getReplacedPlayableListToStopped(
+      originalList: templates,
+      id: currentPlayingTemplate.id,
     ).whereType<PlayableTemplate>().toList();
 
-    state = state.copyWith(templates: replaced);
+    state = state.copyWith(templates: stoppedTemplates);
   }
 }
