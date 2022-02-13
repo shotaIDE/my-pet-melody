@@ -54,10 +54,36 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final template = state.template;
     final templateTile = ListTile(
-      leading: const Icon(Icons.play_arrow_rounded),
+      leading: template.status.map(
+        stop: (_) => const Icon(Icons.play_arrow),
+        playing: (_) => const Icon(Icons.stop),
+      ),
       title: Text(template.template.name),
-      onTap: () {},
+      tileColor: Colors.grey[300],
+      onTap: () => ref.read(widget.viewModel.notifier).play(choice: template),
     );
+    final templateControl = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: template.status.when(
+        stop: () => [
+          templateTile,
+          const Visibility(
+            visible: false,
+            maintainState: true,
+            maintainAnimation: true,
+            maintainSize: true,
+            child: LinearProgressIndicator(),
+          ),
+        ],
+        playing: (position) => [
+          templateTile,
+          LinearProgressIndicator(
+            value: position,
+          )
+        ],
+      ),
+    );
+
     final description = RichText(
       text: TextSpan(
         children: [
@@ -132,7 +158,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          templateTile,
+          templateControl,
           Padding(
             padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
             child: description,
