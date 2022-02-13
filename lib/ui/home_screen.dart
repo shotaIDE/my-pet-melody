@@ -1,7 +1,9 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
+import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -64,7 +66,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 onTap: status.when(
                   generating: (_) => null,
-                  generated: (_) => () {},
+                  generated: (_) => () => _play(piece: piece),
                 ),
               );
             },
@@ -86,5 +88,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Navigator.push<void>(context, SelectTemplateScreen.route()),
       ),
     );
+  }
+
+  Future<void> _play({required Piece piece}) async {
+    final player = AudioPlayer();
+    final url = 'http://127.0.0.1:5000${piece.url}';
+    await player.play(url);
   }
 }

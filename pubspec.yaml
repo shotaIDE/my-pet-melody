@@ -25,6 +25,7 @@ dependencies:
   file_picker: ^4.3.3
   path: ^1.8.0
   collection: ^1.15.0
+  audioplayers: ^0.20.1
 
 dev_dependencies:
   flutter_test:
