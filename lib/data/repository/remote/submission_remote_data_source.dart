@@ -19,17 +19,23 @@ class SubmissionRemoteDataSource {
     return response?.fileName;
   }
 
-  Future<void> submit({
+  Future<FetchedPiece?> submit({
     required String userId,
     required String templateId,
     required List<String> remoteFileNames,
   }) async {
-    return _api.submit(
+    final response = await _api.submit(
       SubmitRequest(
         userId: userId,
         templateId: templateId,
         fileNames: remoteFileNames,
       ),
     );
+
+    if (response == null) {
+      return null;
+    }
+
+    return FetchedPiece(id: response.id, url: response.url);
   }
 }

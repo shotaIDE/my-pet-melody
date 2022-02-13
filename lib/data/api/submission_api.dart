@@ -23,10 +23,10 @@ class SubmissionApi {
     );
   }
 
-  Future<void> submit(SubmitRequest request) async {
+  Future<SubmitResponse?> submit(SubmitRequest request) async {
     return _dio.post(
       path: '/',
-      responseParser: (json) => null,
+      responseParser: SubmitResponse.fromJson,
       data: request.toJson(),
     );
   }
@@ -52,4 +52,23 @@ class SubmitRequest with _$SubmitRequest {
 
   factory SubmitRequest.fromJson(Map<String, dynamic> json) =>
       _$SubmitRequestFromJson(json);
+}
+
+@freezed
+class SubmitResponse with _$SubmitResponse {
+  const factory SubmitResponse({
+    required String id,
+    required String url,
+  }) = _SubmitResponse;
+
+  factory SubmitResponse.fromJson(Map<String, dynamic> json) =>
+      _$SubmitResponseFromJson(json);
+}
+
+@freezed
+class FetchedPiece with _$FetchedPiece {
+  const factory FetchedPiece({
+    required String id,
+    required String url,
+  }) = _FetchedPiece;
 }

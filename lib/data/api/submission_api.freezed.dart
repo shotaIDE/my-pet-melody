@@ -358,3 +358,319 @@ abstract class _SubmitRequest implements SubmitRequest {
   _$SubmitRequestCopyWith<_SubmitRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+SubmitResponse _$SubmitResponseFromJson(Map<String, dynamic> json) {
+  return _SubmitResponse.fromJson(json);
+}
+
+/// @nodoc
+class _$SubmitResponseTearOff {
+  const _$SubmitResponseTearOff();
+
+  _SubmitResponse call({required String id, required String url}) {
+    return _SubmitResponse(
+      id: id,
+      url: url,
+    );
+  }
+
+  SubmitResponse fromJson(Map<String, Object?> json) {
+    return SubmitResponse.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $SubmitResponse = _$SubmitResponseTearOff();
+
+/// @nodoc
+mixin _$SubmitResponse {
+  String get id => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SubmitResponseCopyWith<SubmitResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SubmitResponseCopyWith<$Res> {
+  factory $SubmitResponseCopyWith(
+          SubmitResponse value, $Res Function(SubmitResponse) then) =
+      _$SubmitResponseCopyWithImpl<$Res>;
+  $Res call({String id, String url});
+}
+
+/// @nodoc
+class _$SubmitResponseCopyWithImpl<$Res>
+    implements $SubmitResponseCopyWith<$Res> {
+  _$SubmitResponseCopyWithImpl(this._value, this._then);
+
+  final SubmitResponse _value;
+  // ignore: unused_field
+  final $Res Function(SubmitResponse) _then;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? url = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: url == freezed
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$SubmitResponseCopyWith<$Res>
+    implements $SubmitResponseCopyWith<$Res> {
+  factory _$SubmitResponseCopyWith(
+          _SubmitResponse value, $Res Function(_SubmitResponse) then) =
+      __$SubmitResponseCopyWithImpl<$Res>;
+  @override
+  $Res call({String id, String url});
+}
+
+/// @nodoc
+class __$SubmitResponseCopyWithImpl<$Res>
+    extends _$SubmitResponseCopyWithImpl<$Res>
+    implements _$SubmitResponseCopyWith<$Res> {
+  __$SubmitResponseCopyWithImpl(
+      _SubmitResponse _value, $Res Function(_SubmitResponse) _then)
+      : super(_value, (v) => _then(v as _SubmitResponse));
+
+  @override
+  _SubmitResponse get _value => super._value as _SubmitResponse;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? url = freezed,
+  }) {
+    return _then(_SubmitResponse(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: url == freezed
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_SubmitResponse implements _SubmitResponse {
+  const _$_SubmitResponse({required this.id, required this.url});
+
+  factory _$_SubmitResponse.fromJson(Map<String, dynamic> json) =>
+      _$$_SubmitResponseFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String url;
+
+  @override
+  String toString() {
+    return 'SubmitResponse(id: $id, url: $url)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SubmitResponse &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.url, url));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(url));
+
+  @JsonKey(ignore: true)
+  @override
+  _$SubmitResponseCopyWith<_SubmitResponse> get copyWith =>
+      __$SubmitResponseCopyWithImpl<_SubmitResponse>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_SubmitResponseToJson(this);
+  }
+}
+
+abstract class _SubmitResponse implements SubmitResponse {
+  const factory _SubmitResponse({required String id, required String url}) =
+      _$_SubmitResponse;
+
+  factory _SubmitResponse.fromJson(Map<String, dynamic> json) =
+      _$_SubmitResponse.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get url;
+  @override
+  @JsonKey(ignore: true)
+  _$SubmitResponseCopyWith<_SubmitResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+class _$FetchedPieceTearOff {
+  const _$FetchedPieceTearOff();
+
+  _FetchedPiece call({required String id, required String url}) {
+    return _FetchedPiece(
+      id: id,
+      url: url,
+    );
+  }
+}
+
+/// @nodoc
+const $FetchedPiece = _$FetchedPieceTearOff();
+
+/// @nodoc
+mixin _$FetchedPiece {
+  String get id => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $FetchedPieceCopyWith<FetchedPiece> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FetchedPieceCopyWith<$Res> {
+  factory $FetchedPieceCopyWith(
+          FetchedPiece value, $Res Function(FetchedPiece) then) =
+      _$FetchedPieceCopyWithImpl<$Res>;
+  $Res call({String id, String url});
+}
+
+/// @nodoc
+class _$FetchedPieceCopyWithImpl<$Res> implements $FetchedPieceCopyWith<$Res> {
+  _$FetchedPieceCopyWithImpl(this._value, this._then);
+
+  final FetchedPiece _value;
+  // ignore: unused_field
+  final $Res Function(FetchedPiece) _then;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? url = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: url == freezed
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$FetchedPieceCopyWith<$Res>
+    implements $FetchedPieceCopyWith<$Res> {
+  factory _$FetchedPieceCopyWith(
+          _FetchedPiece value, $Res Function(_FetchedPiece) then) =
+      __$FetchedPieceCopyWithImpl<$Res>;
+  @override
+  $Res call({String id, String url});
+}
+
+/// @nodoc
+class __$FetchedPieceCopyWithImpl<$Res> extends _$FetchedPieceCopyWithImpl<$Res>
+    implements _$FetchedPieceCopyWith<$Res> {
+  __$FetchedPieceCopyWithImpl(
+      _FetchedPiece _value, $Res Function(_FetchedPiece) _then)
+      : super(_value, (v) => _then(v as _FetchedPiece));
+
+  @override
+  _FetchedPiece get _value => super._value as _FetchedPiece;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? url = freezed,
+  }) {
+    return _then(_FetchedPiece(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: url == freezed
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_FetchedPiece implements _FetchedPiece {
+  const _$_FetchedPiece({required this.id, required this.url});
+
+  @override
+  final String id;
+  @override
+  final String url;
+
+  @override
+  String toString() {
+    return 'FetchedPiece(id: $id, url: $url)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FetchedPiece &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.url, url));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(url));
+
+  @JsonKey(ignore: true)
+  @override
+  _$FetchedPieceCopyWith<_FetchedPiece> get copyWith =>
+      __$FetchedPieceCopyWithImpl<_FetchedPiece>(this, _$identity);
+}
+
+abstract class _FetchedPiece implements FetchedPiece {
+  const factory _FetchedPiece({required String id, required String url}) =
+      _$_FetchedPiece;
+
+  @override
+  String get id;
+  @override
+  String get url;
+  @override
+  @JsonKey(ignore: true)
+  _$FetchedPieceCopyWith<_FetchedPiece> get copyWith =>
+      throw _privateConstructorUsedError;
+}

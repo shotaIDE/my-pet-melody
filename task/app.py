@@ -57,6 +57,7 @@ def hello_world():
     normalized_overlayed.export(export_file_path)
 
     return {
+        'id': export_file_name_base,
         'url': export_file_path,
     }
 

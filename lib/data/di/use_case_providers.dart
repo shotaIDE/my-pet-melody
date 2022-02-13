@@ -13,6 +13,7 @@ final pieceUseCaseProvider = Provider(
 final submissionUseCaseProvider = Provider(
   (ref) => SubmissionUseCase(
     repository: ref.watch(submissionRepositoryProvider),
+    pieceRepository: ref.watch(pieceRepositoryProvider),
   ),
 );
 

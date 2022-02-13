@@ -30,3 +30,15 @@ Map<String, dynamic> _$$_SubmitRequestToJson(_$_SubmitRequest instance) =>
       'templateId': instance.templateId,
       'fileNames': instance.fileNames,
     };
+
+_$_SubmitResponse _$$_SubmitResponseFromJson(Map<String, dynamic> json) =>
+    _$_SubmitResponse(
+      id: json['id'] as String,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$$_SubmitResponseToJson(_$_SubmitResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'url': instance.url,
+    };

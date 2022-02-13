@@ -77,7 +77,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
         .toList();
 
     await _submissionUseCase.submit(
-      templateId: state.template.id,
+      template: state.template,
       remoteFileNames: remoteFileNames,
     );
 

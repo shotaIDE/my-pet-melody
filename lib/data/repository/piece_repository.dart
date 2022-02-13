@@ -29,4 +29,10 @@ class PieceRepository {
   Stream<List<Piece>> getPiecesStream() {
     return _pieces.stream;
   }
+
+  Future<void> addPiece(Piece piece) async {
+    final pieces = _pieces.value..add(piece);
+
+    _pieces.add(pieces);
+  }
 }
