@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/data/model/piece_status.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/repository/piece_repository.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
@@ -45,26 +44,35 @@ class SubmissionUseCase {
       return;
     }
 
-    final piece = Piece(
+    final generating = PieceGenerating(
       id: generated.id,
       name: template.name,
-      status: PieceStatus.generating(submitted: DateTime.now()),
-      url: generated.url,
+      submittedAt: DateTime.now(),
     );
 
-    unawaited(_setTimerToNotifyCompletingToGenerate(generating: piece));
+    unawaited(
+      _setTimerToNotifyCompletingToGenerate(
+        generating: generating,
+        url: generated.url,
+      ),
+    );
   }
 
   Future<void> _setTimerToNotifyCompletingToGenerate({
-    required Piece generating,
+    required PieceGenerating generating,
+    required String url,
   }) async {
     await _pieceRepository.add(generating);
 
     await Future<void>.delayed(const Duration(seconds: 5));
 
-    final generated = generating.copyWith(
-      status: PieceStatus.generated(generated: DateTime.now()),
+    final generated = PieceGenerated(
+      id: generating.id,
+      name: generating.name,
+      generatedAt: DateTime.now(),
+      url: url,
     );
+
     await _pieceRepository.replace(generated);
   }
 }

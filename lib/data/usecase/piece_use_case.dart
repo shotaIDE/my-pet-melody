@@ -14,14 +14,14 @@ class PieceUseCase {
     return stream.map(
       (pieces) => pieces.sorted(
         (a, b) {
-          final dateTimeA = a.status.when(
-            generating: (generating) => generating,
-            generated: (generated) => generated,
+          final dateTimeA = a.map(
+            generating: (generating) => generating.submittedAt,
+            generated: (generated) => generated.generatedAt,
           );
 
-          final dateTimeB = b.status.when(
-            generating: (generating) => generating,
-            generated: (generated) => generated,
+          final dateTimeB = b.map(
+            generating: (generating) => generating.submittedAt,
+            generated: (generated) => generated.generatedAt,
           );
 
           return dateTimeB.compareTo(dateTimeA);

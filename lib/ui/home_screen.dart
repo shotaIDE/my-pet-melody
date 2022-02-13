@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
+import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -72,19 +73,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
 
             final piece = playablePiece.piece;
-            final pieceStatus = piece.status;
             final dateFormatter = DateFormat.yMd('ja');
             final timeFormatter = DateFormat.Hm('ja');
-            final subtitleLabel = pieceStatus.when(
-              generating: (submitted) => '${dateFormatter.format(submitted)} '
-                  '${timeFormatter.format(submitted)}   '
+            final subtitleLabel = piece.map(
+              generating: (generating) =>
+                  '${dateFormatter.format(generating.submittedAt)} '
+                  '${timeFormatter.format(generating.submittedAt)}   '
                   '製作中',
-              generated: (generated) => '${dateFormatter.format(generated)} '
-                  '${timeFormatter.format(generated)}',
+              generated: (generated) =>
+                  '${dateFormatter.format(generated.generatedAt)} '
+                  '${timeFormatter.format(generated.generatedAt)}',
             );
 
             final void Function()? onTap;
-            onTap = pieceStatus.when(
+            onTap = piece.map(
               generating: (_) => null,
               generated: (_) => playStatus.when(
                 stop: () => () => ref
@@ -106,10 +108,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               subtitle: Text(subtitleLabel),
               trailing: IconButton(
                 icon: const Icon(Icons.share),
-                onPressed: () =>
-                    ref.read(widget.viewModel.notifier).share(piece: piece),
+                onPressed: () => _share(piece: piece),
               ),
-              tileColor: pieceStatus.when(
+              tileColor: piece.map(
                 generating: (_) => Colors.grey[300],
                 generated: (_) => null,
               ),
@@ -187,5 +188,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           )
         : scaffold;
+  }
+
+  void _share({required Piece piece}) {
+    final generated = piece.mapOrNull(generated: (generated) => generated);
+    if (generated == null) {
+      return;
+    }
+
+    ref.read(widget.viewModel.notifier).share(piece: generated);
   }
 }

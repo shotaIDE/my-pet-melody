@@ -38,6 +38,11 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   }
 
   Future<void> play({required PlayerChoiceTemplate template}) async {
+    final url = template.url;
+    if (url == null) {
+      return;
+    }
+
     final templates = state.templates;
     if (templates == null) {
       return;
@@ -59,7 +64,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       templates: playingList.whereType<PlayerChoiceTemplate>().toList(),
     );
 
-    await _player.play(template.url);
+    await _player.play(url);
   }
 
   Future<void> stop({required PlayerChoiceTemplate template}) async {

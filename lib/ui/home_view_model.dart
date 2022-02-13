@@ -45,6 +45,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<void> play({required PlayerChoicePiece piece}) async {
+    final url = piece.url;
+    if (url == null) {
+      return;
+    }
+
     final pieces = state.pieces;
     if (pieces == null) {
       return;
@@ -65,7 +70,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
       pieces: playingList.whereType<PlayerChoicePiece>().toList(),
     );
 
-    await _player.play(piece.url);
+    await _player.play(url);
   }
 
   Future<void> stop({required PlayerChoicePiece piece}) async {
@@ -86,7 +91,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     await _player.stop();
   }
 
-  Future<void> share({required Piece piece}) async {
+  Future<void> share({required PieceGenerated piece}) async {
     state = state.copyWith(isProcessing: true);
 
     final dio = Dio();

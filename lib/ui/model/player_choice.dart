@@ -26,9 +26,10 @@ extension PlayerChoiceGetter on PlayerChoice {
     );
   }
 
-  String get url {
+  String? get url {
     return when(
-      piece: (_, piece) => piece.url,
+      piece: (_, piece) =>
+          piece.mapOrNull(generated: (generated) => generated.url),
       template: (_, template) => template.url,
     );
   }
