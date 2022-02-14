@@ -225,24 +225,30 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final scaffold = Scaffold(
-      appBar: AppBar(
-        title: const Text('STEP 2/2'),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: title,
-          ),
-          Expanded(
-            child: Padding(
+    final scaffold = WillPopScope(
+      onWillPop: () async {
+        await ref.read(widget.viewModel.notifier).beforeHideScreen();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('STEP 2/2'),
+        ),
+        body: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: body,
+              child: title,
             ),
-          ),
-          footer,
-        ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: body,
+              ),
+            ),
+            footer,
+          ],
+        ),
       ),
     );
 
