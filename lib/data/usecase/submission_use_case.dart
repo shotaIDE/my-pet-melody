@@ -31,6 +31,14 @@ class SubmissionUseCase {
     );
   }
 
+  Future<bool> getShouldShowRequestPushNotificationPermission() async {
+    if (Platform.isAndroid) {
+      return false;
+    }
+
+    return true;
+  }
+
   Future<void> submit({
     required Template template,
     required List<String> soundIdList,

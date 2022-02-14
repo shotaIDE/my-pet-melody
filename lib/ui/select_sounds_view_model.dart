@@ -118,6 +118,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
+  bool getRequestPermissionArgs() {
+    return true;
+  }
+
   Future<void> submit() async {
     state = state.copyWith(isProcessing: true);
 
@@ -201,7 +205,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
-  void _setup() {
+  Future<void> _setup() async {
     _audioLengthSubscription = _player.onDurationChanged.listen((duration) {
       _currentAudioLength = duration;
     });
@@ -212,6 +216,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
       _onAudioFinished();
     });
+
+    final isRequestStepExists = await _submissionUseCase
+        .getShouldShowRequestPushNotificationPermission();
+    state = state.copyWith(isRequestStepExists: isRequestStepExists);
   }
 
   void _onAudioPositionReceived(Duration position) {

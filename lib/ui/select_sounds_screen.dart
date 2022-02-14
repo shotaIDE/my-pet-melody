@@ -208,19 +208,37 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
+    final isRequestStepExists = state.isRequestStepExists;
+    final Widget footerContent;
+    if (isRequestStepExists == null) {
+      footerContent = const CircularProgressIndicator();
+    } else {
+      final ButtonStyleButton footerButton;
+      if (isRequestStepExists) {
+        footerButton = OutlinedButton(
+          onPressed: state.isAvailableSubmission ? _showRequestScreen : null,
+          child: const Text('依頼前の準備に進む'),
+        );
+      } else {
+        footerButton = ElevatedButton(
+          onPressed: state.isAvailableSubmission ? _submit : null,
+          child: const Text('製作を依頼する'),
+        );
+      }
+
+      footerContent = SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: footerButton,
+      );
+    }
+
     final footer = Container(
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: ElevatedButton(
-              onPressed: state.isAvailableSubmission ? _submit : null,
-              child: const Text('製作を依頼する'),
-            ),
-          ),
+          child: footerContent,
         ),
       ),
     );
@@ -294,6 +312,11 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final file = File(result.files.single.path!);
 
     await ref.read(widget.viewModel.notifier).upload(file, target: target);
+  }
+
+  Future<void> _showRequestScreen() async {
+    final args =
+        await ref.read(widget.viewModel.notifier).getRequestPermissionArgs();
   }
 
   Future<void> _submit() async {
