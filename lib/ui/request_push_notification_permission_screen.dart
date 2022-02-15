@@ -62,12 +62,17 @@ class _SelectTemplateState
     const icon = Icon(Icons.notifications, size: 128);
 
     final body = SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 32, bottom: 16, left: 16, right: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          description,
+          title,
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: description,
+          ),
           const Padding(
-            padding: EdgeInsets.only(top: 32, left: 16, right: 16),
+            padding: EdgeInsets.only(top: 32),
             child: icon,
           ),
         ],
@@ -80,14 +85,14 @@ class _SelectTemplateState
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: _requestPermissionAndSubmit,
             child: const Text('プッシュ通知を許可する'),
           ),
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
           child: TextButton(
-            onPressed: () {},
+            onPressed: _submit,
             child: const Text('プッシュ通知を許可しない'),
           ),
         ),
@@ -111,13 +116,8 @@ class _SelectTemplateState
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: title,
-          ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 32),
+            child: SafeArea(
               child: body,
             ),
           ),
@@ -155,13 +155,19 @@ class _SelectTemplateState
         : scaffold;
   }
 
+  Future<void> _requestPermissionAndSubmit() async {
+    await ref.read(widget.viewModel.notifier).requestPermissionAndSubmit();
+
+    await _launchCompletedScreen();
+  }
+
   Future<void> _submit() async {
     await ref.read(widget.viewModel.notifier).submit();
 
-    if (!mounted) {
-      return;
-    }
+    await _launchCompletedScreen();
+  }
 
+  Future<void> _launchCompletedScreen() async {
     Navigator.popUntil(
       context,
       (route) => route.settings.name == SelectTemplateScreen.name,

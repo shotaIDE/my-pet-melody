@@ -8,6 +8,7 @@ import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
+import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:path/path.dart';
 
@@ -118,18 +119,19 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
-  bool getRequestPermissionArgs() {
-    return true;
+  RequestPushNotificationPermissionArgs getRequestPermissionArgs() {
+    final soundIdList = _getSoundIdList();
+
+    return RequestPushNotificationPermissionArgs(
+      template: state.template.template,
+      soundIdList: soundIdList,
+    );
   }
 
   Future<void> submit() async {
     state = state.copyWith(isProcessing: true);
 
-    final soundIdList = state.sounds
-        .map((choice) => choice.sound)
-        .whereType<SelectedSoundUploaded>()
-        .map((uploaded) => uploaded.id)
-        .toList();
+    final soundIdList = _getSoundIdList();
 
     await _submissionUseCase.submit(
       template: state.template.template,
@@ -274,5 +276,13 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
           .map((choice) => choice as PlayerChoiceSound)
           .toList(),
     );
+  }
+
+  List<String> _getSoundIdList() {
+    return state.sounds
+        .map((choice) => choice.sound)
+        .whereType<SelectedSoundUploaded>()
+        .map((uploaded) => uploaded.id)
+        .toList();
   }
 }

@@ -7,6 +7,7 @@ import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
+import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -215,7 +216,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     } else {
       final ButtonStyleButton footerButton;
       if (isRequestStepExists) {
-        footerButton = OutlinedButton(
+        footerButton = ElevatedButton(
           onPressed: state.isAvailableSubmission ? _showRequestScreen : null,
           child: const Text('依頼前の準備に進む'),
         );
@@ -315,8 +316,12 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
   }
 
   Future<void> _showRequestScreen() async {
-    final args =
-        await ref.read(widget.viewModel.notifier).getRequestPermissionArgs();
+    final args = ref.read(widget.viewModel.notifier).getRequestPermissionArgs();
+
+    await Navigator.push<void>(
+      context,
+      RequestPushNotificationPermissionScreen.route(args: args),
+    );
   }
 
   Future<void> _submit() async {

@@ -18,13 +18,21 @@ class RequestPushNotificationPermissionViewModel
   final SubmissionUseCase _submissionUseCase;
   final RequestPushNotificationPermissionArgs _args;
 
+  Future<void> requestPermissionAndSubmit() async {
+    await _submit();
+  }
+
   Future<void> submit() async {
+    await _submit();
+  }
+
+  Future<void> _submit() async {
     state = state.copyWith(isProcessing: true);
 
-    // await _submissionUseCase.submit(
-    //   template: state.template.template,
-    //   soundIdList: soundIdList,
-    // );
+    await _submissionUseCase.submit(
+      template: _args.template,
+      soundIdList: _args.soundIdList,
+    );
 
     state = state.copyWith(isProcessing: false);
   }
