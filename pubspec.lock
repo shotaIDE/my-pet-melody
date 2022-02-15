@@ -217,7 +217,7 @@ packages:
       name: dots_indicator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -245,7 +245,7 @@ packages:
       name: file_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.3"
+    version: "4.4.0"
   firebase_core:
     dependency: transitive
     description:
@@ -893,7 +893,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.11"
+    version: "2.4.0"
   xdg_directories:
     dependency: transitive
     description:
