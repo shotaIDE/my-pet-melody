@@ -8,6 +8,7 @@ class SettingsRepository {
   final SettingsLocalDataSource _local;
 
   bool? _cachedIsOnboardingFinished;
+  bool? _cachedHasRequestedPushNotificationPermissionAtLeastOnce;
 
   Future<bool> getIsOnboardingFinished() async {
     if (_cachedIsOnboardingFinished != null) {
@@ -25,5 +26,24 @@ class SettingsRepository {
     await _local.setIsOnboardingFinished();
 
     _cachedIsOnboardingFinished = true;
+  }
+
+  Future<bool> getHasRequestedPushNotificationPermissionAtLeastOnce() async {
+    if (_cachedHasRequestedPushNotificationPermissionAtLeastOnce != null) {
+      return _cachedHasRequestedPushNotificationPermissionAtLeastOnce!;
+    }
+
+    final hasRequested =
+        await _local.getHasRequestedPushNotificationPermissionAtLeastOnce();
+
+    _cachedHasRequestedPushNotificationPermissionAtLeastOnce = hasRequested;
+
+    return hasRequested;
+  }
+
+  Future<void> setHasRequestedPushNotificationPermissionAtLeastOnce() async {
+    await _local.setHasRequestedPushNotificationPermissionAtLeastOnce();
+
+    _cachedHasRequestedPushNotificationPermissionAtLeastOnce = true;
   }
 }

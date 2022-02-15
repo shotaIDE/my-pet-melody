@@ -28,6 +28,7 @@ dependencies:
   audioplayers: ^0.20.1
   share_plus: ^3.0.4
   path_provider: ^2.0.9
+  firebase_messaging: ^11.2.6
 
 dev_dependencies:
   flutter_test:
