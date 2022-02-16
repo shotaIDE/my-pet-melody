@@ -91,6 +91,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final description = RichText(
+      textAlign: TextAlign.center,
       text: TextSpan(
         children: [
           TextSpan(
