@@ -30,20 +30,27 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      '提出されました',
+      '作品の製作が\n開始されました',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline5,
     );
 
     final body = Column(
       mainAxisSize: MainAxisSize.min,
-      children: const [
-        Text(
+      children: [
+        const Text(
           '完成までしばらくお待ちください。\n'
-          '完成したらすぐに通知を受けとるために、通知を許可してください。',
+          '完成したときは通知でお知らせします。通知の設定を許可しておいてください。',
           textAlign: TextAlign.center,
         ),
         Padding(
+          padding: const EdgeInsets.only(top: 16),
+          child: TextButton(
+            onPressed: () {},
+            child: const Text('通知の設定を確認する'),
+          ),
+        ),
+        const Padding(
           padding: EdgeInsets.only(top: 32),
           child: Icon(
             Icons.notifications,
@@ -65,15 +72,8 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: ElevatedButton(
-                  onPressed: _enablePushNotification,
-                  child: const Text('プッシュ通知を許可する'),
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: TextButton(
-                  onPressed: _notEnablePushNotification,
-                  child: const Text('プッシュ通知を許可しない'),
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('ホームに戻る'),
                 ),
               ),
             ],
@@ -89,16 +89,18 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
         right: false,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: title,
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 32),
+                child: title,
+              ),
             ),
             Expanded(
               child: SafeArea(
                 child: SingleChildScrollView(
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(top: 64, left: 32, right: 32),
+                        const EdgeInsets.only(top: 32, left: 32, right: 32),
                     child: body,
                   ),
                 ),
@@ -109,19 +111,5 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _enablePushNotification() async {
-    await ref.read(widget.viewModel.notifier).enablePushNotification();
-
-    if (!mounted) {
-      return;
-    }
-
-    Navigator.pop(context);
-  }
-
-  Future<void> _notEnablePushNotification() async {
-    Navigator.pop(context);
   }
 }
