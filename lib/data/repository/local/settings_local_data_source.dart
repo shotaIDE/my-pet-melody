@@ -15,4 +15,19 @@ class SettingsLocalDataSource {
       value: true,
     );
   }
+
+  Future<bool> getHasRequestedPushNotificationPermissionAtLeastOnce() async {
+    final hasRequested = await PreferenceService.getBool(
+      PreferenceKey.hasRequestedPushNotificationPermissionAtLeastOnce,
+    );
+
+    return hasRequested ?? false;
+  }
+
+  Future<void> setHasRequestedPushNotificationPermissionAtLeastOnce() async {
+    await PreferenceService.setBool(
+      PreferenceKey.hasRequestedPushNotificationPermissionAtLeastOnce,
+      value: true,
+    );
+  }
 }

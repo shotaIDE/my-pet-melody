@@ -2,26 +2,34 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/data/model/piece_status.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/repository/piece_repository.dart';
+import 'package:meow_music/data/repository/settings_repository.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
+import 'package:meow_music/data/service/push_notification_service.dart';
 
 class SubmissionUseCase {
   SubmissionUseCase({
     required SubmissionRepository repository,
     required PieceRepository pieceRepository,
+    required SettingsRepository settingsRepository,
+    required PushNotificationService pushNotificationService,
   })  : _repository = repository,
-        _pieceRepository = pieceRepository;
+        _pieceRepository = pieceRepository,
+        _settingsRepository = settingsRepository,
+        _pushNotificationService = pushNotificationService;
 
   final SubmissionRepository _repository;
   final PieceRepository _pieceRepository;
+  final SettingsRepository _settingsRepository;
+  final PushNotificationService _pushNotificationService;
 
   Future<List<Template>> getTemplates() async {
     return _repository.getTemplates();
   }
 
-  Future<String?> upload(
+  Future<UploadedSound?> upload(
     File file, {
     required String fileName,
   }) async {
@@ -31,40 +39,67 @@ class SubmissionUseCase {
     );
   }
 
+  Future<bool> getShouldShowRequestPushNotificationPermission() async {
+    if (Platform.isAndroid) {
+      return false;
+    }
+
+    final hasRequestedPermission = await _settingsRepository
+        .getHasRequestedPushNotificationPermissionAtLeastOnce();
+
+    return !hasRequestedPermission;
+  }
+
+  Future<void> requestPushNotificationPermission() async {
+    await _pushNotificationService.requestPermission();
+
+    await _settingsRepository
+        .setHasRequestedPushNotificationPermissionAtLeastOnce();
+  }
+
   Future<void> submit({
     required Template template,
-    required List<String> remoteFileNames,
+    required List<String> soundIdList,
   }) async {
     final generated = await _repository.submit(
       userId: 'test-user-id',
       templateId: template.id,
-      remoteFileNames: remoteFileNames,
+      soundIdList: soundIdList,
     );
 
     if (generated == null) {
       return;
     }
 
-    final piece = Piece(
+    final generating = PieceGenerating(
       id: generated.id,
       name: template.name,
-      status: PieceStatus.generating(submitted: DateTime.now()),
-      url: generated.url,
+      submittedAt: DateTime.now(),
     );
 
-    unawaited(_setTimerToNotifyCompletingToGenerate(generating: piece));
+    unawaited(
+      _setTimerToNotifyCompletingToGenerate(
+        generating: generating,
+        url: generated.url,
+      ),
+    );
   }
 
   Future<void> _setTimerToNotifyCompletingToGenerate({
-    required Piece generating,
+    required PieceGenerating generating,
+    required String url,
   }) async {
     await _pieceRepository.add(generating);
 
     await Future<void>.delayed(const Duration(seconds: 5));
 
-    final generated = generating.copyWith(
-      status: PieceStatus.generated(generated: DateTime.now()),
+    final generated = PieceGenerated(
+      id: generating.id,
+      name: generating.name,
+      generatedAt: DateTime.now(),
+      url: url,
     );
+
     await _pieceRepository.replace(generated);
   }
 }

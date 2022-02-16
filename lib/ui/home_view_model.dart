@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/piece_use_case.dart';
+import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/home_state.dart';
+import 'package:meow_music/ui/model/play_status.dart';
+import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -18,17 +22,76 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   final PieceUseCase _pieceUseCase;
+  final _player = AudioPlayer();
 
-  StreamSubscription<List<Piece>>? _subscription;
+  Duration? _currentAudioLength;
+  StreamSubscription<List<Piece>>? _piecesSubscription;
+  StreamSubscription<Duration>? _audioLengthSubscription;
+  StreamSubscription<Duration>? _audioPositionSubscription;
+  StreamSubscription<void>? _audioStoppedSubscription;
 
   @override
   Future<void> dispose() async {
-    await _subscription?.cancel();
+    final tasks = [
+      _piecesSubscription?.cancel(),
+      _audioLengthSubscription?.cancel(),
+      _audioPositionSubscription?.cancel(),
+      _audioStoppedSubscription?.cancel(),
+    ].whereType<Future<void>>().toList();
+
+    await Future.wait<void>(tasks);
 
     super.dispose();
   }
 
-  Future<void> share({required Piece piece}) async {
+  Future<void> play({required PlayerChoicePiece piece}) async {
+    final url = piece.url;
+    if (url == null) {
+      return;
+    }
+
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final stoppedList =
+        PlayerChoiceConverter.getStoppedOrNull(originalList: pieces) ??
+            [...pieces];
+
+    final playingList = PlayerChoiceConverter.getTargetReplaced(
+      originalList: stoppedList,
+      targetId: piece.id,
+      newPlayable:
+          piece.copyWith(status: const PlayStatus.playing(position: 0)),
+    );
+
+    state = state.copyWith(
+      pieces: playingList.whereType<PlayerChoicePiece>().toList(),
+    );
+
+    await _player.play(url);
+  }
+
+  Future<void> stop({required PlayerChoicePiece piece}) async {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final stoppedList = PlayerChoiceConverter.getTargetStopped(
+      originalList: pieces,
+      targetId: piece.id,
+    );
+
+    state = state.copyWith(
+      pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
+    );
+
+    await _player.stop();
+  }
+
+  Future<void> share({required PieceGenerated piece}) async {
     state = state.copyWith(isProcessing: true);
 
     final dio = Dio();
@@ -47,9 +110,94 @@ class HomeViewModel extends StateNotifier<HomeState> {
     state = state.copyWith(isProcessing: false);
   }
 
+  Future<void> beforeHideScreen() async {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final stoppedList =
+        PlayerChoiceConverter.getStoppedOrNull(originalList: pieces);
+
+    if (stoppedList != null) {
+      state = state.copyWith(
+        pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
+      );
+    }
+
+    await _player.stop();
+  }
+
   Future<void> _setup() async {
-    _subscription = _pieceUseCase.getPiecesStream().listen((pieces) {
-      state = state.copyWith(pieces: pieces);
+    final piecesStream = await _pieceUseCase.getPiecesStream();
+    _piecesSubscription = piecesStream.listen((pieces) {
+      final playablePieces = pieces
+          .map(
+            (piece) => PlayerChoicePiece(
+              status: const PlayStatus.stop(),
+              piece: piece,
+            ),
+          )
+          .toList();
+      state = state.copyWith(pieces: playablePieces);
     });
+
+    _audioLengthSubscription = _player.onDurationChanged.listen((duration) {
+      _currentAudioLength = duration;
+    });
+
+    _audioPositionSubscription =
+        _player.onAudioPositionChanged.listen(_onAudioPositionReceived);
+
+    _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
+      _onAudioFinished();
+    });
+  }
+
+  void _onAudioPositionReceived(Duration position) {
+    final length = _currentAudioLength;
+    if (length == null) {
+      return;
+    }
+
+    final positionRatio = AudioPositionHelper.getPositionRatio(
+      length: length,
+      position: position,
+    );
+
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final positionUpdatedList = PlayerChoiceConverter.getPositionUpdatedOrNull(
+      originalList: pieces,
+      position: positionRatio,
+    );
+    if (positionUpdatedList == null) {
+      return;
+    }
+
+    state = state.copyWith(
+      pieces: positionUpdatedList.whereType<PlayerChoicePiece>().toList(),
+    );
+  }
+
+  void _onAudioFinished() {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final stoppedList = PlayerChoiceConverter.getStoppedOrNull(
+      originalList: pieces,
+    );
+    if (stoppedList == null) {
+      return;
+    }
+
+    state = state.copyWith(
+      pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
+    );
   }
 }

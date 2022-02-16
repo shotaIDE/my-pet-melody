@@ -6,7 +6,9 @@ import 'package:meow_music/data/repository/settings_repository.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
 
 final pieceRepositoryProvider = Provider(
-  (_) => PieceRepository(),
+  (ref) => PieceRepository(
+    localDataSource: ref.watch(pieceLocalDataSourceProvider),
+  ),
 );
 
 final submissionRepositoryProvider = Provider(

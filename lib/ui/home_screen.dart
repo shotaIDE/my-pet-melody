@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -57,46 +56,105 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final state = ref.watch(widget.viewModel);
     final pieces = state.pieces;
 
-    final body = pieces != null
-        ? ListView.separated(
-            itemBuilder: (_, index) {
-              final piece = pieces[index];
-              final status = piece.status;
-              final dateFormatter = DateFormat.yMd('ja');
-              final timeFormatter = DateFormat.Hm('ja');
+    final Widget body;
+    if (pieces == null) {
+      body = const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      if (pieces.isNotEmpty) {
+        body = ListView.separated(
+          itemBuilder: (_, index) {
+            final playablePiece = pieces[index];
+            final playStatus = playablePiece.status;
+            final leading = playStatus.when(
+              stop: () => const Icon(Icons.play_arrow),
+              playing: (_) => const Icon(Icons.stop),
+            );
 
-              final subtitleLabel = status.when(
-                generating: (submitted) => '${dateFormatter.format(submitted)} '
-                    '${timeFormatter.format(submitted)}   '
-                    '製作中',
-                generated: (generated) => '${dateFormatter.format(generated)} '
-                    '${timeFormatter.format(generated)}',
-              );
+            final piece = playablePiece.piece;
+            final dateFormatter = DateFormat.yMd('ja');
+            final timeFormatter = DateFormat.Hm('ja');
+            final subtitleLabel = piece.map(
+              generating: (generating) =>
+                  '${dateFormatter.format(generating.submittedAt)} '
+                  '${timeFormatter.format(generating.submittedAt)}   '
+                  '製作中',
+              generated: (generated) =>
+                  '${dateFormatter.format(generated.generatedAt)} '
+                  '${timeFormatter.format(generated.generatedAt)}',
+            );
 
-              return ListTile(
-                title: Text(piece.name),
-                subtitle: Text(subtitleLabel),
-                trailing: IconButton(
-                  icon: const Icon(Icons.share),
-                  onPressed: () =>
-                      ref.read(widget.viewModel.notifier).share(piece: piece),
+            final void Function()? onTap;
+            onTap = piece.map(
+              generating: (_) => null,
+              generated: (_) => playStatus.when(
+                stop: () => () => ref
+                    .read(widget.viewModel.notifier)
+                    .play(piece: playablePiece),
+                playing: (_) => () => ref
+                    .read(widget.viewModel.notifier)
+                    .stop(piece: playablePiece),
+              ),
+            );
+
+            final tile = ListTile(
+              leading: Column(
+                children: [
+                  Expanded(child: leading),
+                ],
+              ),
+              title: Text(piece.name),
+              subtitle: Text(subtitleLabel),
+              trailing: IconButton(
+                icon: const Icon(Icons.share),
+                onPressed: () => _share(piece: piece),
+              ),
+              tileColor: piece.map(
+                generating: (_) => Colors.grey[300],
+                generated: (_) => null,
+              ),
+              onTap: onTap,
+            );
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                tile,
+                playStatus.when(
+                  stop: () => const Visibility(
+                    visible: false,
+                    maintainState: true,
+                    maintainAnimation: true,
+                    maintainSize: true,
+                    child: LinearProgressIndicator(),
+                  ),
+                  playing: (position) => Visibility(
+                    child: LinearProgressIndicator(value: position),
+                  ),
                 ),
-                tileColor: status.when(
-                  generating: (_) => Colors.grey[300],
-                  generated: (_) => null,
-                ),
-                onTap: status.when(
-                  generating: (_) => null,
-                  generated: (_) => () => _play(piece: piece),
-                ),
-              );
-            },
-            itemCount: pieces.length,
-            separatorBuilder: (_, __) => const Divider(height: 0),
-          )
-        : const Center(
-            child: CircularProgressIndicator(),
-          );
+              ],
+            );
+          },
+          itemCount: pieces.length,
+          separatorBuilder: (_, __) => const Divider(height: 0),
+        );
+      } else {
+        body = Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'まだ作品を製作していません。\n右下の “+” ボタンから作品を製作しましょう。',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Theme.of(context).disabledColor),
+            ),
+          ),
+        );
+      }
+    }
 
     final scaffold = Scaffold(
       appBar: AppBar(
@@ -105,8 +163,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: body,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () =>
-            Navigator.push<void>(context, SelectTemplateScreen.route()),
+        onPressed: () async {
+          await ref.read(widget.viewModel.notifier).beforeHideScreen();
+
+          if (!mounted) {
+            return;
+          }
+
+          await Navigator.push<void>(context, SelectTemplateScreen.route());
+        },
       ),
     );
 
@@ -125,8 +190,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         : scaffold;
   }
 
-  Future<void> _play({required Piece piece}) async {
-    final player = AudioPlayer();
-    await player.play(piece.url);
+  void _share({required Piece piece}) {
+    final generated = piece.mapOrNull(generated: (generated) => generated);
+    if (generated == null) {
+      return;
+    }
+
+    ref.read(widget.viewModel.notifier).share(piece: generated);
   }
 }

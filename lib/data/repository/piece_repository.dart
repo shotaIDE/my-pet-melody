@@ -1,37 +1,35 @@
 import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/data/model/piece_status.dart';
+import 'package:meow_music/data/repository/local/piece_local_data_source.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PieceRepository {
-  final _pieces = BehaviorSubject<List<Piece>>.seeded([
-    Piece(
-      id: '01',
-      name: 'Happy Birthday, その2',
-      status: PieceStatus.generated(
-        generated: DateTime.now().add(const Duration(days: -3)),
-      ),
-      url: 'about:blank',
-    ),
-    Piece(
-      id: '01',
-      name: 'Happy Birthday, その1',
-      status: PieceStatus.generating(
-        submitted: DateTime.now().add(const Duration(days: -2)),
-      ),
-      url: 'about:blank',
-    ),
-  ]);
+  PieceRepository({
+    required PieceLocalDataSource localDataSource,
+  }) : _local = localDataSource;
+
+  final PieceLocalDataSource _local;
+  final _pieces = BehaviorSubject<List<Piece>>();
 
   Future<void> dispose() async {
     await _pieces.close();
   }
 
-  Stream<List<Piece>> getPiecesStream() {
+  Future<Stream<List<Piece>>> getPiecesStream() async {
+    if (_pieces.hasValue) {
+      return _pieces.stream;
+    }
+
+    final storedPieces = await _local.getPieces();
+
+    _pieces.add(storedPieces);
+
     return _pieces.stream;
   }
 
   Future<void> add(Piece piece) async {
     final pieces = _pieces.value..add(piece);
+
+    await _local.setPieces(pieces);
 
     _pieces.add(pieces);
   }
@@ -42,6 +40,8 @@ class PieceRepository {
     final index = pieces.indexWhere((piece) => piece.id == replacedPiece.id);
 
     pieces[index] = replacedPiece;
+
+    await _local.setPieces(pieces);
 
     _pieces.add(pieces);
   }
