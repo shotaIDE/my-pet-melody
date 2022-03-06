@@ -35,24 +35,21 @@ class _HomeScreenState extends ConsumerState<OnboardingScreen> {
     return IntroductionScreen(
       pages: [
         PageViewModel(
-          title: 'あなたのわんちゃんのオリジナル曲を作ろう',
-          bodyWidget: const Icon(
-            Icons.abc,
-            size: 128,
+          title: 'ネコちゃんが歌う\nオリジナル曲を作ろう',
+          bodyWidget: Image.asset(
+            'assets/images/singing_cat.png',
           ),
         ),
         PageViewModel(
-          title: '３つ鳴き声を録音してかんたん完成！',
-          bodyWidget: const Icon(
-            Icons.abc,
-            size: 128,
+          title: '3つ鳴き声を録音して\nBGMを選ぶだけ！',
+          bodyWidget: Image.asset(
+            'assets/images/generate_steps.png',
           ),
         ),
         PageViewModel(
-          title: 'できた作品はみんなにシェアしよう',
-          bodyWidget: const Icon(
-            Icons.abc,
-            size: 128,
+          title: 'できた作品は\nみんなにシェアしよう',
+          bodyWidget: Image.asset(
+            'assets/images/share.png',
           ),
         ),
       ],
