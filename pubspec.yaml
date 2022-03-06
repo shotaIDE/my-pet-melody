@@ -42,3 +42,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: uzura
+      fonts:
+        - asset: fonts/uzura.ttf

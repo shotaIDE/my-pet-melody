@@ -43,6 +43,7 @@ class _RootAppState extends ConsumerState<RootApp> {
       title: 'Meow Music',
       theme: ThemeData(
         primarySwatch: Colors.brown,
+        fontFamily: 'uzura',
       ),
       home: home,
       localizationsDelegates: const [
