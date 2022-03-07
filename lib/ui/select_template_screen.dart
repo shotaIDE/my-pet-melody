@@ -40,9 +40,16 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       style: Theme.of(context).textTheme.headline5,
     );
 
-    final body = templates != null
+    final description = Text(
+      '好きなBGMを選んでね。選んだBGMに鳴き声が入るよ！',
+      style: Theme.of(context).textTheme.bodyText1,
+      textAlign: TextAlign.center,
+    );
+
+    final list = templates != null
         ? ListView.separated(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (_, index) {
               final playableTemplate = templates[index];
               final template = playableTemplate.template;
@@ -107,6 +114,24 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
             child: CircularProgressIndicator(),
           );
 
+    final catImage = Image.asset('assets/images/speaking_cat_eye_opened.png');
+
+    final body = SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 203),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            child: description,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: list,
+          ),
+        ],
+      ),
+    );
+
     return WillPopScope(
       onWillPop: () async {
         await ref.read(widget.viewModel.notifier).beforeHideScreen();
@@ -119,13 +144,22 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
               child: title,
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: body,
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 32),
+                    child: body,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 16,
+                    child: SafeArea(child: catImage),
+                  ),
+                ],
               ),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:meow_music/data/api/submission_api.dart';
+import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/repository/remote/submission_remote_data_source.dart';
@@ -16,7 +17,8 @@ class SubmissionRepository {
       const Template(
         id: 'happy_birthday',
         name: 'Happy Birthday',
-        url: 'http://127.0.0.1:5000/static/templates/happy_birthday.wav',
+        url:
+            '${AppDefinitions.serverOrigin}/static/templates/happy_birthday.wav',
       ),
     ];
   }

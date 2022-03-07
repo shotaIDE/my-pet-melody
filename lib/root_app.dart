@@ -42,7 +42,8 @@ class _RootAppState extends ConsumerState<RootApp> {
     return MaterialApp(
       title: 'Meow Music',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.brown,
+        fontFamily: 'uzura',
       ),
       home: home,
       localizationsDelegates: const [

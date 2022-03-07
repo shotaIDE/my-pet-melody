@@ -1,6 +1,9 @@
 *.freezed.dart
 *.g.dart
 
+/assets/original
+/assets/edited
+
 # Miscellaneous
 *.class
 *.log

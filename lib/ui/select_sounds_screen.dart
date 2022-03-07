@@ -48,7 +48,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final state = ref.watch(widget.viewModel);
 
     final title = Text(
-      '主役となる鳴き声を\n3つ設定しよう',
+      '鳴き声を\n3つ設定しよう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline5,
     );
@@ -95,10 +95,6 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       text: TextSpan(
         children: [
           TextSpan(
-            text: 'お手元で',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          TextSpan(
             text: 'トリミング',
             style: Theme.of(context)
                 .textTheme
@@ -106,7 +102,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                 .copyWith(fontWeight: FontWeight.bold),
           ),
           TextSpan(
-            text: 'した鳴き声を設定してください。',
+            text: 'した鳴き声を3つ設定してね！',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ],
@@ -193,19 +189,23 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final body = SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 16, bottom: 138),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           templateControl,
           Padding(
-            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+            padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
             child: description,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
             child: trimmingButton,
           ),
-          soundsList,
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: soundsList,
+          ),
         ],
       ),
     );
@@ -234,6 +234,8 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       );
     }
 
+    final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
+
     final footer = Container(
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
@@ -257,13 +259,18 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
               child: title,
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: body,
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: body,
+                  ),
+                  Positioned(bottom: 0, right: 16, child: catImage),
+                ],
               ),
             ),
             footer,
