@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:meow_music/data/api/submission_api.dart';
+import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 
 class SubmissionRemoteDataSource {
   SubmissionRemoteDataSource({required SubmissionApi api}) : _api = api;
 
-  static const _apiBaseUrl = 'http://127.0.0.1:5000';
+  static const _apiBaseUrl = AppDefinitions.serverOrigin;
 
   final SubmissionApi _api;
 

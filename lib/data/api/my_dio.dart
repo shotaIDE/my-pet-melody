@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:meow_music/data/definitions/app_definitions.dart';
 
 class MyDio {
   MyDio() : _dio = Dio(BaseOptions());
@@ -10,7 +11,7 @@ class MyDio {
   static const _contentTypeJson = 'application/json';
   static const _contentTypeForm = 'application/x-www-form-urlencoded';
 
-  final String _baseUrl = 'http://127.0.0.1:5000';
+  final String _baseUrl = AppDefinitions.serverOrigin;
   final Dio _dio;
 
   Future<T?> post<T>({
