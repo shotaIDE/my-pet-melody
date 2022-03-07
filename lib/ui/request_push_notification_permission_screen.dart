@@ -56,24 +56,23 @@ class _SelectTemplateState
     );
 
     final description = Text(
-      '作品が完成したときに通知が受け取れます。通知を許可してください。',
+      '作品が完成したときに通知が受け取れるよ！通知を許可してね！',
       style: Theme.of(context).textTheme.bodyText1,
+      textAlign: TextAlign.center,
     );
-    const icon = Icon(Icons.notifications, size: 128);
+
+    final notificationImage =
+        Image.asset('assets/images/push_notification_banner.png');
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(top: 32, bottom: 16, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 16, bottom: 203, left: 16, right: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          title,
+          description,
           Padding(
             padding: const EdgeInsets.only(top: 32),
-            child: description,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 32),
-            child: icon,
+            child: notificationImage,
           ),
         ],
       ),
@@ -86,18 +85,20 @@ class _SelectTemplateState
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
             onPressed: _requestPermissionAndSubmit,
-            child: const Text('プッシュ通知を許可する'),
+            child: const Text('許可して作品をつくる'),
           ),
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
           child: TextButton(
             onPressed: _submit,
-            child: const Text('プッシュ通知を許可しない'),
+            child: const Text('許可しないで作品をつくる'),
           ),
         ),
       ],
     );
+
+    final catImage = Image.asset('assets/images/speaking_cat_eye_opened.png');
 
     final footer = Container(
       alignment: Alignment.center,
@@ -116,9 +117,19 @@ class _SelectTemplateState
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: title,
+          ),
           Expanded(
-            child: SafeArea(
-              child: body,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: body,
+                ),
+                Positioned(bottom: 0, left: 16, child: catImage),
+              ],
             ),
           ),
           footer,
