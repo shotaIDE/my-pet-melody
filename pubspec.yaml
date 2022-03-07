@@ -29,6 +29,7 @@ dependencies:
   share_plus: ^3.0.4
   path_provider: ^2.0.9
   firebase_messaging: ^11.2.6
+  firebase_core: ^1.13.1
 
 dev_dependencies:
   flutter_test:
