@@ -11,13 +11,14 @@
             "module": "flask",
             "env": {
                 "FLASK_APP": "app.py",
-                "FLASK_ENV": "development"
+                "FLASK_ENV": "development",
             },
             "args": [
                 "run",
-                "--no-debugger"
+                "--no-debugger",
+                "--host=0.0.0.0",
             ],
-            "jinja": true
-        }
-    ]
+            "jinja": true,
+        },
+    ],
 }
