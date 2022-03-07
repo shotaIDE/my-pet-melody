@@ -35,29 +35,37 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
       style: Theme.of(context).textTheme.headline5,
     );
 
-    final body = Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text(
-          '完成までしばらくお待ちください。\n'
-          '完成したときは通知でお知らせします。通知の設定を許可しておいてください。',
-          textAlign: TextAlign.center,
+    const description = Text(
+      '完成までしばらく待ってね！\n'
+      '完成したときは通知で知らせるから、通知の設定を許可しておいてね！',
+      textAlign: TextAlign.center,
+    );
+
+    final notificationButton = TextButton(
+      onPressed: () {},
+      child: const Text('通知の設定を確認する'),
+    );
+
+    final catImage = Image.asset('assets/images/full_cat.png');
+
+    final body = SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            description,
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: notificationButton,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 32),
+              child: catImage,
+            ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 16),
-          child: TextButton(
-            onPressed: () {},
-            child: const Text('通知の設定を確認する'),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(top: 32),
-          child: Icon(
-            Icons.notifications,
-            size: 128,
-          ),
-        ),
-      ],
+      ),
     );
 
     final footer = Container(
@@ -96,14 +104,9 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
               ),
             ),
             Expanded(
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 32, left: 32, right: 32),
-                    child: body,
-                  ),
-                ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: body,
               ),
             ),
             footer,
