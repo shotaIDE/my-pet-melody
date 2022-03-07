@@ -154,7 +154,11 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                     padding: const EdgeInsets.only(top: 32),
                     child: body,
                   ),
-                  Positioned(bottom: 0, left: 16, child: catImage),
+                  Positioned(
+                    bottom: 0,
+                    left: 16,
+                    child: SafeArea(child: catImage),
+                  ),
                 ],
               ),
             ),
