@@ -19,8 +19,7 @@ class RequestPushNotificationPermissionViewModel
   final RequestPushNotificationPermissionArgs _args;
 
   Future<void> requestPermissionAndSubmit() async {
-    // TODO(ide): Firebaseを組み込んだらコメントアウト解除
-    // await _submissionUseCase.requestPushNotificationPermission();
+    await _submissionUseCase.requestPushNotificationPermission();
 
     await _submit();
   }
