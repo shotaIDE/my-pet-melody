@@ -259,7 +259,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 32),
+              padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
               child: title,
             ),
             Expanded(
