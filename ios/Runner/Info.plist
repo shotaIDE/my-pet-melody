@@ -48,5 +48,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>録音した鳴き声を使って作品をつくるために必要です。</string>
 </dict>
 </plist>
