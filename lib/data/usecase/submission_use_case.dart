@@ -101,5 +101,7 @@ class SubmissionUseCase {
     );
 
     await _pieceRepository.replace(generated);
+
+    await _pushNotificationService.showDummyNotification();
   }
 }
