@@ -1,5 +1,11 @@
 # Meow Music
 
+## リリースビルド
+
+```shell
+flutter build ipa --export-options-plist ios/ExportOptions.plist
+```
+
 ##　 Flutter のバージョンを更新する
 
 プロジェクトの Flutter バージョンを指定する場合、以下のコマンドを利用します。

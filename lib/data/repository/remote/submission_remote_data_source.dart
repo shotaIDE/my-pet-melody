@@ -26,6 +26,7 @@ class SubmissionRemoteDataSource {
 
     return UploadedSound(
       id: response.id,
+      extension: response.extension,
       url: '$_apiBaseUrl${response.path}',
     );
   }
@@ -33,13 +34,14 @@ class SubmissionRemoteDataSource {
   Future<FetchedPiece?> submit({
     required String userId,
     required String templateId,
-    required List<String> soundIdList,
+    required List<UploadedSound> sounds,
   }) async {
     final response = await _api.submit(
       SubmitRequest(
         userId: userId,
         templateId: templateId,
-        fileNames: soundIdList,
+        fileNames:
+            sounds.map((sound) => '${sound.id}${sound.extension}').toList(),
       ),
     );
 

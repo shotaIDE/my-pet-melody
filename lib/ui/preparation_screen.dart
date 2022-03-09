@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class IntroductionScreen extends StatelessWidget {
-  const IntroductionScreen({Key? key}) : super(key: key);
+class PreparationScreen extends StatelessWidget {
+  const PreparationScreen({Key? key}) : super(key: key);
 
-  static const name = 'IntroductionScreen';
+  static const name = 'PreparationScreen';
 
-  static MaterialPageRoute route() => MaterialPageRoute<IntroductionScreen>(
-        builder: (_) => const IntroductionScreen(),
+  static MaterialPageRoute route() => MaterialPageRoute<PreparationScreen>(
+        builder: (_) => const PreparationScreen(),
         settings: const RouteSettings(name: name),
       );
 
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      '鳴き声を3つ\n用意しておこう',
+      '鳴き声を2つ\n用意しておこう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline5,
     );
@@ -24,7 +26,7 @@ class IntroductionScreen extends StatelessWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: 'まず、鳴き声を3つ録音して',
+            text: 'まず、鳴き声を2つ録音して',
             style: Theme.of(context).textTheme.bodyText1,
           ),
           TextSpan(
@@ -35,15 +37,39 @@ class IntroductionScreen extends StatelessWidget {
                 .copyWith(fontWeight: FontWeight.bold),
           ),
           TextSpan(
-            text: 'しておいてね！あとで使うよ！',
+            text: 'しておいてね！あとで使うよ！\n一つは',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          TextSpan(
+            text: '高めの鳴き声',
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: '、もう一つは',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          TextSpan(
+            text: '低めの鳴き声',
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: 'を用意しておくといいよ！',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ],
       ),
     );
 
-    final trimmingButton =
-        TextButton(onPressed: () {}, child: const Text('トリミングの方法を確認する'));
+    final trimmingButton = TextButton(
+      onPressed: () => launch(AppDefinitions.trimmingPageUrl),
+      child: const Text('トリミングの方法を確認する'),
+    );
 
     final musicFilesImage = Image.asset('assets/images/music_files.png');
 

@@ -5,7 +5,7 @@ import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
-import 'package:meow_music/ui/introduction_screen.dart';
+import 'package:meow_music/ui/preparation_screen.dart';
 
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
@@ -48,7 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       return;
     }
 
-    Navigator.push<void>(context, IntroductionScreen.route());
+    Navigator.push<void>(context, PreparationScreen.route());
   }
 
   @override
@@ -170,7 +170,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             return;
           }
 
-          await Navigator.push<void>(context, IntroductionScreen.route());
+          await Navigator.push<void>(context, PreparationScreen.route());
         },
       ),
     );

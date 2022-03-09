@@ -38,8 +38,9 @@ extension PlayerChoiceGetter on PlayerChoice {
       piece: (_, piece) =>
           piece.mapOrNull(generated: (generated) => generated.url),
       template: (_, template) => template.url,
-      sound: (_, sound) =>
-          sound.whenOrNull(uploaded: (_, __, remoteFileName) => remoteFileName),
+      sound: (_, sound) => sound.whenOrNull(
+        uploaded: (_, __, ___, remoteFileName) => remoteFileName,
+      ),
     );
   }
 }

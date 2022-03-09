@@ -36,6 +36,7 @@ class SubmissionApi {
 class UploadResponse with _$UploadResponse {
   const factory UploadResponse({
     required String id,
+    required String extension,
     required String path,
   }) = _UploadResponse;
 

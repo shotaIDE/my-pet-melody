@@ -25,11 +25,12 @@ def hello_world():
     file_name_bases = request_params_json['fileNames']
     file_names = [
         (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
-         f'{file_name_base}{_OUTPUT_SOUND_EXTENSION}')
+         f'{file_name_base}')
         for file_name_base in file_name_bases
     ]
 
     # TODO: ファイルの存在を確認するバリデーションチェック
+    # TODO: 鳴き声が2つ存在することを確認するバリデーションチェック
 
     template = AudioSegment.from_file(
         f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}.wav'
@@ -46,12 +47,12 @@ def hello_world():
 
     overlayed = template
 
-    for index, normalized_sound in enumerate(normalized_sounds):
-        position_milliseconds = 1000 * index
-        overlayed = overlayed.overlay(
-            normalized_sound,
-            position=position_milliseconds
-        )
+    overlayed = overlayed.overlay(normalized_sounds[0], position=3159)
+    overlayed = overlayed.overlay(normalized_sounds[1], position=6941)
+    overlayed = overlayed.overlay(normalized_sounds[0], position=10099)
+    overlayed = overlayed.overlay(normalized_sounds[1], position=10754)
+    overlayed = overlayed.overlay(normalized_sounds[0], position=14612)
+    overlayed = overlayed.overlay(normalized_sounds[1], position=15352)
 
     normalized_overlayed = overlayed.normalize(headroom=1.0)
 
@@ -83,6 +84,7 @@ def upload_file():
     current = datetime.now()
     store_file_name_base = current.strftime('%Y%m%d%H%M%S')
     store_file_name = f'{store_file_name_base}{splitted_file_name[1]}'
+    store_file_extension = splitted_file_name[1]
     store_path_on_static = f'{_UPLOADS_DIRECTORY}/{store_file_name}'
 
     store_path = f'{_STATIC_DIRECTORY}/{store_path_on_static}'
@@ -93,5 +95,6 @@ def upload_file():
 
     return {
         'id': store_file_name_base,
+        'extension': store_file_extension,
         'path': store_url_path,
     }

@@ -9,4 +9,5 @@
     "python.linting.lintOnSave": true,
     "python.linting.pycodestyleEnabled": true,
     "python.linting.pylintEnabled": false,
+    "python.defaultInterpreterPath": "env/bin/python",
 }

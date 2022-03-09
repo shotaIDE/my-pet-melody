@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
@@ -24,7 +25,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
               status: const PlayStatus.stop(),
             ),
             sounds: List.generate(
-              3,
+              2,
               (index) => PlayerChoiceSound(
                 status: const PlayStatus.stop(),
                 sound: SelectedSoundNone(id: 'selected-sound-$index'),
@@ -94,6 +95,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     sounds[index] = target.copyWith(
       sound: SelectedSound.uploaded(
         id: uploadedSound.id,
+        extension: uploadedSound.extension,
         localFileName: localFileName,
         remoteUrl: uploadedSound.url,
       ),
@@ -124,7 +126,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     return RequestPushNotificationPermissionArgs(
       template: state.template.template,
-      soundIdList: soundIdList,
+      sounds: soundIdList,
     );
   }
 
@@ -135,7 +137,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     await _submissionUseCase.submit(
       template: state.template.template,
-      soundIdList: soundIdList,
+      sounds: soundIdList,
     );
 
     state = state.copyWith(isProcessing: false);
@@ -278,11 +280,17 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
-  List<String> _getSoundIdList() {
+  List<UploadedSound> _getSoundIdList() {
     return state.sounds
         .map((choice) => choice.sound)
         .whereType<SelectedSoundUploaded>()
-        .map((uploaded) => uploaded.id)
+        .map(
+          (uploaded) => UploadedSound(
+            id: uploaded.id,
+            extension: uploaded.extension,
+            url: uploaded.remoteUrl,
+          ),
+        )
         .toList();
   }
 }
