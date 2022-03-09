@@ -7,11 +7,11 @@ import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
+import 'package:meow_music/ui/introduction_screen.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
-import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
@@ -346,7 +346,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     Navigator.popUntil(
       context,
-      (route) => route.settings.name == SelectTemplateScreen.name,
+      (route) => route.settings.name == IntroductionScreen.name,
     );
     await Navigator.pushReplacement<CompletedToSubmitScreen, void>(
       context,
