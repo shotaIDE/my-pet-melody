@@ -3,13 +3,13 @@ import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class IntroductionScreen extends StatelessWidget {
-  const IntroductionScreen({Key? key}) : super(key: key);
+class PreparationScreen extends StatelessWidget {
+  const PreparationScreen({Key? key}) : super(key: key);
 
-  static const name = 'IntroductionScreen';
+  static const name = 'PreparationScreen';
 
-  static MaterialPageRoute route() => MaterialPageRoute<IntroductionScreen>(
-        builder: (_) => const IntroductionScreen(),
+  static MaterialPageRoute route() => MaterialPageRoute<PreparationScreen>(
+        builder: (_) => const PreparationScreen(),
         settings: const RouteSettings(name: name),
       );
 

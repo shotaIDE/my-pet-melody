@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
-import 'package:meow_music/ui/introduction_screen.dart';
+import 'package:meow_music/ui/preparation_screen.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/request_push_notification_permission_view_model.dart';
 
@@ -181,7 +181,7 @@ class _SelectTemplateState
   Future<void> _launchCompletedScreen() async {
     Navigator.popUntil(
       context,
-      (route) => route.settings.name == IntroductionScreen.name,
+      (route) => route.settings.name == PreparationScreen.name,
     );
     await Navigator.pushReplacement<CompletedToSubmitScreen, void>(
       context,
