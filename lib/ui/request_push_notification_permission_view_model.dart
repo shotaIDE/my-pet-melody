@@ -33,7 +33,7 @@ class RequestPushNotificationPermissionViewModel
 
     await _submissionUseCase.submit(
       template: _args.template,
-      soundIdList: _args.soundIdList,
+      sounds: _args.sounds,
     );
 
     state = state.copyWith(isProcessing: false);

@@ -59,12 +59,12 @@ class SubmissionUseCase {
 
   Future<void> submit({
     required Template template,
-    required List<String> soundIdList,
+    required List<UploadedSound> sounds,
   }) async {
     final generated = await _repository.submit(
       userId: 'test-user-id',
       templateId: template.id,
-      soundIdList: soundIdList,
+      sounds: sounds,
     );
 
     if (generated == null) {

@@ -25,7 +25,7 @@ def hello_world():
     file_name_bases = request_params_json['fileNames']
     file_names = [
         (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
-         f'{file_name_base}{_OUTPUT_SOUND_EXTENSION}')
+         f'{file_name_base}')
         for file_name_base in file_name_bases
     ]
 
@@ -84,6 +84,7 @@ def upload_file():
     current = datetime.now()
     store_file_name_base = current.strftime('%Y%m%d%H%M%S')
     store_file_name = f'{store_file_name_base}{splitted_file_name[1]}'
+    store_file_extension = splitted_file_name[1]
     store_path_on_static = f'{_UPLOADS_DIRECTORY}/{store_file_name}'
 
     store_path = f'{_STATIC_DIRECTORY}/{store_path_on_static}'
@@ -94,5 +95,6 @@ def upload_file():
 
     return {
         'id': store_file_name_base,
+        'extension': store_file_extension,
         'path': store_url_path,
     }

@@ -6,6 +6,7 @@ part 'uploaded_sound.freezed.dart';
 class UploadedSound with _$UploadedSound {
   const factory UploadedSound({
     required String id,
+    required String extension,
     required String url,
   }) = _UploadedSound;
 }

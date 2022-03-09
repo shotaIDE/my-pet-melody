@@ -148,7 +148,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ),
             trailing: const CircularProgressIndicator(),
           ),
-          uploaded: (_, localFileName, remoteFileName) => ListTile(
+          uploaded: (_, __, localFileName, remoteFileName) => ListTile(
             leading: leading,
             title: Text(
               localFileName,

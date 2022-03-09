@@ -36,12 +36,12 @@ class SubmissionRepository {
   Future<FetchedPiece?> submit({
     required String userId,
     required String templateId,
-    required List<String> soundIdList,
+    required List<UploadedSound> sounds,
   }) async {
     return _remote.submit(
       userId: userId,
       templateId: templateId,
-      soundIdList: soundIdList,
+      sounds: sounds,
     );
   }
 }
