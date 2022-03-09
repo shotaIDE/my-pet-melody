@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
@@ -11,6 +12,7 @@ import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
@@ -109,8 +111,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final trimmingButton =
-        TextButton(onPressed: () {}, child: const Text('トリミングの方法を確認する'));
+    final trimmingButton = TextButton(
+      onPressed: () => launch(AppDefinitions.trimmingPageUrl),
+      child: const Text('トリミングの方法を確認する'),
+    );
 
     final sounds = state.sounds;
     final soundsList = ListView.separated(

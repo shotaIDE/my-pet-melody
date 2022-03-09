@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class IntroductionScreen extends StatelessWidget {
   const IntroductionScreen({Key? key}) : super(key: key);
@@ -42,8 +44,10 @@ class IntroductionScreen extends StatelessWidget {
       ),
     );
 
-    final trimmingButton =
-        TextButton(onPressed: () {}, child: const Text('トリミングの方法を確認する'));
+    final trimmingButton = TextButton(
+      onPressed: () => launch(AppDefinitions.trimmingPageUrl),
+      child: const Text('トリミングの方法を確認する'),
+    );
 
     final musicFilesImage = Image.asset('assets/images/music_files.png');
 
