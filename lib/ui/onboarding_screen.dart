@@ -75,9 +75,5 @@ class _HomeScreenState extends ConsumerState<OnboardingScreen> {
       context,
       HomeScreen.route(shouldStartCreationAutomatically: true),
     );
-
-    // TODO(ide): 以下はどう対応すればいいか？
-    // ignore: use_build_context_synchronously
-    // await Navigator.push<void>(context, PreparationScreen.route());
   }
 }
