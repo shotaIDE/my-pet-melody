@@ -16,7 +16,7 @@ class IntroductionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      '鳴き声を3つ\n用意しておこう',
+      '鳴き声を2つ\n用意しておこう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline5,
     );
@@ -26,7 +26,7 @@ class IntroductionScreen extends StatelessWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: 'まず、鳴き声を3つ録音して',
+            text: 'まず、鳴き声を2つ録音して',
             style: Theme.of(context).textTheme.bodyText1,
           ),
           TextSpan(
@@ -37,7 +37,29 @@ class IntroductionScreen extends StatelessWidget {
                 .copyWith(fontWeight: FontWeight.bold),
           ),
           TextSpan(
-            text: 'しておいてね！あとで使うよ！',
+            text: 'しておいてね！あとで使うよ！\n一つは',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          TextSpan(
+            text: '高めの鳴き声',
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: '、もう一つは',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          TextSpan(
+            text: '低めの鳴き声',
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: 'を用意しておくといいよ！',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ],
