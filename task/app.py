@@ -30,6 +30,7 @@ def hello_world():
     ]
 
     # TODO: ファイルの存在を確認するバリデーションチェック
+    # TODO: 鳴き声が2つ存在することを確認するバリデーションチェック
 
     template = AudioSegment.from_file(
         f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}.wav'
@@ -46,12 +47,12 @@ def hello_world():
 
     overlayed = template
 
-    for index, normalized_sound in enumerate(normalized_sounds):
-        position_milliseconds = 1000 * index
-        overlayed = overlayed.overlay(
-            normalized_sound,
-            position=position_milliseconds
-        )
+    overlayed = overlayed.overlay(normalized_sounds[0], position=3159)
+    overlayed = overlayed.overlay(normalized_sounds[1], position=6941)
+    overlayed = overlayed.overlay(normalized_sounds[0], position=10099)
+    overlayed = overlayed.overlay(normalized_sounds[1], position=10754)
+    overlayed = overlayed.overlay(normalized_sounds[0], position=14612)
+    overlayed = overlayed.overlay(normalized_sounds[1], position=15352)
 
     normalized_overlayed = overlayed.normalize(headroom=1.0)
 
