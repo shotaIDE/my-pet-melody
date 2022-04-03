@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -316,16 +315,25 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
   Future<void> _selectSound({required PlayerChoiceSound target}) async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['wav', 'm4a', 'mp3'],
+      allowedExtensions: ['wav', 'm4a', 'mp3', 'mov'],
     );
 
     if (result == null) {
       return;
     }
 
-    final file = File(result.files.single.path!);
+    final session =
+        await FFprobeKit.getMediaInformation(result.files.single.path!);
+    final information = session.getMediaInformation();
+    if (information == null) {
+      return;
+    }
 
-    await ref.read(widget.viewModel.notifier).upload(file, target: target);
+    debugPrint('Media information: duration = ${information.getDuration()}');
+
+    // final file = File(result.files.single.path!);
+
+    // await ref.read(widget.viewModel.notifier).upload(file, target: target);
   }
 
   Future<void> _showRequestScreen() async {
