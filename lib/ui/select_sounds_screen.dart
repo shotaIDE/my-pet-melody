@@ -327,15 +327,18 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final outputDirectory = await getTemporaryDirectory();
     final outputPath = outputDirectory.path;
 
+    const startSec = 0;
+    const outputFrameCount = 1;
+
     final session = await FFmpegKit.execute(
       '-i $inputPath '
-      '-ss 0 '
-      '-t 30 '
+      '-ss $startSec '
+      '--frames:v $outputFrameCount'
       '-f image2 '
-      '-vcodec mjpeg '
-      '-qscale 1 -qmin 1 -qmax 1 '
-      '-r 30 '
-      '$outputPath/%06d.jpg',
+      // '-vcodec mjpeg '
+      // '-qscale 1 -qmin 1 -qmax 1 '
+      // '-r 30 '
+      '$outputPath/%06d.png',
     );
 
     // final file = File(result.files.single.path!);
