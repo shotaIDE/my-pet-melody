@@ -11,6 +11,7 @@ class SelectSoundsState with _$SelectSoundsState {
     @Default(null) bool? isRequestStepExists,
     @Default(false) bool isAvailableSubmission,
     @Default(false) bool isProcessing,
+    @Default(null) String? path,
   }) = _SelectSoundsState;
 }
 

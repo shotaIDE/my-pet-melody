@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -193,6 +195,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       separatorBuilder: (_, __) => const Divider(height: 0),
     );
 
+    final path = state.path;
+    final image = path != null ? Image.file(File(path)) : Container();
+
     final body = SingleChildScrollView(
       padding: const EdgeInsets.only(top: 16, bottom: 138),
       child: Column(
@@ -211,6 +216,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             padding: const EdgeInsets.only(top: 32),
             child: soundsList,
           ),
+          image,
         ],
       ),
     );
@@ -333,13 +339,15 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final session = await FFmpegKit.execute(
       '-i $inputPath '
       '-ss $startSec '
-      '--frames:v $outputFrameCount'
+      '-frames:v $outputFrameCount '
       '-f image2 '
       // '-vcodec mjpeg '
       // '-qscale 1 -qmin 1 -qmax 1 '
       // '-r 30 '
-      '$outputPath/%06d.png',
+      '$outputPath/000000.png',
     );
+
+    ref.read(widget.viewModel.notifier).getFrame('$outputPath/000000.png');
 
     // final file = File(result.files.single.path!);
 

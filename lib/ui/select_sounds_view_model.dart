@@ -194,6 +194,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await _player.stop();
   }
 
+  void getFrame(String path) {
+    state = state.copyWith(path: path);
+  }
+
   bool _getIsAvailableSubmission() {
     final sounds = state.sounds;
 
