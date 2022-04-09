@@ -85,34 +85,47 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           iconSize: 24,
         );
 
+        const playingIndicator = LinearProgressIndicator();
+
         return Column(
           children: [
             Row(
               children: [
-                thumbnail,
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 24),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            title,
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: subtitle,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          thumbnail,
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 24),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      title,
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: subtitle,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      const Visibility(
+                        child: playingIndicator,
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24),
-                  child: selectButton,
-                ),
+                selectButton,
               ],
             ),
           ],
