@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
@@ -56,19 +57,65 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
       style: Theme.of(context).textTheme.headline5,
     );
 
-    final segmentPanels = state.choices.map(
-      (choice) {
+    final segmentPanels = state.choices.mapIndexed(
+      (index, choice) {
         final thumbnailPath = choice.thumbnailPath;
-        final leading =
-            thumbnailPath != null ? Image.file(File(thumbnailPath)) : null;
+        final thumbnail = thumbnailPath != null
+            ? Image.file(
+                File(thumbnailPath),
+                fit: BoxFit.fill,
+                width: 95,
+                height: 64,
+              )
+            : const SizedBox(
+                width: 95,
+                height: 64,
+              );
 
-        return ListTile(
-          leading: leading,
-          title: const Text('セグメント'),
-          subtitle: Text(
-            '${choice.segment.startMilliseconds}ms - '
-            '${choice.segment.endMilliseconds}ms',
-          ),
+        final title = Text('セグメント ${index + 1}');
+
+        final subtitle = Text(
+          '${choice.segment.startMilliseconds}ms - '
+          '${choice.segment.endMilliseconds}ms',
+        );
+
+        final selectButton = IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.reply),
+          iconSize: 24,
+        );
+
+        return Column(
+          children: [
+            Row(
+              children: [
+                thumbnail,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 24),
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            title,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: subtitle,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24),
+                  child: selectButton,
+                ),
+              ],
+            ),
+          ],
         );
       },
     ).toList();
