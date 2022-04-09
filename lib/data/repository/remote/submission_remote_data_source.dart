@@ -31,6 +31,12 @@ class SubmissionRemoteDataSource {
     );
   }
 
+  Future<void> detectNonSilence(File file) async {
+    final response = await _api.detectNonSilence(
+      file,
+    );
+  }
+
   Future<FetchedPiece?> submit({
     required String userId,
     required String templateId,

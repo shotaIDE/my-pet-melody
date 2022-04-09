@@ -23,6 +23,15 @@ class SubmissionApi {
     );
   }
 
+  Future<void> detectNonSilence(File file) async {
+    return _dio.postFile(
+      path: '/detect',
+      file: file,
+      fileName: 'test.mov',
+      responseParser: (_) => null,
+    );
+  }
+
   Future<SubmitResponse?> submit(SubmitRequest request) async {
     return _dio.post(
       path: '/',

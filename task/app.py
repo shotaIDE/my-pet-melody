@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 
 from flask import Flask, request, url_for
-from pydub import AudioSegment
+from pydub import AudioSegment, silence
 
 app = Flask(__name__)
 
@@ -98,3 +98,30 @@ def upload_file():
         'extension': store_file_extension,
         'path': store_url_path,
     }
+
+
+@app.route('/detect', methods=['POST'])
+def detect_non_silence():
+    f = request.files['file']
+
+    file_name = f.filename
+    splitted_file_name = os.path.splitext(file_name)
+
+    current = datetime.now()
+    store_file_name_base = current.strftime('%Y%m%d%H%M%S')
+    store_file_name = f'{store_file_name_base}{splitted_file_name[1]}'
+    store_file_extension = splitted_file_name[1]
+    store_path_on_static = f'{_UPLOADS_DIRECTORY}/{store_file_name}'
+
+    store_path = f'{_STATIC_DIRECTORY}/{store_path_on_static}'
+
+    f.save(store_path)
+
+    sound = AudioSegment.from_file(store_path)
+    normalized_sound = sound.normalize(headroom=1.0)
+
+    for threshould in range(-30, -10):
+        print(silence.detect_nonsilent(
+            normalized_sound, silence_thresh=threshould))
+
+    return {}

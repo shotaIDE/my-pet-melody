@@ -39,6 +39,10 @@ class SubmissionUseCase {
     );
   }
 
+  Future<void> detectNonSilence(File file) async {
+    return _repository.detectNonSilence(file);
+  }
+
   Future<bool> getShouldShowRequestPushNotificationPermission() async {
     if (Platform.isAndroid) {
       return false;

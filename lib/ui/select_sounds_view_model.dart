@@ -194,6 +194,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await _player.stop();
   }
 
+  Future<void> detectNonSilence(File file) async {
+    await _submissionUseCase.detectNonSilence(file);
+  }
+
   void getFrame(String path) {
     state = state.copyWith(path: path);
   }

@@ -33,6 +33,10 @@ class SubmissionRepository {
     );
   }
 
+  Future<void> detectNonSilence(File file) async {
+    return _remote.detectNonSilence(file);
+  }
+
   Future<FetchedPiece?> submit({
     required String userId,
     required String templateId,
