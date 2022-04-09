@@ -60,7 +60,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
     final segmentPanels = state.choices.mapIndexed(
       (index, choice) {
         final thumbnailPath = choice.thumbnailPath;
-        final thumbnail = thumbnailPath != null
+        final thumbnailBackground = thumbnailPath != null
             ? Image.file(
                 File(thumbnailPath),
                 fit: BoxFit.fill,
@@ -71,6 +71,27 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                 width: 95,
                 height: 64,
               );
+
+        final thumbnailButtonIcon = Container(
+          decoration: const BoxDecoration(
+            color: Colors.grey,
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(Icons.play_arrow),
+        );
+        final thumbnail = InkWell(
+          onTap: () {
+            debugPrint('Thumbnail was tapped');
+          },
+          child: Stack(
+            children: [
+              thumbnailBackground,
+              Center(
+                child: thumbnailButtonIcon,
+              ),
+            ],
+          ),
+        );
 
         final title = Text('セグメント ${index + 1}');
 
