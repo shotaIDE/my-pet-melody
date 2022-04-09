@@ -39,8 +39,47 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
 class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Placeholder(),
+    final state = ref.watch(widget.viewModel);
+
+    final title = Text(
+      '使いたい鳴き声を\n選ぼう',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.headline5,
+    );
+
+    final segmentPanels = state.segments
+        .map(
+          (segment) => ListTile(
+            title: const Text('セグメント'),
+            subtitle: Text(
+              '${segment.startMilliseconds}ms - ${segment.endMilliseconds}ms',
+            ),
+          ),
+        )
+        .toList();
+
+    final body = SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 203),
+      child: Column(
+        children: [
+          ...segmentPanels,
+        ],
+      ),
+    );
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: title,
+          ),
+          Expanded(
+            child: body,
+          ),
+        ],
+      ),
     );
   }
 }

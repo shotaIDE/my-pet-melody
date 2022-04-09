@@ -5,8 +5,9 @@ class SelectTrimmedSoundViewModel
     extends StateNotifier<SelectTrimmedSoundState> {
   SelectTrimmedSoundViewModel({
     required SelectTrimmedSoundArgs args,
-  })  : _args = args,
-        super(const SelectTrimmedSoundState());
-
-  final SelectTrimmedSoundArgs _args;
+  }) : super(
+          SelectTrimmedSoundState(
+            segments: args.segments,
+          ),
+        );
 }
