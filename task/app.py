@@ -2,6 +2,7 @@
 
 import functools
 import os
+import statistics
 from datetime import datetime
 
 from flask import Flask, request, url_for
@@ -120,8 +121,47 @@ def detect_non_silence():
     sound = AudioSegment.from_file(store_path)
     normalized_sound = sound.normalize(headroom=1.0)
 
-    for threshould in range(-30, -10):
-        print(silence.detect_nonsilent(
-            normalized_sound, silence_thresh=threshould))
+    non_silences_list_raw = [
+        {
+            'non_silences': silence.detect_nonsilent(
+                normalized_sound, silence_thresh=threshould),
+            'threshould': threshould,
+        }
+        for threshould in range(-30, -10)
+    ]
+
+    non_silences_list = [
+        non_silences
+        for non_silences in non_silences_list_raw
+        if len(non_silences['non_silences']) > 0
+    ]
+
+    # 1000ms との差分の平均が小さい順にソートし、それを候補とする
+
+    non_silences_length_list = [
+        {
+            'non_silences_length': [
+                non_silence[1] - non_silence[0]
+                for non_silence in non_silences['non_silences']
+            ],
+            'threshould': non_silences['threshould'],
+        }
+        for non_silences in non_silences_list
+    ]
+
+    average_list = [
+        {
+            'non_silences_average':
+                statistics.mean(non_silences_length['non_silences_length']),
+            'threshould': non_silences_length['threshould'],
+        }
+        for non_silences_length in non_silences_length_list
+    ]
+
+    sorted_average_list = sorted(
+        average_list,
+        key=lambda x: x['non_silences_average'])
+
+    print(sorted_average_list)
 
     return {}
