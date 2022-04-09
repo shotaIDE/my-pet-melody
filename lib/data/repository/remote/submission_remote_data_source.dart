@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:meow_music/data/api/submission_api.dart';
 import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
@@ -32,9 +33,9 @@ class SubmissionRemoteDataSource {
   }
 
   Future<void> detectNonSilence(File file) async {
-    final response = await _api.detectNonSilence(
-      file,
-    );
+    final response = await _api.detectNonSilence(file);
+
+    debugPrint('$response');
   }
 
   Future<FetchedPiece?> submit({

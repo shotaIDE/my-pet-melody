@@ -23,12 +23,12 @@ class SubmissionApi {
     );
   }
 
-  Future<void> detectNonSilence(File file) async {
+  Future<DetectResponse?> detectNonSilence(File file) async {
     return _dio.postFile(
       path: '/detect',
       file: file,
       fileName: 'test.mov',
-      responseParser: (_) => null,
+      responseParser: DetectResponse.fromJson,
     );
   }
 
@@ -51,6 +51,16 @@ class UploadResponse with _$UploadResponse {
 
   factory UploadResponse.fromJson(Map<String, dynamic> json) =>
       _$UploadResponseFromJson(json);
+}
+
+@freezed
+class DetectResponse with _$DetectResponse {
+  const factory DetectResponse({
+    required List<List<int>> nonSilences,
+  }) = _DetectResponse;
+
+  factory DetectResponse.fromJson(Map<String, dynamic> json) =>
+      _$DetectResponseFromJson(json);
 }
 
 @freezed

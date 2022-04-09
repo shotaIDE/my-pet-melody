@@ -162,6 +162,10 @@ def detect_non_silence():
         average_list,
         key=lambda x: x['non_silences_average'])
 
-    print(sorted_average_list)
+    target_threshould = sorted_average_list[0]['threshould']
 
-    return {}
+    target_index = target_threshould + 30
+
+    return {
+        'nonSilences': non_silences_list_raw[target_index]['non_silences']
+    }
