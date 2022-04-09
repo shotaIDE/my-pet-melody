@@ -11,6 +11,7 @@ import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
+import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:path/path.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
@@ -194,8 +195,18 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await _player.stop();
   }
 
-  Future<void> detectNonSilence(File file) async {
-    await _submissionUseCase.detectNonSilence(file);
+  Future<SelectTrimmedSoundArgs?> detectNonSilence(File file) async {
+    state = state.copyWith(isProcessing: true);
+
+    final result = await _submissionUseCase.detectNonSilence(file);
+
+    state = state.copyWith(isProcessing: false);
+
+    if (result == null) {
+      return null;
+    }
+
+    return SelectTrimmedSoundArgs(segments: result);
   }
 
   void getFrame(String path) {

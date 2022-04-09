@@ -13,6 +13,7 @@ import 'package:meow_music/ui/preparation_screen.dart';
 import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
+import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -333,7 +334,16 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final inputPath = inputPlatformFile.path!;
     final inputFile = File(inputPath);
 
-    await ref.read(widget.viewModel.notifier).detectNonSilence(inputFile);
+    final args =
+        await ref.read(widget.viewModel.notifier).detectNonSilence(inputFile);
+    if (args != null && mounted) {
+      await Navigator.push<void>(
+        context,
+        SelectTrimmedSoundScreen.route(
+          args: args,
+        ),
+      );
+    }
 
     final outputDirectory = await getTemporaryDirectory();
     final outputPath = outputDirectory.path;
