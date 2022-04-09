@@ -206,7 +206,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       return null;
     }
 
-    return SelectTrimmedSoundArgs(segments: result);
+    return SelectTrimmedSoundArgs(
+      soundPath: file.path,
+      segments: result,
+    );
   }
 
   void getFrame(String path) {

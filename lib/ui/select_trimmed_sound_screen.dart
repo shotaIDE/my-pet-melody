@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
@@ -38,6 +40,13 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
 
 class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    ref.read(widget.viewModel.notifier).setup();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
 
@@ -47,16 +56,22 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
       style: Theme.of(context).textTheme.headline5,
     );
 
-    final segmentPanels = state.segments
-        .map(
-          (segment) => ListTile(
-            title: const Text('セグメント'),
-            subtitle: Text(
-              '${segment.startMilliseconds}ms - ${segment.endMilliseconds}ms',
-            ),
+    final segmentPanels = state.choices.map(
+      (choice) {
+        final thumbnailPath = choice.thumbnailPath;
+        final leading =
+            thumbnailPath != null ? Image.file(File(thumbnailPath)) : null;
+
+        return ListTile(
+          leading: leading,
+          title: const Text('セグメント'),
+          subtitle: Text(
+            '${choice.segment.startMilliseconds}ms - '
+            '${choice.segment.endMilliseconds}ms',
           ),
-        )
-        .toList();
+        );
+      },
+    ).toList();
 
     final body = SingleChildScrollView(
       padding: const EdgeInsets.only(bottom: 203),
