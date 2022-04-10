@@ -32,7 +32,6 @@ class TrimSoundScreen extends ConsumerStatefulWidget {
       MaterialPageRoute<UploadedSound?>(
         builder: (_) => TrimSoundScreen(moviePath: moviePath),
         settings: const RouteSettings(name: name),
-        fullscreenDialog: true,
       );
 
   @override
@@ -90,11 +89,9 @@ class _SelectTrimmedSoundState extends ConsumerState<TrimSoundScreen> {
       appBar: AppBar(
         title: const Text('トリミング'),
         actions: [
-          TextButton(
-            onPressed: progressVisibility
-                ? null
-                : () => ref.read(widget.viewModel.notifier).save(),
-            child: const Text('保存'),
+          IconButton(
+            onPressed: progressVisibility ? null : _save,
+            icon: const Icon(Icons.check),
           )
         ],
       ),
@@ -130,5 +127,15 @@ class _SelectTrimmedSoundState extends ConsumerState<TrimSoundScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _save() async {
+    final uploadedSound = await ref.read(widget.viewModel.notifier).save();
+
+    if (uploadedSound == null || !mounted) {
+      return;
+    }
+
+    Navigator.pop(context, uploadedSound);
   }
 }

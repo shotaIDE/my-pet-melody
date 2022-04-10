@@ -402,10 +402,16 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   Future<void> _trimManually() async {
     final localPath = ref.read(widget.viewModel.notifier).getLocalPathName();
 
-    await Navigator.pushReplacement(
+    final outputPath = await Navigator.push(
       context,
       TrimSoundScreen.route(moviePath: localPath),
     );
+
+    if (outputPath == null || !mounted) {
+      return;
+    }
+
+    Navigator.pop(context, outputPath);
   }
 
   Future<void> _select({

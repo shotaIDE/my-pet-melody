@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/trim_sound_state.dart';
+import 'package:path/path.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
@@ -45,13 +46,25 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
     state = state.copyWith(isPlaying: playbackState);
   }
 
-  Future<void> save() async {
-    final result = await state.trimmer.saveTrimmedVideo(
+  Future<UploadedSound?> save() async {
+    final outputPath = await state.trimmer.saveTrimmedVideo(
       startValue: state.startValue,
       endValue: state.endValue,
+      storageDir: StorageDir.temporaryDirectory,
     );
 
-    debugPrint('succeeded to save: $result');
+    final outputFile = File(outputPath);
+
+    final uploadedSound = await _submissionUseCase.upload(
+      outputFile,
+      fileName: basename(outputPath),
+    );
+
+    if (uploadedSound == null) {
+      return null;
+    }
+
+    return uploadedSound;
   }
 
   void onUpdateStart(double value) {
