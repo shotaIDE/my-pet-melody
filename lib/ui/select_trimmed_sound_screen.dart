@@ -59,6 +59,8 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
       style: Theme.of(context).textTheme.headline5,
     );
 
+    const seekBarHeight = 24.0;
+
     final segmentPanels = state.choices.mapIndexed(
       (index, choice) {
         const height = 64.0;
@@ -115,7 +117,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         final splitThumbnails = state.splitThumbnails;
         final seekBarBackgroundLayer = splitThumbnails != null
             ? SizedBox(
-                height: 24,
+                height: seekBarHeight,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     final width = constraints.maxWidth;
@@ -154,21 +156,23 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                 constraints: const BoxConstraints.expand(height: 24),
               );
 
-        const seekBarPadding = 4.0;
+        const seekBarBorderWidth = 4.0;
         final lengthMilliseconds = state.lengthMilliseconds;
         final seekBar = lengthMilliseconds != null
             ? Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(seekBarPadding),
+                    padding: const EdgeInsets.all(seekBarBorderWidth),
                     child: seekBarBackgroundLayer,
                   ),
                   ConstrainedBox(
-                    constraints: const BoxConstraints.expand(height: 24),
+                    constraints: const BoxConstraints.expand(
+                      height: seekBarHeight + seekBarBorderWidth * 2,
+                    ),
                     child: LayoutBuilder(
                       builder: (context, constraints) {
                         final seekBarWidth =
-                            constraints.maxWidth - seekBarPadding * 2;
+                            constraints.maxWidth - seekBarBorderWidth * 2;
                         final startRatio = choice.segment.startMilliseconds /
                             lengthMilliseconds;
                         final endRatio =
@@ -183,7 +187,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                           decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.red,
-                              width: seekBarPadding,
+                              width: seekBarBorderWidth,
                             ),
                             borderRadius: BorderRadius.circular(4),
                           ),
