@@ -25,9 +25,10 @@ class SelectTrimmedSoundViewModel
         super(
           SelectTrimmedSoundState(
             choices: args.detected.list
-                .map(
-                  (segment) => PlayerChoiceTrimmedMovie(
+                .mapIndexed(
+                  (index, segment) => PlayerChoiceTrimmedMovie(
                     status: const PlayStatus.stop(),
+                    index: index,
                     path: args.soundPath,
                     segment: segment,
                   ),
@@ -141,7 +142,7 @@ class SelectTrimmedSoundViewModel
   }
 
   Future<void> play({required PlayerChoiceTrimmedMovie choice}) async {
-    final url = choice.url;
+    final url = choice.uri;
     if (url == null) {
       return;
     }

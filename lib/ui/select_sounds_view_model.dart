@@ -196,7 +196,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   }
 
   Future<void> play({required PlayerChoice choice}) async {
-    final url = choice.url;
+    final url = choice.uri;
     if (url == null) {
       return;
     }

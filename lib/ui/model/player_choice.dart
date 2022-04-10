@@ -26,6 +26,7 @@ class PlayerChoice with _$PlayerChoice {
 
   const factory PlayerChoice.trimmedMovie({
     required PlayStatus status,
+    required int index,
     required String path,
     required NonSilentSegment segment,
     @Default(null) String? thumbnailPath,
@@ -38,11 +39,11 @@ extension PlayerChoiceGetter on PlayerChoice {
       piece: (_, piece) => piece.id,
       template: (_, template) => template.id,
       sound: (_, sound) => sound.id,
-      trimmedMovie: (_, __, ___, ____) => 'xx',
+      trimmedMovie: (_, index, __, ___, ____) => '$index',
     );
   }
 
-  String? get url {
+  String? get uri {
     return when(
       piece: (_, piece) =>
           piece.mapOrNull(generated: (generated) => generated.url),
@@ -50,7 +51,7 @@ extension PlayerChoiceGetter on PlayerChoice {
       sound: (_, sound) => sound.whenOrNull(
         uploaded: (_, __, ___, remoteFileName) => remoteFileName,
       ),
-      trimmedMovie: (_, path, ___, ____) => path,
+      trimmedMovie: (_, __, path, ___, ____) => path,
     );
   }
 }

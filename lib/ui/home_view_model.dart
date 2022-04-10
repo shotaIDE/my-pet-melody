@@ -45,7 +45,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<void> play({required PlayerChoicePiece piece}) async {
-    final url = piece.url;
+    final url = piece.uri;
     if (url == null) {
       return;
     }

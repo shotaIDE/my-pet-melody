@@ -38,7 +38,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   }
 
   Future<void> play({required PlayerChoiceTemplate template}) async {
-    final url = template.url;
+    final url = template.uri;
     if (url == null) {
       return;
     }
