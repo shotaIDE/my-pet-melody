@@ -116,7 +116,8 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         );
 
         final selectButton = IconButton(
-          onPressed: () {},
+          onPressed: () =>
+              ref.read(widget.viewModel.notifier).select(choice: choice),
           icon: const Icon(Icons.reply),
           iconSize: 24,
         );

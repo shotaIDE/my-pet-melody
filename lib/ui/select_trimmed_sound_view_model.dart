@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/non_silence_segment.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
@@ -181,6 +182,27 @@ class SelectTrimmedSoundViewModel
     _setPlayerChoices(stoppedList);
 
     await _player.stop();
+  }
+
+  Future<void> select({required PlayerChoiceTrimmedMovie choice}) async {
+    final startSeconds = choice.segment.startMilliseconds / 1000;
+    final lengthSeconds =
+        (choice.segment.endMilliseconds - choice.segment.startMilliseconds) /
+            1000;
+
+    final outputDirectory = await getTemporaryDirectory();
+    final outputParentPath = outputDirectory.path;
+    final outputPath = '$outputParentPath/trimmed.mov';
+
+    await FFmpegKit.execute(
+      '-i $_moviePath '
+      '-ss $startSeconds '
+      '-t $lengthSeconds '
+      '-y '
+      '$outputPath',
+    );
+
+    debugPrint('Succeeded to trim');
   }
 
   void _onAudioPositionReceived(Duration position) {
