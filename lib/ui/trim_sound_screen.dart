@@ -4,6 +4,7 @@ import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/ui/trim_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_view_model.dart';
+import 'package:video_trimmer/video_trimmer.dart';
 
 final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
     .family<TrimSoundViewModel, TrimSoundState, String>(
@@ -50,9 +51,73 @@ class _SelectTrimmedSoundState extends ConsumerState<TrimSoundScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
 
+    final trimmer = state.trimmer;
+    final progressVisibility = state.progressVisibility;
+
+    final isPlaying = state.isPlaying;
+
     return Scaffold(
-      appBar: AppBar(),
-      body: const Placeholder(),
+      appBar: AppBar(
+        title: const Text('トリミング'),
+        actions: [
+          TextButton(
+            onPressed: progressVisibility
+                ? null
+                : () => ref.read(widget.viewModel.notifier).save(),
+            child: const Text('保存'),
+          )
+        ],
+      ),
+      body: Builder(
+        builder: (context) => Center(
+          child: Container(
+            padding: const EdgeInsets.only(bottom: 30),
+            color: Colors.black,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Visibility(
+                  visible: progressVisibility,
+                  child: const LinearProgressIndicator(
+                    backgroundColor: Colors.red,
+                  ),
+                ),
+                Expanded(
+                  child: VideoViewer(trimmer: trimmer),
+                ),
+                Center(
+                  child: TrimEditor(
+                    trimmer: trimmer,
+                    viewerWidth: MediaQuery.of(context).size.width,
+                    maxVideoLength: const Duration(seconds: 10),
+                    onChangeStart:
+                        ref.read(widget.viewModel.notifier).onUpdateStart,
+                    onChangeEnd:
+                        ref.read(widget.viewModel.notifier).onUpdateEnd,
+                    onChangePlaybackState: (isPlaying) => ref
+                        .read(widget.viewModel.notifier)
+                        .onUpdatePlaybackState(isPlaying: isPlaying),
+                  ),
+                ),
+                TextButton(
+                  onPressed: ref.read(widget.viewModel.notifier).onPlay,
+                  child: isPlaying
+                      ? const Icon(
+                          Icons.pause,
+                          size: 80,
+                          color: Colors.white,
+                        )
+                      : const Icon(
+                          Icons.play_arrow,
+                          size: 80,
+                          color: Colors.white,
+                        ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
