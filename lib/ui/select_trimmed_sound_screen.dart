@@ -139,7 +139,12 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
 
                     return ClipRect(
                       child: Stack(
-                        children: thumbnails,
+                        children: [
+                          ...thumbnails,
+                          Container(
+                            color: Colors.white.withOpacity(0.5),
+                          )
+                        ],
                       ),
                     );
                   },
