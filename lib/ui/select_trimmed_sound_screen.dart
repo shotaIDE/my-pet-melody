@@ -134,6 +134,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                         child: Image.file(
                           File(imagePath),
                           width: imageWidth,
+                          height: seekBarHeight,
                           fit: BoxFit.fill,
                         ),
                       );
