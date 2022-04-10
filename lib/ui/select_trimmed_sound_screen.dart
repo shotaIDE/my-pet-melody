@@ -309,7 +309,12 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
       padding: const EdgeInsets.only(bottom: 203),
       child: Column(
         children: [
-          ...segmentPanels,
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: Column(
+              children: segmentPanels,
+            ),
+          ),
         ],
       ),
     );
