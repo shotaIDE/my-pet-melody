@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_view_model.dart';
+import 'package:skeletons/skeletons.dart';
 
 final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectTrimmedSoundViewModel, SelectTrimmedSoundState,
@@ -76,6 +77,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
             : const SizedBox(
                 width: width,
                 height: height,
+                child: SkeletonAvatar(),
               );
 
         final thumbnailButtonIcon = Container(
@@ -150,6 +152,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
               )
             : ConstrainedBox(
                 constraints: const BoxConstraints.expand(height: 24),
+                child: const SkeletonAvatar(),
               );
 
         const seekBarBorderWidth = 4.0;
