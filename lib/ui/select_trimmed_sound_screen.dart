@@ -61,6 +61,26 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
       style: Theme.of(context).textTheme.headline5,
     );
 
+    final firstThumbnailPath = state.splitThumbnails?.first;
+    const firstThumbnailHeight = 48.0;
+    final firstThumbnail = firstThumbnailPath != null
+        ? Image.file(
+            File(firstThumbnailPath),
+            fit: BoxFit.fill,
+            width: firstThumbnailHeight * _aspectRatio,
+            height: firstThumbnailHeight,
+          )
+        : const SizedBox(
+            width: firstThumbnailHeight * _aspectRatio,
+            height: firstThumbnailHeight,
+          );
+    final moviePanel = ListTile(
+      leading: firstThumbnail,
+      // TODO(ide): 差し替え
+      title: const Text('動画.mov'),
+      tileColor: Colors.grey[300],
+    );
+
     const seekBarHeight = 24.0;
 
     final segmentPanels = state.choices.mapIndexed(
@@ -326,6 +346,10 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 32),
             child: title,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: moviePanel,
           ),
           Expanded(
             child: body,
