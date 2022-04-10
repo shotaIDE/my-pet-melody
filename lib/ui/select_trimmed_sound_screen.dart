@@ -92,11 +92,10 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
             debugPrint('Thumbnail was tapped');
           },
           child: Stack(
+            alignment: AlignmentDirectional.center,
             children: [
               thumbnailBackground,
-              Center(
-                child: thumbnailButtonIcon,
-              ),
+              thumbnailButtonIcon,
             ],
           ),
         );
