@@ -93,6 +93,7 @@ class SelectTrimmedSoundViewModel
     );
 
     state = state.copyWith(
+      lengthMilliseconds: (durationSeconds * 1000).toInt(),
       splitThumbnails: splitThumbnailFilePaths,
     );
   }

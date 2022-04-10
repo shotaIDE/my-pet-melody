@@ -7,6 +7,7 @@ part 'select_trimmed_sound_state.freezed.dart';
 class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
   const factory SelectTrimmedSoundState({
     required List<TrimmedSoundChoice> choices,
+    @Default(null) int? lengthMilliseconds,
     @Default(null) List<String>? splitThumbnails,
   }) = _SelectTrimmedSoundState;
 }

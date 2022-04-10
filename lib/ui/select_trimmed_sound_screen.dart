@@ -154,6 +154,44 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                 color: Colors.grey,
               );
 
+        const seekBarPadding = 4.0;
+        final lengthMilliseconds = state.lengthMilliseconds;
+        final seekBar = lengthMilliseconds != null
+            ? Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(seekBarPadding),
+                    child: seekBarBackgroundLayer,
+                  ),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final seekBarWidth =
+                          constraints.maxWidth - seekBarPadding * 2;
+                      final startRatio =
+                          choice.segment.startMilliseconds / lengthMilliseconds;
+                      final endRatio =
+                          choice.segment.endMilliseconds / lengthMilliseconds;
+                      final positionX1 = seekBarWidth * startRatio;
+                      final positionX2 = seekBarWidth * endRatio;
+
+                      return Container(
+                        margin: EdgeInsets.only(left: positionX1),
+                        width: positionX2 - positionX1,
+                        height: constraints.maxHeight,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.red,
+                            width: seekBarPadding,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              )
+            : Container();
+
         return Column(
           children: [
             Row(
@@ -195,7 +233,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                 selectButton,
               ],
             ),
-            seekBarBackgroundLayer,
+            seekBar,
           ],
         );
       },
