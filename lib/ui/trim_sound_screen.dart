@@ -56,6 +56,36 @@ class _SelectTrimmedSoundState extends ConsumerState<TrimSoundScreen> {
 
     final isPlaying = state.isPlaying;
 
+    final viewer = VideoViewer(trimmer: trimmer);
+
+    final editor = LayoutBuilder(
+      builder: (context, constraints) => TrimEditor(
+        trimmer: trimmer,
+        viewerWidth: constraints.maxWidth - 16,
+        maxVideoLength: const Duration(seconds: 10),
+        onChangeStart: ref.read(widget.viewModel.notifier).onUpdateStart,
+        onChangeEnd: ref.read(widget.viewModel.notifier).onUpdateEnd,
+        onChangePlaybackState: (isPlaying) => ref
+            .read(widget.viewModel.notifier)
+            .onUpdatePlaybackState(isPlaying: isPlaying),
+      ),
+    );
+
+    final playButton = IconButton(
+      onPressed: ref.read(widget.viewModel.notifier).onPlay,
+      icon: isPlaying
+          ? const Icon(
+              Icons.pause,
+              size: 64,
+              color: Colors.white,
+            )
+          : const Icon(
+              Icons.play_arrow,
+              size: 64,
+              color: Colors.white,
+            ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('トリミング'),
@@ -68,53 +98,34 @@ class _SelectTrimmedSoundState extends ConsumerState<TrimSoundScreen> {
           )
         ],
       ),
-      body: Builder(
-        builder: (context) => Center(
-          child: Container(
-            padding: const EdgeInsets.only(bottom: 30),
-            color: Colors.black,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Visibility(
-                  visible: progressVisibility,
-                  child: const LinearProgressIndicator(
-                    backgroundColor: Colors.red,
+      body: Container(
+        padding: const EdgeInsets.only(bottom: 30),
+        color: Colors.black,
+        child: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constrains) {
+              return Column(
+                children: [
+                  Visibility(
+                    visible: progressVisibility,
+                    child: const LinearProgressIndicator(
+                      backgroundColor: Colors.red,
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: VideoViewer(trimmer: trimmer),
-                ),
-                Center(
-                  child: TrimEditor(
-                    trimmer: trimmer,
-                    viewerWidth: MediaQuery.of(context).size.width,
-                    maxVideoLength: const Duration(seconds: 10),
-                    onChangeStart:
-                        ref.read(widget.viewModel.notifier).onUpdateStart,
-                    onChangeEnd:
-                        ref.read(widget.viewModel.notifier).onUpdateEnd,
-                    onChangePlaybackState: (isPlaying) => ref
-                        .read(widget.viewModel.notifier)
-                        .onUpdatePlaybackState(isPlaying: isPlaying),
+                  Expanded(
+                    child: viewer,
                   ),
-                ),
-                TextButton(
-                  onPressed: ref.read(widget.viewModel.notifier).onPlay,
-                  child: isPlaying
-                      ? const Icon(
-                          Icons.pause,
-                          size: 80,
-                          color: Colors.white,
-                        )
-                      : const Icon(
-                          Icons.play_arrow,
-                          size: 80,
-                          color: Colors.white,
-                        ),
-                )
-              ],
-            ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: SizedBox(
+                      width: constrains.maxWidth,
+                      child: editor,
+                    ),
+                  ),
+                  playButton,
+                ],
+              );
+            },
           ),
         ),
       ),

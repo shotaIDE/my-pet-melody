@@ -24,6 +24,13 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
   final SubmissionUseCase _submissionUseCase;
   final String _moviePath;
 
+  @override
+  Future<void> dispose() async {
+    state.trimmer.dispose();
+
+    super.dispose();
+  }
+
   Future<void> setup() async {
     final file = File(_moviePath);
     await state.trimmer.loadVideo(videoFile: file);
