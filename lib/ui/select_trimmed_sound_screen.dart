@@ -148,17 +148,6 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           '${choice.segment.endMilliseconds}ms',
         );
 
-        final selectButton = IconButton(
-          onPressed: () => _select(choice: choice),
-          icon: const Icon(Icons.reply),
-          iconSize: 24,
-        );
-
-        final playingIndicator = choice.status.when(
-          stop: LinearProgressIndicator.new,
-          playing: (value) => LinearProgressIndicator(value: value),
-        );
-
         final splitThumbnails = state.splitThumbnails;
         final seekBarBackgroundLayer = splitThumbnails != null
             ? SizedBox(
@@ -262,10 +251,18 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
               )
             : Container();
 
-        final body = Column(
+        const selectIcon = Icon(Icons.arrow_forward_ios);
+
+        final playingIndicator = choice.status.when(
+          stop: LinearProgressIndicator.new,
+          playing: (value) => LinearProgressIndicator(value: value),
+        );
+
+        final detailsPanel = Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: seekBarBorderWidth),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: seekBarBorderWidth),
               child: Row(
                 children: [
                   Expanded(
@@ -308,7 +305,6 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                       ],
                     ),
                   ),
-                  selectButton,
                 ],
               ),
             ),
@@ -319,19 +315,43 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           ],
         );
 
-        return Container(
-          padding: const EdgeInsets.only(
-            top: 8,
-            bottom: 8 - seekBarBorderWidth,
-            left: 8 - seekBarBorderWidth,
-            right: 8 - seekBarBorderWidth,
-          ),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Theme.of(context).secondaryHeaderColor,
+        final body = Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: BorderSide(
+                      color: Theme.of(context).secondaryHeaderColor,
+                    ),
+                  ),
+                ),
+                child: detailsPanel,
+              ),
             ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: selectIcon,
+            ),
+          ],
+        );
+
+        return InkWell(
+          onTap: () => _select(choice: choice),
+          child: Container(
+            padding: const EdgeInsets.only(
+              top: 8,
+              bottom: 8 - seekBarBorderWidth,
+              left: 8 - seekBarBorderWidth,
+              right: 8 - seekBarBorderWidth,
+            ),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Theme.of(context).secondaryHeaderColor,
+              ),
+            ),
+            child: body,
           ),
-          child: body,
         );
       },
     ).toList();
