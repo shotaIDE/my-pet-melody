@@ -262,16 +262,18 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8),
+              padding: const EdgeInsets.only(top: 4),
               child: seekBar,
             ),
           ],
         );
 
         return Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 8 - seekBarBorderWidth,
+          padding: const EdgeInsets.only(
+            top: 8,
+            bottom: 8 - seekBarBorderWidth,
+            left: 8 - seekBarBorderWidth,
+            right: 8 - seekBarBorderWidth,
           ),
           decoration: BoxDecoration(
             border: Border.all(
