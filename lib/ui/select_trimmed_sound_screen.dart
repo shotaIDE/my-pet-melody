@@ -73,6 +73,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         : const SizedBox(
             width: firstThumbnailHeight * _aspectRatio,
             height: firstThumbnailHeight,
+            child: SkeletonAvatar(),
           );
     final moviePanel = ListTile(
       leading: firstThumbnail,
