@@ -332,9 +332,18 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
     ).toList();
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 203),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
+          moviePanel,
+          const Padding(
+            padding: EdgeInsets.only(top: 32),
+            child: noDesiredTrimmingDescription,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: trimManuallyButton,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 32),
             child: Column(
@@ -353,20 +362,11 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
             padding: const EdgeInsets.only(top: 32),
             child: title,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: moviePanel,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 32),
-            child: noDesiredTrimmingDescription,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: trimManuallyButton,
-          ),
           Expanded(
-            child: body,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: body,
+            ),
           ),
         ],
       ),
