@@ -127,7 +127,7 @@ def detect_non_silence():
 
     non_silences_list_raw = [
         {
-            'non_silences': silence.detect_nonsilent(
+            'segments': silence.detect_nonsilent(
                 normalized_sound, silence_thresh=threshould),
             'threshould': threshould,
         }
@@ -137,16 +137,16 @@ def detect_non_silence():
     non_silences_list = [
         non_silences
         for non_silences in non_silences_list_raw
-        if len(non_silences['non_silences']) > 0
+        if len(non_silences['segments']) > 0
     ]
 
     # 1000ms との差分の平均が小さい順にソートし、それを候補とする
 
     non_silences_length_list = [
         {
-            'non_silences_length': [
+            'segment_duration_list': [
                 non_silence[1] - non_silence[0]
-                for non_silence in non_silences['non_silences']
+                for non_silence in non_silences['segments']
             ],
             'threshould': non_silences['threshould'],
         }
@@ -155,8 +155,8 @@ def detect_non_silence():
 
     average_list = [
         {
-            'non_silences_average':
-                statistics.mean(non_silences_length['non_silences_length']),
+            'segment_duration_average':
+                statistics.mean(non_silences_length['segment_duration_list']),
             'threshould': non_silences_length['threshould'],
         }
         for non_silences_length in non_silences_length_list
@@ -164,13 +164,13 @@ def detect_non_silence():
 
     sorted_average_list = sorted(
         average_list,
-        key=lambda x: x['non_silences_average'])
+        key=lambda x: x['segment_duration_average'])
 
     target_threshould = sorted_average_list[0]['threshould']
 
     target_index = target_threshould + 30
 
     return {
-        'nonSilences': non_silences_list_raw[target_index]['non_silences'],
+        'segments': non_silences_list_raw[target_index]['segments'],
         'durationMilliseconds': duration_milliseconds,
     }

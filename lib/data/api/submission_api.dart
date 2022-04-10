@@ -59,7 +59,7 @@ class UploadResponse with _$UploadResponse {
 @freezed
 class DetectResponse with _$DetectResponse {
   const factory DetectResponse({
-    required List<List<int>> nonSilences,
+    required List<List<int>> segments,
     required int durationMilliseconds,
   }) = _DetectResponse;
 

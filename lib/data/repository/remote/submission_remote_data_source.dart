@@ -46,7 +46,7 @@ class SubmissionRemoteDataSource {
     }
 
     return DetectedNonSilenceSegments(
-      list: response.nonSilences
+      list: response.segments
           .map(
             (nonSilence) => NonSilenceSegment(
               startMilliseconds: nonSilence.first,
