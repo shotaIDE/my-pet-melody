@@ -108,6 +108,29 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
+  Future<void> uploaded(
+    UploadedSound uploadedSound, {
+    required PlayerChoiceSound target,
+  }) async {
+    final sounds = state.sounds;
+    final index = sounds.indexOf(target);
+
+    sounds[index] = target.copyWith(
+      sound: SelectedSound.uploaded(
+        id: uploadedSound.id,
+        extension: uploadedSound.extension,
+        // TODO(ide): 繋ぎ込み
+        localFileName: 'localFileName',
+        remoteUrl: uploadedSound.url,
+      ),
+    );
+
+    state = state.copyWith(
+      sounds: sounds,
+      isAvailableSubmission: _getIsAvailableSubmission(),
+    );
+  }
+
   Future<void> delete({required PlayerChoiceSound target}) async {
     final sounds = state.sounds;
     final index = sounds.indexOf(target);

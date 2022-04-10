@@ -1,23 +1,28 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/non_silence_segment.dart';
+import 'package:meow_music/data/model/uploaded_sound.dart';
+import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SelectTrimmedSoundViewModel
     extends StateNotifier<SelectTrimmedSoundState> {
   SelectTrimmedSoundViewModel({
+    required SubmissionUseCase submissionUseCase,
     required SelectTrimmedSoundArgs args,
-  })  : _moviePath = args.soundPath,
+  })  : _submissionUseCase = submissionUseCase,
+        _moviePath = args.soundPath,
         super(
           SelectTrimmedSoundState(
             choices: args.segments
@@ -34,6 +39,7 @@ class SelectTrimmedSoundViewModel
 
   static const splitCount = 10;
 
+  final SubmissionUseCase _submissionUseCase;
   final String _moviePath;
   final _player = AudioPlayer();
 
@@ -184,7 +190,9 @@ class SelectTrimmedSoundViewModel
     await _player.stop();
   }
 
-  Future<void> select({required PlayerChoiceTrimmedMovie choice}) async {
+  Future<UploadedSound?> select({
+    required PlayerChoiceTrimmedMovie choice,
+  }) async {
     final startSeconds = choice.segment.startMilliseconds / 1000;
     final lengthSeconds =
         (choice.segment.endMilliseconds - choice.segment.startMilliseconds) /
@@ -192,7 +200,8 @@ class SelectTrimmedSoundViewModel
 
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
-    final outputPath = '$outputParentPath/trimmed.mov';
+    const outputFileName = 'trimmed.mov';
+    final outputPath = '$outputParentPath/$outputFileName';
 
     await FFmpegKit.execute(
       '-i $_moviePath '
@@ -202,7 +211,18 @@ class SelectTrimmedSoundViewModel
       '$outputPath',
     );
 
-    debugPrint('Succeeded to trim');
+    final outputFile = File(outputPath);
+
+    final uploadedSound = await _submissionUseCase.upload(
+      outputFile,
+      fileName: basename(outputFileName),
+    );
+
+    if (uploadedSound == null) {
+      return null;
+    }
+
+    return uploadedSound;
   }
 
   void _onAudioPositionReceived(Duration position) {

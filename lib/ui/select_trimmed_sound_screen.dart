@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/di/use_case_providers.dart';
+import 'package:meow_music/data/model/uploaded_sound.dart';
+import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_view_model.dart';
 import 'package:skeletons/skeletons.dart';
@@ -11,6 +14,7 @@ final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectTrimmedSoundViewModel, SelectTrimmedSoundState,
         SelectTrimmedSoundArgs>(
   (ref, args) => SelectTrimmedSoundViewModel(
+    submissionUseCase: ref.watch(submissionUseCaseProvider),
     args: args,
   ),
 );
@@ -27,10 +31,10 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModel;
 
-  static MaterialPageRoute route({
+  static MaterialPageRoute<UploadedSound?> route({
     required SelectTrimmedSoundArgs args,
   }) =>
-      MaterialPageRoute<SelectTrimmedSoundScreen>(
+      MaterialPageRoute<UploadedSound?>(
         builder: (_) => SelectTrimmedSoundScreen(args: args),
         settings: const RouteSettings(name: name),
         fullscreenDialog: true,
@@ -84,8 +88,10 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
 
     const noDesiredTrimmingDescription = Text('この中に使いたい鳴き声がない場合は？');
 
-    final trimManuallyButton =
-        TextButton(onPressed: () {}, child: const Text('自分でトリミングする'));
+    final trimManuallyButton = TextButton(
+      onPressed: () {},
+      child: const Text('自分でトリミングする'),
+    );
 
     const seekBarHeight = 24.0;
 
@@ -143,8 +149,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         );
 
         final selectButton = IconButton(
-          onPressed: () =>
-              ref.read(widget.viewModel.notifier).select(choice: choice),
+          onPressed: () => _select(choice: choice),
           icon: const Icon(Icons.reply),
           iconSize: 24,
         );
@@ -371,5 +376,18 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _select({
+    required PlayerChoiceTrimmedMovie choice,
+  }) async {
+    final result =
+        await ref.read(widget.viewModel.notifier).select(choice: choice);
+
+    if (result == null || !mounted) {
+      return;
+    }
+
+    Navigator.pop(context, result);
   }
 }

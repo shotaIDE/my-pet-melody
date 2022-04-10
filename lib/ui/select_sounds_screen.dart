@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/preparation_screen.dart';
@@ -334,19 +335,24 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final args =
         await ref.read(widget.viewModel.notifier).detectNonSilence(inputFile);
-    if (args != null && mounted) {
-      await Navigator.push<void>(
-        context,
-        SelectTrimmedSoundScreen.route(
-          args: args,
-        ),
-      );
+    if (args == null || !mounted) {
+      return;
     }
 
-    // TODO(ide): 以下はトリミング機能が完成したら移植
-    final file = File(result.files.single.path!);
+    final selectTrimmedSoundResult = await Navigator.push<UploadedSound?>(
+      context,
+      SelectTrimmedSoundScreen.route(
+        args: args,
+      ),
+    );
 
-    await ref.read(widget.viewModel.notifier).upload(file, target: target);
+    if (selectTrimmedSoundResult == null) {
+      return;
+    }
+
+    await ref
+        .read(widget.viewModel.notifier)
+        .uploaded(selectTrimmedSoundResult, target: target);
   }
 
   Future<void> _showRequestScreen() async {
