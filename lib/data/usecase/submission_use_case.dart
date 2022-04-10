@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:meow_music/data/model/detected_non_silence_segments.dart';
+import 'package:meow_music/data/model/detected_non_silent_segments.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
@@ -40,7 +40,7 @@ class SubmissionUseCase {
     );
   }
 
-  Future<DetectedNonSilenceSegments?> detect(
+  Future<DetectedNonSilentSegments?> detect(
     File file, {
     required String fileName,
   }) async {

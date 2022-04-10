@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/model/detected_non_silence_segments.dart';
+import 'package:meow_music/data/model/detected_non_silent_segments.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/model/play_status.dart';
@@ -27,7 +27,7 @@ class PlayerChoice with _$PlayerChoice {
   const factory PlayerChoice.trimmedMovie({
     required PlayStatus status,
     required String path,
-    required NonSilenceSegment segment,
+    required NonSilentSegment segment,
     @Default(null) String? thumbnailPath,
   }) = PlayerChoiceTrimmedMovie;
 }

@@ -5,7 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/detected_non_silence_segments.dart';
+import 'package:meow_music/data/model/detected_non_silent_segments.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
@@ -43,7 +43,7 @@ class SelectTrimmedSoundViewModel
   final String _moviePath;
   final _player = AudioPlayer();
 
-  NonSilenceSegment? _currentPlayingSegment;
+  NonSilentSegment? _currentPlayingSegment;
   StreamSubscription<Duration>? _audioPositionSubscription;
   StreamSubscription<void>? _audioStoppedSubscription;
 
