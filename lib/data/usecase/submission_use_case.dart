@@ -30,21 +30,21 @@ class SubmissionUseCase {
     return _repository.getTemplates();
   }
 
-  Future<UploadedSound?> upload(
-    File file, {
-    required String fileName,
-  }) async {
-    return _repository.upload(
-      file,
-      fileName: fileName,
-    );
-  }
-
   Future<DetectedNonSilentSegments?> detect(
     File file, {
     required String fileName,
   }) async {
     return _repository.detect(
+      file,
+      fileName: fileName,
+    );
+  }
+
+  Future<UploadedSound?> upload(
+    File file, {
+    required String fileName,
+  }) async {
+    return _repository.upload(
       file,
       fileName: fileName,
     );
