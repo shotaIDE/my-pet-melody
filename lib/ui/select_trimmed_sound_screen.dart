@@ -108,6 +108,44 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
 
         const playingIndicator = LinearProgressIndicator();
 
+        final splitThumbnails = state.splitThumbnails;
+        final seekBarBackgroundLayer = splitThumbnails != null
+            ? SizedBox(
+                height: 24,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final width = constraints.maxWidth;
+                    final splitWidth = width ~/ splitThumbnails.length;
+                    const aspectRatio = 1.5;
+                    final imageWidth = constraints.maxHeight * aspectRatio;
+                    final imageCount = width ~/ imageWidth + 1;
+                    final thumbnails = List.generate(imageCount, (index) {
+                      final positionX = index * imageWidth;
+                      final imageIndex = positionX ~/ splitWidth;
+                      final imagePath = splitThumbnails[imageIndex];
+
+                      return Padding(
+                        padding: EdgeInsets.only(left: positionX),
+                        child: Image.file(
+                          File(imagePath),
+                          width: imageWidth,
+                          fit: BoxFit.fill,
+                        ),
+                      );
+                    });
+
+                    return ClipRect(
+                      child: Stack(
+                        children: thumbnails,
+                      ),
+                    );
+                  },
+                ),
+              )
+            : Container(
+                color: Colors.grey,
+              );
+
         return Column(
           children: [
             Row(
@@ -149,6 +187,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                 selectButton,
               ],
             ),
+            seekBarBackgroundLayer,
           ],
         );
       },
