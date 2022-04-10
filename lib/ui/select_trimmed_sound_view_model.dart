@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/model/non_silence_segment.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
@@ -35,15 +36,13 @@ class SelectTrimmedSoundViewModel
   final String _moviePath;
   final _player = AudioPlayer();
 
-  Duration? _currentAudioLength;
-  StreamSubscription<Duration>? _audioLengthSubscription;
+  NonSilenceSegment? _currentPlayingSegment;
   StreamSubscription<Duration>? _audioPositionSubscription;
   StreamSubscription<void>? _audioStoppedSubscription;
 
   @override
   Future<void> dispose() async {
     final tasks = [
-      _audioLengthSubscription?.cancel(),
       _audioPositionSubscription?.cancel(),
       _audioStoppedSubscription?.cancel(),
     ].whereType<Future<void>>().toList();
@@ -54,10 +53,6 @@ class SelectTrimmedSoundViewModel
   }
 
   Future<void> setup() async {
-    _audioLengthSubscription = _player.onDurationChanged.listen((duration) {
-      _currentAudioLength = duration;
-    });
-
     _audioPositionSubscription =
         _player.onAudioPositionChanged.listen(_onAudioPositionReceived);
 
@@ -143,7 +138,7 @@ class SelectTrimmedSoundViewModel
     );
   }
 
-  Future<void> play({required PlayerChoice choice}) async {
+  Future<void> play({required PlayerChoiceTrimmedMovie choice}) async {
     final url = choice.url;
     if (url == null) {
       return;
@@ -163,9 +158,14 @@ class SelectTrimmedSoundViewModel
           choice.copyWith(status: const PlayStatus.playing(position: 0)),
     );
 
+    _currentPlayingSegment = choice.segment;
+
     _setPlayerChoices(playingList);
 
-    await _player.play(url);
+    await _player.play(
+      url,
+      position: Duration(milliseconds: choice.segment.startMilliseconds),
+    );
   }
 
   Future<void> stop({required PlayerChoice choice}) async {
@@ -176,20 +176,29 @@ class SelectTrimmedSoundViewModel
       targetId: choice.id,
     );
 
+    _currentPlayingSegment = null;
+
     _setPlayerChoices(stoppedList);
 
     await _player.stop();
   }
 
   void _onAudioPositionReceived(Duration position) {
-    final length = _currentAudioLength;
-    if (length == null) {
+    final segment = _currentPlayingSegment;
+    if (segment == null) {
       return;
     }
 
+    final length = Duration(
+      milliseconds: segment.endMilliseconds - segment.startMilliseconds,
+    );
+    final fixedPosition = Duration(
+      milliseconds: position.inMilliseconds - segment.startMilliseconds,
+    );
+
     final positionRatio = AudioPositionHelper.getPositionRatio(
       length: length,
-      position: position,
+      position: fixedPosition,
     );
 
     final choices = _getPlayerChoices();
