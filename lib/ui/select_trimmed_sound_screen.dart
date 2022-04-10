@@ -81,6 +81,11 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
       tileColor: Colors.grey[300],
     );
 
+    const noDesiredTrimmingDescription = Text('この中に使いたい鳴き声がない場合は？');
+
+    final trimManuallyButton =
+        TextButton(onPressed: () {}, child: const Text('自分でトリミングする'));
+
     const seekBarHeight = 24.0;
 
     final segmentPanels = state.choices.mapIndexed(
@@ -350,6 +355,14 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 32),
             child: moviePanel,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 32),
+            child: noDesiredTrimmingDescription,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: trimManuallyButton,
           ),
           Expanded(
             child: body,
