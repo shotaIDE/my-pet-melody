@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/non_silence_segment.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -14,14 +13,7 @@ class SelectTrimmedSoundViewModel
         super(
           SelectTrimmedSoundState(
             choices: args.segments
-                .map(
-                  (segment) => const TrimmedSoundChoice(
-                    segment: NonSilenceSegment(
-                      startMilliseconds: 1000,
-                      endMilliseconds: 2000,
-                    ),
-                  ),
-                )
+                .map((segment) => TrimmedSoundChoice(segment: segment))
                 .toList(),
           ),
         );
