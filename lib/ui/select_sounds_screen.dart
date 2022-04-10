@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +13,6 @@ import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
@@ -345,28 +343,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       );
     }
 
-    final outputDirectory = await getTemporaryDirectory();
-    final outputPath = outputDirectory.path;
+    // TODO(ide): 以下はトリミング機能が完成したら移植
+    final file = File(result.files.single.path!);
 
-    const startSec = 0;
-    const outputFrameCount = 1;
-
-    final session = await FFmpegKit.execute(
-      '-i $inputPath '
-      '-ss $startSec '
-      '-frames:v $outputFrameCount '
-      '-f image2 '
-      // '-vcodec mjpeg '
-      // '-qscale 1 -qmin 1 -qmax 1 '
-      // '-r 30 '
-      '$outputPath/000000.png',
-    );
-
-    ref.read(widget.viewModel.notifier).getFrame('$outputPath/000000.png');
-
-    // final file = File(result.files.single.path!);
-
-    // await ref.read(widget.viewModel.notifier).upload(file, target: target);
+    await ref.read(widget.viewModel.notifier).upload(file, target: target);
   }
 
   Future<void> _showRequestScreen() async {
