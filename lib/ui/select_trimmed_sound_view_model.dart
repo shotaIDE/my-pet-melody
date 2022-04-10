@@ -145,6 +145,10 @@ class SelectTrimmedSoundViewModel
     );
   }
 
+  String getLocalPathName() {
+    return _moviePath;
+  }
+
   Future<void> play({required PlayerChoiceTrimmedMovie choice}) async {
     final url = choice.url;
     if (url == null) {

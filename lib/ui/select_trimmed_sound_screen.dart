@@ -8,6 +8,7 @@ import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_view_model.dart';
+import 'package:meow_music/ui/trim_sound_screen.dart';
 import 'package:skeletons/skeletons.dart';
 
 final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
@@ -89,7 +90,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
     const noDesiredTrimmingDescription = Text('この中に使いたい鳴き声がない場合は？');
 
     final trimManuallyButton = TextButton(
-      onPressed: () {},
+      onPressed: _trimManually,
       child: const Text('自分でトリミングする'),
     );
 
@@ -395,6 +396,15 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _trimManually() async {
+    final localPath = ref.read(widget.viewModel.notifier).getLocalPathName();
+
+    await Navigator.pushReplacement(
+      context,
+      TrimSoundScreen.route(moviePath: localPath),
     );
   }
 
