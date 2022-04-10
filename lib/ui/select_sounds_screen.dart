@@ -195,9 +195,6 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       separatorBuilder: (_, __) => const Divider(height: 0),
     );
 
-    final path = state.path;
-    final image = path != null ? Image.file(File(path)) : Container();
-
     final body = SingleChildScrollView(
       padding: const EdgeInsets.only(top: 16, bottom: 138),
       child: Column(
@@ -216,7 +213,6 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             padding: const EdgeInsets.only(top: 32),
             child: soundsList,
           ),
-          image,
         ],
       ),
     );
