@@ -136,7 +136,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
-  Future<void> uploaded(
+  Future<void> onSelectedTrimmedSound(
     UploadedSound uploadedSound, {
     required PlayerChoiceSound target,
   }) async {

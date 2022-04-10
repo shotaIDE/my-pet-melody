@@ -316,37 +316,38 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
   }
 
   Future<void> _selectSound({required PlayerChoiceSound target}) async {
-    final result = await FilePicker.platform.pickFiles(
+    final pickedFileResult = await FilePicker.platform.pickFiles(
       type: FileType.video,
     );
 
-    if (result == null) {
+    if (pickedFileResult == null) {
       return;
     }
 
-    final inputPlatformFile = result.files.single;
-    final inputPath = inputPlatformFile.path!;
-    final inputFile = File(inputPath);
+    final pickedPlatformFile = pickedFileResult.files.single;
+    final pickedPath = pickedPlatformFile.path!;
+    final pickedFile = File(pickedPath);
 
-    final args = await ref.read(widget.viewModel.notifier).detect(inputFile);
-    if (args == null || !mounted) {
+    final selectTrimmedSoundArgs =
+        await ref.read(widget.viewModel.notifier).detect(pickedFile);
+    if (selectTrimmedSoundArgs == null || !mounted) {
       return;
     }
 
-    final selectTrimmedSoundResult = await Navigator.push<UploadedSound?>(
+    final selectedTrimmedSound = await Navigator.push<UploadedSound?>(
       context,
       SelectTrimmedSoundScreen.route(
-        args: args,
+        args: selectTrimmedSoundArgs,
       ),
     );
 
-    if (selectTrimmedSoundResult == null) {
+    if (selectedTrimmedSound == null) {
       return;
     }
 
     await ref
         .read(widget.viewModel.notifier)
-        .uploaded(selectTrimmedSoundResult, target: target);
+        .onSelectedTrimmedSound(selectedTrimmedSound, target: target);
   }
 
   Future<void> _showRequestScreen() async {
