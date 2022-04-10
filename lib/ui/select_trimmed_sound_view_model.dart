@@ -43,6 +43,7 @@ class SelectTrimmedSoundViewModel
           '-ss $startSeconds '
           '-frames:v $outputFrameCount '
           '-f image2 '
+          '-y '
           '$outputPath',
         );
       }),
@@ -85,6 +86,7 @@ class SelectTrimmedSoundViewModel
           '-ss $startSeconds '
           '-frames:v $outputFrameCount '
           '-f image2 '
+          '-y '
           '$outputPath',
         );
       }),
