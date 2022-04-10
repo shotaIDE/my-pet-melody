@@ -32,8 +32,14 @@ class SubmissionRemoteDataSource {
     );
   }
 
-  Future<List<NonSilenceSegment>?> detectNonSilence(File file) async {
-    final response = await _api.detectNonSilence(file);
+  Future<List<NonSilenceSegment>?> detect(
+    File file, {
+    required String fileName,
+  }) async {
+    final response = await _api.detect(
+      file,
+      fileName: fileName,
+    );
 
     if (response == null) {
       return null;

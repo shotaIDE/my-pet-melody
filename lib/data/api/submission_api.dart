@@ -23,11 +23,14 @@ class SubmissionApi {
     );
   }
 
-  Future<DetectResponse?> detectNonSilence(File file) async {
+  Future<DetectResponse?> detect(
+    File file, {
+    required String fileName,
+  }) async {
     return _dio.postFile(
       path: '/detect',
       file: file,
-      fileName: 'test.mov',
+      fileName: fileName,
       responseParser: DetectResponse.fromJson,
     );
   }

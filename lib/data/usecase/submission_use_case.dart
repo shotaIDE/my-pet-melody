@@ -40,8 +40,14 @@ class SubmissionUseCase {
     );
   }
 
-  Future<List<NonSilenceSegment>?> detectNonSilence(File file) async {
-    return _repository.detectNonSilence(file);
+  Future<List<NonSilenceSegment>?> detect(
+    File file, {
+    required String fileName,
+  }) async {
+    return _repository.detect(
+      file,
+      fileName: fileName,
+    );
   }
 
   Future<bool> getShouldShowRequestPushNotificationPermission() async {

@@ -333,8 +333,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final inputPath = inputPlatformFile.path!;
     final inputFile = File(inputPath);
 
-    final args =
-        await ref.read(widget.viewModel.notifier).detectNonSilence(inputFile);
+    final args = await ref.read(widget.viewModel.notifier).detect(inputFile);
     if (args == null || !mounted) {
       return;
     }

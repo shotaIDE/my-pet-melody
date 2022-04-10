@@ -34,8 +34,14 @@ class SubmissionRepository {
     );
   }
 
-  Future<List<NonSilenceSegment>?> detectNonSilence(File file) async {
-    return _remote.detectNonSilence(file);
+  Future<List<NonSilenceSegment>?> detect(
+    File file, {
+    required String fileName,
+  }) async {
+    return _remote.detect(
+      file,
+      fileName: fileName,
+    );
   }
 
   Future<FetchedPiece?> submit({

@@ -218,10 +218,13 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await _player.stop();
   }
 
-  Future<SelectTrimmedSoundArgs?> detectNonSilence(File file) async {
+  Future<SelectTrimmedSoundArgs?> detect(File file) async {
     state = state.copyWith(isProcessing: true);
 
-    final result = await _submissionUseCase.detectNonSilence(file);
+    final result = await _submissionUseCase.detect(
+      file,
+      fileName: basename(file.path),
+    );
 
     state = state.copyWith(isProcessing: false);
 

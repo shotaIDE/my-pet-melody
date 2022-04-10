@@ -50,6 +50,7 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
     final outputPath = await state.trimmer.saveTrimmedVideo(
       startValue: state.startValue,
       endValue: state.endValue,
+      videoFileName: 'test',
       storageDir: StorageDir.temporaryDirectory,
     );
 
