@@ -70,15 +70,21 @@ class SelectTrimmedSoundViewModel
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
+    final int durationMilliseconds;
     final session = await FFprobeKit.getMediaInformation(_moviePath);
     final durationString = session.getMediaInformation()?.getDuration();
-    if (durationString == null) {
-      return;
+    if (durationString != null) {
+      final durationSeconds = double.parse(durationString);
+      durationMilliseconds = (durationSeconds * 1000).toInt();
+    } else {
+      // MediaInformation が取得できなかった場合、もう一つの手段で長さを取得する
+      // https://pub.dev/packages/ffmpeg_kit_flutter#3-using
+      durationMilliseconds = await session.getDuration();
     }
+    final durationSeconds = durationMilliseconds / 1000;
 
-    final durationSeconds = double.parse(durationString);
     state = state.copyWith(
-      lengthMilliseconds: (durationSeconds * 1000).toInt(),
+      lengthMilliseconds: durationMilliseconds,
     );
 
     final thumbnailFilePaths = List.generate(state.choices.length, (index) {
@@ -114,7 +120,7 @@ class SelectTrimmedSoundViewModel
           .toList(),
     );
 
-    final splitDuration = durationSeconds / splitCount;
+    final splitDurationSeconds = durationSeconds / splitCount;
 
     final splitThumbnailFilePaths = List.generate(splitCount, (index) {
       final paddedIndex = '$index'.padLeft(2, '0');
@@ -124,7 +130,7 @@ class SelectTrimmedSoundViewModel
 
     await Future.wait(
       List.generate(splitCount, (index) async {
-        final startSeconds = splitDuration * index;
+        final startSeconds = splitDurationSeconds * index;
         const outputFrameCount = 1;
 
         final outputPath = splitThumbnailFilePaths[index];

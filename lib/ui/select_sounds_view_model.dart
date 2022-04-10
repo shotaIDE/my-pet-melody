@@ -13,6 +13,7 @@ import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
@@ -221,20 +222,27 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   Future<SelectTrimmedSoundArgs?> detect(File file) async {
     state = state.copyWith(isProcessing: true);
 
-    final result = await _submissionUseCase.detect(
-      file,
-      fileName: basename(file.path),
+    final outputDirectory = await getTemporaryDirectory();
+    final outputParentPath = outputDirectory.path;
+    final fileName = basename(file.path);
+    final outputPath = '$outputParentPath/$fileName';
+
+    final copiedFile = await file.copy(outputPath);
+
+    final segments = await _submissionUseCase.detect(
+      copiedFile,
+      fileName: fileName,
     );
 
     state = state.copyWith(isProcessing: false);
 
-    if (result == null) {
+    if (segments == null) {
       return null;
     }
 
     return SelectTrimmedSoundArgs(
-      soundPath: file.path,
-      segments: result,
+      soundPath: copiedFile.path,
+      segments: segments,
     );
   }
 
