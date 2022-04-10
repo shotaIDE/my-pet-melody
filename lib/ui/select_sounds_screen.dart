@@ -317,8 +317,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
   Future<void> _selectSound({required PlayerChoiceSound target}) async {
     final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['wav', 'm4a', 'mp3', 'mov'],
+      type: FileType.video,
     );
 
     if (result == null) {
