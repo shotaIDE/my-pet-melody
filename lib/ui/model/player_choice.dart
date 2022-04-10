@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:meow_music/data/model/non_silence_segment.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/model/play_status.dart';
@@ -22,6 +23,13 @@ class PlayerChoice with _$PlayerChoice {
     required PlayStatus status,
     required SelectedSound sound,
   }) = PlayerChoiceSound;
+
+  const factory PlayerChoice.trimmedMovie({
+    required PlayStatus status,
+    required String path,
+    required NonSilenceSegment segment,
+    @Default(null) String? thumbnailPath,
+  }) = PlayerChoiceTrimmedMovie;
 }
 
 extension PlayerChoiceGetter on PlayerChoice {
@@ -30,6 +38,7 @@ extension PlayerChoiceGetter on PlayerChoice {
       piece: (_, piece) => piece.id,
       template: (_, template) => template.id,
       sound: (_, sound) => sound.id,
+      trimmedMovie: (_, __, ___, ____) => 'xx',
     );
   }
 
@@ -41,6 +50,7 @@ extension PlayerChoiceGetter on PlayerChoice {
       sound: (_, sound) => sound.whenOrNull(
         uploaded: (_, __, ___, remoteFileName) => remoteFileName,
       ),
+      trimmedMovie: (_, path, ___, ____) => path,
     );
   }
 }

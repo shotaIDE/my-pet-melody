@@ -1,5 +1,6 @@
 audioplayers
 cupertino
+ffprobe
 reorderable
 riverpod
 rxdart

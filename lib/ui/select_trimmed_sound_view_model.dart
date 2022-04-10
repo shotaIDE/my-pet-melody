@@ -1,7 +1,13 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/helper/audio_position_helper.dart';
+import 'package:meow_music/ui/model/play_status.dart';
+import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -13,7 +19,13 @@ class SelectTrimmedSoundViewModel
         super(
           SelectTrimmedSoundState(
             choices: args.segments
-                .map((segment) => TrimmedSoundChoice(segment: segment))
+                .map(
+                  (segment) => PlayerChoiceTrimmedMovie(
+                    status: const PlayStatus.stop(),
+                    path: args.soundPath,
+                    segment: segment,
+                  ),
+                )
                 .toList(),
           ),
         );
@@ -21,8 +33,38 @@ class SelectTrimmedSoundViewModel
   static const splitCount = 10;
 
   final String _moviePath;
+  final _player = AudioPlayer();
+
+  Duration? _currentAudioLength;
+  StreamSubscription<Duration>? _audioLengthSubscription;
+  StreamSubscription<Duration>? _audioPositionSubscription;
+  StreamSubscription<void>? _audioStoppedSubscription;
+
+  @override
+  Future<void> dispose() async {
+    final tasks = [
+      _audioLengthSubscription?.cancel(),
+      _audioPositionSubscription?.cancel(),
+      _audioStoppedSubscription?.cancel(),
+    ].whereType<Future<void>>().toList();
+
+    await Future.wait<void>(tasks);
+
+    super.dispose();
+  }
 
   Future<void> setup() async {
+    _audioLengthSubscription = _player.onDurationChanged.listen((duration) {
+      _currentAudioLength = duration;
+    });
+
+    _audioPositionSubscription =
+        _player.onAudioPositionChanged.listen(_onAudioPositionReceived);
+
+    _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
+      _onAudioFinished();
+    });
+
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
@@ -98,6 +140,92 @@ class SelectTrimmedSoundViewModel
 
     state = state.copyWith(
       splitThumbnails: splitThumbnailFilePaths,
+    );
+  }
+
+  Future<void> play({required PlayerChoice choice}) async {
+    final url = choice.url;
+    if (url == null) {
+      return;
+    }
+
+    final choices = _getPlayerChoices();
+
+    final stoppedList = PlayerChoiceConverter.getStoppedOrNull(
+          originalList: choices,
+        ) ??
+        [...choices];
+
+    final playingList = PlayerChoiceConverter.getTargetReplaced(
+      originalList: stoppedList,
+      targetId: choice.id,
+      newPlayable:
+          choice.copyWith(status: const PlayStatus.playing(position: 0)),
+    );
+
+    _setPlayerChoices(playingList);
+
+    await _player.play(url);
+  }
+
+  Future<void> stop({required PlayerChoice choice}) async {
+    final choices = _getPlayerChoices();
+
+    final stoppedList = PlayerChoiceConverter.getTargetStopped(
+      originalList: choices,
+      targetId: choice.id,
+    );
+
+    _setPlayerChoices(stoppedList);
+
+    await _player.stop();
+  }
+
+  void _onAudioPositionReceived(Duration position) {
+    final length = _currentAudioLength;
+    if (length == null) {
+      return;
+    }
+
+    final positionRatio = AudioPositionHelper.getPositionRatio(
+      length: length,
+      position: position,
+    );
+
+    final choices = _getPlayerChoices();
+
+    final positionUpdatedList = PlayerChoiceConverter.getPositionUpdatedOrNull(
+      originalList: choices,
+      position: positionRatio,
+    );
+    if (positionUpdatedList == null) {
+      return;
+    }
+
+    _setPlayerChoices(positionUpdatedList);
+  }
+
+  void _onAudioFinished() {
+    final choices = _getPlayerChoices();
+
+    final stoppedList = PlayerChoiceConverter.getStoppedOrNull(
+      originalList: choices,
+    );
+    if (stoppedList == null) {
+      return;
+    }
+
+    _setPlayerChoices(stoppedList);
+  }
+
+  List<PlayerChoice> _getPlayerChoices() {
+    return state.choices;
+  }
+
+  void _setPlayerChoices(List<PlayerChoice> choices) {
+    state = state.copyWith(
+      choices:
+          choices.map((choice) => choice as PlayerChoiceTrimmedMovie).toList(),
     );
   }
 }

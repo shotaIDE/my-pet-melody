@@ -85,12 +85,20 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
             color: Colors.grey,
             shape: BoxShape.circle,
           ),
-          child: const Icon(Icons.play_arrow),
+          child: Icon(
+            choice.status.map(
+              stop: (_) => Icons.play_arrow,
+              playing: (_) => Icons.stop,
+            ),
+          ),
         );
         final thumbnail = InkWell(
-          onTap: () {
-            debugPrint('Thumbnail was tapped');
-          },
+          onTap: () => choice.status.map(
+            stop: (_) =>
+                ref.read(widget.viewModel.notifier).play(choice: choice),
+            playing: (_) =>
+                ref.read(widget.viewModel.notifier).stop(choice: choice),
+          ),
           child: Stack(
             alignment: AlignmentDirectional.center,
             children: [
@@ -113,7 +121,10 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           iconSize: 24,
         );
 
-        const playingIndicator = LinearProgressIndicator();
+        final playingIndicator = choice.status.when(
+          stop: LinearProgressIndicator.new,
+          playing: (value) => LinearProgressIndicator(value: value),
+        );
 
         final splitThumbnails = state.splitThumbnails;
         final seekBarBackgroundLayer = splitThumbnails != null
@@ -253,7 +264,12 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                             ),
                           ],
                         ),
-                        const Visibility(
+                        Visibility(
+                          visible: choice.status
+                              .map(stop: (_) => false, playing: (_) => true),
+                          maintainState: true,
+                          maintainAnimation: true,
+                          maintainSize: true,
                           child: playingIndicator,
                         ),
                       ],

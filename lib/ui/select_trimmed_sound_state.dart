@@ -1,12 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meow_music/data/model/non_silence_segment.dart';
+import 'package:meow_music/ui/model/player_choice.dart';
 
 part 'select_trimmed_sound_state.freezed.dart';
 
 @freezed
 class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
   const factory SelectTrimmedSoundState({
-    required List<TrimmedSoundChoice> choices,
+    required List<PlayerChoiceTrimmedMovie> choices,
     @Default(null) int? lengthMilliseconds,
     @Default(null) List<String>? splitThumbnails,
   }) = _SelectTrimmedSoundState;
