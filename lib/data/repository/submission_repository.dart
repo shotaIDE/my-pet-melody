@@ -24,21 +24,21 @@ class SubmissionRepository {
     ];
   }
 
-  Future<UploadedSound?> upload(
-    File file, {
-    required String fileName,
-  }) async {
-    return _remote.upload(
-      file,
-      fileName: fileName,
-    );
-  }
-
   Future<DetectedNonSilentSegments?> detect(
     File file, {
     required String fileName,
   }) async {
     return _remote.detect(
+      file,
+      fileName: fileName,
+    );
+  }
+
+  Future<UploadedSound?> upload(
+    File file, {
+    required String fileName,
+  }) async {
+    return _remote.upload(
       file,
       fileName: fileName,
     );

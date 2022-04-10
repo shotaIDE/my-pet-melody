@@ -11,18 +11,6 @@ class SubmissionApi {
 
   final MyDio _dio;
 
-  Future<UploadResponse?> upload(
-    File file, {
-    required String fileName,
-  }) async {
-    return _dio.postFile(
-      path: '/upload',
-      file: file,
-      fileName: fileName,
-      responseParser: UploadResponse.fromJson,
-    );
-  }
-
   Future<DetectResponse?> detect(
     File file, {
     required String fileName,
@@ -32,6 +20,18 @@ class SubmissionApi {
       file: file,
       fileName: fileName,
       responseParser: DetectResponse.fromJson,
+    );
+  }
+
+  Future<UploadResponse?> upload(
+    File file, {
+    required String fileName,
+  }) async {
+    return _dio.postFile(
+      path: '/upload',
+      file: file,
+      fileName: fileName,
+      responseParser: UploadResponse.fromJson,
     );
   }
 
@@ -45,6 +45,17 @@ class SubmissionApi {
 }
 
 @freezed
+class DetectResponse with _$DetectResponse {
+  const factory DetectResponse({
+    required List<List<int>> segments,
+    required int durationMilliseconds,
+  }) = _DetectResponse;
+
+  factory DetectResponse.fromJson(Map<String, dynamic> json) =>
+      _$DetectResponseFromJson(json);
+}
+
+@freezed
 class UploadResponse with _$UploadResponse {
   const factory UploadResponse({
     required String id,
@@ -54,17 +65,6 @@ class UploadResponse with _$UploadResponse {
 
   factory UploadResponse.fromJson(Map<String, dynamic> json) =>
       _$UploadResponseFromJson(json);
-}
-
-@freezed
-class DetectResponse with _$DetectResponse {
-  const factory DetectResponse({
-    required List<List<int>> segments,
-    required int durationMilliseconds,
-  }) = _DetectResponse;
-
-  factory DetectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectResponseFromJson(json);
 }
 
 @freezed

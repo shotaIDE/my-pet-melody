@@ -59,6 +59,33 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     super.dispose();
   }
 
+  Future<SelectTrimmedSoundArgs?> detect(File file) async {
+    state = state.copyWith(isProcessing: true);
+
+    final outputDirectory = await getTemporaryDirectory();
+    final outputParentPath = outputDirectory.path;
+    final fileName = basename(file.path);
+    final outputPath = '$outputParentPath/$fileName';
+
+    final copiedFile = await file.copy(outputPath);
+
+    final detected = await _submissionUseCase.detect(
+      copiedFile,
+      fileName: fileName,
+    );
+
+    state = state.copyWith(isProcessing: false);
+
+    if (detected == null) {
+      return null;
+    }
+
+    return SelectTrimmedSoundArgs(
+      soundPath: copiedFile.path,
+      detected: detected,
+    );
+  }
+
   Future<void> upload(
     File file, {
     required PlayerChoiceSound target,
@@ -217,33 +244,6 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     }
 
     await _player.stop();
-  }
-
-  Future<SelectTrimmedSoundArgs?> detect(File file) async {
-    state = state.copyWith(isProcessing: true);
-
-    final outputDirectory = await getTemporaryDirectory();
-    final outputParentPath = outputDirectory.path;
-    final fileName = basename(file.path);
-    final outputPath = '$outputParentPath/$fileName';
-
-    final copiedFile = await file.copy(outputPath);
-
-    final detected = await _submissionUseCase.detect(
-      copiedFile,
-      fileName: fileName,
-    );
-
-    state = state.copyWith(isProcessing: false);
-
-    if (detected == null) {
-      return null;
-    }
-
-    return SelectTrimmedSoundArgs(
-      soundPath: copiedFile.path,
-      detected: detected,
-    );
   }
 
   bool _getIsAvailableSubmission() {
