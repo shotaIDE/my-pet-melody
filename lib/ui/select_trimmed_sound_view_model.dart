@@ -26,6 +26,17 @@ class SelectTrimmedSoundViewModel
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
+    final session = await FFprobeKit.getMediaInformation(_moviePath);
+    final durationString = session.getMediaInformation()?.getDuration();
+    if (durationString == null) {
+      return;
+    }
+
+    final durationSeconds = double.parse(durationString);
+    state = state.copyWith(
+      lengthMilliseconds: (durationSeconds * 1000).toInt(),
+    );
+
     final thumbnailFilePaths = List.generate(state.choices.length, (index) {
       final paddedIndex = '$index'.padLeft(6, '0');
       final outputFileName = 'thumbnail_$paddedIndex.png';
@@ -59,13 +70,6 @@ class SelectTrimmedSoundViewModel
           .toList(),
     );
 
-    final session = await FFprobeKit.getMediaInformation(_moviePath);
-    final durationString = session.getMediaInformation()?.getDuration();
-    if (durationString == null) {
-      return;
-    }
-
-    final durationSeconds = double.parse(durationString);
     final splitDuration = durationSeconds / splitCount;
 
     final splitThumbnailFilePaths = List.generate(splitCount, (index) {
@@ -93,7 +97,6 @@ class SelectTrimmedSoundViewModel
     );
 
     state = state.copyWith(
-      lengthMilliseconds: (durationSeconds * 1000).toInt(),
       splitThumbnails: splitThumbnailFilePaths,
     );
   }
