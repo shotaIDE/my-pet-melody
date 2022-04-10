@@ -119,6 +119,10 @@ def detect_non_silence():
     f.save(store_path)
 
     sound = AudioSegment.from_file(store_path)
+
+    duration_seconds = sound.duration_seconds
+    duration_milliseconds = int(round(duration_seconds, 3) * 1000)
+
     normalized_sound = sound.normalize(headroom=1.0)
 
     non_silences_list_raw = [
@@ -167,5 +171,6 @@ def detect_non_silence():
     target_index = target_threshould + 30
 
     return {
-        'nonSilences': non_silences_list_raw[target_index]['non_silences']
+        'nonSilences': non_silences_list_raw[target_index]['non_silences'],
+        'durationMilliseconds': duration_milliseconds,
     }

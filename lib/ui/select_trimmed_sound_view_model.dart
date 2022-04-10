@@ -4,9 +4,8 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/non_silence_segment.dart';
+import 'package:meow_music/data/model/detected_non_silence_segments.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
@@ -25,7 +24,7 @@ class SelectTrimmedSoundViewModel
         _moviePath = args.soundPath,
         super(
           SelectTrimmedSoundState(
-            choices: args.segments
+            choices: args.detected.list
                 .map(
                   (segment) => PlayerChoiceTrimmedMovie(
                     status: const PlayStatus.stop(),
@@ -34,6 +33,7 @@ class SelectTrimmedSoundViewModel
                   ),
                 )
                 .toList(),
+            lengthMilliseconds: args.detected.lengthMilliseconds,
           ),
         );
 
@@ -70,22 +70,7 @@ class SelectTrimmedSoundViewModel
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
-    final int durationMilliseconds;
-    final session = await FFprobeKit.getMediaInformation(_moviePath);
-    final durationString = session.getMediaInformation()?.getDuration();
-    if (durationString != null) {
-      final durationSeconds = double.parse(durationString);
-      durationMilliseconds = (durationSeconds * 1000).toInt();
-    } else {
-      // MediaInformation が取得できなかった場合、もう一つの手段で長さを取得する
-      // https://pub.dev/packages/ffmpeg_kit_flutter#3-using
-      durationMilliseconds = await session.getDuration();
-    }
-    final durationSeconds = durationMilliseconds / 1000;
-
-    state = state.copyWith(
-      lengthMilliseconds: durationMilliseconds,
-    );
+    final durationSeconds = state.lengthMilliseconds / 1000;
 
     final thumbnailFilePaths = List.generate(state.choices.length, (index) {
       final paddedIndex = '$index'.padLeft(6, '0');

@@ -190,67 +190,65 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
 
         const seekBarBorderWidth = 4.0;
         final lengthMilliseconds = state.lengthMilliseconds;
-        final seekBar = lengthMilliseconds != null
-            ? Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(seekBarBorderWidth),
-                    child: seekBarBackgroundLayer,
-                  ),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints.expand(
-                      height: seekBarHeight + seekBarBorderWidth * 2,
-                    ),
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        final seekBarWidth =
-                            constraints.maxWidth - seekBarBorderWidth * 2;
-                        final startRatio = choice.segment.startMilliseconds /
-                            lengthMilliseconds;
-                        final endRatio =
-                            choice.segment.endMilliseconds / lengthMilliseconds;
-                        final positionX1 =
-                            seekBarWidth * startRatio + seekBarBorderWidth;
-                        final positionX2 =
-                            seekBarWidth * endRatio + seekBarBorderWidth;
+        final seekBar = Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(seekBarBorderWidth),
+              child: seekBarBackgroundLayer,
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints.expand(
+                height: seekBarHeight + seekBarBorderWidth * 2,
+              ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final seekBarWidth =
+                      constraints.maxWidth - seekBarBorderWidth * 2;
+                  final startRatio =
+                      choice.segment.startMilliseconds / lengthMilliseconds;
+                  final endRatio =
+                      choice.segment.endMilliseconds / lengthMilliseconds;
+                  final positionX1 =
+                      seekBarWidth * startRatio + seekBarBorderWidth;
+                  final positionX2 =
+                      seekBarWidth * endRatio + seekBarBorderWidth;
 
-                        return Stack(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(
-                                left: seekBarBorderWidth,
-                              ),
-                              width: positionX1 - seekBarBorderWidth,
-                              color: Colors.white.withOpacity(0.5),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                left: positionX2,
-                              ),
-                              width: constraints.maxWidth -
-                                  (positionX2 + seekBarBorderWidth),
-                              color: Colors.white.withOpacity(0.5),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: positionX1),
-                              width: positionX2 - positionX1,
-                              height: constraints.maxHeight,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.red,
-                                  width: seekBarBorderWidth,
-                                ),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              )
-            : Container();
+                  return Stack(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(
+                          left: seekBarBorderWidth,
+                        ),
+                        width: positionX1 - seekBarBorderWidth,
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: positionX2,
+                        ),
+                        width: constraints.maxWidth -
+                            (positionX2 + seekBarBorderWidth),
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: positionX1),
+                        width: positionX2 - positionX1,
+                        height: constraints.maxHeight,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.red,
+                            width: seekBarBorderWidth,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        );
 
         const selectIcon = Icon(Icons.arrow_forward_ios);
 

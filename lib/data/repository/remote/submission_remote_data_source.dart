@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:meow_music/data/api/submission_api.dart';
 import 'package:meow_music/data/definitions/app_definitions.dart';
-import 'package:meow_music/data/model/non_silence_segment.dart';
+import 'package:meow_music/data/model/detected_non_silence_segments.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 
 class SubmissionRemoteDataSource {
@@ -32,7 +32,7 @@ class SubmissionRemoteDataSource {
     );
   }
 
-  Future<List<NonSilenceSegment>?> detect(
+  Future<DetectedNonSilenceSegments?> detect(
     File file, {
     required String fileName,
   }) async {
@@ -45,14 +45,17 @@ class SubmissionRemoteDataSource {
       return null;
     }
 
-    return response.nonSilences
-        .map(
-          (nonSilence) => NonSilenceSegment(
-            startMilliseconds: nonSilence.first,
-            endMilliseconds: nonSilence[1],
-          ),
-        )
-        .toList();
+    return DetectedNonSilenceSegments(
+      list: response.nonSilences
+          .map(
+            (nonSilence) => NonSilenceSegment(
+              startMilliseconds: nonSilence.first,
+              endMilliseconds: nonSilence[1],
+            ),
+          )
+          .toList(),
+      lengthMilliseconds: response.durationMilliseconds,
+    );
   }
 
   Future<FetchedPiece?> submit({

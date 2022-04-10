@@ -60,6 +60,7 @@ class UploadResponse with _$UploadResponse {
 class DetectResponse with _$DetectResponse {
   const factory DetectResponse({
     required List<List<int>> nonSilences,
+    required int durationMilliseconds,
   }) = _DetectResponse;
 
   factory DetectResponse.fromJson(Map<String, dynamic> json) =>

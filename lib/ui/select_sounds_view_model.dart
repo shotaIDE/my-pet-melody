@@ -229,20 +229,20 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final copiedFile = await file.copy(outputPath);
 
-    final segments = await _submissionUseCase.detect(
+    final detected = await _submissionUseCase.detect(
       copiedFile,
       fileName: fileName,
     );
 
     state = state.copyWith(isProcessing: false);
 
-    if (segments == null) {
+    if (detected == null) {
       return null;
     }
 
     return SelectTrimmedSoundArgs(
       soundPath: copiedFile.path,
-      segments: segments,
+      detected: detected,
     );
   }
 
