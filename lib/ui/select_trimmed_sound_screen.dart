@@ -123,7 +123,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                     final width = constraints.maxWidth;
                     final splitWidth = width ~/ splitThumbnails.length;
                     final imageWidth = constraints.maxHeight * _aspectRatio;
-                    final imageCount = width ~/ imageWidth + 1;
+                    final imageCount = (width / imageWidth).ceil();
                     final thumbnails = List.generate(imageCount, (index) {
                       final positionX = index * imageWidth;
                       final imageIndex = positionX ~/ splitWidth;
@@ -216,49 +216,69 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
               )
             : Container();
 
-        return Column(
+        final body = Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          thumbnail,
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 24),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      title,
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 8),
-                                        child: subtitle,
-                                      ),
-                                    ],
-                                  ),
-                                ],
+            Padding(
+              padding: const EdgeInsets.only(left: seekBarBorderWidth),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            thumbnail,
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 24),
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        title,
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8),
+                                          child: subtitle,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const Visibility(
-                        child: playingIndicator,
-                      ),
-                    ],
+                          ],
+                        ),
+                        const Visibility(
+                          child: playingIndicator,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                selectButton,
-              ],
+                  selectButton,
+                ],
+              ),
             ),
-            seekBar,
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: seekBar,
+            ),
           ],
+        );
+
+        return Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 8 - seekBarBorderWidth,
+          ),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Theme.of(context).secondaryHeaderColor,
+            ),
+          ),
+          child: body,
         );
       },
     ).toList();
