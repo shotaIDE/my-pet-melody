@@ -141,12 +141,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
 
                     return ClipRect(
                       child: Stack(
-                        children: [
-                          ...thumbnails,
-                          Container(
-                            color: Colors.white.withOpacity(0.5),
-                          )
-                        ],
+                        children: thumbnails,
                       ),
                     );
                   },
@@ -177,20 +172,41 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                             lengthMilliseconds;
                         final endRatio =
                             choice.segment.endMilliseconds / lengthMilliseconds;
-                        final positionX1 = seekBarWidth * startRatio;
-                        final positionX2 = seekBarWidth * endRatio;
+                        final positionX1 =
+                            seekBarWidth * startRatio + seekBarBorderWidth;
+                        final positionX2 =
+                            seekBarWidth * endRatio + seekBarBorderWidth;
 
-                        return Container(
-                          margin: EdgeInsets.only(left: positionX1),
-                          width: positionX2 - positionX1,
-                          height: constraints.maxHeight,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.red,
-                              width: seekBarBorderWidth,
+                        return Stack(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(
+                                left: seekBarBorderWidth,
+                              ),
+                              width: positionX1 - seekBarBorderWidth,
+                              color: Colors.white.withOpacity(0.5),
                             ),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                left: positionX2,
+                              ),
+                              width: constraints.maxWidth -
+                                  (positionX2 + seekBarBorderWidth),
+                              color: Colors.white.withOpacity(0.5),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: positionX1),
+                              width: positionX2 - positionX1,
+                              height: constraints.maxHeight,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.red,
+                                  width: seekBarBorderWidth,
+                                ),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
