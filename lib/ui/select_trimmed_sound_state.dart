@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 
 part 'select_trimmed_sound_state.freezed.dart';
@@ -19,6 +20,14 @@ class SelectTrimmedSoundArgs with _$SelectTrimmedSoundArgs {
     required String soundPath,
     required DetectedNonSilentSegments detected,
   }) = _SelectTrimmedSoundArgs;
+}
+
+@freezed
+class SelectTrimmedSoundResult with _$SelectTrimmedSoundResult {
+  const factory SelectTrimmedSoundResult({
+    required UploadedSound uploaded,
+    required String label,
+  }) = _SelectTrimmedSoundResult;
 }
 
 @freezed

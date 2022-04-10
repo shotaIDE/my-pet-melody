@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
+import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_state.dart';
 import 'package:path/path.dart';
 import 'package:video_trimmer/video_trimmer.dart';
@@ -46,11 +46,16 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
     state = state.copyWith(isPlaying: playbackState);
   }
 
-  Future<UploadedSound?> save() async {
+  Future<SelectTrimmedSoundResult?> save() async {
+    final originalFileNameWithoutExtension =
+        basenameWithoutExtension(_moviePath);
+    final fileNameWithoutExtension =
+        '${originalFileNameWithoutExtension}_manually_trimmed';
+
     final outputPath = await state.trimmer.saveTrimmedVideo(
       startValue: state.startValue,
       endValue: state.endValue,
-      videoFileName: 'test',
+      videoFileName: fileNameWithoutExtension,
       storageDir: StorageDir.temporaryDirectory,
     );
 
@@ -65,7 +70,10 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
       return null;
     }
 
-    return uploadedSound;
+    return SelectTrimmedSoundResult(
+      uploaded: uploadedSound,
+      label: '$originalFileNameWithoutExtension - 手動トリミング',
+    );
   }
 
   void onUpdateStart(double value) {

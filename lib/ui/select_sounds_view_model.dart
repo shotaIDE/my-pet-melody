@@ -137,7 +137,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   }
 
   Future<void> onSelectedTrimmedSound(
-    UploadedSound uploadedSound, {
+    SelectTrimmedSoundResult result, {
     required PlayerChoiceSound target,
   }) async {
     final sounds = state.sounds;
@@ -145,11 +145,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     sounds[index] = target.copyWith(
       sound: SelectedSound.uploaded(
-        id: uploadedSound.id,
-        extension: uploadedSound.extension,
-        // TODO(ide): 繋ぎ込み
-        localFileName: 'localFileName',
-        remoteUrl: uploadedSound.url,
+        id: result.uploaded.id,
+        extension: result.uploaded.extension,
+        localFileName: result.label,
+        remoteUrl: result.uploaded.url,
       ),
     );
 

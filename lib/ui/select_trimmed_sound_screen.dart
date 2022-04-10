@@ -4,7 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
-import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_view_model.dart';
@@ -32,10 +31,10 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModel;
 
-  static MaterialPageRoute<UploadedSound?> route({
+  static MaterialPageRoute<SelectTrimmedSoundResult?> route({
     required SelectTrimmedSoundArgs args,
   }) =>
-      MaterialPageRoute<UploadedSound?>(
+      MaterialPageRoute<SelectTrimmedSoundResult?>(
         builder: (_) => SelectTrimmedSoundScreen(args: args),
         settings: const RouteSettings(name: name),
         fullscreenDialog: true,

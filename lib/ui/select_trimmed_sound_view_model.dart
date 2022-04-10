@@ -6,7 +6,6 @@ import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
-import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
@@ -28,7 +27,7 @@ class SelectTrimmedSoundViewModel
                 .mapIndexed(
                   (index, segment) => PlayerChoiceTrimmedMovie(
                     status: const PlayStatus.stop(),
-                    index: index,
+                    index: index + 1,
                     path: args.soundPath,
                     segment: segment,
                   ),
@@ -186,7 +185,7 @@ class SelectTrimmedSoundViewModel
     await _player.stop();
   }
 
-  Future<UploadedSound?> select({
+  Future<SelectTrimmedSoundResult?> select({
     required PlayerChoiceTrimmedMovie choice,
   }) async {
     final startSeconds = choice.segment.startMilliseconds / 1000;
@@ -194,9 +193,15 @@ class SelectTrimmedSoundViewModel
         (choice.segment.endMilliseconds - choice.segment.startMilliseconds) /
             1000;
 
+    final originalFileNameWithoutExtension =
+        basenameWithoutExtension(_moviePath);
+    final originalExtension = extension(_moviePath);
+
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
-    const outputFileName = 'trimmed.mov';
+    final outputFileName = '$originalFileNameWithoutExtension'
+        '_detected${choice.id}'
+        '$originalExtension';
     final outputPath = '$outputParentPath/$outputFileName';
 
     await FFmpegKit.execute(
@@ -218,7 +223,10 @@ class SelectTrimmedSoundViewModel
       return null;
     }
 
-    return uploadedSound;
+    return SelectTrimmedSoundResult(
+      uploaded: uploadedSound,
+      label: '$originalFileNameWithoutExtension - セグメント${choice.id}',
+    );
   }
 
   void _onAudioPositionReceived(Duration position) {

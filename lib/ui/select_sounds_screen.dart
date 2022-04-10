@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/preparation_screen.dart';
@@ -14,6 +13,7 @@ import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
+import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
@@ -334,20 +334,21 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       return;
     }
 
-    final selectedTrimmedSound = await Navigator.push<UploadedSound?>(
+    final selectTrimmedSoundResult =
+        await Navigator.push<SelectTrimmedSoundResult?>(
       context,
       SelectTrimmedSoundScreen.route(
         args: selectTrimmedSoundArgs,
       ),
     );
 
-    if (selectedTrimmedSound == null) {
+    if (selectTrimmedSoundResult == null) {
       return;
     }
 
     await ref
         .read(widget.viewModel.notifier)
-        .onSelectedTrimmedSound(selectedTrimmedSound, target: target);
+        .onSelectedTrimmedSound(selectTrimmedSoundResult, target: target);
   }
 
   Future<void> _showRequestScreen() async {
