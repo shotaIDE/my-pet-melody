@@ -24,9 +24,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final PieceUseCase _pieceUseCase;
   final _player = AudioPlayer();
 
-  Duration? _currentAudioLength;
+  Duration? _currentAudioDuration;
   StreamSubscription<List<Piece>>? _piecesSubscription;
-  StreamSubscription<Duration>? _audioLengthSubscription;
+  StreamSubscription<Duration>? _audioDurationSubscription;
   StreamSubscription<Duration>? _audioPositionSubscription;
   StreamSubscription<void>? _audioStoppedSubscription;
 
@@ -34,7 +34,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   Future<void> dispose() async {
     final tasks = [
       _piecesSubscription?.cancel(),
-      _audioLengthSubscription?.cancel(),
+      _audioDurationSubscription?.cancel(),
       _audioPositionSubscription?.cancel(),
       _audioStoppedSubscription?.cancel(),
     ].whereType<Future<void>>().toList();
@@ -142,8 +142,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
       state = state.copyWith(pieces: playablePieces);
     });
 
-    _audioLengthSubscription = _player.onDurationChanged.listen((duration) {
-      _currentAudioLength = duration;
+    _audioDurationSubscription = _player.onDurationChanged.listen((duration) {
+      _currentAudioDuration = duration;
     });
 
     _audioPositionSubscription =
@@ -155,13 +155,13 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   void _onAudioPositionReceived(Duration position) {
-    final length = _currentAudioLength;
-    if (length == null) {
+    final duration = _currentAudioDuration;
+    if (duration == null) {
       return;
     }
 
     final positionRatio = AudioPositionHelper.getPositionRatio(
-      length: length,
+      duration: duration,
       position: position,
     );
 

@@ -33,7 +33,7 @@ class SelectTrimmedSoundViewModel
                   ),
                 )
                 .toList(),
-            lengthMilliseconds: args.detected.lengthMilliseconds,
+            durationMilliseconds: args.detected.durationMilliseconds,
           ),
         );
 
@@ -70,7 +70,7 @@ class SelectTrimmedSoundViewModel
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
-    final durationSeconds = state.lengthMilliseconds / 1000;
+    final durationSeconds = state.durationMilliseconds / 1000;
 
     final thumbnailFilePaths = List.generate(state.choices.length, (index) {
       final paddedIndex = '$index'.padLeft(6, '0');
@@ -189,7 +189,7 @@ class SelectTrimmedSoundViewModel
     required PlayerChoiceTrimmedMovie choice,
   }) async {
     final startSeconds = choice.segment.startMilliseconds / 1000;
-    final lengthSeconds =
+    final durationSeconds =
         (choice.segment.endMilliseconds - choice.segment.startMilliseconds) /
             1000;
 
@@ -201,7 +201,7 @@ class SelectTrimmedSoundViewModel
     await FFmpegKit.execute(
       '-i $_moviePath '
       '-ss $startSeconds '
-      '-t $lengthSeconds '
+      '-t $durationSeconds '
       '-y '
       '$outputPath',
     );
@@ -226,7 +226,7 @@ class SelectTrimmedSoundViewModel
       return;
     }
 
-    final length = Duration(
+    final duration = Duration(
       milliseconds: segment.endMilliseconds - segment.startMilliseconds,
     );
     final fixedPosition = Duration(
@@ -234,7 +234,7 @@ class SelectTrimmedSoundViewModel
     );
 
     final positionRatio = AudioPositionHelper.getPositionRatio(
-      length: length,
+      duration: duration,
       position: fixedPosition,
     );
 

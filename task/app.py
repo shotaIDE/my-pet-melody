@@ -142,7 +142,7 @@ def detect_non_silence():
 
     # 1000ms との差分の平均が小さい順にソートし、それを候補とする
 
-    non_silences_length_list = [
+    non_silences_duratioins = [
         {
             'segment_duration_list': [
                 non_silence[1] - non_silence[0]
@@ -156,10 +156,11 @@ def detect_non_silence():
     average_list = [
         {
             'segment_duration_average':
-                statistics.mean(non_silences_length['segment_duration_list']),
-            'threshould': non_silences_length['threshould'],
+                statistics.mean(
+                    non_silences_duration['segment_duration_list']),
+            'threshould': non_silences_duration['threshould'],
         }
-        for non_silences_length in non_silences_length_list
+        for non_silences_duration in non_silences_duratioins
     ]
 
     sorted_average_list = sorted(

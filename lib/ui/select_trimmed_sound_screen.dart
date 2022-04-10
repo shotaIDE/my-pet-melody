@@ -189,7 +189,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
               );
 
         const seekBarBorderWidth = 4.0;
-        final lengthMilliseconds = state.lengthMilliseconds;
+        final durationMilliseconds = state.durationMilliseconds;
         final seekBar = Stack(
           children: [
             Padding(
@@ -205,9 +205,9 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                   final seekBarWidth =
                       constraints.maxWidth - seekBarBorderWidth * 2;
                   final startRatio =
-                      choice.segment.startMilliseconds / lengthMilliseconds;
+                      choice.segment.startMilliseconds / durationMilliseconds;
                   final endRatio =
-                      choice.segment.endMilliseconds / lengthMilliseconds;
+                      choice.segment.endMilliseconds / durationMilliseconds;
                   final positionX1 =
                       seekBarWidth * startRatio + seekBarBorderWidth;
                   final positionX2 =

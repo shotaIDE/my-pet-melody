@@ -54,7 +54,7 @@ class SubmissionRemoteDataSource {
             ),
           )
           .toList(),
-      lengthMilliseconds: response.durationMilliseconds,
+      durationMilliseconds: response.durationMilliseconds,
     );
   }
 

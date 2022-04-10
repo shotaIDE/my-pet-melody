@@ -6,7 +6,7 @@ part 'detected_non_silent_segments.freezed.dart';
 class DetectedNonSilentSegments with _$DetectedNonSilentSegments {
   const factory DetectedNonSilentSegments({
     required List<NonSilentSegment> list,
-    required int lengthMilliseconds,
+    required int durationMilliseconds,
   }) = _DetectedNonSilentSegments;
 }
 

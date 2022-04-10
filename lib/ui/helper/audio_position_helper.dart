@@ -1,11 +1,11 @@
 class AudioPositionHelper {
   static double getPositionRatio({
-    required Duration length,
+    required Duration duration,
     required Duration position,
   }) {
-    final lengthSeconds = length.inMilliseconds;
+    final durationSeconds = duration.inMilliseconds;
     final positionSeconds = position.inMilliseconds;
 
-    return positionSeconds / lengthSeconds;
+    return positionSeconds / durationSeconds;
   }
 }
