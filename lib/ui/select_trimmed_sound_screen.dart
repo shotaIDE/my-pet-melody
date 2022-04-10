@@ -40,6 +40,8 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
+  static const _aspectRatio = 1.5;
+
   @override
   void initState() {
     super.initState();
@@ -59,17 +61,19 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
 
     final segmentPanels = state.choices.mapIndexed(
       (index, choice) {
+        const height = 64.0;
+        const width = height * _aspectRatio;
         final thumbnailPath = choice.thumbnailPath;
         final thumbnailBackground = thumbnailPath != null
             ? Image.file(
                 File(thumbnailPath),
                 fit: BoxFit.fill,
-                width: 95,
-                height: 64,
+                width: width,
+                height: height,
               )
             : const SizedBox(
-                width: 95,
-                height: 64,
+                width: width,
+                height: height,
               );
 
         final thumbnailButtonIcon = Container(
@@ -116,8 +120,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                   builder: (context, constraints) {
                     final width = constraints.maxWidth;
                     final splitWidth = width ~/ splitThumbnails.length;
-                    const aspectRatio = 1.5;
-                    final imageWidth = constraints.maxHeight * aspectRatio;
+                    final imageWidth = constraints.maxHeight * _aspectRatio;
                     final imageCount = width ~/ imageWidth + 1;
                     final thumbnails = List.generate(imageCount, (index) {
                       final positionX = index * imageWidth;
