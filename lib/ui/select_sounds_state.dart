@@ -10,8 +10,16 @@ class SelectSoundsState with _$SelectSoundsState {
     required List<PlayerChoiceSound> sounds,
     @Default(null) bool? isRequestStepExists,
     @Default(false) bool isAvailableSubmission,
-    @Default(false) bool isProcessing,
+    @Default(null) SelectSoundScreenProcess? process,
   }) = _SelectSoundsState;
+}
+
+enum SelectSoundScreenProcess {
+  /// 非無音部分の検知のためのアップロード中
+  detect,
+
+  /// 提出中
+  submit,
 }
 
 @freezed

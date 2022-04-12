@@ -286,7 +286,8 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    return state.isProcessing
+    final process = state.process;
+    return process != null
         ? Stack(
             children: [
               scaffold,
@@ -297,7 +298,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '提出しています',
+                      _processLabel(process),
                       style: Theme.of(context)
                           .textTheme
                           .headline6!
@@ -313,6 +314,16 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ],
           )
         : scaffold;
+  }
+
+  String _processLabel(SelectSoundScreenProcess process) {
+    switch (process) {
+      case SelectSoundScreenProcess.detect:
+        return '動画の中から鳴き声を探しています';
+
+      case SelectSoundScreenProcess.submit:
+        return '提出しています';
+    }
   }
 
   Future<void> _selectSound({required PlayerChoiceSound target}) async {

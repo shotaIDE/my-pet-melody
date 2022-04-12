@@ -60,7 +60,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   }
 
   Future<SelectTrimmedSoundArgs?> detect(File file) async {
-    state = state.copyWith(isProcessing: true);
+    state = state.copyWith(process: SelectSoundScreenProcess.detect);
 
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
@@ -74,7 +74,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       fileName: fileName,
     );
 
-    state = state.copyWith(isProcessing: false);
+    state = state.copyWith(process: null);
 
     if (detected == null) {
       return null;
@@ -182,7 +182,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   }
 
   Future<void> submit() async {
-    state = state.copyWith(isProcessing: true);
+    state = state.copyWith(process: SelectSoundScreenProcess.submit);
 
     final soundIdList = _getSoundIdList();
 
@@ -191,7 +191,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       sounds: soundIdList,
     );
 
-    state = state.copyWith(isProcessing: false);
+    state = state.copyWith(process: null);
   }
 
   Future<void> play({required PlayerChoice choice}) async {
