@@ -81,8 +81,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           );
     final moviePanel = ListTile(
       leading: firstThumbnail,
-      // TODO(ide): 差し替え
-      title: const Text('動画.mov'),
+      title: Text(state.fileName),
       tileColor: Colors.grey[300],
     );
 

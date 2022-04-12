@@ -8,6 +8,7 @@ part 'select_trimmed_sound_state.freezed.dart';
 @freezed
 class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
   const factory SelectTrimmedSoundState({
+    required String fileName,
     required List<PlayerChoiceTrimmedMovie> choices,
     required int durationMilliseconds,
     @Default(null) List<String>? splitThumbnails,

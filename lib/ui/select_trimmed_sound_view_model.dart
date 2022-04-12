@@ -23,6 +23,7 @@ class SelectTrimmedSoundViewModel
         _moviePath = args.soundPath,
         super(
           SelectTrimmedSoundState(
+            fileName: basename(args.soundPath),
             choices: args.detected.list
                 .mapIndexed(
                   (index, segment) => PlayerChoiceTrimmedMovie(
