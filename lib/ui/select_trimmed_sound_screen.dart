@@ -70,7 +70,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
     final firstThumbnail = firstThumbnailPath != null
         ? Image.file(
             File(firstThumbnailPath),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
             width: firstThumbnailHeight * _aspectRatio,
             height: firstThumbnailHeight,
           )
@@ -103,7 +103,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         final thumbnailBackground = thumbnailPath != null
             ? Image.file(
                 File(thumbnailPath),
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 width: width,
                 height: height,
               )
@@ -169,7 +169,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
                           File(imagePath),
                           width: imageWidth,
                           height: seekBarHeight,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       );
                     });
