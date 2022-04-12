@@ -229,7 +229,7 @@ class SelectTrimmedSoundViewModel
     );
   }
 
-  void _onAudioPositionReceived(Duration position) {
+  Future<void> _onAudioPositionReceived(Duration position) async {
     final segment = _currentPlayingSegment;
     if (segment == null) {
       return;
@@ -241,6 +241,13 @@ class SelectTrimmedSoundViewModel
     final fixedPosition = Duration(
       milliseconds: position.inMilliseconds - segment.startMilliseconds,
     );
+
+    if (fixedPosition > duration) {
+      await _player.stop();
+
+      _onAudioFinished();
+      return;
+    }
 
     final positionRatio = AudioPositionHelper.getPositionRatio(
       duration: duration,
