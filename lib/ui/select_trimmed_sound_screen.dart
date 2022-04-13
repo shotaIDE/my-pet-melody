@@ -4,7 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
-import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_view_model.dart';
 import 'package:meow_music/ui/trim_sound_screen.dart';
@@ -18,6 +17,8 @@ final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
     args: args,
   ),
 );
+
+const _aspectRatio = 1.5;
 
 class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   SelectTrimmedSoundScreen({
@@ -46,8 +47,6 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
-  static const _aspectRatio = 1.5;
-
   @override
   void initState() {
     super.initState();
@@ -58,6 +57,126 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
+
+    if (state.choices.isEmpty) {
+      return _UnavailableTrimmedSoundScreen(viewModel: widget.viewModel);
+    }
+
+    return _SelectTrimmedSoundScreen(viewModel: widget.viewModel);
+  }
+}
+
+class _UnavailableTrimmedSoundScreen extends ConsumerWidget {
+  const _UnavailableTrimmedSoundScreen({
+    required this.viewModel,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
+      SelectTrimmedSoundState> viewModel;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(viewModel);
+
+    final title = Text(
+      '鳴き声が\n見つかりませんでした',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.headline5,
+    );
+
+    final firstThumbnailPath = state.splitThumbnails?.first;
+    const firstThumbnailHeight = 48.0;
+    final firstThumbnail = firstThumbnailPath != null
+        ? Image.file(
+            File(firstThumbnailPath),
+            fit: BoxFit.cover,
+            width: firstThumbnailHeight * _aspectRatio,
+            height: firstThumbnailHeight,
+          )
+        : const SizedBox(
+            width: firstThumbnailHeight * _aspectRatio,
+            height: firstThumbnailHeight,
+            child: SkeletonAvatar(),
+          );
+    final moviePanel = ListTile(
+      leading: firstThumbnail,
+      title: Text(state.fileName),
+      tileColor: Colors.grey[300],
+    );
+
+    const noDesiredTrimmingDescription = Text(
+      'ご自分で鳴き声部分をトリミングして鳴き声を設定してください。',
+      textAlign: TextAlign.center,
+    );
+
+    final trimManuallyButton = TextButton(
+      onPressed: () async {
+        final localPath = ref.read(viewModel.notifier).getLocalPathName();
+
+        final outputPath = await Navigator.push(
+          context,
+          TrimSoundScreen.route(moviePath: localPath),
+        );
+
+        if (outputPath == null) {
+          return;
+        }
+
+        Navigator.pop(context, outputPath);
+      },
+      child: const Text('自分でトリミングする'),
+    );
+
+    final body = SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Column(
+        children: [
+          moviePanel,
+          const Padding(
+            padding: EdgeInsets.only(top: 32, left: 16, right: 16),
+            child: noDesiredTrimmingDescription,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: trimManuallyButton,
+          ),
+        ],
+      ),
+    );
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: title,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: body,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SelectTrimmedSoundScreen extends ConsumerWidget {
+  const _SelectTrimmedSoundScreen({
+    required this.viewModel,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
+      SelectTrimmedSoundState> viewModel;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(viewModel);
 
     final title = Text(
       '使いたい鳴き声を\n選ぼう',
@@ -85,10 +204,26 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
       tileColor: Colors.grey[300],
     );
 
-    const noDesiredTrimmingDescription = Text('この中に使いたい鳴き声がない場合は？');
+    const noDesiredTrimmingDescription = Text(
+      'この中に使いたい鳴き声がない場合は？',
+      textAlign: TextAlign.center,
+    );
 
     final trimManuallyButton = TextButton(
-      onPressed: _trimManually,
+      onPressed: () async {
+        final localPath = ref.read(viewModel.notifier).getLocalPathName();
+
+        final outputPath = await Navigator.push(
+          context,
+          TrimSoundScreen.route(moviePath: localPath),
+        );
+
+        if (outputPath == null) {
+          return;
+        }
+
+        Navigator.pop(context, outputPath);
+      },
       child: const Text('自分でトリミングする'),
     );
 
@@ -126,10 +261,8 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         );
         final thumbnail = InkWell(
           onTap: () => choice.status.map(
-            stop: (_) =>
-                ref.read(widget.viewModel.notifier).play(choice: choice),
-            playing: (_) =>
-                ref.read(widget.viewModel.notifier).stop(choice: choice),
+            stop: (_) => ref.read(viewModel.notifier).play(choice: choice),
+            playing: (_) => ref.read(viewModel.notifier).stop(choice: choice),
           ),
           child: Stack(
             alignment: AlignmentDirectional.center,
@@ -334,7 +467,16 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         );
 
         return InkWell(
-          onTap: () => _select(choice: choice),
+          onTap: () async {
+            final result =
+                await ref.read(viewModel.notifier).select(choice: choice);
+
+            if (result == null) {
+              return;
+            }
+
+            Navigator.pop(context, result);
+          },
           child: Container(
             padding: const EdgeInsets.only(
               top: 8,
@@ -359,7 +501,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         children: [
           moviePanel,
           const Padding(
-            padding: EdgeInsets.only(top: 32),
+            padding: EdgeInsets.only(top: 32, left: 16, right: 16),
             child: noDesiredTrimmingDescription,
           ),
           Padding(
@@ -421,33 +563,5 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
             ],
           )
         : scaffold;
-  }
-
-  Future<void> _trimManually() async {
-    final localPath = ref.read(widget.viewModel.notifier).getLocalPathName();
-
-    final outputPath = await Navigator.push(
-      context,
-      TrimSoundScreen.route(moviePath: localPath),
-    );
-
-    if (outputPath == null || !mounted) {
-      return;
-    }
-
-    Navigator.pop(context, outputPath);
-  }
-
-  Future<void> _select({
-    required PlayerChoiceTrimmedMovie choice,
-  }) async {
-    final result =
-        await ref.read(widget.viewModel.notifier).select(choice: choice);
-
-    if (result == null || !mounted) {
-      return;
-    }
-
-    Navigator.pop(context, result);
   }
 }
