@@ -11,5 +11,6 @@ class TrimSoundState with _$TrimSoundState {
     @Default(0.0) double endValue,
     @Default(false) bool isPlaying,
     @Default(false) bool progressVisibility,
+    @Default(false) bool isUploading,
   }) = _TrimSoundState;
 }

@@ -47,6 +47,8 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
   }
 
   Future<SelectTrimmedSoundResult?> save() async {
+    state = state.copyWith(isUploading: true);
+
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
     final fileNameWithoutExtension =
@@ -67,6 +69,8 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
     );
 
     if (uploadedSound == null) {
+      state = state.copyWith(isUploading: false);
+
       return null;
     }
 
