@@ -12,6 +12,7 @@ class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
     required List<PlayerChoiceTrimmedMovie> choices,
     required int durationMilliseconds,
     @Default(null) List<String>? splitThumbnails,
+    @Default(false) bool isUploading,
   }) = _SelectTrimmedSoundState;
 }
 

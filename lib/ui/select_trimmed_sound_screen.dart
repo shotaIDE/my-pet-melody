@@ -376,7 +376,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
       ),
     );
 
-    return Scaffold(
+    final scaffold = Scaffold(
       appBar: AppBar(),
       body: Column(
         children: [
@@ -393,6 +393,34 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
         ],
       ),
     );
+
+    return state.isUploading
+        ? Stack(
+            children: [
+              scaffold,
+              Container(
+                alignment: Alignment.center,
+                color: Colors.black.withOpacity(0.5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'アップロードしています',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(color: Colors.white),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: LinearProgressIndicator(),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        : scaffold;
   }
 
   Future<void> _trimManually() async {

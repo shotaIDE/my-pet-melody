@@ -189,6 +189,8 @@ class SelectTrimmedSoundViewModel
   Future<SelectTrimmedSoundResult?> select({
     required PlayerChoiceTrimmedMovie choice,
   }) async {
+    state = state.copyWith(isUploading: true);
+
     final startSeconds = choice.segment.startMilliseconds / 1000;
     final durationSeconds =
         (choice.segment.endMilliseconds - choice.segment.startMilliseconds) /
@@ -221,6 +223,8 @@ class SelectTrimmedSoundViewModel
     );
 
     if (uploadedSound == null) {
+      state = state.copyWith(isUploading: false);
+
       return null;
     }
 
