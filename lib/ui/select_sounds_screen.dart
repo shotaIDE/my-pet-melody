@@ -3,18 +3,16 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
-import 'package:meow_music/ui/preparation_screen.dart';
 import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
+import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
@@ -52,7 +50,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final state = ref.watch(widget.viewModel);
 
     final title = Text(
-      '鳴き声を\n2つ設定しよう',
+      '鳴き声を\n設定しよう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline5,
     );
@@ -94,28 +92,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final description = RichText(
+    final description = Text(
+      '鳴き声を設定してね！',
       textAlign: TextAlign.center,
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: 'トリミング',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1!
-                .copyWith(fontWeight: FontWeight.bold),
-          ),
-          TextSpan(
-            text: 'した鳴き声を2つ設定してね！',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-        ],
-      ),
-    );
-
-    final trimmingButton = TextButton(
-      onPressed: () => launch(AppDefinitions.trimmingPageUrl),
-      child: const Text('トリミングの方法を確認する'),
+      style: Theme.of(context).textTheme.bodyText1,
     );
 
     final sounds = state.sounds;
@@ -206,10 +186,6 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             child: description,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-            child: trimmingButton,
-          ),
-          Padding(
             padding: const EdgeInsets.only(top: 32),
             child: soundsList,
           ),
@@ -226,12 +202,12 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       if (isRequestStepExists) {
         footerButton = ElevatedButton(
           onPressed: state.isAvailableSubmission ? _showRequestScreen : null,
-          child: const Text('依頼前の準備に進む'),
+          child: const Text('作品をつくる準備に進む'),
         );
       } else {
         footerButton = ElevatedButton(
           onPressed: state.isAvailableSubmission ? _submit : null,
-          child: const Text('製作を依頼する'),
+          child: const Text('作品をつくる'),
         );
       }
 
@@ -380,7 +356,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     Navigator.popUntil(
       context,
-      (route) => route.settings.name == PreparationScreen.name,
+      (route) => route.settings.name == SelectTemplateScreen.name,
     );
     await Navigator.pushReplacement<CompletedToSubmitScreen, void>(
       context,
