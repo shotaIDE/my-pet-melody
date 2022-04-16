@@ -19,15 +19,15 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   final SubmissionUseCase _submissionUseCase;
   final _player = AudioPlayer();
 
-  Duration? _currentAudioLength;
-  StreamSubscription<Duration>? _audioLengthSubscription;
+  Duration? _currentAudioDuration;
+  StreamSubscription<Duration>? _audioDurationSubscription;
   StreamSubscription<Duration>? _audioPositionSubscription;
   StreamSubscription<void>? _audioStoppedSubscription;
 
   @override
   Future<void> dispose() async {
     final tasks = [
-      _audioLengthSubscription?.cancel(),
+      _audioDurationSubscription?.cancel(),
       _audioPositionSubscription?.cancel(),
       _audioStoppedSubscription?.cancel(),
     ].whereType<Future<void>>().toList();
@@ -38,7 +38,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   }
 
   Future<void> play({required PlayerChoiceTemplate template}) async {
-    final url = template.url;
+    final url = template.uri;
     if (url == null) {
       return;
     }
@@ -115,8 +115,8 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
         .toList();
     state = state.copyWith(templates: playableTemplates);
 
-    _audioLengthSubscription = _player.onDurationChanged.listen((duration) {
-      _currentAudioLength = duration;
+    _audioDurationSubscription = _player.onDurationChanged.listen((duration) {
+      _currentAudioDuration = duration;
     });
 
     _audioPositionSubscription =
@@ -128,13 +128,13 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   }
 
   void _onAudioPositionReceived(Duration position) {
-    final length = _currentAudioLength;
-    if (length == null) {
+    final duration = _currentAudioDuration;
+    if (duration == null) {
       return;
     }
 
     final positionRatio = AudioPositionHelper.getPositionRatio(
-      length: length,
+      duration: duration,
       position: position,
     );
 

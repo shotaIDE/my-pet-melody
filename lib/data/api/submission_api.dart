@@ -11,6 +11,18 @@ class SubmissionApi {
 
   final MyDio _dio;
 
+  Future<DetectResponse?> detect(
+    File file, {
+    required String fileName,
+  }) async {
+    return _dio.postFile(
+      path: '/detect',
+      file: file,
+      fileName: fileName,
+      responseParser: DetectResponse.fromJson,
+    );
+  }
+
   Future<UploadResponse?> upload(
     File file, {
     required String fileName,
@@ -30,6 +42,17 @@ class SubmissionApi {
       data: request.toJson(),
     );
   }
+}
+
+@freezed
+class DetectResponse with _$DetectResponse {
+  const factory DetectResponse({
+    required List<List<int>> segments,
+    required int durationMilliseconds,
+  }) = _DetectResponse;
+
+  factory DetectResponse.fromJson(Map<String, dynamic> json) =>
+      _$DetectResponseFromJson(json);
 }
 
 @freezed

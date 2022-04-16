@@ -11,7 +11,9 @@ import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
+import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
@@ -39,15 +41,15 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   final SubmissionUseCase _submissionUseCase;
   final _player = AudioPlayer();
 
-  Duration? _currentAudioLength;
-  StreamSubscription<Duration>? _audioLengthSubscription;
+  Duration? _currentAudioDuration;
+  StreamSubscription<Duration>? _audioDurationSubscription;
   StreamSubscription<Duration>? _audioPositionSubscription;
   StreamSubscription<void>? _audioStoppedSubscription;
 
   @override
   Future<void> dispose() async {
     final tasks = [
-      _audioLengthSubscription?.cancel(),
+      _audioDurationSubscription?.cancel(),
       _audioPositionSubscription?.cancel(),
       _audioStoppedSubscription?.cancel(),
     ].whereType<Future<void>>().toList();
@@ -55,6 +57,33 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await Future.wait<void>(tasks);
 
     super.dispose();
+  }
+
+  Future<SelectTrimmedSoundArgs?> detect(File file) async {
+    state = state.copyWith(process: SelectSoundScreenProcess.detect);
+
+    final outputDirectory = await getTemporaryDirectory();
+    final outputParentPath = outputDirectory.path;
+    final fileName = basename(file.path);
+    final outputPath = '$outputParentPath/$fileName';
+
+    final copiedFile = await file.copy(outputPath);
+
+    final detected = await _submissionUseCase.detect(
+      copiedFile,
+      fileName: fileName,
+    );
+
+    state = state.copyWith(process: null);
+
+    if (detected == null) {
+      return null;
+    }
+
+    return SelectTrimmedSoundArgs(
+      soundPath: copiedFile.path,
+      detected: detected,
+    );
   }
 
   Future<void> upload(
@@ -107,6 +136,28 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
+  Future<void> onSelectedTrimmedSound(
+    SelectTrimmedSoundResult result, {
+    required PlayerChoiceSound target,
+  }) async {
+    final sounds = state.sounds;
+    final index = sounds.indexOf(target);
+
+    sounds[index] = target.copyWith(
+      sound: SelectedSound.uploaded(
+        id: result.uploaded.id,
+        extension: result.uploaded.extension,
+        localFileName: result.label,
+        remoteUrl: result.uploaded.url,
+      ),
+    );
+
+    state = state.copyWith(
+      sounds: sounds,
+      isAvailableSubmission: _getIsAvailableSubmission(),
+    );
+  }
+
   Future<void> delete({required PlayerChoiceSound target}) async {
     final sounds = state.sounds;
     final index = sounds.indexOf(target);
@@ -131,7 +182,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   }
 
   Future<void> submit() async {
-    state = state.copyWith(isProcessing: true);
+    state = state.copyWith(process: SelectSoundScreenProcess.submit);
 
     final soundIdList = _getSoundIdList();
 
@@ -140,11 +191,11 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       sounds: soundIdList,
     );
 
-    state = state.copyWith(isProcessing: false);
+    state = state.copyWith(process: null);
   }
 
   Future<void> play({required PlayerChoice choice}) async {
-    final url = choice.url;
+    final url = choice.uri;
     if (url == null) {
       return;
     }
@@ -210,8 +261,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   }
 
   Future<void> _setup() async {
-    _audioLengthSubscription = _player.onDurationChanged.listen((duration) {
-      _currentAudioLength = duration;
+    _audioDurationSubscription = _player.onDurationChanged.listen((duration) {
+      _currentAudioDuration = duration;
     });
 
     _audioPositionSubscription =
@@ -227,13 +278,13 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   }
 
   void _onAudioPositionReceived(Duration position) {
-    final length = _currentAudioLength;
-    if (length == null) {
+    final duration = _currentAudioDuration;
+    if (duration == null) {
       return;
     }
 
     final positionRatio = AudioPositionHelper.getPositionRatio(
-      length: length,
+      duration: duration,
       position: position,
     );
 

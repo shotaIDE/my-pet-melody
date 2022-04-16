@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:meow_music/data/model/detected_non_silent_segments.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
@@ -27,6 +28,16 @@ class SubmissionUseCase {
 
   Future<List<Template>> getTemplates() async {
     return _repository.getTemplates();
+  }
+
+  Future<DetectedNonSilentSegments?> detect(
+    File file, {
+    required String fileName,
+  }) async {
+    return _repository.detect(
+      file,
+      fileName: fileName,
+    );
   }
 
   Future<UploadedSound?> upload(

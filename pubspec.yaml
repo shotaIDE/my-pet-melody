@@ -32,6 +32,9 @@ dependencies:
   firebase_messaging: ^11.2.6
   flutter_local_notifications: ^9.4.0
   url_launcher: ^6.0.20
+  ffmpeg_kit_flutter: 4.5.1-LTS
+  skeletons: ^0.0.3
+  video_trimmer: ^0.6.0
 
 dev_dependencies:
   flutter_test:
