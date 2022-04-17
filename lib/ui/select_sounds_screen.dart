@@ -52,7 +52,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final title = Text(
       '鳴き声を\n設定しよう',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline5,
+      style: Theme.of(context).textTheme.headline4,
     );
 
     final template = state.template;

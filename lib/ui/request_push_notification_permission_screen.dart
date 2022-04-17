@@ -52,7 +52,7 @@ class _SelectTemplateState
     final title = Text(
       'プッシュ通知を\n許可しよう',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline5,
+      style: Theme.of(context).textTheme.headline4,
     );
 
     final description = Text(
