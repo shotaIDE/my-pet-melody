@@ -32,7 +32,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
     final title = Text(
       '作品の製作が\n開始されました',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline5,
+      style: Theme.of(context).textTheme.headline4,
     );
 
     const description = Text(

@@ -82,7 +82,7 @@ class _UnavailableTrimmedSoundScreen extends ConsumerWidget {
     final title = Text(
       '鳴き声が\n見つかりませんでした',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline5,
+      style: Theme.of(context).textTheme.headline4,
     );
 
     final firstThumbnailPath = state.splitThumbnails?.first;
@@ -181,7 +181,7 @@ class _SelectTrimmedSoundScreen extends ConsumerWidget {
     final title = Text(
       '使いたい鳴き声を\n選ぼう',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline5,
+      style: Theme.of(context).textTheme.headline1,
     );
 
     final firstThumbnailPath = state.splitThumbnails?.first;

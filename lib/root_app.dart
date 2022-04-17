@@ -44,6 +44,16 @@ class _RootAppState extends ConsumerState<RootApp> {
       theme: ThemeData(
         primarySwatch: Colors.brown,
         fontFamily: 'uzura',
+        textTheme: const TextTheme(
+          titleMedium: TextStyle(fontSize: 18),
+          titleSmall: TextStyle(fontSize: 16),
+          bodyLarge: TextStyle(fontSize: 20),
+          bodyMedium: TextStyle(fontSize: 18),
+          bodySmall: TextStyle(fontSize: 16),
+          labelLarge: TextStyle(fontSize: 18),
+          labelMedium: TextStyle(fontSize: 16),
+          labelSmall: TextStyle(fontSize: 14),
+        ),
       ),
       home: home,
       localizationsDelegates: const [
