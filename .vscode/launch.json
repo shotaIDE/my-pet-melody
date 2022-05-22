@@ -5,10 +5,33 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug",
+            "name": "Local",
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",
+            "args": [
+                "--dart-define",
+                "FLAVOR=local",
+                "--dart-define",
+                "API_HOST=${input:localServerIP}",
+            ],
+        },
+        {
+            "name": "Develop",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define",
+                "FLAVOR=dev",
+            ],
+        },
+    ],
+    "inputs": [
+        {
+          "id": "localServerIP",
+          "type": "promptString",
+          "description": "ローカルサーバーのIPアドレスまたはホスト名を入力してください。空のままでEnterを押すと、127.0.0.1が設定されます",
         },
     ],
 }

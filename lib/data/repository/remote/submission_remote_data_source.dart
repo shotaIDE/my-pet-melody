@@ -8,7 +8,7 @@ import 'package:meow_music/data/model/uploaded_sound.dart';
 class SubmissionRemoteDataSource {
   SubmissionRemoteDataSource({required SubmissionApi api}) : _api = api;
 
-  static const _apiBaseUrl = AppDefinitions.serverOrigin;
+  static final _apiBaseUrl = AppDefinitions.serverOrigin;
 
   final SubmissionApi _api;
 

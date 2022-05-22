@@ -4,6 +4,7 @@ import os
 
 from flask import Flask, request
 
+import local
 import main
 
 app = Flask(__name__)
@@ -17,19 +18,19 @@ def hello_world():
 
 
 @app.route('/upload', methods=['POST'])
-def upload_file():
+def upload():
     if _IS_LOCAL:
-        return main.upload_file_local(request)
+        return local.upload(request)
     else:
-        return main.upload_file_remote(request)
+        return main.upload(request)
 
 
 @app.route('/detect', methods=['POST'])
 def detect_non_silence():
     if _IS_LOCAL:
-        return main.detect_non_silence_local(request)
+        return local.detect(request)
     else:
-        return main.detect_non_silence_remote(request)
+        return main.detect(request)
 
 
 @app.route('/hello_get', methods=['GET'])

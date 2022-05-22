@@ -1,14 +1,14 @@
 # coding: utf-8
 
 import os
-import statistics
 import tempfile
 from datetime import datetime
-from fileinput import filename
 
 from flask import url_for
 from google.cloud import storage
-from pydub import AudioSegment, silence
+from pydub import AudioSegment
+
+from utils import detect_non_silence, generate_store_file_name
 
 _STATIC_DIRECTORY = 'static'
 _TEMPLATES_DIRECTORY = 'templates'
@@ -74,35 +74,13 @@ def hello_world(request):
     }
 
 
-def upload_file_local(request):
-    f = request.files['file']
-
-    file_name = f.filename
-    store_file_name_base, store_file_extension = _generate_store_file_name(
-        file_name=file_name)
-
-    store_file_name = f'{store_file_name_base}{store_file_extension}'
-    store_path_on_static = f'{_UPLOADS_DIRECTORY}/{store_file_name}'
-    store_path = f'{_STATIC_DIRECTORY}/{store_path_on_static}'
-
-    f.save(store_path)
-
-    store_url_path = url_for('static', filename=store_path_on_static)
-
-    return {
-        'id': store_file_name_base,
-        'extension': store_file_extension,
-        'path': store_url_path,
-    }
-
-
-def upload_file_remote(request):
+def upload(request):
     _BUCKET_NAME = os.environ['GOOGLE_CLOUD_STORAGE_BUCKET_NAME']
 
     f = request.files['file']
     file_name = f.filename
 
-    store_file_name_base, store_file_extension = _generate_store_file_name(
+    store_file_name_base, store_file_extension = generate_store_file_name(
         file_name=file_name)
 
     _, temp_local_base_path = tempfile.mkstemp()
@@ -116,39 +94,23 @@ def upload_file_remote(request):
 
     storage_client = storage.Client()
     bucket = storage_client.bucket(_BUCKET_NAME)
-    blob = bucket.blob(temp_local_path)
+    blob = bucket.blob(store_path_path)
 
-    blob.upload_from_filename(store_path_path)
+    blob.upload_from_filename(temp_local_path)
 
     return {
         'id': store_file_name_base,
         'extension': store_file_extension,
+        'path': store_path_path,
     }
 
 
-def detect_non_silence_local(request):
+def detect(request):
     f = request.files['file']
 
     file_name = f.filename
 
-    store_file_name_base, store_file_extension = _generate_store_file_name(
-        file_name=file_name,
-    )
-    store_file_name = f'{store_file_name_base}{store_file_extension}'
-    store_path_on_static = f'{_UPLOADS_DIRECTORY}/{store_file_name}'
-    store_path = f'{_STATIC_DIRECTORY}/{store_path_on_static}'
-
-    f.save(store_path)
-
-    return _detect_non_silence(store_path=store_path)
-
-
-def detect_non_silence_remote(request):
-    f = request.files['file']
-
-    file_name = f.filename
-
-    _, store_file_extension = _generate_store_file_name(
+    _, store_file_extension = generate_store_file_name(
         file_name=file_name,
     )
 
@@ -158,7 +120,7 @@ def detect_non_silence_remote(request):
 
     f.save(temp_local_path)
 
-    return _detect_non_silence(store_path=temp_local_path)
+    return detect_non_silence(store_path=temp_local_path)
 
 
 def hello_get(request):
@@ -176,73 +138,3 @@ def hello_get(request):
         <https://cloud.google.com/functions/docs/writing/http#http_frameworks>
     """
     return 'Hello World!'
-
-
-def _generate_store_file_name(file_name: str):
-    splitted_file_name = os.path.splitext(file_name)
-
-    current = datetime.now()
-    store_file_name_base = current.strftime('%Y%m%d%H%M%S')
-    store_file_extension = splitted_file_name[1]
-
-    return (store_file_name_base, store_file_extension)
-
-
-def _detect_non_silence(store_path: str) -> dict:
-    sound = AudioSegment.from_file(store_path)
-
-    duration_seconds = sound.duration_seconds
-    duration_milliseconds = int(round(duration_seconds, 3) * 1000)
-
-    normalized_sound = sound.normalize(headroom=1.0)
-
-    non_silences_list_raw = [
-        {
-            'segments': silence.detect_nonsilent(
-                normalized_sound, silence_thresh=threshould),
-            'threshould': threshould,
-        }
-        for threshould in range(-30, -10)
-    ]
-
-    non_silences_list = [
-        non_silences
-        for non_silences in non_silences_list_raw
-        if len(non_silences['segments']) > 0
-    ]
-
-    # 1000ms との差分の平均が小さい順にソートし、それを候補とする
-
-    non_silences_duratioins = [
-        {
-            'segment_duration_list': [
-                non_silence[1] - non_silence[0]
-                for non_silence in non_silences['segments']
-            ],
-            'threshould': non_silences['threshould'],
-        }
-        for non_silences in non_silences_list
-    ]
-
-    average_list = [
-        {
-            'segment_duration_average':
-                statistics.mean(
-                    non_silences_duration['segment_duration_list']),
-            'threshould': non_silences_duration['threshould'],
-        }
-        for non_silences_duration in non_silences_duratioins
-    ]
-
-    sorted_average_list = sorted(
-        average_list,
-        key=lambda x: x['segment_duration_average'])
-
-    target_threshould = sorted_average_list[0]['threshould']
-
-    target_index = target_threshould + 30
-
-    return {
-        'segments': non_silences_list_raw[target_index]['segments'],
-        'durationMilliseconds': duration_milliseconds,
-    }

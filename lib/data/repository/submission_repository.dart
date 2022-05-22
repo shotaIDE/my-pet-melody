@@ -15,7 +15,7 @@ class SubmissionRepository {
 
   Future<List<Template>> getTemplates() async {
     return [
-      const Template(
+      Template(
         id: 'happy_birthday',
         name: 'Happy Birthday',
         url:

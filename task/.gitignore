@@ -9,4 +9,5 @@
 !/static/uploads/.gitkeep
 
 /.env
+/.env.yaml
 /serviceAccountKey.json
