@@ -54,7 +54,6 @@ def detect(request):
 def submit(request):
     request_params_json = request.json
 
-    user_id = request_params_json['userId']
     template_id = request_params_json['templateId']
     file_name_bases = request_params_json['fileNames']
     file_paths = [
