@@ -7,6 +7,8 @@ from datetime import datetime
 from google.cloud import storage
 from pydub import AudioSegment, silence
 
+_OUTPUT_SOUND_EXTENSION = '.mp3'
+
 
 def generate_store_file_name(file_name: str) -> tuple[str, str]:
     splitted_file_name = os.path.splitext(file_name)
@@ -76,3 +78,37 @@ def detect_non_silence(store_path: str) -> dict:
         'segments': non_silences_list_raw[target_index]['segments'],
         'durationMilliseconds': duration_milliseconds,
     }
+
+
+def generate_piece(
+    template_path: str,
+    sound_paths: list[str],
+    export_base_path: str
+) -> str:
+    template = AudioSegment.from_file(template_path)
+    sounds = [
+        AudioSegment.from_file(sound_path)
+        for sound_path in sound_paths
+    ]
+
+    normalized_sounds = [
+        sound.normalize(headroom=1.0)
+        for sound in sounds
+    ]
+
+    overlayed = template
+
+    overlayed = overlayed.overlay(normalized_sounds[0], position=3159)
+    overlayed = overlayed.overlay(normalized_sounds[1], position=6941)
+    overlayed = overlayed.overlay(normalized_sounds[0], position=10099)
+    overlayed = overlayed.overlay(normalized_sounds[1], position=10754)
+    overlayed = overlayed.overlay(normalized_sounds[0], position=14612)
+    overlayed = overlayed.overlay(normalized_sounds[1], position=15352)
+
+    normalized_overlayed = overlayed.normalize(headroom=1.0)
+
+    export_path = f'{export_base_path}'f'{_OUTPUT_SOUND_EXTENSION}'
+
+    normalized_overlayed.export(export_path)
+
+    return export_path

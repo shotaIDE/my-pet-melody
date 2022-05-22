@@ -12,11 +12,6 @@ app = Flask(__name__)
 _IS_LOCAL = os.environ.get('FUNCTION_NAME') is None
 
 
-@app.route("/", methods=['POST'])
-def hello_world():
-    return main.hello_world(request)
-
-
 @app.route('/upload', methods=['POST'])
 def upload():
     if _IS_LOCAL:
@@ -33,6 +28,6 @@ def detect_non_silence():
         return main.detect(request)
 
 
-@app.route('/hello_get', methods=['GET'])
-def index():
-    return main.hello_get(request)
+@app.route("/submit", methods=['POST'])
+def submit():
+    return local.submit(request)

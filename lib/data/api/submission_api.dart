@@ -37,7 +37,7 @@ class SubmissionApi {
 
   Future<SubmitResponse?> submit(SubmitRequest request) async {
     return _dio.post(
-      path: '/',
+      path: '/submit',
       responseParser: SubmitResponse.fromJson,
       data: request.toJson(),
     );
