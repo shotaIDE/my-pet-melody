@@ -4,6 +4,7 @@ import os
 import statistics
 import tempfile
 from datetime import datetime
+from fileinput import filename
 
 from flask import url_for
 from google.cloud import storage
@@ -99,24 +100,23 @@ def upload_file_remote(request):
     _BUCKET_NAME = os.environ['GOOGLE_CLOUD_STORAGE_BUCKET_NAME']
 
     f = request.files['file']
-
-    _, temp_local_file_path = tempfile.mkstemp()
-
-    f.save(temp_local_file_path)
-
     file_name = f.filename
 
     store_file_name_base, store_file_extension = _generate_store_file_name(
         file_name=file_name)
+
+    _, temp_local_base_path = tempfile.mkstemp()
+    temp_local_path = f'{temp_local_base_path}{store_file_extension}'
+
+    f.save(temp_local_path)
+
     store_file_name = f'{store_file_name_base}{store_file_extension}'
-
     _STORAGE_MEDIA_DIRECTORY = 'media/temp'
-
     store_path_path = f'{_STORAGE_MEDIA_DIRECTORY}/{store_file_name}'
 
     storage_client = storage.Client()
     bucket = storage_client.bucket(_BUCKET_NAME)
-    blob = bucket.blob(temp_local_file_path)
+    blob = bucket.blob(temp_local_path)
 
     blob.upload_from_filename(store_path_path)
 
@@ -126,22 +126,69 @@ def upload_file_remote(request):
     }
 
 
-def detect_non_silence(request):
+def detect_non_silence_local(request):
     f = request.files['file']
 
     file_name = f.filename
-    splitted_file_name = os.path.splitext(file_name)
 
-    current = datetime.now()
-    store_file_name_base = current.strftime('%Y%m%d%H%M%S')
-    store_file_name = f'{store_file_name_base}{splitted_file_name[1]}'
-    store_file_extension = splitted_file_name[1]
+    store_file_name_base, store_file_extension = _generate_store_file_name(
+        file_name=file_name,
+    )
+    store_file_name = f'{store_file_name_base}{store_file_extension}'
     store_path_on_static = f'{_UPLOADS_DIRECTORY}/{store_file_name}'
-
     store_path = f'{_STATIC_DIRECTORY}/{store_path_on_static}'
 
     f.save(store_path)
 
+    return _detect_non_silence(store_path=store_path)
+
+
+def detect_non_silence_remote(request):
+    f = request.files['file']
+
+    file_name = f.filename
+
+    _, store_file_extension = _generate_store_file_name(
+        file_name=file_name,
+    )
+
+    _, temp_local_base_path = tempfile.mkstemp()
+
+    temp_local_path = f'{temp_local_base_path}{store_file_extension}'
+
+    f.save(temp_local_path)
+
+    return _detect_non_silence(store_path=temp_local_path)
+
+
+def hello_get(request):
+    """HTTP Cloud Function.
+    Args:
+        request (flask.Request): The request object.
+        <https://flask.palletsprojects.com/en/1.1.x/api/#incoming-request-data>
+    Returns:
+        The response text, or any set of values that can be turned into a
+        Response object using `make_response`
+        <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
+    Note:
+        For more information on how Flask integrates with Cloud
+        Functions, see the `Writing HTTP functions` page.
+        <https://cloud.google.com/functions/docs/writing/http#http_frameworks>
+    """
+    return 'Hello World!'
+
+
+def _generate_store_file_name(file_name: str):
+    splitted_file_name = os.path.splitext(file_name)
+
+    current = datetime.now()
+    store_file_name_base = current.strftime('%Y%m%d%H%M%S')
+    store_file_extension = splitted_file_name[1]
+
+    return (store_file_name_base, store_file_extension)
+
+
+def _detect_non_silence(store_path: str) -> dict:
     sound = AudioSegment.from_file(store_path)
 
     duration_seconds = sound.duration_seconds
@@ -199,30 +246,3 @@ def detect_non_silence(request):
         'segments': non_silences_list_raw[target_index]['segments'],
         'durationMilliseconds': duration_milliseconds,
     }
-
-
-def hello_get(request):
-    """HTTP Cloud Function.
-    Args:
-        request (flask.Request): The request object.
-        <https://flask.palletsprojects.com/en/1.1.x/api/#incoming-request-data>
-    Returns:
-        The response text, or any set of values that can be turned into a
-        Response object using `make_response`
-        <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
-    Note:
-        For more information on how Flask integrates with Cloud
-        Functions, see the `Writing HTTP functions` page.
-        <https://cloud.google.com/functions/docs/writing/http#http_frameworks>
-    """
-    return 'Hello World!'
-
-
-def _generate_store_file_name(file_name: str):
-    splitted_file_name = os.path.splitext(file_name)
-
-    current = datetime.now()
-    store_file_name_base = current.strftime('%Y%m%d%H%M%S')
-    store_file_extension = splitted_file_name[1]
-
-    return (store_file_name_base, store_file_extension)

@@ -26,7 +26,10 @@ def upload_file():
 
 @app.route('/detect', methods=['POST'])
 def detect_non_silence():
-    return main.detect_non_silence(request)
+    if _IS_LOCAL:
+        return main.detect_non_silence_local(request)
+    else:
+        return main.detect_non_silence_remote(request)
 
 
 @app.route('/hello_get', methods=['GET'])
