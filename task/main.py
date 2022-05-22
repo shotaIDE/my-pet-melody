@@ -1,15 +1,12 @@
 # coding: utf-8
 
-import functools
 import os
 import statistics
 from datetime import datetime
+from distutils.command.upload import upload
 
-import functions_framework
-from flask import Flask, request, url_for
+from flask import Flask, url_for
 from pydub import AudioSegment, silence
-
-app = Flask(__name__)
 
 _STATIC_DIRECTORY = 'static'
 _TEMPLATES_DIRECTORY = 'templates'
@@ -18,8 +15,7 @@ _EXPORTS_DIRECTORY = 'exports'
 _OUTPUT_SOUND_EXTENSION = '.mp3'
 
 
-@app.route("/", methods=['POST'])
-def hello_world():
+def hello_world(request):
     request_params_json = request.json
 
     user_id = request_params_json['userId']
@@ -76,8 +72,7 @@ def hello_world():
     }
 
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
+def upload_file(request):
     f = request.files['file']
 
     file_name = f.filename
@@ -102,8 +97,7 @@ def upload_file():
     }
 
 
-@app.route('/detect', methods=['POST'])
-def detect_non_silence():
+def detect_non_silence(request):
     f = request.files['file']
 
     file_name = f.filename
@@ -178,8 +172,6 @@ def detect_non_silence():
     }
 
 
-# [START functions_helloworld_get]
-@functions_framework.http
 def hello_get(request):
     """HTTP Cloud Function.
     Args:
@@ -195,4 +187,3 @@ def hello_get(request):
         <https://cloud.google.com/functions/docs/writing/http#http_frameworks>
     """
     return 'Hello World!'
-# [END functions_helloworld_get]
