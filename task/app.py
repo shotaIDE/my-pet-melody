@@ -25,3 +25,8 @@ def detect_non_silence():
 @app.route('/hello_get', methods=['GET'])
 def index():
     return main.hello_get(request)
+
+
+@app.route('/upload_to_gcs', methods=['GET'])
+def upload_to_gcs():
+    return main.upload_to_gcs(request)

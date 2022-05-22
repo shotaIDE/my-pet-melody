@@ -1,3 +1,5 @@
+serviceAccountKey.json
+
 /env
 /static
 !/static/.gitkeep
@@ -7,3 +9,5 @@
 !/static/templates/.gitkeep
 /static/uploads
 !/static/uploads/.gitkeep
+
+/.env

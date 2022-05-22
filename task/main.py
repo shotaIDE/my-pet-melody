@@ -3,9 +3,9 @@
 import os
 import statistics
 from datetime import datetime
-from distutils.command.upload import upload
 
-from flask import Flask, url_for
+from flask import url_for
+from google.cloud import storage
 from pydub import AudioSegment, silence
 
 _STATIC_DIRECTORY = 'static'
@@ -187,3 +187,15 @@ def hello_get(request):
         <https://cloud.google.com/functions/docs/writing/http#http_frameworks>
     """
     return 'Hello World!'
+
+
+def upload_to_gcs(request):
+    _BUCKET_NAME = os.environ['GOOGLE_CLOUD_STORAGE_BUCKET_NAME']
+
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(_BUCKET_NAME)
+    blob = bucket.blob('media/temp02.mov')
+
+    blob.upload_from_filename('static/uploads/20220414201718.mov')
+
+    return 'Image was uploaded!'
