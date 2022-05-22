@@ -1,9 +1,11 @@
+.gcloudignore
+.git
+.gitignore
+
 /__pycache__/
 /.vscode/
 /env/
 /static/
 
-.gcloudignore
-.git
-.gitignore
-app.py
+/app.py
+/serviceAccountKey.json

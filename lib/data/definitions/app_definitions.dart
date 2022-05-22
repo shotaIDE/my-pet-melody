@@ -1,3 +1,3 @@
 class AppDefinitions {
-  static const serverOrigin = 'http://192.168.11.2:5001';
+  static const serverOrigin = 'http://127.0.0.1:5001';
 }

@@ -2,6 +2,7 @@
 
 import os
 import statistics
+import tempfile
 from datetime import datetime
 
 from flask import url_for
@@ -72,18 +73,15 @@ def hello_world(request):
     }
 
 
-def upload_file(request):
+def upload_file_local(request):
     f = request.files['file']
 
     file_name = f.filename
-    splitted_file_name = os.path.splitext(file_name)
+    store_file_name_base, store_file_extension = _generate_store_file_name(
+        file_name=file_name)
 
-    current = datetime.now()
-    store_file_name_base = current.strftime('%Y%m%d%H%M%S')
-    store_file_name = f'{store_file_name_base}{splitted_file_name[1]}'
-    store_file_extension = splitted_file_name[1]
+    store_file_name = f'{store_file_name_base}{store_file_extension}'
     store_path_on_static = f'{_UPLOADS_DIRECTORY}/{store_file_name}'
-
     store_path = f'{_STATIC_DIRECTORY}/{store_path_on_static}'
 
     f.save(store_path)
@@ -94,6 +92,37 @@ def upload_file(request):
         'id': store_file_name_base,
         'extension': store_file_extension,
         'path': store_url_path,
+    }
+
+
+def upload_file_remote(request):
+    _BUCKET_NAME = os.environ['GOOGLE_CLOUD_STORAGE_BUCKET_NAME']
+
+    f = request.files['file']
+
+    _, temp_local_file_path = tempfile.mkstemp()
+
+    f.save(temp_local_file_path)
+
+    file_name = f.filename
+
+    store_file_name_base, store_file_extension = _generate_store_file_name(
+        file_name=file_name)
+    store_file_name = f'{store_file_name_base}{store_file_extension}'
+
+    _STORAGE_MEDIA_DIRECTORY = 'media/temp'
+
+    store_path_path = f'{_STORAGE_MEDIA_DIRECTORY}/{store_file_name}'
+
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(_BUCKET_NAME)
+    blob = bucket.blob(temp_local_file_path)
+
+    blob.upload_from_filename(store_path_path)
+
+    return {
+        'id': store_file_name_base,
+        'extension': store_file_extension,
     }
 
 
@@ -189,13 +218,11 @@ def hello_get(request):
     return 'Hello World!'
 
 
-def upload_to_gcs(request):
-    _BUCKET_NAME = os.environ['GOOGLE_CLOUD_STORAGE_BUCKET_NAME']
+def _generate_store_file_name(file_name: str):
+    splitted_file_name = os.path.splitext(file_name)
 
-    storage_client = storage.Client()
-    bucket = storage_client.bucket(_BUCKET_NAME)
-    blob = bucket.blob('media/temp02.mov')
+    current = datetime.now()
+    store_file_name_base = current.strftime('%Y%m%d%H%M%S')
+    store_file_extension = splitted_file_name[1]
 
-    blob.upload_from_filename('static/uploads/20220414201718.mov')
-
-    return 'Image was uploaded!'
+    return (store_file_name_base, store_file_extension)

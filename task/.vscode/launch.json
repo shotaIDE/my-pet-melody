@@ -12,7 +12,6 @@
             "env": {
                 "FLASK_APP": "app.py",
                 "FLASK_ENV": "development",
-                "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/serviceAccountKey.json",
             },
             "envFile": "${workspaceFolder}/.env",
             "args": [
