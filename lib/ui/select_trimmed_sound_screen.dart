@@ -181,7 +181,7 @@ class _SelectTrimmedSoundScreen extends ConsumerWidget {
     final title = Text(
       '使いたい鳴き声を\n選ぼう',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline1,
+      style: Theme.of(context).textTheme.headline4,
     );
 
     final firstThumbnailPath = state.splitThumbnails?.first;

@@ -27,7 +27,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
               status: const PlayStatus.stop(),
             ),
             sounds: List.generate(
-              2,
+              1,
               (index) => PlayerChoiceSound(
                 status: const PlayStatus.stop(),
                 sound: SelectedSoundNone(id: 'selected-sound-$index'),

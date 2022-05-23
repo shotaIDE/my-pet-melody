@@ -111,13 +111,12 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
           playing: (_) => const Icon(Icons.stop),
         );
 
-        final titleLabel = index == 0 ? '高めの鳴き声を設定する' : '低めの鳴き声を設定する';
         final tile = sound.sound.when(
           none: (_) => ListTile(
             leading: const Icon(Icons.source_rounded),
-            title: Text(
-              titleLabel,
-              style: const TextStyle(color: Colors.grey),
+            title: const Text(
+              '鳴き声を設定する',
+              style: TextStyle(color: Colors.grey),
               overflow: TextOverflow.ellipsis,
             ),
             onTap: () => _selectSound(target: sound),
