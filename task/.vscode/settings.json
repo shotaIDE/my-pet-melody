@@ -8,6 +8,7 @@
             "source.fixAll": true,
             "source.organizeImports": true,
         },
+        "editor.formatOnSave": true,
     },
     "python.linting.enabled": true,
     "python.linting.lintOnSave": true,

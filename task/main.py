@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import firebase_admin
 from firebase_admin import credentials, storage
 from google.cloud import tasks_v2
-from google.protobuf import duration_pb2, timestamp_pb2
+from google.protobuf import timestamp_pb2
 
 from utils import detect_non_silence, generate_piece, generate_store_file_name
 

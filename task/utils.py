@@ -4,7 +4,6 @@ import os
 import statistics
 from datetime import datetime
 
-from google.cloud import storage
 from pydub import AudioSegment, silence
 
 _OUTPUT_SOUND_EXTENSION = '.mp3'
