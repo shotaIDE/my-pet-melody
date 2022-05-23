@@ -98,11 +98,11 @@ def generate_piece(
     overlayed = template
 
     overlayed = overlayed.overlay(normalized_sounds[0], position=3159)
-    overlayed = overlayed.overlay(normalized_sounds[1], position=6941)
+    overlayed = overlayed.overlay(normalized_sounds[0], position=6941)
     overlayed = overlayed.overlay(normalized_sounds[0], position=10099)
-    overlayed = overlayed.overlay(normalized_sounds[1], position=10754)
+    overlayed = overlayed.overlay(normalized_sounds[0], position=10754)
     overlayed = overlayed.overlay(normalized_sounds[0], position=14612)
-    overlayed = overlayed.overlay(normalized_sounds[1], position=15352)
+    overlayed = overlayed.overlay(normalized_sounds[0], position=15352)
 
     normalized_overlayed = overlayed.normalize(headroom=1.0)
 
