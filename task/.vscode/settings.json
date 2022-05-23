@@ -9,11 +9,6 @@
             "source.organizeImports": true,
         },
     },
-    "[yaml]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true,
-        "editor.tabSize": 2,
-    },
     "python.linting.enabled": true,
     "python.linting.lintOnSave": true,
     "python.linting.pycodestyleEnabled": true,
