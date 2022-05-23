@@ -96,7 +96,7 @@ def submit(request):
     payload = json.dumps(body_dict)
     converted_payload = payload.encode()
 
-    d = datetime.utcnow() + timedelta(seconds=5)
+    d = datetime.utcnow() + timedelta(minutes=1)
 
     timestamp = timestamp_pb2.Timestamp()
     timestamp.FromDatetime(d)
