@@ -52,7 +52,7 @@ def detect(request):
     return detect_non_silence(store_path=store_path)
 
 
-def submit(request):
+def piece(request):
     request_params_json = request.json
 
     template_id = request_params_json['templateId']

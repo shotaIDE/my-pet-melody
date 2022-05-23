@@ -30,7 +30,12 @@ def detect_non_silence():
 
 @app.route("/submit", methods=['POST'])
 def submit():
+    return main.submit(request)
+
+
+@app.route("/piece", methods=['POST'])
+def piece():
     if _IS_LOCAL:
-        return local.submit(request)
+        return local.piece(request)
     else:
-        return main.submit(request)
+        return main.piece(request)

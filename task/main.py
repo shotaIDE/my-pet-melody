@@ -1,11 +1,14 @@
 # coding: utf-8
 
+import json
 import os
 import tempfile
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import firebase_admin
 from firebase_admin import credentials, storage
+from google.cloud import tasks_v2
+from google.protobuf import duration_pb2, timestamp_pb2
 
 from utils import detect_non_silence, generate_piece, generate_store_file_name
 
@@ -70,6 +73,57 @@ def detect(request):
 
 
 def submit(request):
+    _GCP_PROJECT_ID = os.environ['GOOGLE_CLOUD_PROJECT_ID']
+    _TASKS_LOCATION = os.environ['GOOGLE_CLOUD_TASKS_LOCATION']
+    _TASKS_QUEUE_ID = os.environ['GOOGLE_CLOUD_TASKS_QUEUE_ID']
+    _FUNCTIONS_ORIGIN = os.environ['FIREBASE_FUNCTIONS_API_ORIGIN']
+
+    request_params_json = request.json
+
+    template_id = request_params_json['templateId']
+    sound_base_names = request_params_json['fileNames']
+
+    client = tasks_v2.CloudTasksClient()
+
+    parent = client.queue_path(
+        _GCP_PROJECT_ID, _TASKS_LOCATION, _TASKS_QUEUE_ID
+    )
+
+    body_dict = {
+        'templateId': template_id,
+        'fileNames': sound_base_names,
+    }
+    payload = json.dumps(body_dict)
+    converted_payload = payload.encode()
+
+    d = datetime.utcnow() + timedelta(seconds=5)
+
+    timestamp = timestamp_pb2.Timestamp()
+    timestamp.FromDatetime(d)
+
+    task = {
+        'http_request': {
+            'http_method': tasks_v2.HttpMethod.POST,
+            'url': f'{_FUNCTIONS_ORIGIN}/piece',
+            'headers': {
+                'Content-type': 'application/json',
+            },
+            'body': converted_payload,
+        },
+        'schedule_time': timestamp,
+    }
+
+    response = client.create_task(request={
+        'parent': parent,
+        'task': task,
+    })
+
+    print(f'Created task {response}')
+
+    return {}
+
+
+def piece(request):
     request_params_json = request.json
 
     template_id = request_params_json['templateId']

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meow_music/data/api/my_dio.dart';
+import 'package:meow_music/flavor.dart';
 
 part 'submission_api.freezed.dart';
 part 'submission_api.g.dart';
@@ -36,8 +37,10 @@ class SubmissionApi {
   }
 
   Future<SubmitResponse?> submit(SubmitRequest request) async {
+    final path = F.flavor == Flavor.local ? '/piece' : '/submit';
+
     return _dio.post(
-      path: '/submit',
+      path: path,
       responseParser: SubmitResponse.fromJson,
       data: request.toJson(),
     );
