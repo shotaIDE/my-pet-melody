@@ -4,11 +4,12 @@ import os
 import tempfile
 from datetime import datetime
 
-from google.cloud import storage
+import firebase_admin
+from firebase_admin import credentials, storage
 
 from utils import detect_non_silence, generate_piece, generate_store_file_name
 
-_BUCKET_NAME = os.environ['GOOGLE_CLOUD_STORAGE_BUCKET_NAME']
+_BUCKET_NAME = os.environ['FIREBASE_STORAGE_BUCKET_NAME']
 
 _UPLOADED_MOVIE_DIRECTORY = 'temp/uploadedMovies'
 _SYSTEM_MEDIA_DIRECTORY = 'temp/systemMedia'
@@ -16,6 +17,11 @@ _TEMPLATE_FILE_BASE_NAME = 'template'
 _TEMPLATE_EXTENSION = '.wav'
 _TEMPLATE_FILE_NAME = f'{_TEMPLATE_FILE_BASE_NAME}{_TEMPLATE_EXTENSION}'
 _GENERATED_PIECE_DIRECTORY = 'temp/generatedPieces'
+
+cred = credentials.Certificate('firebase-serviceAccountKey.json')
+firebase_admin.initialize_app(cred, {
+    'storageBucket': _BUCKET_NAME
+})
 
 
 def upload(request):
@@ -33,8 +39,7 @@ def upload(request):
     store_file_name = f'{store_file_name_base}{store_file_extension}'
     store_path_path = f'{_UPLOADED_MOVIE_DIRECTORY}/{store_file_name}'
 
-    storage_client = storage.Client()
-    bucket = storage_client.bucket(_BUCKET_NAME)
+    bucket = storage.bucket()
     blob = bucket.blob(store_path_path)
 
     blob.upload_from_filename(temp_local_path)
@@ -70,8 +75,7 @@ def submit(request):
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['fileNames']
 
-    storage_client = storage.Client()
-    bucket = storage_client.bucket(_BUCKET_NAME)
+    bucket = storage.bucket()
 
     _, template_local_base_path = tempfile.mkstemp()
     template_local_path = f'{template_local_base_path}{_TEMPLATE_EXTENSION}'

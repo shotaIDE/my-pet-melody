@@ -10,4 +10,5 @@
 
 /.env
 /.env.yaml
+/firebase-serviceAccountKey.json
 /serviceAccountKey.json
