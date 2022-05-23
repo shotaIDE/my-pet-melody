@@ -85,8 +85,8 @@ class SubmitRequest with _$SubmitRequest {
 @freezed
 class SubmitResponse with _$SubmitResponse {
   const factory SubmitResponse({
-    required String id,
-    required String path,
+    required String? id,
+    required String? path,
   }) = _SubmitResponse;
 
   factory SubmitResponse.fromJson(Map<String, dynamic> json) =>

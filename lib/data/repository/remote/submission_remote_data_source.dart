@@ -74,9 +74,15 @@ class SubmissionRemoteDataSource {
       return null;
     }
 
+    final id = response.id;
+    final path = response.path;
+    if (id == null || path == null) {
+      return null;
+    }
+
     return FetchedPieceDraft(
-      id: response.id,
-      path: response.path,
+      id: id,
+      path: path,
     );
   }
 }
