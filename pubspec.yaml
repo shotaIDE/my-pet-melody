@@ -35,6 +35,7 @@ dependencies:
   ffmpeg_kit_flutter: 4.5.1-LTS
   skeletons: ^0.0.3
   video_trimmer: ^0.6.0
+  firebase_storage: ^10.2.16
 
 dev_dependencies:
   flutter_test:

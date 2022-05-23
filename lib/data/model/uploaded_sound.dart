@@ -10,3 +10,12 @@ class UploadedSound with _$UploadedSound {
     required String url,
   }) = _UploadedSound;
 }
+
+@freezed
+class UploadedSoundDraft with _$UploadedSoundDraft {
+  const factory UploadedSoundDraft({
+    required String id,
+    required String extension,
+    required String path,
+  }) = _UploadedSoundDraft;
+}

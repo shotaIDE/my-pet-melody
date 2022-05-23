@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:meow_music/data/api/submission_api.dart';
-import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
-import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/data/model/fetched_piece.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/repository/remote/submission_remote_data_source.dart';
 
@@ -12,17 +10,6 @@ class SubmissionRepository {
       : _remote = remoteDataSource;
 
   final SubmissionRemoteDataSource _remote;
-
-  Future<List<Template>> getTemplates() async {
-    return [
-      const Template(
-        id: 'happy_birthday',
-        name: 'Happy Birthday',
-        url:
-            '${AppDefinitions.serverOrigin}/static/templates/happy_birthday.wav',
-      ),
-    ];
-  }
 
   Future<DetectedNonSilentSegments?> detect(
     File file, {
@@ -34,7 +21,7 @@ class SubmissionRepository {
     );
   }
 
-  Future<UploadedSound?> upload(
+  Future<UploadedSoundDraft?> upload(
     File file, {
     required String fileName,
   }) async {
@@ -44,7 +31,7 @@ class SubmissionRepository {
     );
   }
 
-  Future<FetchedPiece?> submit({
+  Future<FetchedPieceDraft?> submit({
     required String userId,
     required String templateId,
     required List<UploadedSound> sounds,

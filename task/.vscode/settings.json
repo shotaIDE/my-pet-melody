@@ -1,9 +1,14 @@
 {
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+    },
     "[python]": {
         "editor.codeActionsOnSave": {
             "source.fixAll": true,
             "source.organizeImports": true,
         },
+        "editor.formatOnSave": true,
     },
     "python.linting.enabled": true,
     "python.linting.lintOnSave": true,

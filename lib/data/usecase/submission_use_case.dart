@@ -8,26 +8,49 @@ import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/repository/piece_repository.dart';
 import 'package:meow_music/data/repository/settings_repository.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
+import 'package:meow_music/data/service/database_service.dart';
 import 'package:meow_music/data/service/push_notification_service.dart';
+import 'package:meow_music/data/service/storage_service.dart';
 
 class SubmissionUseCase {
   SubmissionUseCase({
     required SubmissionRepository repository,
     required PieceRepository pieceRepository,
     required SettingsRepository settingsRepository,
+    required DatabaseService databaseService,
+    required StorageService storageService,
     required PushNotificationService pushNotificationService,
   })  : _repository = repository,
         _pieceRepository = pieceRepository,
         _settingsRepository = settingsRepository,
+        _databaseService = databaseService,
+        _storageService = storageService,
         _pushNotificationService = pushNotificationService;
 
   final SubmissionRepository _repository;
   final PieceRepository _pieceRepository;
   final SettingsRepository _settingsRepository;
+  final DatabaseService _databaseService;
+  final StorageService _storageService;
   final PushNotificationService _pushNotificationService;
 
   Future<List<Template>> getTemplates() async {
-    return _repository.getTemplates();
+    final templateDrafts = await _databaseService.getTemplates();
+
+    return Future.wait(
+      templateDrafts.map(
+        (templateDraft) async {
+          final url =
+              await _storageService.getDownloadUrl(path: templateDraft.path);
+
+          return Template(
+            id: templateDraft.id,
+            name: templateDraft.name,
+            url: url,
+          );
+        },
+      ),
+    );
   }
 
   Future<DetectedNonSilentSegments?> detect(
@@ -44,10 +67,17 @@ class SubmissionUseCase {
     File file, {
     required String fileName,
   }) async {
-    return _repository.upload(
+    final draft = await _repository.upload(
       file,
       fileName: fileName,
     );
+    if (draft == null) {
+      return null;
+    }
+
+    final url = await _storageService.getDownloadUrl(path: draft.path);
+
+    return UploadedSound(id: draft.id, extension: draft.extension, url: url);
   }
 
   Future<bool> getShouldShowRequestPushNotificationPermission() async {
@@ -91,16 +121,18 @@ class SubmissionUseCase {
     unawaited(
       _setTimerToNotifyCompletingToGenerate(
         generating: generating,
-        url: generated.url,
+        path: generated.path,
       ),
     );
   }
 
   Future<void> _setTimerToNotifyCompletingToGenerate({
     required PieceGenerating generating,
-    required String url,
+    required String path,
   }) async {
     await _pieceRepository.add(generating);
+
+    final url = await _storageService.getDownloadUrl(path: path);
 
     await Future<void>.delayed(const Duration(seconds: 5));
 

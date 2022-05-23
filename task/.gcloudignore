@@ -1,0 +1,10 @@
+.gcloudignore
+.git
+.gitignore
+
+/__pycache__/
+/.vscode/
+/env/
+/static/
+
+/app.py

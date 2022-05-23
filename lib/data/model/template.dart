@@ -10,3 +10,12 @@ class Template with _$Template {
     required String url,
   }) = _Template;
 }
+
+@freezed
+class TemplateDraft with _$TemplateDraft {
+  const factory TemplateDraft({
+    required String id,
+    required String name,
+    required String path,
+  }) = _TemplateDraft;
+}
