@@ -89,11 +89,3 @@ class SubmitResponse with _$SubmitResponse {
   factory SubmitResponse.fromJson(Map<String, dynamic> json) =>
       _$SubmitResponseFromJson(json);
 }
-
-@freezed
-class FetchedPiece with _$FetchedPiece {
-  const factory FetchedPiece({
-    required String id,
-    required String url,
-  }) = _FetchedPiece;
-}

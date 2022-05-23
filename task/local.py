@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import os
 from datetime import datetime
 
 from flask import url_for
@@ -79,7 +80,11 @@ def submit(request):
         export_base_path=export_base_path,
     )
 
-    export_url_path = url_for('static', filename=export_path)
+    splitted_file_name = os.path.splitext(export_path)
+    export_extension = splitted_file_name[1]
+    export_path_on_static = f'{export_base_path_on_static}{export_extension}'
+
+    export_url_path = url_for('static', filename=export_path_on_static)
 
     return {
         'id': export_file_name,

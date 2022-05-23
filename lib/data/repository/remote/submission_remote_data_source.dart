@@ -1,14 +1,12 @@
 import 'dart:io';
 
 import 'package:meow_music/data/api/submission_api.dart';
-import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/model/fetched_piece.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 
 class SubmissionRemoteDataSource {
   SubmissionRemoteDataSource({required SubmissionApi api}) : _api = api;
-
-  static final _apiBaseUrl = AppDefinitions.serverOrigin;
 
   final SubmissionApi _api;
 
@@ -38,7 +36,7 @@ class SubmissionRemoteDataSource {
     );
   }
 
-  Future<UploadedSound?> upload(
+  Future<UploadedSoundDraft?> upload(
     File file, {
     required String fileName,
   }) async {
@@ -51,14 +49,14 @@ class SubmissionRemoteDataSource {
       return null;
     }
 
-    return UploadedSound(
+    return UploadedSoundDraft(
       id: response.id,
       extension: response.extension,
-      url: '$_apiBaseUrl${response.path}',
+      path: response.path,
     );
   }
 
-  Future<FetchedPiece?> submit({
+  Future<FetchedPieceDraft?> submit({
     required String userId,
     required String templateId,
     required List<UploadedSound> sounds,
@@ -76,9 +74,9 @@ class SubmissionRemoteDataSource {
       return null;
     }
 
-    return FetchedPiece(
+    return FetchedPieceDraft(
       id: response.id,
-      url: '$_apiBaseUrl${response.path}',
+      path: response.path,
     );
   }
 }

@@ -9,3 +9,11 @@ class FetchedPiece with _$FetchedPiece {
     required String url,
   }) = _FetchedPiece;
 }
+
+@freezed
+class FetchedPieceDraft with _$FetchedPieceDraft {
+  const factory FetchedPieceDraft({
+    required String id,
+    required String path,
+  }) = _FetchedPieceDraft;
+}
