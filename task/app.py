@@ -21,7 +21,7 @@ def upload():
 
 
 @app.route('/detect', methods=['POST'])
-def detect_non_silence():
+def detect():
     if _IS_LOCAL:
         return local.detect(request)
     else:
