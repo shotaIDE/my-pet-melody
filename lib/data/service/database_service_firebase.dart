@@ -8,7 +8,7 @@ class DatabaseServiceFirebase implements DatabaseService {
       const TemplateDraft(
         id: 'happy_birthday',
         name: 'Happy Birthday',
-        path: 'temp/systemMedia/happy_birthday/template.wav',
+        path: 'systemMedia/templates/happy_birthday/template.wav',
       ),
     ];
   }

@@ -2,11 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/service/auth_service.dart';
 import 'package:meow_music/data/service/database_service.dart';
 import 'package:meow_music/data/service/database_service_firebase.dart';
-import 'package:meow_music/data/service/database_service_local_flask.dart';
 import 'package:meow_music/data/service/push_notification_service.dart';
 import 'package:meow_music/data/service/storage_service.dart';
 import 'package:meow_music/data/service/storage_service_firebase.dart';
-import 'package:meow_music/data/service/storage_service_local_flask.dart';
 import 'package:meow_music/flavor.dart';
 
 final authServiceProvider = Provider(
@@ -16,7 +14,7 @@ final authServiceProvider = Provider(
 final databaseServiceProvider = Provider<DatabaseService>(
   (_) {
     if (F.flavor == Flavor.local) {
-      return DatabaseServiceLocalFlask();
+      return DatabaseServiceFirebase();
     }
     return DatabaseServiceFirebase();
   },
@@ -25,7 +23,7 @@ final databaseServiceProvider = Provider<DatabaseService>(
 final storageServiceProvider = Provider<StorageService>(
   (_) {
     if (F.flavor == Flavor.local) {
-      return StorageServiceLocalFlask();
+      return StorageServiceFirebase();
     }
     return StorageServiceFirebase();
   },

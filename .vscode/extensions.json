@@ -6,6 +6,7 @@
         "gaetschwartz.build-runner",
         "localizely.flutter-intl",
         "streetsidesoftware.code-spell-checker",
+        "toba.vsfire",
         "vknabel.vscode-swiftlint",
     ],
 }
