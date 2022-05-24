@@ -1,5 +1,11 @@
 # Meow Music
 
+## Firebase の Emulator を起動する
+
+```shell
+firebase emulators:start
+```
+
 ## リリースビルド
 
 ```shell
