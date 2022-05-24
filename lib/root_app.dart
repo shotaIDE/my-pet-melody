@@ -10,6 +10,7 @@ import 'package:meow_music/ui/onboarding_screen.dart';
 final rootViewModelProvider =
     StateNotifierProvider.autoDispose<RootViewModel, RootState>(
   (ref) => RootViewModel(
+    authUseCase: ref.watch(authUseCaseProvider),
     settingsUseCase: ref.watch(settingsUseCaseProvider),
   ),
 );
