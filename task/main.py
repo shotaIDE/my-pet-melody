@@ -29,12 +29,8 @@ firebase_admin.initialize_app(cred, {
 
 def detect(request):
     authorization_value = request.headers['authorization']
-    id_token = authorization_value.replace('Bearer ', '')
 
-    decoded_token = auth.verify_id_token(id_token)
-    uid = decoded_token['uid']
-
-    print(f'Firebase UID: {uid}')
+    _verify_authorization_header(value=authorization_value)
 
     f = request.files['file']
 
@@ -58,6 +54,10 @@ def submit(request):
     _TASKS_LOCATION = os.environ['GOOGLE_CLOUD_TASKS_LOCATION']
     _TASKS_QUEUE_ID = os.environ['GOOGLE_CLOUD_TASKS_QUEUE_ID']
     _FUNCTIONS_ORIGIN = os.environ['FIREBASE_FUNCTIONS_API_ORIGIN']
+
+    authorization_value = request.headers['authorization']
+
+    _verify_authorization_header(value=authorization_value)
 
     request_params_json = request.json
 
@@ -105,6 +105,10 @@ def submit(request):
 
 
 def piece(request):
+    authorization_value = request.headers['authorization']
+
+    _verify_authorization_header(value=authorization_value)
+
     request_params_json = request.json
 
     template_id = request_params_json['templateId']
@@ -162,3 +166,12 @@ def piece(request):
         'id': export_base_name,
         'path': export_relative_path,
     }
+
+
+def _verify_authorization_header(value: str):
+    id_token = value.replace('Bearer ', '')
+
+    decoded_token = auth.verify_id_token(id_token)
+    uid = decoded_token['uid']
+
+    print(f'Firebase UID: {uid}')
