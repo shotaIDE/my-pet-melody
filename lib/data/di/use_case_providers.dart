@@ -14,7 +14,9 @@ final authUseCaseProvider = Provider(
 
 final pieceUseCaseProvider = Provider(
   (ref) => PieceUseCase(
-    repository: ref.watch(pieceRepositoryProvider),
+    authService: ref.watch(authServiceProvider),
+    databaseService: ref.watch(databaseServiceProvider),
+    storageService: ref.watch(storageServiceProvider),
   ),
 );
 

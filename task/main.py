@@ -4,9 +4,10 @@ import json
 import os
 import tempfile
 from datetime import datetime, timedelta
+from xmlrpc.client import DateTime
 
 import firebase_admin
-from firebase_admin import auth, credentials, storage
+from firebase_admin import auth, credentials, firestore, storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
@@ -59,6 +60,18 @@ def submit(request):
 
     request_params_json = request.json
 
+    store_data = {
+        'name': 'Generating Piece',
+        'submittedAt': datetime.now(),
+    }
+
+    db = firestore.client()
+
+    _, created_document = db.collection('userMedia').document(
+        uid).collection('generatedPieces').add(store_data)
+
+    piece_id = created_document.id
+
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['fileNames']
 
@@ -70,6 +83,7 @@ def submit(request):
 
     body_dict = {
         'uid': uid,
+        'pieceId': piece_id,
         'templateId': template_id,
         'fileNames': sound_base_names,
     }
@@ -112,6 +126,11 @@ def piece(request):
         authorization_value = request.headers['authorization']
 
         uid = _verify_authorization_header(value=authorization_value)
+
+    if 'pieceId' in request_params_json:
+        piece_id = request_params_json['pieceId']
+    else:
+        piece_id = None
 
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['fileNames']
@@ -169,6 +188,24 @@ def piece(request):
     export_blob = bucket.blob(export_relative_path)
 
     export_blob.upload_from_filename(export_local_path)
+
+    store_data = {
+        'name': f'Generated Piece: {export_base_name}',
+        'movieFileName': export_file_name,
+        'generatedAt': current,
+    }
+
+    db = firestore.client()
+
+    collection = db.collection('userMedia').document(
+        uid).collection('generatedPieces')
+
+    if piece_id is not None:
+        collection.document(piece_id).update(store_data)
+    else:
+        store_data['submittedAt'] = current
+
+        collection.add(store_data)
 
     return {
         'id': export_base_name,

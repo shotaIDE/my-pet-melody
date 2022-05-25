@@ -1,7 +1,7 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /userMedia/{userId}/{id}/{document=**} {
+    match /userMedia/{userId}/generatedPieces/{id}/{document=**} {
       allow read: if request.auth != null && request.auth.uid == userId;
     }
     match /systemMedia/{id}/{document=**} {
