@@ -105,10 +105,13 @@ class SubmissionUseCase {
     required Template template,
     required List<UploadedSound> sounds,
   }) async {
+    final token = await _authService.getCurrentUserIdTokenWhenLoggedIn();
+
     final generated = await _repository.submit(
       userId: 'test-user-id',
       templateId: template.id,
       sounds: sounds,
+      token: token,
     );
 
     if (generated == null) {

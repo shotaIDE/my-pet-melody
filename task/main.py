@@ -14,12 +14,9 @@ from utils import detect_non_silence, generate_piece, generate_store_file_name
 
 _BUCKET_NAME = os.environ['FIREBASE_STORAGE_BUCKET_NAME']
 
-_UPLOADED_MOVIE_DIRECTORY = 'temp/uploadedMovies'
-_SYSTEM_MEDIA_DIRECTORY = 'temp/systemMedia'
 _TEMPLATE_FILE_BASE_NAME = 'template'
 _TEMPLATE_EXTENSION = '.wav'
 _TEMPLATE_FILE_NAME = f'{_TEMPLATE_FILE_BASE_NAME}{_TEMPLATE_EXTENSION}'
-_GENERATED_PIECE_DIRECTORY = 'temp/generatedPieces'
 
 cred = credentials.Certificate('firebase-serviceAccountKey.json')
 firebase_admin.initialize_app(cred, {
@@ -57,7 +54,7 @@ def submit(request):
 
     authorization_value = request.headers['authorization']
 
-    _verify_authorization_header(value=authorization_value)
+    uid = _verify_authorization_header(value=authorization_value)
 
     request_params_json = request.json
 
@@ -71,6 +68,7 @@ def submit(request):
     )
 
     body_dict = {
+        'uid': uid,
         'templateId': template_id,
         'fileNames': sound_base_names,
     }
@@ -105,11 +103,14 @@ def submit(request):
 
 
 def piece(request):
-    authorization_value = request.headers['authorization']
-
-    _verify_authorization_header(value=authorization_value)
-
     request_params_json = request.json
+
+    if 'uid' in request_params_json:
+        uid = request_params_json['uid']
+    else:
+        authorization_value = request.headers['authorization']
+
+        uid = _verify_authorization_header(value=authorization_value)
 
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['fileNames']
@@ -120,7 +121,7 @@ def piece(request):
     template_local_path = f'{template_local_base_path}{_TEMPLATE_EXTENSION}'
 
     template_relative_path = (
-        f'{_SYSTEM_MEDIA_DIRECTORY}/{template_id}/{_TEMPLATE_FILE_NAME}'
+        f'systemMedia/{template_id}/{_TEMPLATE_FILE_NAME}'
     )
     template_blob = bucket.blob(template_relative_path)
 
@@ -133,7 +134,9 @@ def piece(request):
         sound_extension = splitted_file_name[1]
         sound_local_path = f'{sound_local_base_path}{sound_extension}'
 
-        sound_relative_path = f'{_UPLOADED_MOVIE_DIRECTORY}/{sound_base_name}'
+        sound_relative_path = (
+            f'userMedia/{uid}/uploadedMovies/{sound_base_name}'
+        )
         sound_blob = bucket.blob(sound_relative_path)
 
         sound_blob.download_to_filename(sound_local_path)
@@ -157,10 +160,10 @@ def piece(request):
     export_extension = splitted_file_name[1]
     export_file_name = f'{export_base_name}{export_extension}'
 
-    export_relative_path = f'{_GENERATED_PIECE_DIRECTORY}/{export_file_name}'
-    template_blob = bucket.blob(export_relative_path)
+    export_relative_path = f'generatedPieces/{uid}/{export_file_name}'
+    export_blob = bucket.blob(export_relative_path)
 
-    template_blob.upload_from_filename(export_local_path)
+    export_blob.upload_from_filename(export_local_path)
 
     return {
         'id': export_base_name,
@@ -168,10 +171,9 @@ def piece(request):
     }
 
 
-def _verify_authorization_header(value: str):
+def _verify_authorization_header(value: str) -> str:
     id_token = value.replace('Bearer ', '')
 
     decoded_token = auth.verify_id_token(id_token)
-    uid = decoded_token['uid']
 
-    print(f'Firebase UID: {uid}')
+    return decoded_token['uid']

@@ -27,11 +27,13 @@ class SubmissionRepository {
     required String userId,
     required String templateId,
     required List<UploadedSound> sounds,
+    required String token,
   }) async {
     return _remote.submit(
       userId: userId,
       templateId: templateId,
       sounds: sounds,
+      token: token,
     );
   }
 }

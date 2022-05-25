@@ -42,6 +42,7 @@ class SubmissionRemoteDataSource {
     required String userId,
     required String templateId,
     required List<UploadedSound> sounds,
+    required String token,
   }) async {
     final response = await _api.submit(
       SubmitRequest(
@@ -50,6 +51,7 @@ class SubmissionRemoteDataSource {
         fileNames:
             sounds.map((sound) => '${sound.id}${sound.extension}').toList(),
       ),
+      token: token,
     );
 
     if (response == null) {

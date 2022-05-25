@@ -17,6 +17,7 @@ class MyDio {
   Future<T?> post<T>({
     required String path,
     required T Function(Map<String, dynamic> json) responseParser,
+    required String token,
     Map<String, dynamic>? data,
   }) async {
     return _getResult<T>(
@@ -29,6 +30,7 @@ class MyDio {
         options: options,
       ),
       responseParser: responseParser,
+      token: token,
     );
   }
 

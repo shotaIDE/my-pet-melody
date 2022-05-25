@@ -26,12 +26,16 @@ class SubmissionApi {
     );
   }
 
-  Future<SubmitResponse?> submit(SubmitRequest request) async {
+  Future<SubmitResponse?> submit(
+    SubmitRequest request, {
+    required String token,
+  }) async {
     final path = F.flavor == Flavor.local ? '/piece' : '/submit';
 
     return _dio.post(
       path: path,
       responseParser: SubmitResponse.fromJson,
+      token: token,
       data: request.toJson(),
     );
   }
