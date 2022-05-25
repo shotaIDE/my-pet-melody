@@ -121,7 +121,7 @@ def piece(request):
     template_local_path = f'{template_local_base_path}{_TEMPLATE_EXTENSION}'
 
     template_relative_path = (
-        f'systemMedia/{template_id}/{_TEMPLATE_FILE_NAME}'
+        f'systemMedia/templates/{template_id}/{_TEMPLATE_FILE_NAME}'
     )
     template_blob = bucket.blob(template_relative_path)
 
