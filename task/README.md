@@ -1,6 +1,8 @@
 # Task
 
-デプロイ方法
+## デプロイ方法
+
+### Functions
 
 ```shell
 gcloud functions deploy detect --runtime python39 --trigger-http --env-vars-file .env.yaml --allow-unauthenticated
@@ -14,4 +16,10 @@ gcloud functions deploy piece --runtime python39 --trigger-http --env-vars-file 
 gcloud functions delete detect
 gcloud functions delete submit
 gcloud functions delete piece
+```
+
+### Storage のルール
+
+```shell
+firebase deploy --only storage
 ```
