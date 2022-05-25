@@ -27,33 +27,6 @@ firebase_admin.initialize_app(cred, {
 })
 
 
-def upload(request):
-    f = request.files['file']
-    file_name = f.filename
-
-    store_file_name_base, store_file_extension = generate_store_file_name(
-        file_name=file_name)
-
-    _, temp_local_base_path = tempfile.mkstemp()
-    temp_local_path = f'{temp_local_base_path}{store_file_extension}'
-
-    f.save(temp_local_path)
-
-    store_file_name = f'{store_file_name_base}{store_file_extension}'
-    store_path_path = f'{_UPLOADED_MOVIE_DIRECTORY}/{store_file_name}'
-
-    bucket = storage.bucket()
-    blob = bucket.blob(store_path_path)
-
-    blob.upload_from_filename(temp_local_path)
-
-    return {
-        'id': store_file_name_base,
-        'extension': store_file_extension,
-        'path': store_path_path,
-    }
-
-
 def detect(request):
     f = request.files['file']
 
