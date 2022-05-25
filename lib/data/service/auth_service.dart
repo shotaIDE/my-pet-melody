@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 class AuthService {
   Future<String?> getCurrentUserIdToken() async {
+    // await FirebaseAuth.instance.signOut();
     return _getCurrentUserIdToken();
   }
 
