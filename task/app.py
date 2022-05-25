@@ -10,7 +10,6 @@ import main
 app = Flask(__name__)
 
 _IS_LOCAL = os.environ.get('FUNCTION_NAME') is None
-_IS_LOCAL = False
 
 
 @app.route('/detect', methods=['POST'])

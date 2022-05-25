@@ -15,7 +15,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  if (F.flavor == Flavor.local) {
+  if (F.flavor == Flavor.emulator) {
     const serverHost = AppDefinitions.serverHost;
     await FirebaseAuth.instance.useAuthEmulator(serverHost, 9099);
     await FirebaseStorage.instance.useStorageEmulator(serverHost, 9199);

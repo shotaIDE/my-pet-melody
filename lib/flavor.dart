@@ -1,5 +1,6 @@
 enum Flavor {
   local,
+  emulator,
   dev,
 }
 
