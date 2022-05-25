@@ -17,6 +17,7 @@ _BUCKET_NAME = os.environ['FIREBASE_STORAGE_BUCKET_NAME']
 _TEMPLATE_FILE_BASE_NAME = 'template'
 _TEMPLATE_EXTENSION = '.wav'
 _TEMPLATE_FILE_NAME = f'{_TEMPLATE_FILE_BASE_NAME}{_TEMPLATE_EXTENSION}'
+_USER_MEDIA_DIRECTORY_NAME = 'userMedia'
 
 cred = credentials.Certificate('firebase-serviceAccountKey.json')
 firebase_admin.initialize_app(cred, {
@@ -135,7 +136,8 @@ def piece(request):
         sound_local_path = f'{sound_local_base_path}{sound_extension}'
 
         sound_relative_path = (
-            f'userMedia/{uid}/uploadedMovies/{sound_base_name}'
+            f'{_USER_MEDIA_DIRECTORY_NAME}/{uid}/'
+            f'uploadedMovies/{sound_base_name}'
         )
         sound_blob = bucket.blob(sound_relative_path)
 
@@ -160,7 +162,10 @@ def piece(request):
     export_extension = splitted_file_name[1]
     export_file_name = f'{export_base_name}{export_extension}'
 
-    export_relative_path = f'generatedPieces/{uid}/{export_file_name}'
+    export_relative_path = (
+        f'{_USER_MEDIA_DIRECTORY_NAME}/{uid}/'
+        f'generatedPieces/{export_file_name}'
+    )
     export_blob = bucket.blob(export_relative_path)
 
     export_blob.upload_from_filename(export_local_path)
