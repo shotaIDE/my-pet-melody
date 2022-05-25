@@ -30,7 +30,10 @@ class SubmissionApi {
     SubmitRequest request, {
     required String token,
   }) async {
-    final path = F.flavor == Flavor.local ? '/piece' : '/submit';
+    // Cloud Tasks が対応していない環境では、直接作品生成のエンドポイントを叩く
+    final path = F.flavor == Flavor.local || F.flavor == Flavor.emulator
+        ? '/piece'
+        : '/submit';
 
     return _dio.post(
       path: path,
