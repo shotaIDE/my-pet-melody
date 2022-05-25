@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
   if (F.flavor == Flavor.emulator) {
     const serverHost = AppDefinitions.serverHost;
     await FirebaseAuth.instance.useAuthEmulator(serverHost, 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator(serverHost, 8080);
     await FirebaseStorage.instance.useStorageEmulator(serverHost, 9199);
   }
 

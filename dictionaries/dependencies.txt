@@ -1,6 +1,7 @@
 audioplayers
 cupertino
 ffprobe
+firestore
 fullscreen
 reorderable
 riverpod
