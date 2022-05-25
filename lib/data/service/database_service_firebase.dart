@@ -7,19 +7,23 @@ class DatabaseServiceFirebase implements DatabaseService {
   Future<List<TemplateDraft>> getTemplates() async {
     final db = FirebaseFirestore.instance;
 
-    final template = <String, dynamic>{
-      'name': 'Happy Birthday',
-    };
-
     final collection = db.collection('systemMedia');
-    await collection.add(template);
 
-    return [
-      const TemplateDraft(
-        id: 'happy_birthday',
-        name: 'Happy Birthday',
-        path: 'systemMedia/templates/happy_birthday/template.wav',
-      ),
-    ];
+    // await collection.add(<String, String>{
+    //   'name': 'Happy Birthday',
+    // });
+
+    final collectionSnapshot = await collection.get();
+
+    return collectionSnapshot.docs.map((documentSnapshot) {
+      final id = documentSnapshot.id;
+      final name = documentSnapshot.get('name') as String;
+
+      return TemplateDraft(
+        id: id,
+        name: name,
+        path: 'systemMedia/templates/$id/template.wav',
+      );
+    }).toList();
   }
 }
