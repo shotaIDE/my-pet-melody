@@ -13,10 +13,12 @@ class SubmissionRemoteDataSource {
   Future<DetectedNonSilentSegments?> detect(
     File file, {
     required String fileName,
+    required String token,
   }) async {
     final response = await _api.detect(
       file,
       fileName: fileName,
+      token: token,
     );
 
     if (response == null) {
@@ -33,26 +35,6 @@ class SubmissionRemoteDataSource {
           )
           .toList(),
       durationMilliseconds: response.durationMilliseconds,
-    );
-  }
-
-  Future<UploadedSoundDraft?> upload(
-    File file, {
-    required String fileName,
-  }) async {
-    final response = await _api.upload(
-      file,
-      fileName: fileName,
-    );
-
-    if (response == null) {
-      return null;
-    }
-
-    return UploadedSoundDraft(
-      id: response.id,
-      extension: response.extension,
-      path: response.path,
     );
   }
 

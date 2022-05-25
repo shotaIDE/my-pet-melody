@@ -14,20 +14,12 @@ class SubmissionRepository {
   Future<DetectedNonSilentSegments?> detect(
     File file, {
     required String fileName,
+    required String token,
   }) async {
     return _remote.detect(
       file,
       fileName: fileName,
-    );
-  }
-
-  Future<UploadedSoundDraft?> upload(
-    File file, {
-    required String fileName,
-  }) async {
-    return _remote.upload(
-      file,
-      fileName: fileName,
+      token: token,
     );
   }
 

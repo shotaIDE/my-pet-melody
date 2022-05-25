@@ -6,7 +6,7 @@ import tempfile
 from datetime import datetime, timedelta
 
 import firebase_admin
-from firebase_admin import credentials, storage
+from firebase_admin import auth, credentials, storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
@@ -28,6 +28,14 @@ firebase_admin.initialize_app(cred, {
 
 
 def detect(request):
+    authorization_value = request.headers['authorization']
+    id_token = authorization_value.replace('Bearer ', '')
+
+    decoded_token = auth.verify_id_token(id_token)
+    uid = decoded_token['uid']
+
+    print(f'Firebase UID: {uid}')
+
     f = request.files['file']
 
     file_name = f.filename

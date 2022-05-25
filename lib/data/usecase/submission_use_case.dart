@@ -61,9 +61,12 @@ class SubmissionUseCase {
     File file, {
     required String fileName,
   }) async {
+    final token = await _authService.getCurrentUserIdTokenWhenLoggedIn();
+
     return _repository.detect(
       file,
       fileName: fileName,
+      token: token,
     );
   }
 

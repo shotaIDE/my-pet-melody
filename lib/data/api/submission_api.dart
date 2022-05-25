@@ -15,24 +15,14 @@ class SubmissionApi {
   Future<DetectResponse?> detect(
     File file, {
     required String fileName,
+    required String token,
   }) async {
     return _dio.postFile(
       path: '/detect',
       file: file,
       fileName: fileName,
       responseParser: DetectResponse.fromJson,
-    );
-  }
-
-  Future<UploadResponse?> upload(
-    File file, {
-    required String fileName,
-  }) async {
-    return _dio.postFile(
-      path: '/upload',
-      file: file,
-      fileName: fileName,
-      responseParser: UploadResponse.fromJson,
+      token: token,
     );
   }
 
@@ -56,18 +46,6 @@ class DetectResponse with _$DetectResponse {
 
   factory DetectResponse.fromJson(Map<String, dynamic> json) =>
       _$DetectResponseFromJson(json);
-}
-
-@freezed
-class UploadResponse with _$UploadResponse {
-  const factory UploadResponse({
-    required String id,
-    required String extension,
-    required String path,
-  }) = _UploadResponse;
-
-  factory UploadResponse.fromJson(Map<String, dynamic> json) =>
-      _$UploadResponseFromJson(json);
 }
 
 @freezed
