@@ -18,6 +18,12 @@ gcloud functions delete submit
 gcloud functions delete piece
 ```
 
+### Firestore のルール
+
+```shell
+firebase deploy --only firestore:rules
+```
+
 ### Storage のルール
 
 ```shell
