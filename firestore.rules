@@ -5,7 +5,7 @@ service cloud.firestore {
       allow read: if request.auth != null && request.auth.uid == userId;
     }
     match /systemMedia/{id}/{document=**} {
-      allow read; if request.auth != null;
+      allow read: if request.auth != null;
     }
   }
 }
