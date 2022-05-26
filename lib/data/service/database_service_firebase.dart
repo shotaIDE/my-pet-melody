@@ -42,12 +42,12 @@ class DatabaseServiceFirebase implements DatabaseService {
             final id = snapshot.id;
             final data = snapshot.data();
             final name = data['name'] as String;
-            final movieFileName = data.keys.contains('movieFileName')
+            final movieFileName = data.containsKey('movieFileName')
                 ? data['movieFileName'] as String
                 : null;
             final submittedAtTimestamp = data['submittedAt'] as Timestamp;
             final submittedAt = submittedAtTimestamp.toDate();
-            final generatedAtTimestamp = data.keys.contains('generatedAt')
+            final generatedAtTimestamp = data.containsKey('generatedAt')
                 ? data['generatedAt'] as Timestamp
                 : null;
             final generatedAt = generatedAtTimestamp?.toDate();
@@ -67,5 +67,29 @@ class DatabaseServiceFirebase implements DatabaseService {
             );
           }).toList(),
         );
+  }
+
+  @override
+  Future<void> sendRegistrationTokenIfNeeded(
+    String registrationToken, {
+    required String userId,
+  }) async {
+    final db = FirebaseFirestore.instance;
+
+    final document = db.collection('users').doc(userId);
+    final snapshot = await document.get();
+    final user = snapshot.data();
+    if (user != null && user.containsKey('registrationTokens')) {
+      final registrationTokens = user['registrationTokens'] as List<dynamic>;
+      if (registrationTokens.contains(registrationToken)) {
+        return;
+      }
+    }
+
+    await document.set(<String, dynamic>{
+      'registrationTokens': FieldValue.arrayUnion(
+        <String>[registrationToken],
+      ),
+    });
   }
 }

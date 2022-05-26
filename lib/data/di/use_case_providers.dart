@@ -9,6 +9,8 @@ import 'package:meow_music/data/usecase/submission_use_case.dart';
 final authUseCaseProvider = Provider(
   (ref) => AuthUseCase(
     authService: ref.watch(authServiceProvider),
+    databaseService: ref.watch(databaseServiceProvider),
+    pushNotificationService: ref.watch(pushNotificationServiceProvider),
   ),
 );
 

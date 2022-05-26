@@ -23,6 +23,10 @@ class AuthService {
     debugPrint('Signed in anonymously: $idToken');
   }
 
+  Stream<String?> currentUserIdStream() {
+    return FirebaseAuth.instance.authStateChanges().map((user) => user?.uid);
+  }
+
   Future<String?> _getCurrentUserIdToken() async {
     final user = FirebaseAuth.instance.currentUser;
     return user?.getIdToken();

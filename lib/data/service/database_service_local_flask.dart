@@ -18,4 +18,10 @@ class DatabaseServiceLocalFlask implements DatabaseService {
   Stream<List<PieceDraft>> piecesStream({required String userId}) {
     return Stream.value([]);
   }
+
+  @override
+  Future<void> sendRegistrationTokenIfNeeded(
+    String registrationToken, {
+    required String userId,
+  }) async {}
 }

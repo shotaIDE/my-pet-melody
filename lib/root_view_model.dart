@@ -18,6 +18,15 @@ class RootViewModel extends StateNotifier<RootState> {
   final AuthUseCase _authUseCase;
   final SettingsUseCase _settingsUseCase;
 
+  late StreamSubscription<void> _storeTokenSubscription;
+
+  @override
+  Future<void> dispose() async {
+    await _storeTokenSubscription.cancel();
+
+    super.dispose();
+  }
+
   Future<void> _setup() async {
     await _authUseCase.ensureLoggedIn();
 
@@ -25,5 +34,7 @@ class RootViewModel extends StateNotifier<RootState> {
         await _settingsUseCase.getIsOnboardingFinished();
 
     state = state.copyWith(shouldLaunchOnboarding: !isOnboardingFinished);
+
+    _storeTokenSubscription = _authUseCase.storeRegistrationTokenStream();
   }
 }
