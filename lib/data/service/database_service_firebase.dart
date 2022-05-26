@@ -57,7 +57,7 @@ class DatabaseServiceFirebase implements DatabaseService {
                 id: id,
                 name: name,
                 generatedAt: generatedAt,
-                path: 'userMedia/$userId/generatedPieces/$id/$movieFileName',
+                path: 'userMedia/$userId/generatedPieces/$movieFileName',
               );
             }
             return PieceDraft.generating(
