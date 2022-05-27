@@ -10,10 +10,6 @@ class DatabaseServiceFirebase implements DatabaseService {
 
     final collection = db.collection('systemMedia');
 
-    // await collection.add(<String, String>{
-    //   'name': 'Happy Birthday',
-    // });
-
     final collectionSnapshot = await collection.get();
 
     return collectionSnapshot.docs.map((documentSnapshot) {
