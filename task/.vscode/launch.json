@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug-Local",
+            "name": "Local",
             "type": "python",
             "request": "launch",
             "module": "flask",
@@ -23,7 +23,7 @@
             "jinja": true,
         },
         {
-            "name": "Debug-Emulator",
+            "name": "Emulator",
             "type": "python",
             "request": "launch",
             "module": "flask",
@@ -45,7 +45,7 @@
             "jinja": true,
         },
         {
-            "name": "Debug-Develop",
+            "name": "Develop",
             "type": "python",
             "request": "launch",
             "module": "flask",
