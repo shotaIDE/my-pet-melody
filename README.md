@@ -3,7 +3,7 @@
 ## Firebase の Emulator を起動する
 
 ```shell
-firebase emulators:start
+firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-data
 ```
 
 ## リリースビルド
