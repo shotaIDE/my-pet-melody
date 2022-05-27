@@ -66,7 +66,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   }
 }
 
-class _UnavailableTrimmedSoundScreen extends ConsumerWidget {
+class _UnavailableTrimmedSoundScreen extends ConsumerStatefulWidget {
   const _UnavailableTrimmedSoundScreen({
     required this.viewModel,
     Key? key,
@@ -76,8 +76,15 @@ class _UnavailableTrimmedSoundScreen extends ConsumerWidget {
       SelectTrimmedSoundState> viewModel;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(viewModel);
+  ConsumerState<_UnavailableTrimmedSoundScreen> createState() =>
+      _UnavailableTrimmedSoundScreenState();
+}
+
+class _UnavailableTrimmedSoundScreenState
+    extends ConsumerState<_UnavailableTrimmedSoundScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(widget.viewModel);
 
     final title = Text(
       '鳴き声が\n見つかりませんでした',
@@ -112,14 +119,15 @@ class _UnavailableTrimmedSoundScreen extends ConsumerWidget {
 
     final trimManuallyButton = TextButton(
       onPressed: () async {
-        final localPath = ref.read(viewModel.notifier).getLocalPathName();
+        final localPath =
+            ref.read(widget.viewModel.notifier).getLocalPathName();
 
         final outputPath = await Navigator.push(
           context,
           TrimSoundScreen.route(moviePath: localPath),
         );
 
-        if (outputPath == null) {
+        if (outputPath == null || !mounted) {
           return;
         }
 
@@ -165,7 +173,7 @@ class _UnavailableTrimmedSoundScreen extends ConsumerWidget {
   }
 }
 
-class _SelectTrimmedSoundScreen extends ConsumerWidget {
+class _SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   const _SelectTrimmedSoundScreen({
     required this.viewModel,
     Key? key,
@@ -175,8 +183,15 @@ class _SelectTrimmedSoundScreen extends ConsumerWidget {
       SelectTrimmedSoundState> viewModel;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(viewModel);
+  ConsumerState<_SelectTrimmedSoundScreen> createState() =>
+      _SelectTrimmedSoundScreenState();
+}
+
+class _SelectTrimmedSoundScreenState
+    extends ConsumerState<_SelectTrimmedSoundScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(widget.viewModel);
 
     final title = Text(
       '使いたい鳴き声を\n選ぼう',
@@ -211,14 +226,15 @@ class _SelectTrimmedSoundScreen extends ConsumerWidget {
 
     final trimManuallyButton = TextButton(
       onPressed: () async {
-        final localPath = ref.read(viewModel.notifier).getLocalPathName();
+        final localPath =
+            ref.read(widget.viewModel.notifier).getLocalPathName();
 
         final outputPath = await Navigator.push(
           context,
           TrimSoundScreen.route(moviePath: localPath),
         );
 
-        if (outputPath == null) {
+        if (outputPath == null || !mounted) {
           return;
         }
 
@@ -261,8 +277,10 @@ class _SelectTrimmedSoundScreen extends ConsumerWidget {
         );
         final thumbnail = InkWell(
           onTap: () => choice.status.map(
-            stop: (_) => ref.read(viewModel.notifier).play(choice: choice),
-            playing: (_) => ref.read(viewModel.notifier).stop(choice: choice),
+            stop: (_) =>
+                ref.read(widget.viewModel.notifier).play(choice: choice),
+            playing: (_) =>
+                ref.read(widget.viewModel.notifier).stop(choice: choice),
           ),
           child: Stack(
             alignment: AlignmentDirectional.center,
@@ -468,10 +486,11 @@ class _SelectTrimmedSoundScreen extends ConsumerWidget {
 
         return InkWell(
           onTap: () async {
-            final result =
-                await ref.read(viewModel.notifier).select(choice: choice);
+            final result = await ref
+                .read(widget.viewModel.notifier)
+                .select(choice: choice);
 
-            if (result == null) {
+            if (result == null || !mounted) {
               return;
             }
 

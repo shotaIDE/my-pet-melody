@@ -3,6 +3,7 @@
 
 /assets/original
 /assets/edited
+/emulator-data
 
 # Miscellaneous
 *.class

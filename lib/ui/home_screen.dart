@@ -179,7 +179,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ? Stack(
             children: [
               scaffold,
-              Container(
+              ColoredBox(
                 color: Colors.black.withOpacity(0.5),
                 child: const Center(
                   child: CircularProgressIndicator(),

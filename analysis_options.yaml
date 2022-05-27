@@ -41,30 +41,21 @@ linter:
     - avoid_types_on_closure_parameters
     - avoid_unused_constructor_parameters
     - avoid_void_async
-    - await_only_futures
     - cancel_subscriptions
     - cascade_invocations
     - cast_nullable_to_non_nullable
     - close_sinks
     - comment_references
-    - control_flow_in_finally
-    - depend_on_referenced_packages
     - deprecated_consistency
     - directives_ordering
-    - empty_statements
     - flutter_style_todos
-    - hash_and_equals
-    - implementation_imports
     - invariant_booleans
     - join_return_with_assignment
-    - library_private_types_in_public_api
     - lines_longer_than_80_chars
     - literal_only_boolean_expressions
     - no_adjacent_strings_in_list
     - no_default_cases
-    - no_leading_underscores_for_local_identifiers
     - noop_primitive_operations
-    - null_check_on_nullable_type_parameter
     - omit_local_variable_types
     - only_throw_errors
     - package_api_docs
@@ -76,11 +67,8 @@ linter:
     - prefer_foreach
     - prefer_if_elements_to_conditional_expressions
     - prefer_int_literals
-    - prefer_interpolation_to_compose_strings
     - prefer_single_quotes
     - require_trailing_commas
-    - slash_for_doc_comments
-    - sort_child_properties_last
     - sort_constructors_first
     - sort_unnamed_constructors_first
     - test_types_in_equals
@@ -90,19 +78,19 @@ linter:
     - unawaited_futures
     - unnecessary_await_in_return
     - unnecessary_lambdas
-    - unnecessary_null_aware_assignments
     - unnecessary_null_checks
-    - unnecessary_nullable_for_final_variable_declarations
     - unnecessary_parenthesis
     - unnecessary_raw_strings
     - unnecessary_statements
     - unsafe_html
-    - use_build_context_synchronously
+    - use_colored_box
+    - use_enums
     - use_is_even_rather_than_modulo
     - use_late_for_private_fields_and_variables
     - use_named_constants
     - use_setters_to_change_properties
     - use_string_buffers
+    - use_super_parameters
     - use_to_and_as_if_applicable
 
 dart_code_metrics:
