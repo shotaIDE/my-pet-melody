@@ -18,6 +18,10 @@ class PushNotificationService {
     }
   }
 
+  Future<String?> registrationToken() async {
+    return FirebaseMessaging.instance.getToken();
+  }
+
   Future<void> showDummyNotification() async {
     final localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 

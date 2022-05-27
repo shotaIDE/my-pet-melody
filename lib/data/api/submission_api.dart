@@ -15,33 +15,30 @@ class SubmissionApi {
   Future<DetectResponse?> detect(
     File file, {
     required String fileName,
+    required String token,
   }) async {
     return _dio.postFile(
       path: '/detect',
       file: file,
       fileName: fileName,
       responseParser: DetectResponse.fromJson,
+      token: token,
     );
   }
 
-  Future<UploadResponse?> upload(
-    File file, {
-    required String fileName,
+  Future<SubmitResponse?> submit(
+    SubmitRequest request, {
+    required String token,
   }) async {
-    return _dio.postFile(
-      path: '/upload',
-      file: file,
-      fileName: fileName,
-      responseParser: UploadResponse.fromJson,
-    );
-  }
-
-  Future<SubmitResponse?> submit(SubmitRequest request) async {
-    final path = F.flavor == Flavor.local ? '/piece' : '/submit';
+    // Cloud Tasks が対応していない環境では、直接作品生成のエンドポイントを叩く
+    final path = F.flavor == Flavor.local || F.flavor == Flavor.emulator
+        ? '/piece'
+        : '/submit';
 
     return _dio.post(
       path: path,
       responseParser: SubmitResponse.fromJson,
+      token: token,
       data: request.toJson(),
     );
   }
@@ -56,18 +53,6 @@ class DetectResponse with _$DetectResponse {
 
   factory DetectResponse.fromJson(Map<String, dynamic> json) =>
       _$DetectResponseFromJson(json);
-}
-
-@freezed
-class UploadResponse with _$UploadResponse {
-  const factory UploadResponse({
-    required String id,
-    required String extension,
-    required String path,
-  }) = _UploadResponse;
-
-  factory UploadResponse.fromJson(Map<String, dynamic> json) =>
-      _$UploadResponseFromJson(json);
 }
 
 @freezed

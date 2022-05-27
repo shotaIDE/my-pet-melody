@@ -17,6 +17,7 @@ class MyDio {
   Future<T?> post<T>({
     required String path,
     required T Function(Map<String, dynamic> json) responseParser,
+    required String token,
     Map<String, dynamic>? data,
   }) async {
     return _getResult<T>(
@@ -29,6 +30,7 @@ class MyDio {
         options: options,
       ),
       responseParser: responseParser,
+      token: token,
     );
   }
 
@@ -37,6 +39,7 @@ class MyDio {
     required File file,
     required String fileName,
     required T Function(Map<String, dynamic> json) responseParser,
+    required String token,
   }) async {
     final fileData =
         await MultipartFile.fromFile(file.path, filename: fileName);
@@ -54,6 +57,7 @@ class MyDio {
         options: options,
       ),
       responseParser: responseParser,
+      token: token,
     );
   }
 
@@ -63,12 +67,17 @@ class MyDio {
     required Future<Response<dynamic>> Function(String url, Options options)
         connectionExecutor,
     required T Function(Map<String, dynamic> json) responseParser,
+    String? token,
   }) async {
     final url = '$_baseUrl$path';
 
     final headers = {
       HttpHeaders.contentTypeHeader: contentType,
     };
+
+    if (token != null) {
+      headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
+    }
 
     dynamic responseDataRaw;
 

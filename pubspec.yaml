@@ -36,6 +36,8 @@ dependencies:
   skeletons: ^0.0.3
   video_trimmer: ^0.6.0
   firebase_storage: ^10.2.16
+  firebase_auth: ^3.3.18
+  cloud_firestore: ^3.1.16
 
 dev_dependencies:
   flutter_test:

@@ -20,3 +20,19 @@ class Piece with _$Piece {
 
   factory Piece.fromJson(Map<String, dynamic> json) => _$PieceFromJson(json);
 }
+
+@freezed
+class PieceDraft with _$PieceDraft {
+  const factory PieceDraft.generating({
+    required String id,
+    required String name,
+    required DateTime submittedAt,
+  }) = _PieceDraftGenerating;
+
+  const factory PieceDraft.generated({
+    required String id,
+    required String name,
+    required DateTime generatedAt,
+    required String path,
+  }) = _PieceDraftGenerated;
+}

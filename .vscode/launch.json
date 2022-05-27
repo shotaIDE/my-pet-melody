@@ -17,6 +17,18 @@
             ],
         },
         {
+            "name": "Emulator",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define",
+                "FLAVOR=emulator",
+                "--dart-define",
+                "API_HOST=${input:localServerIP}",
+            ],
+        },
+        {
             "name": "Develop",
             "request": "launch",
             "type": "dart",

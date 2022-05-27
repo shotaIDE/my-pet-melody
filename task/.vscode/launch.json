@@ -5,13 +5,54 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug",
+            "name": "Local",
             "type": "python",
             "request": "launch",
             "module": "flask",
             "env": {
                 "FLASK_APP": "app.py",
                 "FLASK_ENV": "development",
+            },
+            "envFile": "${workspaceFolder}/.env",
+            "args": [
+                "run",
+                "--no-debugger",
+                "--host=0.0.0.0",
+                "--port=5001",
+            ],
+            "jinja": true,
+        },
+        {
+            "name": "Emulator",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "app.py",
+                "FLASK_ENV": "development",
+                "FUNCTION_NAME": "dummy",
+                "FIREBASE_AUTH_EMULATOR_HOST": "localhost:9099",
+                "FIRESTORE_EMULATOR_HOST": "localhost:8080",
+                "FIREBASE_STORAGE_EMULATOR_HOST": "localhost:9199",
+            },
+            "envFile": "${workspaceFolder}/.env",
+            "args": [
+                "run",
+                "--no-debugger",
+                "--host=0.0.0.0",
+                "--port=5001",
+            ],
+            "jinja": true,
+        },
+        {
+            "name": "Develop",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "app.py",
+                "FLASK_ENV": "development",
+                "FUNCTION_NAME": "dummy",
             },
             "envFile": "${workspaceFolder}/.env",
             "args": [

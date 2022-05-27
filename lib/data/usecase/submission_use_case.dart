@@ -8,6 +8,7 @@ import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/repository/piece_repository.dart';
 import 'package:meow_music/data/repository/settings_repository.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
+import 'package:meow_music/data/service/auth_service.dart';
 import 'package:meow_music/data/service/database_service.dart';
 import 'package:meow_music/data/service/push_notification_service.dart';
 import 'package:meow_music/data/service/storage_service.dart';
@@ -17,12 +18,14 @@ class SubmissionUseCase {
     required SubmissionRepository repository,
     required PieceRepository pieceRepository,
     required SettingsRepository settingsRepository,
+    required AuthService authService,
     required DatabaseService databaseService,
     required StorageService storageService,
     required PushNotificationService pushNotificationService,
   })  : _repository = repository,
         _pieceRepository = pieceRepository,
         _settingsRepository = settingsRepository,
+        _authService = authService,
         _databaseService = databaseService,
         _storageService = storageService,
         _pushNotificationService = pushNotificationService;
@@ -30,6 +33,7 @@ class SubmissionUseCase {
   final SubmissionRepository _repository;
   final PieceRepository _pieceRepository;
   final SettingsRepository _settingsRepository;
+  final AuthService _authService;
   final DatabaseService _databaseService;
   final StorageService _storageService;
   final PushNotificationService _pushNotificationService;
@@ -57,9 +61,12 @@ class SubmissionUseCase {
     File file, {
     required String fileName,
   }) async {
+    final token = await _authService.getCurrentUserIdTokenWhenLoggedIn();
+
     return _repository.detect(
       file,
       fileName: fileName,
+      token: token,
     );
   }
 
@@ -67,17 +74,13 @@ class SubmissionUseCase {
     File file, {
     required String fileName,
   }) async {
-    final draft = await _repository.upload(
+    final userId = _authService.getCurrentUserIdWhenLoggedIn();
+
+    return _storageService.upload(
       file,
       fileName: fileName,
+      userId: userId,
     );
-    if (draft == null) {
-      return null;
-    }
-
-    final url = await _storageService.getDownloadUrl(path: draft.path);
-
-    return UploadedSound(id: draft.id, extension: draft.extension, url: url);
   }
 
   Future<bool> getShouldShowRequestPushNotificationPermission() async {
@@ -102,10 +105,13 @@ class SubmissionUseCase {
     required Template template,
     required List<UploadedSound> sounds,
   }) async {
+    final token = await _authService.getCurrentUserIdTokenWhenLoggedIn();
+
     final generated = await _repository.submit(
       userId: 'test-user-id',
       templateId: template.id,
       sounds: sounds,
+      token: token,
     );
 
     if (generated == null) {
