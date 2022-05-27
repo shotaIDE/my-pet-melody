@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/definitions/app_definitions.dart';
-import 'package:meow_music/firebase_options.dart';
+import 'package:meow_music/firebase_options_dev.dart';
 import 'package:meow_music/flavor.dart';
 import 'package:meow_music/root_app.dart';
 

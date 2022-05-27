@@ -42,7 +42,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "ide.shota.colomney.MeowMusic"
+        applicationId "ide.shota.colomney.MeowMusic.dev"
         minSdkVersion 24
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

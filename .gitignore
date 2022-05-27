@@ -4,6 +4,7 @@
 /assets/original
 /assets/edited
 /emulator-data
+/lib/firebase_options*.dart
 
 # Miscellaneous
 *.class
