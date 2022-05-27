@@ -21,3 +21,12 @@ asdf list all flutter
 asdf install flutter <version>
 asdf local flutter <version>
 ```
+
+## Firebase の構成ファイルを更新する
+
+```shell
+flutterfire config \
+  --project=colomney-meow-music-dev \
+  --ios-bundle-id=ide.shota.colomney.MeowMusic.dev \
+  --android-app-id=ide.shota.colomney.MeowMusic.dev
+```

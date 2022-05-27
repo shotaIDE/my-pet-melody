@@ -1,0 +1,2 @@
+FLAVOR=emulator
+APP_ID_SUFFIX=.emulator
