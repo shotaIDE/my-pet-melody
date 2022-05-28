@@ -62,9 +62,9 @@ class SelectTrimmedSoundViewModel
 
   Future<void> setup() async {
     _audioPositionSubscription =
-        _player.onPositionChanged.listen(_onAudioPositionReceived);
+        _player.onAudioPositionChanged.listen(_onAudioPositionReceived);
 
-    _audioStoppedSubscription = _player.onPlayerComplete.listen((_) {
+    _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
       _onAudioFinished();
     });
 
@@ -166,7 +166,7 @@ class SelectTrimmedSoundViewModel
     _setPlayerChoices(playingList);
 
     await _player.play(
-      UrlSource(url),
+      url,
       position: Duration(milliseconds: choice.segment.startMilliseconds),
     );
   }

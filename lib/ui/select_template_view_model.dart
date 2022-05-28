@@ -64,7 +64,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       templates: playingList.whereType<PlayerChoiceTemplate>().toList(),
     );
 
-    await _player.play(UrlSource(url));
+    await _player.play(url);
   }
 
   Future<void> stop({required PlayerChoiceTemplate template}) async {
@@ -120,9 +120,9 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     });
 
     _audioPositionSubscription =
-        _player.onPositionChanged.listen(_onAudioPositionReceived);
+        _player.onAudioPositionChanged.listen(_onAudioPositionReceived);
 
-    _audioStoppedSubscription = _player.onPlayerComplete.listen((_) {
+    _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
       _onAudioFinished();
     });
   }
