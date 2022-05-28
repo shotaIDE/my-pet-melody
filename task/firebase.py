@@ -7,7 +7,7 @@ from firebase_admin import credentials
 
 
 def initialize_firebase():
-    _CREDENTIALS_FILE_NAME = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+    _CREDENTIALS_FILE_NAME = os.environ['FIREBASE_ADMIN_KEY_FILE_NAME']
     _BUCKET_NAME = os.environ['FIREBASE_STORAGE_BUCKET_NAME']
 
     cred = credentials.Certificate(_CREDENTIALS_FILE_NAME)
