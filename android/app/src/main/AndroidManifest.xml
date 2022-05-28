@@ -2,8 +2,9 @@
     package="com.example.meow_music">
 
     <application
+        android:name="${applicationName}"
         android:icon="${ICON_RESOURCE}"
-        android:label="meow_music"
+        android:label="Meow Music"
         android:networkSecurityConfig="${NETWORK_SECURITY_CONFIG_RESOURCE}">
         <activity
             android:name=".MainActivity"

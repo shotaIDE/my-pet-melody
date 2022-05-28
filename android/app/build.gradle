@@ -67,7 +67,7 @@ android {
             applicationIdSuffix ".${dartEnvironmentVariables.FLAVOR}"
         }
 
-        manifestPlaceholders = [
+        manifestPlaceholders += [
                 ICON_RESOURCE                   : "@mipmap/ic_launcher_${dartEnvironmentVariables.FLAVOR}",
                 NETWORK_SECURITY_CONFIG_RESOURCE: "@xml/network_security_config${networkConfigSuffix}",
         ]
