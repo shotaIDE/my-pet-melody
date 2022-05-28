@@ -31,6 +31,11 @@ if (project.hasProperty('dart-defines')) {
             }
 }
 
+def networkConfigSuffix = ''
+if (dartEnvironmentVariables.FLAVOR == 'local' || dartEnvironmentVariables.FLAVOR == 'emulator') {
+    networkConfigSuffix = '_emulator'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -63,7 +68,8 @@ android {
         }
 
         manifestPlaceholders = [
-                ICON_RESOURCE: "@mipmap/ic_launcher_${dartEnvironmentVariables.FLAVOR}",
+                ICON_RESOURCE                   : "@mipmap/ic_launcher_${dartEnvironmentVariables.FLAVOR}",
+                NETWORK_SECURITY_CONFIG_RESOURCE: "@xml/network_security_config${networkConfigSuffix}",
         ]
     }
 
