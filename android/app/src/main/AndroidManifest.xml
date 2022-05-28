@@ -2,8 +2,7 @@
     package="com.example.meow_music">
    <application
         android:label="meow_music"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="${ICON_RESOURCE}">
         <activity
             android:name=".MainActivity"
             android:exported="true"
