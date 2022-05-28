@@ -25,7 +25,6 @@ dependencies:
   file_picker: ^4.3.3
   path: ^1.8.0
   collection: ^1.15.0
-  audioplayers: ^0.20.1
   share_plus: ^4.0.4
   path_provider: ^2.0.9
   firebase_core: ^1.13.1
@@ -38,6 +37,7 @@ dependencies:
   firebase_storage: ^10.2.16
   firebase_auth: ^3.3.18
   cloud_firestore: ^3.1.16
+  audioplayers: ^1.0.0-rc.4
 
 dev_dependencies:
   flutter_test:
