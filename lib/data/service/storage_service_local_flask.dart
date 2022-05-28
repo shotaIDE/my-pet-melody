@@ -26,6 +26,22 @@ class StorageServiceLocalFlask implements StorageService {
     required String fileName,
     required String userId,
   }) async {
+    return _upload(file, fileName: fileName);
+  }
+
+  @override
+  Future<UploadedSound?> uploadTrimmed(
+    File file, {
+    required String fileName,
+    required String userId,
+  }) async {
+    return _upload(file, fileName: fileName);
+  }
+
+  Future<UploadedSound?> _upload(
+    File file, {
+    required String fileName,
+  }) async {
     final response = await _api.upload(file, fileName: fileName);
     if (response == null) {
       return null;
@@ -42,14 +58,5 @@ class StorageServiceLocalFlask implements StorageService {
       extension: response.extension,
       url: url,
     );
-  }
-
-  @override
-  Future<UploadedSound?> uploadTrimmed(
-    File file, {
-    required String fileName,
-    required String userId,
-  }) async {
-    return null;
   }
 }

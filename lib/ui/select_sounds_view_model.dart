@@ -140,7 +140,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     SelectTrimmedSoundResult result, {
     required PlayerChoiceSound target,
   }) async {
-    final sounds = state.sounds;
+    final sounds = [...state.sounds];
     final index = sounds.indexOf(target);
 
     sounds[index] = target.copyWith(
