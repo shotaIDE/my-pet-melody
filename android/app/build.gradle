@@ -21,6 +21,21 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def dartEnvironmentVariables = [:]
+if (project.hasProperty('dart-defines')) {
+    dartEnvironmentVariables = dartEnvironmentVariables + project.property('dart-defines')
+            .split(',')
+            .collectEntries { entry ->
+                def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
+                [(pair.first()): pair.last()]
+            }
+}
+
+def networkConfigSuffix = ''
+if (dartEnvironmentVariables.FLAVOR == 'local' || dartEnvironmentVariables.FLAVOR == 'emulator') {
+    networkConfigSuffix = '_emulator'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -42,11 +57,20 @@ android {
     }
 
     defaultConfig {
-        applicationId "ide.shota.colomney.MeowMusic.dev"
-        minSdkVersion 24
+        applicationId "ide.shota.colomney.MeowMusic"
+        minSdkVersion 26
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        if (dartEnvironmentVariables.FLAVOR != 'prod') {
+            applicationIdSuffix ".${dartEnvironmentVariables.FLAVOR}"
+        }
+
+        manifestPlaceholders += [
+                ICON_RESOURCE                   : "@mipmap/ic_launcher_${dartEnvironmentVariables.FLAVOR}",
+                NETWORK_SECURITY_CONFIG_RESOURCE: "@xml/network_security_config${networkConfigSuffix}",
+        ]
     }
 
     buildTypes {

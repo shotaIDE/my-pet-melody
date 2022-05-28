@@ -54,12 +54,20 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
     final fileNameWithoutExtension =
         '${originalFileNameWithoutExtension}_manually_trimmed';
 
-    final outputPath = await state.trimmer.saveTrimmedVideo(
+    final outputPathCompleter = Completer<String?>();
+
+    await state.trimmer.saveTrimmedVideo(
       startValue: state.startValue,
       endValue: state.endValue,
+      onSave: outputPathCompleter.complete,
       videoFileName: fileNameWithoutExtension,
       storageDir: StorageDir.temporaryDirectory,
     );
+
+    final outputPath = await outputPathCompleter.future;
+    if (outputPath == null) {
+      return null;
+    }
 
     final outputFile = File(outputPath);
 
