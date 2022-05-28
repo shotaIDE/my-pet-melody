@@ -54,7 +54,7 @@ class StorageServiceLocalFlask implements StorageService {
     final extension = response.extension;
     final uploadedFileName = '$id$extension';
     final url =
-        '${AppDefinitions.serverOrigin}/static/uploadedMovies/$uploadedFileName';
+        '${AppDefinitions.serverOrigin}/static/uploads/$uploadedFileName';
 
     return UploadedSound(
       id: response.id,

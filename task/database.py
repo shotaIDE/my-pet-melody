@@ -4,28 +4,16 @@ import json
 import os
 import tempfile
 from datetime import datetime, timedelta
-from distutils import extension
 from xmlrpc.client import DateTime
 
-import firebase_admin
-from firebase_admin import auth, credentials, firestore, messaging, storage
+from firebase_admin import firestore, storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
-from utils import detect_non_silence, generate_piece, generate_store_file_name
+from utils import detect_non_silence
 
-_BUCKET_NAME = os.environ['FIREBASE_STORAGE_BUCKET_NAME']
-
-_TEMPLATE_FILE_BASE_NAME = 'template'
-_TEMPLATE_EXTENSION = '.wav'
-_TEMPLATE_FILE_NAME = f'{_TEMPLATE_FILE_BASE_NAME}{_TEMPLATE_EXTENSION}'
 _USER_MEDIA_DIRECTORY_NAME = 'userMedia'
-
-cred = credentials.Certificate('firebase-serviceAccountKey.json')
-firebase_admin.initialize_app(cred, {
-    'storageBucket': _BUCKET_NAME
-})
 
 
 def detect(request):
