@@ -2,15 +2,12 @@
 
 import os
 
-import firebase_admin
-from firebase_admin import credentials
 from flask import Flask, request
 
 import local
+from firebase import initialize_firebase
 
 app = Flask(__name__)
-
-_BUCKET_NAME = os.environ['FIREBASE_STORAGE_BUCKET_NAME']
 
 
 @app.route('/upload', methods=['POST'])
@@ -29,7 +26,4 @@ def piece():
 
 
 if __name__ == '__main__':
-    cred = credentials.Certificate('firebase-serviceAccountKey.json')
-    firebase_admin.initialize_app(cred, {
-        'storageBucket': _BUCKET_NAME
-    })
+    initialize_firebase()

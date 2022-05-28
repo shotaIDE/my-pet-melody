@@ -5,6 +5,7 @@ from datetime import datetime
 
 from auth import verify_authorization_header
 from database import set_generated_piece
+from firebase import initialize_firebase
 from utils import detect_non_silence, generate_piece, generate_store_file_name
 
 _STATIC_DIRECTORY = 'static'

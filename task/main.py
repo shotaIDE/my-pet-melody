@@ -11,12 +11,15 @@ from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
 from database import set_generated_piece
+from firebase import initialize_firebase
 from utils import detect_non_silence, generate_piece
 
 _TEMPLATE_FILE_BASE_NAME = 'template'
 _TEMPLATE_EXTENSION = '.wav'
 _TEMPLATE_FILE_NAME = f'{_TEMPLATE_FILE_BASE_NAME}{_TEMPLATE_EXTENSION}'
 _USER_MEDIA_DIRECTORY_NAME = 'userMedia'
+
+initialize_firebase()
 
 
 def detect(request):
