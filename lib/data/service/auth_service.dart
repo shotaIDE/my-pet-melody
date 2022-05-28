@@ -4,8 +4,14 @@ import 'package:meow_music/data/model/login_session.dart';
 
 class AuthService {
   Future<LoginSession?> currentSession() async {
-    // await FirebaseAuth.instance.signOut();
-    return _currentSession();
+    try {
+      final session = await _currentSession();
+      return session;
+    } on FirebaseAuthException {
+      await FirebaseAuth.instance.signOut();
+    }
+
+    return null;
   }
 
   Future<LoginSession> currentSessionWhenLoggedIn() async {

@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import os
+import tempfile
 from datetime import datetime
 
 from flask import url_for
@@ -13,21 +14,36 @@ _UPLOADS_DIRECTORY = 'uploads'
 _EXPORTS_DIRECTORY = 'exports'
 
 
-def detect(request):
+def upload(request):
     f = request.files['file']
-
     file_name = f.filename
 
     store_file_name_base, store_file_extension = generate_store_file_name(
-        file_name=file_name,
+        file_name=file_name
     )
+
     store_file_name = f'{store_file_name_base}{store_file_extension}'
-    store_path_on_static = f'{_UPLOADS_DIRECTORY}/{store_file_name}'
-    store_path = f'{_STATIC_DIRECTORY}/{store_path_on_static}'
+    store_path_path = (
+        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{store_file_name}'
+    )
 
-    f.save(store_path)
+    f.save(store_path_path)
 
-    return detect_non_silence(store_path=store_path)
+    return {
+        'id': store_file_name_base,
+        'extension': store_file_extension,
+    }
+
+
+def detect(request):
+    request_params_json = request.json
+
+    uploaded_file_name = request_params_json['fileName']
+
+    uploaded_path_on_static = f'{_UPLOADS_DIRECTORY}/{uploaded_file_name}'
+    uploaded_path = f'{_STATIC_DIRECTORY}/{uploaded_path_on_static}'
+
+    return detect_non_silence(store_path=uploaded_path)
 
 
 def piece(request):

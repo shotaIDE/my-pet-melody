@@ -19,7 +19,6 @@ class DatabaseServiceFirebase implements DatabaseService {
       return TemplateDraft(
         id: id,
         name: name,
-        path: 'systemMedia/templates/$id/template.wav',
       );
     }).toList();
   }

@@ -39,7 +39,6 @@ class MyDio {
     required File file,
     required String fileName,
     required T Function(Map<String, dynamic> json) responseParser,
-    required String token,
   }) async {
     final fileData =
         await MultipartFile.fromFile(file.path, filename: fileName);
@@ -57,7 +56,6 @@ class MyDio {
         options: options,
       ),
       responseParser: responseParser,
-      token: token,
     );
   }
 

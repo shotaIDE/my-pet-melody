@@ -10,6 +10,15 @@ class StorageServiceFirebase implements StorageService {
   final format = DateFormat('yyyyMMddHHmmss');
 
   @override
+  Future<String> templateUrl({required String id}) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final pathRef = storageRef.child('systemMedia/templates/$id/template.wav');
+
+    return pathRef.getDownloadURL();
+  }
+
+  @override
   Future<String> getDownloadUrl({required String path}) async {
     return _getDownloadUrl(path: path);
   }

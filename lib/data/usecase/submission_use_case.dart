@@ -44,8 +44,7 @@ class SubmissionUseCase {
     return Future.wait(
       templateDrafts.map(
         (templateDraft) async {
-          final url =
-              await _storageService.getDownloadUrl(path: templateDraft.path);
+          final url = await _storageService.templateUrl(id: templateDraft.id);
 
           return Template(
             id: templateDraft.id,
@@ -63,7 +62,7 @@ class SubmissionUseCase {
   }) async {
     final session = await _authService.currentSessionWhenLoggedIn();
 
-    final uploaded = await _storageService.uploadTrimmed(
+    final uploaded = await _storageService.uploadOriginal(
       file,
       fileName: fileName,
       userId: session.userId,

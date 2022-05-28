@@ -12,12 +12,14 @@ app = Flask(__name__)
 _IS_LOCAL = os.environ.get('FUNCTION_NAME') is None
 
 
+@app.route('/upload', methods=['POST'])
+def upload():
+    return local.upload(request)
+
+
 @app.route('/detect', methods=['POST'])
 def detect():
-    if _IS_LOCAL:
-        return local.detect(request)
-    else:
-        return main.detect(request)
+    return local.detect(request)
 
 
 @app.route("/submit", methods=['POST'])
