@@ -191,6 +191,8 @@ class SelectTrimmedSoundViewModel
   }) async {
     state = state.copyWith(isUploading: true);
 
+    await FFmpegKit.cancel();
+
     final startSeconds = choice.segment.startMilliseconds / 1000;
     final durationSeconds =
         (choice.segment.endMilliseconds - choice.segment.startMilliseconds) /
