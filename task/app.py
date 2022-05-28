@@ -1,33 +1,26 @@
 # coding: utf-8
 
-import os
-
 from flask import Flask, request
 
 import local
-import main
+from firebase import initialize_firebase
 
 app = Flask(__name__)
 
-_IS_LOCAL = os.environ.get('FUNCTION_NAME') is None
+
+initialize_firebase()
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    return local.upload(request)
 
 
 @app.route('/detect', methods=['POST'])
 def detect():
-    if _IS_LOCAL:
-        return local.detect(request)
-    else:
-        return main.detect(request)
-
-
-@app.route("/submit", methods=['POST'])
-def submit():
-    return main.submit(request)
+    return local.detect(request)
 
 
 @app.route("/piece", methods=['POST'])
 def piece():
-    if _IS_LOCAL:
-        return local.piece(request)
-    else:
-        return main.piece(request)
+    return local.piece(request)

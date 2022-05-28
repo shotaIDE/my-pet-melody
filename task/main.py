@@ -4,48 +4,49 @@ import json
 import os
 import tempfile
 from datetime import datetime, timedelta
-from xmlrpc.client import DateTime
 
-import firebase_admin
-from firebase_admin import auth, credentials, firestore, messaging, storage
+from firebase_admin import firestore, messaging, storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
-from utils import detect_non_silence, generate_piece, generate_store_file_name
-
-_BUCKET_NAME = os.environ['FIREBASE_STORAGE_BUCKET_NAME']
+from auth import verify_authorization_header
+from database import set_generated_piece
+from firebase import initialize_firebase
+from utils import detect_non_silence, generate_piece
 
 _TEMPLATE_FILE_BASE_NAME = 'template'
 _TEMPLATE_EXTENSION = '.wav'
 _TEMPLATE_FILE_NAME = f'{_TEMPLATE_FILE_BASE_NAME}{_TEMPLATE_EXTENSION}'
 _USER_MEDIA_DIRECTORY_NAME = 'userMedia'
 
-cred = credentials.Certificate('firebase-serviceAccountKey.json')
-firebase_admin.initialize_app(cred, {
-    'storageBucket': _BUCKET_NAME
-})
+initialize_firebase()
 
 
 def detect(request):
     authorization_value = request.headers['authorization']
 
-    _verify_authorization_header(value=authorization_value)
+    uid = verify_authorization_header(value=authorization_value)
 
-    f = request.files['file']
+    request_params_json = request.json
 
-    file_name = f.filename
+    uploaded_file_name = request_params_json['fileName']
+    splitted_file_name = os.path.splitext(uploaded_file_name)
+    uploaded_extension = splitted_file_name[1]
 
-    _, store_file_extension = generate_store_file_name(
-        file_name=file_name,
+    bucket = storage.bucket()
+
+    _, uploaded_local_base_path = tempfile.mkstemp()
+    uploaded_local_path = f'{uploaded_local_base_path}{uploaded_extension}'
+
+    uploaded_relative_path = (
+        f'{_USER_MEDIA_DIRECTORY_NAME}/{uid}/'
+        f'originalMovies/{uploaded_file_name}'
     )
+    uploaded_blob = bucket.blob(uploaded_relative_path)
 
-    _, temp_local_base_path = tempfile.mkstemp()
+    uploaded_blob.download_to_filename(uploaded_local_path)
 
-    temp_local_path = f'{temp_local_base_path}{store_file_extension}'
-
-    f.save(temp_local_path)
-
-    return detect_non_silence(store_path=temp_local_path)
+    return detect_non_silence(store_path=uploaded_local_path)
 
 
 def submit(request):
@@ -56,7 +57,7 @@ def submit(request):
 
     authorization_value = request.headers['authorization']
 
-    uid = _verify_authorization_header(value=authorization_value)
+    uid = verify_authorization_header(value=authorization_value)
 
     request_params_json = request.json
 
@@ -120,17 +121,8 @@ def submit(request):
 def piece(request):
     request_params_json = request.json
 
-    if 'uid' in request_params_json:
-        uid = request_params_json['uid']
-    else:
-        authorization_value = request.headers['authorization']
-
-        uid = _verify_authorization_header(value=authorization_value)
-
-    if 'pieceId' in request_params_json:
-        piece_id = request_params_json['pieceId']
-    else:
-        piece_id = None
+    uid = request_params_json['uid']
+    piece_id = request_params_json['pieceId']
 
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['fileNames']
@@ -189,23 +181,15 @@ def piece(request):
 
     export_blob.upload_from_filename(export_local_path)
 
-    store_data = {
-        'name': f'Generated Piece: {export_base_name}',
-        'movieFileName': export_file_name,
-        'generatedAt': current,
-    }
+    set_generated_piece(
+        uid=uid,
+        id=piece_id,
+        name=export_base_name,
+        file_name=export_file_name,
+        generated_at=current
+    )
 
     db = firestore.client()
-
-    generated_pieces_collection = db.collection('userMedia').document(
-        uid).collection('generatedPieces')
-
-    if piece_id is not None:
-        generated_pieces_collection.document(piece_id).update(store_data)
-    else:
-        store_data['submittedAt'] = current
-
-        generated_pieces_collection.add(store_data)
 
     user_document_ref = db.collection('users').document(uid)
     user_document = user_document_ref.get()
@@ -246,11 +230,3 @@ def piece(request):
         'id': export_base_name,
         'path': export_relative_path,
     }
-
-
-def _verify_authorization_header(value: str) -> str:
-    id_token = value.replace('Bearer ', '')
-
-    decoded_token = auth.verify_id_token(id_token)
-
-    return decoded_token['uid']

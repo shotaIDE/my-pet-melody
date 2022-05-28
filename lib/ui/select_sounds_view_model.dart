@@ -90,7 +90,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     File file, {
     required PlayerChoiceSound target,
   }) async {
-    final sounds = state.sounds;
+    final sounds = [...state.sounds];
     final index = sounds.indexOf(target);
 
     final localFileName = basename(file.path);
@@ -115,7 +115,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
       state = state.copyWith(
         sounds: sounds,
-        isAvailableSubmission: _getIsAvailableSubmission(),
+        isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
       );
 
       return;
@@ -132,7 +132,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     state = state.copyWith(
       sounds: sounds,
-      isAvailableSubmission: _getIsAvailableSubmission(),
+      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
     );
   }
 
@@ -140,7 +140,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     SelectTrimmedSoundResult result, {
     required PlayerChoiceSound target,
   }) async {
-    final sounds = state.sounds;
+    final sounds = [...state.sounds];
     final index = sounds.indexOf(target);
 
     sounds[index] = target.copyWith(
@@ -154,12 +154,12 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     state = state.copyWith(
       sounds: sounds,
-      isAvailableSubmission: _getIsAvailableSubmission(),
+      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
     );
   }
 
   Future<void> delete({required PlayerChoiceSound target}) async {
-    final sounds = state.sounds;
+    final sounds = [...state.sounds];
     final index = sounds.indexOf(target);
 
     sounds[index] = target.copyWith(
@@ -168,7 +168,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     state = state.copyWith(
       sounds: sounds,
-      isAvailableSubmission: _getIsAvailableSubmission(),
+      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
     );
   }
 
@@ -245,9 +245,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await _player.stop();
   }
 
-  bool _getIsAvailableSubmission() {
-    final sounds = state.sounds;
-
+  bool _getIsAvailableSubmission({required List<PlayerChoiceSound> sounds}) {
     return sounds.fold(
       true,
       (previousValue, sound) =>

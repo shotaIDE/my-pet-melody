@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meow_music/data/api/my_dio.dart';
 import 'package:meow_music/flavor.dart';
@@ -13,16 +11,14 @@ class SubmissionApi {
   final MyDio _dio;
 
   Future<DetectResponse?> detect(
-    File file, {
-    required String fileName,
+    DetectRequest request, {
     required String token,
   }) async {
-    return _dio.postFile(
+    return _dio.post(
       path: '/detect',
-      file: file,
-      fileName: fileName,
       responseParser: DetectResponse.fromJson,
       token: token,
+      data: request.toJson(),
     );
   }
 
@@ -45,6 +41,16 @@ class SubmissionApi {
 }
 
 @freezed
+class DetectRequest with _$DetectRequest {
+  const factory DetectRequest({
+    required String fileName,
+  }) = _DetectRequest;
+
+  factory DetectRequest.fromJson(Map<String, dynamic> json) =>
+      _$DetectRequestFromJson(json);
+}
+
+@freezed
 class DetectResponse with _$DetectResponse {
   const factory DetectResponse({
     required List<List<int>> segments,
@@ -58,7 +64,6 @@ class DetectResponse with _$DetectResponse {
 @freezed
 class SubmitRequest with _$SubmitRequest {
   const factory SubmitRequest({
-    required String userId,
     required String templateId,
     required List<String> fileNames,
   }) = _SubmitRequest;

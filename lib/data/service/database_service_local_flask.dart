@@ -9,7 +9,6 @@ class DatabaseServiceLocalFlask implements DatabaseService {
       const TemplateDraft(
         id: 'happy_birthday',
         name: 'Happy Birthday',
-        path: '/static/templates/happy_birthday.wav',
       ),
     ];
   }

@@ -3,8 +3,9 @@
 import os
 from datetime import datetime
 
-from flask import url_for
-
+from auth import verify_authorization_header
+from database import set_generated_piece
+from firebase import initialize_firebase
 from utils import detect_non_silence, generate_piece, generate_store_file_name
 
 _STATIC_DIRECTORY = 'static'
@@ -13,24 +14,43 @@ _UPLOADS_DIRECTORY = 'uploads'
 _EXPORTS_DIRECTORY = 'exports'
 
 
-def detect(request):
+def upload(request):
     f = request.files['file']
-
     file_name = f.filename
 
     store_file_name_base, store_file_extension = generate_store_file_name(
-        file_name=file_name,
+        file_name=file_name
     )
+
     store_file_name = f'{store_file_name_base}{store_file_extension}'
-    store_path_on_static = f'{_UPLOADS_DIRECTORY}/{store_file_name}'
-    store_path = f'{_STATIC_DIRECTORY}/{store_path_on_static}'
+    store_path_path = (
+        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{store_file_name}'
+    )
 
-    f.save(store_path)
+    f.save(store_path_path)
 
-    return detect_non_silence(store_path=store_path)
+    return {
+        'id': store_file_name_base,
+        'extension': store_file_extension,
+    }
+
+
+def detect(request):
+    request_params_json = request.json
+
+    uploaded_file_name = request_params_json['fileName']
+
+    uploaded_path_on_static = f'{_UPLOADS_DIRECTORY}/{uploaded_file_name}'
+    uploaded_path = f'{_STATIC_DIRECTORY}/{uploaded_path_on_static}'
+
+    return detect_non_silence(store_path=uploaded_path)
 
 
 def piece(request):
+    authorization_value = request.headers['authorization']
+
+    uid = verify_authorization_header(value=authorization_value)
+
     request_params_json = request.json
 
     template_id = request_params_json['templateId']
@@ -48,8 +68,8 @@ def piece(request):
                      f'{template_id}.wav')
 
     current = datetime.now()
-    export_file_name = current.strftime('%Y%m%d%H%M%S')
-    export_base_path_on_static = f'{_EXPORTS_DIRECTORY}/{export_file_name}'
+    export_base_name = current.strftime('%Y%m%d%H%M%S')
+    export_base_path_on_static = f'{_EXPORTS_DIRECTORY}/{export_base_name}'
     export_base_path = f'{_STATIC_DIRECTORY}/{export_base_path_on_static}'
 
     export_path = generate_piece(
@@ -60,11 +80,14 @@ def piece(request):
 
     splitted_file_name = os.path.splitext(export_path)
     export_extension = splitted_file_name[1]
-    export_path_on_static = f'{export_base_path_on_static}{export_extension}'
+    export_file_name = f'{export_base_name}{export_extension}'
 
-    export_url_path = url_for('static', filename=export_path_on_static)
+    set_generated_piece(
+        uid=uid,
+        id=None,
+        name=export_base_name,
+        file_name=export_file_name,
+        generated_at=current
+    )
 
-    return {
-        'id': export_file_name,
-        'path': export_url_path,
-    }
+    return {}

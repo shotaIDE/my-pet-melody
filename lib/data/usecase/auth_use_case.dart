@@ -19,7 +19,7 @@ class AuthUseCase {
   final PushNotificationService _pushNotificationService;
 
   Future<void> ensureLoggedIn() async {
-    final idToken = await _authService.getCurrentUserIdToken();
+    final idToken = await _authService.currentSession();
     if (idToken != null) {
       return;
     }

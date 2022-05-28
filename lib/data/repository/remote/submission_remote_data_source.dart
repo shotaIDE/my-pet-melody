@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:meow_music/data/api/submission_api.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
-import 'package:meow_music/data/model/fetched_piece.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 
 class SubmissionRemoteDataSource {
@@ -10,14 +7,14 @@ class SubmissionRemoteDataSource {
 
   final SubmissionApi _api;
 
-  Future<DetectedNonSilentSegments?> detect(
-    File file, {
-    required String fileName,
+  Future<DetectedNonSilentSegments?> detect({
+    required UploadedSound from,
     required String token,
   }) async {
     final response = await _api.detect(
-      file,
-      fileName: fileName,
+      DetectRequest(
+        fileName: '${from.id}${from.extension}',
+      ),
       token: token,
     );
 
@@ -38,35 +35,18 @@ class SubmissionRemoteDataSource {
     );
   }
 
-  Future<FetchedPieceDraft?> submit({
-    required String userId,
+  Future<void> submit({
     required String templateId,
     required List<UploadedSound> sounds,
     required String token,
   }) async {
-    final response = await _api.submit(
+    await _api.submit(
       SubmitRequest(
-        userId: userId,
         templateId: templateId,
         fileNames:
             sounds.map((sound) => '${sound.id}${sound.extension}').toList(),
       ),
       token: token,
-    );
-
-    if (response == null) {
-      return null;
-    }
-
-    final id = response.id;
-    final path = response.path;
-    if (id == null || path == null) {
-      return null;
-    }
-
-    return FetchedPieceDraft(
-      id: id,
-      path: path,
     );
   }
 }

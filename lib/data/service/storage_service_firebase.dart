@@ -10,12 +10,54 @@ class StorageServiceFirebase implements StorageService {
   final format = DateFormat('yyyyMMddHHmmss');
 
   @override
-  Future<String> getDownloadUrl({required String path}) async {
-    return _getDownloadUrl(path: path);
+  Future<String> templateUrl({required String id}) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final pathRef = storageRef.child('systemMedia/templates/$id/template.wav');
+
+    return pathRef.getDownloadURL();
   }
 
   @override
-  Future<UploadedSound?> upload(
+  Future<String> pieceDownloadUrl({
+    required String fileName,
+    required String userId,
+  }) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final pathRef =
+        storageRef.child('userMedia/$userId/generatedPieces/$fileName');
+
+    return pathRef.getDownloadURL();
+  }
+
+  @override
+  Future<UploadedSound?> uploadOriginal(
+    File file, {
+    required String fileName,
+    required String userId,
+  }) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final current = DateTime.now();
+    final uploadFileId = format.format(current);
+
+    final fileExtension = extension(fileName);
+
+    final path =
+        '/userMedia/$userId/originalMovies/$uploadFileId$fileExtension';
+
+    final pathRef = storageRef.child(path);
+
+    await pathRef.putFile(file);
+
+    final url = await pathRef.getDownloadURL();
+
+    return UploadedSound(id: uploadFileId, extension: fileExtension, url: url);
+  }
+
+  @override
+  Future<UploadedSound?> uploadTrimmed(
     File file, {
     required String fileName,
     required String userId,
@@ -34,14 +76,8 @@ class StorageServiceFirebase implements StorageService {
 
     await pathRef.putFile(file);
 
-    final url = await _getDownloadUrl(path: path);
+    final url = await pathRef.getDownloadURL();
 
     return UploadedSound(id: uploadFileId, extension: fileExtension, url: url);
-  }
-
-  Future<String> _getDownloadUrl({required String path}) async {
-    final storageRef = FirebaseStorage.instance.ref();
-    final pathRef = storageRef.child(path);
-    return pathRef.getDownloadURL();
   }
 }

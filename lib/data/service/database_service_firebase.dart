@@ -19,7 +19,6 @@ class DatabaseServiceFirebase implements DatabaseService {
       return TemplateDraft(
         id: id,
         name: name,
-        path: 'systemMedia/templates/$id/template.wav',
       );
     }).toList();
   }
@@ -53,7 +52,7 @@ class DatabaseServiceFirebase implements DatabaseService {
                 id: id,
                 name: name,
                 generatedAt: generatedAt,
-                path: 'userMedia/$userId/generatedPieces/$movieFileName',
+                fileName: movieFileName,
               );
             }
             return PieceDraft.generating(
