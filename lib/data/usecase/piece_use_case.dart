@@ -18,8 +18,8 @@ class PieceUseCase {
   final StorageService _storageService;
 
   Future<Stream<List<Piece>>> getPiecesStream() async {
-    final userId = _authService.getCurrentUserIdWhenLoggedIn();
-    final stream = _databaseService.piecesStream(userId: userId);
+    final session = await _authService.currentSessionWhenLoggedIn();
+    final stream = _databaseService.piecesStream(userId: session.userId);
 
     return stream.asyncMap(
       (pieces) async {

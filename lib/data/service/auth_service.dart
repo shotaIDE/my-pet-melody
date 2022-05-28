@@ -1,20 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:meow_music/data/model/login_session.dart';
 
 class AuthService {
-  Future<String?> getCurrentUserIdToken() async {
+  Future<LoginSession?> currentSession() async {
     // await FirebaseAuth.instance.signOut();
-    return _getCurrentUserIdToken();
+    return _currentSession();
   }
 
-  Future<String> getCurrentUserIdTokenWhenLoggedIn() async {
-    final idToken = await _getCurrentUserIdToken();
-    return idToken!;
-  }
-
-  String getCurrentUserIdWhenLoggedIn() {
-    final user = FirebaseAuth.instance.currentUser;
-    return user!.uid;
+  Future<LoginSession> currentSessionWhenLoggedIn() async {
+    final session = await _currentSession();
+    return session!;
   }
 
   Future<void> signInAnonymously() async {
@@ -27,8 +23,14 @@ class AuthService {
     return FirebaseAuth.instance.authStateChanges().map((user) => user?.uid);
   }
 
-  Future<String?> _getCurrentUserIdToken() async {
+  Future<LoginSession?> _currentSession() async {
     final user = FirebaseAuth.instance.currentUser;
-    return user?.getIdToken();
+    if (user == null) {
+      return null;
+    }
+
+    final token = await user.getIdToken();
+
+    return LoginSession(userId: user.uid, token: token);
   }
 }

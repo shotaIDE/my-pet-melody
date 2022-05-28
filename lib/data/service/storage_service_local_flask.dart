@@ -11,7 +11,16 @@ class StorageServiceLocalFlask implements StorageService {
   }
 
   @override
-  Future<UploadedSound?> upload(
+  Future<UploadedSound?> uploadOriginal(
+    File file, {
+    required String fileName,
+    required String userId,
+  }) async {
+    return null;
+  }
+
+  @override
+  Future<UploadedSound?> uploadTrimmed(
     File file, {
     required String fileName,
     required String userId,

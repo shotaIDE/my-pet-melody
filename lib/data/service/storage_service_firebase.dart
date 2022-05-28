@@ -15,7 +15,32 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
-  Future<UploadedSound?> upload(
+  Future<UploadedSound?> uploadOriginal(
+    File file, {
+    required String fileName,
+    required String userId,
+  }) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final current = DateTime.now();
+    final uploadFileId = format.format(current);
+
+    final fileExtension = extension(fileName);
+
+    final path =
+        '/userMedia/$userId/originalMovies/$uploadFileId$fileExtension';
+
+    final pathRef = storageRef.child(path);
+
+    await pathRef.putFile(file);
+
+    final url = await _getDownloadUrl(path: path);
+
+    return UploadedSound(id: uploadFileId, extension: fileExtension, url: url);
+  }
+
+  @override
+  Future<UploadedSound?> uploadTrimmed(
     File file, {
     required String fileName,
     required String userId,

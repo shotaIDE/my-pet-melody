@@ -61,12 +61,20 @@ class SubmissionUseCase {
     File file, {
     required String fileName,
   }) async {
-    final token = await _authService.getCurrentUserIdTokenWhenLoggedIn();
+    final session = await _authService.currentSessionWhenLoggedIn();
 
-    return _repository.detect(
+    final uploaded = await _storageService.uploadTrimmed(
       file,
       fileName: fileName,
-      token: token,
+      userId: session.userId,
+    );
+    if (uploaded == null) {
+      return null;
+    }
+
+    return _repository.detect(
+      from: uploaded,
+      token: session.token,
     );
   }
 
@@ -74,12 +82,12 @@ class SubmissionUseCase {
     File file, {
     required String fileName,
   }) async {
-    final userId = _authService.getCurrentUserIdWhenLoggedIn();
+    final session = await _authService.currentSessionWhenLoggedIn();
 
-    return _storageService.upload(
+    return _storageService.uploadTrimmed(
       file,
       fileName: fileName,
-      userId: userId,
+      userId: session.userId,
     );
   }
 
@@ -105,13 +113,13 @@ class SubmissionUseCase {
     required Template template,
     required List<UploadedSound> sounds,
   }) async {
-    final token = await _authService.getCurrentUserIdTokenWhenLoggedIn();
+    final session = await _authService.currentSessionWhenLoggedIn();
 
     final generated = await _repository.submit(
       userId: 'test-user-id',
       templateId: template.id,
       sounds: sounds,
-      token: token,
+      token: session.token,
     );
 
     if (generated == null) {

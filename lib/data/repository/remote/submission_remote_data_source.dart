@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:meow_music/data/api/submission_api.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
 import 'package:meow_music/data/model/fetched_piece.dart';
@@ -10,14 +8,14 @@ class SubmissionRemoteDataSource {
 
   final SubmissionApi _api;
 
-  Future<DetectedNonSilentSegments?> detect(
-    File file, {
-    required String fileName,
+  Future<DetectedNonSilentSegments?> detect({
+    required UploadedSound from,
     required String token,
   }) async {
     final response = await _api.detect(
-      file,
-      fileName: fileName,
+      DetectRequest(
+        fileName: '${from.id}${from.extension}',
+      ),
       token: token,
     );
 
