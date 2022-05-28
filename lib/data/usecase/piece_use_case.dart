@@ -32,8 +32,10 @@ class PieceUseCase {
                 submittedAt: piece.submittedAt,
               ),
               generated: (piece) async {
-                final url =
-                    await _storageService.getDownloadUrl(path: piece.path);
+                final url = await _storageService.pieceDownloadUrl(
+                  fileName: piece.fileName,
+                  userId: session.userId,
+                );
 
                 return Piece.generated(
                   id: piece.id,

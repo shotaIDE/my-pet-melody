@@ -19,8 +19,16 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
-  Future<String> getDownloadUrl({required String path}) async {
-    return _getDownloadUrl(path: path);
+  Future<String> pieceDownloadUrl({
+    required String fileName,
+    required String userId,
+  }) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final pathRef =
+        storageRef.child('userMedia/$userId/generatedPieces/$fileName');
+
+    return pathRef.getDownloadURL();
   }
 
   @override
@@ -43,7 +51,7 @@ class StorageServiceFirebase implements StorageService {
 
     await pathRef.putFile(file);
 
-    final url = await _getDownloadUrl(path: path);
+    final url = await pathRef.getDownloadURL();
 
     return UploadedSound(id: uploadFileId, extension: fileExtension, url: url);
   }
@@ -68,14 +76,8 @@ class StorageServiceFirebase implements StorageService {
 
     await pathRef.putFile(file);
 
-    final url = await _getDownloadUrl(path: path);
+    final url = await pathRef.getDownloadURL();
 
     return UploadedSound(id: uploadFileId, extension: fileExtension, url: url);
-  }
-
-  Future<String> _getDownloadUrl({required String path}) async {
-    final storageRef = FirebaseStorage.instance.ref();
-    final pathRef = storageRef.child(path);
-    return pathRef.getDownloadURL();
   }
 }

@@ -33,6 +33,6 @@ class PieceDraft with _$PieceDraft {
     required String id,
     required String name,
     required DateTime generatedAt,
-    required String path,
+    required String fileName,
   }) = _PieceDraftGenerated;
 }

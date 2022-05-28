@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
-import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
-import 'package:meow_music/data/repository/piece_repository.dart';
 import 'package:meow_music/data/repository/settings_repository.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
 import 'package:meow_music/data/service/auth_service.dart';
@@ -16,14 +14,12 @@ import 'package:meow_music/data/service/storage_service.dart';
 class SubmissionUseCase {
   SubmissionUseCase({
     required SubmissionRepository repository,
-    required PieceRepository pieceRepository,
     required SettingsRepository settingsRepository,
     required AuthService authService,
     required DatabaseService databaseService,
     required StorageService storageService,
     required PushNotificationService pushNotificationService,
   })  : _repository = repository,
-        _pieceRepository = pieceRepository,
         _settingsRepository = settingsRepository,
         _authService = authService,
         _databaseService = databaseService,
@@ -31,7 +27,6 @@ class SubmissionUseCase {
         _pushNotificationService = pushNotificationService;
 
   final SubmissionRepository _repository;
-  final PieceRepository _pieceRepository;
   final SettingsRepository _settingsRepository;
   final AuthService _authService;
   final DatabaseService _databaseService;
@@ -114,50 +109,10 @@ class SubmissionUseCase {
   }) async {
     final session = await _authService.currentSessionWhenLoggedIn();
 
-    final generated = await _repository.submit(
-      userId: 'test-user-id',
+    await _repository.submit(
       templateId: template.id,
       sounds: sounds,
       token: session.token,
     );
-
-    if (generated == null) {
-      return;
-    }
-
-    final generating = PieceGenerating(
-      id: generated.id,
-      name: template.name,
-      submittedAt: DateTime.now(),
-    );
-
-    unawaited(
-      _setTimerToNotifyCompletingToGenerate(
-        generating: generating,
-        path: generated.path,
-      ),
-    );
-  }
-
-  Future<void> _setTimerToNotifyCompletingToGenerate({
-    required PieceGenerating generating,
-    required String path,
-  }) async {
-    await _pieceRepository.add(generating);
-
-    final url = await _storageService.getDownloadUrl(path: path);
-
-    await Future<void>.delayed(const Duration(seconds: 5));
-
-    final generated = PieceGenerated(
-      id: generating.id,
-      name: generating.name,
-      generatedAt: DateTime.now(),
-      url: url,
-    );
-
-    await _pieceRepository.replace(generated);
-
-    await _pushNotificationService.showDummyNotification();
   }
 }

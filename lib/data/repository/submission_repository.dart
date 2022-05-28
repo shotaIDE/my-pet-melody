@@ -1,5 +1,4 @@
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
-import 'package:meow_music/data/model/fetched_piece.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/repository/remote/submission_remote_data_source.dart';
 
@@ -19,14 +18,12 @@ class SubmissionRepository {
     );
   }
 
-  Future<FetchedPieceDraft?> submit({
-    required String userId,
+  Future<void> submit({
     required String templateId,
     required List<UploadedSound> sounds,
     required String token,
   }) async {
-    return _remote.submit(
-      userId: userId,
+    await _remote.submit(
       templateId: templateId,
       sounds: sounds,
       token: token,

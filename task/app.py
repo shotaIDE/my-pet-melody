@@ -2,14 +2,15 @@
 
 import os
 
+import firebase_admin
+from firebase_admin import credentials
 from flask import Flask, request
 
 import local
-import main
 
 app = Flask(__name__)
 
-_IS_LOCAL = os.environ.get('FUNCTION_NAME') is None
+_BUCKET_NAME = os.environ['FIREBASE_STORAGE_BUCKET_NAME']
 
 
 @app.route('/upload', methods=['POST'])
@@ -22,14 +23,13 @@ def detect():
     return local.detect(request)
 
 
-@app.route("/submit", methods=['POST'])
-def submit():
-    return main.submit(request)
-
-
 @app.route("/piece", methods=['POST'])
 def piece():
-    if _IS_LOCAL:
-        return local.piece(request)
-    else:
-        return main.piece(request)
+    return local.piece(request)
+
+
+if __name__ == '__main__':
+    cred = credentials.Certificate('firebase-serviceAccountKey.json')
+    firebase_admin.initialize_app(cred, {
+        'storageBucket': _BUCKET_NAME
+    })
