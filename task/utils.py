@@ -37,7 +37,7 @@ def detect_non_silence(store_path: str) -> dict:
         for threshould in range(-30, -5, 5)
     }
 
-    target_threshould = _find_by_segments_duration_meanings(
+    target_threshould = _find_by_detection_count(
         candidates=non_silences_list
     )
 
@@ -103,6 +103,9 @@ def _find_by_segments_duration_meanings(
         if len(non_silences) > 0
     }
 
+    if len(some_detected_list) == 0:
+        return None
+
     # 1000ms との差分の平均が小さい順にソートし、それを候補とする
 
     durations = {
@@ -123,7 +126,30 @@ def _find_by_segments_duration_meanings(
         averages_of_durations.items(),
         key=lambda x: x[1])
 
-    if len(sorted_averages_of_durations) == 0:
+    return sorted_averages_of_durations[0][0]
+
+
+def _find_by_detection_count(
+    candidates: dict[int, list[list[int]]]
+) -> Optional[int]:
+    some_detected_list = {
+        threshould: non_silences
+        for threshould, non_silences in candidates.items()
+        if len(non_silences) > 0
+    }
+
+    if len(some_detected_list) == 0:
         return None
 
-    return sorted_averages_of_durations[0][0]
+    segment_counts = {
+        threshould: len(non_silences)
+        for threshould, non_silences in some_detected_list.items()
+    }
+
+    sorted_segment_counts = sorted(
+        segment_counts.items(),
+        key=lambda x: x[1],
+        reverse=True,
+    )
+
+    return sorted_segment_counts[0][0]
