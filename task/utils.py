@@ -34,10 +34,10 @@ def detect_non_silence(store_path: str) -> dict:
     non_silences_list: dict[int, list[list[int]]] = {
         threshould: silence.detect_nonsilent(
             normalized_sound, silence_thresh=threshould)
-        for threshould in range(-30, -5, 5)
+        for threshould in range(-40, -5, 5)
     }
 
-    target_threshould = _find_by_detection_count(
+    target_threshould = _find_by_segments_duration_meanings(
         candidates=non_silences_list
     )
 
@@ -110,7 +110,7 @@ def _find_by_segments_duration_meanings(
 
     durations = {
         threshould: [
-            non_silence[1] - non_silence[0]
+            abs((non_silence[1] - non_silence[0]) - 1000)
             for non_silence in non_silences
         ]
         for threshould, non_silences in some_detected_list.items()
