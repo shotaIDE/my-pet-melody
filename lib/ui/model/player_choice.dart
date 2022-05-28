@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
 import 'package:meow_music/data/model/piece.dart';
