@@ -2,7 +2,9 @@
 
 import os
 import statistics
+import time
 from datetime import datetime
+from typing import Optional
 
 from pydub import AudioSegment, silence
 
@@ -20,69 +22,53 @@ def generate_store_file_name(file_name: str) -> tuple[str, str]:
 
 
 def detect_non_silence(store_path: str) -> dict:
+    start_time = time.perf_counter()
+
     sound = AudioSegment.from_file(store_path)
 
-    duration_seconds = sound.duration_seconds
+    duration_seconds: int = sound.duration_seconds
     duration_milliseconds = int(round(duration_seconds, 3) * 1000)
 
     normalized_sound = sound.normalize(headroom=1.0)
 
-    non_silences_list_raw = [
-        {
-            'segments': silence.detect_nonsilent(
-                normalized_sound, silence_thresh=threshould),
-            'threshould': threshould,
-        }
-        for threshould in range(-30, -10)
-    ]
+    non_silences_list: dict[int, list[list[int]]] = {
+        threshould: silence.detect_nonsilent(
+            normalized_sound, silence_thresh=threshould)
+        for threshould in range(-40, -20, 10)
+    }
 
-    non_silences_list = [
-        non_silences
-        for non_silences in non_silences_list_raw
-        if len(non_silences['segments']) > 0
-    ]
+    target_threshould = _find_by_segments_duration_meanings(
+        candidates=non_silences_list
+    )
 
-    # 1000ms との差分の平均が小さい順にソートし、それを候補とする
+    if target_threshould is None:
+        segments = []
+    else:
+        segments = non_silences_list[target_threshould]
 
-    non_silences_duratioins = [
-        {
-            'segment_duration_list': [
-                non_silence[1] - non_silence[0]
-                for non_silence in non_silences['segments']
-            ],
-            'threshould': non_silences['threshould'],
-        }
-        for non_silences in non_silences_list
-    ]
-
-    average_list = [
-        {
-            'segment_duration_average':
-                statistics.mean(
-                    non_silences_duration['segment_duration_list']),
-            'threshould': non_silences_duration['threshould'],
-        }
-        for non_silences_duration in non_silences_duratioins
-    ]
-
-    sorted_average_list = sorted(
-        average_list,
-        key=lambda x: x['segment_duration_average'])
-
-    target_threshould = sorted_average_list[0]['threshould']
-
-    target_index = target_threshould + 30
-
-    return {
-        'segments': non_silences_list_raw[target_index]['segments'],
+    result = {
+        'segments': segments,
         'durationMilliseconds': duration_milliseconds,
     }
+
+    print(
+        'The best threshould for detect non silence: '
+        f'{target_threshould} db'
+    )
+
+    end_time = time.perf_counter()
+    elapsed_time = end_time - start_time
+    print(f'Running time to detect non silence: {elapsed_time:.3f}s')
+
+    return result
 
 
 def generate_piece(
     template_path: str,
     sound_paths: list[str],
     export_base_path: str
+
+
 ) -> str:
     template = AudioSegment.from_file(template_path)
     sounds = [
@@ -111,3 +97,64 @@ def generate_piece(
     normalized_overlayed.export(export_path)
 
     return export_path
+
+
+def _find_by_segments_duration_meanings(
+    candidates: dict[int, list[list[int]]]
+) -> Optional[int]:
+    some_detected_list = {
+        threshould: non_silences
+        for threshould, non_silences in candidates.items()
+        if len(non_silences) > 0
+    }
+
+    if len(some_detected_list) == 0:
+        return None
+
+    # 1000ms との差分の平均が小さい順にソートし、それを候補とする
+
+    durations = {
+        threshould: [
+            abs((non_silence[1] - non_silence[0]) - 1000)
+            for non_silence in non_silences
+        ]
+        for threshould, non_silences in some_detected_list.items()
+    }
+
+    averages_of_durations = {
+        threshould: statistics.mean(non_silences_duration)
+        for threshould, non_silences_duration
+        in durations.items()
+    }
+
+    sorted_averages_of_durations = sorted(
+        averages_of_durations.items(),
+        key=lambda x: x[1])
+
+    return sorted_averages_of_durations[0][0]
+
+
+def _find_by_detection_count(
+    candidates: dict[int, list[list[int]]]
+) -> Optional[int]:
+    some_detected_list = {
+        threshould: non_silences
+        for threshould, non_silences in candidates.items()
+        if len(non_silences) > 0
+    }
+
+    if len(some_detected_list) == 0:
+        return None
+
+    segment_counts = {
+        threshould: len(non_silences)
+        for threshould, non_silences in some_detected_list.items()
+    }
+
+    sorted_segment_counts = sorted(
+        segment_counts.items(),
+        key=lambda x: x[1],
+        reverse=True,
+    )
+
+    return sorted_segment_counts[0][0]
