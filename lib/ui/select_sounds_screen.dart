@@ -316,7 +316,14 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final selectTrimmedSoundArgs =
         await ref.read(widget.viewModel.notifier).detect(pickedFile);
-    if (selectTrimmedSoundArgs == null || !mounted) {
+    if (!mounted) {
+      return;
+    }
+
+    if (selectTrimmedSoundArgs == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('サイズが 50 MB 未満の動画を選んでください')),
+      );
       return;
     }
 

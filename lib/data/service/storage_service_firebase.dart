@@ -49,7 +49,16 @@ class StorageServiceFirebase implements StorageService {
 
     final pathRef = storageRef.child(path);
 
-    await pathRef.putFile(file);
+    try {
+      await pathRef.putFile(file);
+    } on FirebaseException catch (error) {
+      if (error.code == 'unauthorized') {
+        // ファイルサイズが制限よりも大きい
+        return null;
+      }
+
+      rethrow;
+    }
 
     final url = await pathRef.getDownloadURL();
 
@@ -74,7 +83,16 @@ class StorageServiceFirebase implements StorageService {
 
     final pathRef = storageRef.child(path);
 
-    await pathRef.putFile(file);
+    try {
+      await pathRef.putFile(file);
+    } on FirebaseException catch (error) {
+      if (error.code == 'unauthorized') {
+        // ファイルサイズが制限よりも大きい
+        return null;
+      }
+
+      rethrow;
+    }
 
     final url = await pathRef.getDownloadURL();
 
