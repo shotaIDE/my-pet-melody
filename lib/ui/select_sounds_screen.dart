@@ -322,7 +322,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     if (selectTrimmedSoundArgs == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('サイズが 50 MB 未満の動画を選んでください')),
+        const SnackBar(content: Text('サイズが 100 MB 未満の動画を選んでください')),
       );
       return;
     }
