@@ -8,7 +8,7 @@ service firebase.storage {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
     match /userMedia/{userId}/generatedPieces/{allPaths=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
     }
     match /systemMedia/templates/{allPaths=**} {
       allow read: if request.auth != null;
