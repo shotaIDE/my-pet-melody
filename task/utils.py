@@ -51,6 +51,11 @@ def detect_non_silence(store_path: str) -> dict:
         'durationMilliseconds': duration_milliseconds,
     }
 
+    print(
+        'The best threshould for detect non silence: '
+        f'{target_threshould} db'
+    )
+
     end_time = time.perf_counter()
     elapsed_time = end_time - start_time
     print(f'Running time to detect non silence: {elapsed_time:.3f}s')
