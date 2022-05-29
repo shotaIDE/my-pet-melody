@@ -34,7 +34,7 @@ def detect_non_silence(store_path: str) -> dict:
     non_silences_list: dict[int, list[list[int]]] = {
         threshould: silence.detect_nonsilent(
             normalized_sound, silence_thresh=threshould)
-        for threshould in range(-40, -5, 5)
+        for threshould in range(-40, -20, 10)
     }
 
     target_threshould = _find_by_segments_duration_meanings(
