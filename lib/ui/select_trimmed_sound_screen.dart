@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -310,7 +311,10 @@ class _SelectTrimmedSoundScreenState
                     final imageCount = (width / imageWidth).ceil();
                     final thumbnails = List.generate(imageCount, (index) {
                       final positionX = index * imageWidth;
-                      final imageIndex = positionX ~/ splitWidth;
+                      final imageIndex = min(
+                        positionX ~/ splitWidth,
+                        SelectTrimmedSoundViewModel.splitCount - 1,
+                      );
                       final imagePath = splitThumbnails[imageIndex];
 
                       return Padding(
@@ -380,8 +384,8 @@ class _SelectTrimmedSoundScreenState
                         color: Colors.white.withOpacity(0.5),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: positionX1),
-                        width: positionX2 - positionX1,
+                        margin: EdgeInsets.only(left: positionX1 - 4),
+                        width: positionX2 - positionX1 + 8,
                         height: constraints.maxHeight,
                         decoration: BoxDecoration(
                           border: Border.all(
