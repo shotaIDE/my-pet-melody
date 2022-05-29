@@ -6,7 +6,7 @@
 
 ```shell
 gcloud functions deploy detect \
-    --memory 1024MB \
+    --memory 2048MB \
     --runtime python39 \
     --trigger-http \
     --env-vars-file .env.yaml \
