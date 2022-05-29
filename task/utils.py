@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 from typing import Optional
 
+from inaSpeechSegmenter import Segmenter
 from pydub import AudioSegment, silence
 
 _OUTPUT_SOUND_EXTENSION = '.mp3'
@@ -25,36 +26,29 @@ def detect_non_silence(store_path: str) -> dict:
     start_time = time.perf_counter()
 
     sound = AudioSegment.from_file(store_path)
-
     duration_seconds: int = sound.duration_seconds
     duration_milliseconds = int(round(duration_seconds, 3) * 1000)
 
-    normalized_sound = sound.normalize(headroom=1.0)
+    segmenter = Segmenter(vad_engine='smn')
 
-    non_silences_list: dict[int, list[list[int]]] = {
-        threshould: silence.detect_nonsilent(
-            normalized_sound, silence_thresh=threshould)
-        for threshould in range(-40, -20, 10)
-    }
+    segmentations = segmenter(store_path)
 
-    target_threshould = _find_by_segments_duration_meanings(
-        candidates=non_silences_list
-    )
+    print(f'Detected result(raw): {segmentations}')
 
-    if target_threshould is None:
-        segments = []
-    else:
-        segments = non_silences_list[target_threshould]
+    non_silences_list: list[list[int]] = [
+        [int(segmentation[1] * 1000), int(segmentation[2] * 1000)]
+        for segmentation in segmentations
+        if (segmentation[0] == 'speech' or
+            segmentation[0] == 'male' or
+            segmentation[0] == 'female')
+    ]
+
+    print(f'Detected result(ms): {non_silences_list}')
 
     result = {
-        'segments': segments,
+        'segments': non_silences_list,
         'durationMilliseconds': duration_milliseconds,
     }
-
-    print(
-        'The best threshould for detect non silence: '
-        f'{target_threshould} db'
-    )
 
     end_time = time.perf_counter()
     elapsed_time = end_time - start_time
