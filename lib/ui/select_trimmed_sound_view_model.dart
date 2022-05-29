@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
@@ -68,43 +69,32 @@ class SelectTrimmedSoundViewModel
       _onAudioFinished();
     });
 
+    final startDateTime = DateTime.now();
+
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
     final durationSeconds = state.durationMilliseconds / 1000;
 
-    final thumbnailFilePaths = List.generate(state.choices.length, (index) {
-      final paddedIndex = '$index'.padLeft(6, '0');
-      final outputFileName = 'thumbnail_$paddedIndex.png';
+    final segmentThumbnailPaths = state.choices.map((choice) {
+      final paddedHash = '${choice.hashCode}'.padLeft(6, '0');
+      final outputFileName = 'thumbnail_$paddedHash.png';
       return '$outputParentPath/$outputFileName';
-    });
+    }).toList();
 
-    await Future.wait(
-      state.choices.mapIndexed((index, choice) async {
-        final startSeconds = choice.segment.startMilliseconds / 1000;
-        const outputFrameCount = 1;
-        final outputPath = thumbnailFilePaths[index];
+    final outputSegmentThumbnailsOption =
+        state.choices.foldIndexed('', (index, previousOptions, choice) {
+      final startSeconds = choice.segment.startMilliseconds / 1000;
+      const outputFrameCount = 1;
+      final outputPath = segmentThumbnailPaths[index];
 
-        await FFmpegKit.execute(
-          '-i $_moviePath '
+      return '$previousOptions '
           '-ss $startSeconds '
           '-frames:v $outputFrameCount '
           '-f image2 '
           '-y '
-          '$outputPath',
-        );
-      }),
-    );
-
-    state = state.copyWith(
-      choices: state.choices
-          .mapIndexed(
-            (index, choice) => choice.copyWith(
-              thumbnailPath: thumbnailFilePaths[index],
-            ),
-          )
-          .toList(),
-    );
+          '$outputPath ';
+    });
 
     final splitDurationSeconds = durationSeconds / splitCount;
 
@@ -114,27 +104,40 @@ class SelectTrimmedSoundViewModel
       return '$outputParentPath/$outputFileName';
     });
 
-    await Future.wait(
-      List.generate(splitCount, (index) async {
-        final startSeconds = splitDurationSeconds * index;
-        const outputFrameCount = 1;
+    final outputSplitThumbnailsOption = splitThumbnailFilePaths.foldIndexed('',
+        (index, previousOptions, outputPath) {
+      final startSeconds = splitDurationSeconds * index;
+      const outputFrameCount = 1;
 
-        final outputPath = splitThumbnailFilePaths[index];
-
-        await FFmpegKit.execute(
-          '-i $_moviePath '
+      return '$previousOptions '
           '-ss $startSeconds '
           '-frames:v $outputFrameCount '
           '-f image2 '
           '-y '
-          '$outputPath',
-        );
-      }),
+          '$outputPath ';
+    });
+
+    await FFmpegKit.execute(
+      '-i $_moviePath '
+      '$outputSegmentThumbnailsOption '
+      '$outputSplitThumbnailsOption',
     );
 
     state = state.copyWith(
+      choices: state.choices
+          .mapIndexed(
+            (index, choice) => choice.copyWith(
+              thumbnailPath: segmentThumbnailPaths[index],
+            ),
+          )
+          .toList(),
       splitThumbnails: splitThumbnailFilePaths,
     );
+
+    final endDateTime = DateTime.now();
+
+    final elapsedDuration = endDateTime.difference(startDateTime);
+    debugPrint('Running time to output thumbnails: $elapsedDuration');
   }
 
   String getLocalPathName() {
