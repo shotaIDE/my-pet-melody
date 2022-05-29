@@ -5,7 +5,12 @@
 ### Functions
 
 ```shell
-gcloud functions deploy detect --runtime python39 --trigger-http --env-vars-file .env.yaml --allow-unauthenticated
+gcloud functions deploy detect \
+    --memory 1024MB \
+    --runtime python39 \
+    --trigger-http \
+    --env-vars-file .env.yaml \
+    --allow-unauthenticated
 gcloud functions deploy submit --runtime python39 --trigger-http --env-vars-file .env.yaml --allow-unauthenticated
 gcloud functions deploy piece --runtime python39 --trigger-http --env-vars-file .env.yaml
 ```
