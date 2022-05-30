@@ -29,7 +29,7 @@ def detect_non_silence(store_path: str) -> dict:
     duration_seconds: int = sound.duration_seconds
     duration_milliseconds = int(round(duration_seconds, 3) * 1000)
 
-    segmenter = Segmenter(vad_engine='smn')
+    segmenter = Segmenter(vad_engine='sm')
 
     segmentations = segmenter(store_path)
 
@@ -40,7 +40,8 @@ def detect_non_silence(store_path: str) -> dict:
         for segmentation in segmentations
         if (segmentation[0] == 'speech' or
             segmentation[0] == 'male' or
-            segmentation[0] == 'female')
+            segmentation[0] == 'female' or
+            segmentation[0] == 'music')
     ]
 
     print(f'Detected result(ms): {non_silences_list}')
