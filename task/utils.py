@@ -4,7 +4,7 @@ import os
 import statistics
 import time
 from datetime import datetime
-from typing import Optional
+from typing import Any, Optional
 
 from inaSpeechSegmenter import Segmenter
 from pydub import AudioSegment, silence
@@ -61,9 +61,8 @@ def detect_non_silence(store_path: str) -> dict:
 def generate_piece(
     template_path: str,
     sound_paths: list[str],
+    overlays: list[dict[str, Any]],
     export_base_path: str
-
-
 ) -> str:
     template = AudioSegment.from_file(template_path)
     sounds = [
@@ -78,12 +77,9 @@ def generate_piece(
 
     overlayed = template
 
-    overlayed = overlayed.overlay(normalized_sounds[0], position=3159)
-    overlayed = overlayed.overlay(normalized_sounds[0], position=6941)
-    overlayed = overlayed.overlay(normalized_sounds[0], position=10099)
-    overlayed = overlayed.overlay(normalized_sounds[0], position=10754)
-    overlayed = overlayed.overlay(normalized_sounds[0], position=14612)
-    overlayed = overlayed.overlay(normalized_sounds[0], position=15352)
+    for overlay in overlays:
+        position = overlay['positionMilliseconds']
+        overlayed = overlayed.overlay(normalized_sounds[0], position=position)
 
     normalized_overlayed = overlayed.normalize(headroom=1.0)
 

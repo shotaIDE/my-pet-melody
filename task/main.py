@@ -4,13 +4,14 @@ import json
 import os
 import tempfile
 from datetime import datetime, timedelta
+from re import template
 
 from firebase_admin import firestore, messaging, storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
-from database import set_generated_piece
+from database import set_generated_piece, template_overlays
 from firebase import initialize_firebase
 from utils import detect_non_silence, generate_piece
 
@@ -127,6 +128,8 @@ def piece(request):
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['fileNames']
 
+    overlays = template_overlays(id=template_id)
+
     bucket = storage.bucket()
 
     _, template_local_base_path = tempfile.mkstemp()
@@ -164,6 +167,7 @@ def piece(request):
     export_local_path = generate_piece(
         template_path=template_local_path,
         sound_paths=sound_local_paths,
+        overlays=overlays,
         export_base_path=export_local_base_path,
     )
 

@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 from auth import verify_authorization_header
-from database import set_generated_piece
+from database import set_generated_piece, template_overlays
 from firebase import initialize_firebase
 from utils import detect_non_silence, generate_piece, generate_store_file_name
 
@@ -55,6 +55,7 @@ def piece(request):
 
     template_id = request_params_json['templateId']
     file_name_bases = request_params_json['fileNames']
+
     file_paths = [
         (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
          f'{file_name_base}')
@@ -67,6 +68,8 @@ def piece(request):
     template_path = (f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/'
                      f'{template_id}.wav')
 
+    overlays = template_overlays(id=template_id)
+
     current = datetime.now()
     export_base_name = current.strftime('%Y%m%d%H%M%S')
     export_base_path_on_static = f'{_EXPORTS_DIRECTORY}/{export_base_name}'
@@ -75,6 +78,7 @@ def piece(request):
     export_path = generate_piece(
         template_path=template_path,
         sound_paths=file_paths,
+        overlays=overlays,
         export_base_path=export_base_path,
     )
 

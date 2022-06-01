@@ -4,6 +4,7 @@ import json
 import os
 import tempfile
 from datetime import datetime, timedelta
+from typing import Any
 from xmlrpc.client import DateTime
 
 from firebase_admin import firestore, storage
@@ -110,6 +111,15 @@ def submit(request):
     print(f'Created task {response}')
 
     return {}
+
+
+def template_overlays(id: str) -> list[dict[str, Any]]:
+    db = firestore.client()
+
+    template_document_ref = db.collection('systemMedia').document(id)
+    template_document = template_document_ref.get()
+    template_data = template_document.to_dict()
+    return template_data['overlays']
 
 
 def set_generated_piece(
