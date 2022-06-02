@@ -18,7 +18,7 @@ gcloud functions deploy submit \
     --env-vars-file .env.yaml \
     --allow-unauthenticated
 gcloud functions deploy piece \
-    --memory 512MB \
+    --memory 1024MB \
     --runtime python39 \
     --trigger-http \
     --env-vars-file .env.yaml
