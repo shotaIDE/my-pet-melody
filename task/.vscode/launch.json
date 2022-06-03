@@ -63,5 +63,24 @@
             ],
             "jinja": true,
         },
+        {
+            "name": "Generate Piece for Emulator",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {
+                "FIRESTORE_EMULATOR_HOST": "localhost:8080",
+            },
+        },
+        {
+            "name": "Generate Piece for Develop",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/tools.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
     ],
 }

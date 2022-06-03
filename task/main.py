@@ -10,14 +10,12 @@ from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
-from database import set_generated_piece
+from database import set_generated_piece, template_overlays
+from detection import detect_non_silence
 from firebase import initialize_firebase
-from utils import detect_non_silence, generate_piece
-
-_TEMPLATE_FILE_BASE_NAME = 'template'
-_TEMPLATE_EXTENSION = '.wav'
-_TEMPLATE_FILE_NAME = f'{_TEMPLATE_FILE_BASE_NAME}{_TEMPLATE_EXTENSION}'
-_USER_MEDIA_DIRECTORY_NAME = 'userMedia'
+from piece import generate_piece
+from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
+                     USER_MEDIA_DIRECTORY_NAME)
 
 initialize_firebase()
 
@@ -39,7 +37,7 @@ def detect(request):
     uploaded_local_path = f'{uploaded_local_base_path}{uploaded_extension}'
 
     uploaded_relative_path = (
-        f'{_USER_MEDIA_DIRECTORY_NAME}/{uid}/'
+        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
         f'originalMovies/{uploaded_file_name}'
     )
     uploaded_blob = bucket.blob(uploaded_relative_path)
@@ -127,13 +125,15 @@ def piece(request):
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['fileNames']
 
+    overlays = template_overlays(id=template_id)
+
     bucket = storage.bucket()
 
     _, template_local_base_path = tempfile.mkstemp()
-    template_local_path = f'{template_local_base_path}{_TEMPLATE_EXTENSION}'
+    template_local_path = f'{template_local_base_path}{TEMPLATE_EXTENSION}'
 
     template_relative_path = (
-        f'systemMedia/templates/{template_id}/{_TEMPLATE_FILE_NAME}'
+        f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
     )
     template_blob = bucket.blob(template_relative_path)
 
@@ -147,7 +147,7 @@ def piece(request):
         sound_local_path = f'{sound_local_base_path}{sound_extension}'
 
         sound_relative_path = (
-            f'{_USER_MEDIA_DIRECTORY_NAME}/{uid}/'
+            f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
             f'uploadedMovies/{sound_base_name}'
         )
         sound_blob = bucket.blob(sound_relative_path)
@@ -164,6 +164,7 @@ def piece(request):
     export_local_path = generate_piece(
         template_path=template_local_path,
         sound_paths=sound_local_paths,
+        overlays=overlays,
         export_base_path=export_local_base_path,
     )
 
@@ -174,7 +175,7 @@ def piece(request):
     export_file_name = f'{export_base_name}{export_extension}'
 
     export_relative_path = (
-        f'{_USER_MEDIA_DIRECTORY_NAME}/{uid}/'
+        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
         f'generatedPieces/{export_file_name}'
     )
     export_blob = bucket.blob(export_relative_path)
