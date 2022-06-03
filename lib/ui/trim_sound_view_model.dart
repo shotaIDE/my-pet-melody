@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
@@ -67,6 +68,10 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
         '_manually_trimmed'
         '$originalExtension';
     final outputPath = '$outputParentPath/$outputFileName';
+
+    debugPrint(
+      'Begin to trim from $formattedStartPosition to $formattedEndPosition.',
+    );
 
     await FFmpegKit.execute(
       '-ss $formattedStartPosition '
