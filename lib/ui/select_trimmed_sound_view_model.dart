@@ -196,10 +196,13 @@ class SelectTrimmedSoundViewModel
 
     await FFmpegKit.cancel();
 
-    final startSeconds = choice.segment.startMilliseconds / 1000;
-    final durationSeconds =
-        (choice.segment.endMilliseconds - choice.segment.startMilliseconds) /
-            1000;
+    final formattedStartPosition =
+        AudioPositionHelper.generateFormattedPosition(
+      choice.segment.startMilliseconds,
+    );
+    final formattedEndPosition = AudioPositionHelper.generateFormattedPosition(
+      choice.segment.endMilliseconds,
+    );
 
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
@@ -212,10 +215,14 @@ class SelectTrimmedSoundViewModel
         '$originalExtension';
     final outputPath = '$outputParentPath/$outputFileName';
 
+    debugPrint(
+      'Begin to trim from $formattedStartPosition to $formattedEndPosition.',
+    );
+
     await FFmpegKit.execute(
+      '-ss $formattedStartPosition '
+      '-to $formattedEndPosition '
       '-i $_moviePath '
-      '-ss $startSeconds '
-      '-t $durationSeconds '
       '-y '
       '$outputPath',
     );
