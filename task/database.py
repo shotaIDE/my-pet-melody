@@ -34,3 +34,18 @@ def set_generated_piece(
         store_data['submittedAt'] = generated_at
 
         generated_pieces_collection.add(store_data)
+
+
+def set_template(name: str, overlays: list[dict[str, Any]]) -> str:
+    store_data = {
+        'name': name,
+        'overlays': overlays,
+    }
+
+    db = firestore.client()
+
+    system_media_ref = db.collection('systemMedia')
+
+    generated_template_doc = system_media_ref.add(store_data)
+
+    return generated_template_doc
