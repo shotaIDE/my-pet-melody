@@ -7,7 +7,7 @@ from firebase import initialize_firebase
 def generate_template():
     initialize_firebase()
 
-    position_milliseconds_list: list[int] = [
+    position_seconds_list: list[int] = [
         2.419,
         5.323,
         7.742,
@@ -41,10 +41,10 @@ def generate_template():
 
     overlays = [
         {
-            'positionMilliseconds': position_milliseconds,
+            'positionMilliseconds': int(position_seconds * 1000),
             'soundTag': 'sound1',
         }
-        for position_milliseconds in position_milliseconds_list
+        for position_seconds in position_seconds_list
     ]
 
     set_template(
