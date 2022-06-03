@@ -5,8 +5,9 @@ from datetime import datetime
 
 from auth import verify_authorization_header
 from database import set_generated_piece, template_overlays
-from firebase import initialize_firebase
-from utils import detect_non_silence, generate_piece, generate_store_file_name
+from detection import detect_non_silence
+from piece import generate_piece
+from utils import generate_store_file_name
 
 _STATIC_DIRECTORY = 'static'
 _TEMPLATES_DIRECTORY = 'templates'
