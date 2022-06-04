@@ -76,15 +76,11 @@ class SelectTrimmedSoundViewModel
 
     final originalExtension = extension(_moviePath);
 
-    final segmentMoviePaths = state.choices.mapIndexed((index, choice) {
-      final paddedIndex = '$index'.padLeft(2, '0');
-      final outputFileName = 'segment_$paddedIndex$originalExtension';
-      return '$outputParentPath/$outputFileName';
-    }).toList();
-
     await Future.wait(
-      segmentMoviePaths.mapIndexed((index, outputPath) async {
-        final choice = state.choices[index];
+      state.choices.mapIndexed((index, choice) async {
+        final paddedIndex = '$index'.padLeft(2, '0');
+        final outputFileName = 'segment_$paddedIndex$originalExtension';
+        final outputPath = '$outputParentPath/$outputFileName';
 
         final startPosition = AudioPositionHelper.formattedPosition(
           milliseconds: choice.segment.startMilliseconds,
@@ -110,16 +106,11 @@ class SelectTrimmedSoundViewModel
       }),
     );
 
-    final segmentThumbnailPaths = state.choices.mapIndexed((index, choice) {
-      // final paddedHash = '${choice.hashCode}'.padLeft(6, '0');
-      final paddedHash = '$index'.padLeft(2, '0');
-      final outputFileName = 'thumbnail_$paddedHash.png';
-      return '$outputParentPath/$outputFileName';
-    }).toList();
-
     await Future.wait(
-      segmentThumbnailPaths.mapIndexed((index, outputPath) async {
-        final choice = state.choices[index];
+      state.choices.mapIndexed((index, choice) async {
+        final paddedHash = '${choice.hashCode}'.padLeft(8, '0');
+        final outputFileName = 'thumbnail_$paddedHash.png';
+        final outputPath = '$outputParentPath/$outputFileName';
 
         final startPositionMilliseconds = choice.segment.startMilliseconds;
         final startPosition = AudioPositionHelper.formattedPosition(
@@ -149,14 +140,12 @@ class SelectTrimmedSoundViewModel
 
     final splitDurationMilliseconds = state.durationMilliseconds ~/ splitCount;
 
-    final splitThumbnailFilePaths = List.generate(splitCount, (index) {
-      final paddedIndex = '$index'.padLeft(2, '0');
-      final outputFileName = 'split_$paddedIndex.png';
-      return '$outputParentPath/$outputFileName';
-    });
-
     await Future.wait(
-      splitThumbnailFilePaths.mapIndexed((index, outputPath) async {
+      List.generate(splitCount, (index) async {
+        final paddedIndex = '$index'.padLeft(2, '0');
+        final outputFileName = 'split_$paddedIndex.png';
+        final outputPath = '$outputParentPath/$outputFileName';
+
         final startPositionMilliseconds = splitDurationMilliseconds * index;
         final startPosition = AudioPositionHelper.formattedPosition(
           milliseconds: splitDurationMilliseconds * index,
