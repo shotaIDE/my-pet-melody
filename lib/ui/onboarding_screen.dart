@@ -35,19 +35,31 @@ class _HomeScreenState extends ConsumerState<OnboardingScreen> {
     return IntroductionScreen(
       pages: [
         PageViewModel(
-          title: 'あなたのねこが歌う\nオリジナル曲を作ろう',
+          titleWidget: Text(
+            'あなたのねこが歌う\nオリジナル曲を作ろう',
+            style: Theme.of(context).textTheme.headline4,
+            textAlign: TextAlign.center,
+          ),
           bodyWidget: Image.asset(
             'assets/images/singing_cat.png',
           ),
         ),
         PageViewModel(
-          title: 'ねこが鳴いてる動画を\n選ぶだけで完成',
+          titleWidget: Text(
+            'ねこが鳴いてる動画を\n選ぶだけで完成',
+            style: Theme.of(context).textTheme.headline4,
+            textAlign: TextAlign.center,
+          ),
           bodyWidget: Image.asset(
             'assets/images/generate_steps.png',
           ),
         ),
         PageViewModel(
-          title: 'できた作品は\nみんなにシェアしよう',
+          titleWidget: Text(
+            'できた作品は\nみんなにシェアしよう',
+            style: Theme.of(context).textTheme.headline4,
+            textAlign: TextAlign.center,
+          ),
           bodyWidget: Image.asset(
             'assets/images/share.png',
           ),
