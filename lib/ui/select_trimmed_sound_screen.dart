@@ -295,11 +295,11 @@ class _SelectTrimmedSoundScreenState
           ),
         );
 
-        final startPosition = AudioPositionHelper.generateFormattedPosition(
-          choice.segment.startMilliseconds,
+        final startPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.startMilliseconds,
         );
-        final endPosition = AudioPositionHelper.generateFormattedPosition(
-          choice.segment.endMilliseconds,
+        final endPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.endMilliseconds,
         );
 
         final positionText = Text('開始: $startPosition\n終了: $endPosition');

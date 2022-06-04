@@ -53,10 +53,12 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
   Future<SelectTrimmedSoundResult?> save() async {
     state = state.copyWith(isUploading: true);
 
-    final formattedStartPosition =
-        AudioPositionHelper.generateFormattedPosition(state.startValue.toInt());
-    final formattedEndPosition =
-        AudioPositionHelper.generateFormattedPosition(state.endValue.toInt());
+    final formattedStartPosition = AudioPositionHelper.formattedPosition(
+      milliseconds: state.startValue.toInt(),
+    );
+    final formattedEndPosition = AudioPositionHelper.formattedPosition(
+      milliseconds: state.endValue.toInt(),
+    );
 
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);

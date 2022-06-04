@@ -86,11 +86,11 @@ class SelectTrimmedSoundViewModel
       segmentMoviePaths.mapIndexed((index, outputPath) async {
         final choice = state.choices[index];
 
-        final startPosition = AudioPositionHelper.generateFormattedPosition(
-          choice.segment.startMilliseconds,
+        final startPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.startMilliseconds,
         );
-        final endPosition = AudioPositionHelper.generateFormattedPosition(
-          choice.segment.endMilliseconds,
+        final endPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.endMilliseconds,
         );
 
         await FFmpegKit.execute(
@@ -122,11 +122,11 @@ class SelectTrimmedSoundViewModel
         final choice = state.choices[index];
 
         final startPositionMilliseconds = choice.segment.startMilliseconds;
-        final startPosition = AudioPositionHelper.generateFormattedPosition(
-          startPositionMilliseconds,
+        final startPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: startPositionMilliseconds,
         );
-        final loadEndPosition = AudioPositionHelper.generateFormattedPosition(
-          startPositionMilliseconds + 1000,
+        final loadEndPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: startPositionMilliseconds + 1000,
         );
         const outputFrameCount = 1;
 
@@ -158,11 +158,11 @@ class SelectTrimmedSoundViewModel
     await Future.wait(
       splitThumbnailFilePaths.mapIndexed((index, outputPath) async {
         final startPositionMilliseconds = splitDurationMilliseconds * index;
-        final startPosition = AudioPositionHelper.generateFormattedPosition(
-          splitDurationMilliseconds * index,
+        final startPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: splitDurationMilliseconds * index,
         );
-        final loadEndPosition = AudioPositionHelper.generateFormattedPosition(
-          startPositionMilliseconds + 1000,
+        final loadEndPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: startPositionMilliseconds + 1000,
         );
         const outputFrameCount = 1;
 
