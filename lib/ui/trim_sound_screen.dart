@@ -87,7 +87,7 @@ class _SelectTrimmedSoundState extends ConsumerState<TrimSoundScreen> {
 
     final scaffold = Scaffold(
       appBar: AppBar(
-        title: const Text('トリミング'),
+        title: const Text('自分でトリミング'),
         actions: [
           IconButton(
             onPressed: progressVisibility ? null : _save,

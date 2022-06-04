@@ -35,7 +35,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     final templates = state.templates;
 
     final title = Text(
-      '鳴き声を入れる\nBGMを選択しよう',
+      '作品のBGMを\n選択しよう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline4,
     );

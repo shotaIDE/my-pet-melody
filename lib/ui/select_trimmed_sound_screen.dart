@@ -115,7 +115,7 @@ class _UnavailableTrimmedSoundScreenState
     );
 
     const noDesiredTrimmingDescription = Text(
-      'ご自分で鳴き声部分をトリミングして鳴き声を設定してください。',
+      '自分で鳴き声部分をトリミングして設定してね！',
       textAlign: TextAlign.center,
     );
 
@@ -196,7 +196,7 @@ class _SelectTrimmedSoundScreenState
     final state = ref.watch(widget.viewModel);
 
     final title = Text(
-      '使いたい鳴き声を\n選ぼう',
+      '鳴き声を選ぼう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline4,
     );
@@ -221,8 +221,23 @@ class _SelectTrimmedSoundScreenState
       tileColor: Colors.grey[300],
     );
 
-    const noDesiredTrimmingDescription = Text(
-      'この中に使いたい鳴き声がない場合は？',
+    final noDesiredTrimmingDescription = RichText(
+      text: TextSpan(
+        style: Theme.of(context).textTheme.bodyText1,
+        children: const [
+          TextSpan(
+            text: '再生すると',
+          ),
+          TextSpan(
+            text: 'すぐに鳴き声が聞こえる',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: 'ものを選んでね！'
+                'この中にない場合は自分でトリミングしてみてね！',
+          ),
+        ],
+      ),
       textAlign: TextAlign.center,
     );
 
@@ -515,8 +530,8 @@ class _SelectTrimmedSoundScreenState
       child: Column(
         children: [
           moviePanel,
-          const Padding(
-            padding: EdgeInsets.only(top: 32, left: 16, right: 16),
+          Padding(
+            padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
             child: noDesiredTrimmingDescription,
           ),
           Padding(

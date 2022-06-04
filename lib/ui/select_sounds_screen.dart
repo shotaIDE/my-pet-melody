@@ -50,7 +50,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final state = ref.watch(widget.viewModel);
 
     final title = Text(
-      '鳴き声を\n設定しよう',
+      '鳴き声を設定しよう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline4,
     );
@@ -93,7 +93,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final description = Text(
-      '鳴き声を設定してね！',
+      'あなたのねこが鳴いてる動画を選んでね！自動で鳴き声を探すよ！',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyText1,
     );
@@ -115,7 +115,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
           none: (_) => ListTile(
             leading: const Icon(Icons.source_rounded),
             title: const Text(
-              '鳴き声を設定する',
+              '動画を選択する',
               style: TextStyle(color: Colors.grey),
               overflow: TextOverflow.ellipsis,
             ),
