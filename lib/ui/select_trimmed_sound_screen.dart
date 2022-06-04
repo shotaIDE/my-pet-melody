@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
+import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_view_model.dart';
 import 'package:meow_music/ui/trim_sound_screen.dart';
@@ -294,12 +295,14 @@ class _SelectTrimmedSoundScreenState
           ),
         );
 
-        final title = Text('セグメント ${index + 1}');
-
-        final subtitle = Text(
-          '${choice.segment.startMilliseconds}ms - '
-          '${choice.segment.endMilliseconds}ms',
+        final startPosition = AudioPositionHelper.generateFormattedPosition(
+          choice.segment.startMilliseconds,
         );
+        final endPosition = AudioPositionHelper.generateFormattedPosition(
+          choice.segment.endMilliseconds,
+        );
+
+        final positionText = Text('開始: $startPosition\n終了: $endPosition');
 
         final splitThumbnails = state.splitThumbnails;
         final seekBarBackgroundLayer = SizedBox(
@@ -430,22 +433,7 @@ class _SelectTrimmedSoundScreenState
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 24),
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        title,
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8),
-                                          child: subtitle,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                child: positionText,
                               ),
                             ),
                           ],
