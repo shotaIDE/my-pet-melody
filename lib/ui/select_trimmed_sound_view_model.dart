@@ -30,11 +30,11 @@ class SelectTrimmedSoundViewModel
                   (index, segment) => PlayerChoiceTrimmedMovie(
                     status: const PlayStatus.stop(),
                     index: index + 1,
-                    path: args.soundPath,
                     segment: segment,
                   ),
                 )
                 .toList(),
+            splitThumbnails: List.generate(splitCount, (_) => null),
             durationMilliseconds: args.detected.durationMilliseconds,
           ),
         );
@@ -74,64 +74,101 @@ class SelectTrimmedSoundViewModel
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
-    final durationSeconds = state.durationMilliseconds / 1000;
+    final originalExtension = extension(_moviePath);
 
-    final segmentThumbnailPaths = state.choices.map((choice) {
-      final paddedHash = '${choice.hashCode}'.padLeft(6, '0');
-      final outputFileName = 'thumbnail_$paddedHash.png';
-      return '$outputParentPath/$outputFileName';
-    }).toList();
+    await Future.wait(
+      state.choices.mapIndexed((index, choice) async {
+        final paddedIndex = '$index'.padLeft(2, '0');
+        final outputFileName = 'segment_$paddedIndex$originalExtension';
+        final outputPath = '$outputParentPath/$outputFileName';
 
-    final outputSegmentThumbnailsOption =
-        state.choices.foldIndexed('', (index, previousOptions, choice) {
-      final startSeconds = choice.segment.startMilliseconds / 1000;
-      const outputFrameCount = 1;
-      final outputPath = segmentThumbnailPaths[index];
+        final startPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.startMilliseconds,
+        );
+        final endPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.endMilliseconds,
+        );
 
-      return '$previousOptions '
-          '-ss $startSeconds '
-          '-frames:v $outputFrameCount '
-          '-f image2 '
+        await FFmpegKit.execute(
+          '-ss $startPosition '
+          '-to $endPosition '
+          '-i $_moviePath '
           '-y '
-          '$outputPath ';
-    });
+          '$outputPath',
+        );
 
-    final splitDurationSeconds = durationSeconds / splitCount;
-
-    final splitThumbnailFilePaths = List.generate(splitCount, (index) {
-      final paddedIndex = '$index'.padLeft(2, '0');
-      final outputFileName = 'split_$paddedIndex.png';
-      return '$outputParentPath/$outputFileName';
-    });
-
-    final outputSplitThumbnailsOption = splitThumbnailFilePaths.foldIndexed('',
-        (index, previousOptions, outputPath) {
-      final startSeconds = splitDurationSeconds * index;
-      const outputFrameCount = 1;
-
-      return '$previousOptions '
-          '-ss $startSeconds '
-          '-frames:v $outputFrameCount '
-          '-f image2 '
-          '-y '
-          '$outputPath ';
-    });
-
-    await FFmpegKit.execute(
-      '-i $_moviePath '
-      '$outputSegmentThumbnailsOption '
-      '$outputSplitThumbnailsOption',
+        final choices = [...state.choices];
+        final replacedChoice = choices[index].copyWith(path: outputPath);
+        choices[index] = replacedChoice;
+        state = state.copyWith(
+          choices: choices,
+        );
+      }),
     );
 
-    state = state.copyWith(
-      choices: state.choices
-          .mapIndexed(
-            (index, choice) => choice.copyWith(
-              thumbnailPath: segmentThumbnailPaths[index],
-            ),
-          )
-          .toList(),
-      splitThumbnails: splitThumbnailFilePaths,
+    await Future.wait(
+      state.choices.mapIndexed((index, choice) async {
+        final paddedHash = '${choice.hashCode}'.padLeft(8, '0');
+        final outputFileName = 'thumbnail_$paddedHash.png';
+        final outputPath = '$outputParentPath/$outputFileName';
+
+        final startPositionMilliseconds = choice.segment.startMilliseconds;
+        final startPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: startPositionMilliseconds,
+        );
+        final loadEndPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: startPositionMilliseconds + 1000,
+        );
+        const outputFrameCount = 1;
+
+        await FFmpegKit.execute(
+          '-ss $startPosition '
+          '-to $loadEndPosition '
+          '-i $_moviePath '
+          '-frames:v $outputFrameCount '
+          '-f image2 '
+          '-y '
+          '$outputPath',
+        );
+
+        final choices = [...state.choices];
+        final replacedChoice = choice.copyWith(thumbnailPath: outputPath);
+        choices[index] = replacedChoice;
+        state = state.copyWith(choices: choices);
+      }),
+    );
+
+    final splitDurationMilliseconds = state.durationMilliseconds ~/ splitCount;
+
+    await Future.wait(
+      List.generate(splitCount, (index) async {
+        final paddedIndex = '$index'.padLeft(2, '0');
+        final outputFileName = 'split_$paddedIndex.png';
+        final outputPath = '$outputParentPath/$outputFileName';
+
+        final startPositionMilliseconds = splitDurationMilliseconds * index;
+        final startPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: splitDurationMilliseconds * index,
+        );
+        final loadEndPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: startPositionMilliseconds + 1000,
+        );
+        const outputFrameCount = 1;
+
+        await FFmpegKit.execute(
+          '-ss $startPosition '
+          '-to $loadEndPosition '
+          '-i $_moviePath '
+          '-frames:v $outputFrameCount '
+          '-f image2 '
+          '-y '
+          '$outputPath ',
+        );
+
+        final splitThumbnails = [...state.splitThumbnails];
+        splitThumbnails[index] = outputPath;
+        state = state.copyWith(splitThumbnails: splitThumbnails);
+      }),
     );
 
     final endDateTime = DateTime.now();
@@ -168,10 +205,7 @@ class SelectTrimmedSoundViewModel
 
     _setPlayerChoices(playingList);
 
-    await _player.play(
-      url,
-      position: Duration(milliseconds: choice.segment.startMilliseconds),
-    );
+    await _player.play(url);
   }
 
   Future<void> stop({required PlayerChoice choice}) async {
@@ -192,39 +226,20 @@ class SelectTrimmedSoundViewModel
   Future<SelectTrimmedSoundResult?> select({
     required PlayerChoiceTrimmedMovie choice,
   }) async {
+    final outputPath = choice.path;
+    if (outputPath == null) {
+      return null;
+    }
+
     state = state.copyWith(isUploading: true);
 
     await FFmpegKit.cancel();
-
-    final startSeconds = choice.segment.startMilliseconds / 1000;
-    final durationSeconds =
-        (choice.segment.endMilliseconds - choice.segment.startMilliseconds) /
-            1000;
-
-    final originalFileNameWithoutExtension =
-        basenameWithoutExtension(_moviePath);
-    final originalExtension = extension(_moviePath);
-
-    final outputDirectory = await getTemporaryDirectory();
-    final outputParentPath = outputDirectory.path;
-    final outputFileName = '$originalFileNameWithoutExtension'
-        '_detected${choice.id}'
-        '$originalExtension';
-    final outputPath = '$outputParentPath/$outputFileName';
-
-    await FFmpegKit.execute(
-      '-i $_moviePath '
-      '-ss $startSeconds '
-      '-t $durationSeconds '
-      '-y '
-      '$outputPath',
-    );
 
     final outputFile = File(outputPath);
 
     final uploadedSound = await _submissionUseCase.upload(
       outputFile,
-      fileName: basename(outputFileName),
+      fileName: basename(outputPath),
     );
 
     if (uploadedSound == null) {
@@ -232,6 +247,9 @@ class SelectTrimmedSoundViewModel
 
       return null;
     }
+
+    final originalFileNameWithoutExtension =
+        basenameWithoutExtension(_moviePath);
 
     return SelectTrimmedSoundResult(
       uploaded: uploadedSound,
@@ -248,20 +266,10 @@ class SelectTrimmedSoundViewModel
     final duration = Duration(
       milliseconds: segment.endMilliseconds - segment.startMilliseconds,
     );
-    final fixedPosition = Duration(
-      milliseconds: position.inMilliseconds - segment.startMilliseconds,
-    );
-
-    if (fixedPosition > duration) {
-      await _player.stop();
-
-      _onAudioFinished();
-      return;
-    }
 
     final positionRatio = AudioPositionHelper.getPositionRatio(
       duration: duration,
-      position: fixedPosition,
+      position: position,
     );
 
     final choices = _getPlayerChoices();

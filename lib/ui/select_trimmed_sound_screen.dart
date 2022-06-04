@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
+import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_view_model.dart';
 import 'package:meow_music/ui/trim_sound_screen.dart';
@@ -93,7 +94,7 @@ class _UnavailableTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headline4,
     );
 
-    final firstThumbnailPath = state.splitThumbnails?.first;
+    final firstThumbnailPath = state.splitThumbnails.first;
     const firstThumbnailHeight = 48.0;
     final firstThumbnail = firstThumbnailPath != null
         ? Image.file(
@@ -200,7 +201,7 @@ class _SelectTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headline4,
     );
 
-    final firstThumbnailPath = state.splitThumbnails?.first;
+    final firstThumbnailPath = state.splitThumbnails.first;
     const firstThumbnailHeight = 48.0;
     final firstThumbnail = firstThumbnailPath != null
         ? Image.file(
@@ -264,18 +265,20 @@ class _SelectTrimmedSoundScreenState
                 child: SkeletonAvatar(),
               );
 
-        final thumbnailButtonIcon = Container(
-          decoration: const BoxDecoration(
-            color: Colors.grey,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            choice.status.map(
-              stop: (_) => Icons.play_arrow,
-              playing: (_) => Icons.stop,
-            ),
-          ),
-        );
+        final thumbnailButtonIcon = choice.path != null
+            ? Container(
+                decoration: const BoxDecoration(
+                  color: Colors.grey,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  choice.status.map(
+                    stop: (_) => Icons.play_arrow,
+                    playing: (_) => Icons.stop,
+                  ),
+                ),
+              )
+            : null;
         final thumbnail = InkWell(
           onTap: () => choice.status.map(
             stop: (_) =>
@@ -288,58 +291,62 @@ class _SelectTrimmedSoundScreenState
             children: [
               thumbnailBackground,
               thumbnailButtonIcon,
-            ],
+            ].whereType<Widget>().toList(),
           ),
         );
 
-        final title = Text('セグメント ${index + 1}');
-
-        final subtitle = Text(
-          '${choice.segment.startMilliseconds}ms - '
-          '${choice.segment.endMilliseconds}ms',
+        final startPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.startMilliseconds,
+        );
+        final endPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.endMilliseconds,
         );
 
+        final positionText = Text('開始: $startPosition\n終了: $endPosition');
+
         final splitThumbnails = state.splitThumbnails;
-        final seekBarBackgroundLayer = splitThumbnails != null
-            ? SizedBox(
-                height: seekBarHeight,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final width = constraints.maxWidth;
-                    final splitWidth = width ~/ splitThumbnails.length;
-                    final imageWidth = constraints.maxHeight * _aspectRatio;
-                    final imageCount = (width / imageWidth).ceil();
-                    final thumbnails = List.generate(imageCount, (index) {
-                      final positionX = index * imageWidth;
-                      final imageIndex = min(
-                        positionX ~/ splitWidth,
-                        SelectTrimmedSoundViewModel.splitCount - 1,
-                      );
-                      final imagePath = splitThumbnails[imageIndex];
+        final seekBarBackgroundLayer = SizedBox(
+          height: seekBarHeight,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth;
+              final splitWidth = width ~/ splitThumbnails.length;
+              final imageWidth = constraints.maxHeight * _aspectRatio;
+              final imageCount = (width / imageWidth).ceil();
+              final thumbnails = List.generate(imageCount, (index) {
+                final positionX = index * imageWidth;
+                final imageIndex = min(
+                  positionX ~/ splitWidth,
+                  SelectTrimmedSoundViewModel.splitCount - 1,
+                );
+                final imagePath = splitThumbnails[imageIndex];
 
-                      return Padding(
-                        padding: EdgeInsets.only(left: positionX),
-                        child: Image.file(
-                          File(imagePath),
-                          width: imageWidth,
-                          height: seekBarHeight,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    });
+                if (imagePath == null) {
+                  return Padding(
+                    padding: EdgeInsets.only(left: positionX),
+                    child: const SkeletonAvatar(),
+                  );
+                }
 
-                    return ClipRect(
-                      child: Stack(
-                        children: thumbnails,
-                      ),
-                    );
-                  },
+                return Padding(
+                  padding: EdgeInsets.only(left: positionX),
+                  child: Image.file(
+                    File(imagePath),
+                    width: imageWidth,
+                    height: seekBarHeight,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              });
+
+              return ClipRect(
+                child: Stack(
+                  children: thumbnails,
                 ),
-              )
-            : ConstrainedBox(
-                constraints: const BoxConstraints.expand(height: 24),
-                child: const SkeletonAvatar(),
               );
+            },
+          ),
+        );
 
         const seekBarBorderWidth = 4.0;
         final durationMilliseconds = state.durationMilliseconds;
@@ -426,22 +433,7 @@ class _SelectTrimmedSoundScreenState
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 24),
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        title,
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8),
-                                          child: subtitle,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                child: positionText,
                               ),
                             ),
                           ],

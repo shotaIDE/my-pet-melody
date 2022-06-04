@@ -10,8 +10,8 @@ class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
   const factory SelectTrimmedSoundState({
     required String fileName,
     required List<PlayerChoiceTrimmedMovie> choices,
+    required List<String?> splitThumbnails,
     required int durationMilliseconds,
-    @Default(null) List<String>? splitThumbnails,
     @Default(false) bool isUploading,
   }) = _SelectTrimmedSoundState;
 }
