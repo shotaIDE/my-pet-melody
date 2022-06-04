@@ -28,8 +28,8 @@ class PlayerChoice with _$PlayerChoice {
   const factory PlayerChoice.trimmedMovie({
     required PlayStatus status,
     required int index,
-    required String path,
     required NonSilentSegment segment,
+    @Default(null) String? path,
     @Default(null) String? thumbnailPath,
   }) = PlayerChoiceTrimmedMovie;
 }
@@ -52,7 +52,7 @@ extension PlayerChoiceGetter on PlayerChoice {
       sound: (_, sound) => sound.whenOrNull(
         uploaded: (_, __, ___, remoteFileName) => remoteFileName,
       ),
-      trimmedMovie: (_, __, path, ___, ____) => path,
+      trimmedMovie: (_, __, ___, path, ____) => path,
     );
   }
 }

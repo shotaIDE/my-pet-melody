@@ -264,18 +264,20 @@ class _SelectTrimmedSoundScreenState
                 child: SkeletonAvatar(),
               );
 
-        final thumbnailButtonIcon = Container(
-          decoration: const BoxDecoration(
-            color: Colors.grey,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            choice.status.map(
-              stop: (_) => Icons.play_arrow,
-              playing: (_) => Icons.stop,
-            ),
-          ),
-        );
+        final thumbnailButtonIcon = choice.path != null
+            ? Container(
+                decoration: const BoxDecoration(
+                  color: Colors.grey,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  choice.status.map(
+                    stop: (_) => Icons.play_arrow,
+                    playing: (_) => Icons.stop,
+                  ),
+                ),
+              )
+            : null;
         final thumbnail = InkWell(
           onTap: () => choice.status.map(
             stop: (_) =>
@@ -288,7 +290,7 @@ class _SelectTrimmedSoundScreenState
             children: [
               thumbnailBackground,
               thumbnailButtonIcon,
-            ],
+            ].whereType<Widget>().toList(),
           ),
         );
 
