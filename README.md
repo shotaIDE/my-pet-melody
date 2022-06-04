@@ -8,7 +8,7 @@
 firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-data
 ```
 
-##　 Upgrade Flutter version
+### Upgrade Flutter version
 
 ```shell
 asdf list all flutter
@@ -16,7 +16,7 @@ asdf install flutter <version>
 asdf local flutter <version>
 ```
 
-## Update Firebase configuration dart files
+### Update Firebase configuration dart files
 
 ```shell
 flutterfire config \
