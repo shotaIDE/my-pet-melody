@@ -74,53 +74,36 @@ class SelectTrimmedSoundViewModel
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
-    final durationSeconds = state.durationMilliseconds / 1000;
-
-    final segmentThumbnailPaths = state.choices.map((choice) {
-      final paddedHash = '${choice.hashCode}'.padLeft(6, '0');
+    final segmentThumbnailPaths = state.choices.mapIndexed((index, choice) {
+      // final paddedHash = '${choice.hashCode}'.padLeft(6, '0');
+      final paddedHash = '$index'.padLeft(2, '0');
       final outputFileName = 'thumbnail_$paddedHash.png';
       return '$outputParentPath/$outputFileName';
     }).toList();
 
-    final outputSegmentThumbnailsOption =
-        state.choices.foldIndexed('', (index, previousOptions, choice) {
-      final startSeconds = choice.segment.startMilliseconds / 1000;
-      const outputFrameCount = 1;
-      final outputPath = segmentThumbnailPaths[index];
+    await Future.wait(
+      segmentThumbnailPaths.mapIndexed((index, outputPath) async {
+        final choice = state.choices[index];
 
-      return '$previousOptions '
-          '-ss $startSeconds '
+        final startPositionMilliseconds = choice.segment.startMilliseconds;
+        final startPosition = AudioPositionHelper.generateFormattedPosition(
+          startPositionMilliseconds,
+        );
+        final loadEndPosition = AudioPositionHelper.generateFormattedPosition(
+          startPositionMilliseconds + 1000,
+        );
+        const outputFrameCount = 1;
+
+        await FFmpegKit.execute(
+          '-ss $startPosition '
+          '-to $loadEndPosition '
+          '-i $_moviePath '
           '-frames:v $outputFrameCount '
           '-f image2 '
           '-y '
-          '$outputPath ';
-    });
-
-    final splitDurationSeconds = durationSeconds / splitCount;
-
-    final splitThumbnailFilePaths = List.generate(splitCount, (index) {
-      final paddedIndex = '$index'.padLeft(2, '0');
-      final outputFileName = 'split_$paddedIndex.png';
-      return '$outputParentPath/$outputFileName';
-    });
-
-    final outputSplitThumbnailsOption = splitThumbnailFilePaths.foldIndexed('',
-        (index, previousOptions, outputPath) {
-      final startSeconds = splitDurationSeconds * index;
-      const outputFrameCount = 1;
-
-      return '$previousOptions '
-          '-ss $startSeconds '
-          '-frames:v $outputFrameCount '
-          '-f image2 '
-          '-y '
-          '$outputPath ';
-    });
-
-    await FFmpegKit.execute(
-      '-i $_moviePath '
-      '$outputSegmentThumbnailsOption '
-      '$outputSplitThumbnailsOption',
+          '$outputPath',
+        );
+      }),
     );
 
     state = state.copyWith(
@@ -131,6 +114,40 @@ class SelectTrimmedSoundViewModel
             ),
           )
           .toList(),
+    );
+
+    final splitDurationMilliseconds = state.durationMilliseconds ~/ splitCount;
+
+    final splitThumbnailFilePaths = List.generate(splitCount, (index) {
+      final paddedIndex = '$index'.padLeft(2, '0');
+      final outputFileName = 'split_$paddedIndex.png';
+      return '$outputParentPath/$outputFileName';
+    });
+
+    await Future.wait(
+      splitThumbnailFilePaths.mapIndexed((index, outputPath) async {
+        final startPositionMilliseconds = splitDurationMilliseconds * index;
+        final startPosition = AudioPositionHelper.generateFormattedPosition(
+          splitDurationMilliseconds * index,
+        );
+        final loadEndPosition = AudioPositionHelper.generateFormattedPosition(
+          startPositionMilliseconds + 1000,
+        );
+        const outputFrameCount = 1;
+
+        await FFmpegKit.execute(
+          '-ss $startPosition '
+          '-to $loadEndPosition '
+          '-i $_moviePath '
+          '-frames:v $outputFrameCount '
+          '-f image2 '
+          '-y '
+          '$outputPath ',
+        );
+      }),
+    );
+
+    state = state.copyWith(
       splitThumbnails: splitThumbnailFilePaths,
     );
 
