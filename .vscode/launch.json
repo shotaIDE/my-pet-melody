@@ -5,18 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Local",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "args": [
-                "--dart-define",
-                "FLAVOR=local",
-                "--dart-define",
-                "API_HOST=${input:localServerIP}",
-            ],
-        },
-        {
             "name": "Emulator",
             "request": "launch",
             "type": "dart",
