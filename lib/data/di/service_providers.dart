@@ -19,7 +19,7 @@ final databaseServiceProvider = Provider<DatabaseService>(
 
 final storageServiceProvider = Provider<StorageService>(
   (ref) {
-    if (F.flavor == Flavor.local || F.flavor == Flavor.emulator) {
+    if (F.flavor == Flavor.emulator) {
       // Firebase Emulator の Python クライアントはまだ Storage に対応していないので、
       // Flask のエンドポイントを利用する
       return StorageServiceLocalFlask(

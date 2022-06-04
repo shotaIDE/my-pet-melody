@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/definitions/app_definitions.dart';
 import 'package:meow_music/firebase_options_dev.dart' as dev;
 import 'package:meow_music/firebase_options_emulator.dart' as emulator;
-import 'package:meow_music/firebase_options_local.dart' as local;
 import 'package:meow_music/flavor.dart';
 import 'package:meow_music/root_app.dart';
 
@@ -16,9 +15,6 @@ Future<void> main() async {
 
   final FirebaseOptions options;
   switch (F.flavor) {
-    case Flavor.local:
-      options = local.DefaultFirebaseOptions.currentPlatform;
-      break;
     case Flavor.emulator:
       options = emulator.DefaultFirebaseOptions.currentPlatform;
       break;
