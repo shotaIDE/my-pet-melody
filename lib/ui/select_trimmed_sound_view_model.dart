@@ -34,6 +34,7 @@ class SelectTrimmedSoundViewModel
                   ),
                 )
                 .toList(),
+            splitThumbnails: List.generate(splitCount, (_) => null),
             durationMilliseconds: args.detected.durationMilliseconds,
           ),
         );
@@ -100,13 +101,11 @@ class SelectTrimmedSoundViewModel
           '$outputPath',
         );
 
-        final originalChoices = [...state.choices];
-        final replacedChoice =
-            originalChoices[index].copyWith(path: outputPath);
-        originalChoices[index] = replacedChoice;
-
+        final choices = [...state.choices];
+        final replacedChoice = choices[index].copyWith(path: outputPath);
+        choices[index] = replacedChoice;
         state = state.copyWith(
-          choices: originalChoices,
+          choices: choices,
         );
       }),
     );
@@ -140,17 +139,12 @@ class SelectTrimmedSoundViewModel
           '-y '
           '$outputPath',
         );
-      }),
-    );
 
-    state = state.copyWith(
-      choices: state.choices
-          .mapIndexed(
-            (index, choice) => choice.copyWith(
-              thumbnailPath: segmentThumbnailPaths[index],
-            ),
-          )
-          .toList(),
+        final choices = [...state.choices];
+        final replacedChoice = choice.copyWith(thumbnailPath: outputPath);
+        choices[index] = replacedChoice;
+        state = state.copyWith(choices: choices);
+      }),
     );
 
     final splitDurationMilliseconds = state.durationMilliseconds ~/ splitCount;
@@ -181,11 +175,11 @@ class SelectTrimmedSoundViewModel
           '-y '
           '$outputPath ',
         );
-      }),
-    );
 
-    state = state.copyWith(
-      splitThumbnails: splitThumbnailFilePaths,
+        final splitThumbnails = [...state.splitThumbnails];
+        splitThumbnails[index] = outputPath;
+        state = state.copyWith(splitThumbnails: splitThumbnails);
+      }),
     );
 
     final endDateTime = DateTime.now();

@@ -93,7 +93,7 @@ class _UnavailableTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headline4,
     );
 
-    final firstThumbnailPath = state.splitThumbnails?.first;
+    final firstThumbnailPath = state.splitThumbnails.first;
     const firstThumbnailHeight = 48.0;
     final firstThumbnail = firstThumbnailPath != null
         ? Image.file(
@@ -200,7 +200,7 @@ class _SelectTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headline4,
     );
 
-    final firstThumbnailPath = state.splitThumbnails?.first;
+    final firstThumbnailPath = state.splitThumbnails.first;
     const firstThumbnailHeight = 48.0;
     final firstThumbnail = firstThumbnailPath != null
         ? Image.file(
@@ -318,6 +318,10 @@ class _SelectTrimmedSoundScreenState
                         SelectTrimmedSoundViewModel.splitCount - 1,
                       );
                       final imagePath = splitThumbnails[imageIndex];
+
+                      if (imagePath == null) {
+                        return Container();
+                      }
 
                       return Padding(
                         padding: EdgeInsets.only(left: positionX),
