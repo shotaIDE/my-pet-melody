@@ -35,13 +35,13 @@ class _HomeScreenState extends ConsumerState<OnboardingScreen> {
     return IntroductionScreen(
       pages: [
         PageViewModel(
-          title: 'ネコちゃんが歌う\nオリジナル曲を作ろう',
+          title: 'あなたのねこが歌う\nオリジナル曲を作ろう',
           bodyWidget: Image.asset(
             'assets/images/singing_cat.png',
           ),
         ),
         PageViewModel(
-          title: '3つ鳴き声を録音して\nBGMを選ぶだけ！',
+          title: 'ねこが鳴いてる動画を\n選ぶだけで完成',
           bodyWidget: Image.asset(
             'assets/images/generate_steps.png',
           ),
