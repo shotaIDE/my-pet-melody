@@ -302,50 +302,48 @@ class _SelectTrimmedSoundScreenState
         );
 
         final splitThumbnails = state.splitThumbnails;
-        final seekBarBackgroundLayer = splitThumbnails != null
-            ? SizedBox(
-                height: seekBarHeight,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final width = constraints.maxWidth;
-                    final splitWidth = width ~/ splitThumbnails.length;
-                    final imageWidth = constraints.maxHeight * _aspectRatio;
-                    final imageCount = (width / imageWidth).ceil();
-                    final thumbnails = List.generate(imageCount, (index) {
-                      final positionX = index * imageWidth;
-                      final imageIndex = min(
-                        positionX ~/ splitWidth,
-                        SelectTrimmedSoundViewModel.splitCount - 1,
-                      );
-                      final imagePath = splitThumbnails[imageIndex];
+        final seekBarBackgroundLayer = SizedBox(
+          height: seekBarHeight,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth;
+              final splitWidth = width ~/ splitThumbnails.length;
+              final imageWidth = constraints.maxHeight * _aspectRatio;
+              final imageCount = (width / imageWidth).ceil();
+              final thumbnails = List.generate(imageCount, (index) {
+                final positionX = index * imageWidth;
+                final imageIndex = min(
+                  positionX ~/ splitWidth,
+                  SelectTrimmedSoundViewModel.splitCount - 1,
+                );
+                final imagePath = splitThumbnails[imageIndex];
 
-                      if (imagePath == null) {
-                        return Container();
-                      }
+                if (imagePath == null) {
+                  return Padding(
+                    padding: EdgeInsets.only(left: positionX),
+                    child: const SkeletonAvatar(),
+                  );
+                }
 
-                      return Padding(
-                        padding: EdgeInsets.only(left: positionX),
-                        child: Image.file(
-                          File(imagePath),
-                          width: imageWidth,
-                          height: seekBarHeight,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    });
+                return Padding(
+                  padding: EdgeInsets.only(left: positionX),
+                  child: Image.file(
+                    File(imagePath),
+                    width: imageWidth,
+                    height: seekBarHeight,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              });
 
-                    return ClipRect(
-                      child: Stack(
-                        children: thumbnails,
-                      ),
-                    );
-                  },
+              return ClipRect(
+                child: Stack(
+                  children: thumbnails,
                 ),
-              )
-            : ConstrainedBox(
-                constraints: const BoxConstraints.expand(height: 24),
-                child: const SkeletonAvatar(),
               );
+            },
+          ),
+        );
 
         const seekBarBorderWidth = 4.0;
         final durationMilliseconds = state.durationMilliseconds;
