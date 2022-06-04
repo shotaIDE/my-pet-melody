@@ -8,8 +8,16 @@ firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-da
 
 ## リリースビルド
 
+### iOS
+
 ```shell
-flutter build ipa --export-options-plist ios/ExportOptions.plist
+flutter build ipa --dart-define FLAVOR=dev --export-options-plist ios/ExportOptions.plist
+```
+
+### Android
+
+```shell
+flutter build appbundle --dart-define FLAVOR=dev
 ```
 
 ##　 Flutter のバージョンを更新する
