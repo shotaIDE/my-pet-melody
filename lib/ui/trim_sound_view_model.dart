@@ -53,10 +53,10 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
   Future<SelectTrimmedSoundResult?> save() async {
     state = state.copyWith(isUploading: true);
 
-    final formattedStartPosition = AudioPositionHelper.formattedPosition(
+    final startPosition = AudioPositionHelper.formattedPosition(
       milliseconds: state.startValue.toInt(),
     );
-    final formattedEndPosition = AudioPositionHelper.formattedPosition(
+    final endPosition = AudioPositionHelper.formattedPosition(
       milliseconds: state.endValue.toInt(),
     );
 
@@ -72,12 +72,12 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
     final outputPath = '$outputParentPath/$outputFileName';
 
     debugPrint(
-      'Begin to trim from $formattedStartPosition to $formattedEndPosition.',
+      'Begin to trim from $startPosition to $endPosition.',
     );
 
     await FFmpegKit.execute(
-      '-ss $formattedStartPosition '
-      '-to $formattedEndPosition '
+      '-ss $startPosition '
+      '-to $endPosition '
       '-i $_moviePath '
       '-y '
       '$outputPath',
