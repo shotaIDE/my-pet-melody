@@ -93,7 +93,3 @@ class DatabaseServiceFirebase implements DatabaseService {
     });
   }
 }
-
-class UserIdNotifier extends StateNotifier<String?> {
-  UserIdNotifier() : super(null);
-}
