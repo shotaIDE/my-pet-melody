@@ -6,6 +6,24 @@ import 'package:meow_music/data/service/auth_service.dart';
 import 'package:meow_music/data/service/database_service.dart';
 import 'package:rxdart/rxdart.dart';
 
+final templateDraftsProvider = StreamProvider(
+  (_) {
+    return FirebaseFirestore.instance.collection('systemMedia').snapshots().map(
+          (snapshot) => snapshot.docs.map(
+            (documentSnapshot) {
+              final id = documentSnapshot.id;
+              final name = documentSnapshot.get('name') as String;
+
+              return TemplateDraft(
+                id: id,
+                name: name,
+              );
+            },
+          ).toList(),
+        );
+  },
+);
+
 final pieceDraftsProvider = StreamProvider((ref) {
   final userIdStream = ref.watch(userIdProvider.stream);
 
@@ -51,25 +69,6 @@ final pieceDraftsProvider = StreamProvider((ref) {
 });
 
 class DatabaseServiceFirebase implements DatabaseService {
-  @override
-  Future<List<TemplateDraft>> getTemplates() async {
-    final db = FirebaseFirestore.instance;
-
-    final collection = db.collection('systemMedia');
-
-    final collectionSnapshot = await collection.get();
-
-    return collectionSnapshot.docs.map((documentSnapshot) {
-      final id = documentSnapshot.id;
-      final name = documentSnapshot.get('name') as String;
-
-      return TemplateDraft(
-        id: id,
-        name: name,
-      );
-    }).toList();
-  }
-
   @override
   Future<void> sendRegistrationTokenIfNeeded(
     String registrationToken, {

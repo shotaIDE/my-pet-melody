@@ -7,7 +7,6 @@ import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/repository/settings_repository.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
 import 'package:meow_music/data/service/auth_service.dart';
-import 'package:meow_music/data/service/database_service.dart';
 import 'package:meow_music/data/service/push_notification_service.dart';
 import 'package:meow_music/data/service/storage_service.dart';
 
@@ -16,40 +15,19 @@ class SubmissionUseCase {
     required SubmissionRepository repository,
     required SettingsRepository settingsRepository,
     required AuthService authService,
-    required DatabaseService databaseService,
     required StorageService storageService,
     required PushNotificationService pushNotificationService,
   })  : _repository = repository,
         _settingsRepository = settingsRepository,
         _authService = authService,
-        _databaseService = databaseService,
         _storageService = storageService,
         _pushNotificationService = pushNotificationService;
 
   final SubmissionRepository _repository;
   final SettingsRepository _settingsRepository;
   final AuthService _authService;
-  final DatabaseService _databaseService;
   final StorageService _storageService;
   final PushNotificationService _pushNotificationService;
-
-  Future<List<Template>> getTemplates() async {
-    final templateDrafts = await _databaseService.getTemplates();
-
-    return Future.wait(
-      templateDrafts.map(
-        (templateDraft) async {
-          final url = await _storageService.templateUrl(id: templateDraft.id);
-
-          return Template(
-            id: templateDraft.id,
-            name: templateDraft.name,
-            url: url,
-          );
-        },
-      ),
-    );
-  }
 
   Future<DetectedNonSilentSegments?> detect(
     File file, {

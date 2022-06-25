@@ -18,7 +18,6 @@ final submissionUseCaseProvider = Provider(
     repository: ref.watch(submissionRepositoryProvider),
     settingsRepository: ref.watch(settingsRepositoryProvider),
     authService: ref.watch(authServiceProvider),
-    databaseService: ref.watch(databaseServiceProvider),
     storageService: ref.watch(storageServiceProvider),
     pushNotificationService: ref.watch(pushNotificationServiceProvider),
   ),
