@@ -1,9 +1,10 @@
+// ignore_for_file: prefer-match-file-name
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/service/auth_service.dart';
-import 'package:meow_music/data/service/database_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 final templateDraftsProvider = StreamProvider(
@@ -68,12 +69,20 @@ final pieceDraftsProvider = StreamProvider((ref) {
   );
 });
 
-class DatabaseServiceFirebase implements DatabaseService {
-  @override
+final registrationTokenSenderProvider = Provider(
+  (ref) => RegistrationTokenSender(reader: ref.read),
+);
+
+class RegistrationTokenSender {
+  const RegistrationTokenSender({required Reader reader}) : _reader = reader;
+
+  final Reader _reader;
+
   Future<void> sendRegistrationTokenIfNeeded(
-    String registrationToken, {
-    required String userId,
-  }) async {
+    String registrationToken,
+  ) async {
+    final userId = await _reader(userIdProvider.future);
+
     final db = FirebaseFirestore.instance;
 
     final document = db.collection('users').doc(userId);
