@@ -1,7 +1,54 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/data/service/auth_service.dart';
 import 'package:meow_music/data/service/database_service.dart';
+import 'package:rxdart/rxdart.dart';
+
+final pieceDraftsProvider = StreamProvider((ref) {
+  final userIdStream = ref.watch(userIdProvider.stream);
+
+  return userIdStream.switchMap(
+    (userId) => FirebaseFirestore.instance
+        .collection('userMedia')
+        .doc(userId)
+        .collection('generatedPieces')
+        .snapshots()
+        .map(
+          (querySnapshot) => querySnapshot.docs.map(
+            (snapshot) {
+              final id = snapshot.id;
+              final data = snapshot.data();
+              final name = data['name'] as String;
+              final movieFileName = data.containsKey('movieFileName')
+                  ? data['movieFileName'] as String
+                  : null;
+              final submittedAtTimestamp = data['submittedAt'] as Timestamp;
+              final submittedAt = submittedAtTimestamp.toDate();
+              final generatedAtTimestamp = data.containsKey('generatedAt')
+                  ? data['generatedAt'] as Timestamp
+                  : null;
+              final generatedAt = generatedAtTimestamp?.toDate();
+
+              if (movieFileName != null && generatedAt != null) {
+                return PieceDraft.generated(
+                  id: id,
+                  name: name,
+                  generatedAt: generatedAt,
+                  fileName: movieFileName,
+                );
+              }
+              return PieceDraft.generating(
+                id: id,
+                name: name,
+                submittedAt: submittedAt,
+              );
+            },
+          ).toList(),
+        ),
+  );
+});
 
 class DatabaseServiceFirebase implements DatabaseService {
   @override
@@ -21,47 +68,6 @@ class DatabaseServiceFirebase implements DatabaseService {
         name: name,
       );
     }).toList();
-  }
-
-  @override
-  Stream<List<PieceDraft>> piecesStream({required String userId}) {
-    final db = FirebaseFirestore.instance;
-
-    return db
-        .collection('userMedia')
-        .doc(userId)
-        .collection('generatedPieces')
-        .snapshots()
-        .map(
-          (querySnapshot) => querySnapshot.docs.map((snapshot) {
-            final id = snapshot.id;
-            final data = snapshot.data();
-            final name = data['name'] as String;
-            final movieFileName = data.containsKey('movieFileName')
-                ? data['movieFileName'] as String
-                : null;
-            final submittedAtTimestamp = data['submittedAt'] as Timestamp;
-            final submittedAt = submittedAtTimestamp.toDate();
-            final generatedAtTimestamp = data.containsKey('generatedAt')
-                ? data['generatedAt'] as Timestamp
-                : null;
-            final generatedAt = generatedAtTimestamp?.toDate();
-
-            if (movieFileName != null && generatedAt != null) {
-              return PieceDraft.generated(
-                id: id,
-                name: name,
-                generatedAt: generatedAt,
-                fileName: movieFileName,
-              );
-            }
-            return PieceDraft.generating(
-              id: id,
-              name: name,
-              submittedAt: submittedAt,
-            );
-          }).toList(),
-        );
   }
 
   @override
@@ -87,4 +93,8 @@ class DatabaseServiceFirebase implements DatabaseService {
       ),
     });
   }
+}
+
+class UserIdNotifier extends StateNotifier<String?> {
+  UserIdNotifier() : super(null);
 }

@@ -1,4 +1,3 @@
-import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/service/database_service.dart';
 
@@ -11,11 +10,6 @@ class DatabaseServiceLocalFlask implements DatabaseService {
         name: 'Happy Birthday',
       ),
     ];
-  }
-
-  @override
-  Stream<List<PieceDraft>> piecesStream({required String userId}) {
-    return Stream.value([]);
   }
 
   @override

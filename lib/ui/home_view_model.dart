@@ -13,15 +13,25 @@ import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+final homePlayerChoicesProvider = StreamProvider((ref) {
+  final piecesStream = ref.watch(piecesProvider.stream);
+  return piecesStream.map(
+    (pieces) => pieces
+        .map(
+          (piece) => PlayerChoicePiece(
+            status: const PlayStatus.stop(),
+            piece: piece,
+          ),
+        )
+        .toList(),
+  );
+});
+
 class HomeViewModel extends StateNotifier<HomeState> {
-  HomeViewModel({
-    required PieceUseCase pieceUseCase,
-  })  : _pieceUseCase = pieceUseCase,
-        super(const HomeState()) {
+  HomeViewModel() : super(const HomeState()) {
     _setup();
   }
 
-  final PieceUseCase _pieceUseCase;
   final _player = AudioPlayer();
 
   Duration? _currentAudioDuration;
@@ -129,19 +139,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<void> _setup() async {
-    final piecesStream = await _pieceUseCase.getPiecesStream();
-    _piecesSubscription = piecesStream.listen((pieces) {
-      final playablePieces = pieces
-          .map(
-            (piece) => PlayerChoicePiece(
-              status: const PlayStatus.stop(),
-              piece: piece,
-            ),
-          )
-          .toList();
-      state = state.copyWith(pieces: playablePieces);
-    });
-
     _audioDurationSubscription = _player.onDurationChanged.listen((duration) {
       _currentAudioDuration = duration;
     });

@@ -1,30 +1,21 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/service/auth_service.dart';
-import 'package:meow_music/data/service/database_service.dart';
-import 'package:meow_music/data/service/storage_service.dart';
+import 'package:meow_music/data/service/database_service_firebase.dart';
+import 'package:rxdart/rxdart.dart';
 
-class PieceUseCase {
-  const PieceUseCase({
-    required AuthService authService,
-    required DatabaseService databaseService,
-    required StorageService storageService,
-  })  : _authService = authService,
-        _databaseService = databaseService,
-        _storageService = storageService;
+final piecesProvider = StreamProvider((ref) {
+  final storageService = ref.read(storageServiceProvider);
+  final sessionStream = ref.watch(sessionProvider.stream);
+  final pieceDraftsStream = ref.watch(pieceDraftsProvider.stream);
 
-  final AuthService _authService;
-  final DatabaseService _databaseService;
-  final StorageService _storageService;
-
-  Future<Stream<List<Piece>>> getPiecesStream() async {
-    final session = await _authService.currentSessionWhenLoggedIn();
-    final stream = _databaseService.piecesStream(userId: session.userId);
-
-    return stream.asyncMap(
-      (pieces) async {
+  return sessionStream.switchMap(
+    (session) => pieceDraftsStream.asyncMap(
+      (pieceDrafts) async {
         final converted = await Future.wait(
-          pieces.map(
+          pieceDrafts.map(
             (piece) => piece.map(
               generating: (piece) async => Piece.generating(
                 id: piece.id,
@@ -32,7 +23,7 @@ class PieceUseCase {
                 submittedAt: piece.submittedAt,
               ),
               generated: (piece) async {
-                final url = await _storageService.pieceDownloadUrl(
+                final url = await storageService.pieceDownloadUrl(
                   fileName: piece.fileName,
                   userId: session.userId,
                 );
@@ -64,6 +55,6 @@ class PieceUseCase {
           },
         );
       },
-    );
-  }
-}
+    ),
+  );
+});
