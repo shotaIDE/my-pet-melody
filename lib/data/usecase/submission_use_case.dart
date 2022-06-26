@@ -5,13 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/repository_providers.dart';
 import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
-import 'package:meow_music/data/model/login_session.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
-import 'package:meow_music/data/repository/settings_repository.dart';
-import 'package:meow_music/data/repository/submission_repository.dart';
 import 'package:meow_music/data/service/auth_service.dart';
-import 'package:meow_music/data/service/push_notification_service.dart';
 
 final detectActionProvider = FutureProvider((ref) async {
   final session = await ref.watch(sessionStreamProvider.future);
@@ -58,48 +54,52 @@ final uploadActionProvider = FutureProvider((ref) async {
   return action;
 });
 
-class SubmissionUseCase {
-  SubmissionUseCase({
-    required LoginSession session,
-    required SubmissionRepository repository,
-    required SettingsRepository settingsRepository,
-    required PushNotificationService pushNotificationService,
-  })  : _session = session,
-        _repository = repository,
-        _settingsRepository = settingsRepository,
-        _pushNotificationService = pushNotificationService;
+final getShouldShowRequestPushNotificationPermissionActionProvider =
+    Provider((ref) {
+  final settingsRepository = ref.read(settingsRepositoryProvider);
 
-  final LoginSession _session;
-  final SubmissionRepository _repository;
-  final SettingsRepository _settingsRepository;
-  final PushNotificationService _pushNotificationService;
-
-  Future<bool> getShouldShowRequestPushNotificationPermission() async {
+  Future<bool> action() async {
     if (Platform.isAndroid) {
       return false;
     }
 
-    final hasRequestedPermission = await _settingsRepository
+    final hasRequestedPermission = await settingsRepository
         .getHasRequestedPushNotificationPermissionAtLeastOnce();
 
     return !hasRequestedPermission;
   }
 
-  Future<void> requestPushNotificationPermission() async {
-    await _pushNotificationService.requestPermission();
+  return action;
+});
 
-    await _settingsRepository
+final requestPushNotificationPermissionActionProvider = Provider((ref) {
+  final pushNotificationService = ref.read(pushNotificationServiceProvider);
+  final settingsRepository = ref.read(settingsRepositoryProvider);
+
+  Future<void> action() async {
+    await pushNotificationService.requestPermission();
+
+    await settingsRepository
         .setHasRequestedPushNotificationPermissionAtLeastOnce();
   }
 
-  Future<void> submit({
+  return action;
+});
+
+final submitActionProvider = FutureProvider((ref) async {
+  final session = await ref.watch(sessionStreamProvider.future);
+  final repository = ref.read(submissionRepositoryProvider);
+
+  Future<void> action({
     required Template template,
     required List<UploadedSound> sounds,
   }) async {
-    await _repository.submit(
+    await repository.submit(
       templateId: template.id,
       sounds: sounds,
-      token: _session.token,
+      token: session.token,
     );
   }
-}
+
+  return action;
+});

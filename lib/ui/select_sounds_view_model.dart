@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
@@ -189,8 +188,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final soundIdList = _getSoundIdList();
 
-    final submissionUseCase = await _reader(submissionUseCaseProvider.future);
-    await submissionUseCase.submit(
+    final submitAction = await _reader(submitActionProvider.future);
+    await submitAction(
       template: state.template.template,
       sounds: soundIdList,
     );
@@ -274,9 +273,11 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       _onAudioFinished();
     });
 
-    final submissionUseCase = await _reader(submissionUseCaseProvider.future);
-    final isRequestStepExists = await submissionUseCase
-        .getShouldShowRequestPushNotificationPermission();
+    final getShouldShowRequestPushNotificationPermissionAction = _reader(
+      getShouldShowRequestPushNotificationPermissionActionProvider,
+    );
+    final isRequestStepExists =
+        await getShouldShowRequestPushNotificationPermissionAction();
     state = state.copyWith(isRequestStepExists: isRequestStepExists);
   }
 
