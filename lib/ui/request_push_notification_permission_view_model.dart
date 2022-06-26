@@ -19,9 +19,7 @@ class RequestPushNotificationPermissionViewModel
   final RequestPushNotificationPermissionArgs _args;
 
   Future<void> requestPermissionAndSubmit() async {
-    final requestPushNotificationPermissionAction =
-        _reader(requestPushNotificationPermissionActionProvider);
-    await requestPushNotificationPermissionAction();
+    await _reader(requestPushNotificationPermissionActionProvider).call();
 
     await _submit();
   }

@@ -273,11 +273,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       _onAudioFinished();
     });
 
-    final getShouldShowRequestPushNotificationPermissionAction = _reader(
+    final isRequestStepExists = await _reader(
       getShouldShowRequestPushNotificationPermissionActionProvider,
-    );
-    final isRequestStepExists =
-        await getShouldShowRequestPushNotificationPermissionAction();
+    ).call();
+
     state = state.copyWith(isRequestStepExists: isRequestStepExists);
   }
 
