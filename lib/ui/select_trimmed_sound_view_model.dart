@@ -6,8 +6,8 @@ import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
@@ -237,8 +237,8 @@ class SelectTrimmedSoundViewModel
 
     final outputFile = File(outputPath);
 
-    final submissionUseCase = await _reader(submissionUseCaseProvider.future);
-    final uploadedSound = await submissionUseCase.upload(
+    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadedSound = await uploadAction(
       outputFile,
       fileName: basename(outputPath),
     );

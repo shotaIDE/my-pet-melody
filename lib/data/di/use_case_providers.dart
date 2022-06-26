@@ -13,7 +13,6 @@ final submissionUseCaseProvider = FutureProvider(
       session: session,
       repository: ref.watch(submissionRepositoryProvider),
       settingsRepository: ref.watch(settingsRepositoryProvider),
-      storageService: ref.watch(storageServiceProvider),
       pushNotificationService: ref.watch(pushNotificationServiceProvider),
     );
   },

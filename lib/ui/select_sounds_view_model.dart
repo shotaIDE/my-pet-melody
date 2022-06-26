@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
+import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
@@ -69,8 +70,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final copiedFile = await file.copy(outputPath);
 
-    final submissionUseCase = await _reader(submissionUseCaseProvider.future);
-    final detected = await submissionUseCase.detect(
+    final detectAction = await _reader(detectActionProvider.future);
+    final detected = await detectAction(
       copiedFile,
       fileName: fileName,
     );
@@ -104,8 +105,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     state = state.copyWith(sounds: sounds);
 
-    final submissionUseCase = await _reader(submissionUseCaseProvider.future);
-    final uploadedSound = await submissionUseCase.upload(
+    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadedSound = await uploadAction(
       file,
       fileName: basename(file.path),
     );
