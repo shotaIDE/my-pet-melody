@@ -16,17 +16,6 @@ final userIdProvider = Provider((ref) {
 });
 
 class AuthService {
-  Future<LoginSession?> currentSession() async {
-    try {
-      final session = await _currentSession();
-      return session;
-    } on FirebaseAuthException {
-      await FirebaseAuth.instance.signOut();
-    }
-
-    return null;
-  }
-
   Future<LoginSession> currentSessionWhenLoggedIn() async {
     final session = await _currentSession();
     return session!;
@@ -36,10 +25,6 @@ class AuthService {
     final credential = await FirebaseAuth.instance.signInAnonymously();
     final idToken = await credential.user?.getIdToken();
     debugPrint('Signed in anonymously: $idToken');
-  }
-
-  Stream<String?> currentUserIdStream() {
-    return FirebaseAuth.instance.authStateChanges().map((user) => user?.uid);
   }
 
   Future<LoginSession?> _currentSession() async {
@@ -55,9 +40,7 @@ class AuthService {
 }
 
 class SessionProvider extends StateNotifier<LoginSession?> {
-  SessionProvider() : super(null) {
-    _setup();
-  }
+  SessionProvider() : super(null);
 
   final _sessionSubject = BehaviorSubject<LoginSession?>();
 
@@ -72,7 +55,7 @@ class SessionProvider extends StateNotifier<LoginSession?> {
     super.dispose();
   }
 
-  Future<void> _setup() async {
+  Future<void> setup() async {
     final session = await _currentSession();
     state = session;
 

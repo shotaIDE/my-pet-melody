@@ -1,15 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/repository_providers.dart';
 import 'package:meow_music/data/di/service_providers.dart';
-import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/data/usecase/settings_use_case.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
-
-final authUseCaseProvider = Provider(
-  (ref) => AuthUseCase(
-    authService: ref.watch(authServiceProvider),
-  ),
-);
 
 final submissionUseCaseProvider = Provider(
   (ref) => SubmissionUseCase(

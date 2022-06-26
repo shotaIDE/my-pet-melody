@@ -13,7 +13,6 @@ final rootViewModelProvider =
   (ref) => RootViewModel(
     reader: ref.read,
     registrationToken: ref.watch(registrationTokenProvider.future),
-    authUseCase: ref.watch(authUseCaseProvider),
     settingsUseCase: ref.watch(settingsUseCaseProvider),
   ),
 );
