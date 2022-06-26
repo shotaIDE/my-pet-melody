@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
@@ -17,8 +16,8 @@ import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
   (ref, template) => SelectSoundsViewModel(
+    reader: ref.read,
     selectedTemplate: template,
-    submissionUseCase: ref.watch(submissionUseCaseProvider),
   ),
 );
 

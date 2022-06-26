@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/request_push_notification_permission_view_model.dart';
@@ -12,7 +11,7 @@ final requestPushNotificationPermissionViewModelProvider =
         RequestPushNotificationPermissionState,
         RequestPushNotificationPermissionArgs>(
   (ref, args) => RequestPushNotificationPermissionViewModel(
-    submissionUseCase: ref.watch(submissionUseCaseProvider),
+    reader: ref.read,
     args: args,
   ),
 );

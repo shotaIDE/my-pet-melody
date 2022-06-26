@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
-import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
@@ -17,9 +17,9 @@ import 'package:path_provider/path_provider.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
+    required Reader reader,
     required Template selectedTemplate,
-    required SubmissionUseCase submissionUseCase,
-  })  : _submissionUseCase = submissionUseCase,
+  })  : _reader = reader,
         super(
           SelectSoundsState(
             template: PlayerChoiceTemplate(
@@ -38,7 +38,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     _setup();
   }
 
-  final SubmissionUseCase _submissionUseCase;
+  final Reader _reader;
   final _player = AudioPlayer();
 
   Duration? _currentAudioDuration;
@@ -69,7 +69,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final copiedFile = await file.copy(outputPath);
 
-    final detected = await _submissionUseCase.detect(
+    final submissionUseCase = await _reader(submissionUseCaseProvider.future);
+    final detected = await submissionUseCase.detect(
       copiedFile,
       fileName: fileName,
     );
@@ -103,7 +104,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     state = state.copyWith(sounds: sounds);
 
-    final uploadedSound = await _submissionUseCase.upload(
+    final submissionUseCase = await _reader(submissionUseCaseProvider.future);
+    final uploadedSound = await submissionUseCase.upload(
       file,
       fileName: basename(file.path),
     );
@@ -186,7 +188,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final soundIdList = _getSoundIdList();
 
-    await _submissionUseCase.submit(
+    final submissionUseCase = await _reader(submissionUseCaseProvider.future);
+    await submissionUseCase.submit(
       template: state.template.template,
       sounds: soundIdList,
     );
@@ -270,7 +273,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       _onAudioFinished();
     });
 
-    final isRequestStepExists = await _submissionUseCase
+    final submissionUseCase = await _reader(submissionUseCaseProvider.future);
+    final isRequestStepExists = await submissionUseCase
         .getShouldShowRequestPushNotificationPermission();
     state = state.copyWith(isRequestStepExists: isRequestStepExists);
   }

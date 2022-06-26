@@ -10,6 +10,16 @@ final sessionProvider = StateNotifierProvider<SessionProvider, LoginSession?>(
   (ref) => SessionProvider(),
 );
 
+final sessionStreamProvider = StreamProvider<LoginSession>((ref) {
+  final maybeSession = ref.watch(sessionProvider);
+
+  if (maybeSession == null) {
+    return const Stream.empty();
+  }
+
+  return Stream.value(maybeSession);
+});
+
 final userIdProvider = Provider((ref) {
   final sessionStream = ref.watch(sessionProvider);
   return sessionStream?.userId;

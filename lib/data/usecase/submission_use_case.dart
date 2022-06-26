@@ -2,30 +2,30 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/model/login_session.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/repository/settings_repository.dart';
 import 'package:meow_music/data/repository/submission_repository.dart';
-import 'package:meow_music/data/service/auth_service.dart';
 import 'package:meow_music/data/service/push_notification_service.dart';
 import 'package:meow_music/data/service/storage_service.dart';
 
 class SubmissionUseCase {
   SubmissionUseCase({
+    required LoginSession session,
     required SubmissionRepository repository,
     required SettingsRepository settingsRepository,
-    required AuthService authService,
     required StorageService storageService,
     required PushNotificationService pushNotificationService,
-  })  : _repository = repository,
+  })  : _session = session,
+        _repository = repository,
         _settingsRepository = settingsRepository,
-        _authService = authService,
         _storageService = storageService,
         _pushNotificationService = pushNotificationService;
 
+  final LoginSession _session;
   final SubmissionRepository _repository;
   final SettingsRepository _settingsRepository;
-  final AuthService _authService;
   final StorageService _storageService;
   final PushNotificationService _pushNotificationService;
 
@@ -33,12 +33,10 @@ class SubmissionUseCase {
     File file, {
     required String fileName,
   }) async {
-    final session = await _authService.currentSessionWhenLoggedIn();
-
     final uploaded = await _storageService.uploadOriginal(
       file,
       fileName: fileName,
-      userId: session.userId,
+      userId: _session.userId,
     );
     if (uploaded == null) {
       return null;
@@ -46,7 +44,7 @@ class SubmissionUseCase {
 
     return _repository.detect(
       from: uploaded,
-      token: session.token,
+      token: _session.token,
     );
   }
 
@@ -54,12 +52,10 @@ class SubmissionUseCase {
     File file, {
     required String fileName,
   }) async {
-    final session = await _authService.currentSessionWhenLoggedIn();
-
     return _storageService.uploadTrimmed(
       file,
       fileName: fileName,
-      userId: session.userId,
+      userId: _session.userId,
     );
   }
 
@@ -85,12 +81,10 @@ class SubmissionUseCase {
     required Template template,
     required List<UploadedSound> sounds,
   }) async {
-    final session = await _authService.currentSessionWhenLoggedIn();
-
     await _repository.submit(
       templateId: template.id,
       sounds: sounds,
-      token: session.token,
+      token: _session.token,
     );
   }
 }
