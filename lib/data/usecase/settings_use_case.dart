@@ -1,16 +1,22 @@
-import 'package:meow_music/data/repository/settings_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/di/repository_providers.dart';
 
-class SettingsUseCase {
-  const SettingsUseCase({required SettingsRepository repository})
-      : _repository = repository;
+final isOnboardingFinishedProvider = Provider((ref) {
+  final repository = ref.read(settingsRepositoryProvider);
 
-  final SettingsRepository _repository;
-
-  Future<bool> getIsOnboardingFinished() async {
-    return _repository.getIsOnboardingFinished();
+  Future<bool> action() async {
+    return repository.getIsOnboardingFinished();
   }
 
-  Future<void> onOnboardingFinished() async {
-    await _repository.setIsOnboardingFinished();
+  return action;
+});
+
+final finishOnboardingActionProvider = Provider((ref) {
+  final repository = ref.read(settingsRepositoryProvider);
+
+  Future<void> action() async {
+    await repository.setIsOnboardingFinished();
   }
-}
+
+  return action;
+});

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/root_state.dart';
 import 'package:meow_music/root_view_model.dart';
@@ -13,7 +12,6 @@ final rootViewModelProvider =
   (ref) => RootViewModel(
     reader: ref.read,
     registrationToken: ref.watch(registrationTokenProvider.future),
-    settingsUseCase: ref.watch(settingsUseCaseProvider),
   ),
 );
 

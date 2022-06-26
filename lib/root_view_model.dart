@@ -10,13 +10,9 @@ class RootViewModel extends StateNotifier<RootState> {
   RootViewModel({
     required Reader reader,
     required Future<String?> registrationToken,
-    required SettingsUseCase settingsUseCase,
-  })  : _settingsUseCase = settingsUseCase,
-        super(const RootState()) {
+  }) : super(const RootState()) {
     _setup(reader: reader, registrationTokenFuture: registrationToken);
   }
-
-  final SettingsUseCase _settingsUseCase;
 
   Future<void> _setup({
     required Reader reader,
@@ -25,7 +21,7 @@ class RootViewModel extends StateNotifier<RootState> {
     await reader(ensureLoggedInActionProvider.future);
 
     final isOnboardingFinished =
-        await _settingsUseCase.getIsOnboardingFinished();
+        await reader(isOnboardingFinishedProvider).call();
 
     state = state.copyWith(shouldLaunchOnboarding: !isOnboardingFinished);
 

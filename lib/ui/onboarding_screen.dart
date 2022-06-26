@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/onboarding_state.dart';
 import 'package:meow_music/ui/onboarding_view_model.dart';
@@ -9,7 +8,7 @@ import 'package:meow_music/ui/onboarding_view_model.dart';
 final onboardingViewModelProvider =
     StateNotifierProvider.autoDispose<OnboardingViewModel, OnboardingState>(
   (ref) => OnboardingViewModel(
-    settingsUseCase: ref.watch(settingsUseCaseProvider),
+    reader: ref.read,
   ),
 );
 
