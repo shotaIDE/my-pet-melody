@@ -19,6 +19,5 @@ final ensureLoggedInActionProvider = FutureProvider((ref) async {
     return;
   }
 
-  final authService = ref.read(authServiceProvider);
-  await authService.signInAnonymously();
+  await ref.read(signInAnonymouslyActionProvider.future);
 });

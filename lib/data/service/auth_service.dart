@@ -15,16 +15,16 @@ final userIdProvider = Provider((ref) {
   return sessionStream?.userId;
 });
 
+final signInAnonymouslyActionProvider = FutureProvider((ref) async {
+  final credential = await FirebaseAuth.instance.signInAnonymously();
+  final idToken = await credential.user?.getIdToken();
+  debugPrint('Signed in anonymously: $idToken');
+});
+
 class AuthService {
   Future<LoginSession> currentSessionWhenLoggedIn() async {
     final session = await _currentSession();
     return session!;
-  }
-
-  Future<void> signInAnonymously() async {
-    final credential = await FirebaseAuth.instance.signInAnonymously();
-    final idToken = await credential.user?.getIdToken();
-    debugPrint('Signed in anonymously: $idToken');
   }
 
   Future<LoginSession?> _currentSession() async {
