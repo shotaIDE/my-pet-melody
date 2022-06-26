@@ -3,15 +3,13 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/service/auth_service.dart';
-import 'package:rxdart/rxdart.dart';
 
-final registrationTokenProvider = StreamProvider((ref) {
+final registrationTokenProvider = FutureProvider((ref) {
   final pushNotificationService = ref.watch(pushNotificationServiceProvider);
-  final userIdStream = ref.watch(userIdProvider.stream);
+  // TODO(ide): Sessionが更新されたときに取得し直した方がいい？
+  ref.watch(userIdProvider);
 
-  return userIdStream
-      .asyncMap((userId) async => pushNotificationService.registrationToken())
-      .whereType<String>();
+  return pushNotificationService.registrationToken();
 });
 
 class AuthUseCase {

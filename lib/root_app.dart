@@ -12,7 +12,7 @@ final rootViewModelProvider =
     StateNotifierProvider.autoDispose<RootViewModel, RootState>(
   (ref) => RootViewModel(
     reader: ref.read,
-    registrationTokenStream: ref.watch(registrationTokenProvider.stream),
+    registrationToken: ref.watch(registrationTokenProvider.future),
     authUseCase: ref.watch(authUseCaseProvider),
     settingsUseCase: ref.watch(settingsUseCaseProvider),
   ),
