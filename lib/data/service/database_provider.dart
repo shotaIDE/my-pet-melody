@@ -69,37 +69,33 @@ final pieceDraftsProvider = StreamProvider((ref) {
       );
 });
 
-final registrationTokenSenderProvider = Provider(
-  (ref) => RegistrationTokenSender(reader: ref.read),
-);
+final sendRegistrationTokenIfNeededActionProvider = FutureProvider(
+  (ref) async {
+    final session = await ref.watch(sessionStreamProvider.future);
 
-class RegistrationTokenSender {
-  const RegistrationTokenSender({required Reader reader}) : _reader = reader;
+    Future<void> action(
+      String registrationToken,
+    ) async {
+      final userId = session.userId;
 
-  final Reader _reader;
-
-  Future<void> sendRegistrationTokenIfNeeded(
-    String registrationToken,
-  ) async {
-    final userId = _reader(userIdProvider);
-    if (userId == null) {
-      return;
-    }
-
-    final document = FirebaseFirestore.instance.collection('users').doc(userId);
-    final snapshot = await document.get();
-    final user = snapshot.data();
-    if (user != null && user.containsKey('registrationTokens')) {
-      final registrationTokens = user['registrationTokens'] as List<dynamic>;
-      if (registrationTokens.contains(registrationToken)) {
-        return;
+      final document =
+          FirebaseFirestore.instance.collection('users').doc(userId);
+      final snapshot = await document.get();
+      final user = snapshot.data();
+      if (user != null && user.containsKey('registrationTokens')) {
+        final registrationTokens = user['registrationTokens'] as List<dynamic>;
+        if (registrationTokens.contains(registrationToken)) {
+          return;
+        }
       }
+
+      await document.set(<String, dynamic>{
+        'registrationTokens': FieldValue.arrayUnion(
+          <String>[registrationToken],
+        ),
+      });
     }
 
-    await document.set(<String, dynamic>{
-      'registrationTokens': FieldValue.arrayUnion(
-        <String>[registrationToken],
-      ),
-    });
-  }
-}
+    return action;
+  },
+);
