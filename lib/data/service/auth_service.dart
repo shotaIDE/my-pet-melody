@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-match-file-name
+
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,24 +32,6 @@ final signInAnonymouslyActionProvider = FutureProvider((ref) async {
   final idToken = await credential.user?.getIdToken();
   debugPrint('Signed in anonymously: $idToken');
 });
-
-class AuthService {
-  Future<LoginSession> currentSessionWhenLoggedIn() async {
-    final session = await _currentSession();
-    return session!;
-  }
-
-  Future<LoginSession?> _currentSession() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      return null;
-    }
-
-    final token = await user.getIdToken();
-
-    return LoginSession(userId: user.uid, token: token);
-  }
-}
 
 class SessionProvider extends StateNotifier<LoginSession?> {
   SessionProvider() : super(null);
