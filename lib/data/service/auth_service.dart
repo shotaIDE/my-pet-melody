@@ -69,13 +69,20 @@ class SessionProvider extends StateNotifier<LoginSession?> {
   }
 
   Future<LoginSession?> _currentSession() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      return null;
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        return null;
+      }
+
+      final token = await user.getIdToken();
+
+      return LoginSession(userId: user.uid, token: token);
+    } on FirebaseAuthException {
+      // TODO(ide): 本番公開アプリでは強制サインアウトはやめた方がいいかも
+      await FirebaseAuth.instance.signOut();
     }
 
-    final token = await user.getIdToken();
-
-    return LoginSession(userId: user.uid, token: token);
+    return null;
   }
 }
