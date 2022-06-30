@@ -12,6 +12,9 @@ final sessionProvider = StateNotifierProvider<SessionProvider, LoginSession?>(
   (ref) => SessionProvider(),
 );
 
+/// セッションを Stream として取得するための Provider
+///
+/// セッションが空じゃない状態になるまで待ちたい場所で利用する
 final sessionStreamProvider = StreamProvider<LoginSession>((ref) {
   final maybeSession = ref.watch(sessionProvider);
 
