@@ -13,18 +13,16 @@ import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-final homePlayerChoicesProvider = StreamProvider((ref) {
-  final piecesStream = ref.watch(piecesProvider.stream);
-  return piecesStream.map(
-    (pieces) => pieces
-        .map(
-          (piece) => PlayerChoicePiece(
-            status: const PlayStatus.stop(),
-            piece: piece,
-          ),
-        )
-        .toList(),
-  );
+final homePlayerChoicesProvider = FutureProvider((ref) async {
+  final pieces = await ref.watch(piecesProvider.future);
+  return pieces
+      .map(
+        (piece) => PlayerChoicePiece(
+          status: const PlayStatus.stop(),
+          piece: piece,
+        ),
+      )
+      .toList();
 });
 
 class HomeViewModel extends StateNotifier<HomeState> {

@@ -25,57 +25,51 @@ final templatesProvider = StreamProvider((ref) {
   });
 });
 
-final piecesProvider = StreamProvider((ref) {
-  final storageService = ref.read(storageServiceProvider);
-  final session = ref.watch(sessionProvider);
-  final pieceDraftsStream = ref.watch(pieceDraftsProvider.stream);
+final piecesProvider = FutureProvider(
+  (ref) async {
+    final storageService = ref.read(storageServiceProvider);
+    final session = await ref.watch(sessionStreamProvider.future);
+    final pieceDrafts = await ref.watch(pieceDraftsProvider.future);
 
-  if (session == null) {
-    return const Stream<List<Piece>>.empty();
-  }
+    final converted = await Future.wait(
+      pieceDrafts.map(
+        (piece) => piece.map(
+          generating: (piece) async => Piece.generating(
+            id: piece.id,
+            name: piece.name,
+            submittedAt: piece.submittedAt,
+          ),
+          generated: (piece) async {
+            final url = await storageService.pieceDownloadUrl(
+              fileName: piece.fileName,
+              userId: session.userId,
+            );
 
-  return pieceDraftsStream.asyncMap(
-    (pieceDrafts) async {
-      final converted = await Future.wait(
-        pieceDrafts.map(
-          (piece) => piece.map(
-            generating: (piece) async => Piece.generating(
+            return Piece.generated(
               id: piece.id,
               name: piece.name,
-              submittedAt: piece.submittedAt,
-            ),
-            generated: (piece) async {
-              final url = await storageService.pieceDownloadUrl(
-                fileName: piece.fileName,
-                userId: session.userId,
-              );
-
-              return Piece.generated(
-                id: piece.id,
-                name: piece.name,
-                generatedAt: piece.generatedAt,
-                url: url,
-              );
-            },
-          ),
+              generatedAt: piece.generatedAt,
+              url: url,
+            );
+          },
         ),
-      );
+      ),
+    );
 
-      return converted.sorted(
-        (a, b) {
-          final dateTimeA = a.map(
-            generating: (generating) => generating.submittedAt,
-            generated: (generated) => generated.generatedAt,
-          );
+    return converted.sorted(
+      (a, b) {
+        final dateTimeA = a.map(
+          generating: (generating) => generating.submittedAt,
+          generated: (generated) => generated.generatedAt,
+        );
 
-          final dateTimeB = b.map(
-            generating: (generating) => generating.submittedAt,
-            generated: (generated) => generated.generatedAt,
-          );
+        final dateTimeB = b.map(
+          generating: (generating) => generating.submittedAt,
+          generated: (generated) => generated.generatedAt,
+        );
 
-          return dateTimeB.compareTo(dateTimeA);
-        },
-      );
-    },
-  );
-});
+        return dateTimeB.compareTo(dateTimeA);
+      },
+    );
+  },
+);
