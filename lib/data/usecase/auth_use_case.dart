@@ -12,7 +12,8 @@ final registrationTokenProvider = FutureProvider((ref) async {
 });
 
 final ensureLoggedInActionProvider = FutureProvider((ref) async {
-  // TODO(ide): 初期化が完了するまで待つ処理、ここに書くの微妙
+  // TODO(ide): Not a good idea to write a process here
+  //  that waits until initialization is complete.
   await ref.read(sessionProvider.notifier).setup();
 
   final session = ref.read(sessionProvider);
