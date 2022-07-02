@@ -55,7 +55,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     final body = pieces.when(
       data: (pieces) {
-        if (pieces.isNotEmpty) {
+        if (pieces != null && pieces.isNotEmpty) {
           return ListView.separated(
             itemBuilder: (_, index) {
               final playablePiece = pieces[index];
@@ -85,9 +85,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   stop: () => () => ref
                       .read(widget.viewModel.notifier)
                       .play(piece: playablePiece),
-                  playing: (_) => () => ref
-                      .read(widget.viewModel.notifier)
-                      .stop(piece: playablePiece),
+                  playing: (_) {
+                    return null;
+                  },
                 ),
               );
 
@@ -161,8 +161,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () async {
-          await ref.read(widget.viewModel.notifier).beforeHideScreen();
-
           if (!mounted) {
             return;
           }

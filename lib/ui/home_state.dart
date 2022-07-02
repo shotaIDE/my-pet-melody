@@ -6,7 +6,7 @@ part 'home_state.freezed.dart';
 @freezed
 class HomeState with _$HomeState {
   const factory HomeState({
-    @Default(null) List<PlayerChoicePiece>? pieces,
+    @Default(null) PlayerChoicePiece? playing,
     @Default(false) bool isProcessing,
   }) = _HomeState;
 }
