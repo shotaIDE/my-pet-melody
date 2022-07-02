@@ -2,33 +2,27 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/piece_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
+import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-final homePlayerChoicesProvider = FutureProvider((ref) async {
-  final pieces = await ref.watch(piecesProvider.future);
-  return pieces
-      .map(
-        (piece) => PlayerChoicePiece(
-          status: const PlayStatus.stop(),
-          piece: piece,
-        ),
-      )
-      .toList();
-});
-
 class HomeViewModel extends StateNotifier<HomeState> {
-  HomeViewModel() : super(const HomeState()) {
+  HomeViewModel({required Listener listener})
+      : _listener = listener,
+        super(const HomeState()) {
     _setup();
   }
+
+  final Listener _listener;
 
   final _player = AudioPlayer();
 
@@ -137,6 +131,43 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<void> _setup() async {
+    _listener<Future<List<Piece>>>(
+      piecesProvider.future,
+      (_, next) async {
+        final pieces = await next;
+
+        final choices = pieces
+            .map(
+              (piece) => PlayerChoicePiece(
+                status: const PlayStatus.stop(),
+                piece: piece,
+              ),
+            )
+            .toList();
+
+        final previousPlaying = state.pieces?.firstWhereOrNull(
+          (piece) => piece.status.map(stop: (_) => false, playing: (_) => true),
+        );
+
+        final List<PlayerChoicePiece> fixedChoices;
+        if (previousPlaying != null) {
+          fixedChoices = PlayerChoiceConverter.getTargetReplaced(
+            originalList: choices,
+            targetId: previousPlaying.id,
+            // TODO(ide): 再生情報以外を最新にする
+            newPlayable: previousPlaying,
+          ).whereType<PlayerChoicePiece>().toList();
+        } else {
+          fixedChoices = choices;
+        }
+
+        state = state.copyWith(
+          pieces: fixedChoices,
+        );
+      },
+      fireImmediately: true,
+    );
+
     _audioDurationSubscription = _player.onDurationChanged.listen((duration) {
       _currentAudioDuration = duration;
     });
