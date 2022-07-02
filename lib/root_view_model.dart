@@ -27,9 +27,8 @@ class RootViewModel extends StateNotifier<RootState> {
 
     final registrationToken = await registrationTokenFuture;
     if (registrationToken != null) {
-      final sendRegistrationTokenIfNeededAction =
-          await reader(sendRegistrationTokenIfNeededActionProvider.future);
-      await sendRegistrationTokenIfNeededAction.call(registrationToken);
+      final databaseActions = await reader(databaseActionsProvider.future);
+      await databaseActions.sendRegistrationTokenIfNeeded(registrationToken);
     }
   }
 }

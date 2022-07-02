@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/model/login_session.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/service/auth_service.dart';
@@ -69,33 +70,38 @@ final pieceDraftsProvider = StreamProvider((ref) {
       );
 });
 
-final sendRegistrationTokenIfNeededActionProvider = FutureProvider(
+final databaseActionsProvider = FutureProvider(
   (ref) async {
     final session = await ref.watch(sessionStreamProvider.future);
 
-    Future<void> action(
-      String registrationToken,
-    ) async {
-      final userId = session.userId;
-
-      final document =
-          FirebaseFirestore.instance.collection('users').doc(userId);
-      final snapshot = await document.get();
-      final user = snapshot.data();
-      if (user != null && user.containsKey('registrationTokens')) {
-        final registrationTokens = user['registrationTokens'] as List<dynamic>;
-        if (registrationTokens.contains(registrationToken)) {
-          return;
-        }
-      }
-
-      await document.set(<String, dynamic>{
-        'registrationTokens': FieldValue.arrayUnion(
-          <String>[registrationToken],
-        ),
-      });
-    }
-
-    return action;
+    return DatabaseActions(session: session);
   },
 );
+
+class DatabaseActions {
+  const DatabaseActions({required LoginSession session}) : _session = session;
+
+  final LoginSession _session;
+
+  Future<void> sendRegistrationTokenIfNeeded(
+    String registrationToken,
+  ) async {
+    final userId = _session.userId;
+
+    final document = FirebaseFirestore.instance.collection('users').doc(userId);
+    final snapshot = await document.get();
+    final user = snapshot.data();
+    if (user != null && user.containsKey('registrationTokens')) {
+      final registrationTokens = user['registrationTokens'] as List<dynamic>;
+      if (registrationTokens.contains(registrationToken)) {
+        return;
+      }
+    }
+
+    await document.set(<String, dynamic>{
+      'registrationTokens': FieldValue.arrayUnion(
+        <String>[registrationToken],
+      ),
+    });
+  }
+}
