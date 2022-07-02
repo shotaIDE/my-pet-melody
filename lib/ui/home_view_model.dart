@@ -7,19 +7,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/piece_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
-import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-final homePlayerChoicesProvider =
-    FutureProvider.autoDispose<List<PlayerChoicePiece>?>((ref) async {
+final homePlayerChoicesProvider = FutureProvider((ref) async {
   final pieces = await ref.watch(piecesProvider.future);
-  final homeState = ref.watch(homeViewModelProvider);
-
-  final originalList = pieces
+  return pieces
       .map(
         (piece) => PlayerChoicePiece(
           status: const PlayStatus.stop(),
@@ -27,19 +23,6 @@ final homePlayerChoicesProvider =
         ),
       )
       .toList();
-
-  final playing = homeState.playing;
-  if (playing == null) {
-    return originalList;
-  }
-
-  return PlayerChoiceConverter.getTargetReplaced(
-    originalList: originalList,
-    targetId: playing.id,
-    newPlayable: playing.copyWith(
-      status: const PlayStatus.playing(position: 0),
-    ),
-  ).whereType<PlayerChoicePiece>().toList();
 });
 
 class HomeViewModel extends StateNotifier<HomeState> {
@@ -75,25 +58,45 @@ class HomeViewModel extends StateNotifier<HomeState> {
       return;
     }
 
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final stoppedList =
+        PlayerChoiceConverter.getStoppedOrNull(originalList: pieces) ??
+            [...pieces];
+
+    final playingList = PlayerChoiceConverter.getTargetReplaced(
+      originalList: stoppedList,
+      targetId: piece.id,
+      newPlayable:
+          piece.copyWith(status: const PlayStatus.playing(position: 0)),
+    );
+
     state = state.copyWith(
-      playing: piece.copyWith(
-        status: const PlayStatus.playing(position: 0),
-      ),
+      pieces: playingList.whereType<PlayerChoicePiece>().toList(),
     );
 
     await _player.play(url);
   }
 
-  Future<void> stop() async {
+  Future<void> stop({required PlayerChoicePiece piece}) async {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final stoppedList = PlayerChoiceConverter.getTargetStopped(
+      originalList: pieces,
+      targetId: piece.id,
+    );
+
     state = state.copyWith(
-      playing: null,
+      pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
     );
 
     await _player.stop();
-  }
-
-  Future<void> beforeHideScreen() async {
-    await stop();
   }
 
   Future<void> share({required PieceGenerated piece}) async {
@@ -113,6 +116,24 @@ class HomeViewModel extends StateNotifier<HomeState> {
     await Share.shareFiles([path]);
 
     state = state.copyWith(isProcessing: false);
+  }
+
+  Future<void> beforeHideScreen() async {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final stoppedList =
+        PlayerChoiceConverter.getStoppedOrNull(originalList: pieces);
+
+    if (stoppedList != null) {
+      state = state.copyWith(
+        pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
+      );
+    }
+
+    await _player.stop();
   }
 
   Future<void> _setup() async {
@@ -139,23 +160,39 @@ class HomeViewModel extends StateNotifier<HomeState> {
       position: position,
     );
 
-    final piece = state.playing;
-    if (piece == null) {
+    final pieces = state.pieces;
+    if (pieces == null) {
       return;
     }
 
-    final newPlayable = piece.copyWith(
-      status: PlayStatus.playing(position: positionRatio),
+    final positionUpdatedList = PlayerChoiceConverter.getPositionUpdatedOrNull(
+      originalList: pieces,
+      position: positionRatio,
     );
+    if (positionUpdatedList == null) {
+      return;
+    }
 
     state = state.copyWith(
-      playing: newPlayable,
+      pieces: positionUpdatedList.whereType<PlayerChoicePiece>().toList(),
     );
   }
 
   void _onAudioFinished() {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final stoppedList = PlayerChoiceConverter.getStoppedOrNull(
+      originalList: pieces,
+    );
+    if (stoppedList == null) {
+      return;
+    }
+
     state = state.copyWith(
-      playing: null,
+      pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
     );
   }
 }
