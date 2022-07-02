@@ -25,11 +25,9 @@ final sessionStreamProvider = StreamProvider<LoginSession>((ref) {
   return Stream.value(maybeSession);
 });
 
-final signInAnonymouslyActionProvider = FutureProvider((ref) async {
-  final credential = await FirebaseAuth.instance.signInAnonymously();
-  final idToken = await credential.user?.getIdToken();
-  debugPrint('Signed in anonymously: $idToken');
-});
+final authActionsProvider = Provider(
+  (ref) => AuthActions(),
+);
 
 class SessionProvider extends StateNotifier<LoginSession?> {
   SessionProvider() : super(null);
@@ -82,5 +80,13 @@ class SessionProvider extends StateNotifier<LoginSession?> {
     }
 
     return null;
+  }
+}
+
+class AuthActions {
+  Future<void> signInAnonymously() async {
+    final credential = await FirebaseAuth.instance.signInAnonymously();
+    final idToken = await credential.user?.getIdToken();
+    debugPrint('Signed in anonymously: $idToken');
   }
 }
