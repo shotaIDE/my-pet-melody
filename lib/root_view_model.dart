@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/service/database_provider.dart';
+import 'package:meow_music/data/service/database_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/data/usecase/settings_use_case.dart';
 import 'package:meow_music/root_state.dart';
