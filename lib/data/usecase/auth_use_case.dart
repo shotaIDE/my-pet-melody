@@ -2,10 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/service/auth_service.dart';
 
-final registrationTokenProvider = FutureProvider((ref) {
+final registrationTokenProvider = FutureProvider((ref) async {
+  // Gets a registration token each time the session is not null.
+  await ref.watch(sessionStreamProvider.future);
+
   final pushNotificationService = ref.watch(pushNotificationServiceProvider);
-  // TODO(ide): Sessionが更新されたときに取得し直した方がいい？
-  ref.watch(userIdProvider);
 
   return pushNotificationService.registrationToken();
 });

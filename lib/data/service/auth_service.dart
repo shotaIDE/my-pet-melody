@@ -12,9 +12,9 @@ final sessionProvider = StateNotifierProvider<SessionProvider, LoginSession?>(
   (ref) => SessionProvider(),
 );
 
-/// セッションを Stream として取得するための Provider
+/// Provider for session as [Stream].
 ///
-/// セッションが空じゃない状態になるまで待ちたい場所で利用する
+/// Used to wait until the session is not null.
 final sessionStreamProvider = StreamProvider<LoginSession>((ref) {
   final maybeSession = ref.watch(sessionProvider);
 
@@ -23,11 +23,6 @@ final sessionStreamProvider = StreamProvider<LoginSession>((ref) {
   }
 
   return Stream.value(maybeSession);
-});
-
-final userIdProvider = Provider((ref) {
-  final sessionStream = ref.watch(sessionProvider);
-  return sessionStream?.userId;
 });
 
 final signInAnonymouslyActionProvider = FutureProvider((ref) async {
