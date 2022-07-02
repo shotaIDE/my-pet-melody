@@ -6,23 +6,21 @@ import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/service/auth_service.dart';
 import 'package:meow_music/data/service/database_service.dart';
 
-final templatesProvider = StreamProvider((ref) {
-  final templateDraftsStream = ref.watch(templateDraftsProvider.stream);
-  final storageService = ref.read(storageServiceProvider);
+final templatesProvider = FutureProvider((ref) async {
+  final templateDrafts = await ref.watch(templateDraftsProvider.future);
+  final storageService = ref.watch(storageServiceProvider);
 
-  return templateDraftsStream.asyncMap((templateDrafts) async {
-    return Future.wait(
-      templateDrafts.map((templateDraft) async {
-        final url = await storageService.templateUrl(id: templateDraft.id);
+  return Future.wait(
+    templateDrafts.map((templateDraft) async {
+      final url = await storageService.templateUrl(id: templateDraft.id);
 
-        return Template(
-          id: templateDraft.id,
-          name: templateDraft.name,
-          url: url,
-        );
-      }),
-    );
-  });
+      return Template(
+        id: templateDraft.id,
+        name: templateDraft.name,
+        url: url,
+      );
+    }),
+  );
 });
 
 final piecesProvider = FutureProvider(
