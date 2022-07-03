@@ -59,11 +59,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
         PlayerChoiceConverter.getStoppedOrNull(originalList: pieces) ??
             [...pieces];
 
-    final playingList = PlayerChoiceConverter.getTargetReplaced(
+    final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
       originalList: stoppedList,
       targetId: piece.id,
-      newPlayable:
-          piece.copyWith(status: const PlayStatus.playing(position: 0)),
+      newStatus: const PlayStatus.playing(position: 0),
     );
 
     state = state.copyWith(
@@ -149,11 +148,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
         final List<PlayerChoicePiece> fixedPieces;
         if (previousPlaying != null) {
-          fixedPieces = PlayerChoiceConverter.getTargetReplaced(
+          fixedPieces = PlayerChoiceConverter.getTargetStatusReplaced(
             originalList: pieces,
             targetId: previousPlaying.id,
-            // TODO(ide): Use new properties except the `PlayStatus`
-            newPlayable: previousPlaying,
+            newStatus: previousPlaying.status,
           ).whereType<PlayerChoicePiece>().toList();
         } else {
           fixedPieces = pieces;

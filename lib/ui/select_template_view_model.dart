@@ -54,11 +54,10 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
         ) ??
         [...templates];
 
-    final playingList = PlayerChoiceConverter.getTargetReplaced(
+    final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
       originalList: stoppedList,
       targetId: template.id,
-      newPlayable:
-          template.copyWith(status: const PlayStatus.playing(position: 0)),
+      newStatus: const PlayStatus.playing(position: 0),
     );
 
     state = state.copyWith(
@@ -126,11 +125,10 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
 
         final List<PlayerChoiceTemplate> fixedTemplates;
         if (previousPlaying != null) {
-          fixedTemplates = PlayerChoiceConverter.getTargetReplaced(
+          fixedTemplates = PlayerChoiceConverter.getTargetStatusReplaced(
             originalList: templates,
             targetId: previousPlaying.id,
-            // TODO(ide): Use new properties except the `PlayStatus`
-            newPlayable: previousPlaying,
+            newStatus: previousPlaying.status,
           ).whereType<PlayerChoiceTemplate>().toList();
         } else {
           fixedTemplates = templates;

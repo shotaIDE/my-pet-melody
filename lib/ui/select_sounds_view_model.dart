@@ -210,11 +210,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
         ) ??
         [...choices];
 
-    final playingList = PlayerChoiceConverter.getTargetReplaced(
+    final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
       originalList: stoppedList,
       targetId: choice.id,
-      newPlayable:
-          choice.copyWith(status: const PlayStatus.playing(position: 0)),
+      newStatus: const PlayStatus.playing(position: 0),
     );
 
     _setPlayerChoices(playingList);

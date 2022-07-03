@@ -88,14 +88,10 @@ extension PlayerChoiceConverter on PlayerChoice {
       return null;
     }
 
-    final newPlayable = playing.copyWith(
-      status: PlayStatus.playing(position: position),
-    );
-
-    return getTargetReplaced(
+    return getTargetStatusReplaced(
       originalList: originalList,
       targetId: playing.id,
-      newPlayable: newPlayable,
+      newStatus: PlayStatus.playing(position: position),
     );
   }
 
@@ -103,27 +99,27 @@ extension PlayerChoiceConverter on PlayerChoice {
     required List<PlayerChoice> originalList,
     required String targetId,
   }) {
-    final target = originalList.firstWhere((piece) => piece.id == targetId);
-
-    final newPlayable = target.copyWith(status: const PlayStatus.stop());
-
-    return getTargetReplaced(
+    return getTargetStatusReplaced(
       originalList: originalList,
       targetId: targetId,
-      newPlayable: newPlayable,
+      newStatus: const PlayStatus.stop(),
     );
   }
 
-  static List<PlayerChoice> getTargetReplaced({
+  static List<PlayerChoice> getTargetStatusReplaced({
     required List<PlayerChoice> originalList,
     required String targetId,
-    required PlayerChoice newPlayable,
+    required PlayStatus newStatus,
   }) {
     final index = originalList.indexWhere((piece) => piece.id == targetId);
 
+    final choice = originalList[index];
+
+    final replacedChoice = choice.copyWith(status: newStatus);
+
     final list = [...originalList];
 
-    list[index] = newPlayable;
+    list[index] = replacedChoice;
 
     return list;
   }
