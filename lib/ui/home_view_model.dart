@@ -16,13 +16,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
-  HomeViewModel({required Listener listener})
-      : _listener = listener,
-        super(const HomeState()) {
-    _setup();
+  HomeViewModel({
+    required Listener listener,
+  }) : super(const HomeState()) {
+    _setup(listener: listener);
   }
-
-  final Listener _listener;
 
   final _player = AudioPlayer();
 
@@ -130,8 +128,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
     await _player.stop();
   }
 
-  Future<void> _setup() async {
-    _listener<Future<List<Piece>>>(
+  Future<void> _setup({required Listener listener}) async {
+    listener<Future<List<Piece>>>(
       piecesProvider.future,
       (_, next) async {
         final pieceDataList = await next;
