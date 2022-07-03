@@ -22,6 +22,10 @@ class PushNotificationService {
     return FirebaseMessaging.instance.getToken();
   }
 
+  Future<void> deleteRegistrationToken() async {
+    await FirebaseMessaging.instance.deleteToken();
+  }
+
   Future<void> showDummyNotification() async {
     final localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 

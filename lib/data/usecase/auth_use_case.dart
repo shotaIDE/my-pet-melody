@@ -31,9 +31,14 @@ final signInActionProvider = Provider((ref) {
 });
 
 final signOutActionProvider = Provider((ref) {
-  final actions = ref.watch(authActionsProvider);
+  final authActions = ref.watch(authActionsProvider);
+  final pushNotificationService = ref.watch(pushNotificationServiceProvider);
 
-  // TODO(ide): Reset registration token.
+  Future<void> action() async {
+    await authActions.signOut();
 
-  return actions.signOut;
+    await pushNotificationService.deleteRegistrationToken();
+  }
+
+  return action;
 });
