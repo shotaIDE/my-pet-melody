@@ -53,104 +53,106 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
-
     final pieces = state.pieces;
+
     final Widget body;
     if (pieces == null) {
       body = const Center(
         child: CircularProgressIndicator(),
       );
     } else {
-      body = pieces.isNotEmpty
-          ? ListView.separated(
-              itemBuilder: (_, index) {
-                final playablePiece = pieces[index];
-                final playStatus = playablePiece.status;
-                final leading = playStatus.when(
-                  stop: () => const Icon(Icons.play_arrow),
-                  playing: (_) => const Icon(Icons.stop),
-                );
+      if (pieces.isNotEmpty) {
+        body = ListView.separated(
+          itemBuilder: (_, index) {
+            final playablePiece = pieces[index];
+            final playStatus = playablePiece.status;
+            final leading = playStatus.when(
+              stop: () => const Icon(Icons.play_arrow),
+              playing: (_) => const Icon(Icons.stop),
+            );
 
-                final piece = playablePiece.piece;
-                final dateFormatter = DateFormat.yMd('ja');
-                final timeFormatter = DateFormat.Hm('ja');
-                final subtitleLabel = piece.map(
-                  generating: (generating) =>
-                      '${dateFormatter.format(generating.submittedAt)} '
-                      '${timeFormatter.format(generating.submittedAt)}   '
-                      '製作中',
-                  generated: (generated) =>
-                      '${dateFormatter.format(generated.generatedAt)} '
-                      '${timeFormatter.format(generated.generatedAt)}',
-                );
+            final piece = playablePiece.piece;
+            final dateFormatter = DateFormat.yMd('ja');
+            final timeFormatter = DateFormat.Hm('ja');
+            final subtitleLabel = piece.map(
+              generating: (generating) =>
+                  '${dateFormatter.format(generating.submittedAt)} '
+                  '${timeFormatter.format(generating.submittedAt)}   '
+                  '製作中',
+              generated: (generated) =>
+                  '${dateFormatter.format(generated.generatedAt)} '
+                  '${timeFormatter.format(generated.generatedAt)}',
+            );
 
-                final void Function()? onTap;
-                onTap = piece.map(
-                  generating: (_) => null,
-                  generated: (_) => playStatus.when(
-                    stop: () => () => ref
-                        .read(widget.viewModel.notifier)
-                        .play(piece: playablePiece),
-                    playing: (_) => () => ref
-                        .read(widget.viewModel.notifier)
-                        .stop(piece: playablePiece),
-                  ),
-                );
-
-                final tile = ListTile(
-                  leading: Column(
-                    children: [
-                      Expanded(child: leading),
-                    ],
-                  ),
-                  title: Text(piece.name),
-                  subtitle: Text(subtitleLabel),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.share),
-                    onPressed: () => _share(piece: piece),
-                  ),
-                  tileColor: piece.map(
-                    generating: (_) => Colors.grey[300],
-                    generated: (_) => null,
-                  ),
-                  onTap: onTap,
-                );
-
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    tile,
-                    playStatus.when(
-                      stop: () => const Visibility(
-                        visible: false,
-                        maintainState: true,
-                        maintainAnimation: true,
-                        maintainSize: true,
-                        child: LinearProgressIndicator(),
-                      ),
-                      playing: (position) => Visibility(
-                        child: LinearProgressIndicator(value: position),
-                      ),
-                    ),
-                  ],
-                );
-              },
-              itemCount: pieces.length,
-              separatorBuilder: (_, __) => const Divider(height: 0),
-            )
-          : Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'まだ作品を製作していません。\n右下の “+” ボタンから作品を製作しましょう。',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(color: Theme.of(context).disabledColor),
-                ),
+            final void Function()? onTap;
+            onTap = piece.map(
+              generating: (_) => null,
+              generated: (_) => playStatus.when(
+                stop: () => () => ref
+                    .read(widget.viewModel.notifier)
+                    .play(piece: playablePiece),
+                playing: (_) => () => ref
+                    .read(widget.viewModel.notifier)
+                    .stop(piece: playablePiece),
               ),
             );
+
+            final tile = ListTile(
+              leading: Column(
+                children: [
+                  Expanded(child: leading),
+                ],
+              ),
+              title: Text(piece.name),
+              subtitle: Text(subtitleLabel),
+              trailing: IconButton(
+                icon: const Icon(Icons.share),
+                onPressed: () => _share(piece: piece),
+              ),
+              tileColor: piece.map(
+                generating: (_) => Colors.grey[300],
+                generated: (_) => null,
+              ),
+              onTap: onTap,
+            );
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                tile,
+                playStatus.when(
+                  stop: () => const Visibility(
+                    visible: false,
+                    maintainState: true,
+                    maintainAnimation: true,
+                    maintainSize: true,
+                    child: LinearProgressIndicator(),
+                  ),
+                  playing: (position) => Visibility(
+                    child: LinearProgressIndicator(value: position),
+                  ),
+                ),
+              ],
+            );
+          },
+          itemCount: pieces.length,
+          separatorBuilder: (_, __) => const Divider(height: 0),
+        );
+      } else {
+        body = Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'まだ作品を製作していません。\n右下の “+” ボタンから作品を製作しましょう。',
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Theme.of(context).disabledColor),
+            ),
+          ),
+        );
+      }
     }
 
     final scaffold = Scaffold(
