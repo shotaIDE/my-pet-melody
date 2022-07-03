@@ -2,15 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/service/auth_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
-import 'package:meow_music/ui/home_state.dart';
-import 'package:meow_music/ui/home_view_model.dart';
-
-final homeViewModelProvider =
-    StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
-  (ref) => HomeViewModel(
-    listener: ref.listen,
-  ),
-);
 
 class DebugScreen extends ConsumerWidget {
   const DebugScreen({
