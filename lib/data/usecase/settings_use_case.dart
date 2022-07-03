@@ -20,7 +20,7 @@ class SettingsActions {
     return _repository.isOnboardingFinished();
   }
 
-  Future<void> setIsOnboardingFinished() async {
+  Future<void> onOnboardingFinished() async {
     await _repository.setIsOnboardingFinished();
   }
 }
