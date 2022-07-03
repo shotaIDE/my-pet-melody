@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/piece.dart';
+import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -52,9 +53,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final actionButton = IconButton(
+      onPressed: () => Navigator.push(context, DebugScreen.route()),
+      icon: const Icon(Icons.bug_report),
+    );
+
     final state = ref.watch(widget.viewModel);
     final pieces = state.pieces;
-
     final Widget body;
     if (pieces == null) {
       body = const Center(
@@ -158,6 +163,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('Meow Music'),
+        actions: [
+          actionButton,
+        ],
       ),
       body: body,
       floatingActionButton: FloatingActionButton(

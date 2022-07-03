@@ -89,4 +89,8 @@ class AuthActions {
     final idToken = await credential.user?.getIdToken();
     debugPrint('Signed in anonymously: $idToken');
   }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }
