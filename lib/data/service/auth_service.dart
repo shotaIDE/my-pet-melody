@@ -75,7 +75,7 @@ class SessionProvider extends StateNotifier<LoginSession?> {
 
       return LoginSession(userId: user.uid, token: token);
     } on FirebaseAuthException {
-      // TODO(ide): 本番公開アプリでは強制サインアウトはやめた方がいいかも
+      // TODO(ide): Stop signing out in public apps.
       await FirebaseAuth.instance.signOut();
     }
 
