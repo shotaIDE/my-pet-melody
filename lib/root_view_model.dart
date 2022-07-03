@@ -21,7 +21,7 @@ class RootViewModel extends StateNotifier<RootState> {
     await reader(ensureLoggedInActionProvider.future);
 
     final isOnboardingFinished =
-        await reader(settingsActionsProvider).isOnboardingFinished();
+        await reader(settingsActionsProvider).getIsOnboardingFinished();
 
     state = state.copyWith(shouldLaunchOnboarding: !isOnboardingFinished);
 

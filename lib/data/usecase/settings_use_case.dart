@@ -16,8 +16,8 @@ class SettingsActions {
 
   final SettingsRepository _repository;
 
-  Future<bool> isOnboardingFinished() async {
-    return _repository.isOnboardingFinished();
+  Future<bool> getIsOnboardingFinished() async {
+    return _repository.getIsOnboardingFinished();
   }
 
   Future<void> onOnboardingFinished() async {
