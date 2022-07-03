@@ -8,7 +8,9 @@ import 'package:meow_music/ui/select_template_screen.dart';
 
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
-  (ref) => HomeViewModel(listener: ref.listen),
+  (ref) => HomeViewModel(
+    listener: ref.listen,
+  ),
 );
 
 class HomeScreen extends ConsumerStatefulWidget {
