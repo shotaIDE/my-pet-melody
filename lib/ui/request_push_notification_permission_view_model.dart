@@ -7,19 +7,19 @@ import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 class RequestPushNotificationPermissionViewModel
     extends StateNotifier<RequestPushNotificationPermissionState> {
   RequestPushNotificationPermissionViewModel({
-    required SubmissionUseCase submissionUseCase,
+    required Reader reader,
     required RequestPushNotificationPermissionArgs args,
-  })  : _submissionUseCase = submissionUseCase,
+  })  : _reader = reader,
         _args = args,
         super(
           const RequestPushNotificationPermissionState(),
         );
 
-  final SubmissionUseCase _submissionUseCase;
+  final Reader _reader;
   final RequestPushNotificationPermissionArgs _args;
 
   Future<void> requestPermissionAndSubmit() async {
-    await _submissionUseCase.requestPushNotificationPermission();
+    await _reader(requestPushNotificationPermissionActionProvider).call();
 
     await _submit();
   }
@@ -31,7 +31,8 @@ class RequestPushNotificationPermissionViewModel
   Future<void> _submit() async {
     state = state.copyWith(isProcessing: true);
 
-    await _submissionUseCase.submit(
+    final submitAction = await _reader(submitActionProvider.future);
+    await submitAction(
       template: _args.template,
       sounds: _args.sounds,
     );

@@ -17,9 +17,9 @@ import 'package:path_provider/path_provider.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
+    required Reader reader,
     required Template selectedTemplate,
-    required SubmissionUseCase submissionUseCase,
-  })  : _submissionUseCase = submissionUseCase,
+  })  : _reader = reader,
         super(
           SelectSoundsState(
             template: PlayerChoiceTemplate(
@@ -38,7 +38,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     _setup();
   }
 
-  final SubmissionUseCase _submissionUseCase;
+  final Reader _reader;
   final _player = AudioPlayer();
 
   Duration? _currentAudioDuration;
@@ -69,7 +69,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final copiedFile = await file.copy(outputPath);
 
-    final detected = await _submissionUseCase.detect(
+    final detectAction = await _reader(detectActionProvider.future);
+    final detected = await detectAction(
       copiedFile,
       fileName: fileName,
     );
@@ -103,7 +104,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     state = state.copyWith(sounds: sounds);
 
-    final uploadedSound = await _submissionUseCase.upload(
+    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadedSound = await uploadAction(
       file,
       fileName: basename(file.path),
     );
@@ -186,7 +188,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final soundIdList = _getSoundIdList();
 
-    await _submissionUseCase.submit(
+    final submitAction = await _reader(submitActionProvider.future);
+    await submitAction(
       template: state.template.template,
       sounds: soundIdList,
     );
@@ -207,11 +210,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
         ) ??
         [...choices];
 
-    final playingList = PlayerChoiceConverter.getTargetReplaced(
+    final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
       originalList: stoppedList,
       targetId: choice.id,
-      newPlayable:
-          choice.copyWith(status: const PlayStatus.playing(position: 0)),
+      newStatus: const PlayStatus.playing(position: 0),
     );
 
     _setPlayerChoices(playingList);
@@ -270,8 +272,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       _onAudioFinished();
     });
 
-    final isRequestStepExists = await _submissionUseCase
-        .getShouldShowRequestPushNotificationPermission();
+    final isRequestStepExists = await _reader(
+      getShouldShowRequestPushNotificationPermissionActionProvider,
+    ).call();
+
     state = state.copyWith(isRequestStepExists: isRequestStepExists);
   }
 

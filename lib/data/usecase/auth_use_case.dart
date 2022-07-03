@@ -1,47 +1,44 @@
-import 'dart:async';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/service/auth_service.dart';
-import 'package:meow_music/data/service/database_service.dart';
-import 'package:meow_music/data/service/push_notification_service.dart';
-import 'package:rxdart/rxdart.dart';
 
-class AuthUseCase {
-  const AuthUseCase({
-    required AuthService authService,
-    required DatabaseService databaseService,
-    required PushNotificationService pushNotificationService,
-  })  : _authService = authService,
-        _databaseService = databaseService,
-        _pushNotificationService = pushNotificationService;
+final registrationTokenProvider = FutureProvider((ref) async {
+  // Gets a registration token each time the session is not null.
+  await ref.watch(sessionStreamProvider.future);
 
-  final AuthService _authService;
-  final DatabaseService _databaseService;
-  final PushNotificationService _pushNotificationService;
+  final pushNotificationService = ref.watch(pushNotificationServiceProvider);
 
-  Future<void> ensureLoggedIn() async {
-    final idToken = await _authService.currentSession();
-    if (idToken != null) {
-      return;
-    }
+  return pushNotificationService.registrationToken();
+});
 
-    await _authService.signInAnonymously();
+final ensureLoggedInActionProvider = FutureProvider((ref) async {
+  // TODO(ide): Not a good idea to write a process here
+  //  that waits until initialization is complete.
+  await ref.read(sessionProvider.notifier).setup();
+
+  final session = ref.read(sessionProvider);
+  if (session != null) {
+    return;
   }
 
-  StreamSubscription<void> storeRegistrationTokenStream() {
-    return _authService
-        .currentUserIdStream()
-        .whereType<String>()
-        .listen((userId) async {
-      final registrationToken =
-          await _pushNotificationService.registrationToken();
-      if (registrationToken == null) {
-        return;
-      }
+  await ref.read(authActionsProvider).signInAnonymously();
+});
 
-      await _databaseService.sendRegistrationTokenIfNeeded(
-        registrationToken,
-        userId: userId,
-      );
-    });
+final signInActionProvider = Provider((ref) {
+  final actions = ref.watch(authActionsProvider);
+
+  return actions.signInAnonymously;
+});
+
+final signOutActionProvider = Provider((ref) {
+  final authActions = ref.watch(authActionsProvider);
+  final pushNotificationService = ref.watch(pushNotificationServiceProvider);
+
+  Future<void> action() async {
+    await authActions.signOut();
+
+    await pushNotificationService.deleteRegistrationToken();
   }
-}
+
+  return action;
+});

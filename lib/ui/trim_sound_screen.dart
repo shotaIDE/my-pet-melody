@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_view_model.dart';
@@ -9,7 +8,7 @@ import 'package:video_trimmer/video_trimmer.dart';
 final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
     .family<TrimSoundViewModel, TrimSoundState, String>(
   (ref, moviePath) => TrimSoundViewModel(
-    submissionUseCase: ref.watch(submissionUseCaseProvider),
+    reader: ref.read,
     moviePath: moviePath,
   ),
 );

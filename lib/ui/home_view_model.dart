@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/definitions/types.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/piece_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
@@ -15,13 +17,11 @@ import 'package:share_plus/share_plus.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
   HomeViewModel({
-    required PieceUseCase pieceUseCase,
-  })  : _pieceUseCase = pieceUseCase,
-        super(const HomeState()) {
-    _setup();
+    required Listener listener,
+  }) : super(const HomeState()) {
+    _setup(listener: listener);
   }
 
-  final PieceUseCase _pieceUseCase;
   final _player = AudioPlayer();
 
   Duration? _currentAudioDuration;
@@ -59,11 +59,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
         PlayerChoiceConverter.getStoppedOrNull(originalList: pieces) ??
             [...pieces];
 
-    final playingList = PlayerChoiceConverter.getTargetReplaced(
+    final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
       originalList: stoppedList,
       targetId: piece.id,
-      newPlayable:
-          piece.copyWith(status: const PlayStatus.playing(position: 0)),
+      newStatus: const PlayStatus.playing(position: 0),
     );
 
     state = state.copyWith(
@@ -128,19 +127,42 @@ class HomeViewModel extends StateNotifier<HomeState> {
     await _player.stop();
   }
 
-  Future<void> _setup() async {
-    final piecesStream = await _pieceUseCase.getPiecesStream();
-    _piecesSubscription = piecesStream.listen((pieces) {
-      final playablePieces = pieces
-          .map(
-            (piece) => PlayerChoicePiece(
-              status: const PlayStatus.stop(),
-              piece: piece,
-            ),
-          )
-          .toList();
-      state = state.copyWith(pieces: playablePieces);
-    });
+  Future<void> _setup({required Listener listener}) async {
+    listener<Future<List<Piece>>>(
+      piecesProvider.future,
+      (_, next) async {
+        final pieceDataList = await next;
+
+        final pieces = pieceDataList
+            .map(
+              (piece) => PlayerChoicePiece(
+                status: const PlayStatus.stop(),
+                piece: piece,
+              ),
+            )
+            .toList();
+
+        final previousPlaying = state.pieces?.firstWhereOrNull(
+          (piece) => piece.status.map(stop: (_) => false, playing: (_) => true),
+        );
+
+        final List<PlayerChoicePiece> fixedPieces;
+        if (previousPlaying != null) {
+          fixedPieces = PlayerChoiceConverter.getTargetStatusReplaced(
+            originalList: pieces,
+            targetId: previousPlaying.id,
+            newStatus: previousPlaying.status,
+          ).whereType<PlayerChoicePiece>().toList();
+        } else {
+          fixedPieces = pieces;
+        }
+
+        state = state.copyWith(
+          pieces: fixedPieces,
+        );
+      },
+      fireImmediately: true,
+    );
 
     _audioDurationSubscription = _player.onDurationChanged.listen((duration) {
       _currentAudioDuration = duration;

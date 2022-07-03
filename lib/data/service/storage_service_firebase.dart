@@ -2,12 +2,19 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:meow_music/data/model/login_session.dart';
 import 'package:meow_music/data/model/uploaded_sound.dart';
 import 'package:meow_music/data/service/storage_service.dart';
 import 'package:path/path.dart';
 
 class StorageServiceFirebase implements StorageService {
+  StorageServiceFirebase({
+    required LoginSession session,
+  }) : _session = session;
+
   final format = DateFormat('yyyyMMddHHmmss');
+
+  final LoginSession _session;
 
   @override
   Future<String> templateUrl({required String id}) async {
@@ -21,8 +28,9 @@ class StorageServiceFirebase implements StorageService {
   @override
   Future<String> pieceDownloadUrl({
     required String fileName,
-    required String userId,
   }) async {
+    final userId = _session.userId;
+
     final storageRef = FirebaseStorage.instance.ref();
 
     final pathRef =
@@ -35,8 +43,9 @@ class StorageServiceFirebase implements StorageService {
   Future<UploadedSound?> uploadOriginal(
     File file, {
     required String fileName,
-    required String userId,
   }) async {
+    final userId = _session.userId;
+
     final storageRef = FirebaseStorage.instance.ref();
 
     final current = DateTime.now();
@@ -69,8 +78,9 @@ class StorageServiceFirebase implements StorageService {
   Future<UploadedSound?> uploadTrimmed(
     File file, {
     required String fileName,
-    required String userId,
   }) async {
+    final userId = _session.userId;
+
     final storageRef = FirebaseStorage.instance.ref();
 
     final current = DateTime.now();

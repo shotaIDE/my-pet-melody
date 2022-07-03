@@ -1,40 +1,46 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/definitions/types.dart';
+import 'package:meow_music/data/service/database_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/data/usecase/settings_use_case.dart';
 import 'package:meow_music/root_state.dart';
 
 class RootViewModel extends StateNotifier<RootState> {
   RootViewModel({
-    required AuthUseCase authUseCase,
-    required SettingsUseCase settingsUseCase,
-  })  : _authUseCase = authUseCase,
-        _settingsUseCase = settingsUseCase,
-        super(const RootState()) {
-    _setup();
+    required Reader reader,
+    required Listener listener,
+  }) : super(const RootState()) {
+    _setup(
+      reader: reader,
+      listener: listener,
+    );
   }
 
-  final AuthUseCase _authUseCase;
-  final SettingsUseCase _settingsUseCase;
-
-  late StreamSubscription<void> _storeTokenSubscription;
-
-  @override
-  Future<void> dispose() async {
-    await _storeTokenSubscription.cancel();
-
-    super.dispose();
-  }
-
-  Future<void> _setup() async {
-    await _authUseCase.ensureLoggedIn();
+  Future<void> _setup({
+    required Reader reader,
+    required Listener listener,
+  }) async {
+    await reader(ensureLoggedInActionProvider.future);
 
     final isOnboardingFinished =
-        await _settingsUseCase.getIsOnboardingFinished();
+        await reader(settingsActionsProvider).getIsOnboardingFinished();
 
     state = state.copyWith(shouldLaunchOnboarding: !isOnboardingFinished);
 
-    _storeTokenSubscription = _authUseCase.storeRegistrationTokenStream();
+    listener<Future<String?>>(
+      registrationTokenProvider.future,
+      (_, next) async {
+        final registrationToken = await next;
+        if (registrationToken == null) {
+          return;
+        }
+
+        final databaseActions = await reader(databaseActionsProvider.future);
+        await databaseActions.sendRegistrationTokenIfNeeded(registrationToken);
+      },
+      fireImmediately: true,
+    );
   }
 }

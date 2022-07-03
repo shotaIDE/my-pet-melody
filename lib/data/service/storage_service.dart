@@ -7,18 +7,15 @@ abstract class StorageService {
 
   Future<String> pieceDownloadUrl({
     required String fileName,
-    required String userId,
   });
 
   Future<UploadedSound?> uploadOriginal(
     File file, {
     required String fileName,
-    required String userId,
   });
 
   Future<UploadedSound?> uploadTrimmed(
     File file, {
     required String fileName,
-    required String userId,
   });
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/ui/select_sounds_screen.dart';
 import 'package:meow_music/ui/select_template_state.dart';
 import 'package:meow_music/ui/select_template_view_model.dart';
@@ -8,7 +7,7 @@ import 'package:meow_music/ui/select_template_view_model.dart';
 final selectTemplateViewModelProvider = StateNotifierProvider.autoDispose<
     SelectTemplateViewModel, SelectTemplateState>(
   (ref) => SelectTemplateViewModel(
-    submissionUseCase: ref.watch(submissionUseCaseProvider),
+    listener: ref.listen,
   ),
 );
 

@@ -1,69 +1,70 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/data/service/auth_service.dart';
+import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/service/database_service.dart';
-import 'package:meow_music/data/service/storage_service.dart';
 
-class PieceUseCase {
-  const PieceUseCase({
-    required AuthService authService,
-    required DatabaseService databaseService,
-    required StorageService storageService,
-  })  : _authService = authService,
-        _databaseService = databaseService,
-        _storageService = storageService;
+final templatesProvider = FutureProvider((ref) async {
+  final templateDrafts = await ref.watch(templateDraftsProvider.future);
+  final storageService = await ref.watch(storageServiceProvider.future);
 
-  final AuthService _authService;
-  final DatabaseService _databaseService;
-  final StorageService _storageService;
+  return Future.wait(
+    templateDrafts.map((templateDraft) async {
+      final url = await storageService.templateUrl(id: templateDraft.id);
 
-  Future<Stream<List<Piece>>> getPiecesStream() async {
-    final session = await _authService.currentSessionWhenLoggedIn();
-    final stream = _databaseService.piecesStream(userId: session.userId);
+      return Template(
+        id: templateDraft.id,
+        name: templateDraft.name,
+        url: url,
+      );
+    }),
+  );
+});
 
-    return stream.asyncMap(
-      (pieces) async {
-        final converted = await Future.wait(
-          pieces.map(
-            (piece) => piece.map(
-              generating: (piece) async => Piece.generating(
-                id: piece.id,
-                name: piece.name,
-                submittedAt: piece.submittedAt,
-              ),
-              generated: (piece) async {
-                final url = await _storageService.pieceDownloadUrl(
-                  fileName: piece.fileName,
-                  userId: session.userId,
-                );
+final piecesProvider = FutureProvider(
+  (ref) async {
+    final pieceDrafts = await ref.watch(pieceDraftsProvider.future);
+    final storageService = await ref.read(storageServiceProvider.future);
 
-                return Piece.generated(
-                  id: piece.id,
-                  name: piece.name,
-                  generatedAt: piece.generatedAt,
-                  url: url,
-                );
-              },
-            ),
+    final converted = await Future.wait(
+      pieceDrafts.map(
+        (piece) => piece.map(
+          generating: (piece) async => Piece.generating(
+            id: piece.id,
+            name: piece.name,
+            submittedAt: piece.submittedAt,
           ),
-        );
-
-        return converted.sorted(
-          (a, b) {
-            final dateTimeA = a.map(
-              generating: (generating) => generating.submittedAt,
-              generated: (generated) => generated.generatedAt,
+          generated: (piece) async {
+            final url = await storageService.pieceDownloadUrl(
+              fileName: piece.fileName,
             );
 
-            final dateTimeB = b.map(
-              generating: (generating) => generating.submittedAt,
-              generated: (generated) => generated.generatedAt,
+            return Piece.generated(
+              id: piece.id,
+              name: piece.name,
+              generatedAt: piece.generatedAt,
+              url: url,
             );
-
-            return dateTimeB.compareTo(dateTimeA);
           },
+        ),
+      ),
+    );
+
+    return converted.sorted(
+      (a, b) {
+        final dateTimeA = a.map(
+          generating: (generating) => generating.submittedAt,
+          generated: (generated) => generated.generatedAt,
         );
+
+        final dateTimeB = b.map(
+          generating: (generating) => generating.submittedAt,
+          generated: (generated) => generated.generatedAt,
+        );
+
+        return dateTimeB.compareTo(dateTimeA);
       },
     );
-  }
-}
+  },
+);

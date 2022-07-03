@@ -18,9 +18,9 @@ import 'package:path_provider/path_provider.dart';
 class SelectTrimmedSoundViewModel
     extends StateNotifier<SelectTrimmedSoundState> {
   SelectTrimmedSoundViewModel({
-    required SubmissionUseCase submissionUseCase,
+    required Reader reader,
     required SelectTrimmedSoundArgs args,
-  })  : _submissionUseCase = submissionUseCase,
+  })  : _reader = reader,
         _moviePath = args.soundPath,
         super(
           SelectTrimmedSoundState(
@@ -41,7 +41,7 @@ class SelectTrimmedSoundViewModel
 
   static const splitCount = 10;
 
-  final SubmissionUseCase _submissionUseCase;
+  final Reader _reader;
   final String _moviePath;
   final _player = AudioPlayer();
 
@@ -194,11 +194,10 @@ class SelectTrimmedSoundViewModel
         ) ??
         [...choices];
 
-    final playingList = PlayerChoiceConverter.getTargetReplaced(
+    final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
       originalList: stoppedList,
       targetId: choice.id,
-      newPlayable:
-          choice.copyWith(status: const PlayStatus.playing(position: 0)),
+      newStatus: const PlayStatus.playing(position: 0),
     );
 
     _currentPlayingSegment = choice.segment;
@@ -237,7 +236,8 @@ class SelectTrimmedSoundViewModel
 
     final outputFile = File(outputPath);
 
-    final uploadedSound = await _submissionUseCase.upload(
+    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadedSound = await uploadAction(
       outputFile,
       fileName: basename(outputPath),
     );

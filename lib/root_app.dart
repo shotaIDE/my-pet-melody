@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/use_case_providers.dart';
 import 'package:meow_music/root_state.dart';
 import 'package:meow_music/root_view_model.dart';
 import 'package:meow_music/ui/home_screen.dart';
@@ -10,8 +9,8 @@ import 'package:meow_music/ui/onboarding_screen.dart';
 final rootViewModelProvider =
     StateNotifierProvider.autoDispose<RootViewModel, RootState>(
   (ref) => RootViewModel(
-    authUseCase: ref.watch(authUseCaseProvider),
-    settingsUseCase: ref.watch(settingsUseCaseProvider),
+    reader: ref.read,
+    listener: ref.listen,
   ),
 );
 
