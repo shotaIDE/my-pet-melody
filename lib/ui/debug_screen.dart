@@ -19,7 +19,7 @@ class DebugScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(sessionProvider);
-    final loginTile = session != null
+    final signOutTile = session != null
         ? ListTile(
             title: const Text('サインアウト'),
             onTap: ref.watch(signOutActionProvider),
@@ -35,7 +35,7 @@ class DebugScreen extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          loginTile,
+          signOutTile,
         ],
       ),
     );
