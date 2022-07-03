@@ -24,8 +24,8 @@ final templatesProvider = FutureProvider((ref) async {
 
 final piecesProvider = FutureProvider(
   (ref) async {
-    final storageService = await ref.read(storageServiceProvider.future);
     final pieceDrafts = await ref.watch(pieceDraftsProvider.future);
+    final storageService = await ref.read(storageServiceProvider.future);
 
     final converted = await Future.wait(
       pieceDrafts.map(
