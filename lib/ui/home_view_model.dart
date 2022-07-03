@@ -154,7 +154,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
           fixedChoices = PlayerChoiceConverter.getTargetReplaced(
             originalList: choices,
             targetId: previousPlaying.id,
-            // TODO(ide): 再生情報以外を最新にする
+            // TODO(ide): Use new properties except the `PlayStatus`
             newPlayable: previousPlaying,
           ).whereType<PlayerChoicePiece>().toList();
         } else {
