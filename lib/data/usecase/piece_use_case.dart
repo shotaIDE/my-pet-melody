@@ -3,12 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/service/auth_service.dart';
 import 'package:meow_music/data/service/database_service.dart';
 
 final templatesProvider = FutureProvider((ref) async {
   final templateDrafts = await ref.watch(templateDraftsProvider.future);
-  final storageService = ref.watch(storageServiceProvider);
+  final storageService = await ref.watch(storageServiceProvider.future);
 
   return Future.wait(
     templateDrafts.map((templateDraft) async {
@@ -25,8 +24,7 @@ final templatesProvider = FutureProvider((ref) async {
 
 final piecesProvider = FutureProvider(
   (ref) async {
-    final storageService = ref.read(storageServiceProvider);
-    final session = await ref.watch(sessionStreamProvider.future);
+    final storageService = await ref.read(storageServiceProvider.future);
     final pieceDrafts = await ref.watch(pieceDraftsProvider.future);
 
     final converted = await Future.wait(
@@ -40,7 +38,6 @@ final piecesProvider = FutureProvider(
           generated: (piece) async {
             final url = await storageService.pieceDownloadUrl(
               fileName: piece.fileName,
-              userId: session.userId,
             );
 
             return Piece.generated(

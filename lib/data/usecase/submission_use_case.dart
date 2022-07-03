@@ -11,7 +11,7 @@ import 'package:meow_music/data/service/auth_service.dart';
 
 final detectActionProvider = FutureProvider((ref) async {
   final session = await ref.watch(sessionStreamProvider.future);
-  final storageService = ref.read(storageServiceProvider);
+  final storageService = await ref.read(storageServiceProvider.future);
   final repository = ref.read(submissionRepositoryProvider);
 
   Future<DetectedNonSilentSegments?> action(
@@ -21,7 +21,6 @@ final detectActionProvider = FutureProvider((ref) async {
     final uploaded = await storageService.uploadOriginal(
       file,
       fileName: fileName,
-      userId: session.userId,
     );
     if (uploaded == null) {
       return null;
@@ -37,21 +36,9 @@ final detectActionProvider = FutureProvider((ref) async {
 });
 
 final uploadActionProvider = FutureProvider((ref) async {
-  final session = await ref.watch(sessionStreamProvider.future);
-  final storageService = ref.read(storageServiceProvider);
+  final storageService = await ref.read(storageServiceProvider.future);
 
-  Future<UploadedSound?> action(
-    File file, {
-    required String fileName,
-  }) async {
-    return storageService.uploadTrimmed(
-      file,
-      fileName: fileName,
-      userId: session.userId,
-    );
-  }
-
-  return action;
+  return storageService.uploadTrimmed;
 });
 
 final getShouldShowRequestPushNotificationPermissionActionProvider =
