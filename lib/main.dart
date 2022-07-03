@@ -34,8 +34,9 @@ Future<void> main() async {
     await FirebaseStorage.instance.useStorageEmulator(serverHost, 9199);
 
     overrides = [
-      // Firebase Emulator の Python クライアントはまだ Storage に対応していないので、
-      // Flask のエンドポイントを利用する)
+      // Use Flask endpoint in Emulator flavor,
+      // because the Python lib for Firebase Emulator is
+      // not able to use Firebase Storage.
       storageServiceProvider.overrideWithProvider(storageServiceFlaskProvider),
     ];
   } else {
