@@ -6,13 +6,6 @@ import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
 
-typedef Listener = void Function<T>(
-  ProviderListenable<T> provider,
-  void Function(T? previous, T next) listener, {
-  bool fireImmediately,
-  void Function(Object error, StackTrace stackTrace)? onError,
-});
-
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (ref) {
