@@ -33,5 +33,7 @@ final signInActionProvider = Provider((ref) {
 final signOutActionProvider = Provider((ref) {
   final actions = ref.watch(authActionsProvider);
 
+  // TODO(ide): Reset registration token.
+
   return actions.signOut;
 });
