@@ -12,6 +12,6 @@ class OnboardingViewModel extends StateNotifier<OnboardingState> {
   final Reader _reader;
 
   Future<void> onDone() async {
-    await _reader(finishOnboardingActionProvider).call();
+    await _reader(settingsActionsProvider).setIsOnboardingFinished();
   }
 }

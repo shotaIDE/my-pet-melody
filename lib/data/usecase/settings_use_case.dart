@@ -1,22 +1,26 @@
+// ignore_for_file: prefer-match-file-name
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/repository_providers.dart';
+import 'package:meow_music/data/repository/settings_repository.dart';
 
-final isOnboardingFinishedProvider = Provider((ref) {
+final settingsActionsProvider = Provider((ref) {
   final repository = ref.read(settingsRepositoryProvider);
 
-  Future<bool> action() async {
-    return repository.getIsOnboardingFinished();
-  }
-
-  return action;
+  return SettingsActions(repository: repository);
 });
 
-final finishOnboardingActionProvider = Provider((ref) {
-  final repository = ref.read(settingsRepositoryProvider);
+class SettingsActions {
+  const SettingsActions({required SettingsRepository repository})
+      : _repository = repository;
 
-  Future<void> action() async {
-    await repository.setIsOnboardingFinished();
+  final SettingsRepository _repository;
+
+  Future<bool> isOnboardingFinished() async {
+    return _repository.isOnboardingFinished();
   }
 
-  return action;
-});
+  Future<void> setIsOnboardingFinished() async {
+    await _repository.setIsOnboardingFinished();
+  }
+}

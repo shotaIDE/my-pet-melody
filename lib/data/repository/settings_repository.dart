@@ -10,7 +10,7 @@ class SettingsRepository {
   bool? _cachedIsOnboardingFinished;
   bool? _cachedHasRequestedPushNotificationPermissionAtLeastOnce;
 
-  Future<bool> getIsOnboardingFinished() async {
+  Future<bool> isOnboardingFinished() async {
     if (_cachedIsOnboardingFinished != null) {
       return _cachedIsOnboardingFinished!;
     }
