@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/definitions/types.dart';
 import 'package:meow_music/data/service/database_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/data/usecase/settings_use_case.dart';
@@ -9,14 +10,17 @@ import 'package:meow_music/root_state.dart';
 class RootViewModel extends StateNotifier<RootState> {
   RootViewModel({
     required Reader reader,
-    required Future<String?> registrationToken,
+    required Listener listener,
   }) : super(const RootState()) {
-    _setup(reader: reader, registrationTokenFuture: registrationToken);
+    _setup(
+      reader: reader,
+      listener: listener,
+    );
   }
 
   Future<void> _setup({
     required Reader reader,
-    required Future<String?> registrationTokenFuture,
+    required Listener listener,
   }) async {
     await reader(ensureLoggedInActionProvider.future);
 
@@ -25,10 +29,18 @@ class RootViewModel extends StateNotifier<RootState> {
 
     state = state.copyWith(shouldLaunchOnboarding: !isOnboardingFinished);
 
-    final registrationToken = await registrationTokenFuture;
-    if (registrationToken != null) {
-      final databaseActions = await reader(databaseActionsProvider.future);
-      await databaseActions.sendRegistrationTokenIfNeeded(registrationToken);
-    }
+    listener<Future<String?>>(
+      registrationTokenProvider.future,
+      (_, next) async {
+        final registrationToken = await next;
+        if (registrationToken == null) {
+          return;
+        }
+
+        final databaseActions = await reader(databaseActionsProvider.future);
+        await databaseActions.sendRegistrationTokenIfNeeded(registrationToken);
+      },
+      fireImmediately: true,
+    );
   }
 }
