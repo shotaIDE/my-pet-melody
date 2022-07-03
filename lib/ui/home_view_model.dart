@@ -134,9 +134,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
     _listener<Future<List<Piece>>>(
       piecesProvider.future,
       (_, next) async {
-        final pieces = await next;
+        final pieceDataList = await next;
 
-        final choices = pieces
+        final pieces = pieceDataList
             .map(
               (piece) => PlayerChoicePiece(
                 status: const PlayStatus.stop(),
@@ -149,20 +149,20 @@ class HomeViewModel extends StateNotifier<HomeState> {
           (piece) => piece.status.map(stop: (_) => false, playing: (_) => true),
         );
 
-        final List<PlayerChoicePiece> fixedChoices;
+        final List<PlayerChoicePiece> fixedPieces;
         if (previousPlaying != null) {
-          fixedChoices = PlayerChoiceConverter.getTargetReplaced(
-            originalList: choices,
+          fixedPieces = PlayerChoiceConverter.getTargetReplaced(
+            originalList: pieces,
             targetId: previousPlaying.id,
             // TODO(ide): Use new properties except the `PlayStatus`
             newPlayable: previousPlaying,
           ).whereType<PlayerChoicePiece>().toList();
         } else {
-          fixedChoices = choices;
+          fixedPieces = pieces;
         }
 
         state = state.copyWith(
-          pieces: fixedChoices,
+          pieces: fixedPieces,
         );
       },
       fireImmediately: true,
