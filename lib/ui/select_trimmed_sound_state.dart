@@ -29,6 +29,7 @@ class SelectTrimmedSoundResult with _$SelectTrimmedSoundResult {
   const factory SelectTrimmedSoundResult({
     required UploadedSound uploaded,
     required String label,
+    required String thumbnailPath,
   }) = _SelectTrimmedSoundResult;
 }
 
