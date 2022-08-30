@@ -138,7 +138,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('STEP 1/2'),
+          title: const Text('STEP 1/3'),
         ),
         body: Column(
           children: [

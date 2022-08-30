@@ -41,6 +41,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   final Reader _reader;
   final _player = AudioPlayer();
 
+  String? _thumbnailPath;
+
   Duration? _currentAudioDuration;
   StreamSubscription<Duration>? _audioDurationSubscription;
   StreamSubscription<Duration>? _audioPositionSubscription;
@@ -158,6 +160,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       sounds: sounds,
       isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
     );
+
+    _thumbnailPath = result.thumbnailPath;
   }
 
   Future<void> delete({required PlayerChoiceSound target}) async {

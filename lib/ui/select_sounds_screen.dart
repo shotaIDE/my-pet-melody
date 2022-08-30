@@ -235,7 +235,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('STEP 2/2'),
+          title: const Text('STEP 2/3'),
         ),
         body: Column(
           children: [
