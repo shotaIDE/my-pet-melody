@@ -9,9 +9,9 @@ import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
-import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
+import 'package:meow_music/ui/set_piece_details_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -178,12 +178,16 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
-  RequestPushNotificationPermissionArgs getRequestPermissionArgs() {
+  SetPieceDetailsArgs getSetPieceDetailsArgs() {
     final soundIdList = _getSoundIdList();
 
-    return RequestPushNotificationPermissionArgs(
+    return SetPieceDetailsArgs(
       template: state.template.template,
       sounds: soundIdList,
+      // TODO(ide): Fix to no use of force unwrapping
+      thumbnailPath: _thumbnailPath!,
+      // TODO(ide): Get file name of original movie and should be set
+      label: 'test',
     );
   }
 
@@ -275,12 +279,6 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
       _onAudioFinished();
     });
-
-    final isRequestStepExists = await _reader(
-      getShouldShowRequestPushNotificationPermissionActionProvider,
-    ).call();
-
-    state = state.copyWith(isRequestStepExists: isRequestStepExists);
   }
 
   void _onAudioPositionReceived(Duration position) {

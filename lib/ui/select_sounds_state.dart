@@ -8,7 +8,6 @@ class SelectSoundsState with _$SelectSoundsState {
   const factory SelectSoundsState({
     required PlayerChoiceTemplate template,
     required List<PlayerChoiceSound> sounds,
-    @Default(null) bool? isRequestStepExists,
     @Default(false) bool isAvailableSubmission,
     @Default(null) SelectSoundScreenProcess? process,
   }) = _SelectSoundsState;

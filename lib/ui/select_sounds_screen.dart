@@ -4,14 +4,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
-import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
-import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
+import 'package:meow_music/ui/set_piece_details_screen.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
@@ -191,29 +189,15 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final isRequestStepExists = state.isRequestStepExists;
-    final Widget footerContent;
-    if (isRequestStepExists == null) {
-      footerContent = const CircularProgressIndicator();
-    } else {
-      final ButtonStyleButton footerButton;
-      if (isRequestStepExists) {
-        footerButton = ElevatedButton(
-          onPressed: state.isAvailableSubmission ? _showRequestScreen : null,
-          child: const Text('作品をつくる準備に進む'),
-        );
-      } else {
-        footerButton = ElevatedButton(
-          onPressed: state.isAvailableSubmission ? _submit : null,
-          child: const Text('作品をつくる'),
-        );
-      }
-
-      footerContent = SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: footerButton,
-      );
-    }
+    final footerButton = ElevatedButton(
+      onPressed:
+          state.isAvailableSubmission ? _showSetPieceDetailsScreen : null,
+      child: const Text('次へ'),
+    );
+    final footerContent = SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: footerButton,
+    );
 
     final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
 
@@ -343,29 +327,12 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         .onSelectedTrimmedSound(selectTrimmedSoundResult, target: target);
   }
 
-  Future<void> _showRequestScreen() async {
-    final args = ref.read(widget.viewModel.notifier).getRequestPermissionArgs();
+  Future<void> _showSetPieceDetailsScreen() async {
+    final args = ref.read(widget.viewModel.notifier).getSetPieceDetailsArgs();
 
     await Navigator.push<void>(
       context,
-      RequestPushNotificationPermissionScreen.route(args: args),
-    );
-  }
-
-  Future<void> _submit() async {
-    await ref.read(widget.viewModel.notifier).submit();
-
-    if (!mounted) {
-      return;
-    }
-
-    Navigator.popUntil(
-      context,
-      (route) => route.settings.name == SelectTemplateScreen.name,
-    );
-    await Navigator.pushReplacement<CompletedToSubmitScreen, void>(
-      context,
-      CompletedToSubmitScreen.route(),
+      SetPieceDetailsScreen.route(args: args),
     );
   }
 }

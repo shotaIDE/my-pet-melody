@@ -21,6 +21,6 @@ class SetPieceDetailsArgs with _$SetPieceDetailsArgs {
     required Template template,
     required List<UploadedSound> sounds,
     required String thumbnailPath,
-    required TextEditingController labelController,
+    required String label,
   }) = _SetPieceDetailsArgs;
 }
