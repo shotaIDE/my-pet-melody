@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
@@ -72,6 +74,58 @@ class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
       );
     }
 
+    final description = Text(
+      'あなたのねこが鳴いてる動画を選んでね！自動で鳴き声を探すよ！',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.bodyText1,
+    );
+
+    final thumbnail = Image.file(
+      File(state.thumbnailPath),
+      fit: BoxFit.cover,
+      width: 80 * 1.5,
+      height: 80,
+    );
+    final thumbnailButton = InkWell(
+      onTap: () {},
+      child: thumbnail,
+    );
+
+    final labelInput = TextField(
+      controller: state.labelController,
+    );
+
+    final body = SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 16, bottom: 203, left: 16, right: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          description,
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: thumbnailButton,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: labelInput,
+          ),
+        ],
+      ),
+    );
+
+    final catImage = Image.asset('assets/images/speaking_cat_eye_opened.png');
+
+    final footer = Container(
+      alignment: Alignment.center,
+      color: Theme.of(context).secondaryHeaderColor,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: footerContent,
+        ),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('STEP 3/3'),
@@ -82,6 +136,22 @@ class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
             padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
             child: title,
           ),
+          Expanded(
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 32),
+                  child: body,
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 16,
+                  child: SafeArea(child: catImage),
+                ),
+              ],
+            ),
+          ),
+          footer,
         ],
       ),
     );

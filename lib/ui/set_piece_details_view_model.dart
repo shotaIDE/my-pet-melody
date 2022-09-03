@@ -16,7 +16,7 @@ class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
         super(
           SetPieceDetailsState(
             thumbnailPath: args.thumbnailPath,
-            labelController: TextEditingController(),
+            labelController: TextEditingController(text: args.label),
           ),
         ) {
     setup();
