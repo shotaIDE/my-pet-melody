@@ -64,6 +64,7 @@ class SubmitRequest with _$SubmitRequest {
   const factory SubmitRequest({
     required String templateId,
     required List<String> fileNames,
+    required String displayName,
   }) = _SubmitRequest;
 
   factory SubmitRequest.fromJson(Map<String, dynamic> json) =>

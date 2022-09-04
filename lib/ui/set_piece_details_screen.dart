@@ -91,8 +91,8 @@ class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
       child: thumbnail,
     );
 
-    final labelInput = TextField(
-      controller: state.labelController,
+    final displayNameInput = TextField(
+      controller: state.displayNameController,
     );
 
     final body = SingleChildScrollView(
@@ -107,7 +107,7 @@ class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 32),
-            child: labelInput,
+            child: displayNameInput,
           ),
         ],
       ),

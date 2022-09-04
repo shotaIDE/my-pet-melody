@@ -16,7 +16,8 @@ class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
         super(
           SetPieceDetailsState(
             thumbnailPath: args.thumbnailPath,
-            labelController: TextEditingController(text: args.label),
+            displayNameController:
+                TextEditingController(text: args.displayName),
           ),
         ) {
     setup();
@@ -36,19 +37,25 @@ class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
   }
 
   RequestPushNotificationPermissionArgs getRequestPermissionArgs() {
+    final displayName = state.displayNameController.text;
+
     return RequestPushNotificationPermissionArgs(
       template: _template,
       sounds: _sounds,
+      displayName: displayName,
     );
   }
 
   Future<void> submit() async {
     state = state.copyWith(isProcessing: true);
 
+    final displayName = state.displayNameController.text;
+
     final submitAction = await _reader(submitActionProvider.future);
     await submitAction(
       template: _template,
       sounds: _sounds,
+      displayName: displayName,
     );
 
     state = state.copyWith(isProcessing: false);

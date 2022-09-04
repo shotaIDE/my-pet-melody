@@ -35,6 +35,7 @@ class RequestPushNotificationPermissionViewModel
     await submitAction(
       template: _args.template,
       sounds: _args.sounds,
+      displayName: _args.displayName,
     );
 
     state = state.copyWith(isProcessing: false);

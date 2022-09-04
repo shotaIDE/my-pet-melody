@@ -73,6 +73,7 @@ def submit(request):
 
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['fileNames']
+    display_name = request_params_json['displayName']
 
     client = tasks_v2.CloudTasksClient()
 
@@ -85,6 +86,7 @@ def submit(request):
         'pieceId': piece_id,
         'templateId': template_id,
         'fileNames': sound_base_names,
+        'displayName': display_name,
     }
     payload = json.dumps(body_dict)
     converted_payload = payload.encode()
@@ -124,6 +126,7 @@ def piece(request):
 
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['fileNames']
+    display_name = request_params_json['displayName']
 
     overlays = template_overlays(id=template_id)
 
@@ -185,7 +188,7 @@ def piece(request):
     set_generated_piece(
         uid=uid,
         id=piece_id,
-        name=export_base_name,
+        display_name=display_name,
         file_name=export_file_name,
         generated_at=current
     )

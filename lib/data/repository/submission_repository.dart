@@ -21,11 +21,13 @@ class SubmissionRepository {
   Future<void> submit({
     required String templateId,
     required List<UploadedSound> sounds,
+    required String displayName,
     required String token,
   }) async {
     await _remote.submit(
       templateId: templateId,
       sounds: sounds,
+      displayName: displayName,
       token: token,
     );
   }

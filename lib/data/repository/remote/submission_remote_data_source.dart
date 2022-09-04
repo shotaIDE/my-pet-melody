@@ -38,6 +38,7 @@ class SubmissionRemoteDataSource {
   Future<void> submit({
     required String templateId,
     required List<UploadedSound> sounds,
+    required String displayName,
     required String token,
   }) async {
     await _api.submit(
@@ -45,6 +46,7 @@ class SubmissionRemoteDataSource {
         templateId: templateId,
         fileNames:
             sounds.map((sound) => '${sound.id}${sound.extension}').toList(),
+        displayName: displayName,
       ),
       token: token,
     );

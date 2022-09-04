@@ -151,7 +151,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       sound: SelectedSound.uploaded(
         id: result.uploaded.id,
         extension: result.uploaded.extension,
-        localFileName: result.label,
+        localFileName: result.displayName,
         remoteUrl: result.uploaded.url,
       ),
     );
@@ -187,22 +187,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       // TODO(ide): Fix to no use of force unwrapping
       thumbnailPath: _thumbnailPath!,
       // TODO(ide): Get file name of original movie and should be set
-      label: 'test',
+      displayName: 'test',
     );
-  }
-
-  Future<void> submit() async {
-    state = state.copyWith(process: SelectSoundScreenProcess.submit);
-
-    final soundIdList = _getSoundIdList();
-
-    final submitAction = await _reader(submitActionProvider.future);
-    await submitAction(
-      template: state.template.template,
-      sounds: soundIdList,
-    );
-
-    state = state.copyWith(process: null);
   }
 
   Future<void> play({required PlayerChoice choice}) async {

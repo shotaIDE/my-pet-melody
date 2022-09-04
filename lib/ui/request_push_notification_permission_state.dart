@@ -18,5 +18,6 @@ class RequestPushNotificationPermissionArgs
   const factory RequestPushNotificationPermissionArgs({
     required Template template,
     required List<UploadedSound> sounds,
+    required String displayName,
   }) = _RequestPushNotificationPermissionArgs;
 }

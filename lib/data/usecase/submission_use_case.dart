@@ -80,10 +80,12 @@ final submitActionProvider = FutureProvider((ref) async {
   Future<void> action({
     required Template template,
     required List<UploadedSound> sounds,
+    required String displayName,
   }) async {
     await repository.submit(
       templateId: template.id,
       sounds: sounds,
+      displayName: displayName,
       token: session.token,
     );
   }

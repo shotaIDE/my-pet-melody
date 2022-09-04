@@ -16,9 +16,14 @@ def template_overlays(id: str) -> list[dict[str, Any]]:
 
 
 def set_generated_piece(
-        uid: str, id: str, name: str, file_name: str, generated_at: DateTime):
+    uid: str,
+    id: str,
+    display_name: str,
+    file_name: str,
+    generated_at: DateTime
+):
     store_data = {
-        'name': f'Generated Piece: {name}',
+        'name': display_name,
         'movieFileName': file_name,
         'generatedAt': generated_at,
     }

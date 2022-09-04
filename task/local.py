@@ -56,6 +56,7 @@ def piece(request):
 
     template_id = request_params_json['templateId']
     file_name_bases = request_params_json['fileNames']
+    display_name = request_params_json['displayName']
 
     file_paths = [
         (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
@@ -90,7 +91,7 @@ def piece(request):
     set_generated_piece(
         uid=uid,
         id=None,
-        name=export_base_name,
+        display_name=display_name,
         file_name=export_file_name,
         generated_at=current
     )
