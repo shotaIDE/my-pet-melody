@@ -19,5 +19,6 @@ class RequestPushNotificationPermissionArgs
     required Template template,
     required List<UploadedSound> sounds,
     required String displayName,
+    required String thumbnailPath,
   }) = _RequestPushNotificationPermissionArgs;
 }

@@ -81,11 +81,13 @@ final submitActionProvider = FutureProvider((ref) async {
     required Template template,
     required List<UploadedSound> sounds,
     required String displayName,
+    required UploadedSound thumbnail,
   }) async {
     await repository.submit(
       templateId: template.id,
       sounds: sounds,
       displayName: displayName,
+      thumbnail: thumbnail,
       token: session.token,
     );
   }

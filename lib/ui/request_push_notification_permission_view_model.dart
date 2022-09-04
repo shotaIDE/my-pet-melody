@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
+import 'package:path/path.dart';
 
 class RequestPushNotificationPermissionViewModel
     extends StateNotifier<RequestPushNotificationPermissionState> {
@@ -31,11 +33,25 @@ class RequestPushNotificationPermissionViewModel
   Future<void> _submit() async {
     state = state.copyWith(isProcessing: true);
 
+    final thumbnailPath = _args.thumbnailPath;
+    final thumbnail = File(thumbnailPath);
+
+    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadedThumbnail = await uploadAction(
+      thumbnail,
+      fileName: basename(thumbnailPath),
+    );
+
+    if (uploadedThumbnail == null) {
+      return;
+    }
+
     final submitAction = await _reader(submitActionProvider.future);
     await submitAction(
       template: _args.template,
       sounds: _args.sounds,
       displayName: _args.displayName,
+      thumbnail: uploadedThumbnail,
     );
 
     state = state.copyWith(isProcessing: false);

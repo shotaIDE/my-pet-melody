@@ -65,6 +65,7 @@ class SubmitRequest with _$SubmitRequest {
     required String templateId,
     required List<String> fileNames,
     required String displayName,
+    required String thumbnailName,
   }) = _SubmitRequest;
 
   factory SubmitRequest.fromJson(Map<String, dynamic> json) =>

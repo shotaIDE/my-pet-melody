@@ -22,12 +22,14 @@ class SubmissionRepository {
     required String templateId,
     required List<UploadedSound> sounds,
     required String displayName,
+    required UploadedSound thumbnail,
     required String token,
   }) async {
     await _remote.submit(
       templateId: templateId,
       sounds: sounds,
       displayName: displayName,
+      thumbnail: thumbnail,
       token: token,
     );
   }

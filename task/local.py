@@ -57,6 +57,7 @@ def piece(request):
     template_id = request_params_json['templateId']
     file_name_bases = request_params_json['fileNames']
     display_name = request_params_json['displayName']
+    thumbnail_base_name = request_params_json['thumbnailName']
 
     file_paths = [
         (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
