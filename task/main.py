@@ -38,7 +38,7 @@ def detect(request):
 
     uploaded_relative_path = (
         f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'originalMovies/{uploaded_file_name}'
+        f'unedited/{uploaded_file_name}'
     )
     uploaded_blob = bucket.blob(uploaded_relative_path)
 
@@ -151,7 +151,7 @@ def piece(request):
 
         sound_relative_path = (
             f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-            f'uploadedMovies/{sound_base_name}'
+            f'edited/{sound_base_name}'
         )
         sound_blob = bucket.blob(sound_relative_path)
 

@@ -40,7 +40,7 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
-  Future<UploadedSound?> uploadOriginal(
+  Future<UploadedSound?> uploadUnedited(
     File file, {
     required String fileName,
   }) async {
@@ -53,8 +53,7 @@ class StorageServiceFirebase implements StorageService {
 
     final fileExtension = extension(fileName);
 
-    final path =
-        '/userMedia/$userId/originalMovies/$uploadFileId$fileExtension';
+    final path = '/userMedia/$userId/unedited/$uploadFileId$fileExtension';
 
     final pathRef = storageRef.child(path);
 
@@ -75,7 +74,7 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
-  Future<UploadedSound?> uploadTrimmed(
+  Future<UploadedSound?> uploadEdited(
     File file, {
     required String fileName,
   }) async {
@@ -88,8 +87,7 @@ class StorageServiceFirebase implements StorageService {
 
     final fileExtension = extension(fileName);
 
-    final path =
-        '/userMedia/$userId/uploadedMovies/$uploadFileId$fileExtension';
+    final path = '/userMedia/$userId/edited/$uploadFileId$fileExtension';
 
     final pathRef = storageRef.child(path);
 

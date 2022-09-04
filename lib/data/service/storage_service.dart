@@ -9,12 +9,12 @@ abstract class StorageService {
     required String fileName,
   });
 
-  Future<UploadedSound?> uploadOriginal(
+  Future<UploadedSound?> uploadUnedited(
     File file, {
     required String fileName,
   });
 
-  Future<UploadedSound?> uploadTrimmed(
+  Future<UploadedSound?> uploadEdited(
     File file, {
     required String fileName,
   });

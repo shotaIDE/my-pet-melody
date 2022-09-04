@@ -1,7 +1,7 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /userMedia/{userId}/originalMovies/{allPaths=**} {
+    match /userMedia/{userId}/unedited/{allPaths=**} {
       allow read:
         if request.auth != null && request.auth.uid == userId;
       allow write:
@@ -9,7 +9,7 @@ service firebase.storage {
           // less than 100 MB
           request.resource.size < 100 * 1024 * 1024;
     }
-    match /userMedia/{userId}/uploadedMovies/{allPaths=**} {
+    match /userMedia/{userId}/edited/{allPaths=**} {
       allow read:
         if request.auth != null && request.auth.uid == userId;
       allow write:

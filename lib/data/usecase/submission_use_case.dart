@@ -18,7 +18,7 @@ final detectActionProvider = FutureProvider((ref) async {
     File file, {
     required String fileName,
   }) async {
-    final uploaded = await storageService.uploadOriginal(
+    final uploaded = await storageService.uploadUnedited(
       file,
       fileName: fileName,
     );
@@ -38,7 +38,7 @@ final detectActionProvider = FutureProvider((ref) async {
 final uploadActionProvider = FutureProvider((ref) async {
   final storageService = await ref.read(storageServiceProvider.future);
 
-  return storageService.uploadTrimmed;
+  return storageService.uploadEdited;
 });
 
 final getShouldShowRequestPushNotificationPermissionActionProvider =

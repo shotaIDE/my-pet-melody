@@ -25,7 +25,7 @@ class StorageServiceLocalFlask implements StorageService {
   }
 
   @override
-  Future<UploadedSound?> uploadOriginal(
+  Future<UploadedSound?> uploadUnedited(
     File file, {
     required String fileName,
   }) async {
@@ -33,7 +33,7 @@ class StorageServiceLocalFlask implements StorageService {
   }
 
   @override
-  Future<UploadedSound?> uploadTrimmed(
+  Future<UploadedSound?> uploadEdited(
     File file, {
     required String fileName,
   }) async {
