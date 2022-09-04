@@ -181,13 +181,15 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SetPieceDetailsArgs getSetPieceDetailsArgs() {
     final soundIdList = _getSoundIdList();
 
+    final displayName =
+        (state.sounds.first.sound as SelectedSoundUploaded).localFileName;
+
     return SetPieceDetailsArgs(
       template: state.template.template,
       sounds: soundIdList,
       // TODO(ide): Fix to no use of force unwrapping
       thumbnailPath: _thumbnailPath!,
-      // TODO(ide): Get file name of original movie and should be set
-      displayName: 'test',
+      displayName: displayName,
     );
   }
 
