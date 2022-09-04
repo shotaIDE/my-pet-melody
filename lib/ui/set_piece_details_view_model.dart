@@ -51,6 +51,6 @@ class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
       sounds: _sounds,
     );
 
-    state = state.copyWith(isProcessing: true);
+    state = state.copyWith(isProcessing: false);
   }
 }

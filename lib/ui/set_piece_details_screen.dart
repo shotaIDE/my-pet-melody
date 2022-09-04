@@ -126,7 +126,7 @@ class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
       ),
     );
 
-    return Scaffold(
+    final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('STEP 3/3'),
       ),
@@ -155,6 +155,34 @@ class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
         ],
       ),
     );
+
+    return state.isProcessing
+        ? Stack(
+            children: [
+              scaffold,
+              Container(
+                alignment: Alignment.center,
+                color: Colors.black.withOpacity(0.5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '提出しています',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(color: Colors.white),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: LinearProgressIndicator(),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        : scaffold;
   }
 
   Future<void> _showRequestScreen() async {
