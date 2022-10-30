@@ -64,5 +64,13 @@
             "console": "integratedTerminal",
             "justMyCode": true,
         },
+        {
+            "name": "Test FFMpeg",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/sandbox.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
     ],
 }
