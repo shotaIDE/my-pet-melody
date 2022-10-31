@@ -47,12 +47,14 @@ def generate_piece_movie(
     export_base_path: str,
 ) -> str:
     HEIGHT = 1080
-    LENGTH_SECONDS = 3
     FRAME_RATE = 30
     FONT_PATH = '../fonts/uzura.ttf'
     MOVIE_CREDITS = 'Created by Meow Music'
 
     title = 'サウンドタイトル'
+
+    sound_info = ffmpeg.probe(piece_sound_path)
+    sound_duration_seconds = sound_info['format']['duration']
 
     background_image = (
         ffmpeg
@@ -89,7 +91,7 @@ def generate_piece_movie(
         vcodec='libx264',
         acodec='aac',
         pix_fmt='yuv420p',
-        t=LENGTH_SECONDS,
+        t=sound_duration_seconds,
         r=FRAME_RATE,
     )
 
