@@ -103,6 +103,7 @@ def piece(request):
     piece_movie_export_path = generate_piece_movie(
         thumbnail_path=thumbnail_path,
         piece_sound_path=piece_sound_export_path,
+        title=display_name,
         export_base_path=movie_export_base_path
     )
 
