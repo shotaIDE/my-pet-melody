@@ -13,7 +13,7 @@ from auth import verify_authorization_header
 from database import set_generated_piece, template_overlays
 from detection import detect_non_silence
 from firebase import initialize_firebase
-from piece import generate_piece
+from piece import generate_piece_sound
 from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                      USER_MEDIA_DIRECTORY_NAME)
 
@@ -167,7 +167,7 @@ def piece(request):
 
     _, export_local_base_path = tempfile.mkstemp()
 
-    export_local_path = generate_piece(
+    export_local_path = generate_piece_sound(
         template_path=template_local_path,
         sound_paths=sound_local_paths,
         overlays=overlays,

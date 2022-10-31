@@ -6,7 +6,7 @@ from datetime import datetime
 from auth import verify_authorization_header
 from database import set_generated_piece, template_overlays
 from detection import detect_non_silence
-from piece import generate_piece
+from piece import generate_piece_movie, generate_piece_sound
 from utils import generate_store_file_name
 
 _STATIC_DIRECTORY = 'static'
@@ -74,20 +74,41 @@ def piece(request):
     overlays = template_overlays(id=template_id)
 
     current = datetime.now()
-    export_base_name = current.strftime('%Y%m%d%H%M%S')
-    export_base_path_on_static = f'{_EXPORTS_DIRECTORY}/{export_base_name}'
-    export_base_path = f'{_STATIC_DIRECTORY}/{export_base_path_on_static}'
+    sound_export_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'
+    sound_export_base_path_on_static = (
+        f'{_EXPORTS_DIRECTORY}/{sound_export_base_name}'
+    )
+    sound_export_base_path = (
+        f'{_STATIC_DIRECTORY}/{sound_export_base_path_on_static}'
+    )
 
-    export_path = generate_piece(
+    piece_sound_export_path = generate_piece_sound(
         template_path=template_path,
         sound_paths=file_paths,
         overlays=overlays,
-        export_base_path=export_base_path,
+        export_base_path=sound_export_base_path,
     )
 
-    splitted_file_name = os.path.splitext(export_path)
+    thumbnail_path = (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
+                      f'{thumbnail_base_name}')
+
+    movie_export_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
+    movie_export_base_path_on_static = (
+        f'{_EXPORTS_DIRECTORY}/{movie_export_base_name}'
+    )
+    movie_export_base_path = (
+        f'{_STATIC_DIRECTORY}/{movie_export_base_path_on_static}'
+    )
+
+    piece_movie_export_path = generate_piece_movie(
+        thumbnail_path=thumbnail_path,
+        piece_sound_path=piece_sound_export_path,
+        export_base_path=movie_export_base_path
+    )
+
+    splitted_file_name = os.path.splitext(piece_movie_export_path)
     export_extension = splitted_file_name[1]
-    export_file_name = f'{export_base_name}{export_extension}'
+    export_file_name = f'{movie_export_base_name}{export_extension}'
 
     set_generated_piece(
         uid=uid,
