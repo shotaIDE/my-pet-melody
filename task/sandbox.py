@@ -7,11 +7,33 @@ def generate_movie():
     HEIGHT = 1080
     LENGTH_SECONDS = 3
     FRAME_RATE = 30
+    FONT_PATH = '../fonts/uzura.ttf'
+    MOVIE_CREDITS = 'Created by Meow Music'
+
+    title = 'サウンドタイトル'
 
     background_image = (
         ffmpeg
         .input('background.jpg')
         .filter('scale', -1, HEIGHT)
+        .filter(
+            'drawtext',
+            fontfile=FONT_PATH,
+            text=title,
+            x=40,
+            y=920,
+            fontsize=48,
+            fontcolor='white'
+        )
+        .filter(
+            'drawtext',
+            fontfile=FONT_PATH,
+            text=MOVIE_CREDITS,
+            x=40,
+            y=1008,
+            fontsize=32,
+            fontcolor='white'
+        )
     )
     sound = ffmpeg.input('sound.mp3')
 
