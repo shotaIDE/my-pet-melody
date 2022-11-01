@@ -204,7 +204,7 @@ def piece(request):
 
     current = datetime.now()
     movie_export_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
-    splitted_file_name = os.path.splitext(piece_sound_export_local_path)
+    splitted_file_name = os.path.splitext(piece_movie_export_local_path)
     movie_export_extension = splitted_file_name[1]
     export_file_name = f'{movie_export_base_name}{movie_export_extension}'
 
