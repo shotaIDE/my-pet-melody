@@ -6,6 +6,7 @@ import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
+import 'package:meow_music/ui/video_screen.dart';
 
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
@@ -92,10 +93,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final void Function()? onTap;
             onTap = piece.map(
               generating: (_) => null,
-              generated: (_) => playStatus.when(
-                stop: () => () => ref
-                    .read(widget.viewModel.notifier)
-                    .play(piece: playablePiece),
+              generated: (generatedPiece) => playStatus.when(
+                stop: () => () {
+                  Navigator.push(
+                    context,
+                    VideoScreen.route(url: generatedPiece.url),
+                  );
+                },
                 playing: (_) => () => ref
                     .read(widget.viewModel.notifier)
                     .stop(piece: playablePiece),
