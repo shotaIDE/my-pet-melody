@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/login_session.dart';
-import 'package:meow_music/data/model/uploaded_sound.dart';
+import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:meow_music/data/service/storage_service.dart';
 import 'package:path/path.dart';
 
@@ -40,7 +40,7 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
-  Future<UploadedSound?> uploadUnedited(
+  Future<UploadedMedia?> uploadUnedited(
     File file, {
     required String fileName,
   }) async {
@@ -70,11 +70,11 @@ class StorageServiceFirebase implements StorageService {
 
     final url = await pathRef.getDownloadURL();
 
-    return UploadedSound(id: uploadFileId, extension: fileExtension, url: url);
+    return UploadedMedia(id: uploadFileId, extension: fileExtension, url: url);
   }
 
   @override
-  Future<UploadedSound?> uploadEdited(
+  Future<UploadedMedia?> uploadEdited(
     File file, {
     required String fileName,
   }) async {
@@ -104,6 +104,6 @@ class StorageServiceFirebase implements StorageService {
 
     final url = await pathRef.getDownloadURL();
 
-    return UploadedSound(id: uploadFileId, extension: fileExtension, url: url);
+    return UploadedMedia(id: uploadFileId, extension: fileExtension, url: url);
   }
 }

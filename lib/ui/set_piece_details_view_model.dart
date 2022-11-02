@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/model/uploaded_sound.dart';
+import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/set_piece_details_state.dart';
@@ -27,7 +27,7 @@ class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
   }
 
   final Template _template;
-  final List<UploadedSound> _sounds;
+  final List<UploadedMedia> _sounds;
 
   final Reader _reader;
 
