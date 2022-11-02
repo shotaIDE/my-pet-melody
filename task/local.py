@@ -55,14 +55,14 @@ def piece(request):
     request_params_json = request.json
 
     template_id = request_params_json['templateId']
-    file_name_bases = request_params_json['fileNames']
+    sound_base_names = request_params_json['soundFileNames']
     display_name = request_params_json['displayName']
-    thumbnail_base_name = request_params_json['thumbnailName']
+    thumbnail_base_name = request_params_json['thumbnailFileName']
 
-    file_paths = [
+    sound_paths = [
         (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
-         f'{file_name_base}')
-        for file_name_base in file_name_bases
+         f'{sound_base_name}')
+        for sound_base_name in sound_base_names
     ]
 
     # TODO: ファイルの存在を確認するバリデーションチェック
@@ -84,7 +84,7 @@ def piece(request):
 
     piece_sound_export_path = generate_piece_sound(
         template_path=template_path,
-        sound_paths=file_paths,
+        sound_paths=sound_paths,
         overlays=overlays,
         export_base_path=sound_export_base_path,
     )
