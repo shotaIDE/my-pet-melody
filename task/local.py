@@ -41,8 +41,9 @@ def detect(request):
 
     uploaded_file_name = request_params_json['fileName']
 
-    uploaded_path_on_static = f'{_UPLOADS_DIRECTORY}/{uploaded_file_name}'
-    uploaded_path = f'{_STATIC_DIRECTORY}/{uploaded_path_on_static}'
+    uploaded_path = (
+        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{uploaded_file_name}'
+    )
 
     return detect_non_silence(store_path=uploaded_path)
 
@@ -75,11 +76,8 @@ def piece(request):
 
     current = datetime.now()
     sound_export_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'
-    sound_export_base_path_on_static = (
-        f'{_EXPORTS_DIRECTORY}/{sound_export_base_name}'
-    )
     sound_export_base_path = (
-        f'{_STATIC_DIRECTORY}/{sound_export_base_path_on_static}'
+        f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/{sound_export_base_name}'
     )
 
     piece_sound_export_path = generate_piece_sound(
@@ -93,11 +91,8 @@ def piece(request):
                       f'{thumbnail_base_name}')
 
     movie_export_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
-    movie_export_base_path_on_static = (
-        f'{_EXPORTS_DIRECTORY}/{movie_export_base_name}'
-    )
     movie_export_base_path = (
-        f'{_STATIC_DIRECTORY}/{movie_export_base_path_on_static}'
+        f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/{movie_export_base_name}'
     )
 
     piece_movie_export_path = generate_piece_movie(
