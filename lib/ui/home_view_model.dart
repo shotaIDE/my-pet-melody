@@ -100,6 +100,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     final directory = Directory('$parentPath/${piece.name}');
     await directory.create(recursive: true);
 
+    // TODO(ide): Use fetched extension
     final path = '${directory.path}/${piece.name}.mp4';
 
     await dio.download(piece.url, path);
