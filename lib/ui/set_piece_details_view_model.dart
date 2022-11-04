@@ -23,21 +23,13 @@ class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
                 TextEditingController(text: args.displayName),
           ),
         ) {
-    setup();
+    _setup();
   }
 
   final Template _template;
   final List<UploadedMedia> _sounds;
 
   final Reader _reader;
-
-  Future<void> setup() async {
-    final isRequestStepExists = await _reader(
-      getShouldShowRequestPushNotificationPermissionActionProvider,
-    ).call();
-
-    state = state.copyWith(isRequestStepExists: isRequestStepExists);
-  }
 
   RequestPushNotificationPermissionArgs getRequestPermissionArgs() {
     final displayName = state.displayNameController.text;
@@ -77,5 +69,13 @@ class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
     );
 
     state = state.copyWith(isProcessing: false);
+  }
+
+  Future<void> _setup() async {
+    final isRequestStepExists = await _reader(
+      getShouldShowRequestPushNotificationPermissionActionProvider,
+    ).call();
+
+    state = state.copyWith(isRequestStepExists: isRequestStepExists);
   }
 }
