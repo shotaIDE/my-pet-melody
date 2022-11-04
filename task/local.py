@@ -61,8 +61,7 @@ def piece(request):
     thumbnail_base_name = request_params_json['thumbnailFileName']
 
     sound_paths = [
-        (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
-         f'{sound_base_name}')
+        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{sound_base_name}'
         for sound_base_name in sound_base_names
     ]
 
