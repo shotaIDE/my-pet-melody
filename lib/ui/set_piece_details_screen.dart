@@ -86,10 +86,6 @@ class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
       width: 80 * 1.5,
       height: 80,
     );
-    final thumbnailButton = InkWell(
-      onTap: () {},
-      child: thumbnail,
-    );
 
     final displayNameInput = TextField(
       controller: state.displayNameController,
@@ -103,7 +99,7 @@ class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
           description,
           Padding(
             padding: const EdgeInsets.only(top: 32),
-            child: thumbnailButton,
+            child: thumbnail,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 32),
