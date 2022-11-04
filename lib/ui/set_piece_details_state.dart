@@ -8,7 +8,7 @@ part 'set_piece_details_state.freezed.dart';
 @freezed
 class SetPieceDetailsState with _$SetPieceDetailsState {
   const factory SetPieceDetailsState({
-    required String thumbnailPath,
+    required String thumbnailLocalPath,
     required TextEditingController displayNameController,
     @Default(null) bool? isRequestStepExists,
     @Default(false) bool isProcessing,
@@ -20,7 +20,7 @@ class SetPieceDetailsArgs with _$SetPieceDetailsArgs {
   const factory SetPieceDetailsArgs({
     required Template template,
     required List<UploadedMedia> sounds,
-    required String thumbnailPath,
+    required String thumbnailLocalPath,
     required String displayName,
   }) = _SetPieceDetailsArgs;
 }

@@ -41,7 +41,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   final Reader _reader;
   final _player = AudioPlayer();
 
-  String? _thumbnailPath;
+  String? _thumbnailLocalPath;
 
   Duration? _currentAudioDuration;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -161,7 +161,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
     );
 
-    _thumbnailPath = result.thumbnailPath;
+    _thumbnailLocalPath = result.thumbnailLocalPath;
   }
 
   Future<void> delete({required PlayerChoiceSound target}) async {
@@ -188,7 +188,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       template: state.template.template,
       sounds: soundIdList,
       // TODO(ide): Fix to no use of force unwrapping
-      thumbnailPath: _thumbnailPath!,
+      thumbnailLocalPath: _thumbnailLocalPath!,
       displayName: displayName,
     );
   }

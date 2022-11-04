@@ -81,7 +81,7 @@ class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
     );
 
     final thumbnail = Image.file(
-      File(state.thumbnailPath),
+      File(state.thumbnailLocalPath),
       fit: BoxFit.cover,
       width: 80 * 1.5,
       height: 80,

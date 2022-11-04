@@ -18,7 +18,7 @@ class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
         _reader = reader,
         super(
           SetPieceDetailsState(
-            thumbnailPath: args.thumbnailPath,
+            thumbnailLocalPath: args.thumbnailLocalPath,
             displayNameController:
                 TextEditingController(text: args.displayName),
           ),
@@ -46,20 +46,20 @@ class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
       template: _template,
       sounds: _sounds,
       displayName: displayName,
-      thumbnailPath: state.thumbnailPath,
+      thumbnailLocalPath: state.thumbnailLocalPath,
     );
   }
 
   Future<void> submit() async {
     state = state.copyWith(isProcessing: true);
 
-    final thumbnailPath = state.thumbnailPath;
-    final thumbnail = File(thumbnailPath);
+    final thumbnailLocalPath = state.thumbnailLocalPath;
+    final thumbnail = File(thumbnailLocalPath);
 
     final uploadAction = await _reader(uploadActionProvider.future);
     final uploadedThumbnail = await uploadAction(
       thumbnail,
-      fileName: basename(thumbnailPath),
+      fileName: basename(thumbnailLocalPath),
     );
 
     if (uploadedThumbnail == null) {

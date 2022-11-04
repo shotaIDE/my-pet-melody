@@ -101,7 +101,7 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
       uploaded: uploadedSound,
       displayName: '$originalFileNameWithoutExtension - 手動トリミング',
       // TODO(ide): Generate thumbnail and should be set
-      thumbnailPath: '',
+      thumbnailLocalPath: '',
     );
   }
 

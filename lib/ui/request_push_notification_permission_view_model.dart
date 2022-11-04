@@ -33,13 +33,13 @@ class RequestPushNotificationPermissionViewModel
   Future<void> _submit() async {
     state = state.copyWith(isProcessing: true);
 
-    final thumbnailPath = _args.thumbnailPath;
-    final thumbnail = File(thumbnailPath);
+    final thumbnailLocalPath = _args.thumbnailLocalPath;
+    final thumbnail = File(thumbnailLocalPath);
 
     final uploadAction = await _reader(uploadActionProvider.future);
     final uploadedThumbnail = await uploadAction(
       thumbnail,
-      fileName: basename(thumbnailPath),
+      fileName: basename(thumbnailLocalPath),
     );
 
     if (uploadedThumbnail == null) {
