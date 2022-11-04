@@ -86,8 +86,9 @@ def piece(request):
         export_base_path=sound_export_base_path,
     )
 
-    thumbnail_path = (f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/'
-                      f'{thumbnail_base_name}')
+    thumbnail_path = (
+        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{thumbnail_base_name}'
+    )
 
     movie_export_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
     movie_export_base_path = (
