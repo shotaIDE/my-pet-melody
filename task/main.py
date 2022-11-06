@@ -148,8 +148,8 @@ def piece(request):
     sound_local_paths = []
     for sound_base_name in sound_base_names:
         _, sound_local_base_path = tempfile.mkstemp()
-        splitted_file_name = os.path.splitext(sound_base_name)
-        sound_extension = splitted_file_name[1]
+        splitted_piece_movie_file_name = os.path.splitext(sound_base_name)
+        sound_extension = splitted_piece_movie_file_name[1]
         sound_local_path = f'{sound_local_base_path}{sound_extension}'
 
         sound_relative_path = (
@@ -181,8 +181,8 @@ def piece(request):
     )
 
     _, thumbnail_local_base_path = tempfile.mkstemp()
-    splitted_thumbnail_name = os.path.splitext(thumbnail_base_name)
-    thumbnail_extension = splitted_thumbnail_name[1]
+    splitted_thumbnail_file_name = os.path.splitext(thumbnail_base_name)
+    thumbnail_extension = splitted_thumbnail_file_name[1]
     thumbnail_local_path = f'{thumbnail_local_base_path}{thumbnail_extension}'
 
     thumbnail_relative_path = (
@@ -203,24 +203,25 @@ def piece(request):
     )
 
     current = datetime.now()
-    movie_export_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
-    splitted_file_name = os.path.splitext(piece_movie_export_local_path)
-    movie_export_extension = splitted_file_name[1]
-    export_file_name = f'{movie_export_base_name}{movie_export_extension}'
+    piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
+    splitted_piece_movie_file_name = os.path.splitext(
+        piece_movie_export_local_path)
+    piece_movie_extension = splitted_piece_movie_file_name[1]
+    piece_movie_file_name = f'{piece_movie_base_name}{piece_movie_extension}'
 
-    export_relative_path = (
+    piece_movie_relative_path = (
         f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'generatedPieces/{export_file_name}'
+        f'generatedPieces/{piece_movie_file_name}'
     )
-    export_blob = bucket.blob(export_relative_path)
+    piece_movie_blob = bucket.blob(piece_movie_relative_path)
 
-    export_blob.upload_from_filename(piece_movie_export_local_path)
+    piece_movie_blob.upload_from_filename(piece_movie_export_local_path)
 
     set_generated_piece(
         uid=uid,
         id=piece_id,
         display_name=display_name,
-        file_name=export_file_name,
+        file_name=piece_movie_file_name,
         generated_at=current
     )
 
@@ -262,6 +263,6 @@ def piece(request):
                     failed_tokens))
 
     return {
-        'id': movie_export_base_name,
-        'path': export_relative_path,
+        'id': piece_movie_base_name,
+        'path': piece_movie_relative_path,
     }
