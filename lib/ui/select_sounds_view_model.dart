@@ -4,14 +4,14 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/model/uploaded_sound.dart';
+import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
-import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
+import 'package:meow_music/ui/set_piece_details_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -40,6 +40,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
   final Reader _reader;
   final _player = AudioPlayer();
+
+  String? _thumbnailLocalPath;
 
   Duration? _currentAudioDuration;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -149,7 +151,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       sound: SelectedSound.uploaded(
         id: result.uploaded.id,
         extension: result.uploaded.extension,
-        localFileName: result.label,
+        localFileName: result.displayName,
         remoteUrl: result.uploaded.url,
       ),
     );
@@ -158,6 +160,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       sounds: sounds,
       isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
     );
+
+    _thumbnailLocalPath = result.thumbnailLocalPath;
   }
 
   Future<void> delete({required PlayerChoiceSound target}) async {
@@ -174,27 +178,19 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
-  RequestPushNotificationPermissionArgs getRequestPermissionArgs() {
+  SetPieceDetailsArgs getSetPieceDetailsArgs() {
     final soundIdList = _getSoundIdList();
 
-    return RequestPushNotificationPermissionArgs(
+    final displayName =
+        (state.sounds.first.sound as SelectedSoundUploaded).localFileName;
+
+    return SetPieceDetailsArgs(
       template: state.template.template,
       sounds: soundIdList,
+      // TODO(ide): Fix to no use of force unwrapping
+      thumbnailLocalPath: _thumbnailLocalPath!,
+      displayName: displayName,
     );
-  }
-
-  Future<void> submit() async {
-    state = state.copyWith(process: SelectSoundScreenProcess.submit);
-
-    final soundIdList = _getSoundIdList();
-
-    final submitAction = await _reader(submitActionProvider.future);
-    await submitAction(
-      template: state.template.template,
-      sounds: soundIdList,
-    );
-
-    state = state.copyWith(process: null);
   }
 
   Future<void> play({required PlayerChoice choice}) async {
@@ -271,12 +267,6 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
       _onAudioFinished();
     });
-
-    final isRequestStepExists = await _reader(
-      getShouldShowRequestPushNotificationPermissionActionProvider,
-    ).call();
-
-    state = state.copyWith(isRequestStepExists: isRequestStepExists);
   }
 
   void _onAudioPositionReceived(Duration position) {
@@ -333,12 +323,12 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
-  List<UploadedSound> _getSoundIdList() {
+  List<UploadedMedia> _getSoundIdList() {
     return state.sounds
         .map((choice) => choice.sound)
         .whereType<SelectedSoundUploaded>()
         .map(
-          (uploaded) => UploadedSound(
+          (uploaded) => UploadedMedia(
             id: uploaded.id,
             extension: uploaded.extension,
             url: uploaded.remoteUrl,

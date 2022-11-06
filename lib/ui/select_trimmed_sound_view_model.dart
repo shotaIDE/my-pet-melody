@@ -224,9 +224,15 @@ class SelectTrimmedSoundViewModel
 
   Future<SelectTrimmedSoundResult?> select({
     required PlayerChoiceTrimmedMovie choice,
+    required int index,
   }) async {
     final outputPath = choice.path;
     if (outputPath == null) {
+      return null;
+    }
+
+    final thumbnailPath = state.splitThumbnails[index];
+    if (thumbnailPath == null) {
       return null;
     }
 
@@ -253,7 +259,8 @@ class SelectTrimmedSoundViewModel
 
     return SelectTrimmedSoundResult(
       uploaded: uploadedSound,
-      label: '$originalFileNameWithoutExtension - セグメント${choice.id}',
+      displayName: '$originalFileNameWithoutExtension - セグメント${choice.id}',
+      thumbnailLocalPath: thumbnailPath,
     );
   }
 

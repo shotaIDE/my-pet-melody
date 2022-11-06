@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:meow_music/data/api/storage_api.dart';
 import 'package:meow_music/data/definitions/app_definitions.dart';
-import 'package:meow_music/data/model/uploaded_sound.dart';
+import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:meow_music/data/service/storage_service.dart';
 
 class StorageServiceLocalFlask implements StorageService {
@@ -25,7 +25,7 @@ class StorageServiceLocalFlask implements StorageService {
   }
 
   @override
-  Future<UploadedSound?> uploadOriginal(
+  Future<UploadedMedia?> uploadUnedited(
     File file, {
     required String fileName,
   }) async {
@@ -33,14 +33,14 @@ class StorageServiceLocalFlask implements StorageService {
   }
 
   @override
-  Future<UploadedSound?> uploadTrimmed(
+  Future<UploadedMedia?> uploadEdited(
     File file, {
     required String fileName,
   }) async {
     return _upload(file, fileName: fileName);
   }
 
-  Future<UploadedSound?> _upload(
+  Future<UploadedMedia?> _upload(
     File file, {
     required String fileName,
   }) async {
@@ -55,7 +55,7 @@ class StorageServiceLocalFlask implements StorageService {
     final url =
         '${AppDefinitions.serverOrigin}/static/uploads/$uploadedFileName';
 
-    return UploadedSound(
+    return UploadedMedia(
       id: response.id,
       extension: response.extension,
       url: url,

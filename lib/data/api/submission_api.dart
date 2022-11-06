@@ -63,7 +63,9 @@ class DetectResponse with _$DetectResponse {
 class SubmitRequest with _$SubmitRequest {
   const factory SubmitRequest({
     required String templateId,
-    required List<String> fileNames,
+    required List<String> soundFileNames,
+    required String displayName,
+    required String thumbnailFileName,
   }) = _SubmitRequest;
 
   factory SubmitRequest.fromJson(Map<String, dynamic> json) =>

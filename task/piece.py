@@ -3,12 +3,13 @@
 import statistics
 from typing import Any, Optional
 
+import ffmpeg
 from pydub import AudioSegment
 
 _OUTPUT_SOUND_EXTENSION = '.mp3'
 
 
-def generate_piece(
+def generate_piece_sound(
     template_path: str,
     sound_paths: list[str],
     overlays: list[dict[str, Any]],
@@ -38,6 +39,64 @@ def generate_piece(
     normalized_overlayed.export(export_path)
 
     return export_path
+
+
+def generate_piece_movie(
+    thumbnail_path: str,
+    piece_sound_path: str,
+    title: str,
+    export_base_path: str,
+) -> str:
+    HEIGHT = 1080
+    FRAME_RATE = 30
+    FONT_PATH = 'fonts/uzura.ttf'
+    MOVIE_CREDITS = 'Created by Meow Music'
+
+    sound_info = ffmpeg.probe(piece_sound_path)
+    sound_duration_seconds = sound_info['format']['duration']
+
+    background_image = (
+        ffmpeg
+        .input(thumbnail_path)
+        .filter('scale', -1, HEIGHT)
+        .filter(
+            'drawtext',
+            fontfile=FONT_PATH,
+            text=title,
+            x=40,
+            y=920,
+            fontsize=48,
+            fontcolor='white'
+        )
+        .filter(
+            'drawtext',
+            fontfile=FONT_PATH,
+            text=MOVIE_CREDITS,
+            x=40,
+            y=1008,
+            fontsize=32,
+            fontcolor='white'
+        )
+    )
+
+    sound = ffmpeg.input(piece_sound_path)
+
+    output_path = f'{export_base_path}.mp4'
+
+    stream = ffmpeg.output(
+        background_image,
+        sound,
+        output_path,
+        vcodec='libx264',
+        acodec='aac',
+        pix_fmt='yuv420p',
+        t=sound_duration_seconds,
+        r=FRAME_RATE,
+    )
+
+    ffmpeg.run(stream)
+
+    return output_path
 
 
 def _find_by_segments_duration_meanings(

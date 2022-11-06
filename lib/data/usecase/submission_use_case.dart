@@ -6,7 +6,7 @@ import 'package:meow_music/data/di/repository_providers.dart';
 import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/model/detected_non_silent_segments.dart';
 import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/model/uploaded_sound.dart';
+import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:meow_music/data/service/auth_service.dart';
 
 final detectActionProvider = FutureProvider((ref) async {
@@ -18,7 +18,7 @@ final detectActionProvider = FutureProvider((ref) async {
     File file, {
     required String fileName,
   }) async {
-    final uploaded = await storageService.uploadOriginal(
+    final uploaded = await storageService.uploadUnedited(
       file,
       fileName: fileName,
     );
@@ -38,7 +38,7 @@ final detectActionProvider = FutureProvider((ref) async {
 final uploadActionProvider = FutureProvider((ref) async {
   final storageService = await ref.read(storageServiceProvider.future);
 
-  return storageService.uploadTrimmed;
+  return storageService.uploadEdited;
 });
 
 final getShouldShowRequestPushNotificationPermissionActionProvider =
@@ -79,11 +79,15 @@ final submitActionProvider = FutureProvider((ref) async {
 
   Future<void> action({
     required Template template,
-    required List<UploadedSound> sounds,
+    required List<UploadedMedia> sounds,
+    required String displayName,
+    required UploadedMedia thumbnail,
   }) async {
     await repository.submit(
       templateId: template.id,
       sounds: sounds,
+      displayName: displayName,
+      thumbnail: thumbnail,
       token: session.token,
     );
   }

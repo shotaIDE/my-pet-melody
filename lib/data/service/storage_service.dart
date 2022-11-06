@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:meow_music/data/model/uploaded_sound.dart';
+import 'package:meow_music/data/model/uploaded_media.dart';
 
 abstract class StorageService {
   Future<String> templateUrl({required String id});
@@ -9,12 +9,12 @@ abstract class StorageService {
     required String fileName,
   });
 
-  Future<UploadedSound?> uploadOriginal(
+  Future<UploadedMedia?> uploadUnedited(
     File file, {
     required String fileName,
   });
 
-  Future<UploadedSound?> uploadTrimmed(
+  Future<UploadedMedia?> uploadEdited(
     File file, {
     required String fileName,
   });

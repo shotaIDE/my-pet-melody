@@ -498,7 +498,7 @@ class _SelectTrimmedSoundScreenState
           onTap: () async {
             final result = await ref
                 .read(widget.viewModel.notifier)
-                .select(choice: choice);
+                .select(choice: choice, index: index);
 
             if (result == null || !mounted) {
               return;
