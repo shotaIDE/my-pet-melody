@@ -171,13 +171,13 @@ def piece(request):
     )
     sound_blob = bucket.blob(sound_relative_path)
 
-    _, piece_sound_export_local_base_path = tempfile.mkstemp()
+    _, piece_sound_local_base_path = tempfile.mkstemp()
 
-    piece_sound_export_local_path = generate_piece_sound(
+    piece_sound_local_path = generate_piece_sound(
         template_path=template_local_path,
         sound_paths=sound_local_paths,
         overlays=overlays,
-        export_base_path=piece_sound_export_local_base_path,
+        export_base_path=piece_sound_local_base_path,
     )
 
     _, thumbnail_local_base_path = tempfile.mkstemp()
@@ -193,19 +193,19 @@ def piece(request):
 
     thumbnail_blob.download_to_filename(thumbnail_local_path)
 
-    _, piece_movie_export_local_base_path = tempfile.mkstemp()
+    _, piece_movie_local_base_path = tempfile.mkstemp()
 
-    piece_movie_export_local_path = generate_piece_movie(
+    piece_movie_local_path = generate_piece_movie(
         thumbnail_path=thumbnail_local_path,
-        piece_sound_path=piece_sound_export_local_path,
+        piece_sound_path=piece_sound_local_path,
         title=display_name,
-        export_base_path=piece_movie_export_local_base_path,
+        export_base_path=piece_movie_local_base_path,
     )
 
     current = datetime.now()
     piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
     splitted_piece_movie_file_name = os.path.splitext(
-        piece_movie_export_local_path)
+        piece_movie_local_path)
     piece_movie_extension = splitted_piece_movie_file_name[1]
     piece_movie_file_name = f'{piece_movie_base_name}{piece_movie_extension}'
 
@@ -215,7 +215,7 @@ def piece(request):
     )
     piece_movie_blob = bucket.blob(piece_movie_relative_path)
 
-    piece_movie_blob.upload_from_filename(piece_movie_export_local_path)
+    piece_movie_blob.upload_from_filename(piece_movie_local_path)
 
     set_generated_piece(
         uid=uid,

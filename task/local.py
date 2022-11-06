@@ -74,40 +74,40 @@ def piece(request):
     overlays = template_overlays(id=template_id)
 
     current = datetime.now()
-    piece_sound_export_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'
-    piece_sound_export_base_path = (
+    piece_sound_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'
+    piece_sound_base_path = (
         f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
-        f'{piece_sound_export_base_name}'
+        f'{piece_sound_base_name}'
     )
 
-    piece_sound_export_path = generate_piece_sound(
+    piece_sound_path = generate_piece_sound(
         template_path=template_path,
         sound_paths=sound_paths,
         overlays=overlays,
-        export_base_path=piece_sound_export_base_path,
+        export_base_path=piece_sound_base_path,
     )
 
     thumbnail_path = (
         f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{thumbnail_base_name}'
     )
 
-    piece_movie_export_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
-    piece_movie_export_base_path = (
+    piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
+    piece_movie_base_path = (
         f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
-        f'{piece_movie_export_base_name}'
+        f'{piece_movie_base_name}'
     )
 
-    piece_movie_export_path = generate_piece_movie(
+    piece_movie_path = generate_piece_movie(
         thumbnail_path=thumbnail_path,
-        piece_sound_path=piece_sound_export_path,
+        piece_sound_path=piece_sound_path,
         title=display_name,
-        export_base_path=piece_movie_export_base_path
+        export_base_path=piece_movie_base_path
     )
 
-    splitted_piece_movie_file_name = os.path.splitext(piece_movie_export_path)
+    splitted_piece_movie_file_name = os.path.splitext(piece_movie_path)
     piece_movie_extension = splitted_piece_movie_file_name[1]
     piece_movie_file_name = (
-        f'{piece_movie_export_base_name}{piece_movie_extension}'
+        f'{piece_movie_base_name}{piece_movie_extension}'
     )
 
     set_generated_piece(
