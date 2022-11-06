@@ -165,12 +165,6 @@ def piece(request):
     # TODO: ファイルの存在を確認するバリデーションチェック
     # TODO: 鳴き声が2つ存在することを確認するバリデーションチェック
 
-    thumbnail_relative_path = (
-        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'edited/{sound_base_name}'
-    )
-    sound_blob = bucket.blob(sound_relative_path)
-
     _, piece_sound_local_base_path = tempfile.mkstemp()
 
     piece_sound_local_path = generate_piece_sound(
