@@ -21,7 +21,7 @@ future==0.18.2
 gast==0.4.0
 google-api-core==2.8.0
 google-api-python-client==2.48.0
-google-auth==2.6.6
+google-auth==2.14.1
 google-auth-httplib2==0.1.0
 google-auth-oauthlib==0.4.6
 google-cloud-core==2.3.0
