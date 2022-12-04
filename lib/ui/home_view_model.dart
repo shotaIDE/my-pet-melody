@@ -16,13 +16,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
+  final _player = AudioPlayer();
+
   HomeViewModel({
     required Listener listener,
   }) : super(const HomeState()) {
     _setup(listener: listener);
   }
-
-  final _player = AudioPlayer();
 
   Duration? _currentAudioDuration;
   StreamSubscription<List<Piece>>? _piecesSubscription;
