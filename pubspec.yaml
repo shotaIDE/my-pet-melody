@@ -50,7 +50,7 @@ dev_dependencies:
   json_serializable: ^6.1.4
   colomney_lints:
     git:
-      url: git@github.com:shotaIDE/ColomneyFlutterLints.git
+      url: https://github.com/shotaIDE/ColomneyFlutterLints.git
       ref: main
 
 flutter:

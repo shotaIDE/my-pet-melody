@@ -45,7 +45,7 @@ jobs:
           echo "FLUTTER_VERSION=$flutter_version" >> $GITHUB_ENV
 
       - name: Cache Flutter
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: /opt/hostedtoolcache/flutter
           key: ${{ runner.OS }}-flutter-${{ env.FLUTTER_VERSION }}
