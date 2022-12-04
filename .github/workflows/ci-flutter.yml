@@ -1,9 +1,8 @@
 name: CI/Flutter
 
 on:
-  push:
-    branches:
-      - "feature/**"
+  pull_request:
+    branches: [main]
 
 jobs:
   lint-and-test:
