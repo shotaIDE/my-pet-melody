@@ -23,4 +23,10 @@ jobs:
       - name: Check Code Spell
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cspell '**/*.{dart,swift,kt}' | reviewdog -efm="%f:%l:%c - %m" -name='Code Spell Checker' -reporter='github-pr-review'
+        run: cspell '**/*.{dart,swift,kt}' > cspell.log
+
+      - name: Run reviewdog
+        if: failure()
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: cat cspell.log | reviewdog -efm="%f:%l:%c - %m" -name='cspell' -reporter='github-pr-review'
