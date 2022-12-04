@@ -59,7 +59,7 @@ class _RootAppState extends ConsumerState<RootApp> {
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate, // Test
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
         Locale('ja', 'JP'),

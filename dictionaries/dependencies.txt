@@ -1,5 +1,6 @@
 audioplayers
 chewie
+cupertino
 ffprobe
 firestore
 fullscreen
