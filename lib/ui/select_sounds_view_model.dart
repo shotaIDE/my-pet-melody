@@ -41,7 +41,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   final Reader _reader;
   final _player = AudioPlayer();
 
-  String? _thumbnailLocalPath;
+  String? _thumbnailLocalPath; // Test
 
   Duration? _currentAudioDuration;
   StreamSubscription<Duration>? _audioDurationSubscription;
