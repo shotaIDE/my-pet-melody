@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  JAVA_VERSION: "12.x"
+
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
@@ -23,8 +26,44 @@ jobs:
       - name: Check Code Spell
         run: cspell '**/*.{dart,swift,kt}' > cspell.log
 
-      - name: Run reviewdog
+      - name: Run reviewdog for Code Spell Checker
         if: failure()
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: cat cspell.log | reviewdog -efm="%f:%l:%c - %m" -name='Code Spell Checker' -reporter='github-pr-review'
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+
+      # asdf用のバージョン指定ファイルからFlutterのバージョンを読み取り、
+      # "-stable" サフィックスを削除したものを環境変数に格納する
+      - name: Get Flutter version
+        run: |
+          asdf_flutter_version="$(cat .tool-versions | awk '{print $2}')"
+          flutter_version="$(echo $asdf_flutter_version | sed -e 's/-stable//g')"
+          echo "FLUTTER_VERSION=$flutter_version" >> $GITHUB_ENV
+
+      - name: Cache Flutter
+        uses: actions/cache@v1
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.OS }}-flutter-${{ env.FLUTTER_VERSION }}
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Generate automatic codes
+        run: |
+          flutter pub get
+          flutter pub run build_runner build
+
+      - name: Flutter analyze
+        run: flutter analyze --write flutter-analyze.log --fatal-infos
+
+      - name: Run reviewdog for Flutter Analyzer
+        if: failure()
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: cat flutter-analyze.log | reviewdog -efm="%m • %f:%l:%c •%r" -name='Flutter Analyzer' -reporter='github-pr-review'

@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/root_state.dart';
 import 'package:meow_music/root_view_model.dart';
 import 'package:meow_music/ui/home_screen.dart';
-import 'package:meow_music/ui/onboarding_screen.dart';
+
+import 'ui/onboarding_screen.dart';
 
 final rootViewModelProvider =
     StateNotifierProvider.autoDispose<RootViewModel, RootState>(
