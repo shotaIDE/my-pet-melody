@@ -1,3 +1,4 @@
+audioplayers
 chewie
 cupertino
 ffprobe
