@@ -228,7 +228,7 @@ packages:
     source: hosted
     version: "1.0.5"
   dart_code_metrics:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: dart_code_metrics
       url: "https://pub.dartlang.org"
