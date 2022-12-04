@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/definitions/types.dart';
@@ -105,7 +106,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
     await dio.download(piece.url, path);
 
-    await Share.shareFiles([path]);
+    final xFile = XFile(path);
+    await Share.shareXFiles([xFile]);
 
     state = state.copyWith(isProcessing: false);
   }

@@ -41,7 +41,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   final Reader _reader;
   final _player = AudioPlayer();
 
-  String? _thumbnailLocalPath;
+  late String _thumbnailLocalPath;
 
   Duration? _currentAudioDuration;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -188,7 +188,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       template: state.template.template,
       sounds: soundIdList,
       // TODO(ide): Fix to no use of force unwrapping
-      thumbnailLocalPath: _thumbnailLocalPath!,
+      thumbnailLocalPath: _thumbnailLocalPath,
       displayName: displayName,
     );
   }

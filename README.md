@@ -21,6 +21,12 @@ asdf local flutter <version>
 ```shell
 flutterfire config \
   --project=colomney-meow-music-dev \
+  --out=lib/firebase_options_emulator.dart \
+  --ios-bundle-id=ide.shota.colomney.MeowMusic.emulator \
+  --android-app-id=ide.shota.colomney.MeowMusic.emulator
+flutterfire config \
+  --project=colomney-meow-music-dev \
+  --out=lib/firebase_options_dev.dart \
   --ios-bundle-id=ide.shota.colomney.MeowMusic.dev \
   --android-app-id=ide.shota.colomney.MeowMusic.dev
 ```
