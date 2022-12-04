@@ -18,7 +18,7 @@ import 'package:share_plus/share_plus.dart';
 class HomeViewModel extends StateNotifier<HomeState> {
   final _player = AudioPlayer();
 
-  HomeViewModel({
+  /* Test */ HomeViewModel({
     required Listener listener,
   }) : super(const HomeState()) {
     _setup(listener: listener);
