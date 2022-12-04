@@ -21,8 +21,6 @@ jobs:
 
       # 自動生成ファイルはスペルチェックする必要がないので、チェックアウトした直後に実施
       - name: Check Code Spell
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: cspell '**/*.{dart,swift,kt}' > cspell.log
 
       - name: Run reviewdog
