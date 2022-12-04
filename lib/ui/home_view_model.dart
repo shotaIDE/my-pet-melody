@@ -105,7 +105,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
     await dio.download(piece.url, path);
 
-    await Share.shareFiles([path]); // Test
+    // ignore: deprecated_member_use
+    await Share.shareFiles([path]);
 
     state = state.copyWith(isProcessing: false);
   }
