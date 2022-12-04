@@ -188,7 +188,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       template: state.template.template,
       sounds: soundIdList,
       // TODO(ide): Fix to no use of force unwrapping
-      thumbnailLocalPath: _thumbnailLocalPath!,
+      thumbnailLocalPath: _thumbnailLocalPath,
       displayName: displayName,
     );
   }
