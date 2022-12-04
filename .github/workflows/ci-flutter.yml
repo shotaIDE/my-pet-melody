@@ -30,7 +30,7 @@ jobs:
         if: failure()
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat cspell.log | reviewdog -efm="%f:%l:%c - %m" -name='Code Spell Checker' -reporter='github-pr-review'
+        run: cat cspell.log | reviewdog -efm='%f:%l:%c - %m' -name='Code Spell Checker' -reporter='github-pr-review'
 
       - uses: actions/setup-java@v1
         with:
@@ -60,10 +60,10 @@ jobs:
           flutter pub run build_runner build
 
       - name: Flutter analyze
-        run: flutter analyze --write flutter-analyze.log --fatal-infos
+        run: flutter analyze --fatal-infos > flutter-analyze.log
 
       - name: Run reviewdog for Flutter Analyzer
         if: failure()
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat flutter-analyze.log | reviewdog -efm="%m • %f:%l:%c •%r" -name='Flutter Analyzer' -reporter='github-pr-review'
+        run: cat flutter-analyze.log | reviewdog -efm='%#%t%.%# • %m • %f:%l:%c %r' -name='Flutter Analyzer' -reporter='github-pr-review'
