@@ -7,6 +7,8 @@
 /lib/firebase_options*.dart
 /ios/Flutter/DartDefines.xcconfig
 
+/dart-code-metrics.json
+
 # Miscellaneous
 *.class
 *.log
