@@ -42,6 +42,9 @@ dependencies:
   video_player: ^2.4.7
   cross_file: ^0.3.3+2
 
+dependency_overrides:
+  firebase_core_platform_interface: 4.5.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
