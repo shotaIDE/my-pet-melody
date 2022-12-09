@@ -413,7 +413,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.9.1"
+    version: "9.7.1"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
@@ -1072,12 +1072,12 @@ packages:
     source: hosted
     version: "2.0.12"
   video_thumbnail:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: video_thumbnail
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.3"
+    version: "0.5.2"
   video_trimmer:
     dependency: "direct main"
     description:
