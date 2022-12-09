@@ -43,6 +43,8 @@ dependencies:
   cross_file: ^0.3.3+2
 
 dependency_overrides:
+  # Fix build error
+  # https://stackoverflow.com/questions/74226250/error-member-not-found-firebaseappplatform-verifyextends
   firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
