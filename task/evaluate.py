@@ -89,8 +89,13 @@ def _calculate_detection_score_on_one_segment(
         actual_segments: list[list[int]],
 ) -> float:
     for actual_segment in actual_segments:
-        if (expected_segment[0] < actual_segment[0]
-                or expected_segment[1] > actual_segment[1]):
+        allowed_width_in_start_milliseconds = 300
+        allowed_width_in_end_milliseconds = 2000
+
+        if (expected_segment[0]
+                < (actual_segment[0] - allowed_width_in_start_milliseconds)
+                or expected_segment[1]
+                > (actual_segment[1] + allowed_width_in_end_milliseconds)):
             continue
 
         actual_segment_starts_in = actual_segment[0]
@@ -99,8 +104,13 @@ def _calculate_detection_score_on_one_segment(
         return max(
             0,
             # Judge that no detection has been made
-            # if the time to meow is larger than 300 ms.
-            1 - (expeced_segment_starts_in - actual_segment_starts_in) / 300
+            # if the segment start time differs from the expected one
+            # by certain milliseconds.
+            (
+                1
+                - abs(expeced_segment_starts_in - actual_segment_starts_in)
+                / allowed_width_in_start_milliseconds
+            )
         )
 
     return 0
