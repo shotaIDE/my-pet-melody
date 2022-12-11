@@ -1,46 +1,76 @@
 # coding: utf-8
 
-from detection import detect_non_silence
+from typing import Callable
+
+from detection import detect_non_silence, detect_speech_or_music
+
+_expected_results = [
+    {
+        'fileName': '小さい鳴き声-01.mp4',
+        'segmentsMilliseconds': [
+            [5241, 5669],
+            [10137, 10526],
+            [14034, 14109],
+        ],
+    },
+    {
+        'fileName': '大きい鳴き声-01.mp4',
+        'segmentsMilliseconds': [
+            [426, 1219],
+            [3498, 4127],
+            [10765, 11550],
+            [12699, 13780],
+        ],
+    },
+]
 
 
 def evaluate_detection_methods():
-    expected_results = [
-        {
-            'fileName': '小さい鳴き声-01.mp4',
-            'segmentsMilliseconds': [
-                [5241, 5669],
-                [10137, 10526],
-                [14034, 14109],
-            ],
-        },
-        {
-            'fileName': '大きい鳴き声-01.mp4',
-            'segmentsMilliseconds': [
-                [426, 1219],
-                [3498, 4127],
-                [10765, 11550],
-                [12699, 13780],
-            ],
-        },
+    methods = [
+        ('silenceDetector', detect_non_silence),
+        ('inaSpeechSegmenter', detect_speech_or_music),
     ]
 
     accuracies = [
+        _evaluate_one_method(
+            name=method[0],
+            method=method[1],
+        )
+        for method in methods
+    ]
+
+    for accuracy in accuracies:
+        print('----------')
+        print(f'Method: {accuracy["name"]}')
+        print(f'Accuracy: {accuracy["accuracy"]}')
+        print(f'Each accuracy: {accuracy["eachAccuracies"]}')
+
+
+def _evaluate_one_method(name: str, method: Callable[[str], dict]) -> dict:
+    accuracies = [
         _calculate_accuracy(
             file_path=f'samples/{expected_result["fileName"]}',
+            method=method,
             expected_segments=expected_result['segmentsMilliseconds']
         )
-        for expected_result in expected_results
+        for expected_result in _expected_results
     ]
 
     accuracy = sum(accuracies) / len(accuracies)
 
-    print(f'Accuracy: {accuracy}')
-    print(f'Each accuracy: {accuracies}')
+    return {
+        'name': name,
+        'accuracy': accuracy,
+        'eachAccuracies': accuracies,
+    }
 
 
 def _calculate_accuracy(
-        file_path: str, expected_segments: list[list[int]]) -> float:
-    actual_result = detect_non_silence(store_path=file_path)
+    file_path: str,
+    method: Callable[[str], dict],
+    expected_segments: list[list[int]]
+) -> float:
+    actual_result = method(file_path)
 
     actual_segments = actual_result['segments']
 

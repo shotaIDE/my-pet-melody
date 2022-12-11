@@ -4,9 +4,10 @@ import time
 
 from inaSpeechSegmenter import Segmenter
 from pydub import AudioSegment
+from pydub.silence import detect_nonsilent
 
 
-def detect_non_silence(store_path: str) -> dict:
+def detect_speech_or_music(store_path: str) -> dict:
     start_time = time.perf_counter()
 
     sound = AudioSegment.from_file(store_path)
@@ -26,6 +27,30 @@ def detect_non_silence(store_path: str) -> dict:
         if (segmentation[0] == 'speech' or
             segmentation[0] == 'music')
     ]
+
+    print(f'Detected result(ms): {non_silences_list}')
+
+    result = {
+        'segments': non_silences_list,
+        'durationMilliseconds': duration_milliseconds,
+    }
+
+    end_time = time.perf_counter()
+    elapsed_time = end_time - start_time
+    print(f'Running time to detect non silence: {elapsed_time:.3f}s')
+
+    return result
+
+
+def detect_non_silence(store_path: str) -> dict:
+    start_time = time.perf_counter()
+
+    sound = AudioSegment.from_file(store_path)
+    duration_seconds: int = sound.duration_seconds
+    duration_milliseconds = int(round(duration_seconds, 3) * 1000)
+
+    non_silences_list = detect_nonsilent(
+        sound, min_silence_len=100, silence_thresh=-48)
 
     print(f'Detected result(ms): {non_silences_list}')
 

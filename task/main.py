@@ -11,7 +11,7 @@ from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
 from database import set_generated_piece, template_overlays
-from detection import detect_non_silence
+from detection import detect_speech_or_music
 from firebase import initialize_firebase
 from piece import generate_piece_movie, generate_piece_sound
 from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
@@ -44,7 +44,7 @@ def detect(request):
 
     uploaded_blob.download_to_filename(uploaded_local_path)
 
-    return detect_non_silence(store_path=uploaded_local_path)
+    return detect_speech_or_music(store_path=uploaded_local_path)
 
 
 def submit(request):

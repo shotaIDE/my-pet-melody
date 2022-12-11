@@ -5,7 +5,7 @@ from datetime import datetime
 
 from auth import verify_authorization_header
 from database import set_generated_piece, template_overlays
-from detection import detect_non_silence
+from detection import detect_non_silence, detect_speech_or_music
 from piece import generate_piece_movie, generate_piece_sound
 from utils import generate_store_file_name
 
