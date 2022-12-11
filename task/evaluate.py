@@ -44,23 +44,36 @@ def _calculate_accuracy(
 
     actual_segments = actual_result['segments']
 
-    segments_included_in_actual = [
-        True
+    detected_scores = [
+        _calculate_detection_score_on_one_segment(
+            expected_segment=expected_segment, actual_segments=actual_segments
+        )
         for expected_segment in expected_segments
-        if _contains_segment(
-            target_segment=expected_segment, segments=actual_segments)
     ]
 
-    return len(segments_included_in_actual) / len(expected_segments)
+    return sum(detected_scores) / len(expected_segments)
 
 
-def _contains_segment(
-        target_segment: list[int], segments: list[list[int]]) -> bool:
-    for segment in segments:
-        if target_segment[0] >= segment[0] and target_segment[1] <= segment[1]:
-            return True
+def _calculate_detection_score_on_one_segment(
+        expected_segment: list[int],
+        actual_segments: list[list[int]],
+) -> float:
+    for actual_segment in actual_segments:
+        if (expected_segment[0] < actual_segment[0]
+                or expected_segment[1] > actual_segment[1]):
+            continue
 
-    return False
+        actual_segment_starts_in = actual_segment[0]
+        expeced_segment_starts_in = expected_segment[0]
+
+        return max(
+            0,
+            # Judge that no detection has been made
+            # if the time to meow is larger than 300 ms.
+            1 - (expeced_segment_starts_in - actual_segment_starts_in) / 300
+        )
+
+    return 0
 
 
 if __name__ == '__main__':
