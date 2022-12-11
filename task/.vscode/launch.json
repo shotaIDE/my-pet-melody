@@ -64,5 +64,13 @@
             "console": "integratedTerminal",
             "justMyCode": true,
         },
+        {
+            "name": "Evaluate Detections Methods",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/evaluate.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+        },
     ],
 }
