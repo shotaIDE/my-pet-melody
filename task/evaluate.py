@@ -22,6 +22,12 @@ _expected_results = [
             [12699, 13780],
         ],
     },
+    {
+        'fileName': '低い鳴き声-01.mov',
+        'segmentsMilliseconds': [
+            [292, 941],
+        ],
+    },
 ]
 
 
