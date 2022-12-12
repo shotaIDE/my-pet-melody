@@ -3,7 +3,7 @@
 from typing import Callable
 
 from detection import (detect_non_silence_by_threshould,
-                       detect_non_silence_without_normalize,
+                       detect_non_silence_without_normalize_by_threshould,
                        detect_speech_or_music)
 
 _expected_results = [
@@ -64,7 +64,7 @@ def evaluate_detection_methods():
     methods = [
         (
             (
-                'Non-silence Detector (normalize), '
+                'Non-silence Detector, '
                 f'threshould {-32 + index * 2} dB'
             ),
             detect_non_silence_by_threshould(
@@ -74,7 +74,18 @@ def evaluate_detection_methods():
         for index in range(5)
     ]
     methods.extend([
-        ('Non-silence Detector', detect_non_silence_without_normalize),
+        (
+            (
+                'Non-silence Detector (no normalize), '
+                f'threshould {-48 + index * 2} dB'
+            ),
+            detect_non_silence_without_normalize_by_threshould(
+                silence_threshould=(-48 + index * 2)
+            )
+        )
+        for index in range(10)
+    ])
+    methods.extend([
         ('inaSpeechSegmenter', detect_speech_or_music),
     ])
 
