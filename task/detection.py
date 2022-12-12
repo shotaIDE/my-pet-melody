@@ -43,14 +43,20 @@ def detect_speech_or_music(store_path: str) -> dict:
     return result
 
 
-def detect_non_silence(store_path: str) -> dict:
+def detect_non_silence_without_normalize(store_path: str) -> dict:
     sound = AudioSegment.from_file(store_path)
 
     return _detect_non_silence(
         sound=sound, min_silence_len=100, silence_thresh=-48)
 
 
-def detect_non_silence_with_normalize(
+def detect_non_silence(store_path: str) -> dict:
+    detector = detect_non_silence_by_threshould(silence_threshould=-30)
+
+    return detector(store_path)
+
+
+def detect_non_silence_by_threshould(
     silence_threshould: int
 ) -> Callable[[str], dict]:
     def _detect_non_silence_core(store_path: str) -> dict:
