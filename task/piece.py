@@ -4,6 +4,7 @@ import statistics
 from typing import Any, Optional
 
 import ffmpeg
+from ffmpeg import Error
 from pydub import AudioSegment
 
 _OUTPUT_SOUND_EXTENSION = '.mp3'
@@ -94,7 +95,13 @@ def generate_piece_movie(
         r=FRAME_RATE,
     )
 
-    ffmpeg.run(stream)
+    try:
+        ffmpeg.run(stream)
+    except Error as error:
+        print(f'FFMpeg stdout: {error.stdout}')
+        print(f'FFMpeg stderr: {error.stderr}')
+
+        raise error
 
     return output_path
 
