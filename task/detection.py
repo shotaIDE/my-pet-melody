@@ -43,6 +43,12 @@ def detect_speech_or_music(store_path: str) -> dict:
     return result
 
 
+def detect_non_silence(store_path: str) -> dict:
+    detector = detect_non_silence_by_threshould(silence_threshould=-30)
+
+    return detector(store_path)
+
+
 def detect_non_silence_without_normalize_by_threshould(
     silence_threshould: int,
 ) -> dict:
@@ -56,12 +62,6 @@ def detect_non_silence_without_normalize_by_threshould(
         )
 
     return _detect_non_silence_without_normalize
-
-
-def detect_non_silence(store_path: str) -> dict:
-    detector = detect_non_silence_by_threshould(silence_threshould=-30)
-
-    return detector(store_path)
 
 
 def detect_non_silence_by_threshould(
