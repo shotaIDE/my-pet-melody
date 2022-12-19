@@ -6,6 +6,7 @@
 /emulator-data
 /lib/firebase_options*.dart
 /ios/Flutter/DartDefines.xcconfig
+/task/samples/
 
 /dart-code-metrics.json
 
