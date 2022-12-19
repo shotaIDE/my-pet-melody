@@ -60,6 +60,8 @@ def generate_piece_movie(
         ffmpeg
         .input(thumbnail_path)
         .filter('scale', -1, HEIGHT)
+        # Fix error if width or height is odd
+        .filter('scale', 'trunc(iw/2)*2', 'trunc(ih/2)*2')
         .filter(
             'drawtext',
             fontfile=FONT_PATH,
