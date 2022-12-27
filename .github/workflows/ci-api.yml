@@ -37,7 +37,7 @@ jobs:
           mkdir samples
           cd samples
           pip install gdown
-          gdown "${API_TEST_SAMPLE_MOVIES_ZIP_URL}"
+          gdown -O samples.zip "${API_TEST_SAMPLE_MOVIES_ZIP_URL}"
           unzip samples.zip
 
       - name: Test
