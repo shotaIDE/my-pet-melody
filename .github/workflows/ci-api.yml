@@ -36,7 +36,7 @@ jobs:
         run: |
           mkdir samples
           cd samples
-          wget samples.zip "${API_TEST_SAMPLE_MOVIES_ZIP_URL}"
+          wget "${API_TEST_SAMPLE_MOVIES_ZIP_URL}" -O samples.zip
           unzip samples.zip
 
       - name: Test
