@@ -29,5 +29,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Download test samples
+        env:
+          API_TEST_SAMPLE_MOVIES_ZIP_URL: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
+        working-directory: task
+        run: |
+          mkdir samples
+          cd samples
+          wget samples.zip https://drive.google.com/file/d/10XnFn6kI8ea_ZUlOg-m9ftGm1hLKW2Dn/view?usp=share_link
+          unzip samples.zip
+
       - name: Test
         run: pytest
