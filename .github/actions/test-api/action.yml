@@ -2,9 +2,6 @@ inputs:
   api_test_sample_movies_zip_url:
     required: true
 
-env:
-  PYTHON_VERSION: "3.9"
-
 runs:
   using: "composite"
   steps:
@@ -27,7 +24,7 @@ runs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ env.PYTHON_VERSION }}
+        python-version: 3.9
 
     - name: Install Python dependencies
       shell: bash
