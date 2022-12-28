@@ -12,7 +12,7 @@ def test_default_detection_method():
 
     result_accuracy_percent = int(result['accuracy'] * 100)
 
-    assert result_accuracy_percent == 36, (
+    assert result_accuracy_percent == 35, (
         'accuracy is different from expected, '
-        'should be consistent with previous values or higher.'
+        'should be equal to or higher than previous value or higher.'
     )
