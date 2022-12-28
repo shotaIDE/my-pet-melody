@@ -4,9 +4,6 @@ on:
   pull_request_target:
     branches: [main]
 
-env:
-  JAVA_VERSION: "12.x"
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
