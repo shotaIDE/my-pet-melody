@@ -29,9 +29,8 @@ runs:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ inputs.github_token }}
       run: cat cspell.log | reviewdog -efm='%f:%l:%c - %m' -name='Code Spell Checker' -reporter='github-pr-review'
 
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 12.x
+    - name: Setup Java
+      uses: ./.github/actions/setup-java
 
     # Read Flutter version from version file for asdf,
     # remove the "-stable" suffix,
@@ -43,30 +42,16 @@ runs:
         flutter_version="$(echo $asdf_flutter_version | sed -e 's/-stable//g')"
         echo "FLUTTER_VERSION=$flutter_version" >> $GITHUB_ENV
 
-    - name: Cache Flutter
-      uses: actions/cache@v3
+    - name: Setup Flutter
+      uses: ./.github/actions/setup-flutter
       with:
-        path: /opt/hostedtoolcache/flutter
-        key: ${{ runner.OS }}-flutter-${{ env.FLUTTER_VERSION }}
+        flutter_version: ${{ env.FLUTTER_VERSION }}
 
-    - uses: subosito/flutter-action@v2
+    - name: Generate uncommited files
+      uses: ./.github/actions/generate-uncommited-files
       with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-
-    - name: Generate Firebase options files
-      shell: bash
-      env:
-        FIREBASE_OPTIONS_DART_BASE64_EMULATOR: ${{ inputs.firebase_options_dart_base64_emulator }}
-        FIREBASE_OPTIONS_DART_BASE64_DEV: ${{ inputs.firebase_options_dart_base64_dev }}
-      run: |
-        echo "${FIREBASE_OPTIONS_DART_BASE64_EMULATOR}" | base64 -d > lib/firebase_options_emulator.dart
-        echo "${FIREBASE_OPTIONS_DART_BASE64_DEV}" | base64 -d > lib/firebase_options_dev.dart
-
-    - name: Generate automatic codes
-      shell: bash
-      run: |
-        flutter pub get
-        flutter pub run build_runner build
+        firebase_options_dart_base64_emulator: ${{ inputs.firebase_options_dart_base64_emulator }}
+        firebase_options_dart_base64_dev: ${{ inputs.firebase_options_dart_base64_dev }}
 
     - name: Flutter analyze
       shell: bash

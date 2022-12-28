@@ -17,7 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./.github/actions/lint-and-test-flutter
+      - name: Lint and test Flutter
+        uses: ./.github/actions/lint-and-test-flutter
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           firebase_options_dart_base64_emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}

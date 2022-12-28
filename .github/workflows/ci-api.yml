@@ -19,6 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./.github/actions/test-api
+      - name: Test API
+        uses: ./.github/actions/test-api
         with:
           api_test_sample_movies_zip_url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
