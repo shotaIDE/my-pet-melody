@@ -22,4 +22,4 @@ jobs:
       - name: Test API
         uses: ./.github/actions/test-api
         with:
-          api_test_sample_movies_zip_url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
+          api-test-sample-movies-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}

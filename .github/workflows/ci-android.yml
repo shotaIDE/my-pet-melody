@@ -23,5 +23,5 @@ jobs:
       - name: Build Android
         uses: ./.github/actions/build-android
         with:
-          firebase_options_dart_base64_emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
-          firebase_options_dart_base64_dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
+          firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
+          firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}

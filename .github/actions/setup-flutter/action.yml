@@ -1,5 +1,5 @@
 inputs:
-  flutter_version:
+  flutter-version:
     required: true
 
 runs:
@@ -9,8 +9,8 @@ runs:
       uses: actions/cache@v1
       with:
         path: /opt/hostedtoolcache/flutter
-        key: ${{ runner.OS }}-flutter-${{ inputs.flutter_version }}
+        key: ${{ runner.OS }}-flutter-${{ inputs.flutter-version }}
 
     - uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ inputs.flutter_version }}
+        flutter-version: ${{ inputs.flutter-version }}

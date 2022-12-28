@@ -1,7 +1,7 @@
 inputs:
-  firebase_options_dart_base64_emulator:
+  firebase-options-dart-base64-emulator:
     required: true
-  firebase_options_dart_base64_dev:
+  firebase-options-dart-base64-dev:
     required: true
 
 runs:
@@ -17,13 +17,13 @@ runs:
     - name: Setup Flutter
       uses: ./.github/actions/setup-flutter
       with:
-        flutter_version: ${{ steps.get-flutter-version.flutter-version }}
+        flutter-version: ${{ steps.get-flutter-version.flutter-version }}
 
     - name: Generate uncommited files
       uses: ./.github/actions/generate-uncommited-files
       with:
-        firebase_options_dart_base64_emulator: ${{ inputs.firebase_options_dart_base64_emulator }}
-        firebase_options_dart_base64_dev: ${{ inputs.firebase_options_dart_base64_dev }}
+        firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
+        firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
 
     - name: Cache Gradle
       uses: actions/cache@v2

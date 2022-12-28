@@ -1,7 +1,7 @@
 inputs:
-  firebase_options_dart_base64_emulator:
+  firebase-options-dart-base64-emulator:
     required: true
-  firebase_options_dart_base64_dev:
+  firebase-options-dart-base64-dev:
     required: true
 
 runs:
@@ -10,8 +10,8 @@ runs:
     - name: Generate Firebase options files
       shell: bash
       env:
-        FIREBASE_OPTIONS_DART_BASE64_EMULATOR: ${{ inputs.firebase_options_dart_base64_emulator }}
-        FIREBASE_OPTIONS_DART_BASE64_DEV: ${{ inputs.firebase_options_dart_base64_dev }}
+        FIREBASE_OPTIONS_DART_BASE64_EMULATOR: ${{ inputs.firebase-options-dart-base64-emulator }}
+        FIREBASE_OPTIONS_DART_BASE64_DEV: ${{ inputs.firebase-options-dart-base64-dev }}
       run: |
         echo "${FIREBASE_OPTIONS_DART_BASE64_EMULATOR}" | base64 -d > lib/firebase_options_emulator.dart
         echo "${FIREBASE_OPTIONS_DART_BASE64_DEV}" | base64 -d > lib/firebase_options_dev.dart

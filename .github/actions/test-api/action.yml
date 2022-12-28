@@ -1,5 +1,5 @@
 inputs:
-  api_test_sample_movies_zip_url:
+  api-test-sample-movies-zip-url:
     required: true
 
 runs:
@@ -37,7 +37,7 @@ runs:
       shell: bash
       working-directory: task
       env:
-        API_TEST_SAMPLE_MOVIES_ZIP_URL: ${{ inputs.api_test_sample_movies_zip_url }}
+        API_TEST_SAMPLE_MOVIES_ZIP_URL: ${{ inputs.api-test-sample-movies-zip-url }}
       run: |
         mkdir samples
         cd samples
