@@ -1,0 +1,23 @@
+inputs:
+  firebase-options-dart-base64-emulator:
+    required: true
+  firebase-options-dart-base64-dev:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate Firebase options files
+      shell: bash
+      env:
+        FIREBASE_OPTIONS_DART_BASE64_EMULATOR: ${{ inputs.firebase-options-dart-base64-emulator }}
+        FIREBASE_OPTIONS_DART_BASE64_DEV: ${{ inputs.firebase-options-dart-base64-dev }}
+      run: |
+        echo "${FIREBASE_OPTIONS_DART_BASE64_EMULATOR}" | base64 -d > lib/firebase_options_emulator.dart
+        echo "${FIREBASE_OPTIONS_DART_BASE64_DEV}" | base64 -d > lib/firebase_options_dev.dart
+
+    - name: Generate automatic codes
+      shell: bash
+      run: |
+        flutter pub get
+        flutter pub run build_runner build

@@ -1,0 +1,6 @@
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 12.x

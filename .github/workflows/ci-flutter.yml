@@ -4,9 +4,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  JAVA_VERSION: "12.x"
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -15,67 +12,14 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest
 
+    if: ${{ github.actor != 'dependabot[bot]' }}
+
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install reviewdog
-        uses: reviewdog/action-setup@v1
+      - name: Lint and test Flutter
+        uses: ./.github/actions/lint-and-test-flutter
         with:
-          reviewdog_version: latest
-
-      - name: Install Code Spell Checker
-        run: npm install -g cspell
-
-      - name: Check Code Spell
-        run: cspell '**/*.{dart,swift,kt}' > cspell.log
-
-      - name: Run reviewdog for Code Spell Checker
-        if: failure()
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat cspell.log | reviewdog -efm='%f:%l:%c - %m' -name='Code Spell Checker' -reporter='github-pr-review'
-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-
-      # Read Flutter version from version file for asdf,
-      # remove the "-stable" suffix,
-      # and store it in the environment variable
-      - name: Get Flutter version
-        run: |
-          asdf_flutter_version="$(cat .tool-versions | awk '{print $2}')"
-          flutter_version="$(echo $asdf_flutter_version | sed -e 's/-stable//g')"
-          echo "FLUTTER_VERSION=$flutter_version" >> $GITHUB_ENV
-
-      - name: Cache Flutter
-        uses: actions/cache@v3
-        with:
-          path: /opt/hostedtoolcache/flutter
-          key: ${{ runner.OS }}-flutter-${{ env.FLUTTER_VERSION }}
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-
-      - name: Generate Firebase options files
-        env:
-          FIREBASE_OPTIONS_DART_BASE64_EMULATOR: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
-          FIREBASE_OPTIONS_DART_BASE64_DEV: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
-        run: |
-          echo "${FIREBASE_OPTIONS_DART_BASE64_EMULATOR}" | base64 -d > lib/firebase_options_emulator.dart
-          echo "${FIREBASE_OPTIONS_DART_BASE64_DEV}" | base64 -d > lib/firebase_options_dev.dart
-
-      - name: Generate automatic codes
-        run: |
-          flutter pub get
-          flutter pub run build_runner build
-
-      - name: Flutter analyze
-        run: flutter analyze --fatal-infos > flutter-analyze.log
-
-      - name: Run reviewdog for Flutter Analyzer
-        if: failure()
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat flutter-analyze.log | reviewdog -efm='%#%t%.%# • %m • %f:%l:%c %r' -name='Flutter Analyzer' -reporter='github-pr-review'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
+          firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}

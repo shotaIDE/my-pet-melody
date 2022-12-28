@@ -1,0 +1,50 @@
+inputs:
+  api-test-sample-movies-zip-url:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      shell: bash
+      # Use the nearest version of FFMpeg installed in the environment
+      # on which the production runtime is based.
+      # https://cloud.google.com/functions/docs/reference/system-packages#ubuntu_1804
+      run: |
+        sudo apt-get update
+        sudo apt-get install ffmpeg=7:3.4.11-0ubuntu0.1
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install Python dependencies
+      shell: bash
+      working-directory: task
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Download test samples
+      shell: bash
+      working-directory: task
+      env:
+        API_TEST_SAMPLE_MOVIES_ZIP_URL: ${{ inputs.api-test-sample-movies-zip-url }}
+      run: |
+        mkdir samples
+        cd samples
+        wget -O samples.zip "${API_TEST_SAMPLE_MOVIES_ZIP_URL}"
+        unzip samples.zip
+
+    - name: Test
+      shell: bash
+      working-directory: task
+      run: pytest

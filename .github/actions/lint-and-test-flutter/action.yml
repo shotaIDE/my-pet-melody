@@ -1,0 +1,53 @@
+inputs:
+  github-token:
+    required: true
+  firebase-options-dart-base64-emulator:
+    required: true
+  firebase-options-dart-base64-dev:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install reviewdog
+      uses: reviewdog/action-setup@v1
+      with:
+        reviewdog_version: latest
+
+    - name: Install Code Spell Checker
+      shell: bash
+      run: npm install -g cspell
+
+    - name: Check Code Spell
+      shell: bash
+      run: cspell '**/*.{dart,swift,kt}' > cspell.log
+
+    - name: Run reviewdog for Code Spell Checker
+      if: failure()
+      shell: bash
+      env:
+        REVIEWDOG_GITHUB_API_TOKEN: ${{ inputs.github-token }}
+      run: cat cspell.log | reviewdog -efm='%f:%l:%c - %m' -name='Code Spell Checker' -reporter='github-pr-review'
+
+    - name: Setup Java
+      uses: ./.github/actions/setup-java
+
+    - name: Setup Flutter
+      uses: ./.github/actions/setup-flutter
+
+    - name: Generate uncommited files
+      uses: ./.github/actions/generate-uncommited-files
+      with:
+        firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
+        firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
+
+    - name: Flutter analyze
+      shell: bash
+      run: flutter analyze --fatal-infos > flutter-analyze.log
+
+    - name: Run reviewdog for Flutter Analyzer
+      if: failure()
+      shell: bash
+      env:
+        REVIEWDOG_GITHUB_API_TOKEN: ${{ inputs.github-token }}
+      run: cat flutter-analyze.log | reviewdog -efm='%#%t%.%# • %m • %f:%l:%c %r' -name='Flutter Analyzer' -reporter='github-pr-review'
