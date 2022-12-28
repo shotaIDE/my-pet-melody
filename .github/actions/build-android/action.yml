@@ -10,15 +10,20 @@ runs:
     - name: Setup Java
       uses: ./.github/actions/setup-java
 
-    # Read Flutter version from version file for asdf,
-    # remove the "-stable" suffix,
-    # and store it in the environment variable
     - name: Get Flutter version
-      shell: bash
-      run: |
-        asdf_flutter_version="$(cat .tool-versions | awk '{print $2}')"
-        flutter_version="$(echo $asdf_flutter_version | sed -e 's/-stable//g')"
-        echo "FLUTTER_VERSION=$flutter_version" >> $GITHUB_ENV
+      id: get-flutter-version
+      uses: ./.github/actions/get-flutter-version
+
+    - name: Setup Flutter
+      uses: ./.github/actions/setup-flutter
+      with:
+        flutter_version: ${{ steps.get-flutter-version.flutter-version }}
+
+    - name: Generate uncommited files
+      uses: ./.github/actions/generate-uncommited-files
+      with:
+        firebase_options_dart_base64_emulator: ${{ inputs.firebase_options_dart_base64_emulator }}
+        firebase_options_dart_base64_dev: ${{ inputs.firebase_options_dart_base64_dev }}
 
     - name: Cache Gradle
       uses: actions/cache@v2
@@ -29,17 +34,6 @@ runs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
-
-    - name: Setup Flutter
-      uses: ./.github/actions/setup-flutter
-      with:
-        flutter_version: ${{ env.FLUTTER_VERSION }}
-
-    - name: Generate uncommited files
-      uses: ./.github/actions/generate-uncommited-files
-      with:
-        firebase_options_dart_base64_emulator: ${{ inputs.firebase_options_dart_base64_emulator }}
-        firebase_options_dart_base64_dev: ${{ inputs.firebase_options_dart_base64_dev }}
 
     - name: Android build
       shell: bash
