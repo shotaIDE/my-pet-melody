@@ -1,6 +1,9 @@
 pull_request_rules:
   - name: Automatic merge PR from dependabot on passing CI
     conditions:
+      - author = dependabot[bot]
+      - check-success = lint-and-test
+      - check-success = build
       - check-success = test
     actions:
       merge:
