@@ -14,5 +14,4 @@ runs:
       run: |
         asdf_flutter_version="$(cat .tool-versions | awk '{print $2}')"
         flutter_version="$(echo $asdf_flutter_version | sed -e 's/-stable//g')"
-        echo "flutter-version=$flutter_version"
         echo "flutter-version=$flutter_version" >> $GITHUB_OUTPUT
