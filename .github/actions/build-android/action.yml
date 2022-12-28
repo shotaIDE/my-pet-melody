@@ -1,14 +1,23 @@
+inputs:
+  java_version:
+    required: true
+  firebase_options_dart_base64_emulator:
+    required: true
+  firebase_options_dart_base64_dev:
+    required: true
+
 runs:
   using: "composite"
   steps:
     - uses: actions/setup-java@v1
       with:
-        java-version: ${{ env.JAVA_VERSION }}
+        java-version: ${{ inputs.java_version }}
 
     # Read Flutter version from version file for asdf,
     # remove the "-stable" suffix,
     # and store it in the environment variable
     - name: Get Flutter version
+      shell: bash
       run: |
         asdf_flutter_version="$(cat .tool-versions | awk '{print $2}')"
         flutter_version="$(echo $asdf_flutter_version | sed -e 's/-stable//g')"
@@ -36,16 +45,19 @@ runs:
 
     - name: Generate Firebase options files
       env:
-        FIREBASE_OPTIONS_DART_BASE64_EMULATOR: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
-        FIREBASE_OPTIONS_DART_BASE64_DEV: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
+        FIREBASE_OPTIONS_DART_BASE64_EMULATOR: ${{ inputs.firebase_options_dart_base64_emulator }}
+        FIREBASE_OPTIONS_DART_BASE64_DEV: ${{ inputs.firebase_options_dart_base64_dev }}
+      shell: bash
       run: |
         echo "${FIREBASE_OPTIONS_DART_BASE64_EMULATOR}" | base64 -d > lib/firebase_options_emulator.dart
         echo "${FIREBASE_OPTIONS_DART_BASE64_DEV}" | base64 -d > lib/firebase_options_dev.dart
 
     - name: Generate automatic codes
+      shell: bash
       run: |
         flutter pub get
         flutter pub run build_runner build
 
     - name: Android build
+      shell: bash
       run: flutter build appbundle --dart-define FLAVOR=dev

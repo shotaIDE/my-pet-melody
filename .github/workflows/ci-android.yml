@@ -21,3 +21,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: ./.github/actions/build-android
+        with:
+          java_version: ${{ env.JAVA_VERSION }}
+          firebase_options_dart_base64_emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
+          firebase_options_dart_base64_dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
