@@ -90,7 +90,7 @@ def evaluate_detection_methods():
     ])
 
     accuracies = [
-        evaluate_one_method(
+        evaluate_method(
             name=method[0],
             method=method[1],
         )
@@ -104,7 +104,7 @@ def evaluate_detection_methods():
         print(f'Each accuracy: {accuracy["eachAccuracies"]}')
 
 
-def evaluate_one_method(name: str, method: Callable[[str], dict]) -> dict:
+def evaluate_method(name: str, method: Callable[[str], dict]) -> dict:
     accuracies = [
         _calculate_accuracy(
             file_path=f'samples/{expected_result["fileName"]}',
