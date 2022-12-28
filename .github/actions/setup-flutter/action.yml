@@ -1,16 +1,23 @@
-inputs:
-  flutter-version:
-    required: true
-
 runs:
   using: "composite"
   steps:
+    # Read Flutter version from version file for asdf,
+    # remove the "-stable" suffix,
+    # and store it in the environment variable
+    - name: Get Flutter version
+      id: get-flutter-version
+      shell: bash
+      run: |
+        asdf_flutter_version="$(cat .tool-versions | awk '{print $2}')"
+        flutter_version="$(echo $asdf_flutter_version | sed -e 's/-stable//g')"
+        echo "flutter-version=$flutter_version" >> $GITHUB_OUTPUT
+
     - name: Cache Flutter
       uses: actions/cache@v1
       with:
         path: /opt/hostedtoolcache/flutter
-        key: ${{ runner.OS }}-flutter-${{ inputs.flutter-version }}
+        key: ${{ runner.OS }}-flutter-${{ steps.get-flutter-version.outputs.flutter-version }}
 
     - uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ inputs.flutter-version }}
+        flutter-version: ${{ steps.get-flutter-version.outputs.flutter-version }}

@@ -10,14 +10,8 @@ runs:
     - name: Setup Java
       uses: ./.github/actions/setup-java
 
-    - name: Get Flutter version
-      id: get-flutter-version
-      uses: ./.github/actions/get-flutter-version
-
     - name: Setup Flutter
       uses: ./.github/actions/setup-flutter
-      with:
-        flutter-version: ${{ steps.get-flutter-version.outputs.flutter-version }}
 
     - name: Generate uncommited files
       uses: ./.github/actions/generate-uncommited-files
