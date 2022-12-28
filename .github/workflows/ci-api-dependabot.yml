@@ -1,7 +1,7 @@
-name: CI/API
+name: CI/API(dependabot)
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [main]
 
 concurrency:
