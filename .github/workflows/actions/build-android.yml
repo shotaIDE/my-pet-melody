@@ -1,0 +1,51 @@
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-java@v1
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+
+    # Read Flutter version from version file for asdf,
+    # remove the "-stable" suffix,
+    # and store it in the environment variable
+    - name: Get Flutter version
+      run: |
+        asdf_flutter_version="$(cat .tool-versions | awk '{print $2}')"
+        flutter_version="$(echo $asdf_flutter_version | sed -e 's/-stable//g')"
+        echo "FLUTTER_VERSION=$flutter_version" >> $GITHUB_ENV
+
+    - name: Cache Flutter
+      uses: actions/cache@v1
+      with:
+        path: /opt/hostedtoolcache/flutter
+        key: ${{ runner.OS }}-flutter-${{ env.FLUTTER_VERSION }}
+
+    - name: Cache Gradle
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+
+    - name: Generate Firebase options files
+      env:
+        FIREBASE_OPTIONS_DART_BASE64_EMULATOR: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
+        FIREBASE_OPTIONS_DART_BASE64_DEV: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
+      run: |
+        echo "${FIREBASE_OPTIONS_DART_BASE64_EMULATOR}" | base64 -d > lib/firebase_options_emulator.dart
+        echo "${FIREBASE_OPTIONS_DART_BASE64_DEV}" | base64 -d > lib/firebase_options_dev.dart
+
+    - name: Generate automatic codes
+      run: |
+        flutter pub get
+        flutter pub run build_runner build
+
+    - name: Android build
+      run: flutter build appbundle --dart-define FLAVOR=dev
