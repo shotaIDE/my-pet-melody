@@ -1,4 +1,4 @@
-name: CI/Flutter
+name: CI/Android
 
 on:
   pull_request:
@@ -12,28 +12,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Install reviewdog
-        uses: reviewdog/action-setup@v1
-        with:
-          reviewdog_version: latest
-
-      - name: Install Code Spell Checker
-        run: npm install -g cspell
-
-      - name: Check Code Spell
-        run: cspell '**/*.{dart,swift,kt}' > cspell.log
-
-      - name: Run reviewdog for Code Spell Checker
-        if: failure()
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat cspell.log | reviewdog -efm='%f:%l:%c - %m' -name='Code Spell Checker' -reporter='github-pr-review'
+      - uses: actions/checkout@v2
 
       - uses: actions/setup-java@v1
         with:
@@ -49,10 +32,20 @@ jobs:
           echo "FLUTTER_VERSION=$flutter_version" >> $GITHUB_ENV
 
       - name: Cache Flutter
-        uses: actions/cache@v3
+        uses: actions/cache@v1
         with:
           path: /opt/hostedtoolcache/flutter
           key: ${{ runner.OS }}-flutter-${{ env.FLUTTER_VERSION }}
+
+      - name: Cache Gradle
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - uses: subosito/flutter-action@v2
         with:
@@ -71,11 +64,5 @@ jobs:
           flutter pub get
           flutter pub run build_runner build
 
-      - name: Flutter analyze
-        run: flutter analyze --fatal-infos > flutter-analyze.log
-
-      - name: Run reviewdog for Flutter Analyzer
-        if: failure()
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cat flutter-analyze.log | reviewdog -efm='%#%t%.%# • %m • %f:%l:%c %r' -name='Flutter Analyzer' -reporter='github-pr-review'
+      - name: Android build
+        run: flutter build appbundle --dart-define FLAVOR=dev
