@@ -31,7 +31,7 @@ jobs:
         # https://cloud.google.com/functions/docs/reference/system-packages#ubuntu_1804
         run: |
           sudo apt-get update
-          sudo add-apt-repository ppa:jonathonf/ffmpeg-7
+          sudo add-apt-repository ppa:jonathonf/ffmpeg-4
           sudo apt-get install ffmpeg=7:3.4.8-0ubuntu0.3~18.04.1
 
       - name: Set up Python
