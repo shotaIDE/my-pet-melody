@@ -28,9 +28,12 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
+        # Use the nearest version of FFMpeg installed in the environment
+        # on which the production runtime is based.
+        # https://cloud.google.com/functions/docs/reference/system-packages#ubuntu_1804
         run: |
-          sudo apt-get install ffmpeg
-          ffmpeg
+          sudo apt-get update
+          sudo apt-get install ffmpeg=7:3.4.11-0ubuntu0.1
 
       - name: Set up Python
         uses: actions/setup-python@v4
