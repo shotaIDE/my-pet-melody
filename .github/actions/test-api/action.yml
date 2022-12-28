@@ -16,6 +16,7 @@ runs:
           ${{ runner.os }}-pip-
 
     - name: Install dependencies
+      shell: bash
       # Use the nearest version of FFMpeg installed in the environment
       # on which the production runtime is based.
       # https://cloud.google.com/functions/docs/reference/system-packages#ubuntu_1804
@@ -29,15 +30,17 @@ runs:
         python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install Python dependencies
+      shell: bash
       working-directory: task
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: Download test samples
+      shell: bash
+      working-directory: task
       env:
         API_TEST_SAMPLE_MOVIES_ZIP_URL: ${{ inputs.api_test_sample_movies_zip_url }}
-      working-directory: task
       run: |
         mkdir samples
         cd samples
@@ -45,5 +48,6 @@ runs:
         unzip samples.zip
 
     - name: Test
+      shell: bash
       working-directory: task
       run: pytest
