@@ -1,0 +1,7 @@
+pull_request_rules:
+  - name: Automatic merge PR from dependabot on passing CI
+    conditions:
+      - check-success = test
+    actions:
+      merge:
+        method: merge
