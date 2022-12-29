@@ -1,2 +1,2 @@
-import "../android/fastlane/Fastfile"
-import "../ios/fastlane/Fastfile"
+import '../android/fastlane/Fastfile'
+import '../ios/fastlane/Fastfile'

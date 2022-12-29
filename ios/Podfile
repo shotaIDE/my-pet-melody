@@ -7,7 +7,7 @@ ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 project 'Runner', {
   'Debug' => :debug,
   'Profile' => :release,
-  'Release' => :release,
+  'Release' => :release
 }
 
 def flutter_root
@@ -17,7 +17,7 @@ def flutter_root
   end
 
   File.foreach(generated_xcode_build_settings_path) do |line|
-    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    matches = line.match(/FLUTTER_ROOT=(.*)/)
     return matches[1].strip if matches
   end
   raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
@@ -33,13 +33,13 @@ target 'Runner' do
 
   # Specify a tag that was once built for iOS without the following statement
   # and the Firebase/Firestore version appended to the Podfile.lock.
-  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '9.6.0'
+  pod 'FirebaseFirestore', git: 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', tag: '9.6.0'
 
   # Fix DKImagePickerController bug
   # https://github.com/zhangao0086/DKImagePickerController/issues/705#issuecomment-1250706936
   pod 'DKImagePickerController', '4.3.4'
 
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  flutter_install_all_ios_pods __dir__
 end
 
 post_install do |installer|
