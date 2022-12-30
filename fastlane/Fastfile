@@ -1,2 +1,8 @@
 import '../android/fastlane/Fastfile'
 import '../ios/fastlane/Fastfile'
+
+desc 'Generate automatic codes'
+lane :generate do
+  sh('flutter pub get')
+  sh('flutter pub run build_runner build')
+end
