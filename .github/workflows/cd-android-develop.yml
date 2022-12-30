@@ -28,13 +28,14 @@ jobs:
       - name: Setup Gradle
         uses: ./.github/actions/setup-gradle
 
-      - name: Create key store file and key properties file
-        run: |
-          echo '${{ secrets.KEYSTORE_JKS_BASE64 }}' | base64 -d > android/app/upload-keystore.jks
-          echo 'storePassword=${{ secrets.KEYSTORE_STORE_PASSWORD }}' > android/key.properties
-          echo 'keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}' >> android/key.properties
-          echo 'keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}' >> android/key.properties
-          echo 'storeFile=upload-keystore.jks' >> android/key.properties
+      - name: Generate Firebase options files
+        uses: ./.github/actions/generate-firebase-options-files
+        with:
+          firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
+          firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
+
+      - name: Generate key store
+        uses: ./.github/actions/generate-key-store
 
       - name: Generate Firebase App Distribution service account key file
         run: echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > fastlane/firebase-app-distribution-develop.json

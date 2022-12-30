@@ -1,0 +1,11 @@
+runs:
+  using: "composite"
+  steps:
+    - name: Generate key store file and key properties file
+      shell: bash
+      run: |
+        echo '${{ secrets.KEYSTORE_JKS_BASE64 }}' | base64 -d > android/app/upload-keystore.jks
+        echo 'storePassword=${{ secrets.KEYSTORE_STORE_PASSWORD }}' > android/key.properties
+        echo 'keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}' >> android/key.properties
+        echo 'keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}' >> android/key.properties
+        echo 'storeFile=upload-keystore.jks' >> android/key.properties
