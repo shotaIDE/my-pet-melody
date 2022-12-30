@@ -8,5 +8,18 @@ platform :ios do
     Dir.chdir('../') do
       sh('flutter build ipa --dart-define FLAVOR=dev --export-options-plist=ios/ExportOptions_Develop-AdHoc.plist')
     end
+
+    lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/meow_music.ipa'
+  end
+
+  desc 'Deploy develop app to Firebase App Distribution'
+  lane :deploy_dev do
+    build_dev
+
+    firebase_app_distribution(
+      app: '1:1051662796035:ios:54af072e93309514651536',
+      service_credentials_file: 'fastlane/firebase-app-distribution-develop.json',
+      groups: 'testers'
+    )
   end
 end

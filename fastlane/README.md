@@ -63,6 +63,14 @@ Deploy a new version to the Google Play
 
 Build develop app
 
+### ios deploy_dev
+
+```sh
+[bundle exec] fastlane ios deploy_dev
+```
+
+Deploy develop app to Firebase App Distribution
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
