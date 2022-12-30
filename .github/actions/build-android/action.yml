@@ -3,6 +3,14 @@ inputs:
     required: true
   firebase-options-dart-base64-dev:
     required: true
+  keystore-jks-base64:
+    required: true
+  store-password:
+    required: true
+  key-password:
+    required: true
+  key-alias:
+    required: true
 
 runs:
   using: "composite"
@@ -21,6 +29,11 @@ runs:
 
     - name: Generate key store
       uses: ./.github/actions/generate-key-store
+      with:
+        keystore-jks-base64: ${{ inputs.keystore-jks-base64 }}
+        store-password: ${{ inputs.store-password }}
+        key-password: ${{ inputs.key-password }}
+        key-alias: ${{ inputs.key-alias }}
 
     - name: Android build
       shell: bash

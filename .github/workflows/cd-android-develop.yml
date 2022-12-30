@@ -36,6 +36,11 @@ jobs:
 
       - name: Generate key store
         uses: ./.github/actions/generate-key-store
+        with:
+          keystore-jks-base64: ${{ secrets.KEYSTORE_JKS_BASE64 }}
+          store-password: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+          key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
 
       - name: Generate Firebase App Distribution service account key file
         run: echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > fastlane/firebase-app-distribution-develop.json
