@@ -29,14 +29,11 @@ runs:
         REVIEWDOG_GITHUB_API_TOKEN: ${{ inputs.github-token }}
       run: cat cspell.log | reviewdog -efm='%f:%l:%c - %m' -name='Code Spell Checker' -reporter='github-pr-review'
 
-    - name: Setup Java
-      uses: ./.github/actions/setup-java
-
     - name: Setup Flutter
       uses: ./.github/actions/setup-flutter
 
-    - name: Generate uncommited files
-      uses: ./.github/actions/generate-uncommited-files
+    - name: Generate Firebase options files
+      uses: ./.github/actions/generate-firebase-options-files
       with:
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
         firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}

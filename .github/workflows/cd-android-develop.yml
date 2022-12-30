@@ -1,0 +1,44 @@
+name: CD/Android-Develop
+
+on:
+  push:
+    tags:
+      - "beta/*"
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
+
+      - name: Setup Gradle
+        uses: ./.github/actions/setup-ruby
+
+      - name: Create key store file and key properties file
+        run: |
+          echo '${{ secrets.KEYSTORE_JKS_BASE64 }}' | base64 -d > android/app/upload-keystore.jks
+          echo 'storePassword=${{ secrets.KEYSTORE_STORE_PASSWORD }}' > android/key.properties
+          echo 'keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}' >> android/key.properties
+          echo 'keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}' >> android/key.properties
+          echo 'storeFile=upload-keystore.jks' >> android/key.properties
+
+      - name: Generate Firebase App Distribution service account key file
+        run: echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > fastlane/firebase-app-distribution-develop.json
+
+      - name: Deploy dev app to Firebase App Distribution
+        shell: bash
+        run: bundle exec fastlane android deploy_dev

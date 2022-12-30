@@ -1,6 +1,10 @@
 runs:
   using: "composite"
   steps:
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 12.x
+
     # Read Flutter version from version file for asdf,
     # remove the "-stable" suffix,
     # and store it in the environment variable
