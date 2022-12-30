@@ -9,7 +9,7 @@ platform :android do
       sh('flutter build apk --dart-define FLAVOR=dev')
     end
 
-    lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/apk/skywayv2/release/app-skywayv2-release.apk'
+    lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/apk/release/app-release.apk'
   end
 
   desc 'Deploy develop app to Firebase App Distribution'
