@@ -46,5 +46,4 @@ jobs:
         run: echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > fastlane/firebase-app-distribution-develop.json
 
       - name: Deploy dev app to Firebase App Distribution
-        shell: bash
         run: bundle exec fastlane android deploy_dev
