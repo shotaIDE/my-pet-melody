@@ -26,29 +26,21 @@ Generate automatic codes
 
 ## Android
 
-### android test
+### android build_dev
 
 ```sh
-[bundle exec] fastlane android test
+[bundle exec] fastlane android build_dev
 ```
 
-Runs all the tests
+Build develop app
 
-### android beta
+### android deploy_dev
 
 ```sh
-[bundle exec] fastlane android beta
+[bundle exec] fastlane android deploy_dev
 ```
 
-Submit a new Beta Build to Crashlytics Beta
-
-### android deploy
-
-```sh
-[bundle exec] fastlane android deploy
-```
-
-Deploy a new version to the Google Play
+Deploy develop app to Firebase App Distribution
 
 ----
 
