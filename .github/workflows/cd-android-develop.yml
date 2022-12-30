@@ -26,7 +26,7 @@ jobs:
         uses: ./.github/actions/setup-ruby
 
       - name: Setup Gradle
-        uses: ./.github/actions/setup-ruby
+        uses: ./.github/actions/setup-gradle
 
       - name: Create key store file and key properties file
         run: |
