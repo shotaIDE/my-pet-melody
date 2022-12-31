@@ -6,5 +6,4 @@ runs:
     - name: Install Ruby, bundler, fastlane and other dependencies
       uses: ruby/setup-ruby@v1.106.0
       with:
-        ruby-version: 3.0
         bundler-cache: true
