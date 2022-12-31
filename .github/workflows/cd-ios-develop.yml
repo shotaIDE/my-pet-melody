@@ -63,10 +63,9 @@ jobs:
           echo "${{ secrets.PROVISIONING_PROFILE_DEV_AD_HOC_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/dev_ad-hoc.mobileprovision
 
       - name: Generate Firebase App Distribution service account key file
-        run: echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > fastlane/firebase-app-distribution-develop.json
-
-      - working-directory: ios
-        run: which pod
+        uses: ./.github/actions/generate-app-distribution-key-file
+        with:
+          key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
 
       - name: Deploy dev app to Firebase App Distribution
         shell: bash

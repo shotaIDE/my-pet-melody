@@ -1,0 +1,10 @@
+inputs:
+  key-json-base64:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate Firebase App Distribution service account key file
+      shell: bash
+      run: echo "${{ inputs.key-json-base64 }}" | base64 -d > fastlane/firebase-app-distribution-develop.json

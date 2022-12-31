@@ -5,6 +5,9 @@ on:
     tags:
       - "beta/*"
   workflow_dispatch:
+  pull_request:
+    branches:
+      - "main"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -41,7 +44,9 @@ jobs:
           key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
 
       - name: Generate Firebase App Distribution service account key file
-        run: echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > fastlane/firebase-app-distribution-develop.json
+        uses: ./.github/actions/generate-app-distribution-key-file
+        with:
+          key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
 
       - name: Deploy dev app to Firebase App Distribution
         run: bundle exec fastlane android deploy_dev
