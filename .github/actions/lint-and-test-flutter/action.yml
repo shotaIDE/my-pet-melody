@@ -32,7 +32,7 @@ runs:
     - name: Setup Flutter
       uses: ./.github/actions/setup-flutter
 
-    - name: Generate Firebase options files
+    - name: Generate uncommited files files
       uses: ./.github/actions/generate-uncommited-files
       with:
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
