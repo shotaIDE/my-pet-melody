@@ -27,7 +27,7 @@ jobs:
         uses: ./.github/actions/setup-gradle
 
       - name: Generate Firebase options files
-        uses: ./.github/actions/generate-firebase-options-files
+        uses: ./.github/actions/generate-uncommited-files
         with:
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}

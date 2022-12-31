@@ -33,7 +33,7 @@ runs:
       uses: ./.github/actions/setup-flutter
 
     - name: Generate Firebase options files
-      uses: ./.github/actions/generate-firebase-options-files
+      uses: ./.github/actions/generate-uncommited-files
       with:
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
         firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
