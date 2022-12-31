@@ -43,7 +43,7 @@ jobs:
       - name: Select Xcode Version
         run: sudo xcode-select -s "/Applications/Xcode_${{ steps.get-xcode-version.outputs.xcode-version }}.app/Contents/Developer"
 
-      - name: Generate uncommited files files
+      - name: Generate uncommited files
         uses: ./.github/actions/generate-uncommited-files
         with:
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
