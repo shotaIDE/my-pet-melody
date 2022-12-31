@@ -36,12 +36,10 @@ runs:
     - name: Download test samples
       shell: bash
       working-directory: task
-      env:
-        API_TEST_SAMPLE_MOVIES_ZIP_URL: ${{ inputs.api-test-sample-movies-zip-url }}
       run: |
         mkdir samples
         cd samples
-        wget -O samples.zip "${API_TEST_SAMPLE_MOVIES_ZIP_URL}"
+        wget -O samples.zip "${{ inputs.api-test-sample-movies-zip-url }}"
         unzip samples.zip
 
     - name: Test

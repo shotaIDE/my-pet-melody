@@ -56,8 +56,6 @@ jobs:
           p12-password: ${{ secrets.APPLE_DISTRIBUTION_P12_PASSWORD }}
 
       - name: Import Provisioning Profile
-        env:
-          PROVISIONING_PROFILE_DEV_DISTRIBUTION: ${{ secrets.PROVISIONING_PROFILE_DEV_AD_HOC_BASE64 }}
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "${{ secrets.PROVISIONING_PROFILE_DEV_AD_HOC_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/dev_ad-hoc.mobileprovision
