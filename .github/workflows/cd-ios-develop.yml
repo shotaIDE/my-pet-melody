@@ -22,9 +22,6 @@ jobs:
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
 
-      - name: Setup Ruby
-        uses: ./.github/actions/setup-ruby
-
       - name: Cache CocoaPods
         uses: actions/cache@v2
         with:
@@ -32,6 +29,9 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
+
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
 
       - name: Get Xcode version
         id: get-xcode-version
