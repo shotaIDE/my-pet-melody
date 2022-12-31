@@ -4,6 +4,6 @@ runs:
     # Ruby is already installed on the machine,
     # but for cache and bundler installation, use the following action.
     - name: Install Ruby, bundler, fastlane and other dependencies
-      uses: ruby/setup-ruby@v1.106.0
+      uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
