@@ -1,0 +1,67 @@
+name: CD/iOS-Develop
+
+on:
+  push:
+    tags:
+      - "beta/*"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: macos-12
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Get Xcode version
+        id: get-xcode-version
+        run: |
+          xcode_version="$(cat .xcode-version)"
+          echo "xcode-version=$xcode_version" >> $GITHUB_OUTPUT
+
+      - name: Select Xcode Version
+        run: sudo xcode-select -s "/Applications/Xcode_${{ steps.get-xcode-version.outputs.xcode-version }}.app/Contents/Developer"
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v2
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
+
+      - name: Generate uncommited files
+        uses: ./.github/actions/generate-uncommited-files
+        with:
+          firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
+          firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
+
+      - name: Import Code-Signing Certificates
+        uses: Apple-Actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.APPLE_DISTRIBUTION_P12_BASE64 }}
+          p12-password: ${{ secrets.APPLE_DISTRIBUTION_P12_PASSWORD }}
+
+      - name: Import Provisioning Profile
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "${{ secrets.PROVISIONING_PROFILE_DEV_AD_HOC_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/dev_ad-hoc.mobileprovision
+
+      - name: Generate Firebase App Distribution service account key file
+        uses: ./.github/actions/generate-app-distribution-key-file
+        with:
+          key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
+
+      - name: Deploy dev app to Firebase App Distribution
+        shell: bash
+        run: bundle exec fastlane ios deploy_dev

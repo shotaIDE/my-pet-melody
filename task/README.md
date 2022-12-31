@@ -1,6 +1,6 @@
 # Task
 
-## デプロイ方法
+## How to deploy
 
 ### Functions
 
@@ -35,14 +35,22 @@ gcloud functions delete submit
 gcloud functions delete piece
 ```
 
-### Firestore のルール
+### Firestore rules
 
 ```shell
 firebase deploy --only firestore:rules
 ```
 
-### Storage のルール
+### Storage rules
 
 ```shell
 firebase deploy --only storage
+```
+
+## How to maintenance
+
+### Install pip packages depends on requirements.txt
+
+```shell
+pip install --ignore-installed -r requirements.txt
 ```

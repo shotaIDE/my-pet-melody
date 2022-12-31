@@ -2,7 +2,8 @@ name: CI/Android(dependabot)
 
 on:
   pull_request_target:
-    branches: [main]
+    branches:
+      - "main"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,3 +23,7 @@ jobs:
         with:
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
+          keystore-jks-base64: ${{ secrets.KEYSTORE_JKS_BASE64 }}
+          store-password: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+          key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}

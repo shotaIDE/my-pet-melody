@@ -1,0 +1,6 @@
+AllCops:
+  Exclude:
+    - "**/Flutter.podspec"
+
+Style/FrozenStringLiteralComment:
+  Enabled: false

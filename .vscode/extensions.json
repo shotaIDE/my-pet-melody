@@ -5,6 +5,7 @@
         "esbenp.prettier-vscode",
         "gaetschwartz.build-runner",
         "localizely.flutter-intl",
+        "misogi.ruby-rubocop",
         "streetsidesoftware.code-spell-checker",
         "toba.vsfire",
         "vknabel.vscode-swiftlint",

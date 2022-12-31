@@ -1,0 +1,21 @@
+inputs:
+  keystore-jks-base64:
+    required: true
+  store-password:
+    required: true
+  key-password:
+    required: true
+  key-alias:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate key store file and key properties file
+      shell: bash
+      run: |
+        echo '${{ inputs.keystore-jks-base64 }}' | base64 -d > android/app/upload-keystore.jks
+        echo 'storePassword=${{ inputs.store-password }}' > android/key.properties
+        echo 'keyPassword=${{ inputs.key-password }}' >> android/key.properties
+        echo 'keyAlias=${{ inputs.key-alias }}' >> android/key.properties
+        echo 'storeFile=upload-keystore.jks' >> android/key.properties

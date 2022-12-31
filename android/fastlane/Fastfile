@@ -1,0 +1,25 @@
+default_platform(:android)
+
+platform :android do
+  desc 'Build develop app'
+  lane :build_dev do
+    generate
+
+    Dir.chdir('../') do
+      sh('flutter build apk --dart-define FLAVOR=dev')
+    end
+
+    lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/apk/release/app-release.apk'
+  end
+
+  desc 'Deploy develop app to Firebase App Distribution'
+  lane :deploy_dev do
+    build_dev
+
+    firebase_app_distribution(
+      app: '1:1051662796035:android:5d9e3bd77c9543da651536',
+      service_credentials_file: 'fastlane/firebase-app-distribution-develop.json',
+      groups: 'testers'
+    )
+  end
+end

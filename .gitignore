@@ -4,6 +4,8 @@
 /assets/original
 /assets/edited
 /emulator-data
+/fastlane/firebase-app-distribution-*.json
+/fastlane/report.xml
 /lib/firebase_options*.dart
 /ios/Flutter/DartDefines.xcconfig
 /task/samples/

@@ -1,0 +1,49 @@
+name: CD/Android-Develop
+
+on:
+  push:
+    tags:
+      - "beta/*"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Setup Gradle
+        uses: ./.github/actions/setup-gradle
+
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
+
+      - name: Generate uncommited files
+        uses: ./.github/actions/generate-uncommited-files
+        with:
+          firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
+          firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
+
+      - name: Generate key store
+        uses: ./.github/actions/generate-key-store
+        with:
+          keystore-jks-base64: ${{ secrets.KEYSTORE_JKS_BASE64 }}
+          store-password: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+          key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+
+      - name: Generate Firebase App Distribution service account key file
+        uses: ./.github/actions/generate-app-distribution-key-file
+        with:
+          key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
+
+      - name: Deploy dev app to Firebase App Distribution
+        run: bundle exec fastlane android deploy_dev
