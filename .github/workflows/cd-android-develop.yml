@@ -23,11 +23,11 @@ jobs:
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
 
-      - name: Setup Ruby
-        uses: ./.github/actions/setup-ruby
-
       - name: Setup Gradle
         uses: ./.github/actions/setup-gradle
+
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
 
       - name: Generate uncommited files
         uses: ./.github/actions/generate-uncommited-files
