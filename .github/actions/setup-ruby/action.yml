@@ -1,10 +1,6 @@
 runs:
   using: "composite"
   steps:
-    # Ruby is already installed on the machine,
-    # but for cache and bundler installation, use the following action.
-    - name: Install Ruby, bundler, fastlane and other dependencies
-      uses: ruby/setup-ruby@v1.106.0
-      with:
-        ruby-version: 3.0
-        bundler-cache: true
+    - name: Install dependencies
+      shell: bash
+      run: bundle install
