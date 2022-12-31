@@ -59,9 +59,7 @@ jobs:
         run: echo "${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > fastlane/firebase-app-distribution-develop.json
 
       - working-directory: ios
-        run: |
-          which pod
-          pod install
+        run: which pod
 
       - name: Deploy dev app to Firebase App Distribution
         shell: bash
