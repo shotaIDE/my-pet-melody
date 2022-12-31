@@ -2,7 +2,8 @@ name: CI/Flutter
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - "main"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

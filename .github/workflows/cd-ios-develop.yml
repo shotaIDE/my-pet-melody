@@ -6,7 +6,8 @@ on:
       - "beta/*"
   workflow_dispatch:
   pull_request:
-    branches: [main]
+    branches:
+      - "main"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
