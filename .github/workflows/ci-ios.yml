@@ -1,0 +1,30 @@
+name: CI/iOS
+
+on:
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - "ios/**"
+      - ".swiftlint.yml"
+      - ".xcode-version"
+      - "pubspec.lock"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.actor != 'dependabot[bot]' }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Android
+        uses: ./.github/actions/build-android
+        with:
+          firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
+          firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}

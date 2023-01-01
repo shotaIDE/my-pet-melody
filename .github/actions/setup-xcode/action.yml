@@ -1,0 +1,13 @@
+runs:
+  using: "composite"
+  steps:
+    - name: Get Xcode version
+      id: get-xcode-version
+      bash: shell
+      run: |
+        xcode_version="$(cat .xcode-version)"
+        echo "xcode-version=$xcode_version" >> $GITHUB_OUTPUT
+
+    - name: Select Xcode Version
+      bash: shell
+      run: sudo xcode-select -s "/Applications/Xcode_${{ steps.get-xcode-version.outputs.xcode-version }}.app/Contents/Developer"

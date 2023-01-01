@@ -1,0 +1,10 @@
+runs:
+  using: "composite"
+  steps:
+    - name: Cache CocoaPods
+      uses: actions/cache@v2
+      with:
+        path: ios/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
