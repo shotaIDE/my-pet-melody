@@ -1,4 +1,4 @@
-name: CI/iOS
+name: CI/iOS(dependabot)
 
 on:
   pull_request_target:
