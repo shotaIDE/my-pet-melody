@@ -89,7 +89,7 @@ scikit-image==0.19.2
 scikit-learn==1.1.1
 scipy==1.8.1
 serpent==1.40
-simplejson==3.17.6
+simplejson==3.18.0
 six==1.16.0
 sortedcollections==2.1.0
 sortedcontainers==2.4.0
