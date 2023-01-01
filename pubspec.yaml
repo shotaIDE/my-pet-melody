@@ -22,11 +22,11 @@ dependencies:
   introduction_screen: ^3.0.2
   shared_preferences: ^2.0.13
   dio: ^4.0.4
-  file_picker: ^4.3.3
+  file_picker: ^5.2.4
   path: ^1.8.0
   collection: ^1.15.0
   audioplayers: ^0.20.1
-  share_plus: ^4.0.4
+  share_plus: ^6.3.0
   path_provider: ^2.0.9
   firebase_core: ^1.13.1
   firebase_messaging: ^11.2.6
