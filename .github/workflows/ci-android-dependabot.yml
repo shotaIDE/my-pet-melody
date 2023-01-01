@@ -11,8 +11,8 @@ concurrency:
 
 jobs:
   build:
+    name: Build Android app
     runs-on: ubuntu-latest
-
     if: ${{ github.actor == 'dependabot[bot]' }}
 
     steps:

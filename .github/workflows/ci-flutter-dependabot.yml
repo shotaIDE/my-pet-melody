@@ -11,8 +11,8 @@ concurrency:
 
 jobs:
   lint-and-test:
+    name: Lint and test Flutter
     runs-on: ubuntu-latest
-
     if: ${{ github.actor == 'dependabot[bot]' }}
 
     steps:
