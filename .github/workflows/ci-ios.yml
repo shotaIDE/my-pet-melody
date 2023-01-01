@@ -16,15 +16,15 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-12
 
     if: ${{ github.actor != 'dependabot[bot]' }}
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build Android
-        uses: ./.github/actions/build-android
+      - name: Build iOS
+        uses: ./.github/actions/build-ios
         with:
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
