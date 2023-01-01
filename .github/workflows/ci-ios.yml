@@ -1,26 +1,30 @@
-name: CI/Flutter
+name: CI/iOS
 
 on:
   pull_request:
     branches:
       - "main"
+    paths:
+      - "ios/**"
+      - ".swiftlint.yml"
+      - ".xcode-version"
+      - "pubspec.lock"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
-  lint-and-test:
-    name: Lint and test Flutter
-    runs-on: ubuntu-latest
+  build:
+    name: Build iOS app
+    runs-on: macos-12
     if: ${{ github.actor != 'dependabot[bot]' }}
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Lint and test Flutter
-        uses: ./.github/actions/lint-and-test-flutter
+      - name: Build iOS
+        uses: ./.github/actions/build-ios
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}

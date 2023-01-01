@@ -1,0 +1,27 @@
+inputs:
+  firebase-options-dart-base64-emulator:
+    required: true
+  firebase-options-dart-base64-dev:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Flutter
+      uses: ./.github/actions/setup-flutter
+
+    - name: Setup Xcode
+      uses: ./.github/actions/setup-xcode
+
+    - name: Setup CocoaPods
+      uses: ./.github/actions/setup-cocoapods
+
+    - name: Generate uncommited files
+      uses: ./.github/actions/generate-uncommited-files
+      with:
+        firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
+        firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
+
+    - name: iOS build
+      shell: bash
+      run: flutter build ios --dart-define FLAVOR=dev --no-codesign
