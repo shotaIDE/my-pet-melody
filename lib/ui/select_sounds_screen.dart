@@ -9,7 +9,7 @@ import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/set_piece_details_screen.dart';
+import 'package:meow_music/ui/set_piece_title_screen.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
@@ -190,8 +190,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final footerButton = ElevatedButton(
-      onPressed:
-          state.isAvailableSubmission ? _showSetPieceDetailsScreen : null,
+      onPressed: state.isAvailableSubmission ? _showSetPieceTitleScreen : null,
       child: const Text('次へ'),
     );
     final footerContent = SizedBox(
@@ -241,6 +240,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             footer,
           ],
         ),
+        resizeToAvoidBottomInset: false,
       ),
     );
 
@@ -327,12 +327,12 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         .onSelectedTrimmedSound(selectTrimmedSoundResult, target: target);
   }
 
-  Future<void> _showSetPieceDetailsScreen() async {
-    final args = ref.read(widget.viewModel.notifier).getSetPieceDetailsArgs();
+  Future<void> _showSetPieceTitleScreen() async {
+    final args = ref.read(widget.viewModel.notifier).getSetPieceTitleArgs();
 
     await Navigator.push<void>(
       context,
-      SetPieceDetailsScreen.route(args: args),
+      SetPieceTitleScreen.route(args: args),
     );
   }
 }

@@ -184,6 +184,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           await Navigator.push<void>(context, SelectTemplateScreen.route());
         },
       ),
+      resizeToAvoidBottomInset: false,
     );
 
     return state.isProcessing

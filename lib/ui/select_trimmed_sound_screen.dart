@@ -170,6 +170,7 @@ class _UnavailableTrimmedSoundScreenState
           ),
         ],
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }
@@ -563,6 +564,7 @@ class _SelectTrimmedSoundScreenState
           ),
         ],
       ),
+      resizeToAvoidBottomInset: false,
     );
 
     return state.isUploading

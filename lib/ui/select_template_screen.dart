@@ -163,6 +163,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
             ),
           ],
         ),
+        resizeToAvoidBottomInset: false,
       ),
     );
   }

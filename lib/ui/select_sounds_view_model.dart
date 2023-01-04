@@ -11,7 +11,7 @@ import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/set_piece_details_state.dart';
+import 'package:meow_music/ui/set_piece_title_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -178,13 +178,13 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     );
   }
 
-  SetPieceDetailsArgs getSetPieceDetailsArgs() {
+  SetPieceTitleArgs getSetPieceTitleArgs() {
     final soundIdList = _getSoundIdList();
 
     final displayName =
         (state.sounds.first.sound as SelectedSoundUploaded).localFileName;
 
-    return SetPieceDetailsArgs(
+    return SetPieceTitleArgs(
       template: state.template.template,
       sounds: soundIdList,
       // TODO(ide): Fix to no use of force unwrapping
