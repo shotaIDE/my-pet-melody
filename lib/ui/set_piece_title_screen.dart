@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,7 +94,12 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(top: 16, bottom: 203, left: 16, right: 16),
+      padding: EdgeInsets.only(
+        top: 16,
+        bottom: max(203, MediaQuery.of(context).viewInsets.bottom),
+        left: 16,
+        right: 16,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -151,12 +157,18 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
           footer,
         ],
       ),
+      resizeToAvoidBottomInset: false,
+    );
+
+    final gestureDetectorWrappedScaffold = GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: scaffold,
     );
 
     return state.isProcessing
         ? Stack(
             children: [
-              scaffold,
+              gestureDetectorWrappedScaffold,
               Container(
                 alignment: Alignment.center,
                 color: Colors.black.withOpacity(0.5),
@@ -179,7 +191,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
               )
             ],
           )
-        : scaffold;
+        : gestureDetectorWrappedScaffold;
   }
 
   Future<void> _showRequestScreen() async {
