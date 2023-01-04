@@ -113,6 +113,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
           ],
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

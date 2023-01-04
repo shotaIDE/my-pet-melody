@@ -61,6 +61,7 @@ class _VideoScreenState extends State<VideoScreen> {
       body: Chewie(
         controller: _chewieController,
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

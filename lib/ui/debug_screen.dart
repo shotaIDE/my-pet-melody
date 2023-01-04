@@ -38,6 +38,7 @@ class DebugScreen extends ConsumerWidget {
           signOutTile,
         ],
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }

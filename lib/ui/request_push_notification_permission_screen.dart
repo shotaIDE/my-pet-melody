@@ -134,6 +134,7 @@ class _SelectTemplateState
           footer,
         ],
       ),
+      resizeToAvoidBottomInset: false,
     );
 
     return state.isProcessing

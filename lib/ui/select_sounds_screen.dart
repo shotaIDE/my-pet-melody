@@ -240,6 +240,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             footer,
           ],
         ),
+        resizeToAvoidBottomInset: false,
       ),
     );
 

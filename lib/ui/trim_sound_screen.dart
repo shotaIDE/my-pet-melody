@@ -125,6 +125,7 @@ class _SelectTrimmedSoundState extends ConsumerState<TrimSoundScreen> {
           ),
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
 
     return state.isUploading
