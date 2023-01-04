@@ -88,6 +88,8 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
 
     final displayNameInput = TextField(
       controller: state.displayNameController,
+      focusNode: state.displayNameFocusNode,
+      autofocus: true,
     );
 
     final body = SingleChildScrollView(

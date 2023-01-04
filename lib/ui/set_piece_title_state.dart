@@ -10,6 +10,7 @@ class SetPieceTitleState with _$SetPieceTitleState {
   const factory SetPieceTitleState({
     required String thumbnailLocalPath,
     required TextEditingController displayNameController,
+    required FocusNode displayNameFocusNode,
     @Default(null) bool? isRequestStepExists,
     @Default(false) bool isProcessing,
   }) = _SetPieceTitleState;

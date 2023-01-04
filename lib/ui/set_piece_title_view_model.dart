@@ -21,6 +21,7 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
             thumbnailLocalPath: args.thumbnailLocalPath,
             displayNameController:
                 TextEditingController(text: args.displayName),
+            displayNameFocusNode: FocusNode(),
           ),
         ) {
     _setup();
@@ -72,6 +73,17 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
   }
 
   Future<void> _setup() async {
+    state.displayNameFocusNode.addListener(() {
+      if (!state.displayNameFocusNode.hasFocus) {
+        return;
+      }
+
+      state.displayNameController.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: state.displayNameController.text.length,
+      );
+    });
+
     final isRequestStepExists = await _reader(
       getShouldShowRequestPushNotificationPermissionActionProvider,
     ).call();
