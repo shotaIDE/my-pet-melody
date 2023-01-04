@@ -6,18 +6,18 @@ import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
-import 'package:meow_music/ui/set_piece_details_state.dart';
+import 'package:meow_music/ui/set_piece_title_state.dart';
 import 'package:path/path.dart';
 
-class SetPieceDetailsViewModel extends StateNotifier<SetPieceDetailsState> {
-  SetPieceDetailsViewModel({
+class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
+  SetPieceTitleViewModel({
     required Reader reader,
-    required SetPieceDetailsArgs args,
+    required SetPieceTitleArgs args,
   })  : _template = args.template,
         _sounds = args.sounds,
         _reader = reader,
         super(
-          SetPieceDetailsState(
+          SetPieceTitleState(
             thumbnailLocalPath: args.thumbnailLocalPath,
             displayNameController:
                 TextEditingController(text: args.displayName),

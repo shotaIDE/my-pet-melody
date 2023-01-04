@@ -5,41 +5,40 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
-import 'package:meow_music/ui/set_piece_details_state.dart';
-import 'package:meow_music/ui/set_piece_details_view_model.dart';
+import 'package:meow_music/ui/set_piece_title_state.dart';
+import 'package:meow_music/ui/set_piece_title_view_model.dart';
 
-final setPieceDetailsViewModelProvider = StateNotifierProvider.autoDispose
-    .family<SetPieceDetailsViewModel, SetPieceDetailsState,
-        SetPieceDetailsArgs>(
-  (ref, args) => SetPieceDetailsViewModel(
+final setPieceTitleViewModelProvider = StateNotifierProvider.autoDispose
+    .family<SetPieceTitleViewModel, SetPieceTitleState, SetPieceTitleArgs>(
+  (ref, args) => SetPieceTitleViewModel(
     reader: ref.read,
     args: args,
   ),
 );
 
-class SetPieceDetailsScreen extends ConsumerStatefulWidget {
-  SetPieceDetailsScreen({required SetPieceDetailsArgs args, Key? key})
-      : viewModelProvider = setPieceDetailsViewModelProvider(args),
+class SetPieceTitleScreen extends ConsumerStatefulWidget {
+  SetPieceTitleScreen({required SetPieceTitleArgs args, Key? key})
+      : viewModelProvider = setPieceTitleViewModelProvider(args),
         super(key: key);
 
-  static const name = 'SetPieceDetailsScreen';
+  static const name = 'SetPieceTitleScreen';
 
-  final AutoDisposeStateNotifierProvider<SetPieceDetailsViewModel,
-      SetPieceDetailsState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<SetPieceTitleViewModel,
+      SetPieceTitleState> viewModelProvider;
 
   static MaterialPageRoute route({
-    required SetPieceDetailsArgs args,
+    required SetPieceTitleArgs args,
   }) =>
-      MaterialPageRoute<SetPieceDetailsScreen>(
-        builder: (_) => SetPieceDetailsScreen(args: args),
+      MaterialPageRoute<SetPieceTitleScreen>(
+        builder: (_) => SetPieceTitleScreen(args: args),
         settings: const RouteSettings(name: name),
       );
 
   @override
-  ConsumerState<SetPieceDetailsScreen> createState() => _SetPieceDetailsState();
+  ConsumerState<SetPieceTitleScreen> createState() => _SetPieceTitleState();
 }
 
-class _SetPieceDetailsState extends ConsumerState<SetPieceDetailsScreen> {
+class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModelProvider);
