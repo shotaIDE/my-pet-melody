@@ -44,7 +44,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
-      '作品の詳細を\n設定しよう',
+      '作品のタイトルを\n設定しよう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline4,
     );
@@ -74,7 +74,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     }
 
     final description = Text(
-      'あなたのねこが鳴いてる動画を選んでね！自動で鳴き声を探すよ！',
+      '作品のタイトルを設定してね！後からでも変えられるよ！',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyText1,
     );
