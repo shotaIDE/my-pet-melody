@@ -45,7 +45,7 @@ imageio==2.19.2
 importlib-metadata==4.11.4
 inaSpeechSegmenter==0.7.3
 iniconfig==1.1.1
-itsdangerous==2.0.1
+itsdangerous==2.1.2
 Jinja2==3.1.2
 joblib==1.1.0
 keras==2.11.0
