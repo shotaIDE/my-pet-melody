@@ -19,7 +19,7 @@ dependencies:
   rxdart: ^0.27.3
   flutter_riverpod: ^1.0.3
   intl: ^0.17.0
-  introduction_screen: ^3.0.2
+  introduction_screen: ^3.1.2
   shared_preferences: ^2.0.13
   dio: ^4.0.4
   # Specify which version of Android SDK requires less than 33
