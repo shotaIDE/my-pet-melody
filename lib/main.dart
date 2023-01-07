@@ -5,7 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/definitions/app_definitions.dart';
+import 'package:meow_music/data/di/api_providers.dart';
 import 'package:meow_music/data/di/service_providers.dart';
+import 'package:meow_music/data/service/storage_service_local_flask.dart';
 import 'package:meow_music/firebase_options_dev.dart' as dev;
 import 'package:meow_music/firebase_options_emulator.dart' as emulator;
 import 'package:meow_music/flavor.dart';
@@ -37,7 +39,11 @@ Future<void> main() async {
       // Use Flask endpoint in Emulator flavor,
       // because the Python lib for Firebase Emulator is
       // not able to use Firebase Storage.
-      storageServiceProvider.overrideWithProvider(storageServiceFlaskProvider),
+      storageServiceProvider.overrideWith(
+        (ref) => StorageServiceLocalFlask(
+          api: ref.watch(storageApiProvider),
+        ),
+      ),
     ];
   } else {
     overrides = [];

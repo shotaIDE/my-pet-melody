@@ -9,23 +9,23 @@ import 'package:meow_music/root_state.dart';
 
 class RootViewModel extends StateNotifier<RootState> {
   RootViewModel({
-    required Reader reader,
+    required Ref ref,
     required Listener listener,
   }) : super(const RootState()) {
     _setup(
-      reader: reader,
+      ref: ref,
       listener: listener,
     );
   }
 
   Future<void> _setup({
-    required Reader reader,
+    required Ref ref,
     required Listener listener,
   }) async {
-    await reader(ensureLoggedInActionProvider.future);
+    await ref.read(ensureLoggedInActionProvider.future);
 
     final isOnboardingFinished =
-        await reader(settingsActionsProvider).getIsOnboardingFinished();
+        await ref.read(settingsActionsProvider).getIsOnboardingFinished();
 
     state = state.copyWith(shouldLaunchOnboarding: !isOnboardingFinished);
 
@@ -37,7 +37,7 @@ class RootViewModel extends StateNotifier<RootState> {
           return;
         }
 
-        final databaseActions = await reader(databaseActionsProvider.future);
+        final databaseActions = await ref.read(databaseActionsProvider.future);
         await databaseActions.sendRegistrationTokenIfNeeded(registrationToken);
       },
       fireImmediately: true,

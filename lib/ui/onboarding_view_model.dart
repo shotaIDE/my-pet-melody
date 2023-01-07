@@ -5,13 +5,13 @@ import 'package:meow_music/data/usecase/settings_use_case.dart';
 import 'package:meow_music/ui/onboarding_state.dart';
 
 class OnboardingViewModel extends StateNotifier<OnboardingState> {
-  OnboardingViewModel({required Reader reader})
-      : _reader = reader,
+  OnboardingViewModel({required Ref ref})
+      : _ref = ref,
         super(const OnboardingState());
 
-  final Reader _reader;
+  final Ref _ref;
 
   Future<void> onDone() async {
-    await _reader(settingsActionsProvider).onOnboardingFinished();
+    await _ref.read(settingsActionsProvider).onOnboardingFinished();
   }
 }

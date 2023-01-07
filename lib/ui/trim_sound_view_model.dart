@@ -14,9 +14,9 @@ import 'package:video_trimmer/video_trimmer.dart';
 
 class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
   TrimSoundViewModel({
-    required Reader reader,
+    required Ref ref,
     required String moviePath,
-  })  : _reader = reader,
+  })  : _ref = ref,
         _moviePath = moviePath,
         super(
           TrimSoundState(
@@ -26,7 +26,7 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
 
   static const splitCount = 10;
 
-  final Reader _reader;
+  final Ref _ref;
   final String _moviePath;
 
   @override
@@ -85,7 +85,7 @@ class TrimSoundViewModel extends StateNotifier<TrimSoundState> {
 
     final outputFile = File(outputPath);
 
-    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadAction = await _ref.read(uploadActionProvider.future);
     final uploadedSound = await uploadAction(
       outputFile,
       fileName: basename(outputPath),
