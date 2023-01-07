@@ -108,7 +108,7 @@ tomli==2.0.1
 typing_extensions==4.4.0
 uritemplate==4.1.1
 urllib3==1.26.9
-watchdog==1.0.2
+watchdog==2.2.1
 Werkzeug==2.0.3
 wrapt==1.14.1
 xarray==2022.3.0
