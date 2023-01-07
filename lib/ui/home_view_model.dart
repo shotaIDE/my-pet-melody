@@ -70,7 +70,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
       pieces: playingList.whereType<PlayerChoicePiece>().toList(),
     );
 
-    await _player.play(url);
+    final source = UrlSource(url);
+
+    await _player.play(source);
   }
 
   Future<void> stop({required PlayerChoicePiece piece}) async {
@@ -172,9 +174,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
     });
 
     _audioPositionSubscription =
-        _player.onAudioPositionChanged.listen(_onAudioPositionReceived);
+        _player.onPositionChanged.listen(_onAudioPositionReceived);
 
-    _audioStoppedSubscription = _player.onPlayerCompletion.listen((_) {
+    _audioStoppedSubscription = _player.onPlayerComplete.listen((_) {
       _onAudioFinished();
     });
   }
