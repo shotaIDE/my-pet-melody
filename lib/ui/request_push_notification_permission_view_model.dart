@@ -9,19 +9,19 @@ import 'package:path/path.dart';
 class RequestPushNotificationPermissionViewModel
     extends StateNotifier<RequestPushNotificationPermissionState> {
   RequestPushNotificationPermissionViewModel({
-    required Reader reader,
+    required Ref ref,
     required RequestPushNotificationPermissionArgs args,
-  })  : _reader = reader,
+  })  : _ref = ref,
         _args = args,
         super(
           const RequestPushNotificationPermissionState(),
         );
 
-  final Reader _reader;
+  final Ref _ref;
   final RequestPushNotificationPermissionArgs _args;
 
   Future<void> requestPermissionAndSubmit() async {
-    await _reader(requestPushNotificationPermissionActionProvider).call();
+    await _ref.read(requestPushNotificationPermissionActionProvider).call();
 
     await _submit();
   }
@@ -36,7 +36,7 @@ class RequestPushNotificationPermissionViewModel
     final thumbnailLocalPath = _args.thumbnailLocalPath;
     final thumbnail = File(thumbnailLocalPath);
 
-    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadAction = await _ref.read(uploadActionProvider.future);
     final uploadedThumbnail = await uploadAction(
       thumbnail,
       fileName: basename(thumbnailLocalPath),
@@ -46,7 +46,7 @@ class RequestPushNotificationPermissionViewModel
       return;
     }
 
-    final submitAction = await _reader(submitActionProvider.future);
+    final submitAction = await _ref.read(submitActionProvider.future);
     await submitAction(
       template: _args.template,
       sounds: _args.sounds,

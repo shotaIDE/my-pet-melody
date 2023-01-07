@@ -12,7 +12,7 @@ import 'package:meow_music/ui/set_piece_title_view_model.dart';
 final setPieceTitleViewModelProvider = StateNotifierProvider.autoDispose
     .family<SetPieceTitleViewModel, SetPieceTitleState, SetPieceTitleArgs>(
   (ref, args) => SetPieceTitleViewModel(
-    reader: ref.read,
+    ref: ref,
     args: args,
   ),
 );

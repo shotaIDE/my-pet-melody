@@ -17,9 +17,9 @@ import 'package:path_provider/path_provider.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
-    required Reader reader,
+    required Ref ref,
     required Template selectedTemplate,
-  })  : _reader = reader,
+  })  : _ref = ref,
         super(
           SelectSoundsState(
             template: PlayerChoiceTemplate(
@@ -38,7 +38,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     _setup();
   }
 
-  final Reader _reader;
+  final Ref _ref;
   final _player = AudioPlayer();
 
   late String _thumbnailLocalPath;
@@ -71,7 +71,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final copiedFile = await file.copy(outputPath);
 
-    final detectAction = await _reader(detectActionProvider.future);
+    final detectAction = await _ref.read(detectActionProvider.future);
     final detected = await detectAction(
       copiedFile,
       fileName: fileName,
@@ -106,7 +106,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     state = state.copyWith(sounds: sounds);
 
-    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadAction = await _ref.read(uploadActionProvider.future);
     final uploadedSound = await uploadAction(
       file,
       fileName: basename(file.path),

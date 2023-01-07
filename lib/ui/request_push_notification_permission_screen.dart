@@ -11,7 +11,7 @@ final requestPushNotificationPermissionViewModelProvider =
         RequestPushNotificationPermissionState,
         RequestPushNotificationPermissionArgs>(
   (ref, args) => RequestPushNotificationPermissionViewModel(
-    reader: ref.read,
+    ref: ref,
     args: args,
   ),
 );

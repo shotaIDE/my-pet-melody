@@ -8,7 +8,7 @@ import 'package:video_trimmer/video_trimmer.dart';
 final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
     .family<TrimSoundViewModel, TrimSoundState, String>(
   (ref, moviePath) => TrimSoundViewModel(
-    reader: ref.read,
+    ref: ref,
     moviePath: moviePath,
   ),
 );

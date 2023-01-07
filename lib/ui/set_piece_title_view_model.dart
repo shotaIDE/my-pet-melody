@@ -11,11 +11,11 @@ import 'package:path/path.dart';
 
 class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
   SetPieceTitleViewModel({
-    required Reader reader,
+    required Ref ref,
     required SetPieceTitleArgs args,
   })  : _template = args.template,
         _sounds = args.sounds,
-        _reader = reader,
+        _ref = ref,
         super(
           SetPieceTitleState(
             thumbnailLocalPath: args.thumbnailLocalPath,
@@ -30,7 +30,7 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
   final Template _template;
   final List<UploadedMedia> _sounds;
 
-  final Reader _reader;
+  final Ref _ref;
 
   RequestPushNotificationPermissionArgs getRequestPermissionArgs() {
     final displayName = state.displayNameController.text;
@@ -49,7 +49,7 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
     final thumbnailLocalPath = state.thumbnailLocalPath;
     final thumbnail = File(thumbnailLocalPath);
 
-    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadAction = await _ref.read(uploadActionProvider.future);
     final uploadedThumbnail = await uploadAction(
       thumbnail,
       fileName: basename(thumbnailLocalPath),
@@ -61,7 +61,7 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
 
     final displayName = state.displayNameController.text;
 
-    final submitAction = await _reader(submitActionProvider.future);
+    final submitAction = await _ref.read(submitActionProvider.future);
     await submitAction(
       template: _template,
       sounds: _sounds,
@@ -84,9 +84,11 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
       );
     });
 
-    final isRequestStepExists = await _reader(
-      getShouldShowRequestPushNotificationPermissionActionProvider,
-    ).call();
+    final isRequestStepExists = await _ref
+        .read(
+          getShouldShowRequestPushNotificationPermissionActionProvider,
+        )
+        .call();
 
     state = state.copyWith(isRequestStepExists: isRequestStepExists);
   }

@@ -18,9 +18,9 @@ import 'package:path_provider/path_provider.dart';
 class SelectTrimmedSoundViewModel
     extends StateNotifier<SelectTrimmedSoundState> {
   SelectTrimmedSoundViewModel({
-    required Reader reader,
+    required Ref ref,
     required SelectTrimmedSoundArgs args,
-  })  : _reader = reader,
+  })  : _ref = ref,
         _moviePath = args.soundPath,
         super(
           SelectTrimmedSoundState(
@@ -41,7 +41,7 @@ class SelectTrimmedSoundViewModel
 
   static const splitCount = 10;
 
-  final Reader _reader;
+  final Ref _ref;
   final String _moviePath;
   final _player = AudioPlayer();
 
@@ -244,7 +244,7 @@ class SelectTrimmedSoundViewModel
 
     final outputFile = File(outputPath);
 
-    final uploadAction = await _reader(uploadActionProvider.future);
+    final uploadAction = await _ref.read(uploadActionProvider.future);
     final uploadedSound = await uploadAction(
       outputFile,
       fileName: basename(outputPath),

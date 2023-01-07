@@ -14,7 +14,7 @@ import 'package:meow_music/ui/set_piece_title_screen.dart';
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
   (ref, template) => SelectSoundsViewModel(
-    reader: ref.read,
+    ref: ref,
     selectedTemplate: template,
   ),
 );

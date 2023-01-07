@@ -14,7 +14,7 @@ final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectTrimmedSoundViewModel, SelectTrimmedSoundState,
         SelectTrimmedSoundArgs>(
   (ref, args) => SelectTrimmedSoundViewModel(
-    reader: ref.read,
+    ref: ref,
     args: args,
   ),
 );

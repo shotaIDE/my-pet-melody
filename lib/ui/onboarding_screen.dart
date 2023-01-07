@@ -8,7 +8,7 @@ import 'package:meow_music/ui/onboarding_view_model.dart';
 final onboardingViewModelProvider =
     StateNotifierProvider.autoDispose<OnboardingViewModel, OnboardingState>(
   (ref) => OnboardingViewModel(
-    reader: ref.read,
+    ref: ref,
   ),
 );
 
