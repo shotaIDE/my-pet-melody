@@ -3,7 +3,7 @@ astunparse==1.6.3
 attrs==22.2.0
 autopep8==2.0.1
 CacheControl==0.12.11
-cachetools==5.2.0
+cachetools==5.2.1
 certifi==2022.5.18.1
 cffi==1.15.0
 charset-normalizer==2.0.12
