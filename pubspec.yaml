@@ -45,7 +45,7 @@ dependencies:
   video_player: ^2.4.10
   cross_file: ^0.3.3+2
   # Specify which version of Android SDK requires less than 33
-  video_thumbnail: <0.5.3
+  video_thumbnail: ^0.5.3
 
 dependency_overrides:
   # Fix build error
