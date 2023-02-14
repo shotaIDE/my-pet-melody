@@ -65,7 +65,7 @@ packaging==23.0
 pandas==1.4.2
 Pillow==9.1.1
 pluggy==1.0.0
-proto-plus==1.22.0
+proto-plus==1.22.2
 protobuf==3.19.5
 pyannote.algorithms==0.8
 pyannote.core==5.0.0
