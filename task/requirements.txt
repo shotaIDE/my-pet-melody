@@ -62,7 +62,7 @@ numpy==1.24.1
 oauthlib==3.2.2
 opt-einsum==3.3.0
 packaging==23.0
-pandas==1.4.2
+pandas==1.5.3
 Pillow==9.4.0
 pluggy==1.0.0
 proto-plus==1.22.2
