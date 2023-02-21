@@ -109,7 +109,7 @@ typing_extensions==4.4.0
 uritemplate==4.1.1
 urllib3==1.26.14
 watchdog==2.2.1
-Werkzeug==2.2.2
+Werkzeug==2.2.3
 wrapt==1.14.1
 xarray==2022.3.0
 zipp==3.13.0
