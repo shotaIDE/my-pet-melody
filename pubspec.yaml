@@ -28,7 +28,7 @@ dependencies:
   collection: ^1.15.0
   audioplayers: ^1.2.0
   # Specify which version of Android SDK requires less than 33
-  share_plus: <6.3.0
+  share_plus: ^6.3.1
   path_provider: ^2.0.9
   firebase_core: ^1.13.1
   firebase_messaging: ^11.2.6
