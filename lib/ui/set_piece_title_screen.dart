@@ -47,7 +47,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     final title = Text(
       '作品のタイトルを\n設定しよう',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline4,
+      style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final isRequestStepExists = state.isRequestStepExists;
@@ -77,7 +77,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     final description = Text(
       '作品のタイトルを設定してね！後からでも変えられるよ！',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyText1,
+      style: Theme.of(context).textTheme.bodyLarge,
     );
 
     final thumbnail = Image.file(
@@ -179,7 +179,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
                       '提出しています',
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
                     const Padding(

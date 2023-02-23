@@ -51,12 +51,12 @@ class _SelectTemplateState
     final title = Text(
       'プッシュ通知を\n許可しよう',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline4,
+      style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final description = Text(
       '作品が完成したときに通知が受け取れるよ！通知を許可してね！',
-      style: Theme.of(context).textTheme.bodyText1,
+      style: Theme.of(context).textTheme.bodyLarge,
       textAlign: TextAlign.center,
     );
 
@@ -151,7 +151,7 @@ class _SelectTemplateState
                       '提出しています',
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
                     const Padding(

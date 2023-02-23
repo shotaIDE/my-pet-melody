@@ -36,12 +36,12 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     final title = Text(
       '作品のBGMを\n選択しよう',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline4,
+      style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final description = Text(
       '好きなBGMを選んでね。選んだBGMに鳴き声が入るよ！',
-      style: Theme.of(context).textTheme.bodyText1,
+      style: Theme.of(context).textTheme.bodyLarge,
       textAlign: TextAlign.center,
     );
 

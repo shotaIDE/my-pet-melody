@@ -156,7 +156,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1!
+                  .bodyLarge!
                   .copyWith(color: Theme.of(context).disabledColor),
             ),
           ),
