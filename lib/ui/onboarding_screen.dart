@@ -36,7 +36,7 @@ class _HomeScreenState extends ConsumerState<OnboardingScreen> {
         PageViewModel(
           titleWidget: Text(
             'あなたのねこが歌う\nオリジナル曲を作ろう',
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.headlineMedium,
             textAlign: TextAlign.center,
           ),
           bodyWidget: Image.asset(
@@ -46,7 +46,7 @@ class _HomeScreenState extends ConsumerState<OnboardingScreen> {
         PageViewModel(
           titleWidget: Text(
             'ねこが鳴いてる動画を\n選ぶだけで完成',
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.headlineMedium,
             textAlign: TextAlign.center,
           ),
           bodyWidget: Image.asset(
@@ -56,7 +56,7 @@ class _HomeScreenState extends ConsumerState<OnboardingScreen> {
         PageViewModel(
           titleWidget: Text(
             'できた作品は\nみんなにシェアしよう',
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.headlineMedium,
             textAlign: TextAlign.center,
           ),
           bodyWidget: Image.asset(

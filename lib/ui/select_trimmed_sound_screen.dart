@@ -90,7 +90,7 @@ class _UnavailableTrimmedSoundScreenState
     final title = Text(
       '鳴き声が\n見つかりませんでした',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline4,
+      style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final firstThumbnailPath = state.splitThumbnails.first;
@@ -198,7 +198,7 @@ class _SelectTrimmedSoundScreenState
     final title = Text(
       '鳴き声を選ぼう',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline4,
+      style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final firstThumbnailPath = state.splitThumbnails.first;
@@ -223,7 +223,7 @@ class _SelectTrimmedSoundScreenState
 
     final noDesiredTrimmingDescription = RichText(
       text: TextSpan(
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
         children: const [
           TextSpan(
             text: '再生すると',
@@ -581,7 +581,7 @@ class _SelectTrimmedSoundScreenState
                       'アップロードしています',
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
                     const Padding(

@@ -49,7 +49,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final title = Text(
       '鳴き声を設定しよう',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline4,
+      style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final template = state.template;
@@ -92,7 +92,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final description = Text(
       'あなたのねこが鳴いてる動画を選んでね！自動で鳴き声を探すよ！',
       textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyText1,
+      style: Theme.of(context).textTheme.bodyLarge,
     );
 
     final sounds = state.sounds;
@@ -259,7 +259,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                       _processLabel(process),
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
                     const Padding(

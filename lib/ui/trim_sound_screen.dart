@@ -142,7 +142,7 @@ class _SelectTrimmedSoundState extends ConsumerState<TrimSoundScreen> {
                       'アップロードしています',
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
                     const Padding(
