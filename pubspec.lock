@@ -262,10 +262,10 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: f802031fd6b0b99eafd137981a6c508ad9938ac8
+      resolved-ref: f8861d6acb63f3d194c4bec429e13e79041a734f
       url: "https://github.com/shotaIDE/ColomneyFlutterLints.git"
     source: git
-    version: "0.0.3"
+    version: "0.0.4"
   convert:
     dependency: transitive
     description:
