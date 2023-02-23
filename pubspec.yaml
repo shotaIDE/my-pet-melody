@@ -23,7 +23,7 @@ dependencies:
   shared_preferences: ^2.0.13
   dio: ^4.0.4
   # Specify which version of Android SDK requires less than 33
-  file_picker: <5.1.0
+  file_picker: ^5.2.5
   path: ^1.8.0
   collection: ^1.15.0
   audioplayers: ^1.2.0
