@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/ui/debug_screen.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -74,11 +75,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final playStatus = playablePiece.status;
             final thumbnail = playablePiece.piece.map(
               generating: (_) => Container(),
-              generated: (generated) => Image.network(generated.thumbnailUrl),
+              generated: (generated) =>
+                  Image.network(generated.thumbnailUrl, fit: BoxFit.fitWidth),
             );
+            const thumbnailHeight = 74.0;
             final leading = Stack(
+              alignment: AlignmentDirectional.center,
               children: [
-                SizedBox(width: 50, height: 40, child: thumbnail),
+                SizedBox(
+                  width: thumbnailHeight * DisplayDefinition.aspectRatio,
+                  height: thumbnailHeight,
+                  child: thumbnail,
+                ),
                 playStatus.when(
                   stop: () => const Icon(Icons.play_arrow),
                   playing: (_) => const Icon(Icons.stop),

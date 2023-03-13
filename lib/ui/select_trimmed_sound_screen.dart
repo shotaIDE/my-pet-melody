@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_view_model.dart';
@@ -18,8 +19,6 @@ final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
     args: args,
   ),
 );
-
-const _aspectRatio = 1.5;
 
 class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   SelectTrimmedSoundScreen({
@@ -99,11 +98,11 @@ class _UnavailableTrimmedSoundScreenState
         ? Image.file(
             File(firstThumbnailPath),
             fit: BoxFit.cover,
-            width: firstThumbnailHeight * _aspectRatio,
+            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
             height: firstThumbnailHeight,
           )
         : const SizedBox(
-            width: firstThumbnailHeight * _aspectRatio,
+            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
             height: firstThumbnailHeight,
             child: SkeletonAvatar(),
           );
@@ -207,11 +206,11 @@ class _SelectTrimmedSoundScreenState
         ? Image.file(
             File(firstThumbnailPath),
             fit: BoxFit.cover,
-            width: firstThumbnailHeight * _aspectRatio,
+            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
             height: firstThumbnailHeight,
           )
         : const SizedBox(
-            width: firstThumbnailHeight * _aspectRatio,
+            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
             height: firstThumbnailHeight,
             child: SkeletonAvatar(),
           );
@@ -265,7 +264,7 @@ class _SelectTrimmedSoundScreenState
     final segmentPanels = state.choices.mapIndexed(
       (index, choice) {
         const height = 64.0;
-        const width = height * _aspectRatio;
+        const width = height * DisplayDefinition.aspectRatio;
         final thumbnailPath = choice.thumbnailPath;
         final thumbnailBackground = thumbnailPath != null
             ? Image.file(
@@ -326,7 +325,8 @@ class _SelectTrimmedSoundScreenState
             builder: (context, constraints) {
               final width = constraints.maxWidth;
               final splitWidth = width ~/ splitThumbnails.length;
-              final imageWidth = constraints.maxHeight * _aspectRatio;
+              final imageWidth =
+                  constraints.maxHeight * DisplayDefinition.aspectRatio;
               final imageCount = (width / imageWidth).ceil();
               final thumbnails = List.generate(imageCount, (index) {
                 final positionX = index * imageWidth;
