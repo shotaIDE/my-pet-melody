@@ -105,7 +105,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     // TODO(ide): Use fetched extension
     final path = '${directory.path}/${piece.name}.mp4';
 
-    await dio.download(piece.url, path);
+    await dio.download(piece.movieUrl, path);
 
     final xFile = XFile(path);
     await Share.shareXFiles([xFile]);

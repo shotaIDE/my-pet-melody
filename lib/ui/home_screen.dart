@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/ui/debug_screen.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -72,9 +73,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
             final playStatus = playablePiece.status;
-            final leading = playStatus.when(
-              stop: () => const Icon(Icons.play_arrow),
-              playing: (_) => const Icon(Icons.stop),
+            final thumbnail = playablePiece.piece.map(
+              generating: (_) => Container(),
+              generated: (generated) =>
+                  Image.network(generated.thumbnailUrl, fit: BoxFit.fitWidth),
+            );
+            const thumbnailHeight = 74.0;
+            final leading = Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                SizedBox(
+                  width: thumbnailHeight * DisplayDefinition.aspectRatio,
+                  height: thumbnailHeight,
+                  child: thumbnail,
+                ),
+                playStatus.when(
+                  stop: () => const Icon(Icons.play_arrow),
+                  playing: (_) => const Icon(Icons.stop),
+                ),
+              ],
             );
 
             final piece = playablePiece.piece;
@@ -97,7 +114,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 stop: () => () {
                   Navigator.push(
                     context,
-                    VideoScreen.route(url: generatedPiece.url),
+                    VideoScreen.route(url: generatedPiece.movieUrl),
                   );
                 },
                 playing: (_) => () => ref

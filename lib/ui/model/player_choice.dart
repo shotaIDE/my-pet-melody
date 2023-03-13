@@ -47,7 +47,7 @@ extension PlayerChoiceGetter on PlayerChoice {
   String? get uri {
     return when(
       piece: (_, piece) =>
-          piece.mapOrNull(generated: (generated) => generated.url),
+          piece.mapOrNull(generated: (generated) => generated.movieUrl),
       template: (_, template) => template.url,
       sound: (_, sound) => sound.whenOrNull(
         uploaded: (_, __, ___, remoteFileName) => remoteFileName,

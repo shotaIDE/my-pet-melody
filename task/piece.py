@@ -46,8 +46,9 @@ def generate_piece_movie(
     thumbnail_path: str,
     piece_sound_path: str,
     title: str,
-    export_base_path: str,
-) -> str:
+    thumbnail_export_base_path: str,
+    movie_export_base_path: str,
+) -> tuple[str, str]:
     HEIGHT = 1080
     FRAME_RATE = 30
     FONT_PATH = 'fonts/uzura.ttf'
@@ -84,12 +85,30 @@ def generate_piece_movie(
 
     sound = ffmpeg.input(piece_sound_path)
 
-    output_path = f'{export_base_path}.mp4'
+    thumbnail_output_path = f'{thumbnail_export_base_path}.png'
 
-    stream = ffmpeg.output(
+    thumbnail_stream = ffmpeg.output(
+        background_image,
+        thumbnail_output_path,
+        vcodec='png',
+    )
+
+    print('Start to generate thumbnail.')
+
+    try:
+        ffmpeg.run(thumbnail_stream)
+    except Error as error:
+        print(f'FFMpeg stdout: {error.stdout}')
+        print(f'FFMpeg stderr: {error.stderr}')
+
+        raise error
+
+    movie_output_path = f'{movie_export_base_path}.mp4'
+
+    movie_stream = ffmpeg.output(
         background_image,
         sound,
-        output_path,
+        movie_output_path,
         vcodec='libx264',
         acodec='aac',
         pix_fmt='yuv420p',
@@ -97,15 +116,17 @@ def generate_piece_movie(
         r=FRAME_RATE,
     )
 
+    print('Start to generate movie.')
+
     try:
-        ffmpeg.run(stream)
+        ffmpeg.run(movie_stream)
     except Error as error:
         print(f'FFMpeg stdout: {error.stdout}')
         print(f'FFMpeg stderr: {error.stderr}')
 
         raise error
 
-    return output_path
+    return (movie_output_path, thumbnail_output_path)
 
 
 def _find_by_segments_duration_meanings(

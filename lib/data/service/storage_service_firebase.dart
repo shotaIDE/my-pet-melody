@@ -26,7 +26,7 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
-  Future<String> pieceDownloadUrl({
+  Future<String> pieceMovieDownloadUrl({
     required String fileName,
   }) async {
     final userId = _session.userId;
@@ -35,6 +35,20 @@ class StorageServiceFirebase implements StorageService {
 
     final pathRef =
         storageRef.child('userMedia/$userId/generatedPieces/$fileName');
+
+    return pathRef.getDownloadURL();
+  }
+
+  @override
+  Future<String> pieceThumbnailDownloadUrl({
+    required String fileName,
+  }) async {
+    final userId = _session.userId;
+
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final pathRef =
+        storageRef.child('userMedia/$userId/generatedThumbnail/$fileName');
 
     return pathRef.getDownloadURL();
   }

@@ -36,15 +36,20 @@ final piecesProvider = FutureProvider(
             submittedAt: piece.submittedAt,
           ),
           generated: (piece) async {
-            final url = await storageService.pieceDownloadUrl(
-              fileName: piece.fileName,
+            final movieUrl = await storageService.pieceMovieDownloadUrl(
+              fileName: piece.movieFileName,
+            );
+
+            final thumbnailUrl = await storageService.pieceThumbnailDownloadUrl(
+              fileName: piece.thumbnailFileName,
             );
 
             return Piece.generated(
               id: piece.id,
               name: piece.name,
               generatedAt: piece.generatedAt,
-              url: url,
+              movieUrl: movieUrl,
+              thumbnailUrl: thumbnailUrl,
             );
           },
         ),
