@@ -31,7 +31,7 @@ class PushNotificationService {
 
     await localNotificationsPlugin.initialize(
       const InitializationSettings(
-        iOS: IOSInitializationSettings(),
+        iOS: DarwinInitializationSettings(),
       ),
     );
 
