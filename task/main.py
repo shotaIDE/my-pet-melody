@@ -189,11 +189,14 @@ def piece(request):
 
     _, piece_movie_local_base_path = tempfile.mkstemp()
 
-    piece_movie_local_path = generate_piece_movie(
+    _, piece_thumbnail_local_base_path = tempfile.mkstemp()
+
+    (piece_movie_local_path, piece_thumbnail_local_path) = generate_piece_movie(
         thumbnail_path=thumbnail_local_path,
         piece_sound_path=piece_sound_local_path,
         title=display_name,
-        export_base_path=piece_movie_local_base_path,
+        thumbnail_export_base_path=piece_thumbnail_local_base_path,
+        movie_export_base_path=piece_movie_local_base_path,
     )
 
     current = datetime.now()
@@ -211,11 +214,28 @@ def piece(request):
 
     piece_movie_blob.upload_from_filename(piece_movie_local_path)
 
+    piece_thumbnail_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_thumbnail'
+    splitted_piece_thumbnail_file_name = os.path.splitext(
+        piece_thumbnail_local_path)
+    piece_thumbnail_extension = splitted_piece_thumbnail_file_name[1]
+    piece_thumbnail_file_name = (
+        f'{piece_thumbnail_base_name}{piece_thumbnail_extension}'
+    )
+
+    piece_thumbnail_relative_path = (
+        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
+        f'generatedThumbnail/{piece_thumbnail_file_name}'
+    )
+    piece_thumbnail_blob = bucket.blob(piece_thumbnail_relative_path)
+
+    piece_thumbnail_blob.upload_from_filename(piece_thumbnail_local_path)
+
     set_generated_piece(
         uid=uid,
         id=piece_id,
         display_name=display_name,
-        file_name=piece_movie_file_name,
+        thumbnail_file_name=piece_thumbnail_file_name,
+        movie_file_name=piece_movie_file_name,
         generated_at=current
     )
 

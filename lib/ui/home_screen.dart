@@ -72,9 +72,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
             final playStatus = playablePiece.status;
-            final leading = playStatus.when(
-              stop: () => const Icon(Icons.play_arrow),
-              playing: (_) => const Icon(Icons.stop),
+            final thumbnail = playablePiece.piece.map(
+              generating: (_) => Container(),
+              generated: (generated) => Image.network(generated.thumbnailUrl),
+            );
+            final leading = Stack(
+              children: [
+                SizedBox(width: 50, height: 40, child: thumbnail),
+                playStatus.when(
+                  stop: () => const Icon(Icons.play_arrow),
+                  playing: (_) => const Icon(Icons.stop),
+                ),
+              ],
             );
 
             final piece = playablePiece.piece;
@@ -97,7 +106,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 stop: () => () {
                   Navigator.push(
                     context,
-                    VideoScreen.route(url: generatedPiece.url),
+                    VideoScreen.route(url: generatedPiece.movieUrl),
                   );
                 },
                 playing: (_) => () => ref

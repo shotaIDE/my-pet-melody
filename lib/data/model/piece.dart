@@ -15,7 +15,8 @@ class Piece with _$Piece {
     required String id,
     required String name,
     required DateTime generatedAt,
-    required String url,
+    required String movieUrl,
+    required String thumbnailUrl,
   }) = PieceGenerated;
 
   factory Piece.fromJson(Map<String, dynamic> json) => _$PieceFromJson(json);
@@ -33,6 +34,7 @@ class PieceDraft with _$PieceDraft {
     required String id,
     required String name,
     required DateTime generatedAt,
-    required String fileName,
+    required String movieFileName,
+    required String thumbnailFileName,
   }) = _PieceDraftGenerated;
 }

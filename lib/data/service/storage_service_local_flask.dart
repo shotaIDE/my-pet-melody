@@ -18,7 +18,14 @@ class StorageServiceLocalFlask implements StorageService {
   }
 
   @override
-  Future<String> pieceDownloadUrl({
+  Future<String> pieceMovieDownloadUrl({
+    required String fileName,
+  }) async {
+    return '${AppDefinitions.serverOrigin}/static/exports/$fileName';
+  }
+
+  @override
+  Future<String> pieceThumbnailDownloadUrl({
     required String fileName,
   }) async {
     return '${AppDefinitions.serverOrigin}/static/exports/$fileName';

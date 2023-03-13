@@ -19,12 +19,14 @@ def set_generated_piece(
     uid: str,
     id: str,
     display_name: str,
-    file_name: str,
+    thumbnail_file_name: str,
+    movie_file_name: str,
     generated_at: DateTime
 ):
     store_data = {
         'name': display_name,
-        'movieFileName': file_name,
+        'thumbnailFileName': thumbnail_file_name,
+        'movieFileName': movie_file_name,
         'generatedAt': generated_at,
     }
 

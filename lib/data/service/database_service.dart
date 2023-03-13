@@ -42,6 +42,9 @@ final pieceDraftsProvider = StreamProvider((ref) {
             final id = snapshot.id;
             final data = snapshot.data();
             final name = data['name'] as String;
+            final thumbnailFileName = data.containsKey('thumbnailFileName')
+                ? data['thumbnailFileName'] as String
+                : null;
             final movieFileName = data.containsKey('movieFileName')
                 ? data['movieFileName'] as String
                 : null;
@@ -52,12 +55,15 @@ final pieceDraftsProvider = StreamProvider((ref) {
                 : null;
             final generatedAt = generatedAtTimestamp?.toDate();
 
-            if (movieFileName != null && generatedAt != null) {
+            if (movieFileName != null &&
+                thumbnailFileName != null &&
+                generatedAt != null) {
               return PieceDraft.generated(
                 id: id,
                 name: name,
                 generatedAt: generatedAt,
-                fileName: movieFileName,
+                movieFileName: movieFileName,
+                thumbnailFileName: thumbnailFileName,
               );
             }
             return PieceDraft.generating(

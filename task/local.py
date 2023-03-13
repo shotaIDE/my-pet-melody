@@ -91,17 +91,24 @@ def piece(request):
         f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{thumbnail_base_name}'
     )
 
+    piece_thumbnail_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_thumbnail'
+    piece_thumbnail_base_path = (
+        f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
+        f'{piece_thumbnail_base_name}'
+    )
+
     piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
     piece_movie_base_path = (
         f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
         f'{piece_movie_base_name}'
     )
 
-    piece_movie_path = generate_piece_movie(
+    (piece_movie_path, piece_thumbnail_path) = generate_piece_movie(
         thumbnail_path=thumbnail_path,
         piece_sound_path=piece_sound_path,
         title=display_name,
-        export_base_path=piece_movie_base_path
+        thumbnail_export_base_path=piece_thumbnail_base_path,
+        movie_export_base_path=piece_movie_base_path,
     )
 
     splitted_piece_movie_file_name = os.path.splitext(piece_movie_path)
@@ -110,11 +117,18 @@ def piece(request):
         f'{piece_movie_base_name}{piece_movie_extension}'
     )
 
+    splitted_piece_thumbnail_file_name = os.path.splitext(piece_thumbnail_path)
+    piece_thumbnail_extension = splitted_piece_thumbnail_file_name[1]
+    piece_thumbnail_file_name = (
+        f'{piece_thumbnail_base_name}{piece_thumbnail_extension}'
+    )
+
     set_generated_piece(
         uid=uid,
         id=None,
         display_name=display_name,
-        file_name=piece_movie_file_name,
+        thumbnail_file_name=piece_thumbnail_file_name,
+        movie_file_name=piece_movie_file_name,
         generated_at=current
     )
 
