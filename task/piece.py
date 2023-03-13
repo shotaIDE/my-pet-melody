@@ -93,6 +93,8 @@ def generate_piece_movie(
         vcodec='png',
     )
 
+    print('Start to generate thumbnail.')
+
     try:
         ffmpeg.run(thumbnail_stream)
     except Error as error:
@@ -113,6 +115,8 @@ def generate_piece_movie(
         t=sound_duration_seconds,
         r=FRAME_RATE,
     )
+
+    print('Start to generate movie.')
 
     try:
         ffmpeg.run(movie_stream)
