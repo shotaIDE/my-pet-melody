@@ -390,10 +390,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: f9245fc33aeba9e0b938d7f3785f10b7a7230e05b8fc40f5a6a8342d7899e391
+      sha256: d8e9ca7e5d1983365c277f12c21b4362df6cf659c99af146ad4d04eb33033013
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.4"
+    version: "5.2.6"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -906,10 +906,10 @@ packages:
     dependency: "direct main"
     description:
       name: share_plus
-      sha256: bf6e9011a0da5e91426fdc49c8754fbb05884367cce3cfd77c2967c514640c4c
+      sha256: "8c6892037b1824e2d7e8f59d54b3105932899008642e6372e5079c6939b4b625"
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.0"
+    version: "6.3.1"
   share_plus_platform_interface:
     dependency: transitive
     description:
