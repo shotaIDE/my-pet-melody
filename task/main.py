@@ -191,12 +191,13 @@ def piece(request):
 
     _, piece_thumbnail_local_base_path = tempfile.mkstemp()
 
-    (piece_movie_local_path, piece_thumbnail_local_path) = generate_piece_movie(
-        thumbnail_path=thumbnail_local_path,
-        piece_sound_path=piece_sound_local_path,
-        title=display_name,
-        thumbnail_export_base_path=piece_thumbnail_local_base_path,
-        movie_export_base_path=piece_movie_local_base_path,
+    (piece_movie_local_path, piece_thumbnail_local_path) = \
+        generate_piece_movie(
+            thumbnail_path=thumbnail_local_path,
+            piece_sound_path=piece_sound_local_path,
+            title=display_name,
+            thumbnail_export_base_path=piece_thumbnail_local_base_path,
+            movie_export_base_path=piece_movie_local_base_path,
     )
 
     current = datetime.now()
