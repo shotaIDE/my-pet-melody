@@ -5,6 +5,7 @@
 /__pycache__/
 /.vscode/
 /env/
+/samples
 /static/
 
 /app.py

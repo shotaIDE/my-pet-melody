@@ -7,6 +7,8 @@ from auth import verify_authorization_header
 from database import set_generated_piece, template_overlays
 from detection import detect_non_silence
 from piece import generate_piece_movie, generate_piece_sound
+from thumbnail import (generate_equally_divided_segments,
+                       generate_specified_segments)
 from utils import generate_store_file_name
 
 _STATIC_DIRECTORY = 'static'
@@ -45,7 +47,39 @@ def detect(request):
         f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{uploaded_file_name}'
     )
 
-    return detect_non_silence(store_path=uploaded_path)
+    non_silences = detect_non_silence(store_path=uploaded_path)
+
+    equally_devided_segment_thumbnails = generate_equally_divided_segments(
+        store_path=uploaded_path
+    )
+
+    non_silence_starts_milliseconds = [
+        non_silence[0]
+        for non_silence in non_silences['segments']
+    ]
+    non_silence_segment_thumbnails = generate_specified_segments(
+        store_path=uploaded_path,
+        segments_starts_milliseconds=non_silence_starts_milliseconds,
+    )
+
+    results = {
+        'detectedSegments': [
+            {
+                'startMilliseconds': segment_milliseconds[0],
+                'endMilliseconds': segment_milliseconds[1],
+                'thumbnailBase64': thumbnail,
+            }
+            for (segment_milliseconds, thumbnail) in zip(
+                non_silences['segments'], non_silence_segment_thumbnails)
+        ],
+        'equallyDividedSegments': [
+            {'thumbnailBase64': thumbnail}
+            for thumbnail in equally_devided_segment_thumbnails
+        ],
+        'durationMilliseconds': non_silences['durationMilliseconds'],
+    }
+
+    return results
 
 
 def piece(request):

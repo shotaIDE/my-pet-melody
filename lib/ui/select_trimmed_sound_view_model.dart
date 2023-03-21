@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -6,7 +7,7 @@ import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/model/movie_segmentation.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
@@ -22,10 +23,11 @@ class SelectTrimmedSoundViewModel
     required SelectTrimmedSoundArgs args,
   })  : _ref = ref,
         _moviePath = args.soundPath,
+        _movieSegmentation = args.movieSegmentation,
         super(
           SelectTrimmedSoundState(
             fileName: basename(args.soundPath),
-            choices: args.detected.list
+            choices: args.movieSegmentation.nonSilents
                 .mapIndexed(
                   (index, segment) => PlayerChoiceTrimmedMovie(
                     status: const PlayStatus.stop(),
@@ -35,7 +37,7 @@ class SelectTrimmedSoundViewModel
                 )
                 .toList(),
             splitThumbnails: List.generate(splitCount, (_) => null),
-            durationMilliseconds: args.detected.durationMilliseconds,
+            durationMilliseconds: args.movieSegmentation.durationMilliseconds,
           ),
         );
 
@@ -43,6 +45,7 @@ class SelectTrimmedSoundViewModel
 
   final Ref _ref;
   final String _moviePath;
+  final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
 
   NonSilentSegment? _currentPlayingSegment;
@@ -78,6 +81,43 @@ class SelectTrimmedSoundViewModel
 
     await Future.wait(
       state.choices.mapIndexed((index, choice) async {
+        final paddedHash = '${choice.hashCode}'.padLeft(8, '0');
+        final outputFileName = 'thumbnail_$paddedHash.png';
+        final outputPath = '$outputParentPath/$outputFileName';
+
+        final file = File(outputPath);
+        final thumbnailBase64 =
+            _movieSegmentation.nonSilents[index].thumbnailBase64;
+        final thumbnailBytes = base64Decode(thumbnailBase64);
+        await file.writeAsBytes(thumbnailBytes);
+
+        final choices = [...state.choices];
+        final replacedChoice = choice.copyWith(thumbnailPath: outputPath);
+        choices[index] = replacedChoice;
+        state = state.copyWith(choices: choices);
+      }),
+    );
+
+    await Future.wait(
+      List.generate(splitCount, (index) async {
+        final paddedIndex = '$index'.padLeft(2, '0');
+        final outputFileName = 'split_$paddedIndex.png';
+        final outputPath = '$outputParentPath/$outputFileName';
+
+        final file = File(outputPath);
+        final thumbnailBase64 =
+            _movieSegmentation.equallyDividedThumbnailsBase64[index];
+        final thumbnailBytes = base64Decode(thumbnailBase64);
+        await file.writeAsBytes(thumbnailBytes);
+
+        final splitThumbnails = [...state.splitThumbnails];
+        splitThumbnails[index] = outputPath;
+        state = state.copyWith(splitThumbnails: splitThumbnails);
+      }),
+    );
+
+    await Future.wait(
+      state.choices.mapIndexed((index, choice) async {
         final paddedIndex = '$index'.padLeft(2, '0');
         final outputFileName = 'segment_$paddedIndex$originalExtension';
         final outputPath = '$outputParentPath/$outputFileName';
@@ -103,71 +143,6 @@ class SelectTrimmedSoundViewModel
         state = state.copyWith(
           choices: choices,
         );
-      }),
-    );
-
-    await Future.wait(
-      state.choices.mapIndexed((index, choice) async {
-        final paddedHash = '${choice.hashCode}'.padLeft(8, '0');
-        final outputFileName = 'thumbnail_$paddedHash.png';
-        final outputPath = '$outputParentPath/$outputFileName';
-
-        final startPositionMilliseconds = choice.segment.startMilliseconds;
-        final startPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: startPositionMilliseconds,
-        );
-        final loadEndPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: startPositionMilliseconds + 1000,
-        );
-        const outputFrameCount = 1;
-
-        await FFmpegKit.execute(
-          '-ss $startPosition '
-          '-to $loadEndPosition '
-          '-i $_moviePath '
-          '-frames:v $outputFrameCount '
-          '-f image2 '
-          '-y '
-          '$outputPath',
-        );
-
-        final choices = [...state.choices];
-        final replacedChoice = choice.copyWith(thumbnailPath: outputPath);
-        choices[index] = replacedChoice;
-        state = state.copyWith(choices: choices);
-      }),
-    );
-
-    final splitDurationMilliseconds = state.durationMilliseconds ~/ splitCount;
-
-    await Future.wait(
-      List.generate(splitCount, (index) async {
-        final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'split_$paddedIndex.png';
-        final outputPath = '$outputParentPath/$outputFileName';
-
-        final startPositionMilliseconds = splitDurationMilliseconds * index;
-        final startPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: splitDurationMilliseconds * index,
-        );
-        final loadEndPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: startPositionMilliseconds + 1000,
-        );
-        const outputFrameCount = 1;
-
-        await FFmpegKit.execute(
-          '-ss $startPosition '
-          '-to $loadEndPosition '
-          '-i $_moviePath '
-          '-frames:v $outputFrameCount '
-          '-f image2 '
-          '-y '
-          '$outputPath ',
-        );
-
-        final splitThumbnails = [...state.splitThumbnails];
-        splitThumbnails[index] = outputPath;
-        state = state.copyWith(splitThumbnails: splitThumbnails);
       }),
     );
 

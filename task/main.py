@@ -16,6 +16,8 @@ from firebase import initialize_firebase
 from piece import generate_piece_movie, generate_piece_sound
 from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                      USER_MEDIA_DIRECTORY_NAME)
+from thumbnail import (generate_equally_divided_segments,
+                       generate_specified_segments)
 
 initialize_firebase()
 
@@ -44,7 +46,39 @@ def detect(request):
 
     uploaded_blob.download_to_filename(uploaded_local_path)
 
-    return detect_non_silence(store_path=uploaded_local_path)
+    non_silences = detect_non_silence(store_path=uploaded_local_path)
+
+    equally_devided_segment_thumbnails = generate_equally_divided_segments(
+        store_path=uploaded_local_path
+    )
+
+    non_silence_starts_milliseconds = [
+        non_silence[0]
+        for non_silence in non_silences['segments']
+    ]
+    non_silence_segment_thumbnails = generate_specified_segments(
+        store_path=uploaded_local_path,
+        segments_starts_milliseconds=non_silence_starts_milliseconds,
+    )
+
+    results = {
+        'detectedSegments': [
+            {
+                'startMilliseconds': segment_milliseconds[0],
+                'endMilliseconds': segment_milliseconds[1],
+                'thumbnailBase64': thumbnail,
+            }
+            for (segment_milliseconds, thumbnail) in zip(
+                non_silences['segments'], non_silence_segment_thumbnails)
+        ],
+        'equallyDividedSegments': [
+            {'thumbnailBase64': thumbnail}
+            for thumbnail in equally_devided_segment_thumbnails
+        ],
+        'durationMilliseconds': non_silences['durationMilliseconds'],
+    }
+
+    return results
 
 
 def submit(request):

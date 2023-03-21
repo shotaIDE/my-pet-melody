@@ -85,7 +85,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     return SelectTrimmedSoundArgs(
       soundPath: copiedFile.path,
-      detected: detected,
+      movieSegmentation: detected,
     );
   }
 
