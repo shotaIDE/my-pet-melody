@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -22,6 +23,7 @@ class SelectTrimmedSoundViewModel
     required SelectTrimmedSoundArgs args,
   })  : _ref = ref,
         _moviePath = args.soundPath,
+        _detected = args.detected,
         super(
           SelectTrimmedSoundState(
             fileName: basename(args.soundPath),
@@ -43,6 +45,7 @@ class SelectTrimmedSoundViewModel
 
   final Ref _ref;
   final String _moviePath;
+  final DetectedNonSilentSegments _detected;
   final _player = AudioPlayer();
 
   NonSilentSegment? _currentPlayingSegment;
@@ -112,24 +115,10 @@ class SelectTrimmedSoundViewModel
         final outputFileName = 'thumbnail_$paddedHash.png';
         final outputPath = '$outputParentPath/$outputFileName';
 
-        final startPositionMilliseconds = choice.segment.startMilliseconds;
-        final startPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: startPositionMilliseconds,
-        );
-        final loadEndPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: startPositionMilliseconds + 1000,
-        );
-        const outputFrameCount = 1;
-
-        await FFmpegKit.execute(
-          '-ss $startPosition '
-          '-to $loadEndPosition '
-          '-i $_moviePath '
-          '-frames:v $outputFrameCount '
-          '-f image2 '
-          '-y '
-          '$outputPath',
-        );
+        final file = File(outputPath);
+        final thumbnailBase64 = _detected.list[index].thumbnailBase64;
+        final thumbnailBytes = base64Decode(thumbnailBase64);
+        await file.writeAsBytes(thumbnailBytes);
 
         final choices = [...state.choices];
         final replacedChoice = choice.copyWith(thumbnailPath: outputPath);
@@ -138,32 +127,17 @@ class SelectTrimmedSoundViewModel
       }),
     );
 
-    final splitDurationMilliseconds = state.durationMilliseconds ~/ splitCount;
-
     await Future.wait(
       List.generate(splitCount, (index) async {
         final paddedIndex = '$index'.padLeft(2, '0');
         final outputFileName = 'split_$paddedIndex.png';
         final outputPath = '$outputParentPath/$outputFileName';
 
-        final startPositionMilliseconds = splitDurationMilliseconds * index;
-        final startPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: splitDurationMilliseconds * index,
-        );
-        final loadEndPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: startPositionMilliseconds + 1000,
-        );
-        const outputFrameCount = 1;
-
-        await FFmpegKit.execute(
-          '-ss $startPosition '
-          '-to $loadEndPosition '
-          '-i $_moviePath '
-          '-frames:v $outputFrameCount '
-          '-f image2 '
-          '-y '
-          '$outputPath ',
-        );
+        final file = File(outputPath);
+        final thumbnailBase64 =
+            _detected.equallyDividedSegmentThumbnailsBase64[index];
+        final thumbnailBytes = base64Decode(thumbnailBase64);
+        await file.writeAsBytes(thumbnailBytes);
 
         final splitThumbnails = [...state.splitThumbnails];
         splitThumbnails[index] = outputPath;

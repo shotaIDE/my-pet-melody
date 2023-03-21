@@ -16,7 +16,7 @@ def generate_equally_divided_segments(store_path: str) -> list[str]:
 
     base64_images: list[str] = []
 
-    for i in range(10):
+    for i in range(_NUM_SEGMENT):
         start_frame = i * frame_count_for_one_segment
 
         capture.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
@@ -24,9 +24,7 @@ def generate_equally_divided_segments(store_path: str) -> list[str]:
 
         image_encoded_frame = cv2.imencode('.png', frame)[1]
 
-        encoded_frame = base64.b64encode(
-            image_encoded_frame.astype('U13')
-        ).decode('utf-8')
+        encoded_frame = base64.b64encode(image_encoded_frame).decode('utf-8')
 
         base64_images.append(encoded_frame)
 
@@ -52,9 +50,7 @@ def generate_specified_segments(
 
         image_encoded_frame = cv2.imencode('.png', frame)[1]
 
-        encoded_frame = base64.b64encode(
-            image_encoded_frame.astype('U13')
-        ).decode('utf-8')
+        encoded_frame = base64.b64encode(image_encoded_frame).decode('utf-8')
 
         base64_images.append(encoded_frame)
 

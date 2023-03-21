@@ -23,13 +23,17 @@ class SubmissionRemoteDataSource {
     }
 
     return DetectedNonSilentSegments(
-      list: response.segments
+      list: response.detectedSegments
           .map(
             (segment) => NonSilentSegment(
-              startMilliseconds: segment.first,
-              endMilliseconds: segment[1],
+              thumbnailBase64: segment.thumbnailBase64,
+              startMilliseconds: segment.startMilliseconds,
+              endMilliseconds: segment.endMilliseconds,
             ),
           )
+          .toList(),
+      equallyDividedSegmentThumbnailsBase64: response.equallyDividedSegments
+          .map((segment) => segment.thumbnailBase64)
           .toList(),
       durationMilliseconds: response.durationMilliseconds,
     );

@@ -51,12 +51,35 @@ class DetectRequest with _$DetectRequest {
 @freezed
 class DetectResponse with _$DetectResponse {
   const factory DetectResponse({
-    required List<List<int>> segments,
+    required List<DetectedSegment> detectedSegments,
+    required List<EquallyDividedSegment> equallyDividedSegments,
     required int durationMilliseconds,
   }) = _DetectResponse;
 
   factory DetectResponse.fromJson(Map<String, dynamic> json) =>
       _$DetectResponseFromJson(json);
+}
+
+@freezed
+class DetectedSegment with _$DetectedSegment {
+  const factory DetectedSegment({
+    required String thumbnailBase64,
+    required int startMilliseconds,
+    required int endMilliseconds,
+  }) = _DetectedSegment;
+
+  factory DetectedSegment.fromJson(Map<String, dynamic> json) =>
+      _$DetectedSegmentFromJson(json);
+}
+
+@freezed
+class EquallyDividedSegment with _$EquallyDividedSegment {
+  const factory EquallyDividedSegment({
+    required String thumbnailBase64,
+  }) = _EquallyDividedSegment;
+
+  factory EquallyDividedSegment.fromJson(Map<String, dynamic> json) =>
+      _$EquallyDividedSegmentFromJson(json);
 }
 
 @freezed

@@ -65,14 +65,14 @@ def detect(request):
     results = {
         'detectedSegments': [
             {
-                'startsMilliseconds': segment_milliseconds[0],
-                'endsMilliseconds': segment_milliseconds[1],
+                'startMilliseconds': segment_milliseconds[0],
+                'endMilliseconds': segment_milliseconds[1],
                 'thumbnailBase64': thumbnail,
             }
             for (segment_milliseconds, thumbnail) in zip(
                 non_silences['segments'], non_silence_segment_thumbnails)
         ],
-        'equallyDevidedSegments': [
+        'equallyDividedSegments': [
             {'thumbnailBase64': thumbnail}
             for thumbnail in equally_devided_segment_thumbnails
         ],
