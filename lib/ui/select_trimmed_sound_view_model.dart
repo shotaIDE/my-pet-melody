@@ -81,36 +81,6 @@ class SelectTrimmedSoundViewModel
 
     await Future.wait(
       state.choices.mapIndexed((index, choice) async {
-        final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'segment_$paddedIndex$originalExtension';
-        final outputPath = '$outputParentPath/$outputFileName';
-
-        final startPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: choice.segment.startMilliseconds,
-        );
-        final endPosition = AudioPositionHelper.formattedPosition(
-          milliseconds: choice.segment.endMilliseconds,
-        );
-
-        await FFmpegKit.execute(
-          '-ss $startPosition '
-          '-to $endPosition '
-          '-i $_moviePath '
-          '-y '
-          '$outputPath',
-        );
-
-        final choices = [...state.choices];
-        final replacedChoice = choices[index].copyWith(path: outputPath);
-        choices[index] = replacedChoice;
-        state = state.copyWith(
-          choices: choices,
-        );
-      }),
-    );
-
-    await Future.wait(
-      state.choices.mapIndexed((index, choice) async {
         final paddedHash = '${choice.hashCode}'.padLeft(8, '0');
         final outputFileName = 'thumbnail_$paddedHash.png';
         final outputPath = '$outputParentPath/$outputFileName';
@@ -142,6 +112,36 @@ class SelectTrimmedSoundViewModel
         final splitThumbnails = [...state.splitThumbnails];
         splitThumbnails[index] = outputPath;
         state = state.copyWith(splitThumbnails: splitThumbnails);
+      }),
+    );
+
+    await Future.wait(
+      state.choices.mapIndexed((index, choice) async {
+        final paddedIndex = '$index'.padLeft(2, '0');
+        final outputFileName = 'segment_$paddedIndex$originalExtension';
+        final outputPath = '$outputParentPath/$outputFileName';
+
+        final startPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.startMilliseconds,
+        );
+        final endPosition = AudioPositionHelper.formattedPosition(
+          milliseconds: choice.segment.endMilliseconds,
+        );
+
+        await FFmpegKit.execute(
+          '-ss $startPosition '
+          '-to $endPosition '
+          '-i $_moviePath '
+          '-y '
+          '$outputPath',
+        );
+
+        final choices = [...state.choices];
+        final replacedChoice = choices[index].copyWith(path: outputPath);
+        choices[index] = replacedChoice;
+        state = state.copyWith(
+          choices: choices,
+        );
       }),
     );
 
