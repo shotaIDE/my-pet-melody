@@ -1,14 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'detected_non_silent_segments.freezed.dart';
+part 'movie_segmentation.freezed.dart';
 
 @freezed
-class DetectedNonSilentSegments with _$DetectedNonSilentSegments {
-  const factory DetectedNonSilentSegments({
-    required List<NonSilentSegment> list,
-    required List<String> equallyDividedSegmentThumbnailsBase64,
+class MovieSegmentation with _$MovieSegmentation {
+  const factory MovieSegmentation({
+    required List<NonSilentSegment> nonSilents,
+    required List<String> equallyDividedThumbnailsBase64,
     required int durationMilliseconds,
-  }) = _DetectedNonSilentSegments;
+  }) = _MovieSegmentation;
 }
 
 @freezed

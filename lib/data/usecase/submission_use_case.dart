@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/repository_providers.dart';
 import 'package:meow_music/data/di/service_providers.dart';
-import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/model/movie_segmentation.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:meow_music/data/service/auth_service.dart';
@@ -14,7 +14,7 @@ final detectActionProvider = FutureProvider((ref) async {
   final storageService = await ref.read(storageServiceProvider.future);
   final repository = ref.read(submissionRepositoryProvider);
 
-  Future<DetectedNonSilentSegments?> action(
+  Future<MovieSegmentation?> action(
     File file, {
     required String fileName,
   }) async {

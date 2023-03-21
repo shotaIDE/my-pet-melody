@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/model/movie_segmentation.dart';
 import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 
@@ -20,7 +20,7 @@ class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
 class SelectTrimmedSoundArgs with _$SelectTrimmedSoundArgs {
   const factory SelectTrimmedSoundArgs({
     required String soundPath,
-    required DetectedNonSilentSegments detected,
+    required MovieSegmentation movieSegmentation,
   }) = _SelectTrimmedSoundArgs;
 }
 

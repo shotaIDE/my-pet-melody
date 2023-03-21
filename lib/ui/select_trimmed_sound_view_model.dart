@@ -7,7 +7,7 @@ import 'package:collection/collection.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/model/movie_segmentation.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
@@ -23,11 +23,11 @@ class SelectTrimmedSoundViewModel
     required SelectTrimmedSoundArgs args,
   })  : _ref = ref,
         _moviePath = args.soundPath,
-        _detected = args.detected,
+        _movieSegmentation = args.movieSegmentation,
         super(
           SelectTrimmedSoundState(
             fileName: basename(args.soundPath),
-            choices: args.detected.list
+            choices: args.movieSegmentation.nonSilents
                 .mapIndexed(
                   (index, segment) => PlayerChoiceTrimmedMovie(
                     status: const PlayStatus.stop(),
@@ -37,7 +37,7 @@ class SelectTrimmedSoundViewModel
                 )
                 .toList(),
             splitThumbnails: List.generate(splitCount, (_) => null),
-            durationMilliseconds: args.detected.durationMilliseconds,
+            durationMilliseconds: args.movieSegmentation.durationMilliseconds,
           ),
         );
 
@@ -45,7 +45,7 @@ class SelectTrimmedSoundViewModel
 
   final Ref _ref;
   final String _moviePath;
-  final DetectedNonSilentSegments _detected;
+  final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
 
   NonSilentSegment? _currentPlayingSegment;
@@ -86,7 +86,8 @@ class SelectTrimmedSoundViewModel
         final outputPath = '$outputParentPath/$outputFileName';
 
         final file = File(outputPath);
-        final thumbnailBase64 = _detected.list[index].thumbnailBase64;
+        final thumbnailBase64 =
+            _movieSegmentation.nonSilents[index].thumbnailBase64;
         final thumbnailBytes = base64Decode(thumbnailBase64);
         await file.writeAsBytes(thumbnailBytes);
 
@@ -105,7 +106,7 @@ class SelectTrimmedSoundViewModel
 
         final file = File(outputPath);
         final thumbnailBase64 =
-            _detected.equallyDividedSegmentThumbnailsBase64[index];
+            _movieSegmentation.equallyDividedThumbnailsBase64[index];
         final thumbnailBytes = base64Decode(thumbnailBase64);
         await file.writeAsBytes(thumbnailBytes);
 

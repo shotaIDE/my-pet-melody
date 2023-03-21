@@ -1,5 +1,5 @@
 import 'package:meow_music/data/api/submission_api.dart';
-import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/model/movie_segmentation.dart';
 import 'package:meow_music/data/model/uploaded_media.dart';
 
 class SubmissionRemoteDataSource {
@@ -7,7 +7,7 @@ class SubmissionRemoteDataSource {
 
   final SubmissionApi _api;
 
-  Future<DetectedNonSilentSegments?> detect({
+  Future<MovieSegmentation?> detect({
     required UploadedMedia from,
     required String token,
   }) async {
@@ -22,8 +22,8 @@ class SubmissionRemoteDataSource {
       return null;
     }
 
-    return DetectedNonSilentSegments(
-      list: response.detectedSegments
+    return MovieSegmentation(
+      nonSilents: response.detectedSegments
           .map(
             (segment) => NonSilentSegment(
               thumbnailBase64: segment.thumbnailBase64,
@@ -32,7 +32,7 @@ class SubmissionRemoteDataSource {
             ),
           )
           .toList(),
-      equallyDividedSegmentThumbnailsBase64: response.equallyDividedSegments
+      equallyDividedThumbnailsBase64: response.equallyDividedSegments
           .map((segment) => segment.thumbnailBase64)
           .toList(),
       durationMilliseconds: response.durationMilliseconds,

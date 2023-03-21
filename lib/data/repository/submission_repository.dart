@@ -1,4 +1,4 @@
-import 'package:meow_music/data/model/detected_non_silent_segments.dart';
+import 'package:meow_music/data/model/movie_segmentation.dart';
 import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:meow_music/data/repository/remote/submission_remote_data_source.dart';
 
@@ -8,7 +8,7 @@ class SubmissionRepository {
 
   final SubmissionRemoteDataSource _remote;
 
-  Future<DetectedNonSilentSegments?> detect({
+  Future<MovieSegmentation?> detect({
     required UploadedMedia from,
     required String token,
   }) async {
