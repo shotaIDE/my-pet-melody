@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_media.dart';
@@ -14,7 +16,6 @@ import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/set_piece_title_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:video_compress/video_compress.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
@@ -72,17 +73,12 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final copiedFile = await file.copy(outputPath);
 
-    final mediaInfo = await VideoCompress.compressVideo(
-      outputPath,
-      quality: VideoQuality.LowQuality,
-      deleteOrigin: true,
-    );
-    final compressedFilePath = mediaInfo?.path;
-    if (compressedFilePath == null) {
+    final compressedFile =
+        await _compressVideo(copiedFile, maxSizeMegaBytes: 10);
+    if (compressedFile == null) {
+      state = state.copyWith(process: null);
       return null;
     }
-
-    final compressedFile = File(compressedFilePath);
 
     state = state.copyWith(process: SelectSoundScreenProcess.detect);
 
@@ -352,5 +348,34 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
           ),
         )
         .toList();
+  }
+
+  Future<File?> _compressVideo(
+    File file, {
+    required int maxSizeMegaBytes,
+  }) async {
+    final session = await FFprobeKit.getMediaInformation(file.path);
+    final information = session.getMediaInformation();
+    final durationString = information!.getDuration();
+    if (durationString == null) {
+      return null;
+    }
+    final durationSeconds = double.tryParse(durationString);
+    if (durationSeconds == null) {
+      return null;
+    }
+
+    final targetBitrate =
+        ((maxSizeMegaBytes * 8 * 1000 * 1000) / durationSeconds).round();
+
+    final parentDirectory = await getTemporaryDirectory();
+    final outputPath =
+        '${parentDirectory.path}/${DateTime.now().millisecondsSinceEpoch}_compressed.mp4';
+
+    await FFmpegKit.execute(
+        '-i ${file.path} -b:v ${targetBitrate}k -maxrate ${targetBitrate}k '
+        '-bufsize ${targetBitrate * 2}k $outputPath');
+
+    return File(outputPath);
   }
 }
