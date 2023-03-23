@@ -276,6 +276,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
   String _processLabel(SelectSoundScreenProcess process) {
     switch (process) {
+      case SelectSoundScreenProcess.compress:
+        return '動画を変換しています';
+
       case SelectSoundScreenProcess.detect:
         return '動画の中から鳴き声を探しています';
 
