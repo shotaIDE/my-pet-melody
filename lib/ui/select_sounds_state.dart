@@ -14,6 +14,9 @@ class SelectSoundsState with _$SelectSoundsState {
 }
 
 enum SelectSoundScreenProcess {
+  /// 動画の圧縮中
+  compress,
+
   /// 非無音部分の検知のためのアップロード中
   detect,
 

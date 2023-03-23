@@ -14,6 +14,7 @@ import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/set_piece_title_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:video_compress/video_compress.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
@@ -62,7 +63,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   }
 
   Future<SelectTrimmedSoundArgs?> detect(File file) async {
-    state = state.copyWith(process: SelectSoundScreenProcess.detect);
+    state = state.copyWith(process: SelectSoundScreenProcess.compress);
 
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
@@ -71,9 +72,23 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final copiedFile = await file.copy(outputPath);
 
+    final compressedMediaInfo = await VideoCompress.compressVideo(
+      outputPath,
+      quality: VideoQuality.Res640x480Quality,
+      deleteOrigin: true,
+    );
+    final compressedFilePath = compressedMediaInfo?.path;
+    if (compressedFilePath == null) {
+      return null;
+    }
+
+    final compressedFile = File(compressedFilePath);
+
+    state = state.copyWith(process: SelectSoundScreenProcess.detect);
+
     final detectAction = await _ref.read(detectActionProvider.future);
     final detected = await detectAction(
-      copiedFile,
+      compressedFile,
       fileName: fileName,
     );
 
