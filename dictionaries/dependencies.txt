@@ -1,12 +1,10 @@
 audioplayers
 autofocus
-bufsize
 chewie
 cupertino
 ffprobe
 firestore
 fullscreen
-maxrate
 reorderable
 riverpod
 rxdart
