@@ -74,7 +74,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final mediaInfo = await VideoCompress.compressVideo(
       outputPath,
-      quality: VideoQuality.LowQuality,
+      quality: VideoQuality.Res640x480Quality,
       deleteOrigin: true,
     );
     final compressedFilePath = mediaInfo?.path;
