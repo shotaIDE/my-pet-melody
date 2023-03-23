@@ -72,12 +72,12 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     final copiedFile = await file.copy(outputPath);
 
-    final mediaInfo = await VideoCompress.compressVideo(
+    final compressedMediaInfo = await VideoCompress.compressVideo(
       outputPath,
       quality: VideoQuality.Res640x480Quality,
       deleteOrigin: true,
     );
-    final compressedFilePath = mediaInfo?.path;
+    final compressedFilePath = compressedMediaInfo?.path;
     if (compressedFilePath == null) {
       return null;
     }
