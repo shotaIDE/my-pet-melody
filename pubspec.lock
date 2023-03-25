@@ -1008,6 +1008,14 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  twitter_login:
+    dependency: "direct main"
+    description:
+      name: twitter_login
+      sha256: e4a2c65e43041fc5e13632f627571e29ed752c0c6ad39b7756302f678cedfa67
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.1"
   typed_data:
     dependency: transitive
     description:
