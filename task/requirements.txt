@@ -46,9 +46,10 @@ importlib-metadata==4.11.4
 inaSpeechSegmenter==0.7.3
 iniconfig==2.0.0
 itsdangerous==2.1.2
+jax==0.4.6
 Jinja2==3.1.2
 joblib==1.2.0
-keras==2.11.0
+keras==2.12.0
 Keras-Preprocessing==1.1.2
 kiwisolver==1.4.2
 libclang==14.0.1
@@ -67,7 +68,7 @@ pandas==1.4.2
 Pillow==9.1.1
 pluggy==1.0.0
 proto-plus==1.22.0
-protobuf==3.19.5
+protobuf==3.20.3
 pyannote.algorithms==0.8
 pyannote.core==5.0.0
 pyannote.parser==0.8
@@ -95,11 +96,11 @@ six==1.16.0
 sortedcollections==2.1.0
 sortedcontainers==2.4.0
 SoundFile==0.10.3.post1
-tensorboard==2.11.0
+tensorboard==2.12.0
 tensorboard-data-server==0.7.0
 tensorboard-plugin-wit==1.8.1
-tensorflow==2.11.0
-tensorflow-estimator==2.11.0
+tensorflow==2.12.0
+tensorflow-estimator==2.12.0
 tensorflow-io-gcs-filesystem==0.26.0
 termcolor==2.2.0
 threadpoolctl==3.1.0
