@@ -311,6 +311,14 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  environment_config:
+    dependency: "direct dev"
+    description:
+      name: environment_config
+      sha256: cdcf1f3dd6e3aee1f035e6024722dffa4dc38f486358605aaf56c7ca7d37b5c1
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   fake_async:
     dependency: transitive
     description:

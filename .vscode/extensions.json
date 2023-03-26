@@ -1,13 +1,13 @@
 {
-    "recommendations": [
-        "blaxou.freezed",
-        "dart-code.flutter",
-        "esbenp.prettier-vscode",
-        "gaetschwartz.build-runner",
-        "localizely.flutter-intl",
-        "misogi.ruby-rubocop",
-        "streetsidesoftware.code-spell-checker",
-        "toba.vsfire",
-        "vknabel.vscode-swiftlint",
-    ],
+  "recommendations": [
+    "blaxou.freezed",
+    "dart-code.flutter",
+    "esbenp.prettier-vscode",
+    "gaetschwartz.build-runner",
+    "localizely.flutter-intl",
+    "misogi.ruby-rubocop",
+    "streetsidesoftware.code-spell-checker",
+    "toba.vsfire",
+    "vknabel.vscode-swiftlint"
+  ]
 }

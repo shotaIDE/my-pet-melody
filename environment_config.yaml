@@ -1,0 +1,13 @@
+environment_config:
+  path: environment_config.dart
+
+  fields:
+    twitterApiKey:
+      type: String
+      env_var: TWITTER_API_KEY
+    twitterApiSecret:
+      type: String
+      env_var: TWITTER_API_SECRET
+    twitterRedirectUri:
+      type: String
+      env_var: TWITTER_REDIRECT_URI
