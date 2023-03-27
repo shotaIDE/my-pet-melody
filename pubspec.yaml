@@ -21,7 +21,7 @@ dependencies:
   intl: ^0.17.0
   introduction_screen: ^3.1.2
   shared_preferences: ^2.0.20
-  dio: ^4.0.4
+  dio: ^5.1.0
   file_picker: ^5.2.6
   path: ^1.8.0
   collection: ^1.15.0
