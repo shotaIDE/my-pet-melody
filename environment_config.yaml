@@ -5,9 +5,9 @@ environment_config:
     twitterApiKey:
       type: String
       env_var: TWITTER_API_KEY
-    twitterApiSecret:
+    twitterApiKeySecret:
       type: String
-      env_var: TWITTER_API_SECRET
+      env_var: TWITTER_API_KEY_SECRET
     twitterRedirectUri:
       type: String
       env_var: TWITTER_REDIRECT_URI

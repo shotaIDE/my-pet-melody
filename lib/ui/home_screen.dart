@@ -239,7 +239,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Future<void> _login() async {
     final twitterLogin = TwitterLogin(
       apiKey: EnvironmentConfig.twitterApiKey,
-      apiSecretKey: EnvironmentConfig.twitterApiSecret,
+      apiSecretKey: EnvironmentConfig.twitterApiKeySecret,
       redirectURI: EnvironmentConfig.twitterRedirectUri,
     );
     final results = await twitterLogin.login();
