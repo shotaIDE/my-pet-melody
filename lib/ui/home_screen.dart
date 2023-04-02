@@ -1,20 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/environment_config.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:meow_music/ui/video_screen.dart';
-import 'package:twitter_login/twitter_login.dart';
 
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (ref) => HomeViewModel(
+    ref: ref,
     listener: ref.listen,
   ),
 );
@@ -237,44 +235,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> _login() async {
-    final twitterLogin = TwitterLogin(
-      apiKey: EnvironmentConfig.twitterApiKey,
-      apiSecretKey: EnvironmentConfig.twitterApiKeySecret,
-      redirectURI: EnvironmentConfig.twitterRedirectUri,
+    final result = await ref.read(widget.viewModel.notifier).linkWithTwitter();
+
+    await result.whenOrNull(
+      failure: (error) => error.mapOrNull(
+        alreadyInUse: (_) async {
+          const snackBar = SnackBar(
+            content: Text('このTwitterアカウントは既に別の端末からログインされているため、利用できません。'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        unrecoverable: (_) async {
+          const snackBar = SnackBar(
+            content: Text('エラーが発生しました。しばらくしてから再度お試しください。'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+      ),
     );
-    final results = await twitterLogin.login();
-    final status = results.status;
-    if (status == null) {
-      return;
-    }
-
-    switch (status) {
-      case TwitterLoginStatus.loggedIn:
-        final authToken = results.authToken;
-        final authTokenSecret = results.authTokenSecret;
-        if (authToken == null || authTokenSecret == null) {
-          return;
-        }
-
-        final twitterAuthCredential = TwitterAuthProvider.credential(
-          accessToken: authToken,
-          secret: authTokenSecret,
-        );
-
-        final currentUser = FirebaseAuth.instance.currentUser;
-        if (currentUser == null) {
-          return;
-        }
-
-        await currentUser.linkWithCredential(twitterAuthCredential);
-
-        break;
-
-      case TwitterLoginStatus.cancelledByUser:
-        break;
-
-      case TwitterLoginStatus.error:
-        break;
-    }
   }
 }
