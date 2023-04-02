@@ -16,8 +16,8 @@ final thirdPartyAuthActionsProvider = Provider(
 class ThirdPartyAuthActions {
   Future<Result<TwitterCredential, LoginTwitterError>> loginTwitter() async {
     final executor = TwitterLogin(
-      apiKey: EnvironmentConfig.twitterApiKey,
-      apiSecretKey: EnvironmentConfig.twitterApiKeySecret,
+      apiKey: EnvironmentConfig.twitterConsumerApiKey,
+      apiSecretKey: EnvironmentConfig.twitterConsumerSecret,
       redirectURI: EnvironmentConfig.twitterRedirectUri,
     );
 
