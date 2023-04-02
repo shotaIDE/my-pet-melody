@@ -22,5 +22,6 @@ jobs:
         uses: ./.github/actions/lint-and-test-flutter
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          env-base64: ${{ secrets.ENV_BASE64 }}
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}

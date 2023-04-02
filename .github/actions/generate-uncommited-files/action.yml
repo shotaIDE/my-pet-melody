@@ -1,4 +1,6 @@
 inputs:
+  env-base64:
+    required: true
   firebase-options-dart-base64-emulator:
     required: true
   firebase-options-dart-base64-dev:
@@ -7,6 +9,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Generate env file
+      shell: bash
+      run: |
+        echo "${{ inputs.env-base64 }}" | base64 -d > .env
+
     - name: Generate Firebase options files
       shell: bash
       run: |
@@ -17,4 +24,5 @@ runs:
       shell: bash
       run: |
         flutter pub get
+        ./use-env.sh
         flutter pub run build_runner build
