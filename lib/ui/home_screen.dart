@@ -241,14 +241,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       failure: (error) => error.mapOrNull(
         alreadyInUse: (_) async {
           const snackBar = SnackBar(
-            content: Text('このTwitterアカウントは既に別の端末からログインされているため、利用できません。'),
+            content: Text('このTwitterアカウントはすでに利用されています。他のアカウントをお試しください'),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         unrecoverable: (_) async {
           const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください。'),
+            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
