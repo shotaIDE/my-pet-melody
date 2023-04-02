@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
+import 'package:meow_music/data/model/login_twitter_error.dart';
 import 'package:meow_music/data/model/result.dart';
 import 'package:meow_music/data/model/twitter_credential.dart';
 import 'package:meow_music/data/service/auth_service.dart';
@@ -55,7 +56,7 @@ final linkWithTwitterActionProvider =
     }
 
     final credential =
-        (loginResult as Success<TwitterCredential, LinkCredentialError>).value;
+        (loginResult as Success<TwitterCredential, LoginTwitterError>).value;
     final linkResult = await authActions.linkWithTwitter(
       authToken: credential.authToken,
       secret: credential.secret,

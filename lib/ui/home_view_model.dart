@@ -120,8 +120,15 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<Result<void, LinkCredentialError>> linkWithTwitter() async {
+    state = state.copyWith(isProcessing: true);
+
     final action = _ref.read(linkWithTwitterActionProvider);
-    return action();
+
+    final result = await action();
+
+    state = state.copyWith(isProcessing: false);
+
+    return result;
   }
 
   Future<void> beforeHideScreen() async {
