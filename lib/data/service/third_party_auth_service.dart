@@ -15,13 +15,13 @@ final thirdPartyAuthActionsProvider = Provider(
 
 class ThirdPartyAuthActions {
   Future<Result<TwitterCredential, LoginTwitterError>> loginTwitter() async {
-    final twitterLogin = TwitterLogin(
+    final executor = TwitterLogin(
       apiKey: EnvironmentConfig.twitterApiKey,
       apiSecretKey: EnvironmentConfig.twitterApiKeySecret,
       redirectURI: EnvironmentConfig.twitterRedirectUri,
     );
 
-    final results = await twitterLogin.login();
+    final results = await executor.login();
     final status = results.status;
     if (status == null) {
       return const Result.failure(LoginTwitterError.unrecoverable());
