@@ -41,7 +41,7 @@ final linkWithTwitterActionProvider =
   final authActions = ref.watch(authActionsProvider);
 
   Future<Result<void, LinkCredentialError>> action() async {
-    final loginResult = await thirdPartyAuthActions.signInTwitter();
+    final loginResult = await thirdPartyAuthActions.loginTwitter();
     final convertedLoginError =
         loginResult.whenOrNull<Result<void, LinkCredentialError>>(
       failure: (error) => error.when(
