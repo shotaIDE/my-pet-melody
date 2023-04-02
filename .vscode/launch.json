@@ -28,21 +28,24 @@
         "FLAVOR=emulator",
         "--dart-define",
         "API_HOST=${input:localServerIP}"
-      ]
+      ],
+      "preLaunchTask": "Generate Environments"
     },
     {
       "name": "Develop",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define", "FLAVOR=dev"]
+      "args": ["--dart-define", "FLAVOR=dev"],
+      "preLaunchTask": "Generate Environments"
     },
     {
       "name": "Develop-Profile",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--profile", "--dart-define", "FLAVOR=dev"]
+      "args": ["--profile", "--dart-define", "FLAVOR=dev"],
+      "preLaunchTask": "Generate Environments"
     }
   ],
   "inputs": [
