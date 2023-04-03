@@ -241,7 +241,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       failure: (error) => error.mapOrNull(
         alreadyInUse: (_) async {
           const snackBar = SnackBar(
-            content: Text('このTwitterアカウントはすでに利用されています。他のアカウントをお試しください'),
+            content: Text('このTwitterアカウントはすでに利用されています。他のアカウントでお試しください'),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
