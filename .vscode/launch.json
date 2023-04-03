@@ -1,61 +1,58 @@
 {
-    // IntelliSense を使用して利用可能な属性を学べます。
-    // 既存の属性の説明をホバーして表示します。
-    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Emulator",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "args": [
-                "--dart-define",
-                "FLAVOR=emulator",
-                "--dart-define",
-                "API_HOST=${input:localServerIP}",
-            ],
-        },
-        {
-            "name": "Emulator-Profile",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "args": [
-                "--profile",
-                "--dart-define",
-                "FLAVOR=emulator",
-                "--dart-define",
-                "API_HOST=${input:localServerIP}",
-            ],
-        },
-        {
-            "name": "Develop",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "args": [
-                "--dart-define",
-                "FLAVOR=dev",
-            ],
-        },
-        {
-            "name": "Develop-Profile",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main.dart",
-            "args": [
-                "--profile",
-                "--dart-define",
-                "FLAVOR=dev",
-            ],
-        },
-    ],
-    "inputs": [
-        {
-          "id": "localServerIP",
-          "type": "promptString",
-          "description": "ローカルサーバーのIPアドレスまたはホスト名を入力してください。空のままでEnterを押すと、127.0.0.1が設定されます",
-        },
-    ],
+  // IntelliSense を使用して利用可能な属性を学べます。
+  // 既存の属性の説明をホバーして表示します。
+  // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Emulator",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define",
+        "FLAVOR=emulator",
+        "--dart-define",
+        "API_HOST=${input:localServerIP}"
+      ],
+      "preLaunchTask": "Generate Environments"
+    },
+    {
+      "name": "Emulator-Profile",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--profile",
+        "--dart-define",
+        "FLAVOR=emulator",
+        "--dart-define",
+        "API_HOST=${input:localServerIP}"
+      ],
+      "preLaunchTask": "Generate Environments"
+    },
+    {
+      "name": "Develop",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--dart-define", "FLAVOR=dev"],
+      "preLaunchTask": "Generate Environments"
+    },
+    {
+      "name": "Develop-Profile",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--profile", "--dart-define", "FLAVOR=dev"],
+      "preLaunchTask": "Generate Environments"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "localServerIP",
+      "type": "promptString",
+      "description": "ローカルサーバーのIPアドレスまたはホスト名を入力してください。空のままでEnterを押すと、127.0.0.1が設定されます"
+    }
+  ]
 }

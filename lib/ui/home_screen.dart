@@ -12,6 +12,7 @@ import 'package:meow_music/ui/video_screen.dart';
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (ref) => HomeViewModel(
+    ref: ref,
     listener: ref.listen,
   ),
 );
@@ -55,9 +56,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final actionButton = IconButton(
+    final debugButton = IconButton(
       onPressed: () => Navigator.push(context, DebugScreen.route()),
       icon: const Icon(Icons.bug_report),
+    );
+    final loginButton = IconButton(
+      onPressed: _login,
+      icon: const Icon(Icons.login),
     );
 
     final state = ref.watch(widget.viewModel);
@@ -185,7 +190,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         title: const Text('Meow Music'),
         actions: [
-          actionButton,
+          loginButton,
+          debugButton,
         ],
       ),
       body: body,
@@ -226,5 +232,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     ref.read(widget.viewModel.notifier).share(piece: generated);
+  }
+
+  Future<void> _login() async {
+    final result = await ref.read(widget.viewModel.notifier).linkWithTwitter();
+
+    await result.whenOrNull(
+      failure: (error) => error.mapOrNull(
+        alreadyInUse: (_) async {
+          const snackBar = SnackBar(
+            content: Text('このTwitterアカウントはすでに利用されています。他のアカウントでお試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        unrecoverable: (_) async {
+          const snackBar = SnackBar(
+            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+      ),
+    );
   }
 }

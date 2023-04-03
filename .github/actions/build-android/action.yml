@@ -1,4 +1,6 @@
 inputs:
+  env-base64:
+    required: true
   firebase-options-dart-base64-emulator:
     required: true
   firebase-options-dart-base64-dev:
@@ -24,6 +26,7 @@ runs:
     - name: Generate uncommited files
       uses: ./.github/actions/generate-uncommited-files
       with:
+        env-base64: ${{ inputs.env-base64 }}
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
         firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
 

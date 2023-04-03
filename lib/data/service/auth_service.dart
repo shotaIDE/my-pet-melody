@@ -5,7 +5,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/login_session.dart';
+import 'package:meow_music/data/model/result.dart';
 import 'package:rxdart/rxdart.dart';
 
 final sessionProvider = StateNotifierProvider<SessionProvider, LoginSession?>(
@@ -88,6 +90,32 @@ class AuthActions {
     final credential = await FirebaseAuth.instance.signInAnonymously();
     final idToken = await credential.user?.getIdToken();
     debugPrint('Signed in anonymously: $idToken');
+  }
+
+  Future<Result<void, LinkCredentialError>> linkWithTwitter({
+    required String authToken,
+    required String secret,
+  }) async {
+    final twitterAuthCredential = TwitterAuthProvider.credential(
+      accessToken: authToken,
+      secret: secret,
+    );
+
+    final currentUser = FirebaseAuth.instance.currentUser!;
+
+    try {
+      await currentUser.linkWithCredential(twitterAuthCredential);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (e) {
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
   }
 
   Future<void> signOut() async {
