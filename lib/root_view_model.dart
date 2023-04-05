@@ -10,7 +10,7 @@ class RootViewModel extends StateNotifier<RootState> {
   RootViewModel({
     required Ref ref,
     required Listener listener,
-  }) : super(const RootState()) {
+  }) : super(const RootState(isProcessingInitialization: false)) {
     _setup(
       ref: ref,
       listener: listener,

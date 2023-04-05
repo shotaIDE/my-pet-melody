@@ -25,6 +25,12 @@ class RootApp extends ConsumerStatefulWidget {
 class _RootAppState extends ConsumerState<RootApp> {
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(widget.viewModel);
+
+    if (state.isProcessingInitialization) {
+      return Container();
+    }
+
     return MaterialApp(
       title: 'Meow Music',
       theme: ThemeData(
