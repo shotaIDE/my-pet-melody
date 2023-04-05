@@ -10,7 +10,7 @@ class RootViewModel extends StateNotifier<RootState> {
   RootViewModel({
     required Ref ref,
     required Listener listener,
-  }) : super(const RootState(isProcessingInitialization: false)) {
+  }) : super(const RootState(isProcessingInitialization: true)) {
     _setup(
       ref: ref,
       listener: listener,
@@ -22,6 +22,8 @@ class RootViewModel extends StateNotifier<RootState> {
     required Listener listener,
   }) async {
     await ref.read(ensureLoggedInActionProvider.future);
+
+    state = state.copyWith(isProcessingInitialization: false);
 
     listener<Future<String?>>(
       registrationTokenProvider.future,
