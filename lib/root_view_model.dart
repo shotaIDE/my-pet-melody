@@ -4,14 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/definitions/types.dart';
 import 'package:meow_music/data/service/database_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
-import 'package:meow_music/data/usecase/settings_use_case.dart';
 import 'package:meow_music/root_state.dart';
 
 class RootViewModel extends StateNotifier<RootState> {
   RootViewModel({
     required Ref ref,
     required Listener listener,
-  }) : super(const RootState()) {
+  }) : super(const RootState(isProcessingInitialization: true)) {
     _setup(
       ref: ref,
       listener: listener,
@@ -24,10 +23,7 @@ class RootViewModel extends StateNotifier<RootState> {
   }) async {
     await ref.read(ensureLoggedInActionProvider.future);
 
-    final isOnboardingFinished =
-        await ref.read(settingsActionsProvider).getIsOnboardingFinished();
-
-    state = state.copyWith(shouldLaunchOnboarding: !isOnboardingFinished);
+    state = state.copyWith(isProcessingInitialization: false);
 
     listener<Future<String?>>(
       registrationTokenProvider.future,
