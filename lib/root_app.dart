@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/root_state.dart';
 import 'package:meow_music/root_view_model.dart';
 import 'package:meow_music/ui/home_screen.dart';
-import 'package:meow_music/ui/onboarding_screen.dart';
 
 final rootViewModelProvider =
     StateNotifierProvider.autoDispose<RootViewModel, RootState>(
@@ -33,12 +32,6 @@ class _RootAppState extends ConsumerState<RootApp> {
       return Container();
     }
 
-    final home = shouldLaunchOnboarding
-        ? OnboardingScreen()
-        : HomeScreen(
-            shouldStartCreationAutomatically: false,
-          );
-
     return MaterialApp(
       title: 'Meow Music',
       theme: ThemeData(
@@ -55,7 +48,7 @@ class _RootAppState extends ConsumerState<RootApp> {
           labelSmall: TextStyle(fontSize: 14),
         ),
       ),
-      home: home,
+      home: HomeScreen(),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
