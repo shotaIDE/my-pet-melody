@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/root_state.dart';
 import 'package:meow_music/root_view_model.dart';
-import 'package:meow_music/ui/home_screen.dart';
+import 'package:meow_music/ui/login_screen.dart';
 
 final rootViewModelProvider =
     StateNotifierProvider.autoDispose<RootViewModel, RootState>(
@@ -47,7 +47,7 @@ class _RootAppState extends ConsumerState<RootApp> {
           labelSmall: TextStyle(fontSize: 14),
         ),
       ),
-      home: HomeScreen(),
+      home: LoginScreen(),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
