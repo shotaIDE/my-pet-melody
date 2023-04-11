@@ -11,3 +11,6 @@ environment_config:
     twitterRedirectUri:
       type: String
       env_var: TWITTER_REDIRECT_URI
+    apiHostForEmulatorConfiguration:
+      type: String
+      env_var: API_HOST_FOR_EMULATOR_CONFIGURATION

@@ -1,8 +1,8 @@
+import 'package:meow_music/environment_config.dart';
 import 'package:meow_music/flavor.dart';
 
 class AppDefinitions {
-  static const serverHost =
-      String.fromEnvironment('API_HOST', defaultValue: '127.0.0.1');
+  static const serverHost = EnvironmentConfig.apiHostForEmulatorConfiguration;
 
   static String get serverOrigin {
     if (F.flavor == Flavor.dev) {
