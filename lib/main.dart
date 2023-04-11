@@ -30,7 +30,7 @@ Future<void> main() async {
   final List<Override> overrides;
 
   if (F.flavor == Flavor.emulator) {
-    const serverHost = AppDefinitions.serverHost;
+    const serverHost = AppDefinitions.serverHostForEmulatorConfiguration;
     await FirebaseAuth.instance.useAuthEmulator(serverHost, 9099);
     FirebaseFirestore.instance.useFirestoreEmulator(serverHost, 8080);
     await FirebaseStorage.instance.useStorageEmulator(serverHost, 9199);

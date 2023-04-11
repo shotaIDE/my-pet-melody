@@ -2,7 +2,8 @@ import 'package:meow_music/environment_config.dart';
 import 'package:meow_music/flavor.dart';
 
 class AppDefinitions {
-  static const serverHost = EnvironmentConfig.apiHostForEmulatorConfiguration;
+  static const serverHostForEmulatorConfiguration =
+      EnvironmentConfig.serverHostForEmulatorConfiguration;
 
   static String get serverOrigin {
     if (F.flavor == Flavor.dev) {
@@ -10,6 +11,6 @@ class AppDefinitions {
     }
 
     const port = 5001;
-    return 'http://$serverHost:$port';
+    return 'http://$serverHostForEmulatorConfiguration:$port';
   }
 }
