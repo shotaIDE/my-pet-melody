@@ -92,6 +92,30 @@ class AuthActions {
     debugPrint('Signed in anonymously: $idToken');
   }
 
+  Future<Result<void, LinkCredentialError>> loginWithTwitter({
+    required String authToken,
+    required String secret,
+  }) async {
+    final twitterAuthCredential = TwitterAuthProvider.credential(
+      accessToken: authToken,
+      secret: secret,
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithCredential(twitterAuthCredential);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (e) {
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
+  }
+
   Future<Result<void, LinkCredentialError>> linkWithTwitter({
     required String authToken,
     required String secret,

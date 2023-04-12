@@ -16,23 +16,56 @@ final registrationTokenProvider = FutureProvider((ref) async {
   return pushNotificationService.registrationToken();
 });
 
-final ensureLoggedInActionProvider = FutureProvider((ref) async {
+final ensureDetermineIfLoggedInActionProvider = FutureProvider((ref) async {
   // TODO(ide): Not a good idea to write a process here
   //  that waits until initialization is complete.
   await ref.read(sessionProvider.notifier).setup();
 
-  final session = ref.read(sessionProvider);
-  if (session != null) {
-    return;
-  }
-
-  await ref.read(authActionsProvider).signInAnonymously();
+  return ref.read(sessionProvider) != null;
 });
 
 final signInActionProvider = Provider<Future<void> Function()>((ref) {
   final actions = ref.watch(authActionsProvider);
 
   return actions.signInAnonymously;
+});
+
+final loginWithTwitterActionProvider =
+    Provider<Future<Result<void, LinkCredentialError>> Function()>((ref) {
+  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
+  final authActions = ref.watch(authActionsProvider);
+
+  Future<Result<void, LinkCredentialError>> action() async {
+    final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
+    final convertedLoginError =
+        loginTwitterResult.whenOrNull<Result<void, LinkCredentialError>>(
+      failure: (error) => error.when(
+        cancelledByUser: () =>
+            const Result.failure(LinkCredentialError.cancelledByUser()),
+        unrecoverable: () =>
+            const Result.failure(LinkCredentialError.unrecoverable()),
+      ),
+    );
+    if (convertedLoginError != null) {
+      return convertedLoginError;
+    }
+
+    final credential =
+        (loginTwitterResult as Success<TwitterCredential, LoginTwitterError>)
+            .value;
+    final loginResult = await authActions.loginWithTwitter(
+      authToken: credential.authToken,
+      secret: credential.secret,
+    );
+    final convertedLinkError = loginResult.whenOrNull(failure: Result.failure);
+    if (convertedLinkError != null) {
+      return convertedLinkError;
+    }
+
+    return const Result.success(null);
+  }
+
+  return action;
 });
 
 final linkWithTwitterActionProvider =
