@@ -16,7 +16,7 @@ class LoginViewModel extends StateNotifier<LoginState> {
   Future<Result<void, LinkCredentialError>> loginWithTwitter() async {
     state = state.copyWith(isProcessing: true);
 
-    final action = _ref.read(linkWithTwitterActionProvider);
+    final action = _ref.read(loginWithTwitterActionProvider);
 
     final result = await action();
 
