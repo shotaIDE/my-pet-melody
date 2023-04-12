@@ -45,7 +45,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       textAlign: TextAlign.center,
     );
 
-    final loginTwitterButton = OutlinedButton(
+    final loginWithTwitterButton = OutlinedButton(
       onPressed: _loginWithTwitter,
       child: const Text('Twitterでログイン'),
     );
@@ -59,7 +59,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
             description,
             Padding(
               padding: const EdgeInsets.only(top: 32),
-              child: loginTwitterButton,
+              child: loginWithTwitterButton,
             ),
           ],
         ),
