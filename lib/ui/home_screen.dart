@@ -42,10 +42,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       onPressed: () => Navigator.push(context, DebugScreen.route()),
       icon: const Icon(Icons.bug_report),
     );
-    final loginButton = IconButton(
-      onPressed: _login,
-      icon: const Icon(Icons.login),
-    );
 
     final state = ref.watch(widget.viewModel);
     final pieces = state.pieces;
@@ -171,10 +167,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('Meow Music'),
-        actions: [
-          loginButton,
-          debugButton,
-        ],
+        actions: [debugButton],
       ),
       body: body,
       floatingActionButton: FloatingActionButton(
@@ -214,28 +207,5 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     ref.read(widget.viewModel.notifier).share(piece: generated);
-  }
-
-  Future<void> _login() async {
-    final result = await ref.read(widget.viewModel.notifier).linkWithTwitter();
-
-    await result.whenOrNull(
-      failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
-          const snackBar = SnackBar(
-            content: Text('このTwitterアカウントはすでに利用されています。他のアカウントでお試しください'),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-        unrecoverable: (_) async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-      ),
-    );
   }
 }

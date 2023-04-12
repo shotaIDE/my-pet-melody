@@ -4,5 +4,7 @@ part 'login_state.freezed.dart';
 
 @freezed
 class LoginState with _$LoginState {
-  const factory LoginState() = _LoginState;
+  const factory LoginState({
+    @Default(false) bool isProcessing,
+  }) = _LoginState;
 }

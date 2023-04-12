@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/home_state.dart';
-import 'package:meow_music/ui/home_view_model.dart';
+import 'package:meow_music/ui/login_state.dart';
+import 'package:meow_music/ui/login_view_model.dart';
 
 final _loginViewModelProvider =
-    StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
-  (ref) => HomeViewModel(
+    StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
+  (ref) => LoginViewModel(
     ref: ref,
-    listener: ref.listen,
   ),
 );
 
@@ -46,12 +45,23 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       textAlign: TextAlign.center,
     );
 
+    final loginTwitterButton = OutlinedButton(
+      onPressed: _loginWithTwitter,
+      child: const Text('Twitterでログイン'),
+    );
+
     final body = SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [description],
+          children: [
+            description,
+            Padding(
+              padding: const EdgeInsets.only(top: 32),
+              child: loginTwitterButton,
+            ),
+          ],
         ),
       ),
     );
@@ -101,5 +111,28 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
             ],
           )
         : scaffold;
+  }
+
+  Future<void> _loginWithTwitter() async {
+    final result = await ref.read(widget.viewModel.notifier).loginWithTwitter();
+
+    await result.whenOrNull(
+      failure: (error) => error.mapOrNull(
+        alreadyInUse: (_) async {
+          const snackBar = SnackBar(
+            content: Text('このTwitterアカウントはすでに利用されています。他のアカウントでお試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        unrecoverable: (_) async {
+          const snackBar = SnackBar(
+            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+      ),
+    );
   }
 }
