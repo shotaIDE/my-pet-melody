@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
+import 'package:meow_music/ui/settings_screen.dart';
 import 'package:meow_music/ui/video_screen.dart';
 
 final homeViewModelProvider =
@@ -38,8 +38,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final debugButton = IconButton(
-      onPressed: () => Navigator.push(context, DebugScreen.route()),
-      icon: const Icon(Icons.bug_report),
+      onPressed: () => Navigator.push(context, SettingsScreen.route()),
+      icon: const Icon(Icons.account_circle),
     );
 
     final state = ref.watch(widget.viewModel);
