@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/login_state.dart';
 import 'package:meow_music/ui/login_view_model.dart';
 
@@ -50,6 +51,11 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       child: const Text('Twitterでログイン'),
     );
 
+    final continueWithoutLoginButton = TextButton(
+      onPressed: _continueWithoutLoginButton,
+      child: const Text('ログインせずに利用する'),
+    );
+
     final body = SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
@@ -60,6 +66,10 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 32),
               child: loginWithTwitterButton,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 32),
+              child: continueWithoutLoginButton,
             ),
           ],
         ),
@@ -116,7 +126,13 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
   Future<void> _loginWithTwitter() async {
     final result = await ref.read(widget.viewModel.notifier).loginWithTwitter();
 
-    await result.whenOrNull(
+    await result.when(
+      success: (_) async {
+        await Navigator.pushReplacement<HomeScreen, void>(
+          context,
+          HomeScreen.route(),
+        );
+      },
       failure: (error) => error.mapOrNull(
         alreadyInUse: (_) async {
           const snackBar = SnackBar(
@@ -133,6 +149,19 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
       ),
+    );
+  }
+
+  Future<void> _continueWithoutLoginButton() async {
+    await ref.read(widget.viewModel.notifier).continueWithoutLoginButton();
+
+    if (!mounted) {
+      return;
+    }
+
+    await Navigator.pushReplacement<HomeScreen, void>(
+      context,
+      HomeScreen.route(),
     );
   }
 }

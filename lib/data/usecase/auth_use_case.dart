@@ -16,17 +16,12 @@ final registrationTokenProvider = FutureProvider((ref) async {
   return pushNotificationService.registrationToken();
 });
 
-final ensureLoggedInActionProvider = FutureProvider((ref) async {
+final ensureDetermineIfLoggedInActionProvider = FutureProvider((ref) async {
   // TODO(ide): Not a good idea to write a process here
   //  that waits until initialization is complete.
   await ref.read(sessionProvider.notifier).setup();
 
-  final session = ref.read(sessionProvider);
-  if (session != null) {
-    return;
-  }
-
-  await ref.read(authActionsProvider).signInAnonymously();
+  return ref.read(sessionProvider) != null;
 });
 
 final signInActionProvider = Provider<Future<void> Function()>((ref) {

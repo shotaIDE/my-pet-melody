@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/root_state.dart';
 import 'package:meow_music/root_view_model.dart';
+import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/login_screen.dart';
 
 final rootViewModelProvider =
@@ -26,10 +27,13 @@ class _RootAppState extends ConsumerState<RootApp> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
+    final showHomeScreen = state.showHomeScreen;
 
-    if (state.isProcessingInitialization) {
+    if (showHomeScreen == null) {
       return Container();
     }
+
+    final home = showHomeScreen ? HomeScreen() : LoginScreen();
 
     return MaterialApp(
       title: 'Meow Music',
@@ -47,7 +51,7 @@ class _RootAppState extends ConsumerState<RootApp> {
           labelSmall: TextStyle(fontSize: 14),
         ),
       ),
-      home: LoginScreen(),
+      home: home,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
