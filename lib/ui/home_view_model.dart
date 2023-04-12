@@ -6,10 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/definitions/types.dart';
-import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/data/model/result.dart';
-import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/data/usecase/piece_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/home_state.dart';
@@ -20,15 +17,12 @@ import 'package:share_plus/share_plus.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
   HomeViewModel({
-    required Ref ref,
     required Listener listener,
-  })  : _ref = ref,
-        super(const HomeState()) {
+  }) : super(const HomeState()) {
     _setup(listener: listener);
   }
 
   final _player = AudioPlayer();
-  final Ref _ref;
 
   Duration? _currentAudioDuration;
   StreamSubscription<List<Piece>>? _piecesSubscription;
@@ -117,18 +111,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     await Share.shareXFiles([xFile]);
 
     state = state.copyWith(isProcessing: false);
-  }
-
-  Future<Result<void, LinkCredentialError>> linkWithTwitter() async {
-    state = state.copyWith(isProcessing: true);
-
-    final action = _ref.read(linkWithTwitterActionProvider);
-
-    final result = await action();
-
-    state = state.copyWith(isProcessing: false);
-
-    return result;
   }
 
   Future<void> beforeHideScreen() async {

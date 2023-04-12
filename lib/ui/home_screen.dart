@@ -12,7 +12,6 @@ import 'package:meow_music/ui/video_screen.dart';
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (ref) => HomeViewModel(
-    ref: ref,
     listener: ref.listen,
   ),
 );
