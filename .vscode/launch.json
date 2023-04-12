@@ -9,12 +9,7 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": [
-        "--dart-define",
-        "FLAVOR=emulator",
-        "--dart-define",
-        "API_HOST=${input:localServerIP}"
-      ],
+      "args": ["--dart-define", "FLAVOR=emulator"],
       "preLaunchTask": "Generate Environments"
     },
     {
@@ -22,13 +17,7 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": [
-        "--profile",
-        "--dart-define",
-        "FLAVOR=emulator",
-        "--dart-define",
-        "API_HOST=${input:localServerIP}"
-      ],
+      "args": ["--profile", "--dart-define", "FLAVOR=emulator"],
       "preLaunchTask": "Generate Environments"
     },
     {
@@ -46,13 +35,6 @@
       "program": "lib/main.dart",
       "args": ["--profile", "--dart-define", "FLAVOR=dev"],
       "preLaunchTask": "Generate Environments"
-    }
-  ],
-  "inputs": [
-    {
-      "id": "localServerIP",
-      "type": "promptString",
-      "description": "ローカルサーバーのIPアドレスまたはホスト名を入力してください。空のままでEnterを押すと、127.0.0.1が設定されます"
     }
   ]
 }
