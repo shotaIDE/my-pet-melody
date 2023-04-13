@@ -7,30 +7,19 @@ import 'package:meow_music/data/model/profile.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/flavor.dart';
 import 'package:meow_music/ui/debug_screen.dart';
-import 'package:meow_music/ui/settings_state.dart';
-import 'package:meow_music/ui/settings_view_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final _loginViewModelProvider =
-    StateNotifierProvider.autoDispose<SettingsViewModel, SettingsState>(
-  (ref) => SettingsViewModel(
-    ref: ref,
-  ),
-);
-
 class SettingsScreen extends StatefulWidget {
-  SettingsScreen({
+  const SettingsScreen({
     Key? key,
   }) : super(key: key);
 
   static const name = 'SettingsScreen';
 
-  final viewModel = _loginViewModelProvider;
-
   static MaterialPageRoute<SettingsScreen> route() =>
       MaterialPageRoute<SettingsScreen>(
-        builder: (_) => SettingsScreen(),
+        builder: (_) => const SettingsScreen(),
         settings: const RouteSettings(name: name),
         fullscreenDialog: true,
       );
@@ -140,12 +129,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _writeReview() async {
     if (Platform.isIOS) {
-      // In-app reviews are limited to the number of times they can be displayed,
-      // so go to the App Store and open the page to write a review.
+      // In-app reviews are limited to the number of times they can be
+      // displayed, so go to the App Store and open the page to write a review.
       await AppReview.openIosReview(compose: true);
     } else if (Platform.isAndroid) {
-      //In-app reviews are limited in the number of times they can be displayed,
-      // so only make the transition to Google Play.
+      // In-app reviews are limited in the number of times they can be
+      // displayed, so only make the transition to Google Play.
       await AppReview.openGooglePlay();
     }
   }
