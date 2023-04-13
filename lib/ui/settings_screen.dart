@@ -19,7 +19,7 @@ final _loginViewModelProvider =
   ),
 );
 
-class SettingsScreen extends ConsumerStatefulWidget {
+class SettingsScreen extends StatefulWidget {
   SettingsScreen({
     Key? key,
   }) : super(key: key);
@@ -36,10 +36,10 @@ class SettingsScreen extends ConsumerStatefulWidget {
       );
 
   @override
-  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final profileTile = _ProfileTile(onTap: () {});
