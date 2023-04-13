@@ -7,6 +7,7 @@ import 'package:meow_music/flavor.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/settings_state.dart';
 import 'package:meow_music/ui/settings_view_model.dart';
+import 'package:share_plus/share_plus.dart';
 
 final _loginViewModelProvider =
     StateNotifierProvider.autoDispose<SettingsViewModel, SettingsState>(
@@ -153,5 +154,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
-  Future<void> _shareWithFriends() async {}
+  Future<void> _shareWithFriends() async {
+    // TODO(ide): Replace URL
+    final storeUrl = Platform.isIOS
+        ? 'https://apps.apple.com/jp/app/xxxx'
+        : 'https://play.google.com/store/apps/details?id=xxxx';
+    await Share.share('あなたのネコのオリジナルソングを作ろう！ $storeUrl');
+  }
 }
