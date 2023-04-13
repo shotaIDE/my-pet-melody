@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:app_review/app_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/model/profile.dart';
+import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/flavor.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/settings_state.dart';
@@ -40,14 +42,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
-
-    final profileTile = ListTile(
-      leading: const Icon(Icons.account_circle),
-      title: const Text('Benjamin Armstrong'),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () {},
-    );
+    final profileTile = _ProfileTile(onTap: () {});
 
     const currentPlanTile = ListTile(
       title: Text('現在のプラン'),
@@ -176,6 +171,80 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       Uri.parse(
         'https://tricolor-fright-c89.notion.site/19903a30a07e4499887f37ee67fdf876',
       ),
+    );
+  }
+}
+
+class _ProfileTile extends ConsumerWidget {
+  const _ProfileTile({
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profile = ref.watch(nonAnonymousProfileProvider);
+    return profile != null
+        ? _LoggedInProfileTile(profile: profile, onTap: onTap)
+        : _NotLoggedInTile(onTap: onTap);
+  }
+}
+
+class _LoggedInProfileTile extends StatelessWidget {
+  const _LoggedInProfileTile({
+    required this.profile,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  final Profile profile;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final photoUrl = profile.photoUrl;
+    final icon = photoUrl != null
+        ? Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage(photoUrl),
+              ),
+            ),
+          )
+        : const Icon(Icons.account_circle);
+
+    final name = profile.name;
+    final titleText = name ?? '(No Name)';
+
+    return ListTile(
+      leading: icon,
+      title: Text(titleText),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: onTap,
+    );
+  }
+}
+
+class _NotLoggedInTile extends StatelessWidget {
+  const _NotLoggedInTile({
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: const Text('アカウントを作成する'),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: onTap,
     );
   }
 }
