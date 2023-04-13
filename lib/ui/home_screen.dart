@@ -38,8 +38,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    const debugButton = _SettingsButton();
-
     final state = ref.watch(widget.viewModel);
     final pieces = state.pieces;
     final Widget body;
@@ -164,7 +162,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('Meow Music'),
-        actions: const [debugButton],
+        actions: const [_SettingsButton()],
       ),
       body: body,
       floatingActionButton: FloatingActionButton(
