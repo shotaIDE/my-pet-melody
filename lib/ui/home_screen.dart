@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/piece.dart';
+import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
@@ -37,10 +38,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final debugButton = IconButton(
-      onPressed: () => Navigator.push(context, SettingsScreen.route()),
-      icon: const Icon(Icons.account_circle),
-    );
+    const debugButton = _SettingsButton();
 
     final state = ref.watch(widget.viewModel);
     final pieces = state.pieces;
@@ -166,7 +164,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('Meow Music'),
-        actions: [debugButton],
+        actions: const [debugButton],
       ),
       body: body,
       floatingActionButton: FloatingActionButton(
@@ -206,5 +204,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     ref.read(widget.viewModel.notifier).share(piece: generated);
+  }
+}
+
+class _SettingsButton extends ConsumerWidget {
+  const _SettingsButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final photoUrl = ref.watch(profilePhotoUrlProvider);
+    final icon = photoUrl != null
+        ? Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage(photoUrl),
+              ),
+            ),
+          )
+        : const Icon(Icons.account_circle);
+
+    return IconButton(
+      onPressed: () => Navigator.push(context, SettingsScreen.route()),
+      icon: icon,
+    );
   }
 }
