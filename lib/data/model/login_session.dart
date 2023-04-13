@@ -8,6 +8,6 @@ class LoginSession with _$LoginSession {
   const factory LoginSession({
     required String userId,
     required String token,
-    required Profile? profile,
+    required Profile? nonAnonymousProfile,
   }) = _LoginSession;
 }

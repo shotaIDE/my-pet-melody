@@ -86,7 +86,11 @@ class SessionProvider extends StateNotifier<LoginSession?> {
     final profile =
         providerData != null ? Profile(name: name, photoUrl: photoUrl) : null;
 
-    return LoginSession(userId: user.uid, token: token, profile: profile);
+    return LoginSession(
+      userId: user.uid,
+      token: token,
+      nonAnonymousProfile: profile,
+    );
   }
 }
 

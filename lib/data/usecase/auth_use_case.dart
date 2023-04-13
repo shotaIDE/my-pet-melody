@@ -9,12 +9,12 @@ import 'package:meow_music/data/service/third_party_auth_service.dart';
 
 final nonAnonymousProfileProvider = Provider((ref) {
   final session = ref.watch(sessionProvider);
-  return session?.profile;
+  return session?.nonAnonymousProfile;
 });
 
 final profilePhotoUrlProvider = Provider((ref) {
   final session = ref.watch(sessionProvider);
-  return session?.profile?.photoUrl;
+  return session?.nonAnonymousProfile?.photoUrl;
 });
 
 final registrationTokenProvider = FutureProvider((ref) async {
