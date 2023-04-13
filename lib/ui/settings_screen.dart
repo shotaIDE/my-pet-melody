@@ -8,6 +8,7 @@ import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/settings_state.dart';
 import 'package:meow_music/ui/settings_view_model.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final _loginViewModelProvider =
     StateNotifierProvider.autoDispose<SettingsViewModel, SettingsState>(
@@ -71,12 +72,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final termsOfServiceTile = ListTile(
       title: const Text('利用規約'),
       trailing: const Icon(Icons.open_in_browser),
-      onTap: _shareWithFriends,
+      onTap: _openTermsOfService,
     );
     final privacyPolicyTile = ListTile(
       title: const Text('プライバシーポリシー'),
       trailing: const Icon(Icons.open_in_browser),
-      onTap: _shareWithFriends,
+      onTap: _openPrivacyPolicy,
     );
     final debugTile = ListTile(
       title: const Text('デバッグ'),
@@ -160,5 +161,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ? 'https://apps.apple.com/jp/app/xxxx'
         : 'https://play.google.com/store/apps/details?id=xxxx';
     await Share.share('あなたのネコのオリジナルソングを作ろう！ $storeUrl');
+  }
+
+  Future<void> _openTermsOfService() async {
+    await launchUrl(
+      Uri.parse(
+        'https://tricolor-fright-c89.notion.site/8b169d10b790461ab72b961064e16c49',
+      ),
+    );
+  }
+
+  Future<void> _openPrivacyPolicy() async {
+    await launchUrl(
+      Uri.parse(
+        'https://tricolor-fright-c89.notion.site/19903a30a07e4499887f37ee67fdf876',
+      ),
+    );
   }
 }
