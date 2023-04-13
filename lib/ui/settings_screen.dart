@@ -4,6 +4,7 @@ import 'package:app_review/app_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/profile.dart';
+import 'package:meow_music/data/service/app_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/flavor.dart';
 import 'package:meow_music/ui/debug_screen.dart';
@@ -70,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
     const versionTile = ListTile(
       title: Text('バージョン'),
-      trailing: Text('0.0.1 (1)'),
+      trailing: _FullVersionNameText(),
     );
 
     final body = SingleChildScrollView(
@@ -161,6 +162,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
         'https://tricolor-fright-c89.notion.site/19903a30a07e4499887f37ee67fdf876',
       ),
     );
+  }
+}
+
+class _FullVersionNameText extends ConsumerWidget {
+  const _FullVersionNameText({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final fullVersionNameAsyncValue = ref.watch(fullVersionNameProvider);
+    final fullVersionName = fullVersionNameAsyncValue.whenOrNull(
+          data: (fullVersionName) => fullVersionName,
+        ) ??
+        '';
+    return Text(fullVersionName);
   }
 }
 

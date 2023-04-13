@@ -44,6 +44,7 @@ dependencies:
   video_compress: ^3.1.2
   twitter_login: ^4.3.1
   app_review: ^2.1.2+1
+  package_info_plus: ^1.4.3+1
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
