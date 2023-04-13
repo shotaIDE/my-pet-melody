@@ -7,6 +7,7 @@ import 'package:meow_music/data/model/profile.dart';
 import 'package:meow_music/data/service/app_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/flavor.dart';
+import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -211,19 +212,7 @@ class _LoggedInProfileTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final photoUrl = profile.photoUrl;
-    final icon = photoUrl != null
-        ? Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: NetworkImage(photoUrl),
-              ),
-            ),
-          )
-        : const Icon(Icons.account_circle);
+    final icon = ProfileIcon(photoUrl: photoUrl);
 
     final name = profile.name;
     final titleText = name ?? '(No Name)';
