@@ -2,11 +2,13 @@
 
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/login_session.dart';
+import 'package:meow_music/data/model/profile.dart';
 import 'package:meow_music/data/model/result.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -51,17 +53,10 @@ class SessionProvider extends StateNotifier<LoginSession?> {
     final session = await _currentSession();
     state = session;
 
-    _sessionSubscription = FirebaseAuth.instance.authStateChanges().asyncMap(
-      (user) async {
-        if (user == null) {
-          return null;
-        }
-
-        final token = await user.getIdToken();
-
-        return LoginSession(userId: user.uid, token: token);
-      },
-    ).listen((session) {
+    _sessionSubscription = FirebaseAuth.instance
+        .authStateChanges()
+        .asyncMap(_convertFirebaseUserToLoginSession)
+        .listen((session) {
       state = session;
     });
   }
@@ -69,19 +64,33 @@ class SessionProvider extends StateNotifier<LoginSession?> {
   Future<LoginSession?> _currentSession() async {
     try {
       final user = FirebaseAuth.instance.currentUser;
-      if (user == null) {
-        return null;
-      }
-
-      final token = await user.getIdToken();
-
-      return LoginSession(userId: user.uid, token: token);
+      return _convertFirebaseUserToLoginSession(user);
     } on FirebaseAuthException {
       // TODO(ide): Stop signing out in public apps.
       await FirebaseAuth.instance.signOut();
     }
 
     return null;
+  }
+
+  Future<LoginSession?> _convertFirebaseUserToLoginSession(User? user) async {
+    if (user == null) {
+      return null;
+    }
+
+    final token = await user.getIdToken();
+
+    final providerData = user.providerData.firstOrNull;
+    final name = providerData?.displayName;
+    final photoUrl = providerData?.photoURL;
+    final profile =
+        providerData != null ? Profile(name: name, photoUrl: photoUrl) : null;
+
+    return LoginSession(
+      userId: user.uid,
+      token: token,
+      nonAnonymousProfile: profile,
+    );
   }
 }
 

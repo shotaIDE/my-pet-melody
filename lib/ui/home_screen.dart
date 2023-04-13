@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/ui/debug_screen.dart';
+import 'package:meow_music/data/usecase/auth_use_case.dart';
+import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_state.dart';
 import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
+import 'package:meow_music/ui/settings_screen.dart';
 import 'package:meow_music/ui/video_screen.dart';
 
 final homeViewModelProvider =
@@ -37,11 +39,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final debugButton = IconButton(
-      onPressed: () => Navigator.push(context, DebugScreen.route()),
-      icon: const Icon(Icons.bug_report),
-    );
-
     final state = ref.watch(widget.viewModel);
     final pieces = state.pieces;
     final Widget body;
@@ -166,7 +163,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('Meow Music'),
-        actions: [debugButton],
+        actions: [
+          _SettingsButton(
+            onPressed: () => Navigator.push(context, SettingsScreen.route()),
+          )
+        ],
       ),
       body: body,
       floatingActionButton: FloatingActionButton(
@@ -206,5 +207,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     ref.read(widget.viewModel.notifier).share(piece: generated);
+  }
+}
+
+class _SettingsButton extends ConsumerWidget {
+  const _SettingsButton({
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final photoUrl = ref.watch(profilePhotoUrlProvider);
+
+    return IconButton(
+      onPressed: onPressed,
+      icon: ProfileIcon(photoUrl: photoUrl),
+    );
   }
 }
