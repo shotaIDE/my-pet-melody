@@ -105,25 +105,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: const Text('設定'),
       ),
-      body: SafeArea(
-        bottom: false,
-        left: false,
-        right: false,
-        child: Column(
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: body,
-                  ),
-                  Positioned(bottom: 0, right: 16, child: catImage),
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: Stack(
+        children: [
+          body,
+          Positioned(bottom: 0, right: 16, child: catImage),
+        ],
       ),
       resizeToAvoidBottomInset: false,
     );
