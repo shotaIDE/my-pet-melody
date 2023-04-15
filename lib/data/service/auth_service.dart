@@ -154,4 +154,8 @@ class AuthActions {
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
+
+  Future<void> delete() async {
+    await FirebaseAuth.instance.currentUser?.delete();
+  }
 }

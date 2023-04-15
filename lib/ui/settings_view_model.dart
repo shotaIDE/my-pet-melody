@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/ui/settings_state.dart';
 
 class SettingsViewModel extends StateNotifier<SettingsState> {
@@ -13,6 +13,10 @@ class SettingsViewModel extends StateNotifier<SettingsState> {
   final Ref _ref;
 
   Future<void> deleteAccount() async {
-    debugPrint('Delete');
+    state = state.copyWith(isProcessing: true);
+
+    final action = _ref.read(deleteAccountActionProvider);
+
+    await action();
   }
 }

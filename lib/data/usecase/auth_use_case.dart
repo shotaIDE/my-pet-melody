@@ -132,3 +132,13 @@ final signOutActionProvider = Provider((ref) {
 
   return action;
 });
+
+final deleteAccountActionProvider = Provider((ref) {
+  final authActions = ref.watch(authActionsProvider);
+
+  Future<void> action() async {
+    await authActions.delete();
+  }
+
+  return action;
+});

@@ -7,6 +7,7 @@ import 'package:meow_music/data/model/profile.dart';
 import 'package:meow_music/data/service/app_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/flavor.dart';
+import 'package:meow_music/root_view_model.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/join_premium_plan_screen.dart';
@@ -191,6 +192,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
 
     await ref.read(widget.viewModelProvider.notifier).deleteAccount();
+
+    await ref.read(rootViewModelProvider.notifier).restart();
   }
 }
 
