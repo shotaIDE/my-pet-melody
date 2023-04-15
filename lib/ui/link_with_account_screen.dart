@@ -15,7 +15,7 @@ class LinkWithAccountScreen extends ConsumerStatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  static const name = 'LoginScreen';
+  static const name = 'LinkWithAccountScreen';
 
   final viewModel = _linkWithAccountViewModelProvider;
 
