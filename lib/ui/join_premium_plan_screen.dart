@@ -62,11 +62,24 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       ),
     );
 
+    final joinButton = ElevatedButton(
+      onPressed: () {},
+      child: const Text('プレミアムプラン 1,000円 / 月'),
+    );
+
+    final restoreButton =
+        TextButton(onPressed: () {}, child: const Text('機種変更時の復元'));
+
     final body = SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const SizedBox(height: 16),
           featureCard,
+          const SizedBox(height: 32),
+          joinButton,
+          const SizedBox(height: 16),
+          restoreButton,
         ],
       ),
     );
@@ -82,10 +95,7 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
           Expanded(
             child: Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 32),
-                  child: body,
-                ),
+                body,
                 Positioned(
                   bottom: 0,
                   left: 16,
