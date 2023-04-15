@@ -12,6 +12,11 @@ final nonAnonymousProfileProvider = Provider((ref) {
   return session?.nonAnonymousProfile;
 });
 
+final isLoggedInNotAnonymouslyProvider = Provider((ref) {
+  final session = ref.watch(sessionProvider);
+  return session?.nonAnonymousProfile != null;
+});
+
 final profilePhotoUrlProvider = Provider((ref) {
   final session = ref.watch(sessionProvider);
   return session?.nonAnonymousProfile?.photoUrl;
