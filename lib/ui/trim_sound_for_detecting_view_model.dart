@@ -77,13 +77,18 @@ class TrimSoundForDetectingViewModel
 
     final compressedDirectory = await getTemporaryDirectory();
     final compressedParentPath = compressedDirectory.path;
-    final compressedPath = '$compressedParentPath/$trimmedFileName';
+    final compressedOriginalPath = '$compressedParentPath/$trimmedFileName';
+
+    final trimmedFile = File(trimmedPath);
+    await trimmedFile.copy(compressedOriginalPath);
+
     final compressedMediaInfo = await VideoCompress.compressVideo(
-      compressedPath,
+      compressedOriginalPath,
       quality: VideoQuality.Res640x480Quality,
       deleteOrigin: true,
     );
-    if (compressedMediaInfo?.path == null) {
+    final compressedPath = compressedMediaInfo?.path;
+    if (compressedPath == null) {
       return null;
     }
 
