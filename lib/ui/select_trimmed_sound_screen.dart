@@ -199,24 +199,11 @@ class _SelectTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    final firstThumbnailPath = state.splitThumbnails.first;
     const firstThumbnailHeight = 48.0;
-    final firstThumbnail = firstThumbnailPath != null
-        ? Image.file(
-            File(firstThumbnailPath),
-            fit: BoxFit.cover,
-            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
-            height: firstThumbnailHeight,
-          )
-        : const SizedBox(
-            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
-            height: firstThumbnailHeight,
-            child: SkeletonAvatar(),
-          );
-    final moviePanel = ListTile(
-      leading: firstThumbnail,
-      title: Text(state.fileName),
-      tileColor: Colors.grey[300],
+    final moviePanel = _MovieTile(
+      viewModelProvider: widget.viewModel,
+      thumbnailWidth: firstThumbnailHeight * DisplayDefinition.aspectRatio,
+      thumbnailHeight: firstThumbnailHeight,
     );
 
     final noDesiredTrimmingDescription = RichText(
@@ -593,5 +580,72 @@ class _SelectTrimmedSoundScreenState
             ],
           )
         : scaffold;
+  }
+}
+
+class _MovieTile extends ConsumerWidget {
+  const _MovieTile({
+    required this.viewModelProvider,
+    required this.thumbnailWidth,
+    required this.thumbnailHeight,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
+      SelectTrimmedSoundState> viewModelProvider;
+  final double thumbnailWidth;
+  final double thumbnailHeight;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final title =
+        ref.watch(viewModelProvider.select((state) => state.fileName));
+
+    return ListTile(
+      leading: _SplitThumbnail(
+        viewModelProvider: viewModelProvider,
+        index: 0,
+        width: thumbnailWidth,
+        height: thumbnailHeight,
+      ),
+      title: Text(title),
+      tileColor: Colors.grey[300],
+    );
+  }
+}
+
+class _SplitThumbnail extends ConsumerWidget {
+  const _SplitThumbnail({
+    required this.viewModelProvider,
+    required this.index,
+    required this.width,
+    required this.height,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
+      SelectTrimmedSoundState> viewModelProvider;
+  final int index;
+  final double width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final thumbnail = ref.watch(
+      viewModelProvider.select((state) => state.splitThumbnails[index]),
+    );
+
+    return thumbnail != null
+        ? Image.file(
+            File(thumbnail),
+            fit: BoxFit.cover,
+            width: width,
+            height: height,
+          )
+        : SizedBox(
+            width: width,
+            height: height,
+            child: const SkeletonAvatar(),
+          );
   }
 }

@@ -79,6 +79,8 @@ class SelectTrimmedSoundViewModel
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
+    final originalFileNameWithoutExtension =
+        basenameWithoutExtension(_moviePath);
     final originalExtension = extension(_moviePath);
 
     await Future.wait(
@@ -93,6 +95,10 @@ class SelectTrimmedSoundViewModel
         final thumbnailBytes = base64Decode(thumbnailBase64);
         await file.writeAsBytes(thumbnailBytes);
 
+        debugPrint(
+          'thumbnail #$index: $outputPath, ${thumbnailBase64.substring(0, 20)}',
+        );
+
         final choices = [...state.choices];
         final replacedChoice = choice.copyWith(thumbnailPath: outputPath);
         choices[index] = replacedChoice;
@@ -100,10 +106,13 @@ class SelectTrimmedSoundViewModel
       }),
     );
 
+    await Future<void>.delayed(const Duration(seconds: 1));
+
     await Future.wait(
       List.generate(splitCount, (index) async {
         final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'split_$paddedIndex.png';
+        final outputFileName =
+            'split-$originalFileNameWithoutExtension-$paddedIndex.png';
         final outputPath = '$outputParentPath/$outputFileName';
 
         final file = File(outputPath);
@@ -111,6 +120,10 @@ class SelectTrimmedSoundViewModel
             _movieSegmentation.equallyDividedThumbnailsBase64[index];
         final thumbnailBytes = base64Decode(thumbnailBase64);
         await file.writeAsBytes(thumbnailBytes);
+
+        debugPrint(
+          'split #$index: $outputPath, ${thumbnailBase64.substring(0, 20)}',
+        );
 
         final splitThumbnails = [...state.splitThumbnails];
         splitThumbnails[index] = outputPath;
@@ -137,6 +150,10 @@ class SelectTrimmedSoundViewModel
           '-i $_moviePath '
           '-y '
           '$outputPath',
+        );
+
+        debugPrint(
+          'segment #$index: $outputPath, $startPosition to $endPosition',
         );
 
         final choices = [...state.choices];
