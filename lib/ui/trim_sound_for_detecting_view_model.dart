@@ -6,8 +6,6 @@ import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detecting_state.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:video_compress/video_compress.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 class TrimSoundForDetectingViewModel
@@ -73,32 +71,11 @@ class TrimSoundForDetectingViewModel
       return null;
     }
 
-    final trimmedFileName = basename(trimmedPath);
-
-    final compressedDirectory = await getTemporaryDirectory();
-    final compressedParentPath = compressedDirectory.path;
-    final compressedOriginalPath = '$compressedParentPath/$trimmedFileName';
-
     final trimmedFile = File(trimmedPath);
-    await trimmedFile.copy(compressedOriginalPath);
-
-    final compressedMediaInfo = await VideoCompress.compressVideo(
-      compressedOriginalPath,
-      quality: VideoQuality.Res640x480Quality,
-      deleteOrigin: true,
-    );
-    final compressedPath = compressedMediaInfo?.path;
-    if (compressedPath == null) {
-      return null;
-    }
-
-    final compressedFile = File(compressedPath);
-
     final displayName = '$originalFileNameWithoutExtension$convertedExtension';
-
     final detectAction = await _ref.read(detectActionProvider.future);
     final detected = await detectAction(
-      compressedFile,
+      trimmedFile,
       fileName: displayName,
     );
 
@@ -108,7 +85,7 @@ class TrimSoundForDetectingViewModel
 
     return SelectTrimmedSoundArgs(
       displayName: originalFileNameWithoutExtension,
-      soundPath: compressedPath,
+      soundPath: trimmedPath,
       movieSegmentation: detected,
     );
   }
