@@ -5,6 +5,6 @@ part 'settings_state.freezed.dart';
 @freezed
 class SettingsState with _$SettingsState {
   const factory SettingsState({
-    @Default(false) bool isProcessing,
+    @Default(false) bool isProcessingToDeleteAccount,
   }) = _SettingsState;
 }

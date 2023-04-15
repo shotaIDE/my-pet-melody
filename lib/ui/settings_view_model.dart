@@ -15,13 +15,13 @@ class SettingsViewModel extends StateNotifier<SettingsState> {
   final Ref _ref;
 
   Future<Result<void, DeleteAccountError>> deleteAccount() async {
-    state = state.copyWith(isProcessing: true);
+    state = state.copyWith(isProcessingToDeleteAccount: true);
 
     final action = _ref.read(deleteAccountActionProvider);
 
     final result = await action();
 
-    state = state.copyWith(isProcessing: false);
+    state = state.copyWith(isProcessingToDeleteAccount: false);
 
     return result;
   }

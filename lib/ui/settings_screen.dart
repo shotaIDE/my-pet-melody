@@ -135,7 +135,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       resizeToAvoidBottomInset: false,
     );
 
-    return state.isProcessing
+    return state.isProcessingToDeleteAccount
         ? Stack(
             children: [
               scaffold,
