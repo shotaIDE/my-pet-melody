@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/link_credential_error.dart';
+import 'package:meow_music/data/model/login_error.dart';
 import 'package:meow_music/data/model/result.dart';
 import 'package:meow_music/data/service/auth_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
@@ -13,7 +13,7 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   final Ref _ref;
 
-  Future<Result<void, LinkCredentialError>> loginWithTwitter() async {
+  Future<Result<void, LoginError>> loginWithTwitter() async {
     state = state.copyWith(isProcessing: true);
 
     final action = _ref.read(loginWithTwitterActionProvider);

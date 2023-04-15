@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/model/account_provider.dart';
 import 'package:meow_music/data/model/delete_account_error.dart';
-import 'package:meow_music/data/model/link_credential_error.dart';
+import 'package:meow_music/data/model/login_error.dart';
 import 'package:meow_music/data/model/login_twitter_error.dart';
 import 'package:meow_music/data/model/result.dart';
 import 'package:meow_music/data/model/twitter_credential.dart';
@@ -48,17 +48,16 @@ final signInActionProvider = Provider<Future<void> Function()>((ref) {
 });
 
 final loginWithTwitterActionProvider =
-    Provider<Future<Result<void, LinkCredentialError>> Function()>((ref) {
+    Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
 
-  Future<Result<void, LinkCredentialError>> action() async {
+  Future<Result<void, LoginError>> action() async {
     final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
-    final convertedLoginError =
-        loginTwitterResult.whenOrNull<LinkCredentialError>(
+    final convertedLoginError = loginTwitterResult.whenOrNull<LoginError>(
       failure: (error) => error.when(
-        cancelledByUser: LinkCredentialError.cancelledByUser,
-        unrecoverable: LinkCredentialError.unrecoverable,
+        cancelledByUser: LoginError.cancelledByUser,
+        unrecoverable: LoginError.unrecoverable,
       ),
     );
     if (convertedLoginError != null) {
@@ -72,9 +71,14 @@ final loginWithTwitterActionProvider =
       authToken: credential.authToken,
       secret: credential.secret,
     );
-    final convertedLinkError = loginResult.whenOrNull(failure: Result.failure);
+    final convertedLinkError = loginResult.whenOrNull(
+      failure: (error) => error.when(
+        alreadyInUse: LoginError.alreadyInUse,
+        unrecoverable: LoginError.unrecoverable,
+      ),
+    );
     if (convertedLinkError != null) {
-      return convertedLinkError;
+      return Result.failure(convertedLinkError);
     }
 
     return const Result.success(null);
@@ -84,19 +88,18 @@ final loginWithTwitterActionProvider =
 });
 
 final linkWithTwitterActionProvider =
-    Provider<Future<Result<void, LinkCredentialError>> Function()>((ref) {
+    Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
 
-  Future<Result<void, LinkCredentialError>> action() async {
+  Future<Result<void, LoginError>> action() async {
     final loginResult = await thirdPartyAuthActions.loginTwitter();
     final convertedLoginError =
-        loginResult.whenOrNull<Result<void, LinkCredentialError>>(
+        loginResult.whenOrNull<Result<void, LoginError>>(
       failure: (error) => error.when(
         cancelledByUser: () =>
-            const Result.failure(LinkCredentialError.cancelledByUser()),
-        unrecoverable: () =>
-            const Result.failure(LinkCredentialError.unrecoverable()),
+            const Result.failure(LoginError.cancelledByUser()),
+        unrecoverable: () => const Result.failure(LoginError.unrecoverable()),
       ),
     );
     if (convertedLoginError != null) {
@@ -109,9 +112,14 @@ final linkWithTwitterActionProvider =
       authToken: credential.authToken,
       secret: credential.secret,
     );
-    final convertedLinkError = linkResult.whenOrNull(failure: Result.failure);
+    final convertedLinkError = linkResult.whenOrNull(
+      failure: (error) => error.when(
+        alreadyInUse: LoginError.alreadyInUse,
+        unrecoverable: LoginError.unrecoverable,
+      ),
+    );
     if (convertedLinkError != null) {
-      return convertedLinkError;
+      return Result.failure(convertedLinkError);
     }
 
     return const Result.success(null);
