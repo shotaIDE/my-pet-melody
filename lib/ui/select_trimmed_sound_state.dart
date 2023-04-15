@@ -19,6 +19,7 @@ class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
 @freezed
 class SelectTrimmedSoundArgs with _$SelectTrimmedSoundArgs {
   const factory SelectTrimmedSoundArgs({
+    required String displayName,
     required String soundPath,
     required MovieSegmentation movieSegmentation,
   }) = _SelectTrimmedSoundArgs;
