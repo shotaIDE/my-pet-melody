@@ -12,12 +12,15 @@ import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/join_premium_plan_screen.dart';
 import 'package:meow_music/ui/link_with_account_screen.dart';
+import 'package:meow_music/ui/settings_state.dart';
 import 'package:meow_music/ui/settings_view_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final _settingsViewModelProvider =
-    StateNotifierProvider((ref) => SettingsViewModel(ref: ref));
+    StateNotifierProvider.autoDispose<SettingsViewModel, SettingsState>(
+  (ref) => SettingsViewModel(ref: ref),
+);
 
 class SettingsScreen extends ConsumerStatefulWidget {
   SettingsScreen({
@@ -42,6 +45,8 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(widget.viewModelProvider);
+
     final profileTile = _ProfileTile(
       onTapCreateAccountTile: () =>
           Navigator.push<void>(context, LinkWithAccountScreen.route()),
@@ -117,7 +122,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
 
-    return Scaffold(
+    final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
       ),
@@ -129,6 +134,34 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ),
       resizeToAvoidBottomInset: false,
     );
+
+    return state.isProcessing
+        ? Stack(
+            children: [
+              scaffold,
+              Container(
+                alignment: Alignment.center,
+                color: Colors.black.withOpacity(0.5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'アカウントを削除しています',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: Colors.white),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: LinearProgressIndicator(),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        : scaffold;
   }
 
   Future<void> _writeReview() async {
