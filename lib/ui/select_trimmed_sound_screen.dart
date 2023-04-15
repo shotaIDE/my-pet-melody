@@ -20,7 +20,8 @@ final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
   ),
 );
 
-const seekBarBorderWidth = 4.0;
+const _seekBarBorderWidth = 4.0;
+const _seekBarHeight = 24.0;
 
 class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   SelectTrimmedSoundScreen({
@@ -395,7 +396,7 @@ class _ChoicePanel extends ConsumerWidget {
     final detailsPanel = Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: seekBarBorderWidth),
+          padding: const EdgeInsets.symmetric(horizontal: _seekBarBorderWidth),
           child: Row(
             children: [
               Expanded(
@@ -466,9 +467,9 @@ class _ChoicePanel extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.only(
           top: 8,
-          bottom: 8 - seekBarBorderWidth,
-          left: 8 - seekBarBorderWidth,
-          right: 8 - seekBarBorderWidth,
+          bottom: 8 - _seekBarBorderWidth,
+          left: 8 - _seekBarBorderWidth,
+          right: 8 - _seekBarBorderWidth,
         ),
         decoration: BoxDecoration(
           border: Border.all(
@@ -619,8 +620,6 @@ class _SeekBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const seekBarHeight = 24.0;
-
     final durationMilliseconds = ref.watch(
       viewModelProvider.select((state) => state.durationMilliseconds),
     );
@@ -636,31 +635,32 @@ class _SeekBar extends ConsumerWidget {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.all(seekBarBorderWidth),
+          padding: const EdgeInsets.all(_seekBarBorderWidth),
           child: _SeekBarBackgroundLayer(
             viewModelProvider: viewModelProvider,
           ),
         ),
         ConstrainedBox(
           constraints: const BoxConstraints.expand(
-            height: seekBarHeight + seekBarBorderWidth * 2,
+            height: _seekBarHeight + _seekBarBorderWidth * 2,
           ),
           child: LayoutBuilder(
             builder: (context, constraints) {
               final seekBarWidth =
-                  constraints.maxWidth - seekBarBorderWidth * 2;
+                  constraints.maxWidth - _seekBarBorderWidth * 2;
               final startRatio = startMilliseconds / durationMilliseconds;
               final endRatio = endMilliseconds / durationMilliseconds;
-              final positionX1 = seekBarWidth * startRatio + seekBarBorderWidth;
-              final positionX2 = seekBarWidth * endRatio + seekBarBorderWidth;
+              final positionX1 =
+                  seekBarWidth * startRatio + _seekBarBorderWidth;
+              final positionX2 = seekBarWidth * endRatio + _seekBarBorderWidth;
 
               return Stack(
                 children: [
                   Container(
                     margin: const EdgeInsets.only(
-                      left: seekBarBorderWidth,
+                      left: _seekBarBorderWidth,
                     ),
-                    width: positionX1 - seekBarBorderWidth,
+                    width: positionX1 - _seekBarBorderWidth,
                     color: Colors.white.withOpacity(0.5),
                   ),
                   Container(
@@ -668,7 +668,7 @@ class _SeekBar extends ConsumerWidget {
                       left: positionX2,
                     ),
                     width: constraints.maxWidth -
-                        (positionX2 + seekBarBorderWidth),
+                        (positionX2 + _seekBarBorderWidth),
                     color: Colors.white.withOpacity(0.5),
                   ),
                   Container(
@@ -678,7 +678,7 @@ class _SeekBar extends ConsumerWidget {
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.red,
-                        width: seekBarBorderWidth,
+                        width: _seekBarBorderWidth,
                       ),
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -704,14 +704,12 @@ class _SeekBarBackgroundLayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const seekBarHeight = 24.0;
-
     final splitThumbnailsCount = ref.watch(
       viewModelProvider.select((state) => state.splitThumbnails.length),
     );
 
     return SizedBox(
-      height: seekBarHeight,
+      height: _seekBarHeight,
       child: LayoutBuilder(
         builder: (context, constraints) {
           final width = constraints.maxWidth;
@@ -730,7 +728,7 @@ class _SeekBarBackgroundLayer extends ConsumerWidget {
               viewModelProvider: viewModelProvider,
               index: imageIndex,
               width: imageWidth,
-              height: seekBarHeight,
+              height: _seekBarHeight,
             );
 
             return Padding(
