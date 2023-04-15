@@ -35,12 +35,6 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
 
-    final title = Text(
-      'アカウントを\n作成しよう',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headlineMedium,
-    );
-
     const description = Text(
       '大切な作品をバックアップするために、アカウントを作成してね！',
       textAlign: TextAlign.center,
@@ -68,18 +62,15 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
     final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
 
     final scaffold = Scaffold(
+      appBar: AppBar(
+        title: const Text('アカウント作成'),
+      ),
       body: SafeArea(
         bottom: false,
         left: false,
         right: false,
         child: Column(
           children: [
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 32),
-                child: title,
-              ),
-            ),
             Expanded(
               child: Stack(
                 children: [
