@@ -6,6 +6,8 @@ import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/model/account_linked_provider.dart';
+import 'package:meow_music/data/model/delete_account_error.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/login_session.dart';
 import 'package:meow_music/data/model/profile.dart';
@@ -155,7 +157,62 @@ class AuthActions {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<void> delete() async {
-    await FirebaseAuth.instance.currentUser?.delete();
+  Future<Result<void, LinkCredentialError>> reauthenticateWithTwitter({
+    required String authToken,
+    required String secret,
+  }) async {
+    final twitterAuthCredential = TwitterAuthProvider.credential(
+      accessToken: authToken,
+      secret: secret,
+    );
+
+    final currentUser = FirebaseAuth.instance.currentUser!;
+
+    try {
+      await currentUser.reauthenticateWithCredential(twitterAuthCredential);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (e) {
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
+  }
+
+  Future<Result<void, DeleteAccountError>> delete() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      return const Result.failure(DeleteAccountError.unrecoverable());
+    }
+
+    final providerId = currentUser.providerData.firstOrNull?.providerId;
+    if (providerId == null) {
+      return const Result.failure(DeleteAccountError.unrecoverable());
+    }
+
+    final provider = AccountLinkedProviderGenerator.fromProviderId(providerId);
+    if (provider == null) {
+      return const Result.failure(DeleteAccountError.unrecoverable());
+    }
+
+    try {
+      await currentUser.delete();
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'requires-recent-login') {
+        return Result.failure(
+          DeleteAccountError.needReauthenticate(provider: provider),
+        );
+      }
+
+      return const Result.failure(DeleteAccountError.unrecoverable());
+    } catch (e) {
+      return const Result.failure(DeleteAccountError.unrecoverable());
+    }
+
+    return const Result.success(null);
   }
 }

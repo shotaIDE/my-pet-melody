@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/service_providers.dart';
+import 'package:meow_music/data/model/account_linked_provider.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/login_twitter_error.dart';
 import 'package:meow_music/data/model/result.dart';
@@ -135,9 +136,57 @@ final signOutActionProvider = Provider((ref) {
 
 final deleteAccountActionProvider = Provider((ref) {
   final authActions = ref.watch(authActionsProvider);
+  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
 
   Future<void> action() async {
-    await authActions.delete();
+    final deleteResult = await authActions.delete();
+
+    final deleteError = deleteResult.whenOrNull(failure: (error) => error);
+    if (deleteError == null) {
+      return;
+    }
+
+    final providerNeededAuthenticate =
+        deleteError.whenOrNull(needReauthenticate: (provider) => provider);
+    if (providerNeededAuthenticate == null) {
+      // Failure
+      return;
+    }
+
+    switch (providerNeededAuthenticate) {
+      case AccountLinkedProvider.twitter:
+        final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
+        final convertedLoginError =
+            loginTwitterResult.whenOrNull<Result<void, LinkCredentialError>>(
+          failure: (error) => error.when(
+            cancelledByUser: () =>
+                const Result.failure(LinkCredentialError.cancelledByUser()),
+            unrecoverable: () =>
+                const Result.failure(LinkCredentialError.unrecoverable()),
+          ),
+        );
+        if (convertedLoginError != null) {
+          // Failure unrecoverable
+          return;
+        }
+
+        final credential = (loginTwitterResult
+                as Success<TwitterCredential, LoginTwitterError>)
+            .value;
+        final reauthenticateResult =
+            await authActions.reauthenticateWithTwitter(
+          authToken: credential.authToken,
+          secret: credential.secret,
+        );
+        final convertedReauthenticateError =
+            reauthenticateResult.whenOrNull(failure: (error) => error);
+        if (convertedReauthenticateError != null) {
+          // Failure unrecoverable
+          return;
+        }
+
+        await authActions.delete();
+    }
   }
 
   return action;

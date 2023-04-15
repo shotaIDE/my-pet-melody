@@ -30,6 +30,8 @@ class RootViewModel extends StateNotifier<RootState> {
   Future<void> restart() async {
     state = state.copyWith(showHomeScreen: null);
 
+    await Future<void>.delayed(const Duration(seconds: 1));
+
     await _determineStartPage();
   }
 

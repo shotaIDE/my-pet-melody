@@ -227,6 +227,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await ref.read(widget.viewModelProvider.notifier).deleteAccount();
 
     await ref.read(rootViewModelProvider.notifier).restart();
+
+    if (!mounted) {
+      return;
+    }
+
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 }
 
