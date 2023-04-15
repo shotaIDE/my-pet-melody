@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/account_provider.dart';
-import 'package:meow_music/data/model/delete_account_error.dart';
+import 'package:meow_music/data/model/delete_account_with_current_session_error.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/login_session.dart';
 import 'package:meow_music/data/model/profile.dart';
@@ -183,20 +183,26 @@ class AuthActions {
     return const Result.success(null);
   }
 
-  Future<Result<void, DeleteAccountError>> delete() async {
+  Future<Result<void, DeleteAccountWithCurrentSessionError>> delete() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
-      return const Result.failure(DeleteAccountError.unrecoverable());
+      return const Result.failure(
+        DeleteAccountWithCurrentSessionError.unrecoverable(),
+      );
     }
 
     final providerId = currentUser.providerData.firstOrNull?.providerId;
     if (providerId == null) {
-      return const Result.failure(DeleteAccountError.unrecoverable());
+      return const Result.failure(
+        DeleteAccountWithCurrentSessionError.unrecoverable(),
+      );
     }
 
     final provider = AccountProviderGenerator.fromProviderId(providerId);
     if (provider == null) {
-      return const Result.failure(DeleteAccountError.unrecoverable());
+      return const Result.failure(
+        DeleteAccountWithCurrentSessionError.unrecoverable(),
+      );
     }
 
     try {
@@ -204,13 +210,19 @@ class AuthActions {
     } on FirebaseAuthException catch (error) {
       if (error.code == 'requires-recent-login') {
         return Result.failure(
-          DeleteAccountError.needReauthenticate(provider: provider),
+          DeleteAccountWithCurrentSessionError.needReauthenticate(
+            provider: provider,
+          ),
         );
       }
 
-      return const Result.failure(DeleteAccountError.unrecoverable());
+      return const Result.failure(
+        DeleteAccountWithCurrentSessionError.unrecoverable(),
+      );
     } catch (e) {
-      return const Result.failure(DeleteAccountError.unrecoverable());
+      return const Result.failure(
+        DeleteAccountWithCurrentSessionError.unrecoverable(),
+      );
     }
 
     return const Result.success(null);

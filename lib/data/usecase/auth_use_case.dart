@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/service_providers.dart';
 import 'package:meow_music/data/model/account_provider.dart';
+import 'package:meow_music/data/model/delete_account_error.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/login_twitter_error.dart';
 import 'package:meow_music/data/model/result.dart';
@@ -54,16 +55,14 @@ final loginWithTwitterActionProvider =
   Future<Result<void, LinkCredentialError>> action() async {
     final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
     final convertedLoginError =
-        loginTwitterResult.whenOrNull<Result<void, LinkCredentialError>>(
+        loginTwitterResult.whenOrNull<LinkCredentialError>(
       failure: (error) => error.when(
-        cancelledByUser: () =>
-            const Result.failure(LinkCredentialError.cancelledByUser()),
-        unrecoverable: () =>
-            const Result.failure(LinkCredentialError.unrecoverable()),
+        cancelledByUser: LinkCredentialError.cancelledByUser,
+        unrecoverable: LinkCredentialError.unrecoverable,
       ),
     );
     if (convertedLoginError != null) {
-      return convertedLoginError;
+      return Result.failure(convertedLoginError);
     }
 
     final credential =
@@ -138,36 +137,33 @@ final deleteAccountActionProvider = Provider((ref) {
   final authActions = ref.watch(authActionsProvider);
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
 
-  Future<void> action() async {
-    final deleteResult = await authActions.delete();
-
-    final deleteError = deleteResult.whenOrNull(failure: (error) => error);
-    if (deleteError == null) {
-      return;
+  Future<Result<void, DeleteAccountError>> action() async {
+    final deleteOnFirstResult = await authActions.delete();
+    final deleteOnFirstError =
+        deleteOnFirstResult.whenOrNull(failure: (error) => error);
+    if (deleteOnFirstError == null) {
+      return const Result.success(null);
     }
 
-    final providerNeededAuthenticate =
-        deleteError.whenOrNull(needReauthenticate: (provider) => provider);
+    final providerNeededAuthenticate = deleteOnFirstError.whenOrNull(
+      needReauthenticate: (provider) => provider,
+    );
     if (providerNeededAuthenticate == null) {
-      // Failure
-      return;
+      return const Result.failure(DeleteAccountError.unrecoverable());
     }
 
     switch (providerNeededAuthenticate) {
       case AccountProvider.twitter:
         final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
         final convertedLoginError =
-            loginTwitterResult.whenOrNull<Result<void, LinkCredentialError>>(
+            loginTwitterResult.whenOrNull<DeleteAccountError>(
           failure: (error) => error.when(
-            cancelledByUser: () =>
-                const Result.failure(LinkCredentialError.cancelledByUser()),
-            unrecoverable: () =>
-                const Result.failure(LinkCredentialError.unrecoverable()),
+            cancelledByUser: DeleteAccountError.cancelledByUser,
+            unrecoverable: DeleteAccountError.unrecoverable,
           ),
         );
         if (convertedLoginError != null) {
-          // Failure unrecoverable
-          return;
+          return Result.failure(convertedLoginError);
         }
 
         final credential = (loginTwitterResult
@@ -178,14 +174,26 @@ final deleteAccountActionProvider = Provider((ref) {
           authToken: credential.authToken,
           secret: credential.secret,
         );
-        final convertedReauthenticateError =
-            reauthenticateResult.whenOrNull(failure: (error) => error);
+        final convertedReauthenticateError = reauthenticateResult.whenOrNull(
+          failure: (_) => const DeleteAccountError.unrecoverable(),
+        );
         if (convertedReauthenticateError != null) {
           // Failure unrecoverable
-          return;
+          return Result.failure(convertedReauthenticateError);
         }
 
-        await authActions.delete();
+        final deleteOnSecondResult = await authActions.delete();
+        final deleteOnSecondError = deleteOnSecondResult.whenOrNull(
+          failure: (error) => error.when(
+            needReauthenticate: (_) => const DeleteAccountError.unrecoverable(),
+            unrecoverable: DeleteAccountError.unrecoverable,
+          ),
+        );
+        if (deleteOnSecondError != null) {
+          return Result.failure(deleteOnSecondError);
+        }
+
+        return const Result.success(null);
     }
   }
 

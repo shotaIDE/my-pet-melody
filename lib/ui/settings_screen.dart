@@ -224,15 +224,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       return;
     }
 
-    await ref.read(widget.viewModelProvider.notifier).deleteAccount();
+    final result =
+        await ref.read(widget.viewModelProvider.notifier).deleteAccount();
 
-    await ref.read(rootViewModelProvider.notifier).restart();
+    await result.when(
+      success: (_) async {
+        await ref.read(rootViewModelProvider.notifier).restart();
 
-    if (!mounted) {
-      return;
-    }
+        if (!mounted) {
+          return;
+        }
 
-    Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.popUntil(context, (route) => route.isFirst);
+      },
+      failure: (error) => error.when(
+        cancelledByUser: () {},
+        unrecoverable: () async {
+          const snackBar = SnackBar(
+            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+      ),
+    );
   }
 }
 
