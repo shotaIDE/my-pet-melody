@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
+import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detecting_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -48,11 +49,12 @@ class TrimSoundForDetectingViewModel
     state = state.copyWith(isPlaying: playbackState);
   }
 
-  Future<TrimSoundForDetectingResult?> onComplete() async {
+  Future<SelectTrimmedSoundArgs?> onComplete() async {
     state = state.copyWith(isUploading: true);
 
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
+    const convertedExtension = '.mp4';
 
     final trimmedFilePathCompleter = Completer<String?>();
 
@@ -62,7 +64,7 @@ class TrimSoundForDetectingViewModel
       onSave: (value) {
         trimmedFilePathCompleter.complete(value);
       },
-      customVideoFormat: '.mp4',
+      customVideoFormat: convertedExtension,
     );
 
     final trimmedPath = await trimmedFilePathCompleter.future;
@@ -90,24 +92,23 @@ class TrimSoundForDetectingViewModel
       return null;
     }
 
-    final outputFile = File(compressedPath);
+    final compressedFile = File(compressedPath);
 
-    final uploadAction = await _ref.read(uploadActionProvider.future);
-    final uploadedSound = await uploadAction(
-      outputFile,
-      fileName: trimmedFileName,
+    final displayName = '$originalFileNameWithoutExtension$convertedExtension';
+
+    final detectAction = await _ref.read(detectActionProvider.future);
+    final detected = await detectAction(
+      compressedFile,
+      fileName: displayName,
     );
 
-    if (uploadedSound == null) {
-      state = state.copyWith(isUploading: false);
+    if (detected == null) {
       return null;
     }
 
-    return TrimSoundForDetectingResult(
-      uploaded: uploadedSound,
-      displayName: originalFileNameWithoutExtension,
-      // TODO(ide): Generate thumbnail and should be set
-      thumbnailLocalPath: '',
+    return SelectTrimmedSoundArgs(
+      soundPath: compressedPath,
+      movieSegmentation: detected,
     );
   }
 

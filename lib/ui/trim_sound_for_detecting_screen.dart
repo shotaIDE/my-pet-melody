@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
+import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detecting_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detecting_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
@@ -25,10 +27,10 @@ class TrimSoundForDetectingScreen extends ConsumerStatefulWidget {
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
       TrimSoundForDetectingState> viewModelProvider;
 
-  static MaterialPageRoute<TrimSoundForDetectingResult?> route({
+  static MaterialPageRoute<SelectTrimmedSoundResult?> route({
     required String moviePath,
   }) =>
-      MaterialPageRoute<TrimSoundForDetectingResult?>(
+      MaterialPageRoute<SelectTrimmedSoundResult?>(
         builder: (_) => TrimSoundForDetectingScreen(moviePath: moviePath),
         settings: const RouteSettings(name: name),
       );
@@ -103,13 +105,21 @@ class _TrimSoundForDetectingScreenState
   }
 
   Future<void> _onComplete() async {
-    final result =
-        await ref.read(widget.viewModelProvider.notifier).onComplete();
-    if (result == null || !mounted) {
+    final args = await ref.read(widget.viewModelProvider.notifier).onComplete();
+    if (args == null || !mounted) {
       return;
     }
 
-    Navigator.pop(context, result);
+    final results = await Navigator.push(
+      context,
+      SelectTrimmedSoundScreen.route(args: args),
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    Navigator.pop(context, results);
   }
 }
 

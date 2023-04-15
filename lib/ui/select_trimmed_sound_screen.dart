@@ -38,7 +38,6 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
       MaterialPageRoute<SelectTrimmedSoundResult?>(
         builder: (_) => SelectTrimmedSoundScreen(args: args),
         settings: const RouteSettings(name: name),
-        fullscreenDialog: true,
       );
 
   @override

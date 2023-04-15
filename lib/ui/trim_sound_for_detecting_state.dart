@@ -15,12 +15,3 @@ class TrimSoundForDetectingState with _$TrimSoundForDetectingState {
     @Default(false) bool isUploading,
   }) = _TrimSoundForDetectingState;
 }
-
-@freezed
-class TrimSoundForDetectingResult with _$TrimSoundForDetectingResult {
-  const factory TrimSoundForDetectingResult({
-    required UploadedMedia uploaded,
-    required String displayName,
-    required String thumbnailLocalPath,
-  }) = _TrimSoundForDetectingResult;
-}

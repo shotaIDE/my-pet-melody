@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,11 +5,9 @@ import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
-import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/set_piece_title_screen.dart';
 import 'package:meow_music/ui/trim_sound_for_detecting_screen.dart';
-import 'package:meow_music/ui/trim_sound_for_detecting_state.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
@@ -305,33 +301,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       return;
     }
 
-    final result = await Navigator.push<TrimSoundForDetectingResult?>(
-      context,
-      TrimSoundForDetectingScreen.route(moviePath: pickedPath),
-    );
-
-    return;
-    final pickedFile = File(pickedPath);
-
-    final selectTrimmedSoundArgs =
-        await ref.read(widget.viewModel.notifier).detect(pickedFile);
-    if (!mounted) {
-      return;
-    }
-
-    if (selectTrimmedSoundArgs == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('サイズが 100 MB 未満の動画を選んでください')),
-      );
-      return;
-    }
-
     final selectTrimmedSoundResult =
         await Navigator.push<SelectTrimmedSoundResult?>(
       context,
-      SelectTrimmedSoundScreen.route(
-        args: selectTrimmedSoundArgs,
-      ),
+      TrimSoundForDetectingScreen.route(moviePath: pickedPath),
     );
 
     if (selectTrimmedSoundResult == null) {
