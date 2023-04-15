@@ -207,7 +207,11 @@ class _LoggedInProfileTile extends StatelessWidget {
     final titleText = name ?? '(No Name)';
 
     return ListTile(
-      leading: icon,
+      leading: SizedBox(
+        width: 48,
+        height: 48,
+        child: icon,
+      ),
       title: Text(titleText),
     );
   }

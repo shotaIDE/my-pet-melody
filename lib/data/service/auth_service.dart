@@ -57,6 +57,7 @@ class SessionProvider extends StateNotifier<LoginSession?> {
         .authStateChanges()
         .asyncMap(_convertFirebaseUserToLoginSession)
         .listen((session) {
+          debugPrint('Session has received: $session');
       state = session;
     });
   }
