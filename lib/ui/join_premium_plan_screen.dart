@@ -66,20 +66,53 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       onPressed: () {},
       child: const Text('プレミアムプラン 1,000円 / 月'),
     );
-
     final restoreButton =
         TextButton(onPressed: () {}, child: const Text('機種変更時の復元'));
 
+    const subscriptionDescription1Tile = ListTile(
+      title: Text('自動継続課金について'),
+      subtitle: Text('期間終了日の24時間以上前に自動更新の解除を行わない場合、契約期間が自動更新されます。'),
+    );
+    const subscriptionDescription2Tile = ListTile(
+      title: Text('確認と解約'),
+      subtitle: Text(
+        '設定アプリを開き、[ご自分の名前] > [サブスクリプション] > [MeowMusic]の画面から、次回の自動更新タイミングの確認や、自動更新の解除ができます。',
+      ),
+    );
+    const subscriptionDescription3Tile = ListTile(
+      title: Text('機種変更時の復元'),
+      subtitle: Text(
+        '機種変更時には、本画面から以前購入したプランを無料で復元できます。購入時と同じApple IDでApp Storeにログインした上で復元してください。',
+      ),
+    );
+    const subscriptionDescription4Tile = ListTile(
+      title: Text('注意点'),
+      subtitle: Text(
+        'アプリ内で課金された方は上記以外の方法での解約できません。当月分のキャンセルについては受け付けておりません。Apple IDアカウントを経由して課金されます。',
+      ),
+    );
+
     final body = SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 16, bottom: 203),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 16),
-          featureCard,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: featureCard,
+          ),
           const SizedBox(height: 32),
           joinButton,
           const SizedBox(height: 16),
           restoreButton,
+          const SizedBox(height: 32),
+          subscriptionDescription1Tile,
+          const SizedBox(height: 16),
+          subscriptionDescription2Tile,
+          const SizedBox(height: 16),
+          subscriptionDescription3Tile,
+          const SizedBox(height: 16),
+          subscriptionDescription4Tile,
         ],
       ),
     );
