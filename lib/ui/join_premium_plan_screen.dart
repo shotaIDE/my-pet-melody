@@ -146,37 +146,17 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       resizeToAvoidBottomInset: false,
     );
 
-    final gestureDetectorWrappedScaffold = GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: scaffold,
-    );
-
     return state.isProcessing
         ? Stack(
             children: [
-              gestureDetectorWrappedScaffold,
+              scaffold,
               Container(
                 alignment: Alignment.center,
                 color: Colors.black.withOpacity(0.5),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '提出しています',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.white),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: LinearProgressIndicator(),
-                    ),
-                  ],
-                ),
+                child: const LinearProgressIndicator(),
               )
             ],
           )
-        : gestureDetectorWrappedScaffold;
+        : scaffold;
   }
 }
