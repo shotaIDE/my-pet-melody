@@ -7,34 +7,46 @@ import 'package:meow_music/data/model/profile.dart';
 import 'package:meow_music/data/service/app_service.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/flavor.dart';
+import 'package:meow_music/root_view_model.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/join_premium_plan_screen.dart';
 import 'package:meow_music/ui/link_with_account_screen.dart';
+import 'package:meow_music/ui/settings_state.dart';
+import 'package:meow_music/ui/settings_view_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({
+final _settingsViewModelProvider =
+    StateNotifierProvider.autoDispose<SettingsViewModel, SettingsState>(
+  (ref) => SettingsViewModel(ref: ref),
+);
+
+class SettingsScreen extends ConsumerStatefulWidget {
+  SettingsScreen({
     Key? key,
   }) : super(key: key);
 
   static const name = 'SettingsScreen';
 
+  final viewModelProvider = _settingsViewModelProvider;
+
   static MaterialPageRoute<SettingsScreen> route() =>
       MaterialPageRoute<SettingsScreen>(
-        builder: (_) => const SettingsScreen(),
+        builder: (_) => SettingsScreen(),
         settings: const RouteSettings(name: name),
         fullscreenDialog: true,
       );
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(widget.viewModelProvider);
+
     final profileTile = _ProfileTile(
       onTapCreateAccountTile: () =>
           Navigator.push<void>(context, LinkWithAccountScreen.route()),
@@ -99,6 +111,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             if (F.flavor == Flavor.emulator || F.flavor == Flavor.dev)
               debugTile,
             versionTile,
+            const SizedBox(height: 32),
+            _DeleteAccountPanel(
+              onTap: _deleteAccount,
+            ),
           ],
         ),
       ),
@@ -106,7 +122,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
 
-    return Scaffold(
+    final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
       ),
@@ -118,6 +134,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       resizeToAvoidBottomInset: false,
     );
+
+    return state.isProcessingToDeleteAccount
+        ? Stack(
+            children: [
+              scaffold,
+              Container(
+                alignment: Alignment.center,
+                color: Colors.black.withOpacity(0.5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'アカウントを削除しています',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: Colors.white),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: LinearProgressIndicator(),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        : scaffold;
   }
 
   Future<void> _writeReview() async {
@@ -152,6 +196,56 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await launchUrl(
       Uri.parse(
         'https://tricolor-fright-c89.notion.site/19903a30a07e4499887f37ee67fdf876',
+      ),
+    );
+  }
+
+  Future<void> _deleteAccount() async {
+    final shouldContinue = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: const Text('本当にアカウントを削除しますか？削除すると、これまで製作した作品を閲覧できなくなります。'),
+          actions: [
+            TextButton(
+              child: const Text('削除する'),
+              onPressed: () => Navigator.pop(context, true),
+            ),
+            TextButton(
+              child: const Text('キャンセル'),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldContinue == null || !shouldContinue) {
+      return;
+    }
+
+    final result =
+        await ref.read(widget.viewModelProvider.notifier).deleteAccount();
+
+    await result.when(
+      success: (_) async {
+        await ref.read(rootViewModelProvider.notifier).restart();
+
+        if (!mounted) {
+          return;
+        }
+
+        Navigator.popUntil(context, (route) => route.isFirst);
+      },
+      failure: (error) => error.when(
+        cancelledByUser: () {},
+        unrecoverable: () async {
+          const snackBar = SnackBar(
+            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
       ),
     );
   }
@@ -230,6 +324,31 @@ class _NotLoggedInTile extends StatelessWidget {
     return ListTile(
       title: const Text('アカウントを作成する'),
       trailing: const Icon(Icons.chevron_right),
+      onTap: onTap,
+    );
+  }
+}
+
+class _DeleteAccountPanel extends ConsumerWidget {
+  const _DeleteAccountPanel({
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoggedIn = ref.watch(isLoggedInNotAnonymouslyProvider);
+
+    if (!isLoggedIn) {
+      return const SizedBox(
+        height: 0,
+      );
+    }
+
+    return ListTile(
+      title: const Text('アカウント削除'),
       onTap: onTap,
     );
   }

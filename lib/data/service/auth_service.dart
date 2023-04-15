@@ -6,6 +6,8 @@ import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/model/account_provider.dart';
+import 'package:meow_music/data/model/delete_account_with_current_session_error.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/login_session.dart';
 import 'package:meow_music/data/model/profile.dart';
@@ -153,5 +155,61 @@ class AuthActions {
 
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future<Result<void, LinkCredentialError>> reauthenticateWithTwitter({
+    required String authToken,
+    required String secret,
+  }) async {
+    final twitterAuthCredential = TwitterAuthProvider.credential(
+      accessToken: authToken,
+      secret: secret,
+    );
+
+    final currentUser = FirebaseAuth.instance.currentUser!;
+
+    try {
+      await currentUser.reauthenticateWithCredential(twitterAuthCredential);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (e) {
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
+  }
+
+  Future<Result<void, DeleteAccountWithCurrentSessionError>> delete() async {
+    final currentUser = FirebaseAuth.instance.currentUser!;
+
+    final providerId = currentUser.providerData.first.providerId;
+
+    final provider = AccountProviderGenerator.fromProviderId(providerId)!;
+
+    try {
+      await currentUser.delete();
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'requires-recent-login') {
+        return Result.failure(
+          DeleteAccountWithCurrentSessionError.needReauthenticate(
+            provider: provider,
+          ),
+        );
+      }
+
+      return const Result.failure(
+        DeleteAccountWithCurrentSessionError.unrecoverable(),
+      );
+    } catch (e) {
+      return const Result.failure(
+        DeleteAccountWithCurrentSessionError.unrecoverable(),
+      );
+    }
+
+    return const Result.success(null);
   }
 }
