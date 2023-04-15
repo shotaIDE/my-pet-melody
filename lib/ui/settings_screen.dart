@@ -9,6 +9,7 @@ import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/flavor.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/debug_screen.dart';
+import 'package:meow_music/ui/join_premium_plan_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,7 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final registerPremiumPlanTile = ListTile(
       title: const Text('プレミアムプランに登録する'),
       trailing: const Icon(Icons.chevron_right),
-      onTap: () {},
+      onTap: () => Navigator.push<void>(context, JoinPremiumPlanScreen.route()),
     );
 
     final writeReviewTile = ListTile(
