@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
-import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detecting_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -49,7 +48,7 @@ class TrimSoundForDetectingViewModel
     state = state.copyWith(isPlaying: playbackState);
   }
 
-  Future<SelectTrimmedSoundResult?> save() async {
+  Future<TrimSoundForDetectingResult?> onComplete() async {
     state = state.copyWith(isUploading: true);
 
     final originalFileNameWithoutExtension =
@@ -105,7 +104,7 @@ class TrimSoundForDetectingViewModel
       return null;
     }
 
-    return SelectTrimmedSoundResult(
+    return TrimSoundForDetectingResult(
       uploaded: uploadedSound,
       displayName: originalFileNameWithoutExtension,
       // TODO(ide): Generate thumbnail and should be set
@@ -122,6 +121,10 @@ class TrimSoundForDetectingViewModel
   }
 
   void onUpdatePlaybackState({required bool isPlaying}) {
+    if (isPlaying == state.isPlaying) {
+      return;
+    }
+
     state = state.copyWith(isPlaying: isPlaying);
   }
 }

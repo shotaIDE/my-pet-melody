@@ -17,13 +17,13 @@ class TrimSoundForDetectingScreen extends ConsumerStatefulWidget {
   TrimSoundForDetectingScreen({
     required String moviePath,
     Key? key,
-  })  : viewModel = _trimSoundForDetectingViewModelProvider(moviePath),
+  })  : viewModelProvider = _trimSoundForDetectingViewModelProvider(moviePath),
         super(key: key);
 
   static const name = 'TrimSoundForDetectingScreen';
 
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
-      TrimSoundForDetectingState> viewModel;
+      TrimSoundForDetectingState> viewModelProvider;
 
   static MaterialPageRoute<TrimSoundForDetectingResult?> route({
     required String moviePath,
@@ -44,46 +44,18 @@ class _TrimSoundForDetectingScreenState
   void initState() {
     super.initState();
 
-    ref.read(widget.viewModel.notifier).setup();
+    ref.read(widget.viewModelProvider.notifier).setup();
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
+    final viewer = _VideoViewer(viewModelProvider: widget.viewModelProvider);
 
-    final trimmer = state.trimmer;
-    final progressVisibility = state.progressVisibility;
-
-    final isPlaying = state.isPlaying;
-
-    final viewer = VideoViewer(trimmer: trimmer);
-
-    final editor = LayoutBuilder(
-      builder: (context, constraints) => TrimEditor(
-        trimmer: trimmer,
-        viewerWidth: constraints.maxWidth - 16,
-        maxVideoLength: const Duration(minutes: 1),
-        onChangeStart: ref.read(widget.viewModel.notifier).onUpdateStart,
-        onChangeEnd: ref.read(widget.viewModel.notifier).onUpdateEnd,
-        onChangePlaybackState: (isPlaying) => ref
-            .read(widget.viewModel.notifier)
-            .onUpdatePlaybackState(isPlaying: isPlaying),
-      ),
-    );
+    final editor = _TrimEditor(viewModelProvider: widget.viewModelProvider);
 
     final playButton = IconButton(
-      onPressed: ref.read(widget.viewModel.notifier).onPlay,
-      icon: isPlaying
-          ? const Icon(
-              Icons.pause,
-              size: 64,
-              color: Colors.white,
-            )
-          : const Icon(
-              Icons.play_arrow,
-              size: 64,
-              color: Colors.white,
-            ),
+      onPressed: ref.read(widget.viewModelProvider.notifier).onPlay,
+      icon: _PlayControlButton(viewModelProvider: widget.viewModelProvider),
     );
 
     final scaffold = Scaffold(
@@ -91,7 +63,7 @@ class _TrimSoundForDetectingScreenState
         title: const Text('鳴き声を切り取り'),
         actions: [
           IconButton(
-            onPressed: progressVisibility ? null : _save,
+            onPressed: _onComplete,
             icon: const Icon(Icons.check),
           )
         ],
@@ -104,12 +76,6 @@ class _TrimSoundForDetectingScreenState
             builder: (context, constrains) {
               return Column(
                 children: [
-                  Visibility(
-                    visible: progressVisibility,
-                    child: const LinearProgressIndicator(
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
                   Expanded(
                     child: viewer,
                   ),
@@ -130,42 +96,141 @@ class _TrimSoundForDetectingScreenState
       resizeToAvoidBottomInset: false,
     );
 
-    return state.isUploading
-        ? Stack(
-            children: [
-              scaffold,
-              Container(
-                alignment: Alignment.center,
-                color: Colors.black.withOpacity(0.5),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'アップロードしています',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.white),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: LinearProgressIndicator(),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          )
-        : scaffold;
+    return _GrayMask(
+      viewModelProvider: widget.viewModelProvider,
+      child: scaffold,
+    );
   }
 
-  Future<void> _save() async {
-    final uploadedSound = await ref.read(widget.viewModel.notifier).save();
-
-    if (uploadedSound == null || !mounted) {
+  Future<void> _onComplete() async {
+    final result =
+        await ref.read(widget.viewModelProvider.notifier).onComplete();
+    if (result == null || !mounted) {
       return;
     }
 
-    Navigator.pop(context, uploadedSound);
+    Navigator.pop(context, result);
+  }
+}
+
+class _VideoViewer extends ConsumerWidget {
+  const _VideoViewer({
+    required this.viewModelProvider,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
+      TrimSoundForDetectingState> viewModelProvider;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final trimmer =
+        ref.watch(viewModelProvider.select((state) => state.trimmer));
+
+    return VideoViewer(trimmer: trimmer);
+  }
+}
+
+class _TrimEditor extends ConsumerWidget {
+  const _TrimEditor({
+    required this.viewModelProvider,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
+      TrimSoundForDetectingState> viewModelProvider;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(viewModelProvider.notifier);
+    final trimmer =
+        ref.watch(viewModelProvider.select((state) => state.trimmer));
+
+    return LayoutBuilder(
+      builder: (context, constraints) => TrimEditor(
+        trimmer: trimmer,
+        viewerWidth: constraints.maxWidth - 16,
+        maxVideoLength: const Duration(minutes: 1),
+        onChangeStart: viewModel.onUpdateStart,
+        onChangeEnd: viewModel.onUpdateEnd,
+        onChangePlaybackState: (isPlaying) =>
+            viewModel.onUpdatePlaybackState(isPlaying: isPlaying),
+      ),
+    );
+  }
+}
+
+class _PlayControlButton extends ConsumerWidget {
+  const _PlayControlButton({
+    required this.viewModelProvider,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
+      TrimSoundForDetectingState> viewModelProvider;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPlaying =
+        ref.watch(viewModelProvider.select((state) => state.isPlaying));
+
+    return isPlaying
+        ? const Icon(
+            Icons.pause,
+            size: 64,
+            color: Colors.white,
+          )
+        : const Icon(
+            Icons.play_arrow,
+            size: 64,
+            color: Colors.white,
+          );
+  }
+}
+
+class _GrayMask extends ConsumerWidget {
+  const _GrayMask({
+    required this.viewModelProvider,
+    required this.child,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
+      TrimSoundForDetectingState> viewModelProvider;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isUploading =
+        ref.watch(viewModelProvider.select((state) => state.isUploading));
+
+    return Stack(
+      children: [
+        child,
+        Visibility(
+          visible: isUploading,
+          child: Container(
+            alignment: Alignment.center,
+            color: Colors.black.withOpacity(0.5),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'アップロードしています',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: Colors.white),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: LinearProgressIndicator(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
