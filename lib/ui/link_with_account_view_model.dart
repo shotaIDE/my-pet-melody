@@ -2,13 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/result.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
-import 'package:meow_music/ui/login_state.dart';
+import 'package:meow_music/ui/link_with_account_state.dart';
 
-class LinkWithAccountViewModel extends StateNotifier<LoginState> {
+class LinkWithAccountViewModel extends StateNotifier<LinkWithAccountState> {
   LinkWithAccountViewModel({
     required Ref ref,
   })  : _ref = ref,
-        super(const LoginState());
+        super(const LinkWithAccountState());
 
   final Ref _ref;
 
