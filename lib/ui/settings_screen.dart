@@ -10,6 +10,7 @@ import 'package:meow_music/flavor.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/join_premium_plan_screen.dart';
+import 'package:meow_music/ui/link_with_account_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,7 +35,10 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    final profileTile = _ProfileTile(onTap: () {});
+    final profileTile = _ProfileTile(
+      onTapCreateAccountTile: () =>
+          Navigator.push<void>(context, LinkWithAccountScreen.route()),
+    );
 
     const currentPlanTile = ListTile(
       title: Text('現在のプラン'),
@@ -171,30 +175,28 @@ class _FullVersionNameText extends ConsumerWidget {
 
 class _ProfileTile extends ConsumerWidget {
   const _ProfileTile({
-    required this.onTap,
+    required this.onTapCreateAccountTile,
     Key? key,
   }) : super(key: key);
 
-  final VoidCallback onTap;
+  final VoidCallback onTapCreateAccountTile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(nonAnonymousProfileProvider);
     return profile != null
-        ? _LoggedInProfileTile(profile: profile, onTap: onTap)
-        : _NotLoggedInTile(onTap: onTap);
+        ? _LoggedInProfileTile(profile: profile)
+        : _NotLoggedInTile(onTap: onTapCreateAccountTile);
   }
 }
 
 class _LoggedInProfileTile extends StatelessWidget {
   const _LoggedInProfileTile({
     required this.profile,
-    required this.onTap,
     Key? key,
   }) : super(key: key);
 
   final Profile profile;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -205,10 +207,12 @@ class _LoggedInProfileTile extends StatelessWidget {
     final titleText = name ?? '(No Name)';
 
     return ListTile(
-      leading: icon,
+      leading: SizedBox(
+        width: 48,
+        height: 48,
+        child: icon,
+      ),
       title: Text(titleText),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: onTap,
     );
   }
 }
