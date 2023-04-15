@@ -30,6 +30,8 @@ class RootViewModel extends StateNotifier<RootState> {
   Future<void> restart() async {
     state = state.copyWith(showHomeScreen: null);
 
+    // Wait a bit so that the splash screen appears
+    // and the routes replacement runs.
     await Future<void>.delayed(const Duration(seconds: 1));
 
     await _determineStartPage();
