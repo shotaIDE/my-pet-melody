@@ -261,7 +261,7 @@ class _SelectTrimmedSoundScreenState
         index: index,
         onPlay: viewModel.play,
         onStop: viewModel.stop,
-        onSelect: viewModel.select,
+        onSelect: _select,
       ),
     );
 
@@ -334,6 +334,24 @@ class _SelectTrimmedSoundScreenState
             ],
           )
         : scaffold;
+  }
+
+  Future<void> _select({
+    required PlayerChoiceTrimmedMovie choice,
+    required int index,
+  }) async {
+    final result = await ref
+        .read(widget.viewModelProvider.notifier)
+        .select(choice: choice, index: index);
+    if (result == null) {
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    Navigator.pop(context, result);
   }
 }
 
