@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/model/uploaded_media.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 part 'trim_sound_for_detecting_state.freezed.dart';
