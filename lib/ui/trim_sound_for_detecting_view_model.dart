@@ -63,7 +63,6 @@ class TrimSoundForDetectingViewModel
         trimmedFilePathCompleter.complete(value);
       },
       customVideoFormat: '.mp4',
-      videoFileName: originalFileNameWithoutExtension,
     );
 
     final trimmedPath = await trimmedFilePathCompleter.future;
