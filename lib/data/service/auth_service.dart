@@ -184,26 +184,11 @@ class AuthActions {
   }
 
   Future<Result<void, DeleteAccountWithCurrentSessionError>> delete() async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) {
-      return const Result.failure(
-        DeleteAccountWithCurrentSessionError.unrecoverable(),
-      );
-    }
+    final currentUser = FirebaseAuth.instance.currentUser!;
 
-    final providerId = currentUser.providerData.firstOrNull?.providerId;
-    if (providerId == null) {
-      return const Result.failure(
-        DeleteAccountWithCurrentSessionError.unrecoverable(),
-      );
-    }
+    final providerId = currentUser.providerData.first.providerId;
 
-    final provider = AccountProviderGenerator.fromProviderId(providerId);
-    if (provider == null) {
-      return const Result.failure(
-        DeleteAccountWithCurrentSessionError.unrecoverable(),
-      );
-    }
+    final provider = AccountProviderGenerator.fromProviderId(providerId)!;
 
     try {
       await currentUser.delete();
