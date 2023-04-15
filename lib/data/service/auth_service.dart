@@ -6,7 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/account_linked_provider.dart';
+import 'package:meow_music/data/model/account_provider.dart';
 import 'package:meow_music/data/model/delete_account_error.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/login_session.dart';
@@ -194,7 +194,7 @@ class AuthActions {
       return const Result.failure(DeleteAccountError.unrecoverable());
     }
 
-    final provider = AccountLinkedProviderGenerator.fromProviderId(providerId);
+    final provider = AccountProviderGenerator.fromProviderId(providerId);
     if (provider == null) {
       return const Result.failure(DeleteAccountError.unrecoverable());
     }

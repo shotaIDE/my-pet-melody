@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/di/service_providers.dart';
-import 'package:meow_music/data/model/account_linked_provider.dart';
+import 'package:meow_music/data/model/account_provider.dart';
 import 'package:meow_music/data/model/link_credential_error.dart';
 import 'package:meow_music/data/model/login_twitter_error.dart';
 import 'package:meow_music/data/model/result.dart';
@@ -154,7 +154,7 @@ final deleteAccountActionProvider = Provider((ref) {
     }
 
     switch (providerNeededAuthenticate) {
-      case AccountLinkedProvider.twitter:
+      case AccountProvider.twitter:
         final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
         final convertedLoginError =
             loginTwitterResult.whenOrNull<Result<void, LinkCredentialError>>(
