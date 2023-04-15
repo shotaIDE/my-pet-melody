@@ -153,8 +153,9 @@ final deleteAccountActionProvider = Provider((ref) {
       return const Result.success(null);
     }
 
-    final providerNeededAuthenticate = deleteOnFirstError.whenOrNull(
+    final providerNeededAuthenticate = deleteOnFirstError.when(
       needReauthenticate: (provider) => provider,
+      unrecoverable: () => null,
     );
     if (providerNeededAuthenticate == null) {
       return const Result.failure(DeleteAccountError.unrecoverable());
@@ -183,10 +184,12 @@ final deleteAccountActionProvider = Provider((ref) {
           secret: credential.secret,
         );
         final convertedReauthenticateError = reauthenticateResult.whenOrNull(
-          failure: (_) => const DeleteAccountError.unrecoverable(),
+          failure: (error) => error.when(
+            alreadyInUse: DeleteAccountError.unrecoverable,
+            unrecoverable: DeleteAccountError.unrecoverable,
+          ),
         );
         if (convertedReauthenticateError != null) {
-          // Failure unrecoverable
           return Result.failure(convertedReauthenticateError);
         }
 
