@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detecting_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detecting_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
@@ -26,10 +25,10 @@ class TrimSoundForDetectingScreen extends ConsumerStatefulWidget {
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
       TrimSoundForDetectingState> viewModel;
 
-  static MaterialPageRoute<SelectTrimmedSoundResult?> route({
+  static MaterialPageRoute<TrimSoundForDetectingResult?> route({
     required String moviePath,
   }) =>
-      MaterialPageRoute<SelectTrimmedSoundResult?>(
+      MaterialPageRoute<TrimSoundForDetectingResult?>(
         builder: (_) => TrimSoundForDetectingScreen(moviePath: moviePath),
         settings: const RouteSettings(name: name),
       );

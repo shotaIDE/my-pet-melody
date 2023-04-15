@@ -10,6 +10,8 @@ import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/set_piece_title_screen.dart';
+import 'package:meow_music/ui/trim_sound_for_detecting_screen.dart';
+import 'package:meow_music/ui/trim_sound_for_detecting_state.dart';
 
 final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
@@ -298,6 +300,17 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final pickedPlatformFile = pickedFileResult.files.single;
     final pickedPath = pickedPlatformFile.path!;
+
+    if (!mounted) {
+      return;
+    }
+
+    final result = await Navigator.push<TrimSoundForDetectingResult?>(
+      context,
+      TrimSoundForDetectingScreen.route(moviePath: pickedPath),
+    );
+
+    return;
     final pickedFile = File(pickedPath);
 
     final selectTrimmedSoundArgs =
