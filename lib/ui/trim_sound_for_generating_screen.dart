@@ -1,43 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/trim_sound_state.dart';
-import 'package:meow_music/ui/trim_sound_view_model.dart';
+import 'package:meow_music/ui/trim_sound_for_generating_state.dart';
+import 'package:meow_music/ui/trim_sound_for_generating_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
-final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
-    .family<TrimSoundViewModel, TrimSoundState, String>(
-  (ref, moviePath) => TrimSoundViewModel(
+final _trimSoundForGeneratingViewModelProvider =
+    StateNotifierProvider.autoDispose.family<TrimSoundForGeneratingViewModel,
+        TrimSoundForGeneratingState, String>(
+  (ref, moviePath) => TrimSoundForGeneratingViewModel(
     ref: ref,
     moviePath: moviePath,
   ),
 );
 
-class TrimSoundScreen extends ConsumerStatefulWidget {
-  TrimSoundScreen({
+class TrimSoundForGeneratingScreen extends ConsumerStatefulWidget {
+  TrimSoundForGeneratingScreen({
     required String moviePath,
     Key? key,
-  })  : viewModel = selectTrimmedSoundViewModelProvider(moviePath),
+  })  : viewModel = _trimSoundForGeneratingViewModelProvider(moviePath),
         super(key: key);
 
-  static const name = 'TrimSoundScreen';
+  static const name = 'TrimSoundForGeneratingScreen';
 
-  final AutoDisposeStateNotifierProvider<TrimSoundViewModel, TrimSoundState>
-      viewModel;
+  final AutoDisposeStateNotifierProvider<TrimSoundForGeneratingViewModel,
+      TrimSoundForGeneratingState> viewModel;
 
   static MaterialPageRoute<SelectTrimmedSoundResult?> route({
     required String moviePath,
   }) =>
       MaterialPageRoute<SelectTrimmedSoundResult?>(
-        builder: (_) => TrimSoundScreen(moviePath: moviePath),
+        builder: (_) => TrimSoundForGeneratingScreen(moviePath: moviePath),
         settings: const RouteSettings(name: name),
       );
 
   @override
-  ConsumerState<TrimSoundScreen> createState() => _SelectTrimmedSoundState();
+  ConsumerState<TrimSoundForGeneratingScreen> createState() =>
+      _TrimSoundForGeneratingScreenState();
 }
 
-class _SelectTrimmedSoundState extends ConsumerState<TrimSoundScreen> {
+class _TrimSoundForGeneratingScreenState
+    extends ConsumerState<TrimSoundForGeneratingScreen> {
   @override
   void initState() {
     super.initState();
