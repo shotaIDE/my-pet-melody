@@ -62,7 +62,7 @@ class _TrimSoundForDetectingScreenState
       builder: (context, constraints) => TrimEditor(
         trimmer: trimmer,
         viewerWidth: constraints.maxWidth - 16,
-        maxVideoLength: const Duration(seconds: 10),
+        maxVideoLength: const Duration(minutes: 1),
         onChangeStart: ref.read(widget.viewModel.notifier).onUpdateStart,
         onChangeEnd: ref.read(widget.viewModel.notifier).onUpdateEnd,
         onChangePlaybackState: (isPlaying) => ref
@@ -88,7 +88,7 @@ class _TrimSoundForDetectingScreenState
 
     final scaffold = Scaffold(
       appBar: AppBar(
-        title: const Text('自分でトリミング'),
+        title: const Text('鳴き声を切り取り'),
         actions: [
           IconButton(
             onPressed: progressVisibility ? null : _save,
