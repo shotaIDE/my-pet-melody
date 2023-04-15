@@ -13,7 +13,7 @@ import 'package:meow_music/data/model/result.dart';
 import 'package:rxdart/rxdart.dart';
 
 final sessionProvider = StateNotifierProvider<SessionProvider, LoginSession?>(
-  (ref) => SessionProvider(),
+  (_) => SessionProvider(),
 );
 
 /// Provider for session as [Stream].
@@ -54,10 +54,9 @@ class SessionProvider extends StateNotifier<LoginSession?> {
     state = session;
 
     _sessionSubscription = FirebaseAuth.instance
-        .authStateChanges()
+        .userChanges()
         .asyncMap(_convertFirebaseUserToLoginSession)
         .listen((session) {
-          debugPrint('Session has received: $session');
       state = session;
     });
   }
