@@ -24,7 +24,7 @@ class _RootAppState extends ConsumerState<RootApp> {
       return Container();
     }
 
-    final home = showHomeScreen ? HomeScreen.route() : LoginScreen.route();
+    final home = showHomeScreen ? HomeScreen() : LoginScreen();
 
     return MaterialApp(
       title: 'Meow Music',
@@ -42,11 +42,7 @@ class _RootAppState extends ConsumerState<RootApp> {
           labelSmall: TextStyle(fontSize: 14),
         ),
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (_) => LoginScreen(),
-      },
-      onGenerateInitialRoutes: (_) => [home],
+      home: home,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
