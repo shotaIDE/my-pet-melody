@@ -176,8 +176,8 @@ class SelectTrimmedSoundViewModel
   }
 
   Future<void> play({required PlayerChoiceTrimmedMovie choice}) async {
-    final url = choice.uri;
-    if (url == null) {
+    final path = choice.uri;
+    if (path == null) {
       return;
     }
 
@@ -198,7 +198,7 @@ class SelectTrimmedSoundViewModel
 
     _setPlayerChoices(playingList);
 
-    final source = UrlSource(url);
+    final source = DeviceFileSource(path);
 
     await _player.play(source);
   }
