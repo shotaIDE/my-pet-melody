@@ -5,9 +5,7 @@ import 'package:meow_music/ui/join_premium_plan_view_model.dart';
 
 final _joinPremiumPlanViewModelProvider = StateNotifierProvider.autoDispose<
     JoinPremiumPlanViewModel, JoinPremiumPlanState>(
-  (ref) => JoinPremiumPlanViewModel(
-    ref: ref,
-  ),
+  (_) => JoinPremiumPlanViewModel(),
 );
 
 class JoinPremiumPlanScreen extends ConsumerStatefulWidget {
@@ -31,6 +29,7 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModelProvider);
+    final viewModel = ref.watch(widget.viewModelProvider.notifier);
 
     const largeStorageFeatureTile = ListTile(
       leading: Icon(Icons.cloud_done),
@@ -63,7 +62,9 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
     );
 
     final joinButton = ElevatedButton(
-      onPressed: () {},
+      onPressed: () async {
+        await viewModel.joinPremiumPlan();
+      },
       child: const Text('プレミアムプラン 1,000円 / 月'),
     );
     final restoreButton =
@@ -76,19 +77,22 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
     const subscriptionDescription2Tile = ListTile(
       title: Text('確認と解約'),
       subtitle: Text(
-        '設定アプリを開き、[ご自分の名前] > [サブスクリプション] > [MeowMusic]の画面から、次回の自動更新タイミングの確認や、自動更新の解除ができます。',
+        '設定アプリを開き、[ご自分の名前] > [サブスクリプション] > [MeowMusic]の画面から、'
+        '次回の自動更新タイミングの確認や、自動更新の解除ができます。',
       ),
     );
     const subscriptionDescription3Tile = ListTile(
       title: Text('機種変更時の復元'),
       subtitle: Text(
-        '機種変更時には、本画面から以前購入したプランを無料で復元できます。購入時と同じApple IDでApp Storeにログインした上で復元してください。',
+        '機種変更時には、本画面から以前購入したプランを無料で復元できます。'
+        '購入時と同じApple IDでApp Storeにログインした上で復元してください。',
       ),
     );
     const subscriptionDescription4Tile = ListTile(
       title: Text('注意点'),
       subtitle: Text(
-        'アプリ内で課金された方は上記以外の方法での解約できません。当月分のキャンセルについては受け付けておりません。Apple IDアカウントを経由して課金されます。',
+        'アプリ内で課金された方は上記以外の方法での解約できません。当月分のキャンセルについては受け付けておりません。'
+        'Apple IDアカウントを経由して課金されます。',
       ),
     );
 
