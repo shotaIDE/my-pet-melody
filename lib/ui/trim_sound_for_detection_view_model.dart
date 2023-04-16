@@ -21,8 +21,6 @@ class TrimSoundForDetectionViewModel
           ),
         );
 
-  static const splitCount = 10;
-
   final Ref _ref;
   final String _moviePath;
 

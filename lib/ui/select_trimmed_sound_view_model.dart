@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/movie_segmentation.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
@@ -37,12 +38,11 @@ class SelectTrimmedSoundViewModel
                   ),
                 )
                 .toList(),
-            splitThumbnails: List.generate(splitCount, (_) => null),
+            splitThumbnails:
+                List.generate(DisplayDefinition.splitCount, (_) => null),
             durationMilliseconds: args.movieSegmentation.durationMilliseconds,
           ),
         );
-
-  static const splitCount = 10;
 
   final Ref _ref;
   final String _displayName;
@@ -101,7 +101,7 @@ class SelectTrimmedSoundViewModel
     );
 
     await Future.wait(
-      List.generate(splitCount, (index) async {
+      List.generate(DisplayDefinition.splitCount, (index) async {
         final paddedIndex = '$index'.padLeft(2, '0');
         final outputFileName = 'split_$paddedIndex.png';
         final outputPath = '$outputParentPath/$outputFileName';

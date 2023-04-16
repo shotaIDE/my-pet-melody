@@ -739,7 +739,7 @@ class _SeekBarBackgroundLayer extends ConsumerWidget {
             final positionX = index * imageWidth;
             final imageIndex = min(
               positionX ~/ splitWidth,
-              SelectTrimmedSoundViewModel.splitCount - 1,
+              DisplayDefinition.splitCount - 1,
             );
 
             final imageBody = _SplitThumbnail(
