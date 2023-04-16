@@ -254,7 +254,7 @@ class _SelectTrimmedSoundScreenState
       child: const Text('自分でトリミングする'),
     );
 
-    final segmentPanels = List.generate(
+    final choicePanels = List.generate(
       choicesCount,
       (index) => _ChoicePanel(
         viewModelProvider: widget.viewModelProvider,
@@ -281,7 +281,7 @@ class _SelectTrimmedSoundScreenState
           Padding(
             padding: const EdgeInsets.only(top: 32),
             child: Column(
-              children: segmentPanels,
+              children: choicePanels,
             ),
           ),
         ],
