@@ -51,18 +51,29 @@ class _TrimSoundForDetectionScreenState
 
   @override
   Widget build(BuildContext context) {
+    final description = Text(
+      'ねこが鳴いているシーンが含まれるように選択してね！',
+      textAlign: TextAlign.center,
+      style:
+          Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
+    );
+
     final viewer = _VideoViewer(viewModelProvider: widget.viewModelProvider);
 
     final editor = _TrimEditor(viewModelProvider: widget.viewModelProvider);
 
     final playButton = IconButton(
       onPressed: ref.read(widget.viewModelProvider.notifier).onPlay,
-      icon: _PlayControlButton(viewModelProvider: widget.viewModelProvider),
+      icon: _PlayControlButton(
+        viewModelProvider: widget.viewModelProvider,
+        size: 64,
+        color: Colors.white,
+      ),
     );
 
     final scaffold = Scaffold(
       appBar: AppBar(
-        title: const Text('鳴き声を切り取り'),
+        title: const Text('鳴き声を選択'),
         actions: [
           IconButton(
             onPressed: _onComplete,
@@ -70,25 +81,31 @@ class _TrimSoundForDetectionScreenState
           )
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.only(bottom: 30),
+      body: ColoredBox(
         color: Colors.black,
         child: SafeArea(
           child: LayoutBuilder(
             builder: (context, constrains) {
               return Column(
                 children: [
+                  const SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: description,
+                  ),
+                  const SizedBox(height: 32),
                   Expanded(
                     child: viewer,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: SizedBox(
-                      width: constrains.maxWidth,
-                      child: editor,
-                    ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: constrains.maxWidth,
+                    child: editor,
                   ),
-                  playButton,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: playButton,
+                  ),
                 ],
               );
             },
@@ -173,28 +190,28 @@ class _TrimEditor extends ConsumerWidget {
 class _PlayControlButton extends ConsumerWidget {
   const _PlayControlButton({
     required this.viewModelProvider,
+    required this.size,
+    required this.color,
     Key? key,
   }) : super(key: key);
 
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
       TrimSoundForDetectionState> viewModelProvider;
+  final double size;
+  final Color color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isPlaying =
         ref.watch(viewModelProvider.select((state) => state.isPlaying));
 
-    return isPlaying
-        ? const Icon(
-            Icons.pause,
-            size: 64,
-            color: Colors.white,
-          )
-        : const Icon(
-            Icons.play_arrow,
-            size: 64,
-            color: Colors.white,
-          );
+    final icon = isPlaying ? Icons.pause : Icons.play_arrow;
+
+    return Icon(
+      icon,
+      size: size,
+      color: color,
+    );
   }
 }
 
