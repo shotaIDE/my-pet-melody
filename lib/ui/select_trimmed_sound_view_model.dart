@@ -235,7 +235,7 @@ class SelectTrimmedSoundViewModel
 
     return SelectTrimmedSoundResult(
       uploaded: uploadedSound,
-      displayName: '$_fileName - セグメント${choice.id}',
+      displayName: '$_fileName #${choice.id}',
       thumbnailLocalPath: thumbnailPath,
     );
   }
