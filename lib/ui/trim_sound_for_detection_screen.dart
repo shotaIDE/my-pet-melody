@@ -214,18 +214,7 @@ class _GrayMask extends ConsumerWidget {
     final process =
         ref.watch(viewModelProvider.select((state) => state.process));
 
-    final String message;
-    switch (process) {
-      case TrimSoundForDetectionScreenProcess.convert:
-        message = '動画を変換しています';
-        break;
-      case TrimSoundForDetectionScreenProcess.detect:
-        message = '動画の中から鳴き声を探しています';
-        break;
-      case null:
-        message = '';
-        break;
-    }
+    final message = process != null ? _processLabel(process) : '';
 
     return Stack(
       children: [
@@ -255,5 +244,15 @@ class _GrayMask extends ConsumerWidget {
         ),
       ],
     );
+  }
+
+  String _processLabel(TrimSoundForDetectionScreenProcess process) {
+    switch (process) {
+      case TrimSoundForDetectionScreenProcess.convert:
+        return '動画を変換しています';
+
+      case TrimSoundForDetectionScreenProcess.detect:
+        return '動画の中から鳴き声を探しています';
+    }
   }
 }
