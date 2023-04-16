@@ -26,11 +26,3 @@ class SelectedSound with _$SelectedSound {
     required String remoteUrl,
   }) = SelectedSoundUploaded;
 }
-
-enum SelectSoundsScreenProcess {
-  /// 動画の選択中
-  pick,
-
-  /// 非無音部分の検知対象のトリミング中
-  trim,
-}
