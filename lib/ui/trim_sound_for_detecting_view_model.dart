@@ -84,7 +84,7 @@ class TrimSoundForDetectingViewModel
     }
 
     return SelectTrimmedSoundArgs(
-      displayName: originalFileNameWithoutExtension,
+      fileName: originalFileNameWithoutExtension,
       soundPath: trimmedPath,
       movieSegmentation: detected,
     );
