@@ -38,8 +38,10 @@ class SelectTrimmedSoundViewModel
                   ),
                 )
                 .toList(),
-            splitThumbnails:
-                List.generate(DisplayDefinition.splitCount, (_) => null),
+            equallyDividedThumbnailPaths: List.generate(
+              DisplayDefinition.equallyDividedCount,
+              (_) => null,
+            ),
             durationMilliseconds: args.movieSegmentation.durationMilliseconds,
           ),
         );
@@ -101,9 +103,9 @@ class SelectTrimmedSoundViewModel
     );
 
     await Future.wait(
-      List.generate(DisplayDefinition.splitCount, (index) async {
+      List.generate(DisplayDefinition.equallyDividedCount, (index) async {
         final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'split_$paddedIndex.png';
+        final outputFileName = 'equally-divided_$paddedIndex.png';
         final outputPath = '$outputParentPath/$outputFileName';
 
         final file = File(outputPath);
@@ -112,9 +114,13 @@ class SelectTrimmedSoundViewModel
         final thumbnailBytes = base64Decode(thumbnailBase64);
         await file.writeAsBytes(thumbnailBytes);
 
-        final splitThumbnails = [...state.splitThumbnails];
-        splitThumbnails[index] = outputPath;
-        state = state.copyWith(splitThumbnails: splitThumbnails);
+        final equallyDividedThumbnailPaths = [
+          ...state.equallyDividedThumbnailPaths
+        ];
+        equallyDividedThumbnailPaths[index] = outputPath;
+        state = state.copyWith(
+          equallyDividedThumbnailPaths: equallyDividedThumbnailPaths,
+        );
       }),
     );
 
@@ -210,7 +216,7 @@ class SelectTrimmedSoundViewModel
       return null;
     }
 
-    final thumbnailPath = state.splitThumbnails[index];
+    final thumbnailPath = state.equallyDividedThumbnailPaths[index];
     if (thumbnailPath == null) {
       return null;
     }

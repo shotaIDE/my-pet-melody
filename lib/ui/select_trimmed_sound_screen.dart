@@ -94,7 +94,7 @@ class _UnavailableTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    final firstThumbnailPath = state.splitThumbnails.first;
+    final firstThumbnailPath = state.equallyDividedThumbnailPaths.first;
     const firstThumbnailHeight = 48.0;
     final firstThumbnail = firstThumbnailPath != null
         ? Image.file(
@@ -374,7 +374,7 @@ class _MovieTile extends ConsumerWidget {
         ref.watch(viewModelProvider.select((state) => state.displayName));
 
     return ListTile(
-      leading: _SplitThumbnail(
+      leading: _EquallyDividedThumbnail(
         viewModelProvider: viewModelProvider,
         index: 0,
         width: thumbnailWidth,
@@ -722,8 +722,9 @@ class _SeekBarBackgroundLayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final splitThumbnailsCount = ref.watch(
-      viewModelProvider.select((state) => state.splitThumbnails.length),
+    final equallyDividedCount = ref.watch(
+      viewModelProvider
+          .select((state) => state.equallyDividedThumbnailPaths.length),
     );
 
     return SizedBox(
@@ -731,27 +732,29 @@ class _SeekBarBackgroundLayer extends ConsumerWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final width = constraints.maxWidth;
-          final splitWidth = width ~/ splitThumbnailsCount;
-          final imageWidth =
+          final equallyDividedWidth = width ~/ equallyDividedCount;
+          final thumbnailWidth =
               constraints.maxHeight * DisplayDefinition.aspectRatio;
-          final imageCount = (width / imageWidth).ceil();
-          final thumbnails = List.generate(imageCount, (index) {
-            final positionX = index * imageWidth;
+          final thumbnailCountShouldBeDisplayed =
+              (width / thumbnailWidth).ceil();
+          final thumbnails =
+              List.generate(thumbnailCountShouldBeDisplayed, (index) {
+            final positionX = index * thumbnailWidth;
             final imageIndex = min(
-              positionX ~/ splitWidth,
-              DisplayDefinition.splitCount - 1,
+              positionX ~/ equallyDividedWidth,
+              DisplayDefinition.equallyDividedCount - 1,
             );
 
-            final imageBody = _SplitThumbnail(
+            final thumbnailBody = _EquallyDividedThumbnail(
               viewModelProvider: viewModelProvider,
               index: imageIndex,
-              width: imageWidth,
+              width: thumbnailWidth,
               height: _seekBarHeight,
             );
 
             return Padding(
               padding: EdgeInsets.only(left: positionX),
-              child: imageBody,
+              child: thumbnailBody,
             );
           });
 
@@ -766,8 +769,8 @@ class _SeekBarBackgroundLayer extends ConsumerWidget {
   }
 }
 
-class _SplitThumbnail extends ConsumerWidget {
-  const _SplitThumbnail({
+class _EquallyDividedThumbnail extends ConsumerWidget {
+  const _EquallyDividedThumbnail({
     required this.viewModelProvider,
     required this.index,
     required this.width,
@@ -784,7 +787,8 @@ class _SplitThumbnail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final thumbnailPath = ref.watch(
-      viewModelProvider.select((state) => state.splitThumbnails[index]),
+      viewModelProvider
+          .select((state) => state.equallyDividedThumbnailPaths[index]),
     );
 
     return _Thumbnail(
