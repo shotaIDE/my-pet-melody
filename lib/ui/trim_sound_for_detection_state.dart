@@ -10,6 +10,14 @@ class TrimSoundForDetectionState with _$TrimSoundForDetectionState {
     @Default(0.0) double startValue,
     @Default(0.0) double endValue,
     @Default(false) bool isPlaying,
-    @Default(false) bool isUploading,
+    @Default(null) TrimSoundForDetectionScreenProcess? process,
   }) = _TrimSoundForDetectionState;
+}
+
+enum TrimSoundForDetectionScreenProcess {
+  /// 動画の変換中
+  convert,
+
+  /// 非無音部分の検知のためのアップロード中
+  detect,
 }

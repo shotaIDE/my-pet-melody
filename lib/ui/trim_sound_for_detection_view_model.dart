@@ -48,7 +48,7 @@ class TrimSoundForDetectionViewModel
   }
 
   Future<SelectTrimmedSoundArgs?> onComplete() async {
-    state = state.copyWith(isUploading: true);
+    state = state.copyWith(process: TrimSoundForDetectionScreenProcess.convert);
 
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
@@ -67,9 +67,11 @@ class TrimSoundForDetectionViewModel
 
     final trimmedPath = await trimmedFilePathCompleter.future;
     if (trimmedPath == null) {
-      state = state.copyWith(isUploading: false);
+      state = state.copyWith(process: null);
       return null;
     }
+
+    state = state.copyWith(process: TrimSoundForDetectionScreenProcess.detect);
 
     final trimmedFile = File(trimmedPath);
     final displayFileName =

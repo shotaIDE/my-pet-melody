@@ -211,14 +211,27 @@ class _GrayMask extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isUploading =
-        ref.watch(viewModelProvider.select((state) => state.isUploading));
+    final process =
+        ref.watch(viewModelProvider.select((state) => state.process));
+
+    final String message;
+    switch (process) {
+      case TrimSoundForDetectionScreenProcess.convert:
+        message = '動画を変換しています';
+        break;
+      case TrimSoundForDetectionScreenProcess.detect:
+        message = '動画の中から鳴き声を探しています';
+        break;
+      case null:
+        message = '';
+        break;
+    }
 
     return Stack(
       children: [
         child,
         Visibility(
-          visible: isUploading,
+          visible: process != null,
           child: Container(
             alignment: Alignment.center,
             color: Colors.black.withOpacity(0.5),
@@ -226,7 +239,7 @@ class _GrayMask extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'アップロードしています',
+                  message,
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
