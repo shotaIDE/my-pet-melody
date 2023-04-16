@@ -209,7 +209,7 @@ class _SelectTrimmedSoundScreenState
     );
 
     const firstThumbnailHeight = 48.0;
-    final moviePanel = _MovieTile(
+    final movieTile = _MovieTile(
       viewModelProvider: widget.viewModelProvider,
       thumbnailWidth: firstThumbnailHeight * DisplayDefinition.aspectRatio,
       thumbnailHeight: firstThumbnailHeight,
@@ -269,7 +269,7 @@ class _SelectTrimmedSoundScreenState
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
-          moviePanel,
+          movieTile,
           Padding(
             padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
             child: noDesiredTrimmingDescription,
