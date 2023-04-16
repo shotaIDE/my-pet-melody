@@ -2,7 +2,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
@@ -39,6 +38,26 @@ class SelectSoundsScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    ref.read(widget.viewModelProvider.notifier).registerListener(
+      pickVideoFile: () async {
+        final pickedFileResult = await FilePicker.platform.pickFiles(
+          type: FileType.video,
+        );
+        return pickedFileResult?.files.single.path;
+      },
+      selectTrimmedSound: (moviePath) async {
+        return Navigator.push<SelectTrimmedSoundResult?>(
+          context,
+          TrimSoundForDetectionScreen.route(moviePath: moviePath),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModelProvider);
@@ -113,7 +132,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               style: TextStyle(color: Colors.grey),
               overflow: TextOverflow.ellipsis,
             ),
-            onTap: () => _selectSound(target: sound),
+            onTap: () => ref
+                .read(widget.viewModelProvider.notifier)
+                .onTapSelectSound(choice: sound),
           ),
           uploaded: (_, __, localFileName, remoteFileName) => ListTile(
             leading: leading,
@@ -236,50 +257,33 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final isProcessing = state.isProcessing;
-    return isProcessing
+    return state.isPicking
         ? Stack(
             children: [
               scaffold,
               Container(
                 alignment: Alignment.center,
                 color: Colors.black.withOpacity(0.5),
-                child: const LinearProgressIndicator(),
-              )
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '動画を選択しています',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: Colors.white),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: LinearProgressIndicator(),
+                    ),
+                  ],
+                ),
+              ),
             ],
           )
         : scaffold;
-  }
-
-  Future<void> _selectSound({required PlayerChoiceSound target}) async {
-    final pickedFileResult = await FilePicker.platform.pickFiles(
-      type: FileType.video,
-    );
-
-    if (pickedFileResult == null) {
-      return;
-    }
-
-    final pickedPlatformFile = pickedFileResult.files.single;
-    final pickedPath = pickedPlatformFile.path!;
-
-    if (!mounted) {
-      return;
-    }
-
-    final selectTrimmedSoundResult =
-        await Navigator.push<SelectTrimmedSoundResult?>(
-      context,
-      TrimSoundForDetectionScreen.route(moviePath: pickedPath),
-    );
-
-    if (selectTrimmedSoundResult == null) {
-      return;
-    }
-
-    await ref
-        .read(widget.viewModelProvider.notifier)
-        .onSelectedTrimmedSound(selectTrimmedSoundResult, target: target);
   }
 
   Future<void> _showSetPieceTitleScreen() async {

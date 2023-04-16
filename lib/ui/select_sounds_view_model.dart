@@ -36,6 +36,10 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
   late String _thumbnailLocalPath;
 
+  Future<String?> Function()? _pickVideoFile;
+  Future<SelectTrimmedSoundResult?> Function(String soundPath)?
+      _selectTrimmedSound;
+
   Duration? _currentAudioDuration;
   StreamSubscription<Duration>? _audioDurationSubscription;
   StreamSubscription<Duration>? _audioPositionSubscription;
@@ -54,28 +58,34 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     super.dispose();
   }
 
-  Future<void> onSelectedTrimmedSound(
-    SelectTrimmedSoundResult result, {
-    required PlayerChoiceSound target,
-  }) async {
-    final sounds = [...state.sounds];
-    final index = sounds.indexOf(target);
+  void registerListener({
+    required Future<String?> Function() pickVideoFile,
+    required Future<SelectTrimmedSoundResult?> Function(String soundPath)
+        selectTrimmedSound,
+  }) {
+    _pickVideoFile = pickVideoFile;
+    _selectTrimmedSound = selectTrimmedSound;
+  }
 
-    sounds[index] = target.copyWith(
-      sound: SelectedSound.uploaded(
-        id: result.uploaded.id,
-        extension: result.uploaded.extension,
-        localFileName: result.displayName,
-        remoteUrl: result.uploaded.url,
-      ),
-    );
+  Future<void> onTapSelectSound({required PlayerChoiceSound choice}) async {
+    state = state.copyWith(isPicking: true);
 
-    state = state.copyWith(
-      sounds: sounds,
-      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
-    );
+    final pickedPath = await _pickVideoFile?.call();
+    if (pickedPath == null) {
+      state = state.copyWith(isPicking: false);
+      return;
+    }
 
-    _thumbnailLocalPath = result.thumbnailLocalPath;
+    final selectTrimmedSoundResult =
+        await _selectTrimmedSound?.call(pickedPath);
+    if (selectTrimmedSoundResult == null) {
+      state = state.copyWith(isPicking: false);
+      return;
+    }
+
+    state = state.copyWith(isPicking: false);
+
+    await _onSelectedTrimmedSound(selectTrimmedSoundResult, target: choice);
   }
 
   Future<void> delete({required PlayerChoiceSound target}) async {
@@ -157,6 +167,30 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     }
 
     await _player.stop();
+  }
+
+  Future<void> _onSelectedTrimmedSound(
+    SelectTrimmedSoundResult result, {
+    required PlayerChoiceSound target,
+  }) async {
+    final sounds = [...state.sounds];
+    final index = sounds.indexOf(target);
+
+    sounds[index] = target.copyWith(
+      sound: SelectedSound.uploaded(
+        id: result.uploaded.id,
+        extension: result.uploaded.extension,
+        localFileName: result.displayName,
+        remoteUrl: result.uploaded.url,
+      ),
+    );
+
+    state = state.copyWith(
+      sounds: sounds,
+      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
+    );
+
+    _thumbnailLocalPath = result.thumbnailLocalPath;
   }
 
   bool _getIsAvailableSubmission({required List<PlayerChoiceSound> sounds}) {

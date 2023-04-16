@@ -9,7 +9,7 @@ class SelectSoundsState with _$SelectSoundsState {
     required PlayerChoiceTemplate template,
     required List<PlayerChoiceSound> sounds,
     @Default(false) bool isAvailableSubmission,
-    @Default(false) bool isProcessing,
+    @Default(false) bool isPicking,
   }) = _SelectSoundsState;
 }
 
@@ -25,4 +25,12 @@ class SelectedSound with _$SelectedSound {
     required String localFileName,
     required String remoteUrl,
   }) = SelectedSoundUploaded;
+}
+
+enum SelectSoundsScreenProcess {
+  /// 動画の選択中
+  pick,
+
+  /// 非無音部分の検知対象のトリミング中
+  trim,
 }
