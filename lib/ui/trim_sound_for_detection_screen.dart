@@ -52,7 +52,7 @@ class _TrimSoundForDetectionScreenState
   @override
   Widget build(BuildContext context) {
     final description = Text(
-      'ねこが鳴いているシーンが含まれるように選択してね！',
+      '選択した範囲から自動で鳴き声を探すよ！',
       textAlign: TextAlign.center,
       style:
           Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
