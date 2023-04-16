@@ -102,8 +102,6 @@ class SelectTrimmedSoundViewModel
       }),
     );
 
-    await Future<void>.delayed(const Duration(seconds: 1));
-
     await Future.wait(
       List.generate(splitCount, (index) async {
         final paddedIndex = '$index'.padLeft(2, '0');
