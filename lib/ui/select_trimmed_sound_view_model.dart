@@ -79,8 +79,6 @@ class SelectTrimmedSoundViewModel
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
-    final originalFileNameWithoutExtension =
-        basenameWithoutExtension(_moviePath);
     final originalExtension = extension(_moviePath);
 
     await Future.wait(
