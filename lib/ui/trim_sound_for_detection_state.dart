@@ -10,7 +10,6 @@ class TrimSoundForDetectionState with _$TrimSoundForDetectionState {
     @Default(0.0) double startValue,
     @Default(0.0) double endValue,
     @Default(false) bool isPlaying,
-    @Default(false) bool progressVisibility,
     @Default(false) bool isUploading,
   }) = _TrimSoundForDetectionState;
 }
