@@ -9,23 +9,22 @@ import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/set_piece_title_screen.dart';
 import 'package:meow_music/ui/trim_sound_for_detection_screen.dart';
 
-final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
+final _selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
   (ref, template) => SelectSoundsViewModel(
-    ref: ref,
     selectedTemplate: template,
   ),
 );
 
 class SelectSoundsScreen extends ConsumerStatefulWidget {
   SelectSoundsScreen({required Template template, Key? key})
-      : viewModel = selectSoundsViewModelProvider(template),
+      : viewModelProvider = _selectSoundsViewModelProvider(template),
         super(key: key);
 
   static const name = 'SelectSoundsScreen';
 
   final AutoDisposeStateNotifierProvider<SelectSoundsViewModel,
-      SelectSoundsState> viewModel;
+      SelectSoundsState> viewModelProvider;
 
   static MaterialPageRoute route({
     required Template template,
@@ -42,7 +41,7 @@ class SelectSoundsScreen extends ConsumerStatefulWidget {
 class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
+    final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
       '鳴き声を設定しよう',
@@ -59,10 +58,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       title: Text(template.template.name),
       tileColor: Colors.grey[300],
       onTap: template.status.map(
-        stop: (_) =>
-            () => ref.read(widget.viewModel.notifier).play(choice: template),
-        playing: (_) =>
-            () => ref.read(widget.viewModel.notifier).stop(choice: template),
+        stop: (_) => () =>
+            ref.read(widget.viewModelProvider.notifier).play(choice: template),
+        playing: (_) => () =>
+            ref.read(widget.viewModelProvider.notifier).stop(choice: template),
       ),
     );
     final templateControl = Column(
@@ -116,14 +115,6 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ),
             onTap: () => _selectSound(target: sound),
           ),
-          uploading: (_, localFileName) => ListTile(
-            leading: leading,
-            title: Text(
-              localFileName,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: const CircularProgressIndicator(),
-          ),
           uploaded: (_, __, localFileName, remoteFileName) => ListTile(
             leading: leading,
             title: Text(
@@ -132,14 +123,17 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ),
             trailing: IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () =>
-                  ref.read(widget.viewModel.notifier).delete(target: sound),
+              onPressed: () => ref
+                  .read(widget.viewModelProvider.notifier)
+                  .delete(target: sound),
             ),
             onTap: sound.status.map(
-              stop: (_) =>
-                  () => ref.read(widget.viewModel.notifier).play(choice: sound),
-              playing: (_) =>
-                  () => ref.read(widget.viewModel.notifier).stop(choice: sound),
+              stop: (_) => () => ref
+                  .read(widget.viewModelProvider.notifier)
+                  .play(choice: sound),
+              playing: (_) => () => ref
+                  .read(widget.viewModelProvider.notifier)
+                  .stop(choice: sound),
             ),
           ),
         );
@@ -211,7 +205,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final scaffold = WillPopScope(
       onWillPop: () async {
-        await ref.read(widget.viewModel.notifier).beforeHideScreen();
+        await ref.read(widget.viewModelProvider.notifier).beforeHideScreen();
         return true;
       },
       child: Scaffold(
@@ -242,47 +236,19 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final process = state.process;
-    return process != null
+    final isProcessing = state.isProcessing;
+    return isProcessing
         ? Stack(
             children: [
               scaffold,
               Container(
                 alignment: Alignment.center,
                 color: Colors.black.withOpacity(0.5),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _processLabel(process),
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.white),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: LinearProgressIndicator(),
-                    ),
-                  ],
-                ),
+                child: const LinearProgressIndicator(),
               )
             ],
           )
         : scaffold;
-  }
-
-  String _processLabel(SelectSoundScreenProcess process) {
-    switch (process) {
-      case SelectSoundScreenProcess.compress:
-        return '動画を変換しています';
-
-      case SelectSoundScreenProcess.detect:
-        return '動画の中から鳴き声を探しています';
-
-      case SelectSoundScreenProcess.submit:
-        return '提出しています';
-    }
   }
 
   Future<void> _selectSound({required PlayerChoiceSound target}) async {
@@ -312,12 +278,13 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     }
 
     await ref
-        .read(widget.viewModel.notifier)
+        .read(widget.viewModelProvider.notifier)
         .onSelectedTrimmedSound(selectTrimmedSoundResult, target: target);
   }
 
   Future<void> _showSetPieceTitleScreen() async {
-    final args = ref.read(widget.viewModel.notifier).getSetPieceTitleArgs();
+    final args =
+        ref.read(widget.viewModelProvider.notifier).getSetPieceTitleArgs();
 
     await Navigator.push<void>(
       context,
