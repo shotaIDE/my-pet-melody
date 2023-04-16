@@ -7,20 +7,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/trim_sound_for_generating_state.dart';
+import 'package:meow_music/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
-class TrimSoundForGeneratingViewModel
-    extends StateNotifier<TrimSoundForGeneratingState> {
-  TrimSoundForGeneratingViewModel({
+class TrimSoundForGenerationViewModel
+    extends StateNotifier<TrimSoundForGenerationState> {
+  TrimSoundForGenerationViewModel({
     required Ref ref,
     required String moviePath,
   })  : _ref = ref,
         _moviePath = moviePath,
         super(
-          TrimSoundForGeneratingState(
+          TrimSoundForGenerationState(
             trimmer: Trimmer(),
           ),
         );

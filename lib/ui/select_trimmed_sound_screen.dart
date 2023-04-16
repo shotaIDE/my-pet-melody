@@ -8,7 +8,7 @@ import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_view_model.dart';
-import 'package:meow_music/ui/trim_sound_for_generating_screen.dart';
+import 'package:meow_music/ui/trim_sound_for_generation_screen.dart';
 import 'package:skeletons/skeletons.dart';
 
 final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
@@ -126,7 +126,7 @@ class _UnavailableTrimmedSoundScreenState
 
         final outputPath = await Navigator.push(
           context,
-          TrimSoundForGeneratingScreen.route(moviePath: localPath),
+          TrimSoundForGenerationScreen.route(moviePath: localPath),
         );
 
         if (outputPath == null || !mounted) {
@@ -242,7 +242,7 @@ class _SelectTrimmedSoundScreenState
 
         final outputPath = await Navigator.push(
           context,
-          TrimSoundForGeneratingScreen.route(moviePath: localPath),
+          TrimSoundForGenerationScreen.route(moviePath: localPath),
         );
 
         if (outputPath == null || !mounted) {

@@ -1,46 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/trim_sound_for_generating_state.dart';
-import 'package:meow_music/ui/trim_sound_for_generating_view_model.dart';
+import 'package:meow_music/ui/trim_sound_for_generation_state.dart';
+import 'package:meow_music/ui/trim_sound_for_generation_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
-final _trimSoundForGeneratingViewModelProvider =
-    StateNotifierProvider.autoDispose.family<TrimSoundForGeneratingViewModel,
-        TrimSoundForGeneratingState, String>(
-  (ref, moviePath) => TrimSoundForGeneratingViewModel(
+final _trimSoundForGenerationViewModelProvider =
+    StateNotifierProvider.autoDispose.family<TrimSoundForGenerationViewModel,
+        TrimSoundForGenerationState, String>(
+  (ref, moviePath) => TrimSoundForGenerationViewModel(
     ref: ref,
     moviePath: moviePath,
   ),
 );
 
-class TrimSoundForGeneratingScreen extends ConsumerStatefulWidget {
-  TrimSoundForGeneratingScreen({
+class TrimSoundForGenerationScreen extends ConsumerStatefulWidget {
+  TrimSoundForGenerationScreen({
     required String moviePath,
     Key? key,
-  })  : viewModel = _trimSoundForGeneratingViewModelProvider(moviePath),
+  })  : viewModel = _trimSoundForGenerationViewModelProvider(moviePath),
         super(key: key);
 
-  static const name = 'TrimSoundForGeneratingScreen';
+  static const name = 'TrimSoundForGenerationScreen';
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForGeneratingViewModel,
-      TrimSoundForGeneratingState> viewModel;
+  final AutoDisposeStateNotifierProvider<TrimSoundForGenerationViewModel,
+      TrimSoundForGenerationState> viewModel;
 
   static MaterialPageRoute<SelectTrimmedSoundResult?> route({
     required String moviePath,
   }) =>
       MaterialPageRoute<SelectTrimmedSoundResult?>(
-        builder: (_) => TrimSoundForGeneratingScreen(moviePath: moviePath),
+        builder: (_) => TrimSoundForGenerationScreen(moviePath: moviePath),
         settings: const RouteSettings(name: name),
       );
 
   @override
-  ConsumerState<TrimSoundForGeneratingScreen> createState() =>
-      _TrimSoundForGeneratingScreenState();
+  ConsumerState<TrimSoundForGenerationScreen> createState() =>
+      _TrimSoundForGenerationScreenState();
 }
 
-class _TrimSoundForGeneratingScreenState
-    extends ConsumerState<TrimSoundForGeneratingScreen> {
+class _TrimSoundForGenerationScreenState
+    extends ConsumerState<TrimSoundForGenerationScreen> {
   @override
   void initState() {
     super.initState();
