@@ -52,18 +52,18 @@ class TrimSoundForDetectionViewModel
         basenameWithoutExtension(_moviePath);
     const convertedExtension = '.mp4';
 
-    final trimmedFilePathCompleter = Completer<String?>();
+    final trimmedPathCompleter = Completer<String?>();
 
     await state.trimmer.saveTrimmedVideo(
       startValue: state.startValue,
       endValue: state.endValue,
       onSave: (value) {
-        trimmedFilePathCompleter.complete(value);
+        trimmedPathCompleter.complete(value);
       },
       customVideoFormat: convertedExtension,
     );
 
-    final trimmedPath = await trimmedFilePathCompleter.future;
+    final trimmedPath = await trimmedPathCompleter.future;
     if (trimmedPath == null) {
       state = state.copyWith(process: null);
       return null;
