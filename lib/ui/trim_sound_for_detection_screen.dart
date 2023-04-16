@@ -2,46 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/trim_sound_for_detecting_state.dart';
-import 'package:meow_music/ui/trim_sound_for_detecting_view_model.dart';
+import 'package:meow_music/ui/trim_sound_for_detection_state.dart';
+import 'package:meow_music/ui/trim_sound_for_detection_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
-final _trimSoundForDetectingViewModelProvider = StateNotifierProvider
+final _trimSoundForDetectionViewModelProvider = StateNotifierProvider
     .autoDispose
-    .family<TrimSoundForDetectingViewModel, TrimSoundForDetectingState, String>(
-  (ref, moviePath) => TrimSoundForDetectingViewModel(
+    .family<TrimSoundForDetectionViewModel, TrimSoundForDetectionState, String>(
+  (ref, moviePath) => TrimSoundForDetectionViewModel(
     ref: ref,
     moviePath: moviePath,
   ),
 );
 
-class TrimSoundForDetectingScreen extends ConsumerStatefulWidget {
-  TrimSoundForDetectingScreen({
+class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
+  TrimSoundForDetectionScreen({
     required String moviePath,
     Key? key,
-  })  : viewModelProvider = _trimSoundForDetectingViewModelProvider(moviePath),
+  })  : viewModelProvider = _trimSoundForDetectionViewModelProvider(moviePath),
         super(key: key);
 
-  static const name = 'TrimSoundForDetectingScreen';
+  static const name = 'TrimSoundForDetectionScreen';
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
-      TrimSoundForDetectingState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
+      TrimSoundForDetectionState> viewModelProvider;
 
   static MaterialPageRoute<SelectTrimmedSoundResult?> route({
     required String moviePath,
   }) =>
       MaterialPageRoute<SelectTrimmedSoundResult?>(
-        builder: (_) => TrimSoundForDetectingScreen(moviePath: moviePath),
+        builder: (_) => TrimSoundForDetectionScreen(moviePath: moviePath),
         settings: const RouteSettings(name: name),
       );
 
   @override
-  ConsumerState<TrimSoundForDetectingScreen> createState() =>
-      _TrimSoundForDetectingScreenState();
+  ConsumerState<TrimSoundForDetectionScreen> createState() =>
+      _TrimSoundForDetectionScreenState();
 }
 
-class _TrimSoundForDetectingScreenState
-    extends ConsumerState<TrimSoundForDetectingScreen> {
+class _TrimSoundForDetectionScreenState
+    extends ConsumerState<TrimSoundForDetectionScreen> {
   @override
   void initState() {
     super.initState();
@@ -129,8 +129,8 @@ class _VideoViewer extends ConsumerWidget {
     Key? key,
   }) : super(key: key);
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
-      TrimSoundForDetectingState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
+      TrimSoundForDetectionState> viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -147,8 +147,8 @@ class _TrimEditor extends ConsumerWidget {
     Key? key,
   }) : super(key: key);
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
-      TrimSoundForDetectingState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
+      TrimSoundForDetectionState> viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -176,8 +176,8 @@ class _PlayControlButton extends ConsumerWidget {
     Key? key,
   }) : super(key: key);
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
-      TrimSoundForDetectingState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
+      TrimSoundForDetectionState> viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -205,8 +205,8 @@ class _GrayMask extends ConsumerWidget {
     Key? key,
   }) : super(key: key);
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectingViewModel,
-      TrimSoundForDetectingState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
+      TrimSoundForDetectionState> viewModelProvider;
   final Widget child;
 
   @override

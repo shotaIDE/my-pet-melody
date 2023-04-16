@@ -4,19 +4,19 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/trim_sound_for_detecting_state.dart';
+import 'package:meow_music/ui/trim_sound_for_detection_state.dart';
 import 'package:path/path.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
-class TrimSoundForDetectingViewModel
-    extends StateNotifier<TrimSoundForDetectingState> {
-  TrimSoundForDetectingViewModel({
+class TrimSoundForDetectionViewModel
+    extends StateNotifier<TrimSoundForDetectionState> {
+  TrimSoundForDetectionViewModel({
     required Ref ref,
     required String moviePath,
   })  : _ref = ref,
         _moviePath = moviePath,
         super(
-          TrimSoundForDetectingState(
+          TrimSoundForDetectionState(
             trimmer: Trimmer(),
           ),
         );
