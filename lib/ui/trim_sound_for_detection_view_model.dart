@@ -21,6 +21,8 @@ class TrimSoundForDetectionViewModel
           ),
         );
 
+  static const maxDurationToTrim = Duration(seconds: 20);
+
   final Ref _ref;
   final String _moviePath;
 
@@ -52,8 +54,8 @@ class TrimSoundForDetectionViewModel
         basenameWithoutExtension(_moviePath);
     const targetSizeMegaBytes = 10;
     const targetSizeBytes = targetSizeMegaBytes * 1000 * 1000;
-    const targetBitrate = (targetSizeBytes * 8) ~/ 60;
-    const ffmpegCommand = '-b:v $targetBitrate -maxrate $targetBitrate '
+    final targetBitrate = (targetSizeBytes * 8) ~/ maxDurationToTrim.inSeconds;
+    final ffmpegCommand = '-b:v $targetBitrate -maxrate $targetBitrate '
         '-bufsize ${targetBitrate * 2}';
     const convertedExtension = '.mp4';
 

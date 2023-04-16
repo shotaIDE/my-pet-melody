@@ -167,7 +167,7 @@ class _TrimEditor extends ConsumerWidget {
       builder: (context, constraints) => TrimEditor(
         trimmer: trimmer,
         viewerWidth: constraints.maxWidth - 16,
-        maxVideoLength: const Duration(minutes: 1),
+        maxVideoLength: TrimSoundForDetectionViewModel.maxDurationToTrim,
         onChangeStart: viewModel.onUpdateStart,
         onChangeEnd: viewModel.onUpdateEnd,
         onChangePlaybackState: (isPlaying) =>
