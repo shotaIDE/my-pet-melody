@@ -103,7 +103,7 @@ class SelectTrimmedSoundViewModel
     await Future.wait(
       List.generate(splitCount, (index) async {
         final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'split-$paddedIndex.png';
+        final outputFileName = 'split_$paddedIndex.png';
         final outputPath = '$outputParentPath/$outputFileName';
 
         final file = File(outputPath);
