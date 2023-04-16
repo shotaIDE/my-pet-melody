@@ -50,6 +50,11 @@ class TrimSoundForDetectionViewModel
 
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
+    const targetSizeMegaBytes = 10;
+    const targetSizeBytes = targetSizeMegaBytes * 1000 * 1000;
+    const targetBitrate = (targetSizeBytes * 8) ~/ 60;
+    const ffmpegCommand = '-b:v $targetBitrate -maxrate $targetBitrate '
+        '-bufsize ${targetBitrate * 2}';
     const convertedExtension = '.mp4';
 
     final trimmedPathCompleter = Completer<String?>();
@@ -60,6 +65,7 @@ class TrimSoundForDetectionViewModel
       onSave: (value) {
         trimmedPathCompleter.complete(value);
       },
+      ffmpegCommand: ffmpegCommand,
       customVideoFormat: convertedExtension,
     );
 
