@@ -63,10 +63,10 @@ class _TrimSoundForDetectionScreenState
     final editor = _TrimEditor(viewModelProvider: widget.viewModelProvider);
 
     final playButton = IconButton(
+      iconSize: 64,
       onPressed: ref.read(widget.viewModelProvider.notifier).onPlay,
       icon: _PlayControlButton(
         viewModelProvider: widget.viewModelProvider,
-        size: 64,
         color: Colors.white,
       ),
     );
@@ -81,37 +81,27 @@ class _TrimSoundForDetectionScreenState
           )
         ],
       ),
-      body: ColoredBox(
-        color: Colors.black,
-        child: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constrains) {
-              return Column(
-                children: [
-                  const SizedBox(height: 32),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: description,
-                  ),
-                  const SizedBox(height: 32),
-                  Expanded(
-                    child: viewer,
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: constrains.maxWidth,
-                    child: editor,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: playButton,
-                  ),
-                ],
-              );
-            },
+      body: Column(
+        children: [
+          const SizedBox(height: 32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: description,
           ),
-        ),
+          const SizedBox(height: 32),
+          Expanded(
+            child: viewer,
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 80,
+            child: editor,
+          ),
+          playButton,
+          const SizedBox(height: 24),
+        ],
       ),
+      backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
     );
 
@@ -190,14 +180,12 @@ class _TrimEditor extends ConsumerWidget {
 class _PlayControlButton extends ConsumerWidget {
   const _PlayControlButton({
     required this.viewModelProvider,
-    required this.size,
     required this.color,
     Key? key,
   }) : super(key: key);
 
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
       TrimSoundForDetectionState> viewModelProvider;
-  final double size;
   final Color color;
 
   @override
@@ -209,7 +197,6 @@ class _PlayControlButton extends ConsumerWidget {
 
     return Icon(
       icon,
-      size: size,
       color: color,
     );
   }
