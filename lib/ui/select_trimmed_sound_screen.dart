@@ -110,7 +110,7 @@ class _UnavailableTrimmedSoundScreenState
           );
     final moviePanel = ListTile(
       leading: firstThumbnail,
-      title: Text(state.fileName),
+      title: Text(state.displayName),
       tileColor: Colors.grey[300],
     );
 
@@ -370,8 +370,8 @@ class _MovieTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final title =
-        ref.watch(viewModelProvider.select((state) => state.fileName));
+    final displayName =
+        ref.watch(viewModelProvider.select((state) => state.displayName));
 
     return ListTile(
       leading: _SplitThumbnail(
@@ -380,7 +380,7 @@ class _MovieTile extends ConsumerWidget {
         width: thumbnailWidth,
         height: thumbnailHeight,
       ),
-      title: Text(title),
+      title: Text(displayName),
       tileColor: Colors.grey[300],
     );
   }

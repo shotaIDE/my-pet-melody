@@ -22,12 +22,12 @@ class SelectTrimmedSoundViewModel
     required Ref ref,
     required SelectTrimmedSoundArgs args,
   })  : _ref = ref,
-        _fileName = args.fileName,
+        _displayName = args.displayName,
         _moviePath = args.soundPath,
         _movieSegmentation = args.movieSegmentation,
         super(
           SelectTrimmedSoundState(
-            fileName: args.fileName,
+            displayName: args.displayName,
             choices: args.movieSegmentation.nonSilents
                 .mapIndexed(
                   (index, segment) => PlayerChoiceTrimmedMovie(
@@ -45,7 +45,7 @@ class SelectTrimmedSoundViewModel
   static const splitCount = 10;
 
   final Ref _ref;
-  final String _fileName;
+  final String _displayName;
   final String _moviePath;
   final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
@@ -233,9 +233,11 @@ class SelectTrimmedSoundViewModel
       return null;
     }
 
+    final displayNameWithIndex = '$_displayName #${choice.id}';
+
     return SelectTrimmedSoundResult(
       uploaded: uploadedSound,
-      displayName: '$_fileName #${choice.id}',
+      displayName: displayNameWithIndex,
       thumbnailLocalPath: thumbnailPath,
     );
   }

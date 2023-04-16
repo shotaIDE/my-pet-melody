@@ -72,11 +72,12 @@ class TrimSoundForDetectingViewModel
     }
 
     final trimmedFile = File(trimmedPath);
-    final displayName = '$originalFileNameWithoutExtension$convertedExtension';
+    final displayFileName =
+        '$originalFileNameWithoutExtension$convertedExtension';
     final detectAction = await _ref.read(detectActionProvider.future);
     final detected = await detectAction(
       trimmedFile,
-      fileName: displayName,
+      fileName: displayFileName,
     );
 
     if (detected == null) {
@@ -84,7 +85,7 @@ class TrimSoundForDetectingViewModel
     }
 
     return SelectTrimmedSoundArgs(
-      fileName: originalFileNameWithoutExtension,
+      displayName: originalFileNameWithoutExtension,
       soundPath: trimmedPath,
       movieSegmentation: detected,
     );
