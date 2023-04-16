@@ -86,7 +86,7 @@ class SelectTrimmedSoundViewModel
     await Future.wait(
       state.choices.mapIndexed((index, choice) async {
         final paddedHash = '${choice.hashCode}'.padLeft(8, '0');
-        final outputFileName = 'thumbnail_$paddedHash.png';
+        final outputFileName = 'choice-thumbnail_$paddedHash.png';
         final outputPath = '$outputParentPath/$outputFileName';
 
         final file = File(outputPath);
@@ -105,7 +105,7 @@ class SelectTrimmedSoundViewModel
     await Future.wait(
       List.generate(DisplayDefinition.equallyDividedCount, (index) async {
         final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'equally-divided_$paddedIndex.png';
+        final outputFileName = 'equally-divided-thumbnail_$paddedIndex.png';
         final outputPath = '$outputParentPath/$outputFileName';
 
         final file = File(outputPath);
@@ -127,7 +127,7 @@ class SelectTrimmedSoundViewModel
     await Future.wait(
       state.choices.mapIndexed((index, choice) async {
         final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'segment_$paddedIndex$originalExtension';
+        final outputFileName = 'choice_$paddedIndex$originalExtension';
         final outputPath = '$outputParentPath/$outputFileName';
 
         final startPosition = AudioPositionHelper.formattedPosition(
