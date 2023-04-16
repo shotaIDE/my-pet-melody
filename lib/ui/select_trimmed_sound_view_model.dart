@@ -95,10 +95,6 @@ class SelectTrimmedSoundViewModel
         final thumbnailBytes = base64Decode(thumbnailBase64);
         await file.writeAsBytes(thumbnailBytes);
 
-        debugPrint(
-          'thumbnail #$index: $outputPath, ${thumbnailBase64.substring(0, 20)}',
-        );
-
         final choices = [...state.choices];
         final replacedChoice = choice.copyWith(thumbnailPath: outputPath);
         choices[index] = replacedChoice;
@@ -120,10 +116,6 @@ class SelectTrimmedSoundViewModel
             _movieSegmentation.equallyDividedThumbnailsBase64[index];
         final thumbnailBytes = base64Decode(thumbnailBase64);
         await file.writeAsBytes(thumbnailBytes);
-
-        debugPrint(
-          'split #$index: $outputPath, ${thumbnailBase64.substring(0, 20)}',
-        );
 
         final splitThumbnails = [...state.splitThumbnails];
         splitThumbnails[index] = outputPath;
@@ -150,10 +142,6 @@ class SelectTrimmedSoundViewModel
           '-i $_moviePath '
           '-y '
           '$outputPath',
-        );
-
-        debugPrint(
-          'segment #$index: $outputPath, $startPosition to $endPosition',
         );
 
         final choices = [...state.choices];
