@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/movie_segmentation.dart';
 import 'package:meow_music/data/usecase/submission_use_case.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
@@ -22,11 +23,12 @@ class SelectTrimmedSoundViewModel
     required Ref ref,
     required SelectTrimmedSoundArgs args,
   })  : _ref = ref,
+        _displayName = args.displayName,
         _moviePath = args.soundPath,
         _movieSegmentation = args.movieSegmentation,
         super(
           SelectTrimmedSoundState(
-            fileName: basename(args.soundPath),
+            displayName: args.displayName,
             choices: args.movieSegmentation.nonSilents
                 .mapIndexed(
                   (index, segment) => PlayerChoiceTrimmedMovie(
@@ -36,14 +38,16 @@ class SelectTrimmedSoundViewModel
                   ),
                 )
                 .toList(),
-            splitThumbnails: List.generate(splitCount, (_) => null),
+            equallyDividedThumbnailPaths: List.generate(
+              DisplayDefinition.equallyDividedCount,
+              (_) => null,
+            ),
             durationMilliseconds: args.movieSegmentation.durationMilliseconds,
           ),
         );
 
-  static const splitCount = 10;
-
   final Ref _ref;
+  final String _displayName;
   final String _moviePath;
   final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
@@ -82,7 +86,7 @@ class SelectTrimmedSoundViewModel
     await Future.wait(
       state.choices.mapIndexed((index, choice) async {
         final paddedHash = '${choice.hashCode}'.padLeft(8, '0');
-        final outputFileName = 'thumbnail_$paddedHash.png';
+        final outputFileName = 'choice-thumbnail_$paddedHash.png';
         final outputPath = '$outputParentPath/$outputFileName';
 
         final file = File(outputPath);
@@ -99,9 +103,9 @@ class SelectTrimmedSoundViewModel
     );
 
     await Future.wait(
-      List.generate(splitCount, (index) async {
+      List.generate(DisplayDefinition.equallyDividedCount, (index) async {
         final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'split_$paddedIndex.png';
+        final outputFileName = 'equally-divided-thumbnail_$paddedIndex.png';
         final outputPath = '$outputParentPath/$outputFileName';
 
         final file = File(outputPath);
@@ -110,16 +114,20 @@ class SelectTrimmedSoundViewModel
         final thumbnailBytes = base64Decode(thumbnailBase64);
         await file.writeAsBytes(thumbnailBytes);
 
-        final splitThumbnails = [...state.splitThumbnails];
-        splitThumbnails[index] = outputPath;
-        state = state.copyWith(splitThumbnails: splitThumbnails);
+        final equallyDividedThumbnailPaths = [
+          ...state.equallyDividedThumbnailPaths
+        ];
+        equallyDividedThumbnailPaths[index] = outputPath;
+        state = state.copyWith(
+          equallyDividedThumbnailPaths: equallyDividedThumbnailPaths,
+        );
       }),
     );
 
     await Future.wait(
       state.choices.mapIndexed((index, choice) async {
         final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'segment_$paddedIndex$originalExtension';
+        final outputFileName = 'choice_$paddedIndex$originalExtension';
         final outputPath = '$outputParentPath/$outputFileName';
 
         final startPosition = AudioPositionHelper.formattedPosition(
@@ -157,8 +165,8 @@ class SelectTrimmedSoundViewModel
   }
 
   Future<void> play({required PlayerChoiceTrimmedMovie choice}) async {
-    final url = choice.uri;
-    if (url == null) {
+    final path = choice.uri;
+    if (path == null) {
       return;
     }
 
@@ -179,7 +187,7 @@ class SelectTrimmedSoundViewModel
 
     _setPlayerChoices(playingList);
 
-    final source = UrlSource(url);
+    final source = DeviceFileSource(path);
 
     await _player.play(source);
   }
@@ -208,7 +216,7 @@ class SelectTrimmedSoundViewModel
       return null;
     }
 
-    final thumbnailPath = state.splitThumbnails[index];
+    final thumbnailPath = state.equallyDividedThumbnailPaths[index];
     if (thumbnailPath == null) {
       return null;
     }
@@ -231,12 +239,11 @@ class SelectTrimmedSoundViewModel
       return null;
     }
 
-    final originalFileNameWithoutExtension =
-        basenameWithoutExtension(_moviePath);
+    final displayNameWithIndex = '$_displayName #${choice.id}';
 
     return SelectTrimmedSoundResult(
       uploaded: uploadedSound,
-      displayName: '$originalFileNameWithoutExtension - セグメント${choice.id}',
+      displayName: displayNameWithIndex,
       thumbnailLocalPath: thumbnailPath,
     );
   }

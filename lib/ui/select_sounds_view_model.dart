@@ -1,27 +1,20 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/data/model/uploaded_media.dart';
-import 'package:meow_music/data/usecase/submission_use_case.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/play_status.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/set_piece_title_state.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:video_compress/video_compress.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
-    required Ref ref,
     required Template selectedTemplate,
-  })  : _ref = ref,
-        super(
+  }) : super(
           SelectSoundsState(
             template: PlayerChoiceTemplate(
               template: selectedTemplate,
@@ -39,10 +32,13 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     _setup();
   }
 
-  final Ref _ref;
   final _player = AudioPlayer();
 
   late String _thumbnailLocalPath;
+
+  Future<String?> Function()? _pickVideoFile;
+  Future<SelectTrimmedSoundResult?> Function(String soundPath)?
+      _selectTrimmedSound;
 
   Duration? _currentAudioDuration;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -62,121 +58,34 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     super.dispose();
   }
 
-  Future<SelectTrimmedSoundArgs?> detect(File file) async {
-    state = state.copyWith(process: SelectSoundScreenProcess.compress);
-
-    final outputDirectory = await getTemporaryDirectory();
-    final outputParentPath = outputDirectory.path;
-    final fileName = basename(file.path);
-    final outputPath = '$outputParentPath/$fileName';
-
-    final copiedFile = await file.copy(outputPath);
-
-    final compressedMediaInfo = await VideoCompress.compressVideo(
-      outputPath,
-      quality: VideoQuality.Res640x480Quality,
-      deleteOrigin: true,
-    );
-    final compressedFilePath = compressedMediaInfo?.path;
-    if (compressedFilePath == null) {
-      return null;
-    }
-
-    final compressedFile = File(compressedFilePath);
-
-    state = state.copyWith(process: SelectSoundScreenProcess.detect);
-
-    final detectAction = await _ref.read(detectActionProvider.future);
-    final detected = await detectAction(
-      compressedFile,
-      fileName: fileName,
-    );
-
-    state = state.copyWith(process: null);
-
-    if (detected == null) {
-      return null;
-    }
-
-    return SelectTrimmedSoundArgs(
-      soundPath: copiedFile.path,
-      movieSegmentation: detected,
-    );
+  void registerListener({
+    required Future<String?> Function() pickVideoFile,
+    required Future<SelectTrimmedSoundResult?> Function(String soundPath)
+        selectTrimmedSound,
+  }) {
+    _pickVideoFile = pickVideoFile;
+    _selectTrimmedSound = selectTrimmedSound;
   }
 
-  Future<void> upload(
-    File file, {
-    required PlayerChoiceSound target,
-  }) async {
-    final sounds = [...state.sounds];
-    final index = sounds.indexOf(target);
+  Future<void> onTapSelectSound({required PlayerChoiceSound choice}) async {
+    state = state.copyWith(isPicking: true);
 
-    final localFileName = basename(file.path);
-    final uploading = target.copyWith(
-      sound:
-          SelectedSound.uploading(id: target.id, localFileName: localFileName),
-    );
-
-    sounds[index] = uploading;
-
-    state = state.copyWith(sounds: sounds);
-
-    final uploadAction = await _ref.read(uploadActionProvider.future);
-    final uploadedSound = await uploadAction(
-      file,
-      fileName: basename(file.path),
-    );
-
-    if (uploadedSound == null) {
-      sounds[index] = target.copyWith(
-        sound: SelectedSound.none(id: target.id),
-      );
-
-      state = state.copyWith(
-        sounds: sounds,
-        isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
-      );
-
+    final pickedPath = await _pickVideoFile?.call();
+    if (pickedPath == null) {
+      state = state.copyWith(isPicking: false);
       return;
     }
 
-    sounds[index] = target.copyWith(
-      sound: SelectedSound.uploaded(
-        id: uploadedSound.id,
-        extension: uploadedSound.extension,
-        localFileName: localFileName,
-        remoteUrl: uploadedSound.url,
-      ),
-    );
+    final selectTrimmedSoundResult =
+        await _selectTrimmedSound?.call(pickedPath);
+    if (selectTrimmedSoundResult == null) {
+      state = state.copyWith(isPicking: false);
+      return;
+    }
 
-    state = state.copyWith(
-      sounds: sounds,
-      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
-    );
-  }
+    state = state.copyWith(isPicking: false);
 
-  Future<void> onSelectedTrimmedSound(
-    SelectTrimmedSoundResult result, {
-    required PlayerChoiceSound target,
-  }) async {
-    final sounds = [...state.sounds];
-    final index = sounds.indexOf(target);
-
-    sounds[index] = target.copyWith(
-      sound: SelectedSound.uploaded(
-        id: result.uploaded.id,
-        extension: result.uploaded.extension,
-        localFileName: result.displayName,
-        remoteUrl: result.uploaded.url,
-      ),
-    );
-
-    state = state.copyWith(
-      sounds: sounds,
-      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
-    );
-
-    _thumbnailLocalPath = result.thumbnailLocalPath;
+    await _onSelectedTrimmedSound(selectTrimmedSoundResult, target: choice);
   }
 
   Future<void> delete({required PlayerChoiceSound target}) async {
@@ -260,6 +169,30 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await _player.stop();
   }
 
+  Future<void> _onSelectedTrimmedSound(
+    SelectTrimmedSoundResult result, {
+    required PlayerChoiceSound target,
+  }) async {
+    final sounds = [...state.sounds];
+    final index = sounds.indexOf(target);
+
+    sounds[index] = target.copyWith(
+      sound: SelectedSound.uploaded(
+        id: result.uploaded.id,
+        extension: result.uploaded.extension,
+        localFileName: result.displayName,
+        remoteUrl: result.uploaded.url,
+      ),
+    );
+
+    state = state.copyWith(
+      sounds: sounds,
+      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
+    );
+
+    _thumbnailLocalPath = result.thumbnailLocalPath;
+  }
+
   bool _getIsAvailableSubmission({required List<PlayerChoiceSound> sounds}) {
     return sounds.fold(
       true,
@@ -267,7 +200,6 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
           previousValue &&
           sound.sound.map(
             none: (_) => false,
-            uploading: (_) => false,
             uploaded: (_) => true,
           ),
     );

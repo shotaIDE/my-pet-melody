@@ -1,33 +1,29 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/ui/model/player_choice.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
-import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/set_piece_title_screen.dart';
+import 'package:meow_music/ui/trim_sound_for_detection_screen.dart';
 
-final selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
+final _selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
   (ref, template) => SelectSoundsViewModel(
-    ref: ref,
     selectedTemplate: template,
   ),
 );
 
 class SelectSoundsScreen extends ConsumerStatefulWidget {
   SelectSoundsScreen({required Template template, Key? key})
-      : viewModel = selectSoundsViewModelProvider(template),
+      : viewModelProvider = _selectSoundsViewModelProvider(template),
         super(key: key);
 
   static const name = 'SelectSoundsScreen';
 
   final AutoDisposeStateNotifierProvider<SelectSoundsViewModel,
-      SelectSoundsState> viewModel;
+      SelectSoundsState> viewModelProvider;
 
   static MaterialPageRoute route({
     required Template template,
@@ -43,8 +39,28 @@ class SelectSoundsScreen extends ConsumerStatefulWidget {
 
 class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    ref.read(widget.viewModelProvider.notifier).registerListener(
+      pickVideoFile: () async {
+        final pickedFileResult = await FilePicker.platform.pickFiles(
+          type: FileType.video,
+        );
+        return pickedFileResult?.files.single.path;
+      },
+      selectTrimmedSound: (moviePath) async {
+        return Navigator.push<SelectTrimmedSoundResult?>(
+          context,
+          TrimSoundForDetectionScreen.route(moviePath: moviePath),
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
+    final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
       '鳴き声を設定しよう',
@@ -61,10 +77,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       title: Text(template.template.name),
       tileColor: Colors.grey[300],
       onTap: template.status.map(
-        stop: (_) =>
-            () => ref.read(widget.viewModel.notifier).play(choice: template),
-        playing: (_) =>
-            () => ref.read(widget.viewModel.notifier).stop(choice: template),
+        stop: (_) => () =>
+            ref.read(widget.viewModelProvider.notifier).play(choice: template),
+        playing: (_) => () =>
+            ref.read(widget.viewModelProvider.notifier).stop(choice: template),
       ),
     );
     final templateControl = Column(
@@ -116,15 +132,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               style: TextStyle(color: Colors.grey),
               overflow: TextOverflow.ellipsis,
             ),
-            onTap: () => _selectSound(target: sound),
-          ),
-          uploading: (_, localFileName) => ListTile(
-            leading: leading,
-            title: Text(
-              localFileName,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: const CircularProgressIndicator(),
+            onTap: () => ref
+                .read(widget.viewModelProvider.notifier)
+                .onTapSelectSound(choice: sound),
           ),
           uploaded: (_, __, localFileName, remoteFileName) => ListTile(
             leading: leading,
@@ -134,14 +144,17 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ),
             trailing: IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () =>
-                  ref.read(widget.viewModel.notifier).delete(target: sound),
+              onPressed: () => ref
+                  .read(widget.viewModelProvider.notifier)
+                  .delete(target: sound),
             ),
             onTap: sound.status.map(
-              stop: (_) =>
-                  () => ref.read(widget.viewModel.notifier).play(choice: sound),
-              playing: (_) =>
-                  () => ref.read(widget.viewModel.notifier).stop(choice: sound),
+              stop: (_) => () => ref
+                  .read(widget.viewModelProvider.notifier)
+                  .play(choice: sound),
+              playing: (_) => () => ref
+                  .read(widget.viewModelProvider.notifier)
+                  .stop(choice: sound),
             ),
           ),
         );
@@ -213,7 +226,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final scaffold = WillPopScope(
       onWillPop: () async {
-        await ref.read(widget.viewModel.notifier).beforeHideScreen();
+        await ref.read(widget.viewModelProvider.notifier).beforeHideScreen();
         return true;
       },
       child: Scaffold(
@@ -244,8 +257,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final process = state.process;
-    return process != null
+    return state.isPicking
         ? Stack(
             children: [
               scaffold,
@@ -256,7 +268,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      _processLabel(process),
+                      '動画を選択しています',
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
@@ -268,70 +280,15 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           )
         : scaffold;
   }
 
-  String _processLabel(SelectSoundScreenProcess process) {
-    switch (process) {
-      case SelectSoundScreenProcess.compress:
-        return '動画を変換しています';
-
-      case SelectSoundScreenProcess.detect:
-        return '動画の中から鳴き声を探しています';
-
-      case SelectSoundScreenProcess.submit:
-        return '提出しています';
-    }
-  }
-
-  Future<void> _selectSound({required PlayerChoiceSound target}) async {
-    final pickedFileResult = await FilePicker.platform.pickFiles(
-      type: FileType.video,
-    );
-
-    if (pickedFileResult == null) {
-      return;
-    }
-
-    final pickedPlatformFile = pickedFileResult.files.single;
-    final pickedPath = pickedPlatformFile.path!;
-    final pickedFile = File(pickedPath);
-
-    final selectTrimmedSoundArgs =
-        await ref.read(widget.viewModel.notifier).detect(pickedFile);
-    if (!mounted) {
-      return;
-    }
-
-    if (selectTrimmedSoundArgs == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('サイズが 100 MB 未満の動画を選んでください')),
-      );
-      return;
-    }
-
-    final selectTrimmedSoundResult =
-        await Navigator.push<SelectTrimmedSoundResult?>(
-      context,
-      SelectTrimmedSoundScreen.route(
-        args: selectTrimmedSoundArgs,
-      ),
-    );
-
-    if (selectTrimmedSoundResult == null) {
-      return;
-    }
-
-    await ref
-        .read(widget.viewModel.notifier)
-        .onSelectedTrimmedSound(selectTrimmedSoundResult, target: target);
-  }
-
   Future<void> _showSetPieceTitleScreen() async {
-    final args = ref.read(widget.viewModel.notifier).getSetPieceTitleArgs();
+    final args =
+        ref.read(widget.viewModelProvider.notifier).getSetPieceTitleArgs();
 
     await Navigator.push<void>(
       context,

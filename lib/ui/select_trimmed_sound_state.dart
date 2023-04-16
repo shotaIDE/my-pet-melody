@@ -8,9 +8,9 @@ part 'select_trimmed_sound_state.freezed.dart';
 @freezed
 class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
   const factory SelectTrimmedSoundState({
-    required String fileName,
+    required String displayName,
     required List<PlayerChoiceTrimmedMovie> choices,
-    required List<String?> splitThumbnails,
+    required List<String?> equallyDividedThumbnailPaths,
     required int durationMilliseconds,
     @Default(false) bool isUploading,
   }) = _SelectTrimmedSoundState;
@@ -19,6 +19,7 @@ class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
 @freezed
 class SelectTrimmedSoundArgs with _$SelectTrimmedSoundArgs {
   const factory SelectTrimmedSoundArgs({
+    required String displayName,
     required String soundPath,
     required MovieSegmentation movieSegmentation,
   }) = _SelectTrimmedSoundArgs;
