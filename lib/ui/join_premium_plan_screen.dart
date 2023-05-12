@@ -134,28 +134,11 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       ),
     );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_opened.png');
-
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('プレミアムプラン'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                body,
-                Positioned(
-                  bottom: 0,
-                  left: 16,
-                  child: SafeArea(child: catImage),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+      body: body,
       resizeToAvoidBottomInset: false,
     );
 

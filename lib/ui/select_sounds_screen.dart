@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
@@ -211,7 +212,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       child: footerButton,
     );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
+    const catImage = SpeakingCatImage();
 
     final footer = Container(
       alignment: Alignment.center,

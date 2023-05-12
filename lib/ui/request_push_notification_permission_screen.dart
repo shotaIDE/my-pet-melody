@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
+import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/request_push_notification_permission_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -97,7 +98,7 @@ class _SelectTemplateState
       ],
     );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_opened.png');
+    const catImage = SpeakingCatImage();
 
     final footer = Container(
       alignment: Alignment.center,
@@ -127,7 +128,7 @@ class _SelectTemplateState
                   padding: const EdgeInsets.only(top: 16),
                   child: body,
                 ),
-                Positioned(bottom: 0, left: 16, child: catImage),
+                const Positioned(bottom: 0, left: 16, child: catImage),
               ],
             ),
           ),
