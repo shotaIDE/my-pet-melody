@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/login_state.dart';
 import 'package:meow_music/ui/login_view_model.dart';
@@ -76,7 +77,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       ),
     );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
+    const catImage = SpeakingCatImage();
 
     final scaffold = Scaffold(
       body: SafeArea(
@@ -98,7 +99,11 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
                     padding: const EdgeInsets.only(top: 16),
                     child: body,
                   ),
-                  Positioned(bottom: 0, right: 16, child: catImage),
+                  const Positioned(
+                    bottom: 0,
+                    right: 16,
+                    child: catImage,
+                  ),
                 ],
               ),
             ),
