@@ -60,8 +60,6 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
       ),
     );
 
-    const catImage = SpeakingCatImage();
-
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('アカウント作成'),
@@ -79,7 +77,11 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
                     padding: const EdgeInsets.only(top: 16),
                     child: body,
                   ),
-                  const Positioned(bottom: 0, right: 16, child: catImage),
+                  const Positioned(
+                    bottom: 0,
+                    right: 16,
+                    child: SpeakingCatImage(),
+                  ),
                 ],
               ),
             ),

@@ -212,8 +212,6 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       child: footerButton,
     );
 
-    const catImage = SpeakingCatImage();
-
     final footer = Container(
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
@@ -247,7 +245,11 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                     padding: const EdgeInsets.only(top: 16),
                     child: body,
                   ),
-                  Positioned(bottom: 0, right: 16, child: catImage),
+                  const Positioned(
+                    bottom: 0,
+                    right: 16,
+                    child: SpeakingCatImage(),
+                  ),
                 ],
               ),
             ),

@@ -161,8 +161,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     }
 
-    const catImage = LyingDownCatImage();
-
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('Meow Music'),
@@ -188,7 +186,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const Positioned(
                     bottom: 0,
                     left: 16,
-                    child: catImage,
+                    child: LyingDownCatImage(),
                   ),
                 ],
               ),

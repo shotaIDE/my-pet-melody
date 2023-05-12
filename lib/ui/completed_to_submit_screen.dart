@@ -47,8 +47,6 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
       child: const Text('通知の設定を確認する'),
     );
 
-    const catImage = ListeningMusicCatImage();
-
     final body = SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
@@ -62,7 +60,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
             ),
             const Padding(
               padding: EdgeInsets.only(top: 32),
-              child: catImage,
+              child: ListeningMusicCatImage(),
             ),
           ],
         ),

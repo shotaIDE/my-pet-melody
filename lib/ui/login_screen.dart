@@ -77,8 +77,6 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       ),
     );
 
-    const catImage = SpeakingCatImage();
-
     final scaffold = Scaffold(
       body: SafeArea(
         bottom: false,
@@ -102,7 +100,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
                   const Positioned(
                     bottom: 0,
                     right: 16,
-                    child: catImage,
+                    child: SpeakingCatImage(),
                   ),
                 ],
               ),
