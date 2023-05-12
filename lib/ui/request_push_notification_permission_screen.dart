@@ -98,8 +98,6 @@ class _SelectTemplateState
       ],
     );
 
-    const catImage = SpeakingCatImage();
-
     final footer = Container(
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
@@ -128,7 +126,13 @@ class _SelectTemplateState
                   padding: const EdgeInsets.only(top: 16),
                   child: body,
                 ),
-                const Positioned(bottom: 0, left: 16, child: catImage),
+                const Positioned(
+                  bottom: 0,
+                  left: 16,
+                  child: SpeakingCatImage(
+                    flipHorizontally: true,
+                  ),
+                ),
               ],
             ),
           ),

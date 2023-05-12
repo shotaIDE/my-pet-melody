@@ -1,14 +1,18 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class FlickeringImage extends StatefulWidget {
   const FlickeringImage({
     required this.firstImage,
     required this.secondImage,
+    this.flipHorizontally = false,
     Key? key,
   }) : super(key: key);
 
   final String firstImage;
   final String secondImage;
+  final bool flipHorizontally;
 
   @override
   FlickeringImageState createState() => FlickeringImageState();
@@ -28,7 +32,7 @@ class FlickeringImageState extends State<FlickeringImage>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
     )
       ..addListener(() {
         setState(() {
@@ -47,6 +51,16 @@ class FlickeringImageState extends State<FlickeringImage>
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(_images[_imageIndex]);
+    final image = Image.asset(_images[_imageIndex]);
+
+    if (widget.flipHorizontally) {
+      return Transform(
+        transform: Matrix4.rotationY(pi),
+        alignment: Alignment.center,
+        child: image,
+      );
+    }
+
+    return image;
   }
 }

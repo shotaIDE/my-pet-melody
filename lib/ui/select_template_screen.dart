@@ -114,8 +114,6 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
             child: CircularProgressIndicator(),
           );
 
-    const catImage = SpeakingCatImage();
-
     final body = SingleChildScrollView(
       padding: const EdgeInsets.only(bottom: 203),
       child: Column(
@@ -154,10 +152,14 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                     padding: const EdgeInsets.only(top: 32),
                     child: body,
                   ),
-                  Positioned(
+                  const Positioned(
                     bottom: 0,
                     left: 16,
-                    child: SafeArea(child: catImage),
+                    child: SafeArea(
+                      child: SpeakingCatImage(
+                        flipHorizontally: true,
+                      ),
+                    ),
                   ),
                 ],
               ),

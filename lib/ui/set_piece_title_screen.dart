@@ -117,8 +117,6 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       ),
     );
 
-    final catImage = const SpeakingCatImage();
-
     final footer = Container(
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
@@ -147,10 +145,14 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
                   padding: const EdgeInsets.only(top: 32),
                   child: body,
                 ),
-                Positioned(
+                const Positioned(
                   bottom: 0,
                   left: 16,
-                  child: SafeArea(child: catImage),
+                  child: SafeArea(
+                    child: SpeakingCatImage(
+                      flipHorizontally: true,
+                    ),
+                  ),
                 ),
               ],
             ),
