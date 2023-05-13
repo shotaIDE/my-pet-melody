@@ -49,11 +49,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
     );
 
     final socialLoginButtonTheme = Theme.of(context).copyWith(
-      textTheme: const TextTheme(
-        labelLarge: TextStyle(
-          fontSize: 19,
-        ),
-      ),
+      // Specify a default text theme to apply the system font to
+      //　"Continue with Apple" button according to Apple's design guidelines.
+      textTheme: const TextTheme(),
     );
 
     const loginButtonElevation = 0.0;
