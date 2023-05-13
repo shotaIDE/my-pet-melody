@@ -82,15 +82,18 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
             const SizedBox(height: 32),
             Theme(
               data: socialLoginButtonTheme,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  loginWithTwitterButton,
-                  const SizedBox(height: 16),
-                  loginWithFacebookButton,
-                  const SizedBox(height: 16),
-                  loginWithAppleButton,
-                ],
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 320),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    loginWithTwitterButton,
+                    const SizedBox(height: 16),
+                    loginWithFacebookButton,
+                    const SizedBox(height: 16),
+                    loginWithAppleButton,
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 32),
@@ -116,6 +119,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
               Expanded(
                 child: SafeArea(
                   top: false,
+                  bottom: false,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: body,
