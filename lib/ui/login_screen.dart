@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/login_state.dart';
 import 'package:meow_music/ui/login_view_model.dart';
@@ -56,7 +57,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
     const loginButtonElevation = 0.0;
     final loginButtonShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(DisplayDefinition.cornerRadiusSize),
     );
     final loginWithTwitterButton = SignInButton(
       Buttons.twitter,
