@@ -53,7 +53,6 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       //　"Continue with Apple" button according to Apple's design guidelines.
       textTheme: const TextTheme(),
     );
-
     final loginWithTwitterButton = ContinueWithTwitterButton(
       onPressed: _loginWithTwitter,
     );
