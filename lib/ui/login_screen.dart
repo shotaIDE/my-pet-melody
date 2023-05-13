@@ -56,33 +56,29 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       ),
     );
 
+    const loginButtonElevation = 0.0;
+    final loginButtonShape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(24),
+    );
     final loginWithTwitterButton = SignInButton(
       Buttons.twitter,
       text: 'Twitterで続ける',
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
+      elevation: loginButtonElevation,
+      shape: loginButtonShape,
       onPressed: _loginWithTwitter,
     );
-
     final loginWithFacebookButton = SignInButton(
       Buttons.facebook,
       text: 'Facebookで続ける',
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
+      elevation: loginButtonElevation,
+      shape: loginButtonShape,
       onPressed: () {},
     );
-
     final loginWithAppleButton = SignInButton(
       Buttons.appleDark,
       text: 'Appleで続ける',
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
+      elevation: loginButtonElevation,
+      shape: loginButtonShape,
       onPressed: () {},
     );
 
