@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
+import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/request_push_notification_permission_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -64,7 +65,7 @@ class _SelectTemplateState
         Image.asset('assets/images/push_notification_banner.png');
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(top: 16, bottom: 203, left: 16, right: 16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -97,8 +98,6 @@ class _SelectTemplateState
       ],
     );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_opened.png');
-
     final footer = Container(
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
@@ -114,25 +113,36 @@ class _SelectTemplateState
       appBar: AppBar(
         title: const Text('依頼前の準備'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: title,
-          ),
-          Expanded(
-            child: Stack(
+      body: SafeArea(
+        bottom: false,
+        left: false,
+        right: false,
+        child: Stack(
+          children: [
+            Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: body,
+                  padding: const EdgeInsets.only(top: 32),
+                  child: title,
                 ),
-                Positioned(bottom: 0, left: 16, child: catImage),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: body,
+                  ),
+                ),
+                footer,
               ],
             ),
-          ),
-          footer,
-        ],
+            const Positioned(
+              bottom: 0,
+              left: 16,
+              child: SpeakingCatImage(
+                flipHorizontally: true,
+              ),
+            ),
+          ],
+        ),
       ),
       resizeToAvoidBottomInset: false,
     );

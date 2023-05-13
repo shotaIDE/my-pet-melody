@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/login_state.dart';
 import 'package:meow_music/ui/login_view_model.dart';
@@ -58,7 +59,10 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
     final body = SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
+        padding: const EdgeInsets.only(
+          top: 16,
+          bottom: SpeakingCatImage.height,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -76,34 +80,36 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       ),
     );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
-
     final scaffold = Scaffold(
-      body: SafeArea(
-        bottom: false,
-        left: false,
-        right: false,
-        child: Column(
-          children: [
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 32),
-                child: title,
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              SafeArea(
+                bottom: false,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 32),
+                  child: title,
+                ),
               ),
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
+              const SizedBox(height: 16),
+              Expanded(
+                child: SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: body,
                   ),
-                  Positioned(bottom: 0, right: 16, child: catImage),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+          const Positioned(
+            bottom: 0,
+            right: 16,
+            child: SpeakingCatImage(),
+          ),
+        ],
       ),
       resizeToAvoidBottomInset: false,
     );

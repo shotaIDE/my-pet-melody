@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/link_with_account_state.dart';
 import 'package:meow_music/ui/link_with_account_view_model.dart';
 
@@ -59,8 +60,6 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
       ),
     );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
-
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('アカウント作成'),
@@ -74,11 +73,17 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
             Expanded(
               child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: body,
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: body,
+                    ),
                   ),
-                  Positioned(bottom: 0, right: 16, child: catImage),
+                  const Positioned(
+                    bottom: 0,
+                    right: 16,
+                    child: SpeakingCatImage(),
+                  ),
                 ],
               ),
             ),

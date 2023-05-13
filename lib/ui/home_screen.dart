@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
+import 'package:meow_music/ui/component/lying_down_cat_image.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_state.dart';
@@ -49,6 +50,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     } else {
       if (pieces.isNotEmpty) {
         body = ListView.separated(
+          padding: const EdgeInsets.only(bottom: LyingDownCatImage.height),
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
             final playStatus = playablePiece.status;
@@ -169,7 +171,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           )
         ],
       ),
-      body: body,
+      body: SafeArea(
+        bottom: false,
+        left: false,
+        right: false,
+        child: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: body,
+                  ),
+                  const Positioned(
+                    bottom: 0,
+                    left: 16,
+                    child: LyingDownCatImage(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () async {

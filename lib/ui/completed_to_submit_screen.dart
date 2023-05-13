@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_state.dart';
 import 'package:meow_music/ui/completed_to_submit_view_model.dart';
+import 'package:meow_music/ui/component/listening_music_cat_image.dart';
 
 final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
     CompletedToSubmitViewModel, CompletedToSubmitState>(
@@ -46,8 +47,6 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
       child: const Text('通知の設定を確認する'),
     );
 
-    final catImage = Image.asset('assets/images/full_cat.png');
-
     final body = SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
@@ -59,9 +58,9 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
               padding: const EdgeInsets.only(top: 16),
               child: notificationButton,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: catImage,
+            const Padding(
+              padding: EdgeInsets.only(top: 32),
+              child: ListeningMusicCatImage(),
             ),
           ],
         ),

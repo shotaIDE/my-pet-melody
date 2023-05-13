@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/select_sounds_screen.dart';
 import 'package:meow_music/ui/select_template_state.dart';
 import 'package:meow_music/ui/select_template_view_model.dart';
@@ -113,10 +114,8 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
             child: CircularProgressIndicator(),
           );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_opened.png');
-
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 203),
+      padding: const EdgeInsets.only(bottom: SpeakingCatImage.height),
       child: Column(
         children: [
           Padding(
@@ -153,10 +152,12 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                     padding: const EdgeInsets.only(top: 32),
                     child: body,
                   ),
-                  Positioned(
+                  const Positioned(
                     bottom: 0,
                     left: 16,
-                    child: SafeArea(child: catImage),
+                    child: SpeakingCatImage(
+                      flipHorizontally: true,
+                    ),
                   ),
                 ],
               ),

@@ -120,18 +120,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ),
     );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_closed.png');
-
     final scaffold = Scaffold(
       appBar: AppBar(
         title: const Text('設定'),
       ),
-      body: Stack(
-        children: [
-          body,
-          Positioned(bottom: 0, right: 16, child: catImage),
-        ],
-      ),
+      body: body,
       resizeToAvoidBottomInset: false,
     );
 

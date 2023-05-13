@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
+import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:meow_music/ui/set_piece_title_state.dart';
@@ -116,8 +117,6 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       ),
     );
 
-    final catImage = Image.asset('assets/images/speaking_cat_eye_opened.png');
-
     final footer = Container(
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
@@ -146,10 +145,14 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
                   padding: const EdgeInsets.only(top: 32),
                   child: body,
                 ),
-                Positioned(
+                const Positioned(
                   bottom: 0,
                   left: 16,
-                  child: SafeArea(child: catImage),
+                  child: SafeArea(
+                    child: SpeakingCatImage(
+                      flipHorizontally: true,
+                    ),
+                  ),
                 ),
               ],
             ),
