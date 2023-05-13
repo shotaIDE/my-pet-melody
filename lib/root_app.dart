@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/root_view_model.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/login_screen.dart';
 
@@ -40,6 +41,16 @@ class _RootAppState extends ConsumerState<RootApp> {
           labelLarge: TextStyle(fontSize: 18),
           labelMedium: TextStyle(fontSize: 16),
           labelSmall: TextStyle(fontSize: 14),
+        ),
+        scaffoldBackgroundColor: Colors.brown[50],
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius:
+                  BorderRadius.circular(DisplayDefinition.cornerRadiusSize),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+          ),
         ),
       ),
       home: home,

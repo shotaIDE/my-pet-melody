@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/social_login_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/login_state.dart';
@@ -47,14 +48,19 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       textAlign: TextAlign.center,
     );
 
-    final loginWithTwitterButton = OutlinedButton(
+    final loginWithTwitterButton = ContinueWithTwitterButton(
       onPressed: _loginWithTwitter,
-      child: const Text('Twitterでログイン'),
+    );
+    final loginWithFacebookButton = ContinueWithFacebookButton(
+      onPressed: () {},
+    );
+    final loginWithAppleButton = ContinueWithAppleButton(
+      onPressed: () {},
     );
 
     final continueWithoutLoginButton = TextButton(
       onPressed: _continueWithoutLoginButton,
-      child: const Text('ログインせずに利用する'),
+      child: const Text('アカウントを作成せずに続ける'),
     );
 
     final body = SingleChildScrollView(
@@ -67,14 +73,22 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             description,
-            Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: loginWithTwitterButton,
+            const SizedBox(height: 32),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 320),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  loginWithTwitterButton,
+                  const SizedBox(height: 16),
+                  loginWithFacebookButton,
+                  const SizedBox(height: 16),
+                  loginWithAppleButton,
+                ],
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: continueWithoutLoginButton,
-            ),
+            const SizedBox(height: 32),
+            continueWithoutLoginButton,
           ],
         ),
       ),
@@ -96,6 +110,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
               Expanded(
                 child: SafeArea(
                   top: false,
+                  bottom: false,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: body,
