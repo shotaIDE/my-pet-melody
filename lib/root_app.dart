@@ -41,6 +41,7 @@ class _RootAppState extends ConsumerState<RootApp> {
           labelMedium: TextStyle(fontSize: 16),
           labelSmall: TextStyle(fontSize: 14),
         ),
+        scaffoldBackgroundColor: Colors.brown[50],
       ),
       home: home,
       localizationsDelegates: const [

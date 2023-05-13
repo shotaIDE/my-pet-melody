@@ -58,7 +58,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
     final loginWithTwitterButton = SignInButton(
       Buttons.twitter,
-      text: 'Twitterでサインイン',
+      text: 'Twitterで続ける',
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
@@ -68,7 +68,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
     final loginWithFacebookButton = SignInButton(
       Buttons.facebook,
-      text: 'Facebookでサインイン',
+      text: 'Facebookで続ける',
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
@@ -78,7 +78,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
     final loginWithAppleButton = SignInButton(
       Buttons.appleDark,
-      text: 'Appleでサインイン',
+      text: 'Appleで続ける',
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
@@ -88,7 +88,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
     final continueWithoutLoginButton = TextButton(
       onPressed: _continueWithoutLoginButton,
-      child: const Text('ログインせずに利用する'),
+      child: const Text('アカウントを作成せずに続ける'),
     );
 
     final body = SingleChildScrollView(
