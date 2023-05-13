@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/social_login_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/login_state.dart';
 import 'package:meow_music/ui/login_view_model.dart';
-import 'package:sign_in_button/sign_in_button.dart';
 
 final _loginViewModelProvider =
     StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
@@ -55,29 +54,13 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       textTheme: const TextTheme(),
     );
 
-    const loginButtonElevation = 0.0;
-    final loginButtonShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(DisplayDefinition.cornerRadiusSize),
-    );
-    final loginWithTwitterButton = SignInButton(
-      Buttons.twitter,
-      text: 'Twitterで続ける',
-      elevation: loginButtonElevation,
-      shape: loginButtonShape,
+    final loginWithTwitterButton = ContinueWithTwitterButton(
       onPressed: _loginWithTwitter,
     );
-    final loginWithFacebookButton = SignInButton(
-      Buttons.facebook,
-      text: 'Facebookで続ける',
-      elevation: loginButtonElevation,
-      shape: loginButtonShape,
+    final loginWithFacebookButton = ContinueWithFacebookButton(
       onPressed: () {},
     );
-    final loginWithAppleButton = SignInButton(
-      Buttons.appleDark,
-      text: 'Appleで続ける',
-      elevation: loginButtonElevation,
-      shape: loginButtonShape,
+    final loginWithAppleButton = ContinueWithAppleButton(
       onPressed: () {},
     );
 
