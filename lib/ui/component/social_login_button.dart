@@ -83,6 +83,13 @@ class _ContinueWithThirdPartyProviderButton extends StatelessWidget {
       onPressed: onPressed,
       style: TextButton.styleFrom(
         backgroundColor: backgroundColor,
+        textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
+              fontSize: 16,
+              // Specify a default text theme to apply the system font to
+              // "Continue with Apple" button according to
+              // Apple's design guidelines.
+              fontFamily: '',
+            ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -48,11 +48,6 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       textAlign: TextAlign.center,
     );
 
-    final socialLoginButtonTheme = Theme.of(context).copyWith(
-      // Specify a default text theme to apply the system font to
-      //　"Continue with Apple" button according to Apple's design guidelines.
-      textTheme: const TextTheme(),
-    );
     final loginWithTwitterButton = ContinueWithTwitterButton(
       onPressed: _loginWithTwitter,
     );
@@ -79,20 +74,17 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
           children: [
             description,
             const SizedBox(height: 32),
-            Theme(
-              data: socialLoginButtonTheme,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 320),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    loginWithTwitterButton,
-                    const SizedBox(height: 16),
-                    loginWithFacebookButton,
-                    const SizedBox(height: 16),
-                    loginWithAppleButton,
-                  ],
-                ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 320),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  loginWithTwitterButton,
+                  const SizedBox(height: 16),
+                  loginWithFacebookButton,
+                  const SizedBox(height: 16),
+                  loginWithAppleButton,
+                ],
               ),
             ),
             const SizedBox(height: 32),
