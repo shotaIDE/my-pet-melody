@@ -115,7 +115,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
           );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 203),
+      padding: const EdgeInsets.only(bottom: SpeakingCatImage.height),
       child: Column(
         children: [
           Padding(
@@ -155,10 +155,8 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                   const Positioned(
                     bottom: 0,
                     left: 16,
-                    child: SafeArea(
-                      child: SpeakingCatImage(
-                        flipHorizontally: true,
-                      ),
+                    child: SpeakingCatImage(
+                      flipHorizontally: true,
                     ),
                   ),
                 ],

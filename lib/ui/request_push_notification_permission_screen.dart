@@ -65,7 +65,7 @@ class _SelectTemplateState
         Image.asset('assets/images/push_notification_banner.png');
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(top: 16, bottom: 203, left: 16, right: 16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -113,31 +113,36 @@ class _SelectTemplateState
       appBar: AppBar(
         title: const Text('依頼前の準備'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: title,
-          ),
-          Expanded(
-            child: Stack(
+      body: SafeArea(
+        bottom: false,
+        left: false,
+        right: false,
+        child: Stack(
+          children: [
+            Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: body,
+                  padding: const EdgeInsets.only(top: 32),
+                  child: title,
                 ),
-                const Positioned(
-                  bottom: 0,
-                  left: 16,
-                  child: SpeakingCatImage(
-                    flipHorizontally: true,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: body,
                   ),
                 ),
+                footer,
               ],
             ),
-          ),
-          footer,
-        ],
+            const Positioned(
+              bottom: 0,
+              left: 16,
+              child: SpeakingCatImage(
+                flipHorizontally: true,
+              ),
+            ),
+          ],
+        ),
       ),
       resizeToAvoidBottomInset: false,
     );

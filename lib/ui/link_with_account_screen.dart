@@ -73,9 +73,11 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
             Expanded(
               child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: body,
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: body,
+                    ),
                   ),
                   const Positioned(
                     bottom: 0,

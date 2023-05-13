@@ -50,6 +50,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     } else {
       if (pieces.isNotEmpty) {
         body = ListView.separated(
+          padding: const EdgeInsets.only(bottom: LyingDownCatImage.height),
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
             final playStatus = playablePiece.status;
