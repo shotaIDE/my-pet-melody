@@ -44,6 +44,7 @@ dependencies:
   twitter_login: ^4.3.1
   app_review: ^2.1.2+1
   package_info_plus: ^1.4.3+1
+  sign_in_button: ^3.2.0
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
