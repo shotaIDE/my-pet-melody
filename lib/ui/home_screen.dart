@@ -164,7 +164,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     final scaffold = Scaffold(
       appBar: AppBar(
-        title: const Text('Meow Music'),
+        title: const Text('つくった作品'),
         actions: [
           _SettingsButton(
             onPressed: () => Navigator.push(context, SettingsScreen.route()),
