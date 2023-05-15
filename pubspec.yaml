@@ -38,7 +38,7 @@ dependencies:
   firebase_auth: ^3.11.2
   cloud_firestore: ^3.1.16
   chewie: ^1.4.0
-  video_player: ^2.4.10
+  video_player: ^2.6.1
   cross_file: ^0.3.3+2
   video_thumbnail: ^0.5.3
   twitter_login: ^4.3.1
