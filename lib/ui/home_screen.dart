@@ -60,21 +60,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Image.network(generated.thumbnailUrl, fit: BoxFit.fitWidth),
             );
             const thumbnailHeight = 74.0;
-            final leading = Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                SizedBox(
-                  width: thumbnailHeight * DisplayDefinition.aspectRatio,
-                  height: thumbnailHeight,
-                  child: thumbnail,
-                ),
-                playStatus.when(
-                  stop: () => const Icon(Icons.play_arrow),
-                  playing: (_) => const Icon(Icons.stop),
-                ),
-              ],
-            );
-
             final piece = playablePiece.piece;
             final dateFormatter = DateFormat.yMd('ja');
             final timeFormatter = DateFormat.Hm('ja');
@@ -88,58 +73,76 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   '${timeFormatter.format(generated.generatedAt)}',
             );
 
-            final void Function()? onTap;
-            onTap = piece.map(
+            final onTap = piece.map(
               generating: (_) => null,
-              generated: (generatedPiece) => playStatus.when(
-                stop: () => () {
-                  Navigator.push(
-                    context,
-                    VideoScreen.route(url: generatedPiece.movieUrl),
-                  );
-                },
-                playing: (_) => () => ref
-                    .read(widget.viewModel.notifier)
-                    .stop(piece: playablePiece),
-              ),
+              generated: (generatedPiece) {
+                return playStatus.when(
+                  stop: () {
+                    return () {
+                      Navigator.push(
+                        context,
+                        VideoScreen.route(url: generatedPiece.movieUrl),
+                      );
+                    };
+                  },
+                  playing: (_) {
+                    return () => ref
+                        .read(widget.viewModel.notifier)
+                        .stop(piece: playablePiece);
+                  },
+                );
+              },
             );
 
-            final tile = ListTile(
-              leading: Column(
-                children: [
-                  Expanded(child: leading),
-                ],
-              ),
-              title: Text(piece.name),
-              subtitle: Text(subtitleLabel),
-              trailing: IconButton(
-                icon: const Icon(Icons.share),
-                onPressed: () => _share(piece: piece),
-              ),
-              tileColor: piece.map(
-                generating: (_) => Colors.grey[300],
-                generated: (_) => null,
-              ),
-              onTap: onTap,
-            );
-
-            return Column(
-              mainAxisSize: MainAxisSize.min,
+            final leading = Stack(
+              alignment: AlignmentDirectional.center,
               children: [
-                tile,
-                playStatus.when(
-                  stop: () => const Visibility(
-                    visible: false,
-                    maintainState: true,
-                    maintainAnimation: true,
-                    maintainSize: true,
-                    child: LinearProgressIndicator(),
-                  ),
-                  playing: (position) => Visibility(
-                    child: LinearProgressIndicator(value: position),
+                SizedBox(
+                  width: thumbnailHeight * DisplayDefinition.aspectRatio,
+                  height: thumbnailHeight,
+                  child: thumbnail,
+                ),
+                CircularProgressIndicator(
+                  value: playStatus.when(
+                    stop: () => 0,
+                    playing: (position) => position,
                   ),
                 ),
+                playStatus.when(
+                  stop: () => const Icon(Icons.play_arrow),
+                  playing: (_) => const Icon(Icons.stop),
+                ),
               ],
+            );
+
+            return GestureDetector(
+              onTap: onTap,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    leading,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(piece.name),
+                          Text(subtitleLabel),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.share),
+                      onPressed: () => _share(piece: piece),
+                    ),
+                  ],
+                ),
+              ),
             );
           },
           itemCount: pieces.length,
