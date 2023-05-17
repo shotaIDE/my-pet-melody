@@ -114,15 +114,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               },
             );
 
-            return Material(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
+            final borderColor = piece.map(
+              generating: (_) => Colors.grey,
+              generated: (_) => Colors.transparent,
+            );
+            final backgroundColor = piece.map(
+              generating: (_) => Colors.transparent,
+              generated: (_) => Colors.white,
+            );
+
+            return Container(
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                border: Border.all(color: borderColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: InkWell(
                 onTap: onTap,
                 borderRadius: BorderRadius.circular(8),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(8),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    bottomLeft: Radius.circular(8),
                   ),
                   child: Row(
                     children: [
