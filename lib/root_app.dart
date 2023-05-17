@@ -47,7 +47,8 @@ class _RootAppState extends ConsumerState<RootApp> {
           style: TextButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
-                  DisplayDefinition.cornerRadiusSizeLarge),
+                DisplayDefinition.cornerRadiusSizeLarge,
+              ),
             ),
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
           ),
