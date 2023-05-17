@@ -51,6 +51,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       if (pieces.isNotEmpty) {
         body = ListView.separated(
           padding: const EdgeInsets.only(
+            top: 8,
             bottom: LyingDownCatImage.height,
             left: 8,
             right: 8,
@@ -199,29 +200,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           )
         ],
       ),
-      body: SafeArea(
-        bottom: false,
-        left: false,
-        right: false,
-        child: Column(
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: body,
-                  ),
-                  const Positioned(
-                    bottom: 0,
-                    left: 16,
-                    child: LyingDownCatImage(),
-                  ),
-                ],
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                SafeArea(
+                  top: false,
+                  bottom: false,
+                  child: body,
+                ),
+                const Positioned(
+                  bottom: 0,
+                  left: 16,
+                  child: LyingDownCatImage(),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
