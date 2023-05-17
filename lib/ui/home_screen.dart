@@ -50,7 +50,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     } else {
       if (pieces.isNotEmpty) {
         body = ListView.separated(
-          padding: const EdgeInsets.only(bottom: LyingDownCatImage.height),
+          padding: const EdgeInsets.only(
+            bottom: LyingDownCatImage.height,
+            left: 8,
+            right: 8,
+          ),
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
             final playStatus = playablePiece.status;
@@ -116,23 +120,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: InkWell(
                 onTap: onTap,
                 borderRadius: BorderRadius.circular(8),
-                child: Row(
-                  children: [
-                    thumbnail,
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          nameText,
-                          const SizedBox(height: 8),
-                          detailsText,
-                        ],
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      thumbnail,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            nameText,
+                            const SizedBox(height: 8),
+                            detailsText,
+                          ],
+                        ),
                       ),
-                    ),
-                    shareButton,
-                    const SizedBox(width: 16),
-                  ],
+                      shareButton,
+                      const SizedBox(width: 16),
+                    ],
+                  ),
                 ),
               ),
             );
