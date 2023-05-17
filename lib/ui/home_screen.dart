@@ -51,10 +51,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       if (pieces.isNotEmpty) {
         body = ListView.separated(
           padding: const EdgeInsets.only(
-            top: 8,
+            top: DisplayDefinition.screenPaddingSmall,
             bottom: LyingDownCatImage.height,
-            left: 8,
-            right: 8,
+            left: DisplayDefinition.screenPaddingSmall,
+            right: DisplayDefinition.screenPaddingSmall,
           ),
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
