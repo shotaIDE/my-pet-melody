@@ -73,7 +73,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
 
             final piece = playablePiece.piece;
-            final nameText = Text(piece.name);
+            final foregroundColor = piece.map(
+              generating: (_) => Theme.of(context).disabledColor,
+              generated: (_) => null,
+            );
+            final nameText = Text(
+              piece.name,
+              style: TextStyle(color: foregroundColor),
+            );
 
             final dateFormatter = DateFormat.yMd('ja');
             final timeFormatter = DateFormat.Hm('ja');
@@ -86,10 +93,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   '${dateFormatter.format(generated.generatedAt)} '
                   '${timeFormatter.format(generated.generatedAt)}',
             );
-            final detailsText = Text(detailsLabel);
+            final detailsText = Text(
+              detailsLabel,
+              style: TextStyle(color: foregroundColor),
+            );
 
             final shareButton = IconButton(
               icon: const Icon(Icons.share),
+              color: foregroundColor,
               onPressed: () => _share(piece: piece),
             );
 
@@ -115,12 +126,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
 
             final borderColor = piece.map(
-              generating: (_) => Colors.grey,
+              generating: (_) => Theme.of(context).dividerColor,
               generated: (_) => Colors.transparent,
             );
             final backgroundColor = piece.map(
               generating: (_) => Colors.transparent,
-              generated: (_) => Colors.white,
+              generated: (_) => Theme.of(context).cardColor,
             );
 
             return Container(
