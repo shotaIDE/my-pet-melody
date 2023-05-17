@@ -99,10 +99,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               style: TextStyle(color: foregroundColor),
             );
 
+            final onPressedShareButton = piece.map(
+              generating: (_) => null,
+              generated: (_) => () => _share(piece: piece),
+            );
             final shareButton = IconButton(
               icon: const Icon(Icons.share),
               color: foregroundColor,
-              onPressed: () => _share(piece: piece),
+              onPressed: onPressedShareButton,
             );
 
             final onTap = piece.map(
