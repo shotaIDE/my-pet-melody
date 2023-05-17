@@ -139,20 +139,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               generated: (_) => Theme.of(context).cardColor,
             );
 
-            return Container(
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                border: Border.all(color: borderColor),
-                borderRadius: BorderRadius.circular(8),
+            return ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(
+                  DisplayDefinition.cornerRadiusSizeSmall,
+                ),
               ),
-              child: InkWell(
-                onTap: onTap,
-                borderRadius: BorderRadius.circular(8),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                  ),
+              child: Material(
+                color: backgroundColor,
+                child: InkWell(
+                  onTap: onTap,
                   child: Row(
                     children: [
                       thumbnail,
