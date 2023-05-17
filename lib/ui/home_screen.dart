@@ -54,16 +54,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
             final playStatus = playablePiece.status;
-            final thumbnail = playablePiece.piece.map(
+
+            final thumbnailImage = playablePiece.piece.map(
               generating: (_) => Container(),
               generated: (generated) =>
                   Image.network(generated.thumbnailUrl, fit: BoxFit.fitWidth),
             );
+
             const thumbnailHeight = 74.0;
+            final thumbnail = SizedBox(
+              width: thumbnailHeight * DisplayDefinition.aspectRatio,
+              height: thumbnailHeight,
+              child: thumbnailImage,
+            );
+
             final piece = playablePiece.piece;
+            final nameText = Text(piece.name);
+
             final dateFormatter = DateFormat.yMd('ja');
             final timeFormatter = DateFormat.Hm('ja');
-            final subtitleLabel = piece.map(
+            final detailsLabel = piece.map(
               generating: (generating) =>
                   '${dateFormatter.format(generating.submittedAt)} '
                   '${timeFormatter.format(generating.submittedAt)}   '
@@ -71,6 +81,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               generated: (generated) =>
                   '${dateFormatter.format(generated.generatedAt)} '
                   '${timeFormatter.format(generated.generatedAt)}',
+            );
+            final detailsText = Text(detailsLabel);
+
+            final shareButton = IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: () => _share(piece: piece),
             );
 
             final onTap = piece.map(
@@ -94,52 +110,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               },
             );
 
-            final leading = Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                SizedBox(
-                  width: thumbnailHeight * DisplayDefinition.aspectRatio,
-                  height: thumbnailHeight,
-                  child: thumbnail,
-                ),
-                CircularProgressIndicator(
-                  value: playStatus.when(
-                    stop: () => 0,
-                    playing: (position) => position,
-                  ),
-                ),
-                playStatus.when(
-                  stop: () => const Icon(Icons.play_arrow),
-                  playing: (_) => const Icon(Icons.stop),
-                ),
-              ],
-            );
-
-            return GestureDetector(
-              onTap: onTap,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
+            return Material(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              child: InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(8),
                 child: Row(
                   children: [
-                    leading,
-                    const SizedBox(width: 10),
+                    thumbnail,
+                    const SizedBox(width: 16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(piece.name),
-                          Text(subtitleLabel),
+                          nameText,
+                          const SizedBox(height: 8),
+                          detailsText,
                         ],
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.share),
-                      onPressed: () => _share(piece: piece),
-                    ),
+                    shareButton,
+                    const SizedBox(width: 16),
                   ],
                 ),
               ),
