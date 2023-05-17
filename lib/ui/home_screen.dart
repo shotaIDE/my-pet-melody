@@ -147,6 +147,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               child: Material(
                 color: backgroundColor,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: borderColor),
+                  borderRadius: BorderRadius.circular(
+                    DisplayDefinition.cornerRadiusSizeSmall,
+                  ),
+                ),
                 child: InkWell(
                   onTap: onTap,
                   child: Row(
