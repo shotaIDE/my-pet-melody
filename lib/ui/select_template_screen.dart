@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_template_state.dart';
 import 'package:meow_music/ui/select_template_view_model.dart';
 
@@ -48,6 +49,10 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     final list = templates != null
         ? ListView.separated(
             shrinkWrap: true,
+            padding: const EdgeInsets.only(
+              left: DisplayDefinition.screenPaddingSmall,
+              right: DisplayDefinition.screenPaddingSmall,
+            ),
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (_, index) {
               final playableTemplate = templates[index];
@@ -63,38 +68,51 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                     .stop(template: playableTemplate),
               );
 
-              final button = status.when(
+              final icon = status.when(
                 stop: () => const Icon(Icons.play_arrow),
                 playing: (position) => const Icon(Icons.stop),
               );
+              final button = Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey[200],
+                ),
+                child: IconButton(
+                  icon: icon,
+                  onPressed: onTap,
+                ),
+              );
+
+              final title = Text(
+                template.name,
+                style: Theme.of(context).textTheme.bodyMedium,
+              );
+
+              const thumbnailHeight = 74.0;
 
               return InkWell(
                 onTap: onTap,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(
+                      DisplayDefinition.cornerRadiusSizeSmall,
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(width: 80, height: 80),
+                      const SizedBox(
+                        width: thumbnailHeight * DisplayDefinition.aspectRatio,
+                        height: thumbnailHeight,
+                      ),
+                      const SizedBox(width: 16),
                       Expanded(
-                        child: Text(
-                          template.name,
-                          style: const TextStyle(color: Colors.black),
-                        ),
+                        child: title,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey[200],
-                        ),
-                        child: IconButton(
-                          icon: button,
-                          onPressed: onTap,
-                        ),
-                      ),
+                      const SizedBox(width: 16),
+                      button,
+                      const SizedBox(width: 16),
                     ],
                   ),
                 ),
