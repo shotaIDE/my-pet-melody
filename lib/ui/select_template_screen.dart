@@ -60,9 +60,20 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final template = playableTemplate.template;
               final status = playableTemplate.status;
 
+              final thumbnail = Container(
+                width: DisplayDefinition.thumbnailWidth,
+                height: DisplayDefinition.thumbnailHeight,
+                color: Colors.blueGrey,
+              );
+
+              final title = Text(
+                template.name,
+                style: Theme.of(context).textTheme.bodyMedium,
+              );
+
               final icon = status.when(
-                stop: () => const Icon(Icons.play_arrow),
-                playing: (position) => const Icon(Icons.stop),
+                stop: () => Icons.play_arrow,
+                playing: (position) => Icons.stop,
               );
               final onTapButton = status.map(
                 stop: (_) => () => ref
@@ -82,21 +93,9 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                 child: IconButton(
                   color: Theme.of(context).primaryColor,
                   onPressed: onTapButton,
-                  icon: icon,
+                  icon: Icon(icon),
                 ),
               );
-
-              final title = Text(
-                template.name,
-                style: Theme.of(context).textTheme.bodyMedium,
-              );
-
-              final thumbnail = Container(
-                width: DisplayDefinition.thumbnailWidth,
-                height: DisplayDefinition.thumbnailHeight,
-                color: Colors.blueGrey,
-              );
-
               final progressIndicator = status.maybeWhen(
                 playing: (position) => LinearProgressIndicator(value: position),
                 orElse: SizedBox.shrink,
