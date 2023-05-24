@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
-import 'package:meow_music/ui/select_sounds_screen.dart';
 import 'package:meow_music/ui/select_template_state.dart';
 import 'package:meow_music/ui/select_template_view_model.dart';
 
@@ -35,13 +34,13 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     final templates = state.templates;
 
     final title = Text(
-      '作品のBGMを\n選択しよう',
+      '作品のBGMを選ぼう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final description = Text(
-      '好きなBGMを選んでね。選んだBGMに鳴き声が入るよ！',
+      '選んだBGMに鳴き声が入るよ！',
       style: Theme.of(context).textTheme.bodyLarge,
       textAlign: TextAlign.center,
     );
@@ -55,7 +54,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final template = playableTemplate.template;
               final status = playableTemplate.status;
 
-              final onTapLeading = status.map(
+              final onTap = status.map(
                 stop: (_) => () => ref
                     .read(widget.viewModel.notifier)
                     .play(template: playableTemplate),
@@ -64,51 +63,45 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                     .stop(template: playableTemplate),
               );
 
-              final leading = InkWell(
-                onTap: onTapLeading,
+              final button = status.when(
+                stop: () => const Icon(Icons.play_arrow),
+                playing: (position) => const Icon(Icons.stop),
+              );
+
+              return InkWell(
+                onTap: onTap,
                 child: Container(
-                  color: Colors.white,
-                  width: 80,
-                  height: 80,
-                  child: Stack(
-                    children: status.when(
-                      stop: () => [
-                        const Center(child: Icon(Icons.play_arrow)),
-                      ],
-                      playing: (position) => [
-                        Center(
-                          child: CircularProgressIndicator(
-                            value: position,
-                            backgroundColor: Colors.grey,
-                          ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(width: 80, height: 80),
+                      Expanded(
+                        child: Text(
+                          template.name,
+                          style: const TextStyle(color: Colors.black),
                         ),
-                        const Center(child: Icon(Icons.stop)),
-                      ],
-                    ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey[200],
+                        ),
+                        child: IconButton(
+                          icon: button,
+                          onPressed: onTap,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
-
-              return ListTile(
-                leading: leading,
-                title: Text(template.name),
-                trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () async {
-                  await ref.read(widget.viewModel.notifier).beforeHideScreen();
-
-                  if (!mounted) {
-                    return;
-                  }
-
-                  await Navigator.push<void>(
-                    context,
-                    SelectSoundsScreen.route(template: template),
-                  );
-                },
-              );
             },
             itemCount: templates.length,
-            separatorBuilder: (_, __) => const Divider(height: 0),
+            separatorBuilder: (_, __) => const SizedBox(height: 8),
           )
         : const Center(
             child: CircularProgressIndicator(),
