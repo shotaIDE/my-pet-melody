@@ -25,7 +25,7 @@ dependencies:
   path: ^1.8.0
   collection: ^1.15.0
   audioplayers: ^3.0.1
-  share_plus: ^6.3.2
+  share_plus: ^6.3.4
   path_provider: ^2.0.9
   firebase_core: ^1.13.1
   firebase_messaging: ^11.2.6
