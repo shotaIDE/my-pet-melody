@@ -66,10 +66,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Image.network(generated.thumbnailUrl, fit: BoxFit.fitWidth),
             );
 
-            const thumbnailHeight = 74.0;
             final thumbnail = SizedBox(
-              width: thumbnailHeight * DisplayDefinition.aspectRatio,
-              height: thumbnailHeight,
+              width: DisplayDefinition.thumbnailWidth,
+              height: DisplayDefinition.thumbnailHeight,
               child: thumbnailImage,
             );
 

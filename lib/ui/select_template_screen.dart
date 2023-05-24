@@ -92,10 +92,9 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               );
 
-              const thumbnailHeight = 74.0;
               final thumbnail = Container(
-                width: thumbnailHeight * DisplayDefinition.aspectRatio,
-                height: thumbnailHeight,
+                width: DisplayDefinition.thumbnailWidth,
+                height: DisplayDefinition.thumbnailHeight,
                 color: Colors.blueGrey,
               );
 
@@ -185,18 +184,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: Stack(
-                children: [
-                  body,
-                  const Positioned(
-                    bottom: 0,
-                    left: 16,
-                    child: SpeakingCatImage(
-                      flipHorizontally: true,
-                    ),
-                  ),
-                ],
-              ),
+              child: body,
             ),
           ],
         ),
