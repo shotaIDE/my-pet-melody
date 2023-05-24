@@ -154,7 +154,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     final body = SingleChildScrollView(
       padding: EdgeInsets.only(
         top: 16,
-        bottom: MediaQuery.of(context).viewInsets.bottom,
+        bottom: MediaQuery.of(context).viewPadding.bottom,
       ),
       child: Column(
         children: [
