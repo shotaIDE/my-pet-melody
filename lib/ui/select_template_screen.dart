@@ -175,18 +175,22 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
         appBar: AppBar(
           title: const Text('STEP 1/3'),
         ),
-        body: Column(
-          children: [
-            const SizedBox(height: 32),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              child: title,
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: body,
-            ),
-          ],
+        body: SafeArea(
+          top: false,
+          bottom: false,
+          child: Column(
+            children: [
+              const SizedBox(height: 32),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: title,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: body,
+              ),
+            ],
+          ),
         ),
         resizeToAvoidBottomInset: false,
       ),
