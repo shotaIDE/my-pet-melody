@@ -154,17 +154,15 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
           );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: SpeakingCatImage.height),
+      padding: const EdgeInsets.only(top: 16, bottom: SpeakingCatImage.height),
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: description,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: list,
-          ),
+          const SizedBox(height: 32),
+          list,
         ],
       ),
     );
@@ -180,17 +178,16 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
         ),
         body: Column(
           children: [
+            const SizedBox(height: 32),
             Padding(
-              padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               child: title,
             ),
+            const SizedBox(height: 16),
             Expanded(
               child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 32),
-                    child: body,
-                  ),
+                  body,
                   const Positioned(
                     bottom: 0,
                     left: 16,
