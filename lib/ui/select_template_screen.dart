@@ -96,6 +96,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                   icon: Icon(icon),
                 ),
               );
+
               final progressIndicator = status.maybeWhen(
                 playing: (position) => LinearProgressIndicator(value: position),
                 orElse: SizedBox.shrink,
