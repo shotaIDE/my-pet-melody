@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_sounds_screen.dart';
 import 'package:meow_music/ui/select_template_state.dart';
@@ -153,7 +152,10 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
           );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(top: 16, bottom: SpeakingCatImage.height),
+      padding: EdgeInsets.only(
+        top: 16,
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Column(
         children: [
           Padding(
