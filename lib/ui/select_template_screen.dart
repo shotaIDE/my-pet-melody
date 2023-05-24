@@ -176,6 +176,10 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('STEP 1/3'),
+          shadowColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          foregroundColor: Theme.of(context).colorScheme.onSurface,
+          centerTitle: false,
         ),
         body: SafeArea(
           top: false,
