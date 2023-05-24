@@ -178,7 +178,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
           },
           itemCount: pieces.length,
-          separatorBuilder: (_, __) => const Divider(height: 0),
+          separatorBuilder: (_, __) => const SizedBox(height: 8),
         );
       } else {
         body = Center(
