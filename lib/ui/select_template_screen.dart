@@ -159,7 +159,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: description,
           ),
           const SizedBox(height: 32),
