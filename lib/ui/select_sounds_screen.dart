@@ -65,7 +65,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
-      '鳴き声を設定しよう',
+      '鳴き声の動画を選ぼう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
