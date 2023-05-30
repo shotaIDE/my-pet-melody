@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_sounds_screen.dart';
 import 'package:meow_music/ui/select_template_state.dart';
@@ -174,12 +175,9 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('STEP 1/3'),
-          shadowColor: Colors.transparent,
-          backgroundColor: Colors.transparent,
-          foregroundColor: Theme.of(context).colorScheme.onSurface,
-          centerTitle: false,
+        appBar: transparentAppBar(
+          context: context,
+          titleText: 'STEP 1/3',
         ),
         body: SafeArea(
           top: false,

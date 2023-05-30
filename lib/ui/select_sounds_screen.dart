@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
@@ -229,8 +230,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('STEP 2/3'),
+        appBar: transparentAppBar(
+          context: context,
+          titleText: 'STEP 2/3',
         ),
         body: Column(
           children: [
