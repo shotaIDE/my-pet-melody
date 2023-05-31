@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/ui/component/circled_play_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
@@ -222,30 +223,14 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               overflow: TextOverflow.ellipsis,
             );
 
-            final icon = status.map(
-              stop: (_) => Icons.play_arrow,
-              playing: (_) => Icons.stop,
-            );
-            final onTapButton = status.map(
-              stop: (_) => () => ref
+            final button = CircledPlayButton(
+              status: status,
+              onPressedWhenStop: () => ref
                   .read(widget.viewModelProvider.notifier)
                   .play(choice: sound),
-              playing: (_) => () => ref
+              onPressedWhenPlaying: () => ref
                   .read(widget.viewModelProvider.notifier)
                   .stop(choice: sound),
-            );
-            final button = Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-              child: IconButton(
-                color: Theme.of(context).primaryColor,
-                onPressed: onTapButton,
-                icon: Icon(icon),
-              ),
             );
 
             final progressIndicator = status.when(
