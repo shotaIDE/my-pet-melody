@@ -320,10 +320,12 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         ),
         body: Column(
           children: [
+            const SizedBox(height: 32),
             Padding(
-              padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: title,
             ),
+            const SizedBox(height: 16),
             Expanded(
               child: Stack(
                 children: [
@@ -332,7 +334,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                     child: body,
                   ),
                   const Positioned(
-                    bottom: 0,
+                    bottom: -10,
                     right: 16,
                     child: SpeakingCatImage(),
                   ),
