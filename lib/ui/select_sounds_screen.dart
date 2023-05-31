@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
@@ -71,39 +72,76 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final template = state.template;
-    final templateTile = ListTile(
-      leading: template.status.map(
-        stop: (_) => const Icon(Icons.play_arrow),
-        playing: (_) => const Icon(Icons.stop),
-      ),
-      title: Text(template.template.name),
-      tileColor: Colors.grey[300],
-      onTap: template.status.map(
-        stop: (_) => () =>
-            ref.read(widget.viewModelProvider.notifier).play(choice: template),
-        playing: (_) => () =>
-            ref.read(widget.viewModelProvider.notifier).stop(choice: template),
-      ),
+
+    final icon = template.status.when(
+      stop: () => Icons.play_arrow,
+      playing: (position) => Icons.stop,
     );
-    final templateControl = Column(
-      mainAxisSize: MainAxisSize.min,
-      children: template.status.when(
-        stop: () => [
-          templateTile,
-          const Visibility(
-            visible: false,
-            maintainState: true,
-            maintainAnimation: true,
-            maintainSize: true,
-            child: LinearProgressIndicator(),
+    final thumbnailImage = Container(
+      width: DisplayDefinition.thumbnailWidth,
+      height: DisplayDefinition.thumbnailHeight,
+      color: Colors.blueGrey,
+    );
+    final thumbnail = Stack(
+      alignment: Alignment.center,
+      children: [
+        thumbnailImage,
+        Icon(icon),
+      ],
+    );
+
+    final templateName = Text(template.template.name);
+
+    final progressIndicator = template.status.when(
+      stop: SizedBox.shrink,
+      playing: (position) => LinearProgressIndicator(value: position),
+    );
+
+    final onTapTemplate = template.status.map(
+      stop: (_) => () =>
+          ref.read(widget.viewModelProvider.notifier).play(choice: template),
+      playing: (_) => () =>
+          ref.read(widget.viewModelProvider.notifier).stop(choice: template),
+    );
+
+    final templateTile = ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(
+          DisplayDefinition.cornerRadiusSizeSmall,
+        ),
+      ),
+      child: Material(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Theme.of(context).dividerColor),
+          borderRadius: BorderRadius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
           ),
-        ],
-        playing: (position) => [
-          templateTile,
-          LinearProgressIndicator(
-            value: position,
-          )
-        ],
+        ),
+        child: InkWell(
+          onTap: onTapTemplate,
+          child: Stack(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  thumbnail,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: templateName,
+                  ),
+                  const SizedBox(width: 16),
+                ],
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: progressIndicator,
+              ),
+            ],
+          ),
+        ),
       ),
     );
 
@@ -191,7 +229,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          templateControl,
+          templateTile,
           Padding(
             padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
             child: description,
