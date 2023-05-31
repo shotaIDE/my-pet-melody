@@ -72,8 +72,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final template = state.template;
+    final status = template.status;
 
-    final icon = template.status.when(
+    final icon = status.when(
       stop: () => Icons.play_arrow,
       playing: (position) => Icons.stop,
     );
@@ -92,12 +93,12 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final templateName = Text(template.template.name);
 
-    final progressIndicator = template.status.when(
+    final progressIndicator = status.when(
       stop: SizedBox.shrink,
       playing: (position) => LinearProgressIndicator(value: position),
     );
 
-    final onTapTemplate = template.status.map(
+    final onTapTemplate = status.map(
       stop: (_) => () =>
           ref.read(widget.viewModelProvider.notifier).play(choice: template),
       playing: (_) => () =>
