@@ -43,6 +43,7 @@ class _RootAppState extends ConsumerState<RootApp> {
           labelSmall: TextStyle(fontSize: 14),
         ),
         scaffoldBackgroundColor: Colors.brown[50],
+        secondaryHeaderColor: Colors.brown[100],
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             shape: RoundedRectangleBorder(

@@ -4,6 +4,9 @@ class DisplayDefinition {
   static const screenPaddingSmall = 8.0;
   static const cornerRadiusSizeLarge = 24.0;
   static const cornerRadiusSizeSmall = 8.0;
-  static const thumbnailHeight = 74.0;
-  static const thumbnailWidth = thumbnailHeight * aspectRatio;
+  static const actionButtonMaxWidth = 320.0;
+  static const thumbnailHeightLarge = 74.0;
+  static const thumbnailWidthLarge = thumbnailHeightLarge * aspectRatio;
+  static const thumbnailHeightSmall = 54.0;
+  static const thumbnailWidthSmall = thumbnailHeightSmall * aspectRatio;
 }

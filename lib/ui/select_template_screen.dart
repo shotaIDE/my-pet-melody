@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/ui/component/circled_play_button.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_sounds_screen.dart';
 import 'package:meow_music/ui/select_template_state.dart';
@@ -61,8 +63,8 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final status = playableTemplate.status;
 
               final thumbnail = Container(
-                width: DisplayDefinition.thumbnailWidth,
-                height: DisplayDefinition.thumbnailHeight,
+                width: DisplayDefinition.thumbnailWidthLarge,
+                height: DisplayDefinition.thumbnailHeightLarge,
                 color: Colors.blueGrey,
               );
 
@@ -71,35 +73,19 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               );
 
-              final icon = status.when(
-                stop: () => Icons.play_arrow,
-                playing: (position) => Icons.stop,
-              );
-              final onTapButton = status.map(
-                stop: (_) => () => ref
+              final button = CircledPlayButton(
+                status: status,
+                onPressedWhenStop: () => ref
                     .read(widget.viewModel.notifier)
                     .play(template: playableTemplate),
-                playing: (_) => () => ref
+                onPressedWhenPlaying: () => ref
                     .read(widget.viewModel.notifier)
                     .stop(template: playableTemplate),
               );
-              final button = Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-                child: IconButton(
-                  color: Theme.of(context).primaryColor,
-                  onPressed: onTapButton,
-                  icon: Icon(icon),
-                ),
-              );
 
-              final progressIndicator = status.maybeWhen(
+              final progressIndicator = status.when(
+                stop: SizedBox.shrink,
                 playing: (position) => LinearProgressIndicator(value: position),
-                orElse: SizedBox.shrink,
               );
 
               return ClipRRect(
@@ -174,12 +160,9 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('STEP 1/3'),
-          shadowColor: Colors.transparent,
-          backgroundColor: Colors.transparent,
-          foregroundColor: Theme.of(context).colorScheme.onSurface,
-          centerTitle: false,
+        appBar: transparentAppBar(
+          context: context,
+          titleText: 'STEP 1/3',
         ),
         body: SafeArea(
           top: false,

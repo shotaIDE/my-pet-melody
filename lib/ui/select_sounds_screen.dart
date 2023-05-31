@@ -2,7 +2,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
+import 'package:meow_music/ui/component/circled_play_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_sounds_state.dart';
 import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
@@ -64,50 +67,88 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
-      '鳴き声を設定しよう',
+      '鳴き声の動画を選ぼう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final template = state.template;
-    final templateTile = ListTile(
-      leading: template.status.map(
-        stop: (_) => const Icon(Icons.play_arrow),
-        playing: (_) => const Icon(Icons.stop),
-      ),
-      title: Text(template.template.name),
-      tileColor: Colors.grey[300],
-      onTap: template.status.map(
-        stop: (_) => () =>
-            ref.read(widget.viewModelProvider.notifier).play(choice: template),
-        playing: (_) => () =>
-            ref.read(widget.viewModelProvider.notifier).stop(choice: template),
-      ),
+    final status = template.status;
+
+    final icon = status.map(
+      stop: (_) => Icons.play_arrow,
+      playing: (_) => Icons.stop,
     );
-    final templateControl = Column(
-      mainAxisSize: MainAxisSize.min,
-      children: template.status.when(
-        stop: () => [
-          templateTile,
-          const Visibility(
-            visible: false,
-            maintainState: true,
-            maintainAnimation: true,
-            maintainSize: true,
-            child: LinearProgressIndicator(),
+    final thumbnailImage = Container(
+      width: DisplayDefinition.thumbnailWidthSmall,
+      height: DisplayDefinition.thumbnailHeightSmall,
+      color: Colors.blueGrey,
+    );
+    final thumbnail = Stack(
+      alignment: Alignment.center,
+      children: [
+        thumbnailImage,
+        Icon(icon),
+      ],
+    );
+
+    final templateName = Text(template.template.name);
+
+    final progressIndicator = status.when(
+      stop: SizedBox.shrink,
+      playing: (position) => LinearProgressIndicator(value: position),
+    );
+
+    final onTapTemplate = status.map(
+      stop: (_) => () =>
+          ref.read(widget.viewModelProvider.notifier).play(choice: template),
+      playing: (_) => () =>
+          ref.read(widget.viewModelProvider.notifier).stop(choice: template),
+    );
+
+    final templateTile = ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(
+          DisplayDefinition.cornerRadiusSizeSmall,
+        ),
+      ),
+      child: Material(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Theme.of(context).dividerColor),
+          borderRadius: BorderRadius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
           ),
-        ],
-        playing: (position) => [
-          templateTile,
-          LinearProgressIndicator(
-            value: position,
-          )
-        ],
+        ),
+        child: InkWell(
+          onTap: onTapTemplate,
+          child: Stack(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  thumbnail,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: templateName,
+                  ),
+                  const SizedBox(width: 16),
+                ],
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: progressIndicator,
+              ),
+            ],
+          ),
+        ),
       ),
     );
 
     final description = Text(
-      'あなたのねこが鳴いてる動画を選んでね！自動で鳴き声を探すよ！',
+      'あなたのねこが鳴いてる動画を選んでね！',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyLarge,
     );
@@ -120,95 +161,171 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       itemBuilder: (context, index) {
         final sound = sounds[index];
 
-        final leading = sound.status.map(
-          stop: (_) => const Icon(Icons.play_arrow),
-          playing: (_) => const Icon(Icons.stop),
-        );
+        Future<void> onTap() => ref
+            .read(widget.viewModelProvider.notifier)
+            .onTapSelectSound(choice: sound);
 
-        final tile = sound.sound.when(
-          none: (_) => ListTile(
-            leading: const Icon(Icons.source_rounded),
-            title: const Text(
+        return sound.sound.when(
+          none: (_) {
+            final label = Text(
               '動画を選択する',
-              style: TextStyle(color: Colors.grey),
-              overflow: TextOverflow.ellipsis,
-            ),
-            onTap: () => ref
-                .read(widget.viewModelProvider.notifier)
-                .onTapSelectSound(choice: sound),
-          ),
-          uploaded: (_, __, localFileName, remoteFileName) => ListTile(
-            leading: leading,
-            title: Text(
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: Theme.of(context).disabledColor),
+              textAlign: TextAlign.center,
+            );
+
+            return ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(
+                  DisplayDefinition.cornerRadiusSizeSmall,
+                ),
+              ),
+              child: Material(
+                color: Theme.of(context).cardColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    DisplayDefinition.cornerRadiusSizeSmall,
+                  ),
+                ),
+                child: InkWell(
+                  onTap: onTap,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 24,
+                            horizontal: 16,
+                          ),
+                          child: label,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+          uploaded: (_, __, localFileName, remoteFileName) {
+            final status = sound.status;
+
+            final thumbnail = Container(
+              width: DisplayDefinition.thumbnailWidthLarge,
+              height: DisplayDefinition.thumbnailHeightLarge,
+              color: Colors.blueGrey,
+            );
+
+            final title = Text(
               localFileName,
+              style: Theme.of(context).textTheme.bodyMedium,
               overflow: TextOverflow.ellipsis,
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () => ref
-                  .read(widget.viewModelProvider.notifier)
-                  .delete(target: sound),
-            ),
-            onTap: sound.status.map(
-              stop: (_) => () => ref
+            );
+
+            final button = CircledPlayButton(
+              status: status,
+              onPressedWhenStop: () => ref
                   .read(widget.viewModelProvider.notifier)
                   .play(choice: sound),
-              playing: (_) => () => ref
+              onPressedWhenPlaying: () => ref
                   .read(widget.viewModelProvider.notifier)
                   .stop(choice: sound),
-            ),
-          ),
-        );
+            );
 
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: sound.status.when(
-            stop: () => [
-              tile,
-              const Visibility(
-                visible: false,
-                maintainState: true,
-                maintainAnimation: true,
-                maintainSize: true,
-                child: LinearProgressIndicator(),
+            final progressIndicator = status.when(
+              stop: SizedBox.shrink,
+              playing: (position) => LinearProgressIndicator(value: position),
+            );
+
+            return ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(
+                  DisplayDefinition.cornerRadiusSizeSmall,
+                ),
               ),
-            ],
-            playing: (position) => [
-              tile,
-              LinearProgressIndicator(
-                value: position,
-              )
-            ],
-          ),
+              child: Material(
+                color: Theme.of(context).cardColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    DisplayDefinition.cornerRadiusSizeSmall,
+                  ),
+                ),
+                child: InkWell(
+                  onTap: onTap,
+                  child: Stack(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          thumbnail,
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: title,
+                          ),
+                          const SizedBox(width: 16),
+                          button,
+                          const SizedBox(width: 16),
+                        ],
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: progressIndicator,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
-      separatorBuilder: (_, __) => const Divider(height: 0),
+      separatorBuilder: (_, __) => const SizedBox(height: 8),
     );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(top: 16, bottom: 138),
+      padding: const EdgeInsets.only(
+        top: 16,
+        bottom: SpeakingCatImage.height,
+        left: DisplayDefinition.screenPaddingSmall,
+        right: DisplayDefinition.screenPaddingSmall,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          templateControl,
-          Padding(
-            padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
-            child: description,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: soundsList,
-          ),
+          templateTile,
+          const SizedBox(height: 32),
+          description,
+          const SizedBox(height: 32),
+          soundsList,
         ],
       ),
     );
 
-    final footerButton = ElevatedButton(
-      onPressed: state.isAvailableSubmission ? _showSetPieceTitleScreen : null,
-      child: const Text('次へ'),
+    final footerButton = SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed:
+            state.isAvailableSubmission ? _showSetPieceTitleScreen : null,
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+          ),
+        ),
+        child: const Padding(
+          padding: EdgeInsets.all(16),
+          child: Text('次へ'),
+        ),
+      ),
     );
-    final footerContent = SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
+    final footerContent = ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: DisplayDefinition.actionButtonMaxWidth,
+      ),
       child: footerButton,
     );
 
@@ -216,6 +333,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
       child: SafeArea(
+        top: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: footerContent,
@@ -229,31 +347,40 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('STEP 2/3'),
+        appBar: transparentAppBar(
+          context: context,
+          titleText: 'STEP 2/3',
         ),
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
-              child: title,
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: body,
-                  ),
-                  const Positioned(
-                    bottom: 0,
-                    right: 16,
-                    child: SpeakingCatImage(),
-                  ),
-                ],
+            const SizedBox(height: 32),
+            SafeArea(
+              top: false,
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: title,
               ),
             ),
-            footer,
+            const SizedBox(height: 16),
+            Expanded(
+              child: SafeArea(
+                top: false,
+                bottom: false,
+                child: body,
+              ),
+            ),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                footer,
+                const Positioned(
+                  top: -SpeakingCatImage.height + 18,
+                  right: 16,
+                  child: SpeakingCatImage(),
+                ),
+              ],
+            ),
           ],
         ),
         resizeToAvoidBottomInset: false,

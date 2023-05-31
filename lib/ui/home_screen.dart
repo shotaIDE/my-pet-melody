@@ -67,8 +67,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
 
             final thumbnail = SizedBox(
-              width: DisplayDefinition.thumbnailWidth,
-              height: DisplayDefinition.thumbnailHeight,
+              width: DisplayDefinition.thumbnailWidthLarge,
+              height: DisplayDefinition.thumbnailHeightLarge,
               child: thumbnailImage,
             );
 
