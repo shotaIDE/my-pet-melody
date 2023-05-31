@@ -256,23 +256,24 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
           ),
         );
       },
-      separatorBuilder: (_, __) => const Divider(height: 0),
+      separatorBuilder: (_, __) => const SizedBox(height: 8),
     );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.only(top: 16, bottom: 138),
+      padding: const EdgeInsets.only(
+        top: 16,
+        bottom: SpeakingCatImage.height,
+        left: DisplayDefinition.screenPaddingSmall,
+        right: DisplayDefinition.screenPaddingSmall,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           templateTile,
-          Padding(
-            padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
-            child: description,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: soundsList,
-          ),
+          const SizedBox(height: 32),
+          description,
+          const SizedBox(height: 32),
+          soundsList,
         ],
       ),
     );
