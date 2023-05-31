@@ -62,8 +62,8 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final status = playableTemplate.status;
 
               final thumbnail = Container(
-                width: DisplayDefinition.thumbnailWidth,
-                height: DisplayDefinition.thumbnailHeight,
+                width: DisplayDefinition.thumbnailWidthLarge,
+                height: DisplayDefinition.thumbnailHeightLarge,
                 color: Colors.blueGrey,
               );
 

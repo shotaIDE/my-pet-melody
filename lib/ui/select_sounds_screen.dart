@@ -79,8 +79,8 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       playing: (_) => Icons.stop,
     );
     final thumbnailImage = Container(
-      width: DisplayDefinition.thumbnailWidth,
-      height: DisplayDefinition.thumbnailHeight,
+      width: DisplayDefinition.thumbnailWidthSmall,
+      height: DisplayDefinition.thumbnailHeightSmall,
       color: Colors.blueGrey,
     );
     final thumbnail = Stack(
@@ -211,8 +211,8 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             final status = sound.status;
 
             final thumbnail = Container(
-              width: DisplayDefinition.thumbnailWidth,
-              height: DisplayDefinition.thumbnailHeight,
+              width: DisplayDefinition.thumbnailWidthLarge,
+              height: DisplayDefinition.thumbnailHeightLarge,
               color: Colors.blueGrey,
             );
 
