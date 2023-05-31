@@ -146,7 +146,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final description = Text(
-      'あなたのねこが鳴いてる動画を選んでね！自動で鳴き声を探すよ！',
+      'あなたのねこが鳴いてる動画を選んでね！',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyLarge,
     );
