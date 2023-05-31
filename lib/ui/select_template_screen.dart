@@ -98,9 +98,9 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                 ),
               );
 
-              final progressIndicator = status.maybeWhen(
+              final progressIndicator = status.when(
+                stop: SizedBox.shrink,
                 playing: (position) => LinearProgressIndicator(value: position),
-                orElse: SizedBox.shrink,
               );
 
               return ClipRRect(

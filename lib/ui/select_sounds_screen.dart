@@ -248,9 +248,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               ),
             );
 
-            final progressIndicator = status.maybeWhen(
+            final progressIndicator = status.when(
+              stop: SizedBox.shrink,
               playing: (position) => LinearProgressIndicator(value: position),
-              orElse: SizedBox.shrink,
             );
 
             return ClipRRect(
