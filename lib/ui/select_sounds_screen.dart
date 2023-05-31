@@ -74,9 +74,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final template = state.template;
     final status = template.status;
 
-    final icon = status.when(
-      stop: () => Icons.play_arrow,
-      playing: (position) => Icons.stop,
+    final icon = status.map(
+      stop: (_) => Icons.play_arrow,
+      playing: (_) => Icons.stop,
     );
     final thumbnailImage = Container(
       width: DisplayDefinition.thumbnailWidth,
@@ -222,9 +222,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               overflow: TextOverflow.ellipsis,
             );
 
-            final icon = status.when(
-              stop: () => Icons.play_arrow,
-              playing: (position) => Icons.stop,
+            final icon = status.map(
+              stop: (_) => Icons.play_arrow,
+              playing: (_) => Icons.stop,
             );
             final onTapButton = status.map(
               stop: (_) => () => ref
