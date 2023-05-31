@@ -280,10 +280,20 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final footerButton = ElevatedButton(
       onPressed: state.isAvailableSubmission ? _showSetPieceTitleScreen : null,
-      child: const Text('次へ'),
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+        ),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.all(16),
+        child: Text('次へ'),
+      ),
     );
-    final footerContent = SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
+    final footerContent = ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 343),
       child: footerButton,
     );
 
