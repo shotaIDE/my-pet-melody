@@ -327,21 +327,19 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: body,
-                  ),
-                  const Positioned(
-                    bottom: -10,
-                    right: 16,
-                    child: SpeakingCatImage(),
-                  ),
-                ],
-              ),
+              child: body,
             ),
-            footer,
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                footer,
+                const Positioned(
+                  top: -SpeakingCatImage.height + 18,
+                  right: 16,
+                  child: SpeakingCatImage(),
+                ),
+              ],
+            ),
           ],
         ),
         resizeToAvoidBottomInset: false,
