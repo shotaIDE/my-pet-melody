@@ -333,6 +333,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       alignment: Alignment.center,
       color: Theme.of(context).secondaryHeaderColor,
       child: SafeArea(
+        top: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: footerContent,
@@ -353,13 +354,21 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         body: Column(
           children: [
             const SizedBox(height: 32),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: title,
+            SafeArea(
+              top: false,
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: title,
+              ),
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: body,
+              child: SafeArea(
+                top: false,
+                bottom: false,
+                child: body,
+              ),
             ),
             Stack(
               clipBehavior: Clip.none,
