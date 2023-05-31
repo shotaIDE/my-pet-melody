@@ -165,17 +165,52 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         );
 
         final tile = sound.sound.when(
-          none: (_) => ListTile(
-            leading: const Icon(Icons.source_rounded),
-            title: const Text(
+          none: (_) {
+            final label = Text(
               '動画を選択する',
-              style: TextStyle(color: Colors.grey),
-              overflow: TextOverflow.ellipsis,
-            ),
-            onTap: () => ref
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: Theme.of(context).disabledColor),
+              textAlign: TextAlign.center,
+            );
+
+            Future<void> onTap() => ref
                 .read(widget.viewModelProvider.notifier)
-                .onTapSelectSound(choice: sound),
-          ),
+                .onTapSelectSound(choice: sound);
+
+            return ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(
+                  DisplayDefinition.cornerRadiusSizeSmall,
+                ),
+              ),
+              child: Material(
+                color: Theme.of(context).cardColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    DisplayDefinition.cornerRadiusSizeSmall,
+                  ),
+                ),
+                child: InkWell(
+                  onTap: onTap,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 24,
+                            horizontal: 16,
+                          ),
+                          child: label,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
           uploaded: (_, __, localFileName, remoteFileName) => ListTile(
             leading: leading,
             title: Text(
