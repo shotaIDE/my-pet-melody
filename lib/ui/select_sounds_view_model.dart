@@ -88,20 +88,6 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     await _onSelectedTrimmedSound(selectTrimmedSoundResult, target: choice);
   }
 
-  Future<void> delete({required PlayerChoiceSound target}) async {
-    final sounds = [...state.sounds];
-    final index = sounds.indexOf(target);
-
-    sounds[index] = target.copyWith(
-      sound: SelectedSound.none(id: target.id),
-    );
-
-    state = state.copyWith(
-      sounds: sounds,
-      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
-    );
-  }
-
   SetPieceTitleArgs getSetPieceTitleArgs() {
     final soundIdList = _getSoundIdList();
 

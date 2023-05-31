@@ -159,12 +159,11 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       itemBuilder: (context, index) {
         final sound = sounds[index];
 
-        final leading = sound.status.map(
-          stop: (_) => const Icon(Icons.play_arrow),
-          playing: (_) => const Icon(Icons.stop),
-        );
+        Future<void> onTap() => ref
+            .read(widget.viewModelProvider.notifier)
+            .onTapSelectSound(choice: sound);
 
-        final tile = sound.sound.when(
+        return sound.sound.when(
           none: (_) {
             final label = Text(
               '動画を選択する',
@@ -174,10 +173,6 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                   .copyWith(color: Theme.of(context).disabledColor),
               textAlign: TextAlign.center,
             );
-
-            Future<void> onTap() => ref
-                .read(widget.viewModelProvider.notifier)
-                .onTapSelectSound(choice: sound);
 
             return ClipRRect(
               borderRadius: const BorderRadius.all(
@@ -211,49 +206,94 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               ),
             );
           },
-          uploaded: (_, __, localFileName, remoteFileName) => ListTile(
-            leading: leading,
-            title: Text(
+          uploaded: (_, __, localFileName, remoteFileName) {
+            final status = sound.status;
+
+            final thumbnail = Container(
+              width: DisplayDefinition.thumbnailWidth,
+              height: DisplayDefinition.thumbnailHeight,
+              color: Colors.blueGrey,
+            );
+
+            final title = Text(
               localFileName,
+              style: Theme.of(context).textTheme.bodyMedium,
               overflow: TextOverflow.ellipsis,
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () => ref
-                  .read(widget.viewModelProvider.notifier)
-                  .delete(target: sound),
-            ),
-            onTap: sound.status.map(
+            );
+
+            final icon = status.when(
+              stop: () => Icons.play_arrow,
+              playing: (position) => Icons.stop,
+            );
+            final onTapButton = status.map(
               stop: (_) => () => ref
                   .read(widget.viewModelProvider.notifier)
                   .play(choice: sound),
               playing: (_) => () => ref
                   .read(widget.viewModelProvider.notifier)
                   .stop(choice: sound),
-            ),
-          ),
-        );
-
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: sound.status.when(
-            stop: () => [
-              tile,
-              const Visibility(
-                visible: false,
-                maintainState: true,
-                maintainAnimation: true,
-                maintainSize: true,
-                child: LinearProgressIndicator(),
+            );
+            final button = Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
-            ],
-            playing: (position) => [
-              tile,
-              LinearProgressIndicator(
-                value: position,
-              )
-            ],
-          ),
+              child: IconButton(
+                color: Theme.of(context).primaryColor,
+                onPressed: onTapButton,
+                icon: Icon(icon),
+              ),
+            );
+
+            final progressIndicator = status.maybeWhen(
+              playing: (position) => LinearProgressIndicator(value: position),
+              orElse: SizedBox.shrink,
+            );
+
+            return ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(
+                  DisplayDefinition.cornerRadiusSizeSmall,
+                ),
+              ),
+              child: Material(
+                color: Theme.of(context).cardColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    DisplayDefinition.cornerRadiusSizeSmall,
+                  ),
+                ),
+                child: InkWell(
+                  onTap: onTap,
+                  child: Stack(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          thumbnail,
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: title,
+                          ),
+                          const SizedBox(width: 16),
+                          button,
+                          const SizedBox(width: 16),
+                        ],
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: progressIndicator,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
       separatorBuilder: (_, __) => const SizedBox(height: 8),
