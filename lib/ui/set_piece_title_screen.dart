@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:meow_music/ui/set_piece_title_state.dart';
@@ -129,8 +130,9 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     );
 
     final scaffold = Scaffold(
-      appBar: AppBar(
-        title: const Text('STEP 3/3'),
+      appBar: transparentAppBar(
+        context: context,
+        titleText: 'STEP 3/3',
       ),
       body: Column(
         children: [
