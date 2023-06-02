@@ -4,7 +4,6 @@ import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/component/footer.dart';
 import 'package:meow_music/ui/component/outlined_action_button.dart';
 import 'package:meow_music/ui/component/primary_button.dart';
-import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
@@ -111,36 +110,28 @@ class _SelectTemplateState
         context: context,
         titleText: '依頼前の準備',
       ),
-      body: SafeArea(
-        bottom: false,
-        left: false,
-        right: false,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 32),
-                  child: title,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: body,
-                  ),
-                ),
-                footer,
-              ],
-            ),
-            const Positioned(
-              bottom: 0,
-              left: 16,
-              child: SpeakingCatImage(
-                flipHorizontally: true,
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              const SizedBox(height: 32),
+              SafeArea(
+                top: false,
+                bottom: false,
+                child: title,
               ),
-            ),
-          ],
-        ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: SafeArea(
+                  top: false,
+                  bottom: false,
+                  child: body,
+                ),
+              ),
+              footer,
+            ],
+          ),
+        ],
       ),
       resizeToAvoidBottomInset: false,
     );
