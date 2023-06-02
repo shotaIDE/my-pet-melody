@@ -390,7 +390,7 @@ class _MovieTile extends ConsumerWidget {
     );
     final title = Text(
       displayName,
-      style: Theme.of(context).textTheme.bodyLarge,
+      style: Theme.of(context).textTheme.bodyMedium,
       overflow: TextOverflow.ellipsis,
     );
     final contents = Row(
