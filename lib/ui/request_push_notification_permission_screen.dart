@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
+import 'package:meow_music/ui/component/footer.dart';
+import 'package:meow_music/ui/component/outlined_action_button.dart';
+import 'package:meow_music/ui/component/primary_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/request_push_notification_permission_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -79,36 +83,28 @@ class _SelectTemplateState
       ),
     );
 
-    final footerContent = Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: ElevatedButton(
-            onPressed: _requestPermissionAndSubmit,
-            child: const Text('許可して作品をつくる'),
-          ),
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: TextButton(
-            onPressed: _submit,
-            child: const Text('許可しないで作品をつくる'),
-          ),
-        ),
-      ],
+    final requestPermissionAndSubmitButton = PrimaryButton(
+      text: '許可して作品をつくる',
+      onPressed: _requestPermissionAndSubmit,
     );
-
-    final footer = Container(
-      alignment: Alignment.center,
-      color: Theme.of(context).secondaryHeaderColor,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: footerContent,
-        ),
+    final submitButton = OutlinedActionButton(
+      onPressed: _submit,
+      text: '許可しないで作品をつくる',
+    );
+    final footerContent = ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: DisplayDefinition.actionButtonMaxWidth,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          requestPermissionAndSubmitButton,
+          const SizedBox(height: 16),
+          submitButton,
+        ],
       ),
     );
+    final footer = Footer(child: footerContent);
 
     final scaffold = Scaffold(
       appBar: transparentAppBar(
