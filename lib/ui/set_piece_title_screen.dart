@@ -91,6 +91,18 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     final displayNameInput = TextField(
       controller: state.displayNameController,
       focusNode: state.displayNameFocusNode,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Theme.of(context).cardColor,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+          borderSide: BorderSide(
+            color: Theme.of(context).dividerColor,
+          ),
+        ),
+      ),
       autofocus: true,
     );
 
