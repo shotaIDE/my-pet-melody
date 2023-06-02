@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/footer.dart';
+import 'package:meow_music/ui/component/primary_button.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
@@ -76,22 +78,9 @@ class _TrimSoundForDetectionScreenState
 
     final editor = _TrimEditor(viewModelProvider: widget.viewModelProvider);
 
-    final footerButton = SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: _onComplete,
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-          ),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.all(16),
-          child: Text('次へ'),
-        ),
-      ),
+    final footerButton = PrimaryButton(
+      onPressed: _onComplete,
+      text: '次へ',
     );
     final footerContent = ConstrainedBox(
       constraints: const BoxConstraints(
@@ -99,18 +88,7 @@ class _TrimSoundForDetectionScreenState
       ),
       child: footerButton,
     );
-
-    final footer = Container(
-      alignment: Alignment.center,
-      color: Theme.of(context).secondaryHeaderColor,
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: footerContent,
-        ),
-      ),
-    );
+    final footer = Footer(child: footerContent);
 
     final scaffold = Scaffold(
       appBar: transparentAppBar(
