@@ -63,7 +63,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
     final state = ref.watch(widget.viewModel);
 
     // if (state.choices.isEmpty) {
-    return _UnavailableTrimmedSoundScreen(viewModel: widget.viewModel);
+    return _UnavailableTrimmedSoundScreen(viewModelProvider: widget.viewModel);
     // }
 
     return _SelectTrimmedSoundScreen(viewModelProvider: widget.viewModel);
@@ -72,12 +72,12 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
 
 class _UnavailableTrimmedSoundScreen extends ConsumerStatefulWidget {
   const _UnavailableTrimmedSoundScreen({
-    required this.viewModel,
+    required this.viewModelProvider,
     Key? key,
   }) : super(key: key);
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModel;
+      SelectTrimmedSoundState> viewModelProvider;
 
   @override
   ConsumerState<_UnavailableTrimmedSoundScreen> createState() =>
@@ -88,7 +88,7 @@ class _UnavailableTrimmedSoundScreenState
     extends ConsumerState<_UnavailableTrimmedSoundScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
+    final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
       '鳴き声が\n見つかりませんでした',
@@ -96,24 +96,10 @@ class _UnavailableTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    final firstThumbnailPath = state.equallyDividedThumbnailPaths.first;
-    const firstThumbnailHeight = 48.0;
-    final firstThumbnail = firstThumbnailPath != null
-        ? Image.file(
-            File(firstThumbnailPath),
-            fit: BoxFit.cover,
-            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
-            height: firstThumbnailHeight,
-          )
-        : const SizedBox(
-            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
-            height: firstThumbnailHeight,
-            child: SkeletonAvatar(),
-          );
-    final moviePanel = ListTile(
-      leading: firstThumbnail,
-      title: Text(state.displayName),
-      tileColor: Colors.grey[300],
+    final movieTile = _MovieTile(
+      viewModelProvider: widget.viewModelProvider,
+      thumbnailWidth: DisplayDefinition.thumbnailWidthSmall,
+      thumbnailHeight: DisplayDefinition.thumbnailHeightSmall,
     );
 
     const noDesiredTrimmingDescription = Text(
@@ -124,7 +110,7 @@ class _UnavailableTrimmedSoundScreenState
     final trimManuallyButton = TextButton(
       onPressed: () async {
         final localPath =
-            ref.read(widget.viewModel.notifier).getLocalPathName();
+            ref.read(widget.viewModelProvider.notifier).getLocalPathName();
 
         final outputPath = await Navigator.push(
           context,
@@ -141,24 +127,28 @@ class _UnavailableTrimmedSoundScreenState
     );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.only(
+        top: 16,
+        bottom: MediaQuery.of(context).viewPadding.bottom,
+        left: DisplayDefinition.screenPaddingSmall,
+        right: DisplayDefinition.screenPaddingSmall,
+      ),
       child: Column(
         children: [
-          moviePanel,
-          const Padding(
-            padding: EdgeInsets.only(top: 32, left: 16, right: 16),
-            child: noDesiredTrimmingDescription,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: trimManuallyButton,
-          ),
+          movieTile,
+          const SizedBox(height: 32),
+          noDesiredTrimmingDescription,
+          const SizedBox(height: 16),
+          trimManuallyButton,
         ],
       ),
     );
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: transparentAppBar(
+        context: context,
+        titleText: 'STEP 2/3 (2)',
+      ),
       body: SafeArea(
         top: false,
         bottom: false,
