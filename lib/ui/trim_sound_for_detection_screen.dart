@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/footer.dart';
+import 'package:meow_music/ui/component/primary_button.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detection_state.dart';
@@ -54,54 +58,75 @@ class _TrimSoundForDetectionScreenState
     final description = Text(
       '選択した範囲から自動で鳴き声を探すよ！',
       textAlign: TextAlign.center,
-      style:
-          Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
+      style: Theme.of(context).textTheme.bodyMedium,
     );
 
     final viewer = _VideoViewer(viewModelProvider: widget.viewModelProvider);
 
-    final editor = _TrimEditor(viewModelProvider: widget.viewModelProvider);
-
-    final playButton = IconButton(
-      iconSize: 64,
-      onPressed: ref.read(widget.viewModelProvider.notifier).onPlay,
-      icon: _PlayControlButton(
-        viewModelProvider: widget.viewModelProvider,
-        color: Colors.white,
+    final playControlPanel = GestureDetector(
+      onTap: ref.read(widget.viewModelProvider.notifier).onPlay,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          viewer,
+          _PlayControlButton(
+            viewModelProvider: widget.viewModelProvider,
+          ),
+        ],
       ),
     );
 
+    final editor = _TrimEditor(viewModelProvider: widget.viewModelProvider);
+
+    final footerButton = PrimaryButton(
+      onPressed: _onComplete,
+      text: '次へ',
+    );
+    final footerContent = ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: DisplayDefinition.actionButtonMaxWidth,
+      ),
+      child: footerButton,
+    );
+    final footer = Footer(child: footerContent);
+
     final scaffold = Scaffold(
-      appBar: AppBar(
-        title: const Text('鳴き声を選択'),
-        actions: [
-          IconButton(
-            onPressed: _onComplete,
-            icon: const Icon(Icons.check),
-          )
-        ],
+      appBar: transparentAppBar(
+        context: context,
+        titleText: 'STEP 2/3 (1)',
       ),
       body: Column(
         children: [
           const SizedBox(height: 32),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: description,
+          SafeArea(
+            top: false,
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: description,
+            ),
           ),
           const SizedBox(height: 32),
           Expanded(
-            child: viewer,
+            child: SafeArea(
+              top: false,
+              bottom: false,
+              child: playControlPanel,
+            ),
           ),
           const SizedBox(height: 8),
           SizedBox(
             height: 80,
-            child: editor,
+            child: SafeArea(
+              top: false,
+              bottom: false,
+              child: editor,
+            ),
           ),
-          playButton,
           const SizedBox(height: 24),
+          footer,
         ],
       ),
-      backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
     );
 
@@ -168,6 +193,14 @@ class _TrimEditor extends ConsumerWidget {
         trimmer: trimmer,
         viewerWidth: constraints.maxWidth - 16,
         maxVideoLength: TrimSoundForDetectionViewModel.maxDurationToTrim,
+        circleSize: 8,
+        borderWidth: 4,
+        scrubberWidth: 2,
+        circlePaintColor: Colors.orangeAccent,
+        borderPaintColor: Colors.orangeAccent,
+        durationTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
         onChangeStart: viewModel.onUpdateStart,
         onChangeEnd: viewModel.onUpdateEnd,
         onChangePlaybackState: (isPlaying) =>
@@ -180,25 +213,24 @@ class _TrimEditor extends ConsumerWidget {
 class _PlayControlButton extends ConsumerWidget {
   const _PlayControlButton({
     required this.viewModelProvider,
-    required this.color,
     Key? key,
   }) : super(key: key);
 
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
       TrimSoundForDetectionState> viewModelProvider;
-  final Color color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isPlaying =
         ref.watch(viewModelProvider.select((state) => state.isPlaying));
 
-    final icon = isPlaying ? Icons.pause : Icons.play_arrow;
-
-    return Icon(
-      icon,
-      color: color,
-    );
+    return isPlaying
+        ? const SizedBox.shrink()
+        : const Icon(
+            Icons.play_arrow,
+            size: 48,
+            color: Colors.white,
+          );
   }
 }
 

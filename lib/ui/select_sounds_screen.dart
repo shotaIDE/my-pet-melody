@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/component/circled_play_button.dart';
+import 'package:meow_music/ui/component/footer.dart';
+import 'package:meow_music/ui/component/primary_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
@@ -304,23 +306,9 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final footerButton = SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed:
-            state.isAvailableSubmission ? _showSetPieceTitleScreen : null,
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-          ),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.all(16),
-          child: Text('次へ'),
-        ),
-      ),
+    final footerButton = PrimaryButton(
+      text: '次へ',
+      onPressed: state.isAvailableSubmission ? _showSetPieceTitleScreen : null,
     );
     final footerContent = ConstrainedBox(
       constraints: const BoxConstraints(
@@ -329,17 +317,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       child: footerButton,
     );
 
-    final footer = Container(
-      alignment: Alignment.center,
-      color: Theme.of(context).secondaryHeaderColor,
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: footerContent,
-        ),
-      ),
-    );
+    final footer = Footer(child: footerContent);
 
     final scaffold = WillPopScope(
       onWillPop: () async {
