@@ -120,18 +120,30 @@ class _TrimSoundForDetectionScreenState
       body: Column(
         children: [
           const SizedBox(height: 32),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: description,
+          SafeArea(
+            top: false,
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: description,
+            ),
           ),
           const SizedBox(height: 32),
           Expanded(
-            child: playControlPanel,
+            child: SafeArea(
+              top: false,
+              bottom: false,
+              child: playControlPanel,
+            ),
           ),
           const SizedBox(height: 8),
           SizedBox(
             height: 80,
-            child: editor,
+            child: SafeArea(
+              top: false,
+              bottom: false,
+              child: editor,
+            ),
           ),
           const SizedBox(height: 24),
           footer,
