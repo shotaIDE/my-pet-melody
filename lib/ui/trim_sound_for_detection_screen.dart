@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detection_state.dart';
@@ -72,16 +73,34 @@ class _TrimSoundForDetectionScreenState
       ),
     );
 
+    final footerButton = SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: _onComplete,
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+          ),
+        ),
+        child: const Padding(
+          padding: EdgeInsets.all(16),
+          child: Text('次へ'),
+        ),
+      ),
+    );
+    final footerContent = ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: DisplayDefinition.actionButtonMaxWidth,
+      ),
+      child: footerButton,
+    );
+
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
         titleText: 'STEP 2/3 (1)',
-        actions: [
-          IconButton(
-            onPressed: _onComplete,
-            icon: const Icon(Icons.check),
-          )
-        ],
       ),
       body: Column(
         children: [
@@ -101,6 +120,7 @@ class _TrimSoundForDetectionScreenState
           ),
           playButton,
           const SizedBox(height: 24),
+          footerContent,
         ],
       ),
       resizeToAvoidBottomInset: false,
