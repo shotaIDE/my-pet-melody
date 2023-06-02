@@ -116,14 +116,9 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: thumbnail,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: displayNameInput,
-          ),
+          thumbnail,
+          const SizedBox(height: 32),
+          displayNameInput,
         ],
       ),
     );
@@ -137,30 +132,41 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
-            child: title,
+          const SizedBox(height: 32),
+          SafeArea(
+            top: false,
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: title,
+            ),
           ),
+          const SizedBox(height: 16),
           Expanded(
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 32),
-                  child: body,
-                ),
-                const Positioned(
-                  bottom: 0,
-                  left: 16,
-                  child: SafeArea(
+            child: SafeArea(
+              top: false,
+              bottom: false,
+              child: body,
+            ),
+          ),
+          Stack(
+            children: [
+              footer,
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  footer,
+                  const Positioned(
+                    top: -SpeakingCatImage.height + 18,
+                    left: 16,
                     child: SpeakingCatImage(
                       flipHorizontally: true,
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
-          footer,
         ],
       ),
       resizeToAvoidBottomInset: false,
