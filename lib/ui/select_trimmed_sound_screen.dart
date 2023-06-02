@@ -209,11 +209,10 @@ class _SelectTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    const firstThumbnailHeight = 48.0;
     final movieTile = _MovieTile(
       viewModelProvider: widget.viewModelProvider,
-      thumbnailWidth: firstThumbnailHeight * DisplayDefinition.aspectRatio,
-      thumbnailHeight: firstThumbnailHeight,
+      thumbnailWidth: DisplayDefinition.thumbnailWidthSmall,
+      thumbnailHeight: DisplayDefinition.thumbnailHeightSmall,
     );
 
     final noDesiredTrimmingDescription = RichText(
@@ -377,15 +376,45 @@ class _MovieTile extends ConsumerWidget {
     final displayName =
         ref.watch(viewModelProvider.select((state) => state.displayName));
 
-    return ListTile(
-      leading: _EquallyDividedThumbnail(
-        viewModelProvider: viewModelProvider,
-        index: 0,
-        width: thumbnailWidth,
-        height: thumbnailHeight,
+    final thumbnail = _EquallyDividedThumbnail(
+      viewModelProvider: viewModelProvider,
+      index: 0,
+      width: thumbnailWidth,
+      height: thumbnailHeight,
+    );
+    final title = Text(
+      displayName,
+      style: Theme.of(context).textTheme.bodyLarge,
+      overflow: TextOverflow.ellipsis,
+    );
+    final contents = Row(
+      children: [
+        thumbnail,
+        const SizedBox(width: 16),
+        Expanded(
+          child: title,
+        ),
+        const SizedBox(width: 16),
+      ],
+    );
+
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(
+          DisplayDefinition.cornerRadiusSizeSmall,
+        ),
       ),
-      title: Text(displayName),
-      tileColor: Colors.grey[300],
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Theme.of(context).dividerColor),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(
+              DisplayDefinition.cornerRadiusSizeSmall,
+            ),
+          ),
+        ),
+        child: contents,
+      ),
     );
   }
 }
