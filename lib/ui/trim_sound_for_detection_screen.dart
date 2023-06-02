@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/trim_sound_for_detection_state.dart';
@@ -72,8 +73,9 @@ class _TrimSoundForDetectionScreenState
     );
 
     final scaffold = Scaffold(
-      appBar: AppBar(
-        title: const Text('鳴き声を選択'),
+      appBar: transparentAppBar(
+        context: context,
+        titleText: 'STEP 2/3 (1)',
         actions: [
           IconButton(
             onPressed: _onComplete,
@@ -101,7 +103,6 @@ class _TrimSoundForDetectionScreenState
           const SizedBox(height: 24),
         ],
       ),
-      backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
     );
 
