@@ -456,11 +456,9 @@ class _ChoicePanel extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        _ChoiceThumbnailButton(
+                        _ChoiceThumbnail(
                           viewModelProvider: viewModelProvider,
                           index: index,
-                          onPlay: onPlay,
-                          onStop: onStop,
                         ),
                         Expanded(
                           child: Padding(
@@ -544,20 +542,16 @@ class _ChoicePanel extends ConsumerWidget {
   }
 }
 
-class _ChoiceThumbnailButton extends ConsumerWidget {
-  const _ChoiceThumbnailButton({
+class _ChoiceThumbnail extends ConsumerWidget {
+  const _ChoiceThumbnail({
     required this.viewModelProvider,
     required this.index,
-    required this.onPlay,
-    required this.onStop,
     Key? key,
   }) : super(key: key);
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
   final int index;
-  final void Function({required PlayerChoiceTrimmedMovie choice}) onPlay;
-  final void Function({required PlayerChoiceTrimmedMovie choice}) onStop;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -565,41 +559,10 @@ class _ChoiceThumbnailButton extends ConsumerWidget {
       viewModelProvider.select((state) => state.choices[index]),
     );
 
-    const height = 64.0;
-    const width = height * DisplayDefinition.aspectRatio;
-    final thumbnailBackground = _Thumbnail(
+    return _Thumbnail(
       path: choice.thumbnailPath,
-      width: width,
-      height: height,
-    );
-
-    final thumbnailButtonIcon = choice.path != null
-        ? Container(
-            decoration: const BoxDecoration(
-              color: Colors.grey,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              choice.status.map(
-                stop: (_) => Icons.play_arrow,
-                playing: (_) => Icons.stop,
-              ),
-            ),
-          )
-        : null;
-
-    return InkWell(
-      onTap: () => choice.status.map(
-        stop: (_) => onPlay(choice: choice),
-        playing: (_) => onStop(choice: choice),
-      ),
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          thumbnailBackground,
-          if (thumbnailButtonIcon != null) thumbnailButtonIcon,
-        ],
-      ),
+      width: DisplayDefinition.thumbnailWidthLarge,
+      height: DisplayDefinition.thumbnailHeightLarge,
     );
   }
 }
