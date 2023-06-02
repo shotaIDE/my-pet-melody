@@ -62,9 +62,11 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
 
-    // if (state.choices.isEmpty) {
-    return _UnavailableTrimmedSoundScreen(viewModelProvider: widget.viewModel);
-    // }
+    if (state.choices.isEmpty) {
+      return _UnavailableTrimmedSoundScreen(
+        viewModelProvider: widget.viewModel,
+      );
+    }
 
     return _SelectTrimmedSoundScreen(viewModelProvider: widget.viewModel);
   }
