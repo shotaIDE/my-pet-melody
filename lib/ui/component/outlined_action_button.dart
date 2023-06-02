@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 
-class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({
+class OutlinedActionButton extends StatelessWidget {
+  const OutlinedActionButton({
     required this.text,
     required this.onPressed,
     Key? key,
@@ -15,7 +16,7 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
+      child: OutlinedButton(
         onPressed: onPressed,
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
