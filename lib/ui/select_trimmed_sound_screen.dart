@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
@@ -289,7 +290,10 @@ class _SelectTrimmedSoundScreenState
     );
 
     final scaffold = Scaffold(
-      appBar: AppBar(),
+      appBar: transparentAppBar(
+        context: context,
+        titleText: 'STEP 2/3 (2)',
+      ),
       body: Column(
         children: [
           Padding(
