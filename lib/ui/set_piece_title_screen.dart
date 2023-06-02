@@ -4,7 +4,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
+import 'package:meow_music/ui/component/footer.dart';
+import 'package:meow_music/ui/component/primary_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:meow_music/ui/set_piece_title_state.dart';
@@ -46,7 +50,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
-      '作品のタイトルを\n設定しよう',
+      '作品にタイトルを\nつけよう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
@@ -56,30 +60,26 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     if (isRequestStepExists == null) {
       footerContent = const CircularProgressIndicator();
     } else {
-      final ButtonStyleButton footerButton;
+      final PrimaryButton footerButton;
       if (isRequestStepExists) {
-        footerButton = ElevatedButton(
+        footerButton = PrimaryButton(
+          text: '作品をつくる準備に進む',
           onPressed: _showRequestScreen,
-          child: const Text('作品をつくる準備に進む'),
         );
       } else {
-        footerButton = ElevatedButton(
+        footerButton = PrimaryButton(
+          text: '作品をつくる',
           onPressed: _submit,
-          child: const Text('作品をつくる'),
         );
       }
 
-      footerContent = SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+      footerContent = ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: DisplayDefinition.actionButtonMaxWidth,
+        ),
         child: footerButton,
       );
     }
-
-    final description = Text(
-      '作品のタイトルを設定してね！後からでも変えられるよ！',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.bodyLarge,
-    );
 
     final thumbnail = Image.file(
       File(state.thumbnailLocalPath),
@@ -91,6 +91,18 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     final displayNameInput = TextField(
       controller: state.displayNameController,
       focusNode: state.displayNameFocusNode,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Theme.of(context).cardColor,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+          borderSide: BorderSide(
+            color: Theme.of(context).dividerColor,
+          ),
+        ),
+      ),
       autofocus: true,
     );
 
@@ -104,60 +116,57 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          description,
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: thumbnail,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: displayNameInput,
-          ),
+          thumbnail,
+          const SizedBox(height: 32),
+          displayNameInput,
         ],
       ),
     );
 
-    final footer = Container(
-      alignment: Alignment.center,
-      color: Theme.of(context).secondaryHeaderColor,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: footerContent,
-        ),
-      ),
-    );
+    final footer = Footer(child: footerContent);
 
     final scaffold = Scaffold(
-      appBar: AppBar(
-        title: const Text('STEP 3/3'),
+      appBar: transparentAppBar(
+        context: context,
+        titleText: 'STEP 3/3',
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
-            child: title,
+          const SizedBox(height: 32),
+          SafeArea(
+            top: false,
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: title,
+            ),
           ),
+          const SizedBox(height: 16),
           Expanded(
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 32),
-                  child: body,
-                ),
-                const Positioned(
-                  bottom: 0,
-                  left: 16,
-                  child: SafeArea(
+            child: SafeArea(
+              top: false,
+              bottom: false,
+              child: body,
+            ),
+          ),
+          Stack(
+            children: [
+              footer,
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  footer,
+                  const Positioned(
+                    top: -SpeakingCatImage.height + 18,
+                    left: 16,
                     child: SpeakingCatImage(
                       flipHorizontally: true,
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
-          footer,
         ],
       ),
       resizeToAvoidBottomInset: false,
