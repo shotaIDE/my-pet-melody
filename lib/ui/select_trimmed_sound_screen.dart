@@ -62,9 +62,9 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
 
-    if (state.choices.isEmpty) {
-      return _UnavailableTrimmedSoundScreen(viewModel: widget.viewModel);
-    }
+    // if (state.choices.isEmpty) {
+    return _UnavailableTrimmedSoundScreen(viewModel: widget.viewModel);
+    // }
 
     return _SelectTrimmedSoundScreen(viewModelProvider: widget.viewModel);
   }
@@ -159,19 +159,19 @@ class _UnavailableTrimmedSoundScreenState
 
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: title,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16),
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: Column(
+          children: [
+            const SizedBox(height: 32),
+            title,
+            const SizedBox(height: 16),
+            Expanded(
               child: body,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       resizeToAvoidBottomInset: false,
     );
