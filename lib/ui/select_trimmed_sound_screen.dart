@@ -294,19 +294,24 @@ class _SelectTrimmedSoundScreenState
         context: context,
         titleText: 'STEP 2/3 (2)',
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: title,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16),
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: Column(
+          children: [
+            const SizedBox(height: 32),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: DisplayDefinition.screenPaddingSmall,
+              ),
+              child: title,
+            ),
+            const SizedBox(height: 16),
+            Expanded(
               child: body,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       resizeToAvoidBottomInset: false,
     );
