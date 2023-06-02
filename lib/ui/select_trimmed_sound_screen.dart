@@ -517,21 +517,31 @@ class _ChoicePanel extends ConsumerWidget {
       ],
     );
 
-    return InkWell(
-      onTap: () => onSelect(choice: choice, index: index),
-      child: Container(
-        padding: const EdgeInsets.only(
-          top: 8,
-          bottom: 8 - _seekBarBorderWidth,
-          left: 8 - _seekBarBorderWidth,
-          right: 8 - _seekBarBorderWidth,
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(
+          DisplayDefinition.cornerRadiusSizeSmall,
         ),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Theme.of(context).secondaryHeaderColor,
+      ),
+      child: Material(
+        color: Theme.of(context).cardColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
           ),
         ),
-        child: body,
+        child: InkWell(
+          onTap: () => onSelect(choice: choice, index: index),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 8,
+              bottom: 8 - _seekBarBorderWidth,
+              left: 8 - _seekBarBorderWidth,
+              right: 8 - _seekBarBorderWidth,
+            ),
+            child: body,
+          ),
+        ),
       ),
     );
   }
