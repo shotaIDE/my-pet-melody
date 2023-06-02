@@ -255,36 +255,36 @@ class _SelectTrimmedSoundScreenState
       child: const Text('自分でトリミングする'),
     );
 
-    final choicePanels = List.generate(
-      choicesCount,
-      (index) => _ChoicePanel(
+    final choicesPanel = ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (_, index) => _ChoicePanel(
         viewModelProvider: widget.viewModelProvider,
         index: index,
         onPlay: viewModel.play,
         onStop: viewModel.stop,
         onSelect: _select,
       ),
+      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      itemCount: choicesCount,
     );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.only(
+        top: 16,
+        bottom: MediaQuery.of(context).viewPadding.bottom,
+        left: DisplayDefinition.screenPaddingSmall,
+        right: DisplayDefinition.screenPaddingSmall,
+      ),
       child: Column(
         children: [
           movieTile,
-          Padding(
-            padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
-            child: noDesiredTrimmingDescription,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: trimManuallyButton,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: Column(
-              children: choicePanels,
-            ),
-          ),
+          const SizedBox(height: 32),
+          noDesiredTrimmingDescription,
+          const SizedBox(height: 16),
+          trimManuallyButton,
+          const SizedBox(height: 32),
+          choicesPanel,
         ],
       ),
     );
