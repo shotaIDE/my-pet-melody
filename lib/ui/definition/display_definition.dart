@@ -7,6 +7,6 @@ class DisplayDefinition {
   static const actionButtonMaxWidth = 320.0;
   static const thumbnailHeightLarge = 74.0;
   static const thumbnailWidthLarge = thumbnailHeightLarge * aspectRatio;
-  static const thumbnailHeightSmall = 54.0;
+  static const thumbnailHeightSmall = 48.0;
   static const thumbnailWidthSmall = thumbnailHeightSmall * aspectRatio;
 }

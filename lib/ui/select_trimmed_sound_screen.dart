@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/circled_play_button.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
 import 'package:meow_music/ui/model/player_choice.dart';
@@ -27,13 +29,13 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   SelectTrimmedSoundScreen({
     required SelectTrimmedSoundArgs args,
     Key? key,
-  })  : viewModel = selectTrimmedSoundViewModelProvider(args),
+  })  : viewModelProvider = selectTrimmedSoundViewModelProvider(args),
         super(key: key);
 
   static const name = 'SelectTrimmedSoundScreen';
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModel;
+      SelectTrimmedSoundState> viewModelProvider;
 
   static MaterialPageRoute<SelectTrimmedSoundResult?> route({
     required SelectTrimmedSoundArgs args,
@@ -53,29 +55,33 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   void initState() {
     super.initState();
 
-    ref.read(widget.viewModel.notifier).setup();
+    ref.read(widget.viewModelProvider.notifier).setup();
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
+    final state = ref.watch(widget.viewModelProvider);
 
     if (state.choices.isEmpty) {
-      return _UnavailableTrimmedSoundScreen(viewModel: widget.viewModel);
+      return _UnavailableTrimmedSoundScreen(
+        viewModelProvider: widget.viewModelProvider,
+      );
     }
 
-    return _SelectTrimmedSoundScreen(viewModelProvider: widget.viewModel);
+    return _SelectTrimmedSoundScreen(
+      viewModelProvider: widget.viewModelProvider,
+    );
   }
 }
 
 class _UnavailableTrimmedSoundScreen extends ConsumerStatefulWidget {
   const _UnavailableTrimmedSoundScreen({
-    required this.viewModel,
+    required this.viewModelProvider,
     Key? key,
   }) : super(key: key);
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModel;
+      SelectTrimmedSoundState> viewModelProvider;
 
   @override
   ConsumerState<_UnavailableTrimmedSoundScreen> createState() =>
@@ -86,32 +92,16 @@ class _UnavailableTrimmedSoundScreenState
     extends ConsumerState<_UnavailableTrimmedSoundScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
-
     final title = Text(
       '鳴き声が\n見つかりませんでした',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    final firstThumbnailPath = state.equallyDividedThumbnailPaths.first;
-    const firstThumbnailHeight = 48.0;
-    final firstThumbnail = firstThumbnailPath != null
-        ? Image.file(
-            File(firstThumbnailPath),
-            fit: BoxFit.cover,
-            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
-            height: firstThumbnailHeight,
-          )
-        : const SizedBox(
-            width: firstThumbnailHeight * DisplayDefinition.aspectRatio,
-            height: firstThumbnailHeight,
-            child: SkeletonAvatar(),
-          );
-    final moviePanel = ListTile(
-      leading: firstThumbnail,
-      title: Text(state.displayName),
-      tileColor: Colors.grey[300],
+    final movieTile = _MovieTile(
+      viewModelProvider: widget.viewModelProvider,
+      thumbnailWidth: DisplayDefinition.thumbnailWidthSmall,
+      thumbnailHeight: DisplayDefinition.thumbnailHeightSmall,
     );
 
     const noDesiredTrimmingDescription = Text(
@@ -122,7 +112,7 @@ class _UnavailableTrimmedSoundScreenState
     final trimManuallyButton = TextButton(
       onPressed: () async {
         final localPath =
-            ref.read(widget.viewModel.notifier).getLocalPathName();
+            ref.read(widget.viewModelProvider.notifier).getLocalPathName();
 
         final outputPath = await Navigator.push(
           context,
@@ -139,37 +129,41 @@ class _UnavailableTrimmedSoundScreenState
     );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.only(
+        top: 16,
+        bottom: MediaQuery.of(context).viewPadding.bottom,
+        left: DisplayDefinition.screenPaddingSmall,
+        right: DisplayDefinition.screenPaddingSmall,
+      ),
       child: Column(
         children: [
-          moviePanel,
-          const Padding(
-            padding: EdgeInsets.only(top: 32, left: 16, right: 16),
-            child: noDesiredTrimmingDescription,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: trimManuallyButton,
-          ),
+          movieTile,
+          const SizedBox(height: 32),
+          noDesiredTrimmingDescription,
+          const SizedBox(height: 16),
+          trimManuallyButton,
         ],
       ),
     );
 
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: title,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16),
+      appBar: transparentAppBar(
+        context: context,
+        titleText: 'STEP 2/3 (2)',
+      ),
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: Column(
+          children: [
+            const SizedBox(height: 32),
+            title,
+            const SizedBox(height: 16),
+            Expanded(
               child: body,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       resizeToAvoidBottomInset: false,
     );
@@ -208,11 +202,10 @@ class _SelectTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    const firstThumbnailHeight = 48.0;
     final movieTile = _MovieTile(
       viewModelProvider: widget.viewModelProvider,
-      thumbnailWidth: firstThumbnailHeight * DisplayDefinition.aspectRatio,
-      thumbnailHeight: firstThumbnailHeight,
+      thumbnailWidth: DisplayDefinition.thumbnailWidthSmall,
+      thumbnailHeight: DisplayDefinition.thumbnailHeightSmall,
     );
 
     final noDesiredTrimmingDescription = RichText(
@@ -254,55 +247,63 @@ class _SelectTrimmedSoundScreenState
       child: const Text('自分でトリミングする'),
     );
 
-    final choicePanels = List.generate(
-      choicesCount,
-      (index) => _ChoicePanel(
+    final choicesPanel = ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (_, index) => _ChoicePanel(
         viewModelProvider: widget.viewModelProvider,
         index: index,
         onPlay: viewModel.play,
         onStop: viewModel.stop,
         onSelect: _select,
       ),
+      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      itemCount: choicesCount,
     );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.only(
+        top: 16,
+        bottom: MediaQuery.of(context).viewPadding.bottom,
+        left: DisplayDefinition.screenPaddingSmall,
+        right: DisplayDefinition.screenPaddingSmall,
+      ),
       child: Column(
         children: [
           movieTile,
-          Padding(
-            padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
-            child: noDesiredTrimmingDescription,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: trimManuallyButton,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: Column(
-              children: choicePanels,
-            ),
-          ),
+          const SizedBox(height: 32),
+          noDesiredTrimmingDescription,
+          const SizedBox(height: 16),
+          trimManuallyButton,
+          const SizedBox(height: 32),
+          choicesPanel,
         ],
       ),
     );
 
     final scaffold = Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 32),
-            child: title,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16),
+      appBar: transparentAppBar(
+        context: context,
+        titleText: 'STEP 2/3 (2)',
+      ),
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: Column(
+          children: [
+            const SizedBox(height: 32),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: DisplayDefinition.screenPaddingSmall,
+              ),
+              child: title,
+            ),
+            const SizedBox(height: 16),
+            Expanded(
               child: body,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       resizeToAvoidBottomInset: false,
     );
@@ -373,15 +374,45 @@ class _MovieTile extends ConsumerWidget {
     final displayName =
         ref.watch(viewModelProvider.select((state) => state.displayName));
 
-    return ListTile(
-      leading: _EquallyDividedThumbnail(
-        viewModelProvider: viewModelProvider,
-        index: 0,
-        width: thumbnailWidth,
-        height: thumbnailHeight,
+    final thumbnail = _EquallyDividedThumbnail(
+      viewModelProvider: viewModelProvider,
+      index: 0,
+      width: thumbnailWidth,
+      height: thumbnailHeight,
+    );
+    final title = Text(
+      displayName,
+      style: Theme.of(context).textTheme.bodyMedium,
+      overflow: TextOverflow.ellipsis,
+    );
+    final contents = Row(
+      children: [
+        thumbnail,
+        const SizedBox(width: 16),
+        Expanded(
+          child: title,
+        ),
+        const SizedBox(width: 16),
+      ],
+    );
+
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(
+          DisplayDefinition.cornerRadiusSizeSmall,
+        ),
       ),
-      title: Text(displayName),
-      tileColor: Colors.grey[300],
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Theme.of(context).dividerColor),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(
+              DisplayDefinition.cornerRadiusSizeSmall,
+            ),
+          ),
+        ),
+        child: contents,
+      ),
     );
   }
 }
@@ -422,11 +453,9 @@ class _ChoicePanel extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        _ChoiceThumbnailButton(
+                        _ChoiceThumbnail(
                           viewModelProvider: viewModelProvider,
                           index: index,
-                          onPlay: onPlay,
-                          onStop: onStop,
                         ),
                         Expanded(
                           child: Padding(
@@ -438,10 +467,6 @@ class _ChoicePanel extends ConsumerWidget {
                           ),
                         ),
                       ],
-                    ),
-                    _PlayingIndicator(
-                      viewModelProvider: viewModelProvider,
-                      index: index,
                     ),
                   ],
                 ),
@@ -459,61 +484,71 @@ class _ChoicePanel extends ConsumerWidget {
       ],
     );
 
-    final body = Row(
+    final detailsPanelAndPlayButton = Row(
       children: [
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  color: Theme.of(context).secondaryHeaderColor,
-                ),
-              ),
-            ),
-            child: detailsPanel,
-          ),
+          child: detailsPanel,
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Icon(Icons.arrow_forward_ios),
+        const SizedBox(width: 16 - _seekBarBorderWidth),
+        _ChoicePlayButton(
+          viewModelProvider: viewModelProvider,
+          index: index,
+          onPlay: onPlay,
+          onStop: onStop,
         ),
       ],
     );
 
-    return InkWell(
-      onTap: () => onSelect(choice: choice, index: index),
-      child: Container(
-        padding: const EdgeInsets.only(
-          top: 8,
-          bottom: 8 - _seekBarBorderWidth,
-          left: 8 - _seekBarBorderWidth,
-          right: 8 - _seekBarBorderWidth,
+    final body = Column(
+      children: [
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 8 - _seekBarBorderWidth,
+            right: 16,
+          ),
+          child: detailsPanelAndPlayButton,
         ),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Theme.of(context).secondaryHeaderColor,
+        const SizedBox(height: 8 - _seekBarBorderWidth),
+        _PlayingIndicator(
+          viewModelProvider: viewModelProvider,
+          index: index,
+        ),
+      ],
+    );
+
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(
+          DisplayDefinition.cornerRadiusSizeSmall,
+        ),
+      ),
+      child: Material(
+        color: Theme.of(context).cardColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
           ),
         ),
-        child: body,
+        child: InkWell(
+          onTap: () => onSelect(choice: choice, index: index),
+          child: body,
+        ),
       ),
     );
   }
 }
 
-class _ChoiceThumbnailButton extends ConsumerWidget {
-  const _ChoiceThumbnailButton({
+class _ChoiceThumbnail extends ConsumerWidget {
+  const _ChoiceThumbnail({
     required this.viewModelProvider,
     required this.index,
-    required this.onPlay,
-    required this.onStop,
     Key? key,
   }) : super(key: key);
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
   final int index;
-  final void Function({required PlayerChoiceTrimmedMovie choice}) onPlay;
-  final void Function({required PlayerChoiceTrimmedMovie choice}) onStop;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -521,41 +556,10 @@ class _ChoiceThumbnailButton extends ConsumerWidget {
       viewModelProvider.select((state) => state.choices[index]),
     );
 
-    const height = 64.0;
-    const width = height * DisplayDefinition.aspectRatio;
-    final thumbnailBackground = _Thumbnail(
+    return _Thumbnail(
       path: choice.thumbnailPath,
-      width: width,
-      height: height,
-    );
-
-    final thumbnailButtonIcon = choice.path != null
-        ? Container(
-            decoration: const BoxDecoration(
-              color: Colors.grey,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              choice.status.map(
-                stop: (_) => Icons.play_arrow,
-                playing: (_) => Icons.stop,
-              ),
-            ),
-          )
-        : null;
-
-    return InkWell(
-      onTap: () => choice.status.map(
-        stop: (_) => onPlay(choice: choice),
-        playing: (_) => onStop(choice: choice),
-      ),
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          thumbnailBackground,
-          if (thumbnailButtonIcon != null) thumbnailButtonIcon,
-        ],
-      ),
+      width: DisplayDefinition.thumbnailWidthLarge,
+      height: DisplayDefinition.thumbnailHeightLarge,
     );
   }
 }
@@ -765,6 +769,35 @@ class _SeekBarBackgroundLayer extends ConsumerWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _ChoicePlayButton extends ConsumerWidget {
+  const _ChoicePlayButton({
+    required this.viewModelProvider,
+    required this.index,
+    required this.onPlay,
+    required this.onStop,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
+      SelectTrimmedSoundState> viewModelProvider;
+  final int index;
+  final void Function({required PlayerChoiceTrimmedMovie choice}) onPlay;
+  final void Function({required PlayerChoiceTrimmedMovie choice}) onStop;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final choice = ref.watch(
+      viewModelProvider.select((state) => state.choices[index]),
+    );
+
+    return CircledPlayButton(
+      status: choice.status,
+      onPressedWhenStop: () => onPlay(choice: choice),
+      onPressedWhenPlaying: () => onStop(choice: choice),
     );
   }
 }
