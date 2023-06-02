@@ -92,8 +92,6 @@ class _UnavailableTrimmedSoundScreenState
     extends ConsumerState<_UnavailableTrimmedSoundScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModelProvider);
-
     final title = Text(
       '鳴き声が\n見つかりませんでした',
       textAlign: TextAlign.center,
