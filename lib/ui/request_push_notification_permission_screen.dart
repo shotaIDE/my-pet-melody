@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_screen.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
+import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/request_push_notification_permission_state.dart';
 import 'package:meow_music/ui/request_push_notification_permission_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
@@ -110,8 +111,9 @@ class _SelectTemplateState
     );
 
     final scaffold = Scaffold(
-      appBar: AppBar(
-        title: const Text('依頼前の準備'),
+      appBar: transparentAppBar(
+        context: context,
+        titleText: '依頼前の準備',
       ),
       body: SafeArea(
         bottom: false,
