@@ -473,10 +473,6 @@ class _ChoicePanel extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    _PlayingIndicator(
-                      viewModelProvider: viewModelProvider,
-                      index: index,
-                    ),
                   ],
                 ),
               ),
@@ -493,27 +489,36 @@ class _ChoicePanel extends ConsumerWidget {
       ],
     );
 
-    final body = Row(
+    final detailsPanelAndPlayButton = Row(
       children: [
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  color: Theme.of(context).secondaryHeaderColor,
-                ),
-              ),
-            ),
-            child: detailsPanel,
-          ),
+          child: detailsPanel,
         ),
+        const SizedBox(width: 16 - _seekBarBorderWidth),
         _ChoicePlayButton(
           viewModelProvider: viewModelProvider,
           index: index,
           onPlay: onPlay,
           onStop: onStop,
         ),
-        const SizedBox(width: 16),
+      ],
+    );
+
+    final body = Column(
+      children: [
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 8 - _seekBarBorderWidth,
+            right: 16,
+          ),
+          child: detailsPanelAndPlayButton,
+        ),
+        const SizedBox(height: 8 - _seekBarBorderWidth),
+        _PlayingIndicator(
+          viewModelProvider: viewModelProvider,
+          index: index,
+        ),
       ],
     );
 
@@ -532,15 +537,7 @@ class _ChoicePanel extends ConsumerWidget {
         ),
         child: InkWell(
           onTap: () => onSelect(choice: choice, index: index),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 8,
-              bottom: 8 - _seekBarBorderWidth,
-              left: 8 - _seekBarBorderWidth,
-              right: 8 - _seekBarBorderWidth,
-            ),
-            child: body,
-          ),
+          child: body,
         ),
       ),
     );
