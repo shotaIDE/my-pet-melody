@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/completed_to_submit_state.dart';
 import 'package:meow_music/ui/completed_to_submit_view_model.dart';
-import 'package:meow_music/ui/component/footer.dart';
 import 'package:meow_music/ui/component/listening_music_cat_image.dart';
-import 'package:meow_music/ui/component/primary_button.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
 
 final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
     CompletedToSubmitViewModel, CompletedToSubmitState>(
@@ -40,63 +37,80 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
     );
 
     const description = Text(
-      '完成までしばらく待ってね！',
+      '完成までしばらく待ってね！\n'
+      '完成したときは通知で知らせるから、通知の設定を許可しておいてね！',
       textAlign: TextAlign.center,
     );
 
     final notificationButton = TextButton(
       onPressed: () {},
-      child: const Text('いますぐ作品を完成させる'),
+      child: const Text('通知の設定を確認する'),
     );
 
     final body = SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             description,
-            const SizedBox(height: 32),
-            notificationButton,
-            const SizedBox(height: 32),
-            const ListeningMusicCatImage(),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: notificationButton,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 32),
+              child: ListeningMusicCatImage(),
+            ),
           ],
         ),
       ),
     );
 
-    final footerButton = PrimaryButton(
-      text: 'ホームに戻る',
-      onPressed: () => Navigator.pop(context),
-    );
-    final footerContent = ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxWidth: DisplayDefinition.actionButtonMaxWidth,
+    final footer = Container(
+      alignment: Alignment.center,
+      color: Theme.of(context).secondaryHeaderColor,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('ホームに戻る'),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      child: footerButton,
     );
-    final footer = Footer(child: footerContent);
 
     return Scaffold(
-      body: Column(
-        children: [
-          SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: title,
+      body: SafeArea(
+        bottom: false,
+        left: false,
+        right: false,
+        child: Column(
+          children: [
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 32),
+                child: title,
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: body,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: body,
+              ),
             ),
-          ),
-          footer,
-        ],
+            footer,
+          ],
+        ),
       ),
       resizeToAvoidBottomInset: false,
     );
