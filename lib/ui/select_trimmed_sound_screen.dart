@@ -29,13 +29,13 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   SelectTrimmedSoundScreen({
     required SelectTrimmedSoundArgs args,
     Key? key,
-  })  : viewModel = selectTrimmedSoundViewModelProvider(args),
+  })  : viewModelProvider = selectTrimmedSoundViewModelProvider(args),
         super(key: key);
 
   static const name = 'SelectTrimmedSoundScreen';
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModel;
+      SelectTrimmedSoundState> viewModelProvider;
 
   static MaterialPageRoute<SelectTrimmedSoundResult?> route({
     required SelectTrimmedSoundArgs args,
@@ -55,20 +55,22 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   void initState() {
     super.initState();
 
-    ref.read(widget.viewModel.notifier).setup();
+    ref.read(widget.viewModelProvider.notifier).setup();
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
+    final state = ref.watch(widget.viewModelProvider);
 
     if (state.choices.isEmpty) {
       return _UnavailableTrimmedSoundScreen(
-        viewModelProvider: widget.viewModel,
+        viewModelProvider: widget.viewModelProvider,
       );
     }
 
-    return _SelectTrimmedSoundScreen(viewModelProvider: widget.viewModel);
+    return _SelectTrimmedSoundScreen(
+      viewModelProvider: widget.viewModelProvider,
+    );
   }
 }
 
