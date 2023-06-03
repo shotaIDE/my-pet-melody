@@ -9,8 +9,10 @@ import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/flavor.dart';
 import 'package:meow_music/root_view_model.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
+import 'package:meow_music/ui/component/rounded_and_chained_list_tile.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
+import 'package:meow_music/ui/definition/list_tile_position_in_group.dart';
 import 'package:meow_music/ui/join_premium_plan_screen.dart';
 import 'package:meow_music/ui/link_with_account_screen.dart';
 import 'package:meow_music/ui/settings_state.dart';
@@ -53,53 +55,53 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           Navigator.push<void>(context, LinkWithAccountScreen.route()),
     );
 
-    const currentPlanTile = _RoundedListTile(
+    const currentPlanTile = _RoundedSettingsListTile(
       title: Text('現在のプラン'),
       trailing: Text('プレミアムプラン'),
-      positionInGroup: _ListTilePositionInGroup.first,
+      positionInGroup: ListTilePositionInGroup.first,
     );
-    final registerPremiumPlanTile = _RoundedListTile(
+    final registerPremiumPlanTile = _RoundedSettingsListTile(
       title: const Text('プレミアムプランに登録する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push<void>(context, JoinPremiumPlanScreen.route()),
-      positionInGroup: _ListTilePositionInGroup.last,
+      positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final writeReviewTile = _RoundedListTile(
+    final writeReviewTile = _RoundedSettingsListTile(
       title: const Text('レビューを書く'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _writeReview,
-      positionInGroup: _ListTilePositionInGroup.first,
+      positionInGroup: ListTilePositionInGroup.first,
     );
-    final shareWithFriendsTile = _RoundedListTile(
+    final shareWithFriendsTile = _RoundedSettingsListTile(
       title: const Text('友達に教える'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _shareWithFriends,
-      positionInGroup: _ListTilePositionInGroup.middle,
+      positionInGroup: ListTilePositionInGroup.middle,
     );
-    final termsOfServiceTile = _RoundedListTile(
+    final termsOfServiceTile = _RoundedSettingsListTile(
       title: const Text('利用規約'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openTermsOfService,
-      positionInGroup: _ListTilePositionInGroup.middle,
+      positionInGroup: ListTilePositionInGroup.middle,
     );
-    final privacyPolicyTile = _RoundedListTile(
+    final privacyPolicyTile = _RoundedSettingsListTile(
       title: const Text('プライバシーポリシー'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openPrivacyPolicy,
-      positionInGroup: _ListTilePositionInGroup.last,
+      positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final debugTile = _RoundedListTile(
+    final debugTile = _RoundedSettingsListTile(
       title: const Text('デバッグ'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push(context, DebugScreen.route()),
-      positionInGroup: _ListTilePositionInGroup.first,
+      positionInGroup: ListTilePositionInGroup.first,
     );
-    const versionTile = _RoundedListTile(
+    const versionTile = _RoundedSettingsListTile(
       title: Text('バージョン'),
       trailing: _FullVersionNameText(),
-      positionInGroup: _ListTilePositionInGroup.last,
+      positionInGroup: ListTilePositionInGroup.last,
     );
 
     final body = SingleChildScrollView(
@@ -333,7 +335,7 @@ class _NotLoggedInTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _RoundedListTile(
+    return _RoundedSettingsListTile(
       title: const Text('アカウントを作成する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
@@ -357,7 +359,7 @@ class _DeleteAccountPanel extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return _RoundedListTile(
+    return _RoundedSettingsListTile(
       title: Text(
         'アカウント削除',
         style: TextStyle(color: Theme.of(context).colorScheme.error),
@@ -367,26 +369,19 @@ class _DeleteAccountPanel extends ConsumerWidget {
   }
 }
 
-enum _ListTilePositionInGroup {
-  first,
-  middle,
-  last,
-  only,
-}
-
-class _RoundedListTile extends StatelessWidget {
-  const _RoundedListTile({
+class _RoundedSettingsListTile extends StatelessWidget {
+  const _RoundedSettingsListTile({
     required this.title,
     this.trailing,
     this.onTap,
-    this.positionInGroup = _ListTilePositionInGroup.only,
+    this.positionInGroup = ListTilePositionInGroup.only,
     Key? key,
   }) : super(key: key);
 
   final Widget title;
   final Widget? trailing;
   final VoidCallback? onTap;
-  final _ListTilePositionInGroup positionInGroup;
+  final ListTilePositionInGroup positionInGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -400,57 +395,10 @@ class _RoundedListTile extends StatelessWidget {
       ],
     );
 
-    final BorderRadius borderRadius;
-    switch (positionInGroup) {
-      case _ListTilePositionInGroup.first:
-        borderRadius = const BorderRadius.only(
-          topLeft: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-          topRight: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-        );
-        break;
-      case _ListTilePositionInGroup.middle:
-        borderRadius = BorderRadius.zero;
-        break;
-      case _ListTilePositionInGroup.last:
-        borderRadius = const BorderRadius.only(
-          bottomLeft: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-          bottomRight: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-        );
-        break;
-      case _ListTilePositionInGroup.only:
-        borderRadius = const BorderRadius.all(
-          Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-        );
-    }
-
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: Material(
-        color: Theme.of(context).cardColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: borderRadius,
-        ),
-        child: InkWell(
-          onTap: onTap,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 56),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: body,
-            ),
-          ),
-        ),
-      ),
+    return RoundedAndChainedListTile(
+      onTap: onTap,
+      positionInGroup: positionInGroup,
+      child: body,
     );
   }
 }
