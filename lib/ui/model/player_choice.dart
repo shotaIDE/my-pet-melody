@@ -62,8 +62,11 @@ extension PlayerChoiceConverter on PlayerChoice {
     required List<PlayerChoice> originalList,
   }) {
     final playing = originalList.firstWhereOrNull(
-      (playable) =>
-          playable.status.map(stop: (_) => false, playing: (_) => true),
+      (playable) => playable.status.map(
+        stop: (_) => false,
+        loadingMedia: (_) => true,
+        playing: (_) => true,
+      ),
     );
 
     if (playing == null) {
@@ -81,8 +84,11 @@ extension PlayerChoiceConverter on PlayerChoice {
     required double position,
   }) {
     final playing = originalList.firstWhereOrNull(
-      (template) =>
-          template.status.map(stop: (_) => false, playing: (_) => true),
+      (template) => template.status.map(
+        stop: (_) => false,
+        loadingMedia: (_) => true,
+        playing: (_) => true,
+      ),
     );
     if (playing == null) {
       return null;

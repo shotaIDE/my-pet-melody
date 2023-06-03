@@ -119,7 +119,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
       originalList: stoppedList,
       targetId: choice.id,
-      newStatus: const PlayStatus.playing(position: 0),
+      newStatus: const PlayStatus.loadingMedia(),
     );
 
     _setPlayerChoices(playingList);

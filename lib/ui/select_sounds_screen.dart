@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/component/circled_play_button.dart';
 import 'package:meow_music/ui/component/footer.dart';
+import 'package:meow_music/ui/component/position_bar_when_loading_media.dart';
 import 'package:meow_music/ui/component/primary_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
@@ -79,6 +80,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final icon = status.map(
       stop: (_) => Icons.play_arrow,
+      loadingMedia: (_) => Icons.stop,
       playing: (_) => Icons.stop,
     );
     final thumbnailImage = Container(
@@ -96,14 +98,13 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final templateName = Text(template.template.name);
 
-    final progressIndicator = status.when(
-      stop: SizedBox.shrink,
-      playing: (position) => LinearProgressIndicator(value: position),
-    );
+    final templatePositionBar = ChoicePositionBar(status: status);
 
     final onTapTemplate = status.map(
       stop: (_) => () =>
           ref.read(widget.viewModelProvider.notifier).play(choice: template),
+      loadingMedia: (_) => () =>
+          ref.read(widget.viewModelProvider.notifier).stop(choice: template),
       playing: (_) => () =>
           ref.read(widget.viewModelProvider.notifier).stop(choice: template),
     );
@@ -141,7 +142,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: progressIndicator,
+                child: templatePositionBar,
               ),
             ],
           ),
@@ -235,10 +236,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                   .stop(choice: sound),
             );
 
-            final progressIndicator = status.when(
-              stop: SizedBox.shrink,
-              playing: (position) => LinearProgressIndicator(value: position),
-            );
+            final positionBar = ChoicePositionBar(status: status);
 
             return ClipRRect(
               borderRadius: const BorderRadius.all(
@@ -274,7 +272,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        child: progressIndicator,
+                        child: positionBar,
                       ),
                     ],
                   ),

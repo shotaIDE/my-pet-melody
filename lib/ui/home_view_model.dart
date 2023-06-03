@@ -44,54 +44,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     super.dispose();
   }
 
-  Future<void> play({required PlayerChoicePiece piece}) async {
-    final url = piece.uri;
-    if (url == null) {
-      return;
-    }
-
-    final pieces = state.pieces;
-    if (pieces == null) {
-      return;
-    }
-
-    final stoppedList =
-        PlayerChoiceConverter.getStoppedOrNull(originalList: pieces) ??
-            [...pieces];
-
-    final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
-      originalList: stoppedList,
-      targetId: piece.id,
-      newStatus: const PlayStatus.playing(position: 0),
-    );
-
-    state = state.copyWith(
-      pieces: playingList.whereType<PlayerChoicePiece>().toList(),
-    );
-
-    final source = UrlSource(url);
-
-    await _player.play(source);
-  }
-
-  Future<void> stop({required PlayerChoicePiece piece}) async {
-    final pieces = state.pieces;
-    if (pieces == null) {
-      return;
-    }
-
-    final stoppedList = PlayerChoiceConverter.getTargetStopped(
-      originalList: pieces,
-      targetId: piece.id,
-    );
-
-    state = state.copyWith(
-      pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
-    );
-
-    await _player.stop();
-  }
-
   Future<void> share({required PieceGenerated piece}) async {
     state = state.copyWith(isProcessing: true);
 
@@ -147,7 +99,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
             .toList();
 
         final previousPlaying = state.pieces?.firstWhereOrNull(
-          (piece) => piece.status.map(stop: (_) => false, playing: (_) => true),
+          (piece) => piece.status.map(
+            stop: (_) => false,
+            loadingMedia: (_) => true,
+            playing: (_) => true,
+          ),
         );
 
         final List<PlayerChoicePiece> fixedPieces;

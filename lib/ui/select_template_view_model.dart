@@ -57,7 +57,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
       originalList: stoppedList,
       targetId: template.id,
-      newStatus: const PlayStatus.playing(position: 0),
+      newStatus: const PlayStatus.loadingMedia(),
     );
 
     state = state.copyWith(
@@ -121,8 +121,11 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
             .toList();
 
         final previousPlaying = state.templates?.firstWhereOrNull(
-          (template) =>
-              template.status.map(stop: (_) => false, playing: (_) => true),
+          (template) => template.status.map(
+            stop: (_) => false,
+            loadingMedia: (_) => true,
+            playing: (_) => true,
+          ),
         );
 
         final List<PlayerChoiceTemplate> fixedTemplates;
