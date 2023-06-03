@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:meow_music/ui/model/play_status.dart';
 import 'package:skeletons/skeletons.dart';
 
-class PositionBarWhenLoadingMedia extends StatelessWidget {
-  const PositionBarWhenLoadingMedia({
+class ChoicePositionBar extends StatelessWidget {
+  const ChoicePositionBar({
+    required this.status,
     Key? key,
   }) : super(key: key);
 
+  final PlayStatus status;
+
   @override
   Widget build(BuildContext context) {
-    return const SkeletonLine(
-      style: SkeletonLineStyle(height: 4),
+    const height = 6.0;
+
+    return status.when(
+      stop: () => const SizedBox(height: height),
+      loadingMedia: () => const SkeletonLine(
+        style: SkeletonLineStyle(height: height),
+      ),
+      playing: (position) => LinearProgressIndicator(
+        value: position,
+        minHeight: height,
+      ),
     );
   }
 }

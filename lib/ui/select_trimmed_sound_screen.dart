@@ -615,11 +615,7 @@ class _PlayingIndicator extends ConsumerWidget {
       viewModelProvider.select((state) => state.choices[index].status),
     );
 
-    final playingIndicator = status.when(
-      stop: LinearProgressIndicator.new,
-      loadingMedia: PositionBarWhenLoadingMedia.new,
-      playing: (value) => LinearProgressIndicator(value: value),
-    );
+    final positionBar = ChoicePositionBar(status: status);
 
     return Visibility(
       visible: status.map(
@@ -630,7 +626,7 @@ class _PlayingIndicator extends ConsumerWidget {
       maintainState: true,
       maintainAnimation: true,
       maintainSize: true,
-      child: playingIndicator,
+      child: positionBar,
     );
   }
 }

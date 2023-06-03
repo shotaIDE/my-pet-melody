@@ -98,11 +98,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final templateName = Text(template.template.name);
 
-    final progressIndicator = status.when(
-      stop: SizedBox.shrink,
-      loadingMedia: PositionBarWhenLoadingMedia.new,
-      playing: (position) => LinearProgressIndicator(value: position),
-    );
+    final templatePositionBar = ChoicePositionBar(status: status);
 
     final onTapTemplate = status.map(
       stop: (_) => () =>
@@ -146,7 +142,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: progressIndicator,
+                child: templatePositionBar,
               ),
             ],
           ),
@@ -240,11 +236,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                   .stop(choice: sound),
             );
 
-            final progressIndicator = status.when(
-              stop: SizedBox.shrink,
-              loadingMedia: PositionBarWhenLoadingMedia.new,
-              playing: (position) => LinearProgressIndicator(value: position),
-            );
+            final positionBar = ChoicePositionBar(status: status);
 
             return ClipRRect(
               borderRadius: const BorderRadius.all(
@@ -280,7 +272,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        child: progressIndicator,
+                        child: positionBar,
                       ),
                     ],
                   ),

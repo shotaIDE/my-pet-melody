@@ -84,11 +84,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                     .stop(template: playableTemplate),
               );
 
-              final progressIndicator = status.when(
-                stop: SizedBox.shrink,
-                loadingMedia: () => const PositionBarWhenLoadingMedia(),
-                playing: (position) => LinearProgressIndicator(value: position),
-              );
+              final positionBar = ChoicePositionBar(status: status);
 
               return ClipRRect(
                 borderRadius: const BorderRadius.all(
@@ -124,7 +120,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                           bottom: 0,
                           left: 0,
                           right: 0,
-                          child: progressIndicator,
+                          child: positionBar,
                         ),
                       ],
                     ),
