@@ -10,6 +10,7 @@ import 'package:meow_music/flavor.dart';
 import 'package:meow_music/root_view_model.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/debug_screen.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/join_premium_plan_screen.dart';
 import 'package:meow_music/ui/link_with_account_screen.dart';
 import 'package:meow_music/ui/settings_state.dart';
@@ -314,7 +315,7 @@ class _NotLoggedInTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return _RoundedListTile(
       title: const Text('アカウントを作成する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
@@ -343,6 +344,55 @@ class _DeleteAccountPanel extends ConsumerWidget {
     return ListTile(
       title: const Text('アカウント削除'),
       onTap: onTap,
+    );
+  }
+}
+
+class _RoundedListTile extends StatelessWidget {
+  const _RoundedListTile({
+    required this.title,
+    required this.trailing,
+    this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  final Widget title;
+  final Widget trailing;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final body = Row(
+      children: [
+        Expanded(
+          child: title,
+        ),
+        const SizedBox(width: 16),
+        trailing,
+      ],
+    );
+
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(
+          DisplayDefinition.cornerRadiusSizeSmall,
+        ),
+      ),
+      child: Material(
+        color: Theme.of(context).cardColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+            child: body,
+          ),
+        ),
+      ),
     );
   }
 }
