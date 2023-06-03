@@ -53,49 +53,63 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           Navigator.push<void>(context, LinkWithAccountScreen.route()),
     );
 
-    const currentPlanTile = ListTile(
+    const currentPlanTile = _RoundedListTile(
       title: Text('現在のプラン'),
       trailing: Text('プレミアムプラン'),
+      positionInGroup: _ListTilePositionInGroup.first,
     );
-    final registerPremiumPlanTile = ListTile(
+    final registerPremiumPlanTile = _RoundedListTile(
       title: const Text('プレミアムプランに登録する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push<void>(context, JoinPremiumPlanScreen.route()),
+      positionInGroup: _ListTilePositionInGroup.last,
     );
 
-    final writeReviewTile = ListTile(
+    final writeReviewTile = _RoundedListTile(
       title: const Text('レビューを書く'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _writeReview,
+      positionInGroup: _ListTilePositionInGroup.first,
     );
-    final shareWithFriendsTile = ListTile(
+    final shareWithFriendsTile = _RoundedListTile(
       title: const Text('友達に教える'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _shareWithFriends,
+      positionInGroup: _ListTilePositionInGroup.middle,
     );
-    final termsOfServiceTile = ListTile(
+    final termsOfServiceTile = _RoundedListTile(
       title: const Text('利用規約'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openTermsOfService,
+      positionInGroup: _ListTilePositionInGroup.middle,
     );
-    final privacyPolicyTile = ListTile(
+    final privacyPolicyTile = _RoundedListTile(
       title: const Text('プライバシーポリシー'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openPrivacyPolicy,
+      positionInGroup: _ListTilePositionInGroup.last,
     );
-    final debugTile = ListTile(
+
+    final debugTile = _RoundedListTile(
       title: const Text('デバッグ'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push(context, DebugScreen.route()),
+      positionInGroup: _ListTilePositionInGroup.first,
     );
-    const versionTile = ListTile(
+    const versionTile = _RoundedListTile(
       title: Text('バージョン'),
       trailing: _FullVersionNameText(),
+      positionInGroup: _ListTilePositionInGroup.last,
     );
 
     final body = SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 138),
+        padding: EdgeInsets.only(
+          top: 16,
+          bottom: MediaQuery.of(context).viewPadding.bottom,
+          left: DisplayDefinition.screenPaddingSmall,
+          right: DisplayDefinition.screenPaddingSmall,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -125,7 +139,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       appBar: AppBar(
         title: const Text('設定'),
       ),
-      body: body,
+      body: SafeArea(top: false, bottom: false, child: body),
       resizeToAvoidBottomInset: false,
     );
 
@@ -319,7 +333,6 @@ class _NotLoggedInTile extends StatelessWidget {
       title: const Text('アカウントを作成する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
-      positionInGroup: _ListTilePositionInGroup.first,
     );
   }
 }
