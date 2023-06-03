@@ -23,7 +23,7 @@ class CircledPlayButton extends StatelessWidget {
 
     final onTapButton = status.map(
       stop: (_) => onPressedWhenStop,
-      loadingMedia: (_) => onPressedWhenStop,
+      loadingMedia: (_) => onPressedWhenPlaying,
       playing: (_) => onPressedWhenPlaying,
     );
 

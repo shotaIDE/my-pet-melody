@@ -5,6 +5,7 @@ import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/component/circled_play_button.dart';
 import 'package:meow_music/ui/component/footer.dart';
 import 'package:meow_music/ui/component/primary_button.dart';
+import 'package:meow_music/ui/component/seek_bar_when_loading_media.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
@@ -13,7 +14,6 @@ import 'package:meow_music/ui/select_sounds_view_model.dart';
 import 'package:meow_music/ui/select_trimmed_sound_state.dart';
 import 'package:meow_music/ui/set_piece_title_screen.dart';
 import 'package:meow_music/ui/trim_sound_for_detection_screen.dart';
-import 'package:skeletons/skeletons.dart';
 
 final _selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(
@@ -100,7 +100,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final progressIndicator = status.when(
       stop: SizedBox.shrink,
-      loadingMedia: () => const SkeletonLine(),
+      loadingMedia: PositionBarWhenLoadingMedia.new,
       playing: (position) => LinearProgressIndicator(value: position),
     );
 
@@ -242,7 +242,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
             final progressIndicator = status.when(
               stop: SizedBox.shrink,
-              loadingMedia: () => const SkeletonLine(),
+              loadingMedia: PositionBarWhenLoadingMedia.new,
               playing: (position) => LinearProgressIndicator(value: position),
             );
 

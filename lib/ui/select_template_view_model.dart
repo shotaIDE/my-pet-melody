@@ -58,7 +58,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     final playingList = PlayerChoiceConverter.getTargetStatusReplaced(
       originalList: stoppedList,
       targetId: template.id,
-      newStatus: const PlayStatus.playing(position: 0),
+      newStatus: const PlayStatus.loadingMedia(),
     );
 
     state = state.copyWith(

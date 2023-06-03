@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/component/circled_play_button.dart';
+import 'package:meow_music/ui/component/seek_bar_when_loading_media.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_sounds_screen.dart';
 import 'package:meow_music/ui/select_template_state.dart';
 import 'package:meow_music/ui/select_template_view_model.dart';
-import 'package:skeletons/skeletons.dart';
 
 final selectTemplateViewModelProvider = StateNotifierProvider.autoDispose<
     SelectTemplateViewModel, SelectTemplateState>(
@@ -86,7 +86,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
 
               final progressIndicator = status.when(
                 stop: SizedBox.shrink,
-                loadingMedia: () => const SkeletonLine(),
+                loadingMedia: () => const PositionBarWhenLoadingMedia(),
                 playing: (position) => LinearProgressIndicator(value: position),
               );
 
