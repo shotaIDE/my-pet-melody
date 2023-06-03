@@ -3,8 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/choice_position_bar.dart';
 import 'package:meow_music/ui/component/circled_play_button.dart';
-import 'package:meow_music/ui/component/position_bar_when_loading_media.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/helper/audio_position_helper.dart';
