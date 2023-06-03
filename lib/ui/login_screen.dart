@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/component/social_login_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/home_screen.dart';
 import 'package:meow_music/ui/login_state.dart';
 import 'package:meow_music/ui/login_view_model.dart';
@@ -57,6 +58,21 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
     final loginWithAppleButton = ContinueWithAppleButton(
       onPressed: () {},
     );
+    final buttonsPanel = ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: DisplayDefinition.actionButtonMaxWidth,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          loginWithTwitterButton,
+          const SizedBox(height: 16),
+          loginWithFacebookButton,
+          const SizedBox(height: 16),
+          loginWithAppleButton,
+        ],
+      ),
+    );
 
     final continueWithoutLoginButton = TextButton(
       onPressed: _continueWithoutLoginButton,
@@ -74,19 +90,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
           children: [
             description,
             const SizedBox(height: 32),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 320),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  loginWithTwitterButton,
-                  const SizedBox(height: 16),
-                  loginWithFacebookButton,
-                  const SizedBox(height: 16),
-                  loginWithAppleButton,
-                ],
-              ),
-            ),
+            buttonsPanel,
             const SizedBox(height: 32),
             continueWithoutLoginButton,
           ],

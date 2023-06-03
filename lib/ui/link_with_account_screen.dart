@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/component/social_login_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/link_with_account_state.dart';
 import 'package:meow_music/ui/link_with_account_view_model.dart';
 
@@ -51,6 +52,21 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
     final loginWithAppleButton = ContinueWithAppleButton(
       onPressed: () {},
     );
+    final buttonsPanel = ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: DisplayDefinition.actionButtonMaxWidth,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          loginWithTwitterButton,
+          const SizedBox(height: 16),
+          loginWithFacebookButton,
+          const SizedBox(height: 16),
+          loginWithAppleButton,
+        ],
+      ),
+    );
 
     final body = SingleChildScrollView(
       child: Padding(
@@ -65,11 +81,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
           children: [
             description,
             const SizedBox(height: 32),
-            loginWithTwitterButton,
-            const SizedBox(height: 16),
-            loginWithFacebookButton,
-            const SizedBox(height: 16),
-            loginWithAppleButton,
+            buttonsPanel,
           ],
         ),
       ),
