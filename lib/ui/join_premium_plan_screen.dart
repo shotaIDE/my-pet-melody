@@ -65,15 +65,6 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final featuresPanel = Column(
-      mainAxisSize: MainAxisSize.min,
-      children: const [
-        largeStorageFeatureTile,
-        rapidGenerationFeatureTile,
-        highQualityGenerationFeatureTile,
-      ],
-    );
-
     final joinButton = PrimaryButton(
       text: 'プレミアムプラン 1,000円 / 月',
       onPressed: () async {
