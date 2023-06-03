@@ -139,7 +139,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       appBar: AppBar(
         title: const Text('設定'),
       ),
-      body: SafeArea(top: false, bottom: false, child: body),
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: body,
+      ),
       resizeToAvoidBottomInset: false,
     );
 
