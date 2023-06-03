@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/component/primary_button.dart';
+import 'package:meow_music/ui/definition/display_definition.dart';
+import 'package:meow_music/ui/definition/list_tile_position_in_group.dart';
 import 'package:meow_music/ui/join_premium_plan_state.dart';
 import 'package:meow_music/ui/join_premium_plan_view_model.dart';
 
@@ -34,23 +36,23 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
     final state = ref.watch(widget.viewModelProvider);
     final viewModel = ref.watch(widget.viewModelProvider.notifier);
 
-    const largeStorageFeatureTile = ListTile(
+    const largeStorageFeatureTile = _RoundedDescriptionListTile(
       leading: Icon(Icons.cloud_done),
       title: Text('広大な制作スペース'),
-      subtitle: Text('最大100作品を保存しておくことができるようになります。'),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      description: Text('最大100作品を保存しておくことができるようになります。'),
+      positionInGroup: ListTilePositionInGroup.first,
     );
-    const rapidGenerationFeatureTile = ListTile(
+    const rapidGenerationFeatureTile = _RoundedDescriptionListTile(
       leading: Icon(Icons.hourglass_disabled),
       title: Text('高速な制作スピード'),
-      subtitle: Text('フリープランよりも優先して作品制作が行われるようになり、作品完成までの待ち時間が短くなります。'),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      description: Text('フリープランよりも優先して作品制作が行われるようになり、作品完成までの待ち時間が短くなります。'),
+      positionInGroup: ListTilePositionInGroup.middle,
     );
-    const highQualityGenerationFeatureTile = ListTile(
+    const highQualityGenerationFeatureTile = _RoundedDescriptionListTile(
       leading: Icon(Icons.music_video),
       title: Text('高い制作クオリティ'),
-      subtitle: Text('自分でトリミングした鳴き声を作品に指定できるようになります。'),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      description: Text('自分でトリミングした鳴き声を作品に指定できるようになります。'),
+      positionInGroup: ListTilePositionInGroup.last,
     );
 
     final featureCard = Card(
@@ -155,5 +157,90 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
             ],
           )
         : scaffold;
+  }
+}
+
+class _RoundedDescriptionListTile extends StatelessWidget {
+  const _RoundedDescriptionListTile({
+    required this.title,
+    required this.description,
+    this.leading,
+    this.positionInGroup = ListTilePositionInGroup.only,
+    Key? key,
+  }) : super(key: key);
+
+  final Widget title;
+  final Widget description;
+  final Widget? leading;
+  final ListTilePositionInGroup positionInGroup;
+
+  @override
+  Widget build(BuildContext context) {
+    final titleAndDescription = Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        title,
+        const SizedBox(height: 8),
+        description,
+      ],
+    );
+
+    final body = Row(
+      children: [
+        if (leading != null) leading!,
+        const SizedBox(width: 16),
+        Expanded(
+          child: titleAndDescription,
+        ),
+      ],
+    );
+
+    final BorderRadius borderRadius;
+    switch (positionInGroup) {
+      case ListTilePositionInGroup.first:
+        borderRadius = const BorderRadius.only(
+          topLeft: Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+          topRight: Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+        );
+        break;
+      case ListTilePositionInGroup.middle:
+        borderRadius = BorderRadius.zero;
+        break;
+      case ListTilePositionInGroup.last:
+        borderRadius = const BorderRadius.only(
+          bottomLeft: Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+          bottomRight: Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+        );
+        break;
+      case ListTilePositionInGroup.only:
+        borderRadius = const BorderRadius.all(
+          Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+        );
+    }
+
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: Material(
+        color: Theme.of(context).cardColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: borderRadius,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+          child: body,
+        ),
+      ),
+    );
   }
 }

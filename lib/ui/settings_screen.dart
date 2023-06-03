@@ -11,6 +11,7 @@ import 'package:meow_music/root_view_model.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
+import 'package:meow_music/ui/definition/list_tile_position_in_group.dart';
 import 'package:meow_music/ui/join_premium_plan_screen.dart';
 import 'package:meow_music/ui/link_with_account_screen.dart';
 import 'package:meow_music/ui/settings_state.dart';
@@ -56,50 +57,50 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     const currentPlanTile = _RoundedListTile(
       title: Text('現在のプラン'),
       trailing: Text('プレミアムプラン'),
-      positionInGroup: _ListTilePositionInGroup.first,
+      positionInGroup: ListTilePositionInGroup.first,
     );
     final registerPremiumPlanTile = _RoundedListTile(
       title: const Text('プレミアムプランに登録する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push<void>(context, JoinPremiumPlanScreen.route()),
-      positionInGroup: _ListTilePositionInGroup.last,
+      positionInGroup: ListTilePositionInGroup.last,
     );
 
     final writeReviewTile = _RoundedListTile(
       title: const Text('レビューを書く'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _writeReview,
-      positionInGroup: _ListTilePositionInGroup.first,
+      positionInGroup: ListTilePositionInGroup.first,
     );
     final shareWithFriendsTile = _RoundedListTile(
       title: const Text('友達に教える'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _shareWithFriends,
-      positionInGroup: _ListTilePositionInGroup.middle,
+      positionInGroup: ListTilePositionInGroup.middle,
     );
     final termsOfServiceTile = _RoundedListTile(
       title: const Text('利用規約'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openTermsOfService,
-      positionInGroup: _ListTilePositionInGroup.middle,
+      positionInGroup: ListTilePositionInGroup.middle,
     );
     final privacyPolicyTile = _RoundedListTile(
       title: const Text('プライバシーポリシー'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openPrivacyPolicy,
-      positionInGroup: _ListTilePositionInGroup.last,
+      positionInGroup: ListTilePositionInGroup.last,
     );
 
     final debugTile = _RoundedListTile(
       title: const Text('デバッグ'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push(context, DebugScreen.route()),
-      positionInGroup: _ListTilePositionInGroup.first,
+      positionInGroup: ListTilePositionInGroup.first,
     );
     const versionTile = _RoundedListTile(
       title: Text('バージョン'),
       trailing: _FullVersionNameText(),
-      positionInGroup: _ListTilePositionInGroup.last,
+      positionInGroup: ListTilePositionInGroup.last,
     );
 
     final body = SingleChildScrollView(
@@ -367,26 +368,19 @@ class _DeleteAccountPanel extends ConsumerWidget {
   }
 }
 
-enum _ListTilePositionInGroup {
-  first,
-  middle,
-  last,
-  only,
-}
-
 class _RoundedListTile extends StatelessWidget {
   const _RoundedListTile({
     required this.title,
     this.trailing,
     this.onTap,
-    this.positionInGroup = _ListTilePositionInGroup.only,
+    this.positionInGroup = ListTilePositionInGroup.only,
     Key? key,
   }) : super(key: key);
 
   final Widget title;
   final Widget? trailing;
   final VoidCallback? onTap;
-  final _ListTilePositionInGroup positionInGroup;
+  final ListTilePositionInGroup positionInGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -402,7 +396,7 @@ class _RoundedListTile extends StatelessWidget {
 
     final BorderRadius borderRadius;
     switch (positionInGroup) {
-      case _ListTilePositionInGroup.first:
+      case ListTilePositionInGroup.first:
         borderRadius = const BorderRadius.only(
           topLeft: Radius.circular(
             DisplayDefinition.cornerRadiusSizeSmall,
@@ -412,10 +406,10 @@ class _RoundedListTile extends StatelessWidget {
           ),
         );
         break;
-      case _ListTilePositionInGroup.middle:
+      case ListTilePositionInGroup.middle:
         borderRadius = BorderRadius.zero;
         break;
-      case _ListTilePositionInGroup.last:
+      case ListTilePositionInGroup.last:
         borderRadius = const BorderRadius.only(
           bottomLeft: Radius.circular(
             DisplayDefinition.cornerRadiusSizeSmall,
@@ -425,7 +419,7 @@ class _RoundedListTile extends StatelessWidget {
           ),
         );
         break;
-      case _ListTilePositionInGroup.only:
+      case ListTilePositionInGroup.only:
         borderRadius = const BorderRadius.all(
           Radius.circular(
             DisplayDefinition.cornerRadiusSizeSmall,
