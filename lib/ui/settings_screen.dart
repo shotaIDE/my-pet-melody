@@ -350,13 +350,14 @@ class _DeleteAccountPanel extends ConsumerWidget {
     final isLoggedIn = ref.watch(isLoggedInNotAnonymouslyProvider);
 
     if (!isLoggedIn) {
-      return const SizedBox(
-        height: 0,
-      );
+      return const SizedBox.shrink();
     }
 
-    return ListTile(
-      title: const Text('アカウント削除'),
+    return _RoundedListTile(
+      title: Text(
+        'アカウント削除',
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
+      ),
       onTap: onTap,
     );
   }
@@ -372,14 +373,14 @@ enum _ListTilePositionInGroup {
 class _RoundedListTile extends StatelessWidget {
   const _RoundedListTile({
     required this.title,
-    required this.trailing,
+    this.trailing,
     this.onTap,
     this.positionInGroup = _ListTilePositionInGroup.only,
     Key? key,
   }) : super(key: key);
 
   final Widget title;
-  final Widget trailing;
+  final Widget? trailing;
   final VoidCallback? onTap;
   final _ListTilePositionInGroup positionInGroup;
 
@@ -391,7 +392,7 @@ class _RoundedListTile extends StatelessWidget {
           child: title,
         ),
         const SizedBox(width: 16),
-        trailing,
+        if (trailing != null) trailing!,
       ],
     );
 
