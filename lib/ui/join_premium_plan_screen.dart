@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/ui/component/primary_button.dart';
+import 'package:meow_music/ui/component/rounded_and_chained_list_tile.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/definition/list_tile_position_in_group.dart';
 import 'package:meow_music/ui/join_premium_plan_state.dart';
@@ -218,51 +219,9 @@ class _RoundedDescriptionListTile extends StatelessWidget {
       children: bodyWidgets,
     );
 
-    final BorderRadius borderRadius;
-    switch (positionInGroup) {
-      case ListTilePositionInGroup.first:
-        borderRadius = const BorderRadius.only(
-          topLeft: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-          topRight: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-        );
-        break;
-      case ListTilePositionInGroup.middle:
-        borderRadius = BorderRadius.zero;
-        break;
-      case ListTilePositionInGroup.last:
-        borderRadius = const BorderRadius.only(
-          bottomLeft: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-          bottomRight: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-        );
-        break;
-      case ListTilePositionInGroup.only:
-        borderRadius = const BorderRadius.all(
-          Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-        );
-    }
-
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: Material(
-        color: Theme.of(context).cardColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: borderRadius,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-          child: body,
-        ),
-      ),
+    return RoundedAndChainedListTile(
+      positionInGroup: positionInGroup,
+      child: body,
     );
   }
 }

@@ -9,6 +9,7 @@ import 'package:meow_music/data/usecase/auth_use_case.dart';
 import 'package:meow_music/flavor.dart';
 import 'package:meow_music/root_view_model.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
+import 'package:meow_music/ui/component/rounded_and_chained_list_tile.dart';
 import 'package:meow_music/ui/debug_screen.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/definition/list_tile_position_in_group.dart';
@@ -394,57 +395,10 @@ class _RoundedSettingsListTile extends StatelessWidget {
       ],
     );
 
-    final BorderRadius borderRadius;
-    switch (positionInGroup) {
-      case ListTilePositionInGroup.first:
-        borderRadius = const BorderRadius.only(
-          topLeft: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-          topRight: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-        );
-        break;
-      case ListTilePositionInGroup.middle:
-        borderRadius = BorderRadius.zero;
-        break;
-      case ListTilePositionInGroup.last:
-        borderRadius = const BorderRadius.only(
-          bottomLeft: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-          bottomRight: Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-        );
-        break;
-      case ListTilePositionInGroup.only:
-        borderRadius = const BorderRadius.all(
-          Radius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
-        );
-    }
-
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: Material(
-        color: Theme.of(context).cardColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: borderRadius,
-        ),
-        child: InkWell(
-          onTap: onTap,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 56),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: body,
-            ),
-          ),
-        ),
-      ),
+    return RoundedAndChainedListTile(
+      onTap: onTap,
+      positionInGroup: positionInGroup,
+      child: body,
     );
   }
 }
