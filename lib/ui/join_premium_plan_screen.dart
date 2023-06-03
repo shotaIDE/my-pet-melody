@@ -36,20 +36,30 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
     final state = ref.watch(widget.viewModelProvider);
     final viewModel = ref.watch(widget.viewModelProvider.notifier);
 
+    const iconSize = 48.0;
     const largeStorageFeatureTile = _RoundedDescriptionListTile(
-      leading: Icon(Icons.cloud_done),
+      leading: Icon(
+        Icons.cloud_done,
+        size: iconSize,
+      ),
       title: Text('広大な制作スペース'),
       description: Text('最大100作品を保存しておくことができるようになります。'),
       positionInGroup: ListTilePositionInGroup.first,
     );
     const rapidGenerationFeatureTile = _RoundedDescriptionListTile(
-      leading: Icon(Icons.hourglass_disabled),
+      leading: Icon(
+        Icons.hourglass_disabled,
+        size: iconSize,
+      ),
       title: Text('高速な制作スピード'),
       description: Text('フリープランよりも優先して作品制作が行われるようになり、作品完成までの待ち時間が短くなります。'),
       positionInGroup: ListTilePositionInGroup.middle,
     );
     const highQualityGenerationFeatureTile = _RoundedDescriptionListTile(
-      leading: Icon(Icons.music_video),
+      leading: Icon(
+        Icons.music_video,
+        size: iconSize,
+      ),
       title: Text('高い制作クオリティ'),
       description: Text('自分でトリミングした鳴き声を作品に指定できるようになります。'),
       positionInGroup: ListTilePositionInGroup.last,
@@ -180,9 +190,15 @@ class _RoundedDescriptionListTile extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        title,
+        DefaultTextStyle.merge(
+          style: Theme.of(context).textTheme.bodyMedium,
+          child: title,
+        ),
         const SizedBox(height: 8),
-        description,
+        DefaultTextStyle.merge(
+          style: Theme.of(context).textTheme.bodySmall,
+          child: description,
+        ),
       ],
     );
 
