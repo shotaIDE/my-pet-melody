@@ -6,14 +6,12 @@ class RoundedAndChainedListTile extends StatelessWidget {
   const RoundedAndChainedListTile({
     required this.child,
     this.onTap,
-    this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
     this.positionInGroup = ListTilePositionInGroup.only,
     Key? key,
   }) : super(key: key);
 
   final Widget child;
   final VoidCallback? onTap;
-  final EdgeInsets padding;
   final ListTilePositionInGroup positionInGroup;
 
   @override
@@ -54,7 +52,7 @@ class RoundedAndChainedListTile extends StatelessWidget {
     final contents = ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 56),
       child: Padding(
-        padding: padding,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         child: child,
       ),
     );
