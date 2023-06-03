@@ -1,65 +1,69 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/data/model/piece.dart';
+import 'package:meow_music/ui/video_state.dart';
+import 'package:meow_music/ui/video_view_model.dart';
 
-class VideoScreen extends StatefulWidget {
-  const VideoScreen({
-    required this.url,
+final _videoViewModelProvider = StateNotifierProvider.autoDispose
+    .family<VideoViewModel, VideoState, PieceGenerated>(
+  (ref, piece) => VideoViewModel(
+    piece: piece,
+  ),
+);
+
+class VideoScreen extends ConsumerStatefulWidget {
+  VideoScreen({
+    required PieceGenerated piece,
     Key? key,
-  }) : super(key: key);
+  })  : viewModel = _videoViewModelProvider(piece),
+        super(key: key);
 
   static const name = 'VideoScreen';
 
-  final String url;
+  final AutoDisposeStateNotifierProvider<VideoViewModel, VideoState> viewModel;
 
   static MaterialPageRoute<VideoScreen> route({
-    required String url,
+    required PieceGenerated piece,
   }) =>
       MaterialPageRoute<VideoScreen>(
-        builder: (_) => VideoScreen(url: url),
+        builder: (_) => VideoScreen(piece: piece),
         settings: const RouteSettings(name: name),
         fullscreenDialog: true,
       );
 
   @override
-  State<VideoScreen> createState() => _VideoScreenState();
+  ConsumerState<VideoScreen> createState() => _VideoScreenState();
 }
 
-class _VideoScreenState extends State<VideoScreen> {
-  late final VideoPlayerController _videoPlayerController;
-  late final ChewieController _chewieController;
-
+class _VideoScreenState extends ConsumerState<VideoScreen> {
   @override
   void initState() {
     super.initState();
 
-    _videoPlayerController = VideoPlayerController.network(
-      widget.url,
-    );
-    _videoPlayerController.initialize();
-    _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController,
-      autoPlay: true,
-      looping: true,
-    );
-  }
-
-  @override
-  void dispose() {
-    _videoPlayerController.dispose();
-    _chewieController.dispose();
-
-    super.dispose();
+    ref.read(widget.viewModel.notifier).setup();
   }
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(widget.viewModel);
+
+    final controller = state.controller;
+    final body = controller == null
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : Chewie(
+            controller: controller,
+          );
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Video Player'),
+        title: Text(state.title),
       ),
-      body: Chewie(
-        controller: _chewieController,
+      body: SafeArea(
+        top: false,
+        child: body,
       ),
       resizeToAvoidBottomInset: false,
     );

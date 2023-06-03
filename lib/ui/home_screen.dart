@@ -116,7 +116,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     return () {
                       Navigator.push(
                         context,
-                        VideoScreen.route(url: generatedPiece.movieUrl),
+                        VideoScreen.route(piece: generatedPiece),
                       );
                     };
                   },
