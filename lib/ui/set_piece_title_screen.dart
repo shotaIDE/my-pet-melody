@@ -104,6 +104,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
         ),
       ),
       autofocus: true,
+      enabled: !state.isProcessing,
     );
 
     final body = SingleChildScrollView(
