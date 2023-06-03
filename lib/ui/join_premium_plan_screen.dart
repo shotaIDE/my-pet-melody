@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meow_music/ui/component/primary_button.dart';
 import 'package:meow_music/ui/join_premium_plan_state.dart';
 import 'package:meow_music/ui/join_premium_plan_view_model.dart';
 
@@ -63,11 +64,11 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       ),
     );
 
-    final joinButton = ElevatedButton(
+    final joinButton = PrimaryButton(
+      text: 'プレミアムプラン 1,000円 / 月',
       onPressed: () async {
         await viewModel.joinPremiumPlan();
       },
-      child: const Text('プレミアムプラン 1,000円 / 月'),
     );
     final restoreButton =
         TextButton(onPressed: () {}, child: const Text('機種変更時の復元'));
