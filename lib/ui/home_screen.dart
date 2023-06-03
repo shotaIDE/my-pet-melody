@@ -64,7 +64,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               generating: (_) => Container(),
               generated: (generated) => Image.network(
                 generated.thumbnailUrl,
-                loadingBuilder: (_, __, ___) => const SkeletonLine(),
+                loadingBuilder: (_, child, loadingProgress) {
+                  if (loadingProgress != null) {
+                    return const SkeletonLine(
+                      style: SkeletonLineStyle(height: double.infinity),
+                    );
+                  }
+                  return child;
+                },
                 fit: BoxFit.fitWidth,
               ),
             );
