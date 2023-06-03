@@ -147,7 +147,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
             .toList();
 
         final previousPlaying = state.pieces?.firstWhereOrNull(
-          (piece) => piece.status.map(stop: (_) => false, playing: (_) => true),
+          (piece) => piece.status.map(
+            stop: (_) => false,
+            loadingMedia: (_) => true,
+            playing: (_) => true,
+          ),
         );
 
         final List<PlayerChoicePiece> fixedPieces;

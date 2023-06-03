@@ -616,11 +616,16 @@ class _PlayingIndicator extends ConsumerWidget {
 
     final playingIndicator = status.when(
       stop: LinearProgressIndicator.new,
+      loadingMedia: () => const SkeletonLine(),
       playing: (value) => LinearProgressIndicator(value: value),
     );
 
     return Visibility(
-      visible: status.map(stop: (_) => false, playing: (_) => true),
+      visible: status.map(
+        stop: (_) => false,
+        loadingMedia: (_) => true,
+        playing: (_) => true,
+      ),
       maintainState: true,
       maintainAnimation: true,
       maintainSize: true,

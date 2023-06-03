@@ -58,7 +58,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
-            final playStatus = playablePiece.status;
 
             final thumbnailImage = playablePiece.piece.map(
               generating: (_) => Container(),
@@ -110,23 +109,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
             final onTap = piece.map(
               generating: (_) => null,
-              generated: (generatedPiece) {
-                return playStatus.when(
-                  stop: () {
-                    return () {
-                      Navigator.push(
-                        context,
-                        VideoScreen.route(piece: generatedPiece),
-                      );
-                    };
-                  },
-                  playing: (_) {
-                    return () => ref
-                        .read(widget.viewModel.notifier)
-                        .stop(piece: playablePiece);
-                  },
-                );
-              },
+              generated: (generatedPiece) => () => Navigator.push(
+                    context,
+                    VideoScreen.route(piece: generatedPiece),
+                  ),
             );
 
             final borderColor = piece.map(

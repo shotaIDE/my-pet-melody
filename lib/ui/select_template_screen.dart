@@ -7,6 +7,7 @@ import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_sounds_screen.dart';
 import 'package:meow_music/ui/select_template_state.dart';
 import 'package:meow_music/ui/select_template_view_model.dart';
+import 'package:skeletons/skeletons.dart';
 
 final selectTemplateViewModelProvider = StateNotifierProvider.autoDispose<
     SelectTemplateViewModel, SelectTemplateState>(
@@ -85,6 +86,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
 
               final progressIndicator = status.when(
                 stop: SizedBox.shrink,
+                loadingMedia: () => const SkeletonLine(),
                 playing: (position) => LinearProgressIndicator(value: position),
               );
 

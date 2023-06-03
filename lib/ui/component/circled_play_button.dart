@@ -17,11 +17,13 @@ class CircledPlayButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final icon = status.when(
       stop: () => Icons.play_arrow,
+      loadingMedia: () => Icons.stop,
       playing: (position) => Icons.stop,
     );
 
     final onTapButton = status.map(
       stop: (_) => onPressedWhenStop,
+      loadingMedia: (_) => onPressedWhenStop,
       playing: (_) => onPressedWhenPlaying,
     );
 
