@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/component/choice_position_bar.dart';
 import 'package:meow_music/ui/component/circled_play_button.dart';
+import 'package:meow_music/ui/component/fetched_thumbnail.dart';
 import 'package:meow_music/ui/component/transparent_app_bar.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
 import 'package:meow_music/ui/select_sounds_screen.dart';
@@ -63,10 +64,12 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final template = playableTemplate.template;
               final status = playableTemplate.status;
 
-              final thumbnail = Container(
+              final thumbnail = SizedBox(
                 width: DisplayDefinition.thumbnailWidthLarge,
                 height: DisplayDefinition.thumbnailHeightLarge,
-                color: Colors.blueGrey,
+                child: FetchedThumbnail(
+                  url: template.thumbnailUrl,
+                ),
               );
 
               final title = Text(

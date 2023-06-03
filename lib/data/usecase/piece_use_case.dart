@@ -11,12 +11,16 @@ final templatesProvider = FutureProvider((ref) async {
 
   return Future.wait(
     templateDrafts.map((templateDraft) async {
-      final url = await storageService.templateUrl(id: templateDraft.id);
+      final musicUrl =
+          await storageService.templateMusicUrl(id: templateDraft.id);
+      final thumbnailUrl =
+          await storageService.templateThumbnailUrl(id: templateDraft.id);
 
       return Template(
         id: templateDraft.id,
         name: templateDraft.name,
-        url: url,
+        musicUrl: musicUrl,
+        thumbnailUrl: thumbnailUrl,
       );
     }),
   );

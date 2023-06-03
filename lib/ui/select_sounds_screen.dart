@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/model/template.dart';
 import 'package:meow_music/ui/component/choice_position_bar.dart';
 import 'package:meow_music/ui/component/circled_play_button.dart';
+import 'package:meow_music/ui/component/fetched_thumbnail.dart';
 import 'package:meow_music/ui/component/footer.dart';
 import 'package:meow_music/ui/component/primary_button.dart';
 import 'package:meow_music/ui/component/speaking_cat_image.dart';
@@ -83,10 +84,12 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       loadingMedia: (_) => Icons.stop,
       playing: (_) => Icons.stop,
     );
-    final thumbnailImage = Container(
+    final thumbnailImage = SizedBox(
       width: DisplayDefinition.thumbnailWidthSmall,
       height: DisplayDefinition.thumbnailHeightSmall,
-      color: Colors.blueGrey,
+      child: FetchedThumbnail(
+        url: template.template.thumbnailUrl,
+      ),
     );
     final thumbnail = Stack(
       alignment: Alignment.center,

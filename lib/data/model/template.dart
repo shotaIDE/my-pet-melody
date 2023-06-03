@@ -7,7 +7,8 @@ class Template with _$Template {
   const factory Template({
     required String id,
     required String name,
-    required String url,
+    required String musicUrl,
+    required String thumbnailUrl,
   }) = _Template;
 }
 
