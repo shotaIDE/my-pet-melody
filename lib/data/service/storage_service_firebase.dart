@@ -17,7 +17,7 @@ class StorageServiceFirebase implements StorageService {
   final LoginSession _session;
 
   @override
-  Future<String> templateUrl({required String id}) async {
+  Future<String> templateMusicUrl({required String id}) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     final pathRef = storageRef.child('systemMedia/templates/$id/template.wav');

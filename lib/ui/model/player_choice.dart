@@ -48,7 +48,7 @@ extension PlayerChoiceGetter on PlayerChoice {
     return when(
       piece: (_, piece) =>
           piece.mapOrNull(generated: (generated) => generated.movieUrl),
-      template: (_, template) => template.url,
+      template: (_, template) => template.musicUrl,
       sound: (_, sound) => sound.whenOrNull(
         uploaded: (_, __, ___, remoteFileName) => remoteFileName,
       ),

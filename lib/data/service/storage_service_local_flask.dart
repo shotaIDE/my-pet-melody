@@ -13,7 +13,7 @@ class StorageServiceLocalFlask implements StorageService {
   final StorageApi _api;
 
   @override
-  Future<String> templateUrl({required String id}) async {
+  Future<String> templateMusicUrl({required String id}) async {
     return '${AppDefinitions.serverOrigin}/static/templates/$id.wav';
   }
 
