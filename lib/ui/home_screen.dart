@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:meow_music/data/model/piece.dart';
 import 'package:meow_music/data/usecase/auth_use_case.dart';
+import 'package:meow_music/ui/component/fetched_thumbnail.dart';
 import 'package:meow_music/ui/component/lying_down_cat_image.dart';
 import 'package:meow_music/ui/component/profile_icon.dart';
 import 'package:meow_music/ui/definition/display_definition.dart';
@@ -11,7 +12,6 @@ import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:meow_music/ui/settings_screen.dart';
 import 'package:meow_music/ui/video_screen.dart';
-import 'package:skeletons/skeletons.dart';
 
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
@@ -62,18 +62,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
             final thumbnailImage = playablePiece.piece.map(
               generating: (_) => Container(),
-              generated: (generated) => Image.network(
-                generated.thumbnailUrl,
-                loadingBuilder: (_, child, loadingProgress) {
-                  if (loadingProgress != null) {
-                    return const SkeletonLine(
-                      style: SkeletonLineStyle(height: double.infinity),
-                    );
-                  }
-                  return child;
-                },
-                fit: BoxFit.fitWidth,
-              ),
+              generated: (generated) =>
+                  FetchedThumbnail(url: generated.thumbnailUrl),
             );
 
             final thumbnail = SizedBox(

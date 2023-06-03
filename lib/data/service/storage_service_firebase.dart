@@ -26,6 +26,15 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
+  Future<String> templateThumbnailUrl({required String id}) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final pathRef = storageRef.child('systemMedia/templates/$id/thumbnail.png');
+
+    return pathRef.getDownloadURL();
+  }
+
+  @override
   Future<String> pieceMovieDownloadUrl({
     required String fileName,
   }) async {

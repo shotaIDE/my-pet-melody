@@ -8,6 +8,7 @@ class Template with _$Template {
     required String id,
     required String name,
     required String musicUrl,
+    required String thumbnailUrl,
   }) = _Template;
 }
 

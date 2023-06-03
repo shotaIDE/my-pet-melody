@@ -5,6 +5,8 @@ import 'package:meow_music/data/model/uploaded_media.dart';
 abstract class StorageService {
   Future<String> templateMusicUrl({required String id});
 
+  Future<String> templateThumbnailUrl({required String id});
+
   Future<String> pieceMovieDownloadUrl({
     required String fileName,
   });
