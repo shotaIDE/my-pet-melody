@@ -54,50 +54,50 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           Navigator.push<void>(context, LinkWithAccountScreen.route()),
     );
 
-    const currentPlanTile = _RoundedListTile(
+    const currentPlanTile = _RoundedSettingsListTile(
       title: Text('現在のプラン'),
       trailing: Text('プレミアムプラン'),
       positionInGroup: ListTilePositionInGroup.first,
     );
-    final registerPremiumPlanTile = _RoundedListTile(
+    final registerPremiumPlanTile = _RoundedSettingsListTile(
       title: const Text('プレミアムプランに登録する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push<void>(context, JoinPremiumPlanScreen.route()),
       positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final writeReviewTile = _RoundedListTile(
+    final writeReviewTile = _RoundedSettingsListTile(
       title: const Text('レビューを書く'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _writeReview,
       positionInGroup: ListTilePositionInGroup.first,
     );
-    final shareWithFriendsTile = _RoundedListTile(
+    final shareWithFriendsTile = _RoundedSettingsListTile(
       title: const Text('友達に教える'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _shareWithFriends,
       positionInGroup: ListTilePositionInGroup.middle,
     );
-    final termsOfServiceTile = _RoundedListTile(
+    final termsOfServiceTile = _RoundedSettingsListTile(
       title: const Text('利用規約'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openTermsOfService,
       positionInGroup: ListTilePositionInGroup.middle,
     );
-    final privacyPolicyTile = _RoundedListTile(
+    final privacyPolicyTile = _RoundedSettingsListTile(
       title: const Text('プライバシーポリシー'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openPrivacyPolicy,
       positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final debugTile = _RoundedListTile(
+    final debugTile = _RoundedSettingsListTile(
       title: const Text('デバッグ'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push(context, DebugScreen.route()),
       positionInGroup: ListTilePositionInGroup.first,
     );
-    const versionTile = _RoundedListTile(
+    const versionTile = _RoundedSettingsListTile(
       title: Text('バージョン'),
       trailing: _FullVersionNameText(),
       positionInGroup: ListTilePositionInGroup.last,
@@ -334,7 +334,7 @@ class _NotLoggedInTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _RoundedListTile(
+    return _RoundedSettingsListTile(
       title: const Text('アカウントを作成する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
@@ -358,7 +358,7 @@ class _DeleteAccountPanel extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return _RoundedListTile(
+    return _RoundedSettingsListTile(
       title: Text(
         'アカウント削除',
         style: TextStyle(color: Theme.of(context).colorScheme.error),
@@ -368,8 +368,8 @@ class _DeleteAccountPanel extends ConsumerWidget {
   }
 }
 
-class _RoundedListTile extends StatelessWidget {
-  const _RoundedListTile({
+class _RoundedSettingsListTile extends StatelessWidget {
+  const _RoundedSettingsListTile({
     required this.title,
     this.trailing,
     this.onTap,
