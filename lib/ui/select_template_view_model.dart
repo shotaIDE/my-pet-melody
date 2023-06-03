@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meow_music/data/definitions/types.dart';
 import 'package:meow_music/data/model/template.dart';
@@ -149,10 +148,6 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
 
     _audioDurationSubscription = _player.onDurationChanged.listen((duration) {
       _currentAudioDuration = duration;
-    });
-
-    _player.onPlayerStateChanged.listen((state) {
-      debugPrint('Player state: $state');
     });
 
     _audioPositionSubscription =
