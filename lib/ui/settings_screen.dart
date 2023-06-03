@@ -319,6 +319,7 @@ class _NotLoggedInTile extends StatelessWidget {
       title: const Text('アカウントを作成する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
+      positionInGroup: _ListTilePositionInGroup.first,
     );
   }
 }
@@ -348,17 +349,26 @@ class _DeleteAccountPanel extends ConsumerWidget {
   }
 }
 
+enum _ListTilePositionInGroup {
+  first,
+  middle,
+  last,
+  only,
+}
+
 class _RoundedListTile extends StatelessWidget {
   const _RoundedListTile({
     required this.title,
     required this.trailing,
     this.onTap,
+    this.positionInGroup = _ListTilePositionInGroup.only,
     Key? key,
   }) : super(key: key);
 
   final Widget title;
   final Widget trailing;
   final VoidCallback? onTap;
+  final _ListTilePositionInGroup positionInGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -372,18 +382,45 @@ class _RoundedListTile extends StatelessWidget {
       ],
     );
 
+    final BorderRadius borderRadius;
+    switch (positionInGroup) {
+      case _ListTilePositionInGroup.first:
+        borderRadius = const BorderRadius.only(
+          topLeft: Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+          topRight: Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+        );
+        break;
+      case _ListTilePositionInGroup.middle:
+        borderRadius = BorderRadius.zero;
+        break;
+      case _ListTilePositionInGroup.last:
+        borderRadius = const BorderRadius.only(
+          bottomLeft: Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+          bottomRight: Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+        );
+        break;
+      case _ListTilePositionInGroup.only:
+        borderRadius = const BorderRadius.all(
+          Radius.circular(
+            DisplayDefinition.cornerRadiusSizeSmall,
+          ),
+        );
+    }
+
     return ClipRRect(
-      borderRadius: const BorderRadius.all(
-        Radius.circular(
-          DisplayDefinition.cornerRadiusSizeSmall,
-        ),
-      ),
+      borderRadius: borderRadius,
       child: Material(
         color: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            DisplayDefinition.cornerRadiusSizeSmall,
-          ),
+          borderRadius: borderRadius,
         ),
         child: InkWell(
           onTap: onTap,
