@@ -65,15 +65,13 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final featureCard = Card(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          largeStorageFeatureTile,
-          rapidGenerationFeatureTile,
-          highQualityGenerationFeatureTile,
-        ],
-      ),
+    final featuresPanel = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: const [
+        largeStorageFeatureTile,
+        rapidGenerationFeatureTile,
+        highQualityGenerationFeatureTile,
+      ],
     );
 
     final joinButton = PrimaryButton(
@@ -85,33 +83,36 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
     final restoreButton =
         TextButton(onPressed: () {}, child: const Text('機種変更時の復元'));
 
-    const subscriptionDescription1Tile = ListTile(
+    const subscriptionDescription1Tile = _RoundedDescriptionListTile(
       title: Text('自動継続課金について'),
-      subtitle: Text('期間終了日の24時間以上前に自動更新の解除を行わない場合、契約期間が自動更新されます。'),
+      description: Text('期間終了日の24時間以上前に自動更新の解除を行わない場合、契約期間が自動更新されます。'),
+      positionInGroup: ListTilePositionInGroup.first,
     );
-    final subscriptionDescription2Tile = ListTile(
+    final subscriptionDescription2Tile = _RoundedDescriptionListTile(
       title: const Text('確認と解約'),
-      subtitle: Text(
+      description: Text(
         Platform.isIOS
             ? '設定アプリを開き、[ご自分の名前] > [サブスクリプション] > [MeowMusic]の画面から、'
                 '次回の自動更新タイミングの確認や、自動更新の解除ができます。'
             : 'Play ストアアプリを開き、設定 > [定期購入] > [MeowMusic]の画面から、'
                 '次回の自動更新タイミングの確認や、自動更新の解除ができます。',
       ),
+      positionInGroup: ListTilePositionInGroup.middle,
     );
-    final subscriptionDescription3Tile = ListTile(
+    final subscriptionDescription3Tile = _RoundedDescriptionListTile(
       title: const Text('機種変更時の復元'),
-      subtitle: Text(
+      description: Text(
         Platform.isIOS
             ? '機種変更時には、本画面から以前購入したプランを無料で復元できます。'
                 '購入時と同じ Apple ID で App Store にログインした上で復元してください。'
             : '機種変更時には、本画面から以前購入したプランを無料で復元できます。'
                 '購入時と同じ Google アカウントで Play ストアにログインした上で復元してください。',
       ),
+      positionInGroup: ListTilePositionInGroup.middle,
     );
-    final subscriptionDescription4Tile = ListTile(
+    final subscriptionDescription4Tile = _RoundedDescriptionListTile(
       title: const Text('注意点'),
-      subtitle: Text(
+      description: Text(
         Platform.isIOS
             ? 'アプリ内で課金された方は上記以外の方法での解約できません。'
                 '当月分のキャンセルについては受け付けておりません。'
@@ -120,28 +121,30 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
                 '当月分のキャンセルについては受け付けておりません。'
                 'Google アカウントを経由して課金されます。',
       ),
+      positionInGroup: ListTilePositionInGroup.last,
     );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.only(
+        top: 16,
+        bottom: MediaQuery.of(context).viewPadding.bottom,
+        left: DisplayDefinition.screenPaddingSmall,
+        right: DisplayDefinition.screenPaddingSmall,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: featureCard,
-          ),
+          largeStorageFeatureTile,
+          rapidGenerationFeatureTile,
+          highQualityGenerationFeatureTile,
           const SizedBox(height: 32),
           joinButton,
           const SizedBox(height: 16),
           restoreButton,
           const SizedBox(height: 32),
           subscriptionDescription1Tile,
-          const SizedBox(height: 16),
           subscriptionDescription2Tile,
-          const SizedBox(height: 16),
           subscriptionDescription3Tile,
-          const SizedBox(height: 16),
           subscriptionDescription4Tile,
         ],
       ),
@@ -151,7 +154,11 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       appBar: AppBar(
         title: const Text('プレミアムプラン'),
       ),
-      body: body,
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: body,
+      ),
       resizeToAvoidBottomInset: false,
     );
 
@@ -202,14 +209,22 @@ class _RoundedDescriptionListTile extends StatelessWidget {
       ],
     );
 
-    final body = Row(
-      children: [
-        if (leading != null) leading!,
+    final bodyWidgets = <Widget>[];
+    if (leading != null) {
+      bodyWidgets.addAll([
+        leading!,
         const SizedBox(width: 16),
-        Expanded(
-          child: titleAndDescription,
-        ),
-      ],
+      ]);
+    }
+
+    bodyWidgets.add(
+      Expanded(
+        child: titleAndDescription,
+      ),
+    );
+
+    final body = Row(
+      children: bodyWidgets,
     );
 
     final BorderRadius borderRadius;
