@@ -11,6 +11,7 @@ import 'package:meow_music/ui/home_view_model.dart';
 import 'package:meow_music/ui/select_template_screen.dart';
 import 'package:meow_music/ui/settings_screen.dart';
 import 'package:meow_music/ui/video_screen.dart';
+import 'package:skeletons/skeletons.dart';
 
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
@@ -61,8 +62,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
             final thumbnailImage = playablePiece.piece.map(
               generating: (_) => Container(),
-              generated: (generated) =>
-                  Image.network(generated.thumbnailUrl, fit: BoxFit.fitWidth),
+              generated: (generated) => Image.network(
+                generated.thumbnailUrl,
+                loadingBuilder: (_, __, ___) => const SkeletonLine(),
+                fit: BoxFit.fitWidth,
+              ),
             );
 
             final thumbnail = SizedBox(
