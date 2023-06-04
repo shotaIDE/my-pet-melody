@@ -1,4 +1,4 @@
-package com.example.meow_music
+package ide.shota.colomney.my_pet_melody
 
 import io.flutter.embedding.android.FlutterActivity
 

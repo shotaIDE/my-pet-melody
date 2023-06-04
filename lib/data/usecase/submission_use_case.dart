@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/repository_providers.dart';
-import 'package:meow_music/data/di/service_providers.dart';
-import 'package:meow_music/data/model/movie_segmentation.dart';
-import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/model/uploaded_media.dart';
-import 'package:meow_music/data/service/auth_service.dart';
+import 'package:my_pet_melody/data/di/repository_providers.dart';
+import 'package:my_pet_melody/data/di/service_providers.dart';
+import 'package:my_pet_melody/data/model/movie_segmentation.dart';
+import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/service/auth_service.dart';
 
 final detectActionProvider = FutureProvider((ref) async {
   final session = await ref.watch(sessionStreamProvider.future);

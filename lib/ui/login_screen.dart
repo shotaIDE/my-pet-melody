@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/component/social_login_button.dart';
-import 'package:meow_music/ui/component/speaking_cat_image.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/home_screen.dart';
-import 'package:meow_music/ui/login_state.dart';
-import 'package:meow_music/ui/login_view_model.dart';
+import 'package:my_pet_melody/ui/component/social_login_button.dart';
+import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/home_screen.dart';
+import 'package:my_pet_melody/ui/login_state.dart';
+import 'package:my_pet_melody/ui/login_view_model.dart';
 
 final _loginViewModelProvider =
     StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(

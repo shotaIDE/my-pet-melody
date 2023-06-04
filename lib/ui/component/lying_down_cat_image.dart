@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meow_music/ui/component/flickering_image.dart';
+import 'package:my_pet_melody/ui/component/flickering_image.dart';
 
 class LyingDownCatImage extends StatelessWidget {
   const LyingDownCatImage({

@@ -52,7 +52,7 @@ def generate_piece_movie(
     HEIGHT = 1080
     FRAME_RATE = 30
     FONT_PATH = 'fonts/uzura.ttf'
-    MOVIE_CREDITS = 'Created by Meow Music'
+    MOVIE_CREDITS = 'Created by うちのコメロディー'
 
     sound_info = ffmpeg.probe(piece_sound_path)
     sound_duration_seconds = sound_info['format']['duration']

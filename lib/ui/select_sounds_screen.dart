@@ -1,20 +1,20 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/ui/component/choice_position_bar.dart';
-import 'package:meow_music/ui/component/circled_play_button.dart';
-import 'package:meow_music/ui/component/fetched_thumbnail.dart';
-import 'package:meow_music/ui/component/footer.dart';
-import 'package:meow_music/ui/component/primary_button.dart';
-import 'package:meow_music/ui/component/speaking_cat_image.dart';
-import 'package:meow_music/ui/component/transparent_app_bar.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/select_sounds_state.dart';
-import 'package:meow_music/ui/select_sounds_view_model.dart';
-import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/set_piece_title_screen.dart';
-import 'package:meow_music/ui/trim_sound_for_detection_screen.dart';
+import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
+import 'package:my_pet_melody/ui/component/circled_play_button.dart';
+import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
+import 'package:my_pet_melody/ui/component/footer.dart';
+import 'package:my_pet_melody/ui/component/primary_button.dart';
+import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
+import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/select_sounds_state.dart';
+import 'package:my_pet_melody/ui/select_sounds_view_model.dart';
+import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
+import 'package:my_pet_melody/ui/set_piece_title_screen.dart';
+import 'package:my_pet_melody/ui/trim_sound_for_detection_screen.dart';
 
 final _selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectSoundsViewModel, SelectSoundsState, Template>(

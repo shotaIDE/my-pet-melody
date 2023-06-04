@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/join_premium_plan_state.dart';
+import 'package:my_pet_melody/ui/join_premium_plan_state.dart';
 
 class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
   JoinPremiumPlanViewModel() : super(const JoinPremiumPlanState());

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/trim_sound_for_generation_state.dart';
-import 'package:meow_music/ui/trim_sound_for_generation_view_model.dart';
+import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
+import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
+import 'package:my_pet_melody/ui/trim_sound_for_generation_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 final _trimSoundForGenerationViewModelProvider =

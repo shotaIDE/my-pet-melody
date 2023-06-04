@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:meow_music/data/model/login_session.dart';
-import 'package:meow_music/data/model/uploaded_media.dart';
-import 'package:meow_music/data/service/storage_service.dart';
+import 'package:my_pet_melody/data/model/login_session.dart';
+import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/service/storage_service.dart';
 import 'package:path/path.dart';
 
 class StorageServiceFirebase implements StorageService {

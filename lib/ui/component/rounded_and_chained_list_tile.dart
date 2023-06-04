@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/definition/list_tile_position_in_group.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/definition/list_tile_position_in_group.dart';
 
 class RoundedAndChainedListTile extends StatelessWidget {
   const RoundedAndChainedListTile({

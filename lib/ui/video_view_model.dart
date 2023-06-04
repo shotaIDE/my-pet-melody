@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/ui/video_state.dart';
+import 'package:my_pet_melody/data/model/piece.dart';
+import 'package:my_pet_melody/ui/video_state.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewModel extends StateNotifier<VideoState> {

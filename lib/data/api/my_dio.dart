@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meow_music/data/definitions/app_definitions.dart';
+import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 
 class MyDio {
   MyDio() : _dio = Dio(BaseOptions());

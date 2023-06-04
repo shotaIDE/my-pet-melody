@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/model/movie_segmentation.dart';
-import 'package:meow_music/data/model/uploaded_media.dart';
-import 'package:meow_music/ui/model/player_choice.dart';
+import 'package:my_pet_melody/data/model/movie_segmentation.dart';
+import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/ui/model/player_choice.dart';
 
 part 'select_trimmed_sound_state.freezed.dart';
 

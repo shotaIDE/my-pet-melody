@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/model/uploaded_media.dart';
-import 'package:meow_music/data/usecase/submission_use_case.dart';
-import 'package:meow_music/ui/request_push_notification_permission_state.dart';
-import 'package:meow_music/ui/set_piece_title_state.dart';
+import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
+import 'package:my_pet_melody/ui/request_push_notification_permission_state.dart';
+import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:path/path.dart';
 
 class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {

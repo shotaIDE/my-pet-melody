@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/api/my_dio.dart';
-import 'package:meow_music/flavor.dart';
+import 'package:my_pet_melody/data/api/my_dio.dart';
+import 'package:my_pet_melody/flavor.dart';
 
 part 'submission_api.freezed.dart';
 part 'submission_api.g.dart';

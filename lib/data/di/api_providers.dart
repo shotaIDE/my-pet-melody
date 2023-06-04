@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/api/my_dio.dart';
-import 'package:meow_music/data/api/storage_api.dart';
-import 'package:meow_music/data/api/submission_api.dart';
+import 'package:my_pet_melody/data/api/my_dio.dart';
+import 'package:my_pet_melody/data/api/storage_api.dart';
+import 'package:my_pet_melody/data/api/submission_api.dart';
 
 final dioProvider = Provider(
   (ref) => MyDio(),

@@ -1,5 +1,5 @@
-import 'package:meow_music/environment_config.dart';
-import 'package:meow_music/flavor.dart';
+import 'package:my_pet_melody/environment_config.dart';
+import 'package:my_pet_melody/flavor.dart';
 
 class AppDefinitions {
   static const serverHostForEmulatorConfiguration =

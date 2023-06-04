@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/ui/model/player_choice.dart';
+import 'package:my_pet_melody/ui/model/player_choice.dart';
 
 part 'select_template_state.freezed.dart';
 

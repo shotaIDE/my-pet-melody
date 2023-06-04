@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/model/movie_segmentation.dart';
-import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/ui/model/play_status.dart';
-import 'package:meow_music/ui/select_sounds_state.dart';
+import 'package:my_pet_melody/data/model/movie_segmentation.dart';
+import 'package:my_pet_melody/data/model/piece.dart';
+import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/ui/model/play_status.dart';
+import 'package:my_pet_melody/ui/select_sounds_state.dart';
 
 part 'player_choice.freezed.dart';
 
