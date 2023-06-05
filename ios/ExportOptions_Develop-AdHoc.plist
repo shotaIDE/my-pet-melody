@@ -10,7 +10,7 @@
 	<string>ad-hoc</string>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>ide.shota.colomney.MeowMusic.dev</key>
+		<key>ide.shota.colomney.MyPetMelody.dev</key>
 		<string>MeowMusic Develop Ad Hoc</string>
 	</dict>
 	<key>signingCertificate</key>

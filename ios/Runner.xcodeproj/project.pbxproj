@@ -411,7 +411,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MeowMusic$(APP_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MyPetMelody$(APP_ID_SUFFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -544,7 +544,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MeowMusic$(APP_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MyPetMelody$(APP_ID_SUFFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -571,7 +571,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MeowMusic$(APP_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MyPetMelody$(APP_ID_SUFFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "MeowMusic Develop Ad Hoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
