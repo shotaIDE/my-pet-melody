@@ -11,7 +11,7 @@
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>ide.shota.colomney.MyPetMelody.dev</key>
-		<string>MeowMusic Develop Ad Hoc</string>
+		<string>MyPetMelody Develop Ad Hoc</string>
 	</dict>
 	<key>signingCertificate</key>
 	<string>Apple Distribution</string>
