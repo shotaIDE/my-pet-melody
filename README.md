@@ -25,6 +25,7 @@ flutterfire config \
   --ios-bundle-id=ide.shota.colomney.MyPetMelody.emulator \
   --android-app-id=ide.shota.colomney.MyPetMelody.emulator
 mv android/app/google-services.json android/app/firebase/emulator
+mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Emulator
 flutterfire config \
   --project=colomney-my-pet-melody-dev \
   --out=lib/firebase_options_dev.dart \
