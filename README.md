@@ -31,6 +31,8 @@ flutterfire config \
   --out=lib/firebase_options_dev.dart \
   --ios-bundle-id=ide.shota.colomney.MyPetMelody.dev \
   --android-app-id=ide.shota.colomney.MyPetMelody.dev
+mv android/app/google-services.json android/app/firebase/dev
+mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Dev
 ```
 
 ## Deployment
