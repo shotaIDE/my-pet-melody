@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/api/my_dio.dart';
+import 'package:my_pet_melody/data/api/my_dio.dart';
 
 part 'storage_api.freezed.dart';
 part 'storage_api.g.dart';

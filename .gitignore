@@ -1,18 +1,20 @@
 *.freezed.dart
 *.g.dart
+google-services.json
+GoogleService-Info.plist
 
 /.env
-/assets/original
 /assets/edited
+/assets/original
+/dart-code-metrics.json
 /emulator-data
 /fastlane/firebase-app-distribution-*.json
 /fastlane/report.xml
+/ios/Flutter/DartDefines.xcconfig
+/ios/firebase_app_id_file.json
 /lib/environment_config.dart
 /lib/firebase_options*.dart
-/ios/Flutter/DartDefines.xcconfig
 /task/samples/
-
-/dart-code-metrics.json
 
 # Miscellaneous
 *.class

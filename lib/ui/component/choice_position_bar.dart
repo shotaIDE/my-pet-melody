@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meow_music/ui/model/play_status.dart';
+import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:skeletons/skeletons.dart';
 
 class ChoicePositionBar extends StatelessWidget {

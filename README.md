@@ -1,4 +1,4 @@
-# Meow Music
+# うちのコメロディー
 
 ## Development
 
@@ -20,15 +20,19 @@ asdf local flutter <version>
 
 ```shell
 flutterfire config \
-  --project=colomney-meow-music-dev \
+  --project=colomney-my-pet-melody-dev \
   --out=lib/firebase_options_emulator.dart \
-  --ios-bundle-id=ide.shota.colomney.MeowMusic.emulator \
-  --android-app-id=ide.shota.colomney.MeowMusic.emulator
+  --ios-bundle-id=ide.shota.colomney.MyPetMelody.emulator \
+  --android-app-id=ide.shota.colomney.MyPetMelody.emulator
+mv android/app/google-services.json android/app/firebase/emulator
+mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Emulator
 flutterfire config \
-  --project=colomney-meow-music-dev \
+  --project=colomney-my-pet-melody-dev \
   --out=lib/firebase_options_dev.dart \
-  --ios-bundle-id=ide.shota.colomney.MeowMusic.dev \
-  --android-app-id=ide.shota.colomney.MeowMusic.dev
+  --ios-bundle-id=ide.shota.colomney.MyPetMelody.dev \
+  --android-app-id=ide.shota.colomney.MyPetMelody.dev
+mv android/app/google-services.json android/app/firebase/dev
+mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Dev
 ```
 
 ## Deployment

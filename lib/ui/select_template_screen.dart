@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/ui/component/choice_position_bar.dart';
-import 'package:meow_music/ui/component/circled_play_button.dart';
-import 'package:meow_music/ui/component/fetched_thumbnail.dart';
-import 'package:meow_music/ui/component/transparent_app_bar.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/select_sounds_screen.dart';
-import 'package:meow_music/ui/select_template_state.dart';
-import 'package:meow_music/ui/select_template_view_model.dart';
+import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
+import 'package:my_pet_melody/ui/component/circled_play_button.dart';
+import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
+import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/select_sounds_screen.dart';
+import 'package:my_pet_melody/ui/select_template_state.dart';
+import 'package:my_pet_melody/ui/select_template_view_model.dart';
 
 final selectTemplateViewModelProvider = StateNotifierProvider.autoDispose<
     SelectTemplateViewModel, SelectTemplateState>(

@@ -29,12 +29,17 @@ jobs:
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
 
-      - name: Generate uncommited files
-        uses: ./.github/actions/generate-uncommited-files
+      - name: Generate uncommited Flutter files
+        uses: ./.github/actions/generate-uncommited-flutter-files
         with:
           env-base64: ${{ secrets.ENV_BASE64 }}
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
+
+      - name: Generate uncommited iOS files
+        uses: ./.github/actions/generate-uncommited-ios-files
+        with:
+          google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
 
       - name: Import Code-Signing Certificates
         uses: Apple-Actions/import-codesign-certs@v2

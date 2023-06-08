@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/completed_to_submit_screen.dart';
-import 'package:meow_music/ui/component/footer.dart';
-import 'package:meow_music/ui/component/outlined_action_button.dart';
-import 'package:meow_music/ui/component/primary_button.dart';
-import 'package:meow_music/ui/component/transparent_app_bar.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/request_push_notification_permission_state.dart';
-import 'package:meow_music/ui/request_push_notification_permission_view_model.dart';
-import 'package:meow_music/ui/select_template_screen.dart';
+import 'package:my_pet_melody/ui/completed_to_submit_screen.dart';
+import 'package:my_pet_melody/ui/component/footer.dart';
+import 'package:my_pet_melody/ui/component/outlined_action_button.dart';
+import 'package:my_pet_melody/ui/component/primary_button.dart';
+import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/request_push_notification_permission_state.dart';
+import 'package:my_pet_melody/ui/request_push_notification_permission_view_model.dart';
+import 'package:my_pet_melody/ui/select_template_screen.dart';
 
 final requestPushNotificationPermissionViewModelProvider =
     StateNotifierProvider.autoDispose.family<

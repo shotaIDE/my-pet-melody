@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:meow_music/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/model/uploaded_media.dart';
 
 abstract class StorageService {
   Future<String> templateMusicUrl({required String id});

@@ -6,21 +6,21 @@
 
 ```shell
 gcloud functions deploy detect \
-    --project colomney-meow-music-dev \
+    --project colomney-my-pet-melody-dev \
     --memory 2048MB \
     --runtime python39 \
     --trigger-http \
     --env-vars-file .env.yaml \
     --allow-unauthenticated
 gcloud functions deploy submit \
-    --project colomney-meow-music-dev \
+    --project colomney-my-pet-melody-dev \
     --memory 512MB \
     --runtime python39 \
     --trigger-http \
     --env-vars-file .env.yaml \
     --allow-unauthenticated
 gcloud functions deploy piece \
-    --project colomney-meow-music-dev \
+    --project colomney-my-pet-melody-dev \
     --memory 1024MB \
     --runtime python39 \
     --trigger-http \

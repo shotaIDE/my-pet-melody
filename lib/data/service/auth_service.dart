@@ -6,12 +6,12 @@ import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/account_provider.dart';
-import 'package:meow_music/data/model/delete_account_with_current_session_error.dart';
-import 'package:meow_music/data/model/link_credential_error.dart';
-import 'package:meow_music/data/model/login_session.dart';
-import 'package:meow_music/data/model/profile.dart';
-import 'package:meow_music/data/model/result.dart';
+import 'package:my_pet_melody/data/model/account_provider.dart';
+import 'package:my_pet_melody/data/model/delete_account_with_current_session_error.dart';
+import 'package:my_pet_melody/data/model/link_credential_error.dart';
+import 'package:my_pet_melody/data/model/login_session.dart';
+import 'package:my_pet_melody/data/model/profile.dart';
+import 'package:my_pet_melody/data/model/result.dart';
 import 'package:rxdart/rxdart.dart';
 
 final sessionProvider = StateNotifierProvider<SessionProvider, LoginSession?>(

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/model/profile.dart';
+import 'package:my_pet_melody/data/model/profile.dart';
 
 part 'login_session.freezed.dart';
 

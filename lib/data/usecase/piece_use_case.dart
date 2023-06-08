@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/di/service_providers.dart';
-import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/service/database_service.dart';
+import 'package:my_pet_melody/data/di/service_providers.dart';
+import 'package:my_pet_melody/data/model/piece.dart';
+import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/data/service/database_service.dart';
 
 final templatesProvider = FutureProvider((ref) async {
   final templateDrafts = await ref.watch(templateDraftsProvider.future);

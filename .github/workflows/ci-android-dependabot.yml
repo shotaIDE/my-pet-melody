@@ -28,6 +28,7 @@ jobs:
           env-base64: ${{ secrets.ENV_BASE64 }}
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
+          google-service-json-base64-dev: ${{ secrets.GOOGLE_SERVICE_JSON_BASE64_DEV }}
           keystore-jks-base64: ${{ secrets.KEYSTORE_JKS_BASE64 }}
           store-password: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
           key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}

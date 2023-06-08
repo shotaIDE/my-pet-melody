@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		496FF41A0E0827B52AE7C691 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0D359778A083D2A88F5D072 /* GoogleService-Info.plist */; };
 		67A7AF8C019B9968137CA8AD /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B05233C375F5A94DA3C9D98D /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AFC4B86E7532A867CA4C6D82 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		B05233C375F5A94DA3C9D98D /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0D359778A083D2A88F5D072 /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E5FF66CEA7A9A2F4EDEC2235 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,6 +128,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				C0D359778A083D2A88F5D072 /* GoogleService-Info.plist */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			buildPhases = (
 				9AD22C164E5F47FC6E96FDBB /* [CP] Check Pods Manifest.lock */,
 				7824795427B2BAE40078B276 /* Check Xcode Version */,
+				782F44E12A30C2720074F859 /* Select Google Service Info File */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
@@ -199,6 +203,7 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				496FF41A0E0827B52AE7C691 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +277,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "REQUIRED_XCODE_VERSION_ACTUAL=\"$(cat $SCRIPT_INPUT_FILE_0 | tr -d . | xargs printf '%-4d' | tr ' ' 0)\"\nif [ $REQUIRED_XCODE_VERSION_ACTUAL != $XCODE_VERSION_ACTUAL ]; then\n    echo \\\"error: Detected wrong Xcode version. Expected=$REQUIRED_XCODE_VERSION_ACTUAL, actual=$XCODE_VERSION_ACTUAL.\\\"\n    exit 1\nfi\n";
+		};
+		782F44E12A30C2720074F859 /* Select Google Service Info File */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Select Google Service Info File";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$SRCROOT/Runner/GoogleService-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ $FLAVOR == \"emulator\" ]]; then\n  cp Runner/Firebase/Emulator/GoogleService-Info.plist Runner/GoogleService-Info.plist\nelif [[ $FLAVOR == \"dev\" ]]; then\n  cp Runner/Firebase/Dev/GoogleService-Info.plist Runner/GoogleService-Info.plist\nelse\n  echo \"error: \\\"$FLAVOR\\\" flavor didn't match any environments.\"\n  exit 1\nfi\n";
 		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -411,7 +435,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MeowMusic$(APP_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MyPetMelody$(APP_ID_SUFFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -544,7 +568,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MeowMusic$(APP_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MyPetMelody$(APP_ID_SUFFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -571,9 +595,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MeowMusic$(APP_ID_SUFFIX)";
+				PRODUCT_BUNDLE_IDENTIFIER = "ide.shota.colomney.MyPetMelody$(APP_ID_SUFFIX)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "MeowMusic Develop Ad Hoc";
+				PROVISIONING_PROFILE_SPECIFIER = "MyPetMelody Develop Ad Hoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

@@ -4,14 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/definitions/app_definitions.dart';
-import 'package:meow_music/data/di/api_providers.dart';
-import 'package:meow_music/data/di/service_providers.dart';
-import 'package:meow_music/data/service/storage_service_local_flask.dart';
-import 'package:meow_music/firebase_options_dev.dart' as dev;
-import 'package:meow_music/firebase_options_emulator.dart' as emulator;
-import 'package:meow_music/flavor.dart';
-import 'package:meow_music/root_app.dart';
+import 'package:my_pet_melody/data/definitions/app_definitions.dart';
+import 'package:my_pet_melody/data/di/api_providers.dart';
+import 'package:my_pet_melody/data/di/service_providers.dart';
+import 'package:my_pet_melody/data/service/storage_service_local_flask.dart';
+import 'package:my_pet_melody/firebase_options_dev.dart' as dev;
+import 'package:my_pet_melody/firebase_options_emulator.dart' as emulator;
+import 'package:my_pet_melody/flavor.dart';
+import 'package:my_pet_melody/root_app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

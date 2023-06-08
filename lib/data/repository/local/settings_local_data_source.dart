@@ -1,5 +1,5 @@
-import 'package:meow_music/data/model/preference_key.dart';
-import 'package:meow_music/data/service/preference_service.dart';
+import 'package:my_pet_melody/data/model/preference_key.dart';
+import 'package:my_pet_melody/data/service/preference_service.dart';
 
 class SettingsLocalDataSource {
   Future<bool> getHasRequestedPushNotificationPermissionAtLeastOnce() async {

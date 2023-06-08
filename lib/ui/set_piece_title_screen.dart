@@ -3,16 +3,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/completed_to_submit_screen.dart';
-import 'package:meow_music/ui/component/footer.dart';
-import 'package:meow_music/ui/component/primary_button.dart';
-import 'package:meow_music/ui/component/speaking_cat_image.dart';
-import 'package:meow_music/ui/component/transparent_app_bar.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/request_push_notification_permission_screen.dart';
-import 'package:meow_music/ui/select_template_screen.dart';
-import 'package:meow_music/ui/set_piece_title_state.dart';
-import 'package:meow_music/ui/set_piece_title_view_model.dart';
+import 'package:my_pet_melody/ui/completed_to_submit_screen.dart';
+import 'package:my_pet_melody/ui/component/footer.dart';
+import 'package:my_pet_melody/ui/component/primary_button.dart';
+import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
+import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/request_push_notification_permission_screen.dart';
+import 'package:my_pet_melody/ui/select_template_screen.dart';
+import 'package:my_pet_melody/ui/set_piece_title_state.dart';
+import 'package:my_pet_melody/ui/set_piece_title_view_model.dart';
 
 final setPieceTitleViewModelProvider = StateNotifierProvider.autoDispose
     .family<SetPieceTitleViewModel, SetPieceTitleState, SetPieceTitleArgs>(

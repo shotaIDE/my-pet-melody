@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/component/primary_button.dart';
-import 'package:meow_music/ui/component/rounded_and_chained_list_tile.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/definition/list_tile_position_in_group.dart';
-import 'package:meow_music/ui/join_premium_plan_state.dart';
-import 'package:meow_music/ui/join_premium_plan_view_model.dart';
+import 'package:my_pet_melody/ui/component/primary_button.dart';
+import 'package:my_pet_melody/ui/component/rounded_and_chained_list_tile.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/definition/list_tile_position_in_group.dart';
+import 'package:my_pet_melody/ui/join_premium_plan_state.dart';
+import 'package:my_pet_melody/ui/join_premium_plan_view_model.dart';
 
 final _joinPremiumPlanViewModelProvider = StateNotifierProvider.autoDispose<
     JoinPremiumPlanViewModel, JoinPremiumPlanState>(
@@ -84,9 +84,9 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       title: const Text('確認と解約'),
       description: Text(
         Platform.isIOS
-            ? '設定アプリを開き、[ご自分の名前] > [サブスクリプション] > [MeowMusic]の画面から、'
+            ? '設定アプリを開き、[ご自分の名前] > [サブスクリプション] > [うちのコメロディー]の画面から、'
                 '次回の自動更新タイミングの確認や、自動更新の解除ができます。'
-            : 'Play ストアアプリを開き、設定 > [定期購入] > [MeowMusic]の画面から、'
+            : 'Play ストアアプリを開き、設定 > [定期購入] > [うちのコメロディー]の画面から、'
                 '次回の自動更新タイミングの確認や、自動更新の解除ができます。',
       ),
       positionInGroup: ListTilePositionInGroup.middle,

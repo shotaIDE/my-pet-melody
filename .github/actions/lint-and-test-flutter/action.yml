@@ -34,8 +34,8 @@ runs:
     - name: Setup Flutter
       uses: ./.github/actions/setup-flutter
 
-    - name: Generate uncommited files
-      uses: ./.github/actions/generate-uncommited-files
+    - name: Generate uncommited Flutter files
+      uses: ./.github/actions/generate-uncommited-flutter-files
       with:
         env-base64: ${{ inputs.env-base64 }}
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}

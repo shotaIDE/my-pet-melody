@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/model/account_provider.dart';
+import 'package:my_pet_melody/data/model/account_provider.dart';
 
 part 'delete_account_with_current_session_error.freezed.dart';
 

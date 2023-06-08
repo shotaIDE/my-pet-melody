@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:meow_music/data/api/storage_api.dart';
-import 'package:meow_music/data/definitions/app_definitions.dart';
-import 'package:meow_music/data/model/uploaded_media.dart';
-import 'package:meow_music/data/service/storage_service.dart';
+import 'package:my_pet_melody/data/api/storage_api.dart';
+import 'package:my_pet_melody/data/definitions/app_definitions.dart';
+import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/service/storage_service.dart';
 
 class StorageServiceLocalFlask implements StorageService {
   const StorageServiceLocalFlask({

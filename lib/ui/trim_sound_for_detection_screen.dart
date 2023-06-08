@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/component/footer.dart';
-import 'package:meow_music/ui/component/primary_button.dart';
-import 'package:meow_music/ui/component/transparent_app_bar.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/select_trimmed_sound_screen.dart';
-import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/trim_sound_for_detection_state.dart';
-import 'package:meow_music/ui/trim_sound_for_detection_view_model.dart';
+import 'package:my_pet_melody/ui/component/footer.dart';
+import 'package:my_pet_melody/ui/component/primary_button.dart';
+import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/select_trimmed_sound_screen.dart';
+import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
+import 'package:my_pet_melody/ui/trim_sound_for_detection_state.dart';
+import 'package:my_pet_melody/ui/trim_sound_for_detection_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 final _trimSoundForDetectionViewModelProvider = StateNotifierProvider

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/usecase/submission_use_case.dart';
-import 'package:meow_music/ui/request_push_notification_permission_state.dart';
+import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
+import 'package:my_pet_melody/ui/request_push_notification_permission_state.dart';
 import 'package:path/path.dart';
 
 class RequestPushNotificationPermissionViewModel

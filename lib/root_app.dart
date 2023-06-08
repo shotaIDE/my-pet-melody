@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/root_view_model.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/home_screen.dart';
-import 'package:meow_music/ui/login_screen.dart';
+import 'package:my_pet_melody/root_view_model.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/home_screen.dart';
+import 'package:my_pet_melody/ui/login_screen.dart';
 
 class RootApp extends ConsumerStatefulWidget {
   RootApp({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _RootAppState extends ConsumerState<RootApp> {
     final home = showHomeScreen ? HomeScreen() : LoginScreen();
 
     return MaterialApp(
-      title: 'Meow Music',
+      title: 'うちのコメロディー',
       theme: ThemeData(
         primarySwatch: Colors.brown,
         fontFamily: 'uzura',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/data/model/uploaded_media.dart';
 
 part 'set_piece_title_state.freezed.dart';
 

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/data/usecase/auth_use_case.dart';
-import 'package:meow_music/ui/component/fetched_thumbnail.dart';
-import 'package:meow_music/ui/component/lying_down_cat_image.dart';
-import 'package:meow_music/ui/component/profile_icon.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/home_state.dart';
-import 'package:meow_music/ui/home_view_model.dart';
-import 'package:meow_music/ui/select_template_screen.dart';
-import 'package:meow_music/ui/settings_screen.dart';
-import 'package:meow_music/ui/video_screen.dart';
+import 'package:my_pet_melody/data/model/piece.dart';
+import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
+import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
+import 'package:my_pet_melody/ui/component/lying_down_cat_image.dart';
+import 'package:my_pet_melody/ui/component/profile_icon.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/home_state.dart';
+import 'package:my_pet_melody/ui/home_view_model.dart';
+import 'package:my_pet_melody/ui/select_template_screen.dart';
+import 'package:my_pet_melody/ui/settings_screen.dart';
+import 'package:my_pet_melody/ui/video_screen.dart';
 
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(

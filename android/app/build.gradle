@@ -36,7 +36,23 @@ if (dartEnvironmentVariables.FLAVOR == 'local' || dartEnvironmentVariables.FLAVO
     networkConfigSuffix = '_emulator'
 }
 
+// Copy the firebase file and move it to android/app directory
+task copyGoogleServicesJson(type: Copy) {
+    from "firebase/${dartEnvironmentVariables.FLAVOR}/google-services.json"
+    into './'
+}
+
+// Set to wait for firebase file copy task before processing file needs
+tasks.whenTaskAdded { task ->
+    if (task.name ==~ /process.*GoogleServices/) {
+        task.dependsOn copyGoogleServicesJson
+    }
+}
+
 apply plugin: 'com.android.application'
+// START: FlutterFire Configuration
+apply plugin: 'com.google.gms.google-services'
+// END: FlutterFire Configuration
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -63,7 +79,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "ide.shota.colomney.MeowMusic"
+        applicationId "ide.shota.colomney.MyPetMelody"
         minSdkVersion 26
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

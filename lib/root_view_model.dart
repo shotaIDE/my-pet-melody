@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/definitions/types.dart';
-import 'package:meow_music/data/service/database_service.dart';
-import 'package:meow_music/data/usecase/auth_use_case.dart';
-import 'package:meow_music/root_state.dart';
+import 'package:my_pet_melody/data/definitions/types.dart';
+import 'package:my_pet_melody/data/service/database_service.dart';
+import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
+import 'package:my_pet_melody/root_state.dart';
 
 final rootViewModelProvider =
     StateNotifierProvider.autoDispose<RootViewModel, RootState>(

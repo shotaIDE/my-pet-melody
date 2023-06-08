@@ -1,4 +1,4 @@
-import 'package:meow_music/data/model/preference_key.dart';
+import 'package:my_pet_melody/data/model/preference_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceService {

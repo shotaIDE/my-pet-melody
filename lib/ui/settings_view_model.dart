@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/delete_account_error.dart';
-import 'package:meow_music/data/model/result.dart';
-import 'package:meow_music/data/usecase/auth_use_case.dart';
-import 'package:meow_music/ui/settings_state.dart';
+import 'package:my_pet_melody/data/model/delete_account_error.dart';
+import 'package:my_pet_melody/data/model/result.dart';
+import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
+import 'package:my_pet_melody/ui/settings_state.dart';
 
 class SettingsViewModel extends StateNotifier<SettingsState> {
   SettingsViewModel({

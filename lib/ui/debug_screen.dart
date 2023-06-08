@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/service/auth_service.dart';
-import 'package:meow_music/data/usecase/auth_use_case.dart';
+import 'package:my_pet_melody/data/service/auth_service.dart';
+import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
 
 class DebugScreen extends ConsumerWidget {
   const DebugScreen({

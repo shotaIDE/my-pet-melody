@@ -5,6 +5,8 @@ inputs:
     required: true
   firebase-options-dart-base64-dev:
     required: true
+  google-service-plist-base64-dev:
+    required: true
 
 runs:
   using: "composite"
@@ -18,12 +20,17 @@ runs:
     - name: Setup CocoaPods
       uses: ./.github/actions/setup-cocoapods
 
-    - name: Generate uncommited files
-      uses: ./.github/actions/generate-uncommited-files
+    - name: Generate uncommited Flutter files
+      uses: ./.github/actions/generate-uncommited-flutter-files
       with:
         env-base64: ${{ inputs.env-base64 }}
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
         firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
+
+    - name: Generate uncommited iOS files
+      uses: ./.github/actions/generate-uncommited-ios-files
+      with:
+        google-service-plist-base64-dev: ${{ inputs.google-service-plist-base64-dev }}
 
     - name: iOS build
       shell: bash

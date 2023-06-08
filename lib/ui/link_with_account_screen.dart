@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/component/social_login_button.dart';
-import 'package:meow_music/ui/component/speaking_cat_image.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
-import 'package:meow_music/ui/link_with_account_state.dart';
-import 'package:meow_music/ui/link_with_account_view_model.dart';
+import 'package:my_pet_melody/ui/component/social_login_button.dart';
+import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/link_with_account_state.dart';
+import 'package:my_pet_melody/ui/link_with_account_view_model.dart';
 
 final _linkWithAccountViewModelProvider = StateNotifierProvider.autoDispose<
     LinkWithAccountViewModel, LinkWithAccountState>(

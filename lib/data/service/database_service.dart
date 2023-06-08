@@ -2,10 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/login_session.dart';
-import 'package:meow_music/data/model/piece.dart';
-import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/service/auth_service.dart';
+import 'package:my_pet_melody/data/model/login_session.dart';
+import 'package:my_pet_melody/data/model/piece.dart';
+import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/data/service/auth_service.dart';
 
 final templateDraftsProvider = StreamProvider(
   (_) {

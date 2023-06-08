@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/ui/completed_to_submit_state.dart';
-import 'package:meow_music/ui/completed_to_submit_view_model.dart';
-import 'package:meow_music/ui/component/footer.dart';
-import 'package:meow_music/ui/component/listening_music_cat_image.dart';
-import 'package:meow_music/ui/component/primary_button.dart';
-import 'package:meow_music/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/completed_to_submit_state.dart';
+import 'package:my_pet_melody/ui/completed_to_submit_view_model.dart';
+import 'package:my_pet_melody/ui/component/footer.dart';
+import 'package:my_pet_melody/ui/component/listening_music_cat_image.dart';
+import 'package:my_pet_melody/ui/component/primary_button.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
 
 final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
     CompletedToSubmitViewModel, CompletedToSubmitState>(

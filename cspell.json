@@ -1,16 +1,15 @@
 {
-    "dictionaryDefinitions": [
-      { "name": "meow-music", "path": "./dictionaries/meow-music.txt" },
-      { "name": "dependencies", "path": "./dictionaries/dependencies.txt" }
-    ],
-    "dictionaries": ["meow-music", "dependencies"],
-    "ignorePaths": [
-      "*.freezed.dart",
-      "*.g.dart",
-      "/lib/firebase_options_*.dart",
-      "/lib/generated_plugin_registrant.dart",
-      "/ios/Pods"
-    ],
-    "enabledLanguageIds": ["dart", "swift", "kotlin"]
-  }
-  
+  "dictionaryDefinitions": [
+    { "name": "my-pet-melody", "path": "./dictionary/my-pet-melody.txt" },
+    { "name": "dependencies", "path": "./dictionary/dependencies.txt" }
+  ],
+  "dictionaries": ["my-pet-melody", "dependencies"],
+  "ignorePaths": [
+    "*.freezed.dart",
+    "*.g.dart",
+    "/lib/firebase_options_*.dart",
+    "/lib/generated_plugin_registrant.dart",
+    "/ios/Pods"
+  ],
+  "enabledLanguageIds": ["dart", "swift", "kotlin"]
+}

@@ -1,6 +1,6 @@
-import 'package:meow_music/data/model/movie_segmentation.dart';
-import 'package:meow_music/data/model/uploaded_media.dart';
-import 'package:meow_music/data/repository/remote/submission_remote_data_source.dart';
+import 'package:my_pet_melody/data/model/movie_segmentation.dart';
+import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/repository/remote/submission_remote_data_source.dart';
 
 class SubmissionRepository {
   SubmissionRepository({required SubmissionRemoteDataSource remoteDataSource})

@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meow_music/data/model/template.dart';
-import 'package:meow_music/data/model/uploaded_media.dart';
-import 'package:meow_music/ui/helper/audio_position_helper.dart';
-import 'package:meow_music/ui/model/play_status.dart';
-import 'package:meow_music/ui/model/player_choice.dart';
-import 'package:meow_music/ui/select_sounds_state.dart';
-import 'package:meow_music/ui/select_trimmed_sound_state.dart';
-import 'package:meow_music/ui/set_piece_title_state.dart';
+import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
+import 'package:my_pet_melody/ui/model/play_status.dart';
+import 'package:my_pet_melody/ui/model/player_choice.dart';
+import 'package:my_pet_melody/ui/select_sounds_state.dart';
+import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
+import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
