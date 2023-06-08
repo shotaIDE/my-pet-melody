@@ -1,0 +1,10 @@
+inputs:
+  google-service-json-base64-dev:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate Google service plist file
+      shell: bash
+      run: echo "${{ inputs.google-service-plist-base64-dev }}" | base64 -d > android/app/firebase/dev/google-services.json

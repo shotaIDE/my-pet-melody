@@ -5,6 +5,8 @@ inputs:
     required: true
   firebase-options-dart-base64-dev:
     required: true
+  google-service-json-base64-dev:
+    required: true
   keystore-jks-base64:
     required: true
   store-password:
@@ -23,12 +25,17 @@ runs:
     - name: Setup Gradle
       uses: ./.github/actions/setup-gradle
 
-    - name: Generate uncommited files
-      uses: ./.github/actions/generate-uncommited-files
+    - name: Generate uncommited Flutter files
+      uses: ./.github/actions/generate-uncommited-flutter-files
       with:
         env-base64: ${{ inputs.env-base64 }}
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
         firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
+
+    - name: Generate uncommited Android files
+      uses: ./.github/actions/generate-uncommited-android-files
+      with:
+        google-service-json-base64-dev: ${{ inputs.google-service-json-base64-dev }}
 
     - name: Generate key store
       uses: ./.github/actions/generate-key-store
