@@ -15,8 +15,8 @@ jobs:
   test:
     name: Test API
     # Use the same version of the environment on which the production runtime is based.
-    # https://cloud.google.com/functions/docs/reference/system-packages#ubuntu_1804
-    runs-on: ubuntu-18.04
+    # https://cloud.google.com/functions/docs/reference/system-packages#ubuntu_2204
+    runs-on: ubuntu-22.04
     if: ${{ github.actor != 'dependabot[bot]' }}
 
     steps:

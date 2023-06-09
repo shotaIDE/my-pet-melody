@@ -16,15 +16,23 @@ runs:
       shell: bash
       # Use the nearest version of FFMpeg installed in the environment
       # on which the production runtime is based.
-      # https://cloud.google.com/functions/docs/reference/system-packages#ubuntu_1804
+      # https://cloud.google.com/functions/docs/reference/system-packages#ubuntu_2204
       run: |
         sudo apt-get update
-        sudo apt-get install ffmpeg=7:3.4.11-0ubuntu0.1
+        sudo apt-get install ffmpeg=7:4.4.2-0ubuntu0.22.04.1
+
+    - name: Get Python version
+      id: get-python-version
+      shell: bash
+      working-directory: task
+      run: |
+        python_version="$(cat .python-version)"
+        echo "python-version=$python_version" >> $GITHUB_OUTPUT
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: 3.9
+        python-version: ${{ steps.get-python-version.outputs.python-version }}
 
     - name: Install Python dependencies
       shell: bash
