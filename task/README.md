@@ -27,7 +27,8 @@ gcloud functions deploy piece \
     --runtime python39 \
     --region asia-east1 \
     --trigger-http \
-    --env-vars-file .env.yaml
+    --env-vars-file .env.yaml \
+    --allow-unauthenticated
 ```
 
 後片付け方法
