@@ -9,7 +9,7 @@ platform :ios do
       sh('flutter build ipa --dart-define FLAVOR=dev --export-options-plist=ios/ExportOptions_Develop-AdHoc.plist')
     end
 
-    lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/meow_music.ipa'
+    lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/my_pet_melody.ipa'
   end
 
   desc 'Deploy develop app to Firebase App Distribution'

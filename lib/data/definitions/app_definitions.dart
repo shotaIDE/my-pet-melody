@@ -7,7 +7,7 @@ class AppDefinitions {
 
   static String get serverOrigin {
     if (F.flavor == Flavor.dev) {
-      return 'https://us-central1-colomney-meow-music-dev.cloudfunctions.net';
+      return 'https://asia-east1-colomney-my-pet-melody-dev.cloudfunctions.net';
     }
 
     const port = 5001;
