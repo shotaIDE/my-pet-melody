@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/template.dart';
-import 'package:my_pet_melody/data/model/uploaded_media.dart';
 import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_sounds_state.dart';
-import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
-import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
@@ -20,13 +17,6 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
               template: selectedTemplate,
               status: const PlayStatus.stop(),
             ),
-            sounds: List.generate(
-              1,
-              (index) => PlayerChoiceSound(
-                status: const PlayStatus.stop(),
-                sound: SelectedSoundNone(id: 'selected-sound-$index'),
-              ),
-            ),
           ),
         ) {
     _setup();
@@ -34,11 +24,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
   final _player = AudioPlayer();
 
-  late String _thumbnailLocalPath;
-
-  Future<String?> Function()? _pickVideoFile;
-  Future<SelectTrimmedSoundResult?> Function(String soundPath)?
-      _selectTrimmedSound;
+  Future<String?> Function()? _pickVideoFileListener;
+  void Function(String soundPath)? _trimSoundForDetectionListener;
 
   Duration? _currentAudioDuration;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -60,48 +47,40 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
   void registerListener({
     required Future<String?> Function() pickVideoFile,
-    required Future<SelectTrimmedSoundResult?> Function(String soundPath)
-        selectTrimmedSound,
+    required void Function(String soundPath) trimSoundForDetection,
   }) {
-    _pickVideoFile = pickVideoFile;
-    _selectTrimmedSound = selectTrimmedSound;
+    _pickVideoFileListener = pickVideoFile;
+    _trimSoundForDetectionListener = trimSoundForDetection;
   }
 
-  Future<void> onTapSelectSound({required PlayerChoiceSound choice}) async {
+  Future<void> onTapSelectSound() async {
     state = state.copyWith(isPicking: true);
 
-    final pickedPath = await _pickVideoFile?.call();
+    final pickedPath = await _pickVideoFileListener?.call();
     if (pickedPath == null) {
       state = state.copyWith(isPicking: false);
       return;
     }
 
-    final selectTrimmedSoundResult =
-        await _selectTrimmedSound?.call(pickedPath);
-    if (selectTrimmedSoundResult == null) {
-      state = state.copyWith(isPicking: false);
-      return;
-    }
+    _trimSoundForDetectionListener?.call(pickedPath);
 
     state = state.copyWith(isPicking: false);
-
-    await _onSelectedTrimmedSound(selectTrimmedSoundResult, target: choice);
   }
 
-  SetPieceTitleArgs getSetPieceTitleArgs() {
-    final soundIdList = _getSoundIdList();
+  // SetPieceTitleArgs getSetPieceTitleArgs() {
+  //   final soundIdList = _getSoundIdList();
 
-    final displayName =
-        (state.sounds.first.sound as SelectedSoundUploaded).localFileName;
+  //   final displayName =
+  //       (state.sounds.first.sound as SelectedSoundUploaded).localFileName;
 
-    return SetPieceTitleArgs(
-      template: state.template.template,
-      sounds: soundIdList,
-      // TODO(ide): Fix to no use of force unwrapping
-      thumbnailLocalPath: _thumbnailLocalPath,
-      displayName: displayName,
-    );
-  }
+  //   return SetPieceTitleArgs(
+  //     template: state.template.template,
+  //     sounds: 'soundIdList',
+  //     // TODO(ide): Fix to no use of force unwrapping
+  //     thumbnailLocalPath: _thumbnailLocalPath,
+  //     displayName: 'displayName',
+  //   );
+  // }
 
   Future<void> play({required PlayerChoice choice}) async {
     final url = choice.uri;
@@ -153,42 +132,6 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     }
 
     await _player.stop();
-  }
-
-  Future<void> _onSelectedTrimmedSound(
-    SelectTrimmedSoundResult result, {
-    required PlayerChoiceSound target,
-  }) async {
-    final sounds = [...state.sounds];
-    final index = sounds.indexOf(target);
-
-    sounds[index] = target.copyWith(
-      sound: SelectedSound.uploaded(
-        id: result.uploaded.id,
-        extension: result.uploaded.extension,
-        localFileName: result.displayName,
-        remoteUrl: result.uploaded.url,
-      ),
-    );
-
-    state = state.copyWith(
-      sounds: sounds,
-      isAvailableSubmission: _getIsAvailableSubmission(sounds: sounds),
-    );
-
-    _thumbnailLocalPath = result.thumbnailLocalPath;
-  }
-
-  bool _getIsAvailableSubmission({required List<PlayerChoiceSound> sounds}) {
-    return sounds.fold(
-      true,
-      (previousValue, sound) =>
-          previousValue &&
-          sound.sound.map(
-            none: (_) => false,
-            uploaded: (_) => true,
-          ),
-    );
   }
 
   Future<void> _setup() async {
@@ -244,31 +187,26 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   List<PlayerChoice> _getPlayerChoices() {
     return [
       state.template,
-      ...state.sounds,
     ];
   }
 
   void _setPlayerChoices(List<PlayerChoice> choices) {
     state = state.copyWith(
       template: choices.first as PlayerChoiceTemplate,
-      sounds: choices
-          .sublist(1)
-          .map((choice) => choice as PlayerChoiceSound)
-          .toList(),
     );
   }
 
-  List<UploadedMedia> _getSoundIdList() {
-    return state.sounds
-        .map((choice) => choice.sound)
-        .whereType<SelectedSoundUploaded>()
-        .map(
-          (uploaded) => UploadedMedia(
-            id: uploaded.id,
-            extension: uploaded.extension,
-            url: uploaded.remoteUrl,
-          ),
-        )
-        .toList();
-  }
+  // List<UploadedMedia> _getSoundIdList() {
+  //   return state.sounds
+  //       .map((choice) => choice.sound)
+  //       .whereType<SelectedSoundUploaded>()
+  //       .map(
+  //         (uploaded) => UploadedMedia(
+  //           id: uploaded.id,
+  //           extension: uploaded.extension,
+  //           url: uploaded.remoteUrl,
+  //         ),
+  //       )
+  //       .toList();
+  // }
 }

@@ -3,17 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
-import 'package:my_pet_melody/ui/component/circled_play_button.dart';
 import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
-import 'package:my_pet_melody/ui/component/footer.dart';
-import 'package:my_pet_melody/ui/component/primary_button.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/select_sounds_state.dart';
 import 'package:my_pet_melody/ui/select_sounds_view_model.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
-import 'package:my_pet_melody/ui/set_piece_title_screen.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_screen.dart';
 
 final _selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
@@ -57,8 +53,8 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         );
         return pickedFileResult?.files.single.path;
       },
-      selectTrimmedSound: (moviePath) async {
-        return Navigator.push<SelectTrimmedSoundResult?>(
+      trimSoundForDetection: (moviePath) {
+        Navigator.push<SelectTrimmedSoundResult?>(
           context,
           TrimSoundForDetectionScreen.route(moviePath: moviePath),
         );
@@ -159,130 +155,53 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       style: Theme.of(context).textTheme.bodyLarge,
     );
 
-    final sounds = state.sounds;
     final soundsList = ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: sounds.length,
+      itemCount: 1,
       itemBuilder: (context, index) {
-        final sound = sounds[index];
+        Future<void> onTap() =>
+            ref.read(widget.viewModelProvider.notifier).onTapSelectSound();
 
-        Future<void> onTap() => ref
-            .read(widget.viewModelProvider.notifier)
-            .onTapSelectSound(choice: sound);
+        final label = Text(
+          '動画を選択する',
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: Theme.of(context).disabledColor),
+          textAlign: TextAlign.center,
+        );
 
-        return sound.sound.when(
-          none: (_) {
-            final label = Text(
-              '動画を選択する',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: Theme.of(context).disabledColor),
-              textAlign: TextAlign.center,
-            );
-
-            return ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(
-                  DisplayDefinition.cornerRadiusSizeSmall,
-                ),
+        return ClipRRect(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(
+              DisplayDefinition.cornerRadiusSizeSmall,
+            ),
+          ),
+          child: Material(
+            color: Theme.of(context).cardColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                DisplayDefinition.cornerRadiusSizeSmall,
               ),
-              child: Material(
-                color: Theme.of(context).cardColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    DisplayDefinition.cornerRadiusSizeSmall,
-                  ),
-                ),
-                child: InkWell(
-                  onTap: onTap,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 24,
-                            horizontal: 16,
-                          ),
-                          child: label,
-                        ),
+            ),
+            child: InkWell(
+              onTap: onTap,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 24,
+                        horizontal: 16,
                       ),
-                    ],
+                      child: label,
+                    ),
                   ),
-                ),
+                ],
               ),
-            );
-          },
-          uploaded: (_, __, localFileName, remoteFileName) {
-            final status = sound.status;
-
-            final thumbnail = Container(
-              width: DisplayDefinition.thumbnailWidthLarge,
-              height: DisplayDefinition.thumbnailHeightLarge,
-              color: Colors.blueGrey,
-            );
-
-            final title = Text(
-              localFileName,
-              style: Theme.of(context).textTheme.bodyMedium,
-              overflow: TextOverflow.ellipsis,
-            );
-
-            final button = CircledPlayButton(
-              status: status,
-              onPressedWhenStop: () => ref
-                  .read(widget.viewModelProvider.notifier)
-                  .play(choice: sound),
-              onPressedWhenPlaying: () => ref
-                  .read(widget.viewModelProvider.notifier)
-                  .stop(choice: sound),
-            );
-
-            final positionBar = ChoicePositionBar(status: status);
-
-            return ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(
-                  DisplayDefinition.cornerRadiusSizeSmall,
-                ),
-              ),
-              child: Material(
-                color: Theme.of(context).cardColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    DisplayDefinition.cornerRadiusSizeSmall,
-                  ),
-                ),
-                child: InkWell(
-                  onTap: onTap,
-                  child: Stack(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          thumbnail,
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: title,
-                          ),
-                          const SizedBox(width: 16),
-                          button,
-                          const SizedBox(width: 16),
-                        ],
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: positionBar,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
+            ),
+          ),
         );
       },
       separatorBuilder: (_, __) => const SizedBox(height: 8),
@@ -307,19 +226,6 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final footerButton = PrimaryButton(
-      text: '次へ',
-      onPressed: state.isAvailableSubmission ? _showSetPieceTitleScreen : null,
-    );
-    final footerContent = ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxWidth: DisplayDefinition.actionButtonMaxWidth,
-      ),
-      child: footerButton,
-    );
-
-    final footer = Footer(child: footerContent);
-
     final scaffold = WillPopScope(
       onWillPop: () async {
         await ref.read(widget.viewModelProvider.notifier).beforeHideScreen();
@@ -343,22 +249,20 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: SafeArea(
-                top: false,
-                bottom: false,
-                child: body,
+              child: Stack(
+                children: [
+                  SafeArea(
+                    top: false,
+                    bottom: false,
+                    child: body,
+                  ),
+                  const Positioned(
+                    bottom: 0,
+                    right: 16,
+                    child: SpeakingCatImage(),
+                  ),
+                ],
               ),
-            ),
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                footer,
-                const Positioned(
-                  top: -SpeakingCatImage.height + 18,
-                  right: 16,
-                  child: SpeakingCatImage(),
-                ),
-              ],
             ),
           ],
         ),
@@ -395,13 +299,13 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         : scaffold;
   }
 
-  Future<void> _showSetPieceTitleScreen() async {
-    final args =
-        ref.read(widget.viewModelProvider.notifier).getSetPieceTitleArgs();
+  // Future<void> _showSetPieceTitleScreen() async {
+  //   final args =
+  //       ref.read(widget.viewModelProvider.notifier).getSetPieceTitleArgs();
 
-    await Navigator.push<void>(
-      context,
-      SetPieceTitleScreen.route(args: args),
-    );
-  }
+  //   await Navigator.push<void>(
+  //     context,
+  //     SetPieceTitleScreen.route(args: args),
+  //   );
+  // }
 }

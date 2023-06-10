@@ -7,8 +7,6 @@ part 'select_sounds_state.freezed.dart';
 class SelectSoundsState with _$SelectSoundsState {
   const factory SelectSoundsState({
     required PlayerChoiceTemplate template,
-    required List<PlayerChoiceSound> sounds,
-    @Default(false) bool isAvailableSubmission,
     @Default(false) bool isPicking,
   }) = _SelectSoundsState;
 }
