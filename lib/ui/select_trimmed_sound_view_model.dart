@@ -249,15 +249,13 @@ class SelectTrimmedSoundViewModel
       return null;
     }
 
-    final displayNameWithIndex = '$_displayName #${choice.id}';
-
     state = state.copyWith(isUploading: false);
 
     return SetPieceTitleArgs(
       template: _template,
       sounds: [uploadedSound],
       thumbnailLocalPath: thumbnailPath,
-      displayName: displayNameWithIndex,
+      displayName: _displayName,
     );
   }
 
