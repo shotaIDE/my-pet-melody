@@ -251,6 +251,8 @@ class SelectTrimmedSoundViewModel
 
     final displayNameWithIndex = '$_displayName #${choice.id}';
 
+    state = state.copyWith(isUploading: false);
+
     return SetPieceTitleArgs(
       template: _template,
       sounds: [uploadedSound],
