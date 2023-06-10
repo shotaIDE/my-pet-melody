@@ -1,6 +1,7 @@
 .gcloudignore
 .git
 .gitignore
+*.example
 
 /__pycache__/
 /.vscode/
@@ -9,3 +10,4 @@
 /static/
 
 /app.py
+/cloudbuild.yaml
