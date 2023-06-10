@@ -160,7 +160,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       itemCount: 1,
       itemBuilder: (context, index) {
         Future<void> onTap() =>
-            ref.read(widget.viewModelProvider.notifier).onTapSelectSound();
+            ref.read(widget.viewModelProvider.notifier).onSelectSound();
 
         final label = Text(
           '動画を選択する',

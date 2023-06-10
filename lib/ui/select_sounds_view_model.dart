@@ -55,7 +55,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     _trimSoundForDetectionListener = trimSoundForDetection;
   }
 
-  Future<void> onTapSelectSound() async {
+  Future<void> onSelectSound() async {
     state = state.copyWith(isPicking: true);
 
     final pickedPath = await _pickVideoFileListener?.call();

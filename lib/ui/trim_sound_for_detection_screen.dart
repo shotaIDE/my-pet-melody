@@ -84,7 +84,7 @@ class _TrimSoundForDetectionScreenState
     final editor = _TrimEditor(viewModelProvider: widget.viewModelProvider);
 
     final footerButton = PrimaryButton(
-      onPressed: _onNext,
+      onPressed: _onGoNext,
       text: '次へ',
     );
     final footerContent = ConstrainedBox(
@@ -150,8 +150,8 @@ class _TrimSoundForDetectionScreenState
     );
   }
 
-  Future<void> _onNext() async {
-    final args = await ref.read(widget.viewModelProvider.notifier).onComplete();
+  Future<void> _onGoNext() async {
+    final args = await ref.read(widget.viewModelProvider.notifier).onGoNext();
     if (args == null || !mounted) {
       return;
     }

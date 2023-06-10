@@ -218,7 +218,7 @@ class SelectTrimmedSoundViewModel
     );
   }
 
-  Future<SetPieceTitleArgs?> goNext() async {
+  Future<SetPieceTitleArgs?> onGoNext() async {
     final index = state.selectedIndex!;
     final choice = state.choices[index];
     final outputPath = choice.path;

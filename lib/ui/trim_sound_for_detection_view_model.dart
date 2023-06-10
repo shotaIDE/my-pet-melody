@@ -50,7 +50,7 @@ class TrimSoundForDetectionViewModel
     state = state.copyWith(isPlaying: playbackState);
   }
 
-  Future<SelectTrimmedSoundArgs?> onComplete() async {
+  Future<SelectTrimmedSoundArgs?> onGoNext() async {
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.convert);
 
     final originalFileNameWithoutExtension =

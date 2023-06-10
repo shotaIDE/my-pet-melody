@@ -280,7 +280,7 @@ class _SelectTrimmedSoundScreenState
     );
 
     final footerButton = PrimaryButton(
-      onPressed: isAvailableGoNext ? _onNext : null,
+      onPressed: isAvailableGoNext ? _onGoNext : null,
       text: '次へ',
     );
     final footerContent = ConstrainedBox(
@@ -348,8 +348,8 @@ class _SelectTrimmedSoundScreenState
         : scaffold;
   }
 
-  Future<void> _onNext() async {
-    final result = await ref.read(widget.viewModelProvider.notifier).goNext();
+  Future<void> _onGoNext() async {
+    final result = await ref.read(widget.viewModelProvider.notifier).onGoNext();
     if (result == null) {
       return;
     }
