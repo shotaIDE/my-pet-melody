@@ -207,10 +207,15 @@ class SelectTrimmedSoundViewModel
     await _player.stop();
   }
 
-  Future<SelectTrimmedSoundResult?> select({
-    required PlayerChoiceTrimmedMovie choice,
-    required int index,
-  }) async {
+  Future<SelectTrimmedSoundResult?> select({required int index}) async {
+    state = state.copyWith(
+      selectedIndex: index,
+      isAvailableGoNext: true,
+    );
+
+    return null;
+
+    final choice = state.choices[index];
     final outputPath = choice.path;
     if (outputPath == null) {
       return null;

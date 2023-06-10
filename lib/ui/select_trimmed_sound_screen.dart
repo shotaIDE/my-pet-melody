@@ -334,18 +334,17 @@ class _SelectTrimmedSoundScreenState
     required PlayerChoiceTrimmedMovie choice,
     required int index,
   }) async {
-    final result = await ref
-        .read(widget.viewModelProvider.notifier)
-        .select(choice: choice, index: index);
-    if (result == null) {
-      return;
-    }
+    final result =
+        await ref.read(widget.viewModelProvider.notifier).select(index: index);
+    // if (result == null) {
+    //   return;
+    // }
 
-    if (!mounted) {
-      return;
-    }
+    // if (!mounted) {
+    //   return;
+    // }
 
-    Navigator.pop(context, result);
+    // Navigator.pop(context, result);
   }
 }
 
@@ -477,8 +476,13 @@ class _ChoicePanel extends ConsumerWidget {
       ],
     );
 
-    final detailsPanelAndPlayButton = Row(
+    final detailsPanelWithControls = Row(
       children: [
+        _ChoiceRadioButton(
+          viewModelProvider: viewModelProvider,
+          index: index,
+        ),
+        const SizedBox(width: 16),
         Expanded(
           child: detailsPanel,
         ),
@@ -500,7 +504,7 @@ class _ChoicePanel extends ConsumerWidget {
             left: 8 - _seekBarBorderWidth,
             right: 16,
           ),
-          child: detailsPanelAndPlayButton,
+          child: detailsPanelWithControls,
         ),
         const SizedBox(height: 8 - _seekBarBorderWidth),
         _PlayingIndicator(
@@ -528,6 +532,37 @@ class _ChoicePanel extends ConsumerWidget {
           child: body,
         ),
       ),
+    );
+  }
+}
+
+class _ChoiceRadioButton extends ConsumerWidget {
+  const _ChoiceRadioButton({
+    required this.viewModelProvider,
+    required this.index,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
+      SelectTrimmedSoundState> viewModelProvider;
+  final int index;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = ref.watch(
+      viewModelProvider.select((state) => state.selectedIndex),
+    );
+
+    return Radio<int?>(
+      value: selectedIndex,
+      groupValue: index,
+      onChanged: (index) {
+        if (index == null) {
+          return;
+        }
+
+        ref.read(viewModelProvider.notifier).select(index: index);
+      },
     );
   }
 }

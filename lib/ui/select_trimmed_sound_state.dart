@@ -12,7 +12,9 @@ class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
     required List<PlayerChoiceTrimmedMovie> choices,
     required List<String?> equallyDividedThumbnailPaths,
     required int durationMilliseconds,
+    @Default(null) int? selectedIndex,
     @Default(false) bool isUploading,
+    @Default(false) bool isAvailableGoNext,
   }) = _SelectTrimmedSoundState;
 }
 
