@@ -181,7 +181,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Future<void> _writeReview() async {
     // In-app reviews are limited to the number of times they can be
     // displayed, so go to Store and open the page to write a review.
-    await InAppReview.instance.openStoreListing();
+    await InAppReview.instance.openStoreListing(
+      // TODO(ide): Fill App Store ID
+      appStoreId: '',
+    );
   }
 
   Future<void> _shareWithFriends() async {
