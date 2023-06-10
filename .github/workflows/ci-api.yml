@@ -14,8 +14,9 @@ concurrency:
 jobs:
   test:
     name: Test API
-    # Use the same version of the environment on which the production runtime is based.
-    # https://cloud.google.com/functions/docs/reference/system-packages#ubuntu_2204
+    # Use the different version of the environment on which the production runtime is based.
+    # This is because upgrading the runtime version of Cloud Functions causes 
+    # deployment failures, and GitHub Actions has already deprecated ubuntu 18.04.
     runs-on: ubuntu-22.04
     if: ${{ github.actor != 'dependabot[bot]' }}
 
