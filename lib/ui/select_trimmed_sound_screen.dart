@@ -277,7 +277,7 @@ class _SelectTrimmedSoundScreenState
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 2/3 (2)',
+        titleText: 'STEP 4/5',
       ),
       body: SafeArea(
         top: false,
