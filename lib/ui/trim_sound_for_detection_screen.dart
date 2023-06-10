@@ -201,10 +201,22 @@ class _TrimEditor extends ConsumerWidget {
         trimmer: trimmer,
         viewerWidth: constraints.maxWidth - 16,
         maxVideoLength: TrimSoundForDetectionViewModel.maxDurationToTrim,
+        durationTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
         onChangeStart: viewModel.onUpdateStart,
         onChangeEnd: viewModel.onUpdateEnd,
         onChangePlaybackState: (isPlaying) =>
             viewModel.onUpdatePlaybackState(isPlaying: isPlaying),
+        editorProperties: const TrimEditorProperties(
+          circleSize: 8,
+          circleSizeOnDrag: 10,
+          borderWidth: 4,
+          scrubberWidth: 2,
+          circlePaintColor: Colors.orangeAccent,
+          borderPaintColor: Colors.orangeAccent,
+          scrubberPaintColor: Colors.orangeAccent,
+        ),
       ),
     );
   }
