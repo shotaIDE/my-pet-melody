@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
+import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 
@@ -21,6 +22,7 @@ class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
 @freezed
 class SelectTrimmedSoundArgs with _$SelectTrimmedSoundArgs {
   const factory SelectTrimmedSoundArgs({
+    required Template template,
     required String displayName,
     required String soundPath,
     required MovieSegmentation movieSegmentation,

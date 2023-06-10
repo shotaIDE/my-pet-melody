@@ -7,6 +7,7 @@ import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_sounds_state.dart';
+import 'package:my_pet_melody/ui/trim_sound_for_detection_state.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
@@ -25,7 +26,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   final _player = AudioPlayer();
 
   Future<String?> Function()? _pickVideoFileListener;
-  void Function(String soundPath)? _trimSoundForDetectionListener;
+  void Function(TrimSoundForDetectionArgs args)? _trimSoundForDetectionListener;
 
   Duration? _currentAudioDuration;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -47,7 +48,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
   void registerListener({
     required Future<String?> Function() pickVideoFile,
-    required void Function(String soundPath) trimSoundForDetection,
+    required void Function(TrimSoundForDetectionArgs args)
+        trimSoundForDetection,
   }) {
     _pickVideoFileListener = pickVideoFile;
     _trimSoundForDetectionListener = trimSoundForDetection;
@@ -62,25 +64,15 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       return;
     }
 
-    _trimSoundForDetectionListener?.call(pickedPath);
+    final args = TrimSoundForDetectionArgs(
+      template: state.template.template,
+      moviePath: pickedPath,
+    );
+
+    _trimSoundForDetectionListener?.call(args);
 
     state = state.copyWith(isPicking: false);
   }
-
-  // SetPieceTitleArgs getSetPieceTitleArgs() {
-  //   final soundIdList = _getSoundIdList();
-
-  //   final displayName =
-  //       (state.sounds.first.sound as SelectedSoundUploaded).localFileName;
-
-  //   return SetPieceTitleArgs(
-  //     template: state.template.template,
-  //     sounds: 'soundIdList',
-  //     // TODO(ide): Fix to no use of force unwrapping
-  //     thumbnailLocalPath: _thumbnailLocalPath,
-  //     displayName: 'displayName',
-  //   );
-  // }
 
   Future<void> play({required PlayerChoice choice}) async {
     final url = choice.uri;
@@ -195,18 +187,4 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       template: choices.first as PlayerChoiceTemplate,
     );
   }
-
-  // List<UploadedMedia> _getSoundIdList() {
-  //   return state.sounds
-  //       .map((choice) => choice.sound)
-  //       .whereType<SelectedSoundUploaded>()
-  //       .map(
-  //         (uploaded) => UploadedMedia(
-  //           id: uploaded.id,
-  //           extension: uploaded.extension,
-  //           url: uploaded.remoteUrl,
-  //         ),
-  //       )
-  //       .toList();
-  // }
 }

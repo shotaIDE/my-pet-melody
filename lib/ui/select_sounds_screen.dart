@@ -52,10 +52,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         );
         return pickedFileResult?.files.single.path;
       },
-      trimSoundForDetection: (moviePath) {
+      trimSoundForDetection: (args) {
         Navigator.push(
           context,
-          TrimSoundForDetectionScreen.route(moviePath: moviePath),
+          TrimSoundForDetectionScreen.route(args: args),
         );
       },
     );
@@ -297,14 +297,4 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
           )
         : scaffold;
   }
-
-  // Future<void> _showSetPieceTitleScreen() async {
-  //   final args =
-  //       ref.read(widget.viewModelProvider.notifier).getSetPieceTitleArgs();
-
-  //   await Navigator.push<void>(
-  //     context,
-  //     SetPieceTitleScreen.route(args: args),
-  //   );
-  // }
 }

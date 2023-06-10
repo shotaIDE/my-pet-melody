@@ -12,6 +12,7 @@ import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_view_model.dart';
+import 'package:my_pet_melody/ui/set_piece_title_screen.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_screen.dart';
 import 'package:skeletons/skeletons.dart';
 
@@ -254,7 +255,7 @@ class _SelectTrimmedSoundScreenState
         index: index,
         onPlay: viewModel.play,
         onStop: viewModel.stop,
-        onSelect: _select,
+        onSelect: viewModel.select,
       ),
       separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemCount: choicesCount,
@@ -347,24 +348,20 @@ class _SelectTrimmedSoundScreenState
         : scaffold;
   }
 
-  Future<void> _select({
-    required PlayerChoiceTrimmedMovie choice,
-    required int index,
-  }) async {
-    final result =
-        await ref.read(widget.viewModelProvider.notifier).select(index: index);
-  }
-
   Future<void> _onNext() async {
-    // if (result == null) {
-    //   return;
-    // }
+    final result = await ref.read(widget.viewModelProvider.notifier).goNext();
+    if (result == null) {
+      return;
+    }
 
-    // if (!mounted) {
-    //   return;
-    // }
+    if (!mounted) {
+      return;
+    }
 
-    // Navigator.pop(context, result);
+    await Navigator.push<void>(
+      context,
+      SetPieceTitleScreen.route(args: result),
+    );
   }
 }
 
@@ -429,7 +426,7 @@ class _MovieTile extends ConsumerWidget {
   }
 }
 
-class _ChoicePanel extends ConsumerWidget {
+class _ChoicePanel extends StatelessWidget {
   const _ChoicePanel({
     required this.viewModelProvider,
     required this.index,
@@ -444,16 +441,10 @@ class _ChoicePanel extends ConsumerWidget {
   final int index;
   final void Function({required PlayerChoiceTrimmedMovie choice}) onPlay;
   final void Function({required PlayerChoiceTrimmedMovie choice}) onStop;
-  final Future<void> Function({
-    required PlayerChoiceTrimmedMovie choice,
-    required int index,
-  }) onSelect;
+  final void Function({required int index}) onSelect;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final choice =
-        ref.watch(viewModelProvider.select((state) => state.choices[index]));
-
+  Widget build(BuildContext context) {
     final detailsPanel = Column(
       children: [
         Padding(
@@ -548,7 +539,7 @@ class _ChoicePanel extends ConsumerWidget {
           ),
         ),
         child: InkWell(
-          onTap: () => onSelect(choice: choice, index: index),
+          onTap: () => onSelect(index: index),
           child: body,
         ),
       ),

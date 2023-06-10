@@ -9,20 +9,20 @@ import 'package:my_pet_melody/ui/trim_sound_for_detection_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
-final _trimSoundForDetectionViewModelProvider = StateNotifierProvider
-    .autoDispose
-    .family<TrimSoundForDetectionViewModel, TrimSoundForDetectionState, String>(
-  (ref, moviePath) => TrimSoundForDetectionViewModel(
+final _trimSoundForDetectionViewModelProvider =
+    StateNotifierProvider.autoDispose.family<TrimSoundForDetectionViewModel,
+        TrimSoundForDetectionState, TrimSoundForDetectionArgs>(
+  (ref, args) => TrimSoundForDetectionViewModel(
     ref: ref,
-    moviePath: moviePath,
+    args: args,
   ),
 );
 
 class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
   TrimSoundForDetectionScreen({
-    required String moviePath,
+    required TrimSoundForDetectionArgs args,
     Key? key,
-  })  : viewModelProvider = _trimSoundForDetectionViewModelProvider(moviePath),
+  })  : viewModelProvider = _trimSoundForDetectionViewModelProvider(args),
         super(key: key);
 
   static const name = 'TrimSoundForDetectionScreen';
@@ -31,10 +31,10 @@ class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
       TrimSoundForDetectionState> viewModelProvider;
 
   static MaterialPageRoute<TrimSoundForDetectionScreen> route({
-    required String moviePath,
+    required TrimSoundForDetectionArgs args,
   }) =>
       MaterialPageRoute<TrimSoundForDetectionScreen>(
-        builder: (_) => TrimSoundForDetectionScreen(moviePath: moviePath),
+        builder: (_) => TrimSoundForDetectionScreen(args: args),
         settings: const RouteSettings(name: name),
       );
 

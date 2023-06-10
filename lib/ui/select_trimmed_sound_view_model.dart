@@ -8,12 +8,14 @@ import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
+import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
+import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -23,6 +25,7 @@ class SelectTrimmedSoundViewModel
     required Ref ref,
     required SelectTrimmedSoundArgs args,
   })  : _ref = ref,
+        _template = args.template,
         _displayName = args.displayName,
         _moviePath = args.soundPath,
         _movieSegmentation = args.movieSegmentation,
@@ -47,6 +50,7 @@ class SelectTrimmedSoundViewModel
         );
 
   final Ref _ref;
+  final Template _template;
   final String _displayName;
   final String _moviePath;
   final MovieSegmentation _movieSegmentation;
@@ -207,14 +211,15 @@ class SelectTrimmedSoundViewModel
     await _player.stop();
   }
 
-  Future<SelectTrimmedSoundResult?> select({required int index}) async {
+  Future<void> select({required int index}) async {
     state = state.copyWith(
       selectedIndex: index,
       isAvailableGoNext: true,
     );
+  }
 
-    return null;
-
+  Future<SetPieceTitleArgs?> goNext() async {
+    final index = state.selectedIndex!;
     final choice = state.choices[index];
     final outputPath = choice.path;
     if (outputPath == null) {
@@ -246,10 +251,11 @@ class SelectTrimmedSoundViewModel
 
     final displayNameWithIndex = '$_displayName #${choice.id}';
 
-    return SelectTrimmedSoundResult(
-      uploaded: uploadedSound,
-      displayName: displayNameWithIndex,
+    return SetPieceTitleArgs(
+      template: _template,
+      sounds: [uploadedSound],
       thumbnailLocalPath: thumbnailPath,
+      displayName: displayNameWithIndex,
     );
   }
 
