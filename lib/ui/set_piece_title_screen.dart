@@ -129,7 +129,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 3/3',
+        titleText: 'STEP 5/5',
       ),
       body: Column(
         children: [
