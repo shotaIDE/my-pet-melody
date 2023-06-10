@@ -8,7 +8,7 @@ steps:
       - --region=asia-east1
       - --source=.
       - --trigger-http
-      - --runtime=python311
+      - --runtime=python310
       - --memory=2048MB
       - --env-vars-file=.env.yaml
       - --allow-unauthenticated
@@ -21,7 +21,7 @@ steps:
       - --region=asia-east1
       - --source=.
       - --trigger-http
-      - --runtime=python311
+      - --runtime=python310
       - --memory=512MB
       - --env-vars-file=.env.yaml
       - --allow-unauthenticated
@@ -34,7 +34,7 @@ steps:
       - --region=asia-east1
       - --source=.
       - --trigger-http
-      - --runtime=python311
+      - --runtime=python310
       - --memory=1024MB
       - --env-vars-file=.env.yaml
       - --allow-unauthenticated
