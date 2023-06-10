@@ -664,19 +664,7 @@ class _PlayingIndicator extends ConsumerWidget {
       viewModelProvider.select((state) => state.choices[index].status),
     );
 
-    final positionBar = ChoicePositionBar(status: status);
-
-    return Visibility(
-      visible: status.map(
-        stop: (_) => false,
-        loadingMedia: (_) => true,
-        playing: (_) => true,
-      ),
-      maintainState: true,
-      maintainAnimation: true,
-      maintainSize: true,
-      child: positionBar,
-    );
+    return ChoicePositionBar(status: status);
   }
 }
 
