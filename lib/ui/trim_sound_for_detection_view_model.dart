@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_state.dart';
@@ -12,9 +13,10 @@ class TrimSoundForDetectionViewModel
     extends StateNotifier<TrimSoundForDetectionState> {
   TrimSoundForDetectionViewModel({
     required Ref ref,
-    required String moviePath,
+    required TrimSoundForDetectionArgs args,
   })  : _ref = ref,
-        _moviePath = moviePath,
+        _template = args.template,
+        _moviePath = args.moviePath,
         super(
           TrimSoundForDetectionState(
             trimmer: Trimmer(),
@@ -24,6 +26,7 @@ class TrimSoundForDetectionViewModel
   static const maxDurationToTrim = Duration(seconds: 20);
 
   final Ref _ref;
+  final Template _template;
   final String _moviePath;
 
   @override
@@ -47,7 +50,7 @@ class TrimSoundForDetectionViewModel
     state = state.copyWith(isPlaying: playbackState);
   }
 
-  Future<SelectTrimmedSoundArgs?> onComplete() async {
+  Future<SelectTrimmedSoundArgs?> onGoNext() async {
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.convert);
 
     final originalFileNameWithoutExtension =
@@ -90,10 +93,15 @@ class TrimSoundForDetectionViewModel
     );
 
     if (detected == null) {
+      state = state.copyWith(process: null);
+
       return null;
     }
 
+    state = state.copyWith(process: null);
+
     return SelectTrimmedSoundArgs(
+      template: _template,
       displayName: originalFileNameWithoutExtension,
       soundPath: trimmedPath,
       movieSegmentation: detected,

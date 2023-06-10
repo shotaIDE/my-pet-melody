@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:my_pet_melody/data/model/template.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 part 'trim_sound_for_detection_state.freezed.dart';
@@ -20,4 +21,12 @@ enum TrimSoundForDetectionScreenProcess {
 
   /// 非無音部分の検知のためのアップロード中
   detect,
+}
+
+@freezed
+class TrimSoundForDetectionArgs with _$TrimSoundForDetectionArgs {
+  const factory TrimSoundForDetectionArgs({
+    required Template template,
+    required String moviePath,
+  }) = _TrimSoundForDetectionArgs;
 }

@@ -5,25 +5,24 @@ import 'package:my_pet_melody/ui/component/primary_button.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_screen.dart';
-import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
-final _trimSoundForDetectionViewModelProvider = StateNotifierProvider
-    .autoDispose
-    .family<TrimSoundForDetectionViewModel, TrimSoundForDetectionState, String>(
-  (ref, moviePath) => TrimSoundForDetectionViewModel(
+final _trimSoundForDetectionViewModelProvider =
+    StateNotifierProvider.autoDispose.family<TrimSoundForDetectionViewModel,
+        TrimSoundForDetectionState, TrimSoundForDetectionArgs>(
+  (ref, args) => TrimSoundForDetectionViewModel(
     ref: ref,
-    moviePath: moviePath,
+    args: args,
   ),
 );
 
 class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
   TrimSoundForDetectionScreen({
-    required String moviePath,
+    required TrimSoundForDetectionArgs args,
     Key? key,
-  })  : viewModelProvider = _trimSoundForDetectionViewModelProvider(moviePath),
+  })  : viewModelProvider = _trimSoundForDetectionViewModelProvider(args),
         super(key: key);
 
   static const name = 'TrimSoundForDetectionScreen';
@@ -31,11 +30,11 @@ class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
       TrimSoundForDetectionState> viewModelProvider;
 
-  static MaterialPageRoute<SelectTrimmedSoundResult?> route({
-    required String moviePath,
+  static MaterialPageRoute<TrimSoundForDetectionScreen> route({
+    required TrimSoundForDetectionArgs args,
   }) =>
-      MaterialPageRoute<SelectTrimmedSoundResult?>(
-        builder: (_) => TrimSoundForDetectionScreen(moviePath: moviePath),
+      MaterialPageRoute<TrimSoundForDetectionScreen>(
+        builder: (_) => TrimSoundForDetectionScreen(args: args),
         settings: const RouteSettings(name: name),
       );
 
@@ -55,6 +54,12 @@ class _TrimSoundForDetectionScreenState
 
   @override
   Widget build(BuildContext context) {
+    final title = Text(
+      '鳴き声の範囲を選ぼう',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.headlineMedium,
+    );
+
     final description = Text(
       '選択した範囲から自動で鳴き声を探すよ！',
       textAlign: TextAlign.center,
@@ -79,7 +84,7 @@ class _TrimSoundForDetectionScreenState
     final editor = _TrimEditor(viewModelProvider: widget.viewModelProvider);
 
     final footerButton = PrimaryButton(
-      onPressed: _onComplete,
+      onPressed: _onGoNext,
       text: '次へ',
     );
     final footerContent = ConstrainedBox(
@@ -93,10 +98,19 @@ class _TrimSoundForDetectionScreenState
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 2/3 (1)',
+        titleText: 'STEP 3/5',
       ),
       body: Column(
         children: [
+          const SizedBox(height: 32),
+          SafeArea(
+            top: false,
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: title,
+            ),
+          ),
           const SizedBox(height: 32),
           SafeArea(
             top: false,
@@ -136,22 +150,16 @@ class _TrimSoundForDetectionScreenState
     );
   }
 
-  Future<void> _onComplete() async {
-    final args = await ref.read(widget.viewModelProvider.notifier).onComplete();
+  Future<void> _onGoNext() async {
+    final args = await ref.read(widget.viewModelProvider.notifier).onGoNext();
     if (args == null || !mounted) {
       return;
     }
 
-    final results = await Navigator.push(
+    await Navigator.push(
       context,
       SelectTrimmedSoundScreen.route(args: args),
     );
-
-    if (!mounted) {
-      return;
-    }
-
-    Navigator.pop(context, results);
   }
 }
 

@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/circled_play_button.dart';
+import 'package:my_pet_melody/ui/component/footer.dart';
+import 'package:my_pet_melody/ui/component/primary_button.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
-import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_view_model.dart';
+import 'package:my_pet_melody/ui/set_piece_title_screen.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_screen.dart';
 import 'package:skeletons/skeletons.dart';
 
@@ -195,18 +197,15 @@ class _SelectTrimmedSoundScreenState
     final isUploading = ref.watch(
       widget.viewModelProvider.select((state) => state.isUploading),
     );
+    final isAvailableGoNext = ref.watch(
+      widget.viewModelProvider.select((state) => state.isAvailableGoNext),
+    );
     final viewModel = ref.watch(widget.viewModelProvider.notifier);
 
     final title = Text(
       '鳴き声を選ぼう',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
-    );
-
-    final movieTile = _MovieTile(
-      viewModelProvider: widget.viewModelProvider,
-      thumbnailWidth: DisplayDefinition.thumbnailWidthSmall,
-      thumbnailHeight: DisplayDefinition.thumbnailHeightSmall,
     );
 
     final noDesiredTrimmingDescription = RichText(
@@ -256,23 +255,21 @@ class _SelectTrimmedSoundScreenState
         index: index,
         onPlay: viewModel.play,
         onStop: viewModel.stop,
-        onSelect: _select,
+        onSelect: viewModel.select,
       ),
       separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemCount: choicesCount,
     );
 
     final body = SingleChildScrollView(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 16,
-        bottom: MediaQuery.of(context).viewPadding.bottom,
+        bottom: 8,
         left: DisplayDefinition.screenPaddingSmall,
         right: DisplayDefinition.screenPaddingSmall,
       ),
       child: Column(
         children: [
-          movieTile,
-          const SizedBox(height: 32),
           noDesiredTrimmingDescription,
           const SizedBox(height: 16),
           trimManuallyButton,
@@ -282,10 +279,22 @@ class _SelectTrimmedSoundScreenState
       ),
     );
 
+    final footerButton = PrimaryButton(
+      onPressed: isAvailableGoNext ? _onGoNext : null,
+      text: '次へ',
+    );
+    final footerContent = ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: DisplayDefinition.actionButtonMaxWidth,
+      ),
+      child: footerButton,
+    );
+    final footer = Footer(child: footerContent);
+
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 2/3 (2)',
+        titleText: 'STEP 4/5',
       ),
       body: SafeArea(
         top: false,
@@ -303,6 +312,7 @@ class _SelectTrimmedSoundScreenState
             Expanded(
               child: body,
             ),
+            footer,
           ],
         ),
       ),
@@ -338,13 +348,8 @@ class _SelectTrimmedSoundScreenState
         : scaffold;
   }
 
-  Future<void> _select({
-    required PlayerChoiceTrimmedMovie choice,
-    required int index,
-  }) async {
-    final result = await ref
-        .read(widget.viewModelProvider.notifier)
-        .select(choice: choice, index: index);
+  Future<void> _onGoNext() async {
+    final result = await ref.read(widget.viewModelProvider.notifier).onGoNext();
     if (result == null) {
       return;
     }
@@ -353,7 +358,10 @@ class _SelectTrimmedSoundScreenState
       return;
     }
 
-    Navigator.pop(context, result);
+    await Navigator.push<void>(
+      context,
+      SetPieceTitleScreen.route(args: result),
+    );
   }
 }
 
@@ -418,7 +426,7 @@ class _MovieTile extends ConsumerWidget {
   }
 }
 
-class _ChoicePanel extends ConsumerWidget {
+class _ChoicePanel extends StatelessWidget {
   const _ChoicePanel({
     required this.viewModelProvider,
     required this.index,
@@ -433,16 +441,10 @@ class _ChoicePanel extends ConsumerWidget {
   final int index;
   final void Function({required PlayerChoiceTrimmedMovie choice}) onPlay;
   final void Function({required PlayerChoiceTrimmedMovie choice}) onStop;
-  final Future<void> Function({
-    required PlayerChoiceTrimmedMovie choice,
-    required int index,
-  }) onSelect;
+  final void Function({required int index}) onSelect;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final choice =
-        ref.watch(viewModelProvider.select((state) => state.choices[index]));
-
+  Widget build(BuildContext context) {
     final detailsPanel = Column(
       children: [
         Padding(
@@ -485,12 +487,17 @@ class _ChoicePanel extends ConsumerWidget {
       ],
     );
 
-    final detailsPanelAndPlayButton = Row(
+    final detailsPanelWithControls = Row(
       children: [
+        _ChoiceRadioButton(
+          viewModelProvider: viewModelProvider,
+          index: index,
+        ),
+        const SizedBox(width: 8 - _seekBarBorderWidth),
         Expanded(
           child: detailsPanel,
         ),
-        const SizedBox(width: 16 - _seekBarBorderWidth),
+        const SizedBox(width: 8 - _seekBarBorderWidth),
         _ChoicePlayButton(
           viewModelProvider: viewModelProvider,
           index: index,
@@ -508,7 +515,7 @@ class _ChoicePanel extends ConsumerWidget {
             left: 8 - _seekBarBorderWidth,
             right: 16,
           ),
-          child: detailsPanelAndPlayButton,
+          child: detailsPanelWithControls,
         ),
         const SizedBox(height: 8 - _seekBarBorderWidth),
         _PlayingIndicator(
@@ -532,10 +539,41 @@ class _ChoicePanel extends ConsumerWidget {
           ),
         ),
         child: InkWell(
-          onTap: () => onSelect(choice: choice, index: index),
+          onTap: () => onSelect(index: index),
           child: body,
         ),
       ),
+    );
+  }
+}
+
+class _ChoiceRadioButton extends ConsumerWidget {
+  const _ChoiceRadioButton({
+    required this.viewModelProvider,
+    required this.index,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
+      SelectTrimmedSoundState> viewModelProvider;
+  final int index;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = ref.watch(
+      viewModelProvider.select((state) => state.selectedIndex),
+    );
+
+    return Radio<int?>(
+      value: selectedIndex,
+      groupValue: index,
+      onChanged: (index) {
+        if (index == null) {
+          return;
+        }
+
+        ref.read(viewModelProvider.notifier).select(index: index);
+      },
     );
   }
 }
@@ -586,15 +624,26 @@ class _PositionText extends ConsumerWidget {
       viewModelProvider
           .select((state) => state.choices[index].segment.endMilliseconds),
     );
+    final durationMilliseconds = endMilliseconds - startMilliseconds;
+    final durationSeconds = durationMilliseconds / 1000;
 
-    final startPosition = AudioPositionHelper.formattedPosition(
-      milliseconds: startMilliseconds,
+    final indexText = Text(
+      'No.${index + 1}',
+      style: Theme.of(context).textTheme.bodyMedium,
     );
-    final endPosition = AudioPositionHelper.formattedPosition(
-      milliseconds: endMilliseconds,
+    final durationText = Text(
+      '${durationSeconds.toStringAsFixed(3)}秒',
+      style: Theme.of(context).textTheme.bodySmall,
     );
 
-    return Text('開始: $startPosition\n終了: $endPosition');
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        indexText,
+        const SizedBox(height: 8),
+        durationText,
+      ],
+    );
   }
 }
 
@@ -615,19 +664,7 @@ class _PlayingIndicator extends ConsumerWidget {
       viewModelProvider.select((state) => state.choices[index].status),
     );
 
-    final positionBar = ChoicePositionBar(status: status);
-
-    return Visibility(
-      visible: status.map(
-        stop: (_) => false,
-        loadingMedia: (_) => true,
-        playing: (_) => true,
-      ),
-      maintainState: true,
-      maintainAnimation: true,
-      maintainSize: true,
-      child: positionBar,
-    );
+    return ChoicePositionBar(status: status);
   }
 }
 
@@ -701,7 +738,7 @@ class _SeekBar extends ConsumerWidget {
                     height: constraints.maxHeight,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.red,
+                        color: Colors.orangeAccent,
                         width: _seekBarBorderWidth,
                       ),
                       borderRadius: BorderRadius.circular(4),
