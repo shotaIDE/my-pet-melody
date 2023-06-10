@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/circled_play_button.dart';
+import 'package:my_pet_melody/ui/component/footer.dart';
+import 'package:my_pet_melody/ui/component/primary_button.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
@@ -194,6 +196,9 @@ class _SelectTrimmedSoundScreenState
     final isUploading = ref.watch(
       widget.viewModelProvider.select((state) => state.isUploading),
     );
+    final isAvailableGoNext = ref.watch(
+      widget.viewModelProvider.select((state) => state.isAvailableGoNext),
+    );
     final viewModel = ref.watch(widget.viewModelProvider.notifier);
 
     final title = Text(
@@ -256,9 +261,9 @@ class _SelectTrimmedSoundScreenState
     );
 
     final body = SingleChildScrollView(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 16,
-        bottom: MediaQuery.of(context).viewPadding.bottom,
+        bottom: 8,
         left: DisplayDefinition.screenPaddingSmall,
         right: DisplayDefinition.screenPaddingSmall,
       ),
@@ -272,6 +277,18 @@ class _SelectTrimmedSoundScreenState
         ],
       ),
     );
+
+    final footerButton = PrimaryButton(
+      onPressed: isAvailableGoNext ? _onNext : null,
+      text: '次へ',
+    );
+    final footerContent = ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: DisplayDefinition.actionButtonMaxWidth,
+      ),
+      child: footerButton,
+    );
+    final footer = Footer(child: footerContent);
 
     final scaffold = Scaffold(
       appBar: transparentAppBar(
@@ -294,6 +311,7 @@ class _SelectTrimmedSoundScreenState
             Expanded(
               child: body,
             ),
+            footer,
           ],
         ),
       ),
@@ -335,6 +353,9 @@ class _SelectTrimmedSoundScreenState
   }) async {
     final result =
         await ref.read(widget.viewModelProvider.notifier).select(index: index);
+  }
+
+  Future<void> _onNext() async {
     // if (result == null) {
     //   return;
     // }

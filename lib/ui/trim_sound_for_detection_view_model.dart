@@ -90,8 +90,12 @@ class TrimSoundForDetectionViewModel
     );
 
     if (detected == null) {
+      state = state.copyWith(process: null);
+
       return null;
     }
+
+    state = state.copyWith(process: null);
 
     return SelectTrimmedSoundArgs(
       displayName: originalFileNameWithoutExtension,
