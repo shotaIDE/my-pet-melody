@@ -71,6 +71,8 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
 
     _trimSoundForDetectionListener?.call(args);
 
+    await _stopPlayer();
+
     state = state.copyWith(isPicking: false);
   }
 
@@ -114,16 +116,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   }
 
   Future<void> beforeHideScreen() async {
-    final choices = _getPlayerChoices();
-
-    final stoppedList =
-        PlayerChoiceConverter.getStoppedOrNull(originalList: choices);
-
-    if (stoppedList != null) {
-      _setPlayerChoices(stoppedList);
-    }
-
-    await _player.stop();
+    await _stopPlayer();
   }
 
   Future<void> _setup() async {
@@ -186,5 +179,18 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
     state = state.copyWith(
       template: choices.first as PlayerChoiceTemplate,
     );
+  }
+
+  Future<void> _stopPlayer() async {
+    final choices = _getPlayerChoices();
+
+    final stoppedList =
+        PlayerChoiceConverter.getStoppedOrNull(originalList: choices);
+
+    if (stoppedList != null) {
+      _setPlayerChoices(stoppedList);
+    }
+
+    await _player.stop();
   }
 }
