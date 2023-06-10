@@ -60,7 +60,7 @@ class _TrimSoundForGenerationScreenState
     final viewer = VideoViewer(trimmer: trimmer);
 
     final editor = LayoutBuilder(
-      builder: (context, constraints) => TrimEditor(
+      builder: (context, constraints) => TrimViewer(
         trimmer: trimmer,
         viewerWidth: constraints.maxWidth - 16,
         maxVideoLength: const Duration(seconds: 10),

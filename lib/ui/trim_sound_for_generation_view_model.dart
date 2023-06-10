@@ -41,7 +41,7 @@ class TrimSoundForGenerationViewModel
   }
 
   Future<void> onPlay() async {
-    final playbackState = await state.trimmer.videPlaybackControl(
+    final playbackState = await state.trimmer.videoPlaybackControl(
       startValue: state.startValue,
       endValue: state.endValue,
     );
