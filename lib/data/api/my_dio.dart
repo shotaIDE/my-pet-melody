@@ -87,8 +87,8 @@ class MyDio {
           responseParser(response.data as Map<String, dynamic>);
 
       return responseData;
-    } on DioError catch (error) {
-      debugPrint('DioError: $responseDataRaw');
+    } on DioException catch (error) {
+      debugPrint('DioException: $responseDataRaw');
       debugPrint('$error');
 
       return null;

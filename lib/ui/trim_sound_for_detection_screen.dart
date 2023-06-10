@@ -197,15 +197,10 @@ class _TrimEditor extends ConsumerWidget {
         ref.watch(viewModelProvider.select((state) => state.trimmer));
 
     return LayoutBuilder(
-      builder: (context, constraints) => TrimEditor(
+      builder: (context, constraints) => TrimViewer(
         trimmer: trimmer,
         viewerWidth: constraints.maxWidth - 16,
         maxVideoLength: TrimSoundForDetectionViewModel.maxDurationToTrim,
-        circleSize: 8,
-        borderWidth: 4,
-        scrubberWidth: 2,
-        circlePaintColor: Colors.orangeAccent,
-        borderPaintColor: Colors.orangeAccent,
         durationTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
               color: Theme.of(context).colorScheme.onSurface,
             ),
@@ -213,6 +208,15 @@ class _TrimEditor extends ConsumerWidget {
         onChangeEnd: viewModel.onUpdateEnd,
         onChangePlaybackState: (isPlaying) =>
             viewModel.onUpdatePlaybackState(isPlaying: isPlaying),
+        editorProperties: const TrimEditorProperties(
+          circleSize: 8,
+          circleSizeOnDrag: 10,
+          borderWidth: 4,
+          scrubberWidth: 2,
+          circlePaintColor: Colors.orangeAccent,
+          borderPaintColor: Colors.orangeAccent,
+          scrubberPaintColor: Colors.orangeAccent,
+        ),
       ),
     );
   }

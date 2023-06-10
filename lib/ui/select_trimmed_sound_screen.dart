@@ -492,6 +492,7 @@ class _ChoicePanel extends StatelessWidget {
         _ChoiceRadioButton(
           viewModelProvider: viewModelProvider,
           index: index,
+          onSelect: () => onSelect(index: index),
         ),
         const SizedBox(width: 8 - _seekBarBorderWidth),
         Expanded(
@@ -551,12 +552,14 @@ class _ChoiceRadioButton extends ConsumerWidget {
   const _ChoiceRadioButton({
     required this.viewModelProvider,
     required this.index,
+    required this.onSelect,
     Key? key,
   }) : super(key: key);
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
   final int index;
+  final VoidCallback onSelect;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -567,13 +570,7 @@ class _ChoiceRadioButton extends ConsumerWidget {
     return Radio<int?>(
       value: selectedIndex,
       groupValue: index,
-      onChanged: (index) {
-        if (index == null) {
-          return;
-        }
-
-        ref.read(viewModelProvider.notifier).select(index: index);
-      },
+      onChanged: (_) => onSelect(),
     );
   }
 }
