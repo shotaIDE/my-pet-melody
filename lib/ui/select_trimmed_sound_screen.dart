@@ -203,12 +203,6 @@ class _SelectTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    final movieTile = _MovieTile(
-      viewModelProvider: widget.viewModelProvider,
-      thumbnailWidth: DisplayDefinition.thumbnailWidthSmall,
-      thumbnailHeight: DisplayDefinition.thumbnailHeightSmall,
-    );
-
     final noDesiredTrimmingDescription = RichText(
       text: TextSpan(
         style: Theme.of(context).textTheme.bodyLarge,
@@ -271,8 +265,6 @@ class _SelectTrimmedSoundScreenState
       ),
       child: Column(
         children: [
-          movieTile,
-          const SizedBox(height: 32),
           noDesiredTrimmingDescription,
           const SizedBox(height: 16),
           trimManuallyButton,
