@@ -11,7 +11,7 @@ from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
 from database import set_generated_piece, template_overlays
-from detection import detect_non_silence, detect_speech_or_music
+from detection import detect_non_silence
 from firebase import initialize_firebase
 from piece import generate_piece_movie, generate_piece_sound
 from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
