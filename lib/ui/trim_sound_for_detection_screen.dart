@@ -55,6 +55,12 @@ class _TrimSoundForDetectionScreenState
 
   @override
   Widget build(BuildContext context) {
+    final title = Text(
+      '鳴き声の範囲を選ぼう',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.headlineMedium,
+    );
+
     final description = Text(
       '選択した範囲から自動で鳴き声を探すよ！',
       textAlign: TextAlign.center,
@@ -93,10 +99,19 @@ class _TrimSoundForDetectionScreenState
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 2/3 (1)',
+        titleText: 'STEP 3/5',
       ),
       body: Column(
         children: [
+          const SizedBox(height: 32),
+          SafeArea(
+            top: false,
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: title,
+            ),
+          ),
           const SizedBox(height: 32),
           SafeArea(
             top: false,
