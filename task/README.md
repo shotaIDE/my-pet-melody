@@ -31,7 +31,7 @@ gcloud functions deploy piece \
     --allow-unauthenticated
 ```
 
-後片付け方法
+To delete a deployed function for a temporary operation check, execute the following command.
 
 ```shell
 gcloud functions delete detect
