@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:app_review/app_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:my_pet_melody/data/model/profile.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
@@ -179,15 +179,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _writeReview() async {
-    if (Platform.isIOS) {
-      // In-app reviews are limited to the number of times they can be
-      // displayed, so go to the App Store and open the page to write a review.
-      await AppReview.openIosReview(compose: true);
-    } else if (Platform.isAndroid) {
-      // In-app reviews are limited in the number of times they can be
-      // displayed, so only make the transition to Google Play.
-      await AppReview.openGooglePlay();
-    }
+    // In-app reviews are limited to the number of times they can be
+    // displayed, so go to Store and open the page to write a review.
+    await InAppReview.instance.openStoreListing();
   }
 
   Future<void> _shareWithFriends() async {

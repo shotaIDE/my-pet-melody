@@ -42,9 +42,9 @@ dependencies:
   cross_file: ^0.3.3+2
   video_thumbnail: ^0.5.3
   twitter_login: ^4.3.1
-  app_review: ^2.1.2+1
-  package_info_plus: ^1.4.3+1
+  package_info_plus: ^3.0.0
   font_awesome_flutter: ^10.4.0
+  in_app_review: ^2.0.6
 
 dev_dependencies:
   flutter_test:
