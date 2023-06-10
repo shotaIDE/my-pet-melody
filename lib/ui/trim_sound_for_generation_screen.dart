@@ -108,7 +108,7 @@ class _TrimSoundForGenerationScreenState
                   Visibility(
                     visible: progressVisibility,
                     child: const LinearProgressIndicator(
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.orangeAccent,
                     ),
                   ),
                   Expanded(

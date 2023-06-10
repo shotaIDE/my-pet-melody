@@ -750,7 +750,7 @@ class _SeekBar extends ConsumerWidget {
                     height: constraints.maxHeight,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.red,
+                        color: Colors.orangeAccent,
                         width: _seekBarBorderWidth,
                       ),
                       borderRadius: BorderRadius.circular(4),
