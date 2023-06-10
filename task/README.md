@@ -5,30 +5,7 @@
 ### Functions
 
 ```shell
-gcloud functions deploy detect \
-    --project colomney-my-pet-melody-dev \
-    --memory 2048MB \
-    --runtime python311 \
-    --region asia-east1 \
-    --trigger-http \
-    --env-vars-file .env.yaml \
-    --allow-unauthenticated
-gcloud functions deploy submit \
-    --project colomney-my-pet-melody-dev \
-    --memory 512MB \
-    --runtime python311 \
-    --region asia-east1 \
-    --trigger-http \
-    --env-vars-file .env.yaml \
-    --allow-unauthenticated
-gcloud functions deploy piece \
-    --project colomney-my-pet-melody-dev \
-    --memory 1024MB \
-    --runtime python311 \
-    --region asia-east1 \
-    --trigger-http \
-    --env-vars-file .env.yaml \
-    --allow-unauthenticated
+gcloud builds submit --project colomney-my-pet-melody-dev --config cloudbuild.yaml
 ```
 
 To delete a deployed function for a temporary operation check, execute the following command.
