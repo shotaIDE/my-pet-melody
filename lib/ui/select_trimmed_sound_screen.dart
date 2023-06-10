@@ -7,7 +7,6 @@ import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/circled_play_button.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
-import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_view_model.dart';
@@ -482,11 +481,11 @@ class _ChoicePanel extends ConsumerWidget {
           viewModelProvider: viewModelProvider,
           index: index,
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: 8 - _seekBarBorderWidth),
         Expanded(
           child: detailsPanel,
         ),
-        const SizedBox(width: 16 - _seekBarBorderWidth),
+        const SizedBox(width: 8 - _seekBarBorderWidth),
         _ChoicePlayButton(
           viewModelProvider: viewModelProvider,
           index: index,
@@ -613,15 +612,26 @@ class _PositionText extends ConsumerWidget {
       viewModelProvider
           .select((state) => state.choices[index].segment.endMilliseconds),
     );
+    final durationMilliseconds = endMilliseconds - startMilliseconds;
+    final durationSeconds = durationMilliseconds / 1000;
 
-    final startPosition = AudioPositionHelper.formattedPosition(
-      milliseconds: startMilliseconds,
+    final indexText = Text(
+      'No.$index',
+      style: Theme.of(context).textTheme.bodyMedium,
     );
-    final endPosition = AudioPositionHelper.formattedPosition(
-      milliseconds: endMilliseconds,
+    final durationText = Text(
+      '${durationSeconds.toStringAsFixed(3)}秒',
+      style: Theme.of(context).textTheme.bodySmall,
     );
 
-    return Text('開始: $startPosition\n終了: $endPosition');
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        indexText,
+        const SizedBox(height: 8),
+        durationText,
+      ],
+    );
   }
 }
 
