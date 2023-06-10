@@ -9,7 +9,6 @@ import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/select_sounds_state.dart';
 import 'package:my_pet_melody/ui/select_sounds_view_model.dart';
-import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_screen.dart';
 
 final _selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
@@ -54,7 +53,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
         return pickedFileResult?.files.single.path;
       },
       trimSoundForDetection: (moviePath) {
-        Navigator.push<SelectTrimmedSoundResult?>(
+        Navigator.push(
           context,
           TrimSoundForDetectionScreen.route(moviePath: moviePath),
         );

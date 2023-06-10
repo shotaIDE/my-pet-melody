@@ -5,7 +5,6 @@ import 'package:my_pet_melody/ui/component/primary_button.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_screen.dart';
-import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
@@ -31,10 +30,10 @@ class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
       TrimSoundForDetectionState> viewModelProvider;
 
-  static MaterialPageRoute<SelectTrimmedSoundResult?> route({
+  static MaterialPageRoute<TrimSoundForDetectionScreen> route({
     required String moviePath,
   }) =>
-      MaterialPageRoute<SelectTrimmedSoundResult?>(
+      MaterialPageRoute<TrimSoundForDetectionScreen>(
         builder: (_) => TrimSoundForDetectionScreen(moviePath: moviePath),
         settings: const RouteSettings(name: name),
       );
@@ -85,7 +84,7 @@ class _TrimSoundForDetectionScreenState
     final editor = _TrimEditor(viewModelProvider: widget.viewModelProvider);
 
     final footerButton = PrimaryButton(
-      onPressed: _onComplete,
+      onPressed: _onNext,
       text: '次へ',
     );
     final footerContent = ConstrainedBox(
@@ -151,22 +150,16 @@ class _TrimSoundForDetectionScreenState
     );
   }
 
-  Future<void> _onComplete() async {
+  Future<void> _onNext() async {
     final args = await ref.read(widget.viewModelProvider.notifier).onComplete();
     if (args == null || !mounted) {
       return;
     }
 
-    final results = await Navigator.push(
+    await Navigator.push(
       context,
       SelectTrimmedSoundScreen.route(args: args),
     );
-
-    if (!mounted) {
-      return;
-    }
-
-    Navigator.pop(context, results);
   }
 }
 
