@@ -151,6 +151,7 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				5A5DF75D56A10C2BC7A91143 /* [CP] Embed Pods Frameworks */,
 				B485C27782844C8029F53151 /* [CP] Copy Pods Resources */,
+				83AE4D2F9568F1F1BA917253 /* [firebase_crashlytics] Crashlytics Upload Symbols */,
 			);
 			buildRules = (
 			);
@@ -280,6 +281,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [[ $FLAVOR == \"emulator\" ]]; then\n  cp Runner/Firebase/Emulator/GoogleService-Info.plist Runner/GoogleService-Info.plist\nelif [[ $FLAVOR == \"dev\" ]]; then\n  cp Runner/Firebase/Dev/GoogleService-Info.plist Runner/GoogleService-Info.plist\nelse\n  echo \"error: \\\"$FLAVOR\\\" flavor didn't match any environments.\"\n  exit 1\nfi\n";
+		};
+		83AE4D2F9568F1F1BA917253 /* [firebase_crashlytics] Crashlytics Upload Symbols */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}\"",
+				"\"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)\"",
+			);
+			name = "[firebase_crashlytics] Crashlytics Upload Symbols";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT/FirebaseCrashlytics/upload-symbols\" --flutter-project \"$PROJECT_DIR/firebase_app_id_file.json\" ";
 		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
