@@ -11,10 +11,13 @@
 /static
 
 /.env.*
+/.gcloudignore.*
+/.python-version
 /app.py
 /cloud-tasks-serviceAccountKey_*.json
 /firebase-serviceAccountKey_*.json
+/README.md
 
-!/.env.dev.yaml
-!/cloud-tasks-serviceAccountKey_dev.json
-!/firebase-serviceAccountKey_dev.json
+!/.env.prod.yaml
+!/cloud-tasks-serviceAccountKey_prod.json
+!/firebase-serviceAccountKey_prod.json
