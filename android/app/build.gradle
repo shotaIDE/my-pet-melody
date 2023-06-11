@@ -32,7 +32,7 @@ if (project.hasProperty('dart-defines')) {
 }
 
 def networkConfigSuffix = ''
-if (dartEnvironmentVariables.FLAVOR == 'local' || dartEnvironmentVariables.FLAVOR == 'emulator') {
+if (dartEnvironmentVariables.FLAVOR == 'emulator') {
     networkConfigSuffix = '_emulator'
 }
 

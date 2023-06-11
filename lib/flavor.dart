@@ -1,6 +1,7 @@
 enum Flavor {
   emulator,
   dev,
+  prod,
 }
 
 class F {

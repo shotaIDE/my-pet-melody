@@ -31,7 +31,7 @@
         "FLASK_ENV": "development",
         "FUNCTION_NAME": "dummy"
       },
-      "envFile": "${workspaceFolder}/.env",
+      "envFile": "${workspaceFolder}/.env.dev",
       "args": ["run", "--no-debugger", "--host=0.0.0.0", "--port=5001"],
       "jinja": true
     },
@@ -53,6 +53,15 @@
       "program": "${workspaceFolder}/tools.py",
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+    {
+      "name": "Generate Piece for Production",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/tools.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.prod"
     },
     {
       "name": "Evaluate Detections Methods",

@@ -5,6 +5,8 @@ inputs:
     required: true
   firebase-options-dart-base64-dev:
     required: true
+  firebase-options-dart-base64-prod:
+    required: true
 
 runs:
   using: "composite"
@@ -19,6 +21,7 @@ runs:
       run: |
         echo "${{ inputs.firebase-options-dart-base64-emulator }}" | base64 -d > lib/firebase_options_emulator.dart
         echo "${{ inputs.firebase-options-dart-base64-dev }}" | base64 -d > lib/firebase_options_dev.dart
+        echo "${{ inputs.firebase-options-dart-base64-prod }}" | base64 -d > lib/firebase_options_prod.dart
 
     - name: Generate automatic codes
       shell: bash

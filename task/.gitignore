@@ -8,6 +8,9 @@
 /static/uploads
 !/static/uploads/.gitkeep
 
-/.env
-/.env.yaml
-/*serviceAccountKey.json
+/.env.*
+!/.env.example
+!/.env.yaml.example
+
+/cloud-tasks-serviceAccountKey_*.json
+/firebase-serviceAccountKey_*.json

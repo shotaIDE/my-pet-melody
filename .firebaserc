@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "colomney-my-pet-melody-dev"
-  }
+    "default": "colomney-my-pet-melody-dev",
+    "prod": "colomney-my-pet-melody"
+  },
+  "targets": {},
+  "etags": {}
 }
