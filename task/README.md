@@ -16,18 +16,6 @@ gcloud functions delete submit
 gcloud functions delete piece
 ```
 
-### Firestore rules
-
-```shell
-firebase deploy --only firestore:rules
-```
-
-### Storage rules
-
-```shell
-firebase deploy --only storage
-```
-
 ## How to maintenance
 
 ### Install pip packages depends on requirements.txt

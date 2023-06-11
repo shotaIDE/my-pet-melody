@@ -52,6 +52,18 @@ mv ios/firebase_app_id_file.json ios/Runner/Firebase/Prod
 
 ## Deployment
 
+### Firestore rules
+
+```shell
+firebase deploy --only firestore:rules
+```
+
+### Storage rules
+
+```shell
+firebase deploy --only storage
+```
+
 ### Build app
 
 #### iOS
