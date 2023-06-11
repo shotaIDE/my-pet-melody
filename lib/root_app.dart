@@ -26,7 +26,8 @@ class _RootAppState extends ConsumerState<RootApp> {
       return Container();
     }
 
-    final home = showHomeScreen ? HomeScreen() : LoginScreen();
+    final initialRoutes =
+        showHomeScreen ? [HomeScreen.route()] : [LoginScreen.route()];
 
     final navigatorObservers = <NavigatorObserver>[
       FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
@@ -60,7 +61,13 @@ class _RootAppState extends ConsumerState<RootApp> {
           ),
         ),
       ),
-      home: home,
+      // `initialRoute` and `routes` are ineffective settings
+      // that are set to avoid assertion errors.
+      initialRoute: '/',
+      routes: {
+        '/': (_) => HomeScreen(),
+      },
+      onGenerateInitialRoutes: (_) => initialRoutes,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
