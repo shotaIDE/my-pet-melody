@@ -55,6 +55,15 @@
       "justMyCode": true
     },
     {
+      "name": "Generate Piece for Production",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/tools.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.prod"
+    },
+    {
       "name": "Evaluate Detections Methods",
       "type": "python",
       "request": "launch",
