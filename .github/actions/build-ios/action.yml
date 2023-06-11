@@ -5,6 +5,8 @@ inputs:
     required: true
   firebase-options-dart-base64-dev:
     required: true
+  firebase-options-dart-base64-prod:
+    required: true
   google-service-plist-base64-dev:
     required: true
 
@@ -26,6 +28,7 @@ runs:
         env-base64: ${{ inputs.env-base64 }}
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
         firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
+        firebase-options-dart-base64-prod: ${{ inputs.firebase-options-dart-base64-prod }}
 
     - name: Generate uncommited iOS files
       uses: ./.github/actions/generate-uncommited-ios-files

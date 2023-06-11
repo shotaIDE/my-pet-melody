@@ -13,6 +13,7 @@ import 'package:my_pet_melody/data/di/api_providers.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/service/storage_service_local_flask.dart';
 import 'package:my_pet_melody/firebase_options_dev.dart' as dev;
+import 'package:my_pet_melody/firebase_options_prod.dart' as prod;
 import 'package:my_pet_melody/firebase_options_emulator.dart' as emulator;
 import 'package:my_pet_melody/flavor.dart';
 import 'package:my_pet_melody/root_app.dart';
@@ -31,8 +32,7 @@ Future<void> main() async {
           options = dev.DefaultFirebaseOptions.currentPlatform;
           break;
         case Flavor.prod:
-          // TODO(ide): FIX
-          options = dev.DefaultFirebaseOptions.currentPlatform;
+          options = prod.DefaultFirebaseOptions.currentPlatform;
           break;
       }
       await Firebase.initializeApp(options: options);
