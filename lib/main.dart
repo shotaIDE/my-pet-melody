@@ -30,6 +30,10 @@ Future<void> main() async {
         case Flavor.dev:
           options = dev.DefaultFirebaseOptions.currentPlatform;
           break;
+        case Flavor.prod:
+          // TODO(ide): FIX
+          options = dev.DefaultFirebaseOptions.currentPlatform;
+          break;
       }
       await Firebase.initializeApp(options: options);
 

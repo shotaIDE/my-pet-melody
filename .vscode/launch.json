@@ -35,6 +35,22 @@
       "program": "lib/main.dart",
       "args": ["--profile", "--dart-define", "FLAVOR=dev"],
       "preLaunchTask": "Generate Environments"
+    },
+    {
+      "name": "Production",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--dart-define", "FLAVOR=prod"],
+      "preLaunchTask": "Generate Environments"
+    },
+    {
+      "name": "Production-Profile",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["--profile", "--dart-define", "FLAVOR=prod"],
+      "preLaunchTask": "Generate Environments"
     }
   ]
 }
