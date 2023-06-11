@@ -5,7 +5,7 @@
 ### Functions
 
 ```shell
-gcloud builds submit --project colomney-my-pet-melody-dev --config cloudbuild.yaml
+gcloud builds submit --project colomney-my-pet-melody-dev --config cloudbuild_dev.yaml
 ```
 
 To delete a deployed function for a temporary operation check, execute the following command.

@@ -7,10 +7,11 @@ steps:
       - detect
       - --region=asia-east1
       - --source=.
+      - --ignore-file=.gcloudignore.dev
       - --trigger-http
       - --runtime=python39
       - --memory=2048MB
-      - --env-vars-file=.env.yaml
+      - --env-vars-file=.env.dev.yaml
       - --allow-unauthenticated
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args:
@@ -20,10 +21,11 @@ steps:
       - submit
       - --region=asia-east1
       - --source=.
+      - --ignore-file=.gcloudignore.dev
       - --trigger-http
       - --runtime=python39
       - --memory=512MB
-      - --env-vars-file=.env.yaml
+      - --env-vars-file=.env.dev.yaml
       - --allow-unauthenticated
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args:
@@ -33,8 +35,9 @@ steps:
       - piece
       - --region=asia-east1
       - --source=.
+      - --ignore-file=.gcloudignore.dev
       - --trigger-http
       - --runtime=python39
       - --memory=1024MB
-      - --env-vars-file=.env.yaml
+      - --env-vars-file=.env.dev.yaml
       - --allow-unauthenticated
