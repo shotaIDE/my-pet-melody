@@ -9,7 +9,7 @@ import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
 import 'package:my_pet_melody/flavor.dart';
 import 'package:my_pet_melody/root_view_model.dart';
 import 'package:my_pet_melody/ui/component/profile_icon.dart';
-import 'package:my_pet_melody/ui/component/rounded_and_chained_list_tile.dart';
+import 'package:my_pet_melody/ui/component/rounded_settings_list_tile.dart';
 import 'package:my_pet_melody/ui/debug_screen.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/definition/list_tile_position_in_group.dart';
@@ -55,50 +55,50 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           Navigator.push<void>(context, LinkWithAccountScreen.route()),
     );
 
-    const currentPlanTile = _RoundedSettingsListTile(
+    const currentPlanTile = RoundedSettingsListTile(
       title: Text('現在のプラン'),
       trailing: Text('プレミアムプラン'),
       positionInGroup: ListTilePositionInGroup.first,
     );
-    final registerPremiumPlanTile = _RoundedSettingsListTile(
+    final registerPremiumPlanTile = RoundedSettingsListTile(
       title: const Text('プレミアムプランに登録する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push<void>(context, JoinPremiumPlanScreen.route()),
       positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final writeReviewTile = _RoundedSettingsListTile(
+    final writeReviewTile = RoundedSettingsListTile(
       title: const Text('レビューを書く'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _writeReview,
       positionInGroup: ListTilePositionInGroup.first,
     );
-    final shareWithFriendsTile = _RoundedSettingsListTile(
+    final shareWithFriendsTile = RoundedSettingsListTile(
       title: const Text('友達に教える'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _shareWithFriends,
       positionInGroup: ListTilePositionInGroup.middle,
     );
-    final termsOfServiceTile = _RoundedSettingsListTile(
+    final termsOfServiceTile = RoundedSettingsListTile(
       title: const Text('利用規約'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openTermsOfService,
       positionInGroup: ListTilePositionInGroup.middle,
     );
-    final privacyPolicyTile = _RoundedSettingsListTile(
+    final privacyPolicyTile = RoundedSettingsListTile(
       title: const Text('プライバシーポリシー'),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openPrivacyPolicy,
       positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final debugTile = _RoundedSettingsListTile(
+    final debugTile = RoundedSettingsListTile(
       title: const Text('デバッグ'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push(context, DebugScreen.route()),
       positionInGroup: ListTilePositionInGroup.first,
     );
-    const versionTile = _RoundedSettingsListTile(
+    const versionTile = RoundedSettingsListTile(
       title: Text('バージョン'),
       trailing: _FullVersionNameText(),
       positionInGroup: ListTilePositionInGroup.last,
@@ -332,7 +332,7 @@ class _NotLoggedInTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _RoundedSettingsListTile(
+    return RoundedSettingsListTile(
       title: const Text('アカウントを作成する'),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
@@ -356,46 +356,12 @@ class _DeleteAccountPanel extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return _RoundedSettingsListTile(
+    return RoundedSettingsListTile(
       title: Text(
         'アカウント削除',
         style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
       onTap: onTap,
-    );
-  }
-}
-
-class _RoundedSettingsListTile extends StatelessWidget {
-  const _RoundedSettingsListTile({
-    required this.title,
-    this.trailing,
-    this.onTap,
-    this.positionInGroup = ListTilePositionInGroup.only,
-    Key? key,
-  }) : super(key: key);
-
-  final Widget title;
-  final Widget? trailing;
-  final VoidCallback? onTap;
-  final ListTilePositionInGroup positionInGroup;
-
-  @override
-  Widget build(BuildContext context) {
-    final body = Row(
-      children: [
-        Expanded(
-          child: title,
-        ),
-        const SizedBox(width: 16),
-        if (trailing != null) trailing!,
-      ],
-    );
-
-    return RoundedAndChainedListTile(
-      onTap: onTap,
-      positionInGroup: positionInGroup,
-      child: body,
     );
   }
 }
