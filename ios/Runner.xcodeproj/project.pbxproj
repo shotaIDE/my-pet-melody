@@ -280,7 +280,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ $FLAVOR == \"emulator\" ]]; then\n  cp Runner/Firebase/Emulator/GoogleService-Info.plist Runner/GoogleService-Info.plist\nelif [[ $FLAVOR == \"dev\" ]]; then\n  cp Runner/Firebase/Dev/GoogleService-Info.plist Runner/GoogleService-Info.plist\nelse\n  echo \"error: \\\"$FLAVOR\\\" flavor didn't match any environments.\"\n  exit 1\nfi\n";
+			shellScript = "if [[ $FLAVOR == \"emulator\" ]]; then\n  cp Runner/Firebase/Emulator/GoogleService-Info.plist Runner/GoogleService-Info.plist\n  cp Runner/Firebase/Emulator/firebase_app_id_file.json ./\nelif [[ $FLAVOR == \"dev\" ]]; then\n  cp Runner/Firebase/Dev/GoogleService-Info.plist Runner/GoogleService-Info.plist\n  cp Runner/Firebase/Dev/firebase_app_id_file.json ./\nelse\n  echo \"error: \\\"$FLAVOR\\\" flavor didn't match any environments.\"\n  exit 1\nfi\n";
 		};
 		83AE4D2F9568F1F1BA917253 /* [firebase_crashlytics] Crashlytics Upload Symbols */ = {
 			isa = PBXShellScriptBuildPhase;
