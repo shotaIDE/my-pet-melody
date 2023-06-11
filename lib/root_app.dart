@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,6 +27,10 @@ class _RootAppState extends ConsumerState<RootApp> {
     }
 
     final home = showHomeScreen ? HomeScreen() : LoginScreen();
+
+    final navigatorObservers = <NavigatorObserver>[
+      FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+    ];
 
     return MaterialApp(
       title: 'うちのコメロディー',
@@ -64,6 +69,7 @@ class _RootAppState extends ConsumerState<RootApp> {
       supportedLocales: const [
         Locale('ja', 'JP'),
       ],
+      navigatorObservers: navigatorObservers,
     );
   }
 }
