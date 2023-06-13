@@ -33,6 +33,13 @@ class JoinPremiumPlanScreen extends ConsumerStatefulWidget {
 
 class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    ref.read(widget.viewModelProvider.notifier).setup();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModelProvider);
     final viewModel = ref.watch(widget.viewModelProvider.notifier);
