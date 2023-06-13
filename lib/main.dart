@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,11 +13,13 @@ import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/di/api_providers.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/service/storage_service_local_flask.dart';
+import 'package:my_pet_melody/environment_config.dart';
 import 'package:my_pet_melody/firebase_options_dev.dart' as dev;
 import 'package:my_pet_melody/firebase_options_emulator.dart' as emulator;
 import 'package:my_pet_melody/firebase_options_prod.dart' as prod;
 import 'package:my_pet_melody/flavor.dart';
 import 'package:my_pet_melody/root_app.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 Future<void> main() async {
   await runZonedGuarded<Future<void>>(
@@ -66,6 +69,20 @@ Future<void> main() async {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
       };
+
+      await Purchases.setLogLevel(LogLevel.debug);
+
+      final PurchasesConfiguration configuration;
+      if (Platform.isIOS) {
+        configuration = PurchasesConfiguration(
+          EnvironmentConfig.revenueCatPublicAppleApiKey,
+        );
+      } else {
+        configuration = PurchasesConfiguration(
+          EnvironmentConfig.revenueCatPublicGoogleApiKey,
+        );
+      }
+      await Purchases.configure(configuration);
 
       runApp(
         ProviderScope(

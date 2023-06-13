@@ -11,6 +11,12 @@ environment_config:
     twitterRedirectUri:
       type: String
       env_var: TWITTER_REDIRECT_URI
+    revenueCatPublicAppleApiKey:
+      type: String
+      env_var: REVENUE_CAT_PUBLIC_APPLE_API_KEY
+    revenueCatPublicGoogleApiKey:
+      type: String
+      env_var: REVENUE_CAT_PUBLIC_GOOGLE_API_KEY
     serverHostForEmulatorConfiguration:
       type: String
       env_var: SERVER_HOST_FOR_EMULATOR_CONFIGURATION
