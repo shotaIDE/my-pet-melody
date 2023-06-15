@@ -962,10 +962,10 @@ packages:
     dependency: "direct main"
     description:
       name: purchases_flutter
-      sha256: "1dfca3209f847f8999c54c475e92cf3211381794b2c7f5aa399f90efe2b40997"
+      sha256: "453d01f3f9d3ddd382d27d8465abd08040a12980c1d959aeb9f539019f5b033f"
       url: "https://pub.dev"
     source: hosted
-    version: "4.13.0"
+    version: "5.0.0"
   riverpod:
     dependency: transitive
     description:
