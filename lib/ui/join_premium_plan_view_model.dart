@@ -10,7 +10,16 @@ class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
   Future<void> setup() async {
     try {
       final offerings = await Purchases.getOfferings();
-      debugPrint('$offerings');
+      final offering = offerings.current;
+      final packages = offering?.availablePackages;
+      packages?.forEach(
+        (package) {
+          final storeProduct = package.storeProduct;
+          debugPrint(
+            'Title: ${storeProduct.title}, price: ${storeProduct.priceString}',
+          );
+        },
+      );
     } on PlatformException catch (error) {
       debugPrint('$error');
     }
