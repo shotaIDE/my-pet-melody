@@ -8,6 +8,11 @@ import 'package:my_pet_melody/data/model/purchase_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+final inPremiumPlanProvider =
+    StateNotifierProvider.autoDispose<IsPremiumPlanNotifier, bool?>(
+  (ref) => IsPremiumPlanNotifier(),
+);
+
 final purchasableListProvider = FutureProvider<List<Purchasable>?>((_) async {
   try {
     final offerings = await Purchases.getOfferings();
@@ -38,6 +43,35 @@ final purchaseActionsProvider = Provider(
   },
 );
 
+const _premiumPlanEntitlementIdentifier = 'premium';
+
+class IsPremiumPlanNotifier extends StateNotifier<bool?> {
+  IsPremiumPlanNotifier() : super(null) {
+    _setup();
+  }
+
+  Future<void> _setup() async {
+    Purchases.addCustomerInfoUpdateListener((customerInfo) {
+      final entitlement =
+          customerInfo.entitlements.all[_premiumPlanEntitlementIdentifier];
+      if (entitlement == null) {
+        _updateIfNeeded(isPremiumPlan: null);
+        return;
+      }
+
+      _updateIfNeeded(isPremiumPlan: entitlement.isActive);
+    });
+  }
+
+  void _updateIfNeeded({required bool? isPremiumPlan}) {
+    if (state == isPremiumPlan) {
+      return;
+    }
+
+    state = isPremiumPlan;
+  }
+}
+
 class PurchaseActions {
   Future<Result<void, PurchaseError>> purchase({
     required Purchasable purchasable,
@@ -45,13 +79,13 @@ class PurchaseActions {
     try {
       final package = purchasable.package;
       final purchaserInfo = await Purchases.purchasePackage(package);
-      final entitlements =
-          purchaserInfo.entitlements.all['my_entitlement_identifier'];
-      if (entitlements == null) {
+      final entitlement =
+          purchaserInfo.entitlements.all[_premiumPlanEntitlementIdentifier];
+      if (entitlement == null) {
         return const Result.failure(PurchaseError.unrecoverable());
       }
 
-      if (!entitlements.isActive) {
+      if (!entitlement.isActive) {
         return const Result.failure(PurchaseError.unrecoverable());
       }
 

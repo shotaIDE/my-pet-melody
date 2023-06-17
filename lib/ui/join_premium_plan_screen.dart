@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/usecase/purchase_use_case.dart';
 import 'package:my_pet_melody/ui/component/rounded_and_chained_list_tile.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
@@ -138,6 +139,7 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: purchaseActionsPanel,
           ),
+          const SizedBox(height: 16),
           restoreButton,
           const SizedBox(height: 32),
           subscriptionDescription1Tile,
@@ -234,6 +236,31 @@ class _RoundedDescriptionListTile extends StatelessWidget {
 
 class _PurchaseActionsPanel extends ConsumerWidget {
   const _PurchaseActionsPanel({
+    required this.viewModelProvider,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
+      JoinPremiumPlanState> viewModelProvider;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPremiumPlan = ref.watch(inPremiumPlanProvider);
+
+    if (isPremiumPlan == null) {
+      return const CircularProgressIndicator();
+    }
+
+    if (isPremiumPlan) {
+      return const Text('プレミアムプランに加入済み');
+    }
+
+    return _PurchaseButtonsPanel(viewModelProvider: viewModelProvider);
+  }
+}
+
+class _PurchaseButtonsPanel extends ConsumerWidget {
+  const _PurchaseButtonsPanel({
     required this.viewModelProvider,
     Key? key,
   }) : super(key: key);
