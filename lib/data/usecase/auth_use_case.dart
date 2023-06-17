@@ -128,6 +128,82 @@ final linkWithTwitterActionProvider =
   return action;
 });
 
+final loginWithFacebookActionProvider =
+    Provider<Future<Result<void, LoginError>> Function()>((ref) {
+  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
+  final authActions = ref.watch(authActionsProvider);
+
+  Future<Result<void, LoginError>> action() async {
+    final loginFacebookResult = await thirdPartyAuthActions.loginFacebook();
+    final convertedLoginError = loginFacebookResult.whenOrNull<LoginError>(
+      failure: (error) => error.when(
+        cancelledByUser: LoginError.cancelledByUser,
+        unrecoverable: LoginError.unrecoverable,
+      ),
+    );
+    if (convertedLoginError != null) {
+      return Result.failure(convertedLoginError);
+    }
+
+    final accessToken =
+        (loginFacebookResult as Success<String, LoginTwitterError>).value;
+    final loginResult =
+        await authActions.loginWithFacebook(accessToken: accessToken);
+    final convertedLinkError = loginResult.whenOrNull(
+      failure: (error) => error.when(
+        alreadyInUse: LoginError.alreadyInUse,
+        unrecoverable: LoginError.unrecoverable,
+      ),
+    );
+    if (convertedLinkError != null) {
+      return Result.failure(convertedLinkError);
+    }
+
+    return const Result.success(null);
+  }
+
+  return action;
+});
+
+final linkWithFacebookActionProvider =
+    Provider<Future<Result<void, LoginError>> Function()>((ref) {
+  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
+  final authActions = ref.watch(authActionsProvider);
+
+  Future<Result<void, LoginError>> action() async {
+    final loginResult = await thirdPartyAuthActions.loginFacebook();
+    final convertedLoginError =
+        loginResult.whenOrNull<Result<void, LoginError>>(
+      failure: (error) => error.when(
+        cancelledByUser: () =>
+            const Result.failure(LoginError.cancelledByUser()),
+        unrecoverable: () => const Result.failure(LoginError.unrecoverable()),
+      ),
+    );
+    if (convertedLoginError != null) {
+      return convertedLoginError;
+    }
+
+    final accessToken =
+        (loginResult as Success<String, LoginTwitterError>).value;
+    final linkResult =
+        await authActions.linkWithFacebook(accessToken: accessToken);
+    final convertedLinkError = linkResult.whenOrNull(
+      failure: (error) => error.when(
+        alreadyInUse: LoginError.alreadyInUse,
+        unrecoverable: LoginError.unrecoverable,
+      ),
+    );
+    if (convertedLinkError != null) {
+      return Result.failure(convertedLinkError);
+    }
+
+    return const Result.success(null);
+  }
+
+  return action;
+});
+
 final signOutActionProvider = Provider((ref) {
   final authActions = ref.watch(authActionsProvider);
   final pushNotificationService = ref.watch(pushNotificationServiceProvider);
@@ -204,6 +280,10 @@ final deleteAccountActionProvider = Provider((ref) {
           return Result.failure(deleteOnSecondError);
         }
 
+        return const Result.success(null);
+
+      case AccountProvider.facebook:
+        // TODO(ide): Implement
         return const Result.success(null);
     }
   }

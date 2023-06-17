@@ -32,11 +32,15 @@ jobs:
       - name: Generate uncommited Flutter files
         uses: ./.github/actions/generate-uncommited-flutter-files
         with:
-          env-base64: ${{ secrets.ENV_BASE64 }}
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
           firebase-options-dart-base64-prod: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_PROD }}
 
+      - name: Generate uncommited Flutter files for dev
+        uses: ./.github/actions/generate-uncommited-flutter-files-dev
+        with:
+          dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
+      
       - name: Generate uncommited iOS files
         uses: ./.github/actions/generate-uncommited-ios-files
         with:

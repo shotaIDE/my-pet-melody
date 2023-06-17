@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ide.shota.colomney.my_pet_melody">
 
+    <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
+    </queries>
+
     <application
         android:name="${applicationName}"
         android:icon="${ICON_RESOURCE}"
@@ -33,10 +37,18 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="my-pet-melody${CALL_BACK_SCHEME_SUFFIX}"
-                    android:host="auth" />
+                    android:host="auth"
+                    android:scheme="${TWITTER_REDIRECT_SCHEME}" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="${FACEBOOK_APP_SECRET}" />
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

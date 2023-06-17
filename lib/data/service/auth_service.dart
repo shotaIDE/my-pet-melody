@@ -153,6 +153,48 @@ class AuthActions {
     return const Result.success(null);
   }
 
+  Future<Result<void, LinkCredentialError>> loginWithFacebook({
+    required String accessToken,
+  }) async {
+    final facebookAuthCredential = FacebookAuthProvider.credential(accessToken);
+
+    try {
+      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (e) {
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
+  }
+
+  Future<Result<void, LinkCredentialError>> linkWithFacebook({
+    required String accessToken,
+  }) async {
+    final facebookAuthCredential = FacebookAuthProvider.credential(accessToken);
+
+    final currentUser = FirebaseAuth.instance.currentUser!;
+
+    try {
+      await currentUser.linkWithCredential(facebookAuthCredential);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (e) {
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
+  }
+
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }

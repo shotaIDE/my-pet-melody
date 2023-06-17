@@ -53,7 +53,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       onPressed: _loginWithTwitter,
     );
     final loginWithFacebookButton = ContinueWithFacebookButton(
-      onPressed: () {},
+      onPressed: _loginWithFacebook,
     );
     final loginWithAppleButton = ContinueWithAppleButton(
       onPressed: () {},
@@ -162,6 +162,36 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         alreadyInUse: (_) async {
           const snackBar = SnackBar(
             content: Text('このTwitterアカウントはすでに利用されています。他のアカウントでお試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        unrecoverable: (_) async {
+          const snackBar = SnackBar(
+            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+      ),
+    );
+  }
+
+  Future<void> _loginWithFacebook() async {
+    final result =
+        await ref.read(widget.viewModel.notifier).loginWithFacebook();
+
+    await result.when(
+      success: (_) async {
+        await Navigator.pushReplacement<HomeScreen, void>(
+          context,
+          HomeScreen.route(),
+        );
+      },
+      failure: (error) => error.mapOrNull(
+        alreadyInUse: (_) async {
+          const snackBar = SnackBar(
+            content: Text('このFacebookアカウントはすでに利用されています。他のアカウントでお試しください'),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

@@ -9,48 +9,42 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define", "FLAVOR=emulator"],
-      "preLaunchTask": "Generate Environments"
+      "args": ["--dart-define-from-file", "dart-defines_emulator.json"]
     },
     {
       "name": "Emulator-Profile",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--profile", "--dart-define", "FLAVOR=emulator"],
-      "preLaunchTask": "Generate Environments"
+      "args": ["--dart-define-from-file", "dart-defines_emulator.json"]
     },
     {
       "name": "Develop",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define", "FLAVOR=dev"],
-      "preLaunchTask": "Generate Environments"
+      "args": ["--dart-define-from-file", "dart-defines_dev.json"]
     },
     {
       "name": "Develop-Profile",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--profile", "--dart-define", "FLAVOR=dev"],
-      "preLaunchTask": "Generate Environments"
+      "args": ["--dart-define-from-file", "dart-defines_dev.json"]
     },
     {
       "name": "Production",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define", "FLAVOR=prod"],
-      "preLaunchTask": "Generate Environments"
+      "args": ["--dart-define-from-file", "dart-defines_prod.json"]
     },
     {
       "name": "Production-Profile",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--profile", "--dart-define", "FLAVOR=prod"],
-      "preLaunchTask": "Generate Environments"
+      "args": ["--dart-define-from-file", "dart-defines_prod.json"]
     }
   ]
 }

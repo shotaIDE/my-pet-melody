@@ -1,5 +1,6 @@
 *.freezed.dart
 *.g.dart
+dart-defines*.json
 google-services.json
 GoogleService-Info.plist
 
@@ -15,6 +16,8 @@ GoogleService-Info.plist
 /lib/environment_config.dart
 /lib/firebase_options*.dart
 /task/samples/
+
+!/dart-defines_example.json
 
 # Miscellaneous
 *.class

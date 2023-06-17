@@ -1,7 +1,7 @@
 inputs:
   github-token:
     required: true
-  env-base64:
+  dart-defines-json-base64-dev:
     required: true
   firebase-options-dart-base64-emulator:
     required: true
@@ -39,10 +39,14 @@ runs:
     - name: Generate uncommited Flutter files
       uses: ./.github/actions/generate-uncommited-flutter-files
       with:
-        env-base64: ${{ inputs.env-base64 }}
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
         firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
         firebase-options-dart-base64-prod: ${{ inputs.firebase-options-dart-base64-prod }}
+
+    - name: Generate uncommited Flutter files for dev
+      uses: ./.github/actions/generate-uncommited-flutter-files-dev
+      with:
+        dart-defines-json-base64-dev: ${{ inputs.dart-defines-json-dev-base64 }}
 
     - name: Flutter analyze
       shell: bash

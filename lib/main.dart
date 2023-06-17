@@ -14,7 +14,6 @@ import 'package:my_pet_melody/data/di/api_providers.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/service/storage_service_local_flask.dart';
-import 'package:my_pet_melody/environment_config.dart';
 import 'package:my_pet_melody/firebase_options_dev.dart' as dev;
 import 'package:my_pet_melody/firebase_options_emulator.dart' as emulator;
 import 'package:my_pet_melody/firebase_options_prod.dart' as prod;
@@ -44,7 +43,7 @@ Future<void> main() async {
       final overrides = <Override>[];
 
       if (F.flavor == Flavor.emulator) {
-        const serverHost = AppDefinitions.serverHostForEmulatorConfiguration;
+        const serverHost = AppDefinitions.serverHost;
         await FirebaseAuth.instance.useAuthEmulator(serverHost, 9099);
         FirebaseFirestore.instance.useFirestoreEmulator(serverHost, 8080);
         await FirebaseStorage.instance.useStorageEmulator(serverHost, 9199);
@@ -73,19 +72,21 @@ Future<void> main() async {
         return true;
       };
 
-      await Purchases.setLogLevel(LogLevel.debug);
+      if (F.flavor == Flavor.prod) {
+        await Purchases.setLogLevel(LogLevel.debug);
 
-      final PurchasesConfiguration configuration;
-      if (Platform.isIOS) {
-        configuration = PurchasesConfiguration(
-          EnvironmentConfig.revenueCatPublicAppleApiKey,
-        );
-      } else {
-        configuration = PurchasesConfiguration(
-          EnvironmentConfig.revenueCatPublicGoogleApiKey,
-        );
+        final PurchasesConfiguration configuration;
+        if (Platform.isIOS) {
+          configuration = PurchasesConfiguration(
+            AppDefinitions.revenueCatPublicAppleApiKey,
+          );
+        } else {
+          configuration = PurchasesConfiguration(
+            AppDefinitions.revenueCatPublicGoogleApiKey,
+          );
+        }
+        await Purchases.configure(configuration);
       }
-      await Purchases.configure(configuration);
 
       runApp(
         ProviderScope(

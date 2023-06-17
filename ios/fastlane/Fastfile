@@ -6,7 +6,10 @@ platform :ios do
     generate
 
     Dir.chdir('../') do
-      sh('flutter build ipa --dart-define FLAVOR=dev --export-options-plist=ios/ExportOptions_Develop-AdHoc.plist')
+      sh(
+        'flutter build ipa --dart-define-from-file dart-defines_dev.json '\
+        '--export-options-plist=ios/ExportOptions_Develop-AdHoc.plist'
+      )
     end
 
     lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/my_pet_melody.ipa'

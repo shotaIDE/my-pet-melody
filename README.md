@@ -63,17 +63,3 @@ firebase deploy --only firestore:rules
 ```shell
 firebase deploy --only storage
 ```
-
-### Build app
-
-#### iOS
-
-```shell
-flutter build ipa --dart-define FLAVOR=dev --export-options-plist ios/ExportOptions.plist
-```
-
-#### Android
-
-```shell
-flutter build appbundle --dart-define FLAVOR=dev
-```
