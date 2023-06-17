@@ -77,8 +77,10 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       viewModelProvider: widget.viewModelProvider,
     );
 
-    final restoreButton =
-        TextButton(onPressed: () {}, child: const Text('機種変更時の復元'));
+    final restoreButton = TextButton(
+      onPressed: ref.read(widget.viewModelProvider.notifier).restore,
+      child: const Text('機種変更時の復元'),
+    );
 
     const subscriptionDescription1Tile = _RoundedDescriptionListTile(
       title: Text('自動継続課金について'),

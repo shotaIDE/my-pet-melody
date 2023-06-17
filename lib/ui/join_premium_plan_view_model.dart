@@ -37,8 +37,7 @@ class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
     state = state.copyWith(isProcessing: true);
 
     final purchaseActions = _ref.read(purchaseActionsProvider);
-    final result =
-        await purchaseActions.purchase(purchasable: purchasable);
+    final result = await purchaseActions.purchase(purchasable: purchasable);
 
     result.when(
       success: (_) {
@@ -48,6 +47,21 @@ class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
         debugPrint('Failed: $error');
       },
     );
+
+    state = state.copyWith(isProcessing: false);
+  }
+
+  Future<void> restore() async {
+    state = state.copyWith(isProcessing: true);
+
+    final purchaseActions = _ref.read(purchaseActionsProvider);
+    final result = await purchaseActions.restore();
+
+    if (result) {
+      debugPrint('Succeeded.');
+    } else {
+      debugPrint('Failed.');
+    }
 
     state = state.copyWith(isProcessing: false);
   }

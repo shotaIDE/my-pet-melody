@@ -99,4 +99,15 @@ class PurchaseActions {
       return const Result.failure(PurchaseError.unrecoverable());
     }
   }
+
+  Future<bool> restore() async {
+    try {
+      await Purchases.restorePurchases();
+      return true;
+    } on PlatformException {
+      // TODO(ide): record error
+
+      return false;
+    }
+  }
 }
