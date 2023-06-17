@@ -32,7 +32,7 @@ runs:
     - name: Generate uncommited Flutter files for dev
       uses: ./.github/actions/generate-uncommited-flutter-files-dev
       with:
-        dart-defines-json-base64-dev: ${{ inputs.dart-defines-json-dev-base64 }}
+        dart-defines-json-base64-dev: ${{ inputs.dart-defines-json-base64-dev }}
 
     - name: Generate uncommited iOS files
       uses: ./.github/actions/generate-uncommited-ios-files
