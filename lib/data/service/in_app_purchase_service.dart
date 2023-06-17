@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/purchasable.dart';
+import 'package:my_pet_melody/data/model/purchase_error.dart';
+import 'package:my_pet_melody/data/model/result.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 final purchasableListProvider = FutureProvider<List<Purchasable>?>((_) async {
@@ -16,9 +18,9 @@ final purchasableListProvider = FutureProvider<List<Purchasable>?>((_) async {
         final storeProduct = package.storeProduct;
 
         return Purchasable(
-          id: package.identifier,
           title: storeProduct.title,
           price: storeProduct.priceString,
+          package: package,
         );
       },
     ).toList();
@@ -29,3 +31,38 @@ final purchasableListProvider = FutureProvider<List<Purchasable>?>((_) async {
     return [];
   }
 });
+
+final purchaseActionsProvider = Provider(
+  (ref) {
+    return PurchaseActions();
+  },
+);
+
+class PurchaseActions {
+  Future<Result<void, PurchaseError>> purchase({
+    required Purchasable purchasable,
+  }) async {
+    try {
+      final package = purchasable.package;
+      final purchaserInfo = await Purchases.purchasePackage(package);
+      final entitlements =
+          purchaserInfo.entitlements.all['my_entitlement_identifier'];
+      if (entitlements == null) {
+        return const Result.failure(PurchaseError.unrecoverable());
+      }
+
+      if (!entitlements.isActive) {
+        return const Result.failure(PurchaseError.unrecoverable());
+      }
+
+      return const Result.success(null);
+    } on PlatformException catch (e) {
+      final errorCode = PurchasesErrorHelper.getErrorCode(e);
+      if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
+        return const Result.failure(PurchaseError.cancelledByUser());
+      }
+
+      return const Result.failure(PurchaseError.unrecoverable());
+    }
+  }
+}

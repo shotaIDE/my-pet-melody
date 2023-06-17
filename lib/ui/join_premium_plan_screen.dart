@@ -11,7 +11,7 @@ import 'package:my_pet_melody/ui/join_premium_plan_view_model.dart';
 
 final _joinPremiumPlanViewModelProvider = StateNotifierProvider.autoDispose<
     JoinPremiumPlanViewModel, JoinPremiumPlanState>(
-  (_) => JoinPremiumPlanViewModel(),
+  (ref) => JoinPremiumPlanViewModel(ref: ref),
 );
 
 class JoinPremiumPlanScreen extends ConsumerStatefulWidget {
@@ -260,7 +260,9 @@ class _PurchaseActionsPanel extends ConsumerWidget {
             return _PurchasableButton(
               text: '${purchasable.title} : ${purchasable.price}',
               onPressed: () async {
-                await ref.read(viewModelProvider.notifier).joinPremiumPlan();
+                await ref
+                    .read(viewModelProvider.notifier)
+                    .joinPremiumPlan(purchasable: purchasable);
               },
             );
           },
