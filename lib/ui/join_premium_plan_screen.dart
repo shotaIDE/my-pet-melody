@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_pet_melody/ui/component/primary_button.dart';
+import 'package:my_pet_melody/data/usecase/purchase_use_case.dart';
 import 'package:my_pet_melody/ui/component/rounded_and_chained_list_tile.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/definition/list_tile_position_in_group.dart';
@@ -42,7 +42,6 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModelProvider);
-    final viewModel = ref.watch(widget.viewModelProvider.notifier);
 
     const iconSize = 48.0;
     const largeStorageFeatureTile = _RoundedDescriptionListTile(
@@ -73,12 +72,10 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final joinButton = PrimaryButton(
-      text: 'プレミアムプラン 1,000円 / 月',
-      onPressed: () async {
-        await viewModel.joinPremiumPlan();
-      },
+    final joinButton = _PurchaseActionsPanel(
+      viewModelProvider: widget.viewModelProvider,
     );
+
     final restoreButton =
         TextButton(onPressed: () {}, child: const Text('機種変更時の復元'));
 
@@ -229,6 +226,93 @@ class _RoundedDescriptionListTile extends StatelessWidget {
     return RoundedAndChainedListTile(
       positionInGroup: positionInGroup,
       child: body,
+    );
+  }
+}
+
+class _PurchaseActionsPanel extends ConsumerWidget {
+  const _PurchaseActionsPanel({
+    required this.viewModelProvider,
+    Key? key,
+  }) : super(key: key);
+
+  final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
+      JoinPremiumPlanState> viewModelProvider;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final purchasableListValue = ref.watch(currentUserPurchasableListProvider);
+
+    return purchasableListValue.when(
+      data: (purchasableList) {
+        if (purchasableList == null || purchasableList.isEmpty) {
+          return const Text('購入可能な商品が見つかりません。');
+        }
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: purchasableList
+              .map(
+                (purchasable) => _PurchasableButton(
+                  text: '${purchasable.title} : ${purchasable.price}',
+                  onPressed: () async {
+                    await ref
+                        .read(viewModelProvider.notifier)
+                        .joinPremiumPlan();
+                  },
+                ),
+              )
+              .toList(),
+        );
+      },
+      loading: () {
+        return const CircularProgressIndicator();
+      },
+      error: (_, __) {
+        return const Text('購入可能な商品が見つかりません。');
+      },
+    );
+  }
+}
+
+class _PurchasableButton extends StatelessWidget {
+  const _PurchasableButton({
+    required this.text,
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  final String text;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                DisplayDefinition.cornerRadiusSizeLarge,
+              ),
+            ),
+          ),
+          textStyle: MaterialStateProperty.all<TextStyle>(
+            Theme.of(context).textTheme.labelLarge!.copyWith(
+                  fontSize: 16,
+                  // Specify a default text theme to apply the system font
+                  // to allow the Japanese yen symbol to be displayed.
+                  fontFamily: '',
+                ),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(text),
+        ),
+      ),
     );
   }
 }
