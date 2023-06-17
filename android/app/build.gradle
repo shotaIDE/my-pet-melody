@@ -31,6 +31,11 @@ if (project.hasProperty('dart-defines')) {
             }
 }
 
+def callBackSchemeSuffix = ''
+if (dartEnvironmentVariables.FLAVOR != 'prod') {
+    callBackSchemeSuffix = dartEnvironmentVariables.FLAVOR
+}
+
 def networkConfigSuffix = ''
 if (dartEnvironmentVariables.FLAVOR == 'emulator') {
     networkConfigSuffix = '_emulator'
@@ -91,8 +96,9 @@ android {
         }
 
         manifestPlaceholders += [
+                CALL_BACK_SCHEME_SUFFIX         : "-$callBackSchemeSuffix",
                 ICON_RESOURCE                   : "@mipmap/ic_launcher_${dartEnvironmentVariables.FLAVOR}",
-                NETWORK_SECURITY_CONFIG_RESOURCE: "@xml/network_security_config${networkConfigSuffix}",
+                NETWORK_SECURITY_CONFIG_RESOURCE: "@xml/network_security_config$networkConfigSuffix",
         ]
     }
 

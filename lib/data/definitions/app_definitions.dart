@@ -16,4 +16,16 @@ class AppDefinitions {
         return 'https://asia-east1-colomney-my-pet-melody.cloudfunctions.net';
     }
   }
+
+  static String get twitterRedirectUri {
+    final String redirectScheme;
+    if (F.flavor == Flavor.prod) {
+      redirectScheme = EnvironmentConfig.twitterRedirectSchemePrefix;
+    } else {
+      redirectScheme =
+          '${EnvironmentConfig.twitterRedirectSchemePrefix}-${F.flavor.name}';
+    }
+
+    return '$redirectScheme://auth/twitter';
+  }
 }

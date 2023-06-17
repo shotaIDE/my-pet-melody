@@ -33,7 +33,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="meow-music-dev"
+                    android:scheme="my-pet-melody${CALL_BACK_SCHEME_SUFFIX}"
                     android:host="auth" />
             </intent-filter>
         </activity>

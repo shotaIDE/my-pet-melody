@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/model/login_twitter_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
 import 'package:my_pet_melody/data/model/twitter_credential.dart';
@@ -18,7 +19,7 @@ class ThirdPartyAuthActions {
     final executor = TwitterLogin(
       apiKey: EnvironmentConfig.twitterConsumerApiKey,
       apiSecretKey: EnvironmentConfig.twitterConsumerSecret,
-      redirectURI: EnvironmentConfig.twitterRedirectUri,
+      redirectURI: AppDefinitions.twitterRedirectUri,
     );
 
     final results = await executor.login();
