@@ -1,8 +1,8 @@
 // ignore_for_file: prefer-match-file-name
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/logger/error_reporter.dart';
 import 'package:my_pet_melody/data/model/purchasable.dart';
 import 'package:my_pet_melody/data/model/purchase_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
@@ -13,7 +13,9 @@ final inPremiumPlanProvider =
   (ref) => IsPremiumPlanNotifier(),
 );
 
-final purchasableListProvider = FutureProvider<List<Purchasable>?>((_) async {
+final purchasableListProvider = FutureProvider<List<Purchasable>?>((ref) async {
+  final errorReporter = ref.watch(errorReporterProvider);
+
   try {
     final offerings = await Purchases.getOfferings();
     final offering = offerings.current;
@@ -29,9 +31,12 @@ final purchasableListProvider = FutureProvider<List<Purchasable>?>((_) async {
         );
       },
     ).toList();
-  } on PlatformException catch (error) {
-    // TODO(ide): record error
-    debugPrint('$error');
+  } on PlatformException catch (error, stack) {
+    await errorReporter.send(
+      error,
+      stack,
+      reason: 'failed to fetch purchasable.',
+    );
 
     return [];
   }
@@ -39,7 +44,9 @@ final purchasableListProvider = FutureProvider<List<Purchasable>?>((_) async {
 
 final purchaseActionsProvider = Provider(
   (ref) {
-    return PurchaseActions();
+    final errorReporter = ref.watch(errorReporterProvider);
+
+    return PurchaseActions(errorReporter: errorReporter);
   },
 );
 
@@ -73,6 +80,11 @@ class IsPremiumPlanNotifier extends StateNotifier<bool?> {
 }
 
 class PurchaseActions {
+  const PurchaseActions({required ErrorReporter errorReporter})
+      : _errorReporter = errorReporter;
+
+  final ErrorReporter _errorReporter;
+
   Future<Result<void, PurchaseError>> purchase({
     required Purchasable purchasable,
   }) async {
@@ -104,8 +116,12 @@ class PurchaseActions {
     try {
       await Purchases.restorePurchases();
       return true;
-    } on PlatformException {
-      // TODO(ide): record error
+    } on PlatformException catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'failed to restore purchases.',
+      );
 
       return false;
     }
