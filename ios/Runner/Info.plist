@@ -30,7 +30,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>$(TWITTER_REDIRECT_SCHEME)</string>
-				<string>fb$(FACEBOOK_APP_ID)</string>
+				<string>fb1552321291958638</string>
 			</array>
 		</dict>
 	</array>
@@ -70,7 +70,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>FacebookAppID</key>
-	<string>$(FACEBOOK_APP_ID)</string>
+	<string>1552321291958638</string>
 	<key>FacebookClientToken</key>
 	<string>$(FACEBOOK_APP_SECRET)</string>
 	<key>FacebookDisplayName</key>
