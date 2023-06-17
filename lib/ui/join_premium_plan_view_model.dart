@@ -1,10 +1,7 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/purchasable.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_state.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 
 class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
   JoinPremiumPlanViewModel({required Ref ref})
@@ -13,22 +10,21 @@ class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
 
   final Ref _ref;
 
-  Future<void> setup() async {
-    try {
-      final offerings = await Purchases.getOfferings();
-      final offering = offerings.current;
-      final packages = offering?.availablePackages;
-      packages?.forEach(
-        (package) {
-          final storeProduct = package.storeProduct;
-          debugPrint(
-            'Title: ${storeProduct.title}, price: ${storeProduct.priceString}',
-          );
-        },
-      );
-    } on PlatformException catch (error) {
-      debugPrint('$error');
-    }
+  void Function()? _showCompletedJoiningPremiumPlan;
+  void Function()? _showFailedJoiningPremiumPlan;
+  void Function()? _showCompletedRestoring;
+  void Function()? _showFailedRestoring;
+
+  void registerListener({
+    required void Function() showCompletedJoiningPremiumPlan,
+    required void Function() showFailedJoiningPremiumPlan,
+    required void Function() showCompletedRestoring,
+    required void Function() showFailedRestoring,
+  }) {
+    _showCompletedJoiningPremiumPlan = showCompletedJoiningPremiumPlan;
+    _showFailedJoiningPremiumPlan = showFailedJoiningPremiumPlan;
+    _showCompletedRestoring = showCompletedRestoring;
+    _showFailedRestoring = showFailedRestoring;
   }
 
   Future<void> joinPremiumPlan({
@@ -41,10 +37,15 @@ class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
 
     result.when(
       success: (_) {
-        debugPrint('Succeeded.');
+        _showCompletedJoiningPremiumPlan?.call();
       },
       failure: (error) {
-        debugPrint('Failed: $error');
+        error.map(
+          cancelledByUser: (_) {},
+          unrecoverable: (_) {
+            _showFailedJoiningPremiumPlan?.call();
+          },
+        );
       },
     );
 
@@ -58,9 +59,9 @@ class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
     final result = await purchaseActions.restore();
 
     if (result) {
-      debugPrint('Succeeded.');
+      _showCompletedRestoring?.call();
     } else {
-      debugPrint('Failed.');
+      _showFailedRestoring?.call();
     }
 
     state = state.copyWith(isProcessing: false);

@@ -37,7 +37,36 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
   void initState() {
     super.initState();
 
-    ref.read(widget.viewModelProvider.notifier).setup();
+    ref.read(widget.viewModelProvider.notifier).registerListener(
+      showCompletedJoiningPremiumPlan: () {
+        const snackBar = SnackBar(
+          content: Text('プレミアムプランに加入しました'),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+      showFailedJoiningPremiumPlan: () {
+        const snackBar = SnackBar(
+          content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+      showCompletedRestoring: () {
+        const snackBar = SnackBar(
+          content: Text('購入履歴を復元しました'),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+      showFailedRestoring: () {
+        const snackBar = SnackBar(
+          content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+    );
   }
 
   @override
