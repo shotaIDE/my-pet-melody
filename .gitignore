@@ -4,7 +4,6 @@ dart-defines*.json
 google-services.json
 GoogleService-Info.plist
 
-/.env
 /assets/edited
 /assets/original
 /dart-code-metrics.json
