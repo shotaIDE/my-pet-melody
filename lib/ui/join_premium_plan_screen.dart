@@ -254,7 +254,18 @@ class _PurchaseActionsPanel extends ConsumerWidget {
     }
 
     if (isPremiumPlan) {
-      return const Text('プレミアムプランに加入済み');
+      return const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.check_circle,
+            color: Colors.green,
+          ),
+          SizedBox(width: 16),
+          Text('プレミアムプランに加入済み'),
+          SizedBox(width: 8),
+        ],
+      );
     }
 
     return _PurchaseButtonsPanel(viewModelProvider: viewModelProvider);
