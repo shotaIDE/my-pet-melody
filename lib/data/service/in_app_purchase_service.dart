@@ -62,7 +62,7 @@ class IsPremiumPlanNotifier extends StateNotifier<bool?> {
       final entitlement =
           customerInfo.entitlements.all[_premiumPlanEntitlementIdentifier];
       if (entitlement == null) {
-        _updateIfNeeded(isPremiumPlan: null);
+        _updateIfNeeded(isPremiumPlan: false);
         return;
       }
 
