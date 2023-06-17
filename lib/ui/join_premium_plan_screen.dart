@@ -72,7 +72,7 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       positionInGroup: ListTilePositionInGroup.last,
     );
 
-    final joinButton = _PurchaseActionsPanel(
+    final purchaseActionsPanel = _PurchaseActionsPanel(
       viewModelProvider: widget.viewModelProvider,
     );
 
@@ -134,8 +134,10 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
           rapidGenerationFeatureTile,
           highQualityGenerationFeatureTile,
           const SizedBox(height: 32),
-          joinButton,
-          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: purchaseActionsPanel,
+          ),
           restoreButton,
           const SizedBox(height: 32),
           subscriptionDescription1Tile,
@@ -249,20 +251,21 @@ class _PurchaseActionsPanel extends ConsumerWidget {
           return const Text('購入可能な商品が見つかりません。');
         }
 
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: purchasableList
-              .map(
-                (purchasable) => _PurchasableButton(
-                  text: '${purchasable.title} : ${purchasable.price}',
-                  onPressed: () async {
-                    await ref
-                        .read(viewModelProvider.notifier)
-                        .joinPremiumPlan();
-                  },
-                ),
-              )
-              .toList(),
+        return ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (_, index) {
+            final purchasable = purchasableList[index];
+
+            return _PurchasableButton(
+              text: '${purchasable.title} : ${purchasable.price}',
+              onPressed: () async {
+                await ref.read(viewModelProvider.notifier).joinPremiumPlan();
+              },
+            );
+          },
+          separatorBuilder: (_, __) => const SizedBox(height: 32),
+          itemCount: purchasableList.length,
         );
       },
       loading: () {
