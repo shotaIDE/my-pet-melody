@@ -20,5 +20,4 @@ runs:
       shell: bash
       run: |
         flutter pub get
-        ./use-env.sh
         flutter pub run build_runner build
