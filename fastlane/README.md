@@ -34,6 +34,14 @@ Generate automatic codes
 
 Build develop app
 
+### android build_prod
+
+```sh
+[bundle exec] fastlane android build_prod
+```
+
+Build production app
+
 ### android deploy_dev
 
 ```sh

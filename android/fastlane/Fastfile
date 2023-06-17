@@ -12,6 +12,17 @@ platform :android do
     lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/apk/release/app-release.apk'
   end
 
+  desc 'Build production app'
+  lane :build_prod do
+    generate
+
+    Dir.chdir('../') do
+      sh('flutter build appbundle --dart-define FLAVOR=prod')
+    end
+
+    lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = 'build/app/outputs/bundle/release/app-release.aab'
+  end
+
   desc 'Deploy develop app to Firebase App Distribution'
   lane :deploy_dev do
     build_dev
