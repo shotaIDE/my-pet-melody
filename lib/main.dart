@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/di/api_providers.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
+import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/service/storage_service_local_flask.dart';
 import 'package:my_pet_melody/environment_config.dart';
 import 'package:my_pet_melody/firebase_options_dev.dart' as dev;
@@ -40,7 +41,7 @@ Future<void> main() async {
       }
       await Firebase.initializeApp(options: options);
 
-      final List<Override> overrides;
+      final overrides = <Override>[];
 
       if (F.flavor == Flavor.emulator) {
         const serverHost = AppDefinitions.serverHostForEmulatorConfiguration;
@@ -48,7 +49,7 @@ Future<void> main() async {
         FirebaseFirestore.instance.useFirestoreEmulator(serverHost, 8080);
         await FirebaseStorage.instance.useStorageEmulator(serverHost, 9199);
 
-        overrides = [
+        overrides.addAll([
           // Use Flask endpoint in Emulator flavor,
           // because the Python lib for Firebase Emulator is
           // not able to use Firebase Storage.
@@ -57,9 +58,11 @@ Future<void> main() async {
               api: ref.watch(storageApiProvider),
             ),
           ),
-        ];
-      } else {
-        overrides = [];
+        ]);
+      }
+
+      if (F.flavor != Flavor.prod) {
+        overrides.add(isPremiumPlanProvider.overrideWith((ref) => true));
       }
 
       FlutterError.onError =

@@ -276,7 +276,7 @@ class _PurchaseActionsPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isPremiumPlan = ref.watch(inPremiumPlanProvider);
+    final isPremiumPlan = ref.watch(isPremiumPlanProvider);
 
     if (isPremiumPlan == null) {
       return const CircularProgressIndicator();

@@ -8,10 +8,10 @@ import 'package:my_pet_melody/data/model/purchase_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
-final inPremiumPlanProvider =
-    StateNotifierProvider.autoDispose<IsPremiumPlanNotifier, bool?>(
-  (ref) => IsPremiumPlanNotifier(),
-);
+final isPremiumPlanProvider = Provider((ref) {
+  final isPremiumPlan = ref.watch(_isPremiumPlanStateProvider);
+  return isPremiumPlan;
+});
 
 final purchasableListProvider = FutureProvider<List<Purchasable>?>((ref) async {
   final errorReporter = ref.watch(errorReporterProvider);
@@ -51,33 +51,6 @@ final purchaseActionsProvider = Provider(
 );
 
 const _premiumPlanEntitlementIdentifier = 'premium';
-
-class IsPremiumPlanNotifier extends StateNotifier<bool?> {
-  IsPremiumPlanNotifier() : super(null) {
-    _setup();
-  }
-
-  Future<void> _setup() async {
-    Purchases.addCustomerInfoUpdateListener((customerInfo) {
-      final entitlement =
-          customerInfo.entitlements.all[_premiumPlanEntitlementIdentifier];
-      if (entitlement == null) {
-        _updateIfNeeded(isPremiumPlan: false);
-        return;
-      }
-
-      _updateIfNeeded(isPremiumPlan: entitlement.isActive);
-    });
-  }
-
-  void _updateIfNeeded({required bool? isPremiumPlan}) {
-    if (state == isPremiumPlan) {
-      return;
-    }
-
-    state = isPremiumPlan;
-  }
-}
 
 class PurchaseActions {
   const PurchaseActions({required ErrorReporter errorReporter})
@@ -125,5 +98,37 @@ class PurchaseActions {
 
       return false;
     }
+  }
+}
+
+final _isPremiumPlanStateProvider =
+    StateNotifierProvider<_IsPremiumPlanNotifier, bool?>(
+  (ref) => _IsPremiumPlanNotifier(),
+);
+
+class _IsPremiumPlanNotifier extends StateNotifier<bool?> {
+  _IsPremiumPlanNotifier() : super(null) {
+    _setup();
+  }
+
+  Future<void> _setup() async {
+    Purchases.addCustomerInfoUpdateListener((customerInfo) {
+      final entitlement =
+          customerInfo.entitlements.all[_premiumPlanEntitlementIdentifier];
+      if (entitlement == null) {
+        _updateIfNeeded(isPremiumPlan: false);
+        return;
+      }
+
+      _updateIfNeeded(isPremiumPlan: entitlement.isActive);
+    });
+  }
+
+  void _updateIfNeeded({required bool? isPremiumPlan}) {
+    if (state == isPremiumPlan) {
+      return;
+    }
+
+    state = isPremiumPlan;
   }
 }
