@@ -317,7 +317,7 @@ class _PurchaseButtonsPanel extends ConsumerWidget {
     return purchasableListValue.when(
       data: (purchasableList) {
         if (purchasableList == null || purchasableList.isEmpty) {
-          return const Text('購入可能な商品が見つかりません。');
+          return const _NoAvailablePurchasableText();
         }
 
         return ListView.separated(
@@ -343,8 +343,22 @@ class _PurchaseButtonsPanel extends ConsumerWidget {
         return const CircularProgressIndicator();
       },
       error: (_, __) {
-        return const Text('購入可能な商品が見つかりません。');
+        return const _NoAvailablePurchasableText();
       },
+    );
+  }
+}
+
+class _NoAvailablePurchasableText extends StatelessWidget {
+  const _NoAvailablePurchasableText({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      '購入可能な商品が見つかりません',
+      style: Theme.of(context).textTheme.bodySmall,
     );
   }
 }
