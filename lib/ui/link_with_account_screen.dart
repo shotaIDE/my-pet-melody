@@ -49,7 +49,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
     final continueWithFacebookButton = ContinueWithFacebookButton(
       onPressed: _continueWithFacebook,
     );
-    final loginWithAppleButton = ContinueWithAppleButton(
+    final continueWithAppleButton = ContinueWithAppleButton(
       onPressed: _continueWithApple,
     );
     final buttonsPanel = ConstrainedBox(
@@ -63,7 +63,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
           const SizedBox(height: 16),
           continueWithFacebookButton,
           const SizedBox(height: 16),
-          loginWithAppleButton,
+          continueWithAppleButton,
         ],
       ),
     );
