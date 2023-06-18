@@ -10,6 +10,7 @@ import 'package:my_pet_melody/data/logger/error_reporter.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
 import 'package:my_pet_melody/data/model/delete_account_with_current_session_error.dart';
 import 'package:my_pet_melody/data/model/link_credential_error.dart';
+import 'package:my_pet_melody/data/model/login_error.dart';
 import 'package:my_pet_melody/data/model/login_session.dart';
 import 'package:my_pet_melody/data/model/profile.dart';
 import 'package:my_pet_melody/data/model/result.dart';
@@ -253,19 +254,18 @@ class AuthActions {
     return const Result.success(null);
   }
 
-  Future<Result<void, LinkCredentialError>> loginWithApple({
-    required String idToken,
-    required String accessToken,
-  }) async {
-    final appleProvider = OAuthProvider('apple.com');
-    final appleAuthCredential =
-        appleProvider.credential(idToken: idToken, accessToken: accessToken);
+  Future<Result<void, LoginError>> loginWithApple() async {
+    final appleProvider = AppleAuthProvider();
 
     try {
-      await FirebaseAuth.instance.signInWithCredential(appleAuthCredential);
+      await FirebaseAuth.instance.signInWithProvider(appleProvider);
     } on FirebaseAuthException catch (error, stack) {
+      if (error.code == 'canceled' || error.code == 'web-context-canceled') {
+        return const Result.failure(LoginError.cancelledByUser());
+      }
+
       if (error.code == 'credential-already-in-use') {
-        return const Result.failure(LinkCredentialError.alreadyInUse());
+        return const Result.failure(LoginError.alreadyInUse());
       }
 
       await _errorReporter.send(
@@ -274,7 +274,7 @@ class AuthActions {
         reason: 'unhandled Firebase Auth exception when login with Apple.',
       );
 
-      return const Result.failure(LinkCredentialError.unrecoverable());
+      return const Result.failure(LoginError.unrecoverable());
     } catch (error, stack) {
       await _errorReporter.send(
         error,
@@ -282,7 +282,7 @@ class AuthActions {
         reason: 'unhandled exception when login with Apple.',
       );
 
-      return const Result.failure(LinkCredentialError.unrecoverable());
+      return const Result.failure(LoginError.unrecoverable());
     }
 
     return const Result.success(null);

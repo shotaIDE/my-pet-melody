@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
-import 'package:my_pet_melody/data/model/apple_credential.dart';
 import 'package:my_pet_melody/data/model/delete_account_error.dart';
 import 'package:my_pet_melody/data/model/login_error.dart';
 import 'package:my_pet_melody/data/model/login_twitter_error.dart';
@@ -207,38 +206,10 @@ final linkWithFacebookActionProvider =
 
 final loginWithAppleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
-  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
 
   Future<Result<void, LoginError>> action() async {
-    final loginAppleResult = await thirdPartyAuthActions.loginApple();
-    final convertedLoginError = loginAppleResult.whenOrNull<LoginError>(
-      failure: (error) => error.when(
-        cancelledByUser: LoginError.cancelledByUser,
-        unrecoverable: LoginError.unrecoverable,
-      ),
-    );
-    if (convertedLoginError != null) {
-      return Result.failure(convertedLoginError);
-    }
-
-    final appleCredential =
-        (loginAppleResult as Success<AppleCredential, LoginTwitterError>).value;
-    final loginResult = await authActions.loginWithApple(
-      idToken: appleCredential.idToken,
-      accessToken: appleCredential.accessToken,
-    );
-    final convertedLinkError = loginResult.whenOrNull(
-      failure: (error) => error.when(
-        alreadyInUse: LoginError.alreadyInUse,
-        unrecoverable: LoginError.unrecoverable,
-      ),
-    );
-    if (convertedLinkError != null) {
-      return Result.failure(convertedLinkError);
-    }
-
-    return const Result.success(null);
+    return authActions.loginWithApple();
   }
 
   return action;
@@ -246,40 +217,10 @@ final loginWithAppleActionProvider =
 
 final linkWithAppleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
-  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
 
   Future<Result<void, LoginError>> action() async {
-    final loginResult = await thirdPartyAuthActions.loginApple();
-    final convertedLoginError =
-        loginResult.whenOrNull<Result<void, LoginError>>(
-      failure: (error) => error.when(
-        cancelledByUser: () =>
-            const Result.failure(LoginError.cancelledByUser()),
-        unrecoverable: () => const Result.failure(LoginError.unrecoverable()),
-      ),
-    );
-    if (convertedLoginError != null) {
-      return convertedLoginError;
-    }
-
-    final appleCredential =
-        (loginResult as Success<AppleCredential, LoginTwitterError>).value;
-    final linkResult = await authActions.linkWithApple(
-      idToken: appleCredential.idToken,
-      accessToken: appleCredential.accessToken,
-    );
-    final convertedLinkError = linkResult.whenOrNull(
-      failure: (error) => error.when(
-        alreadyInUse: LoginError.alreadyInUse,
-        unrecoverable: LoginError.unrecoverable,
-      ),
-    );
-    if (convertedLinkError != null) {
-      return Result.failure(convertedLinkError);
-    }
-
-    return const Result.success(null);
+    return authActions.loginWithApple();
   }
 
   return action;
