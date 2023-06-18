@@ -315,9 +315,10 @@ final deleteAccountActionProvider = Provider((ref) {
         break;
 
       case AccountProvider.apple:
-        final loginAppleResult = await authActions.loginOrLinkWithApple();
+        final reauthenticateWithAppleResult =
+            await authActions.loginOrLinkWithApple();
         final convertedLoginError =
-            loginAppleResult.whenOrNull<DeleteAccountError>(
+            reauthenticateWithAppleResult.whenOrNull<DeleteAccountError>(
           failure: (error) => error.when(
             cancelledByUser: DeleteAccountError.cancelledByUser,
             alreadyInUse: DeleteAccountError.unrecoverable,
