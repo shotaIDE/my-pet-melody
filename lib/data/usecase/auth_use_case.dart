@@ -283,7 +283,43 @@ final deleteAccountActionProvider = Provider((ref) {
         return const Result.success(null);
 
       case AccountProvider.facebook:
-        // TODO(ide): Implement
+        final loginFacebookResult = await thirdPartyAuthActions.loginFacebook();
+        final convertedLoginError =
+            loginFacebookResult.whenOrNull<DeleteAccountError>(
+          failure: (error) => error.when(
+            cancelledByUser: DeleteAccountError.cancelledByUser,
+            unrecoverable: DeleteAccountError.unrecoverable,
+          ),
+        );
+        if (convertedLoginError != null) {
+          return Result.failure(convertedLoginError);
+        }
+
+        final accessToken =
+            (loginFacebookResult as Success<String, LoginTwitterError>).value;
+        final reauthenticateResult = await authActions
+            .reauthenticateWithFacebook(accessToken: accessToken);
+        final convertedReauthenticateError = reauthenticateResult.whenOrNull(
+          failure: (error) => error.when(
+            alreadyInUse: DeleteAccountError.unrecoverable,
+            unrecoverable: DeleteAccountError.unrecoverable,
+          ),
+        );
+        if (convertedReauthenticateError != null) {
+          return Result.failure(convertedReauthenticateError);
+        }
+
+        final deleteOnSecondResult = await authActions.delete();
+        final deleteOnSecondError = deleteOnSecondResult.whenOrNull(
+          failure: (error) => error.when(
+            needReauthenticate: (_) => const DeleteAccountError.unrecoverable(),
+            unrecoverable: DeleteAccountError.unrecoverable,
+          ),
+        );
+        if (deleteOnSecondError != null) {
+          return Result.failure(deleteOnSecondError);
+        }
+
         return const Result.success(null);
     }
   }

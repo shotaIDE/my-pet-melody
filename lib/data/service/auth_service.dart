@@ -270,13 +270,61 @@ class AuthActions {
 
     try {
       await currentUser.reauthenticateWithCredential(twitterAuthCredential);
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException catch (error, stack) {
       if (error.code == 'credential-already-in-use') {
         return const Result.failure(LinkCredentialError.alreadyInUse());
       }
 
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception '
+            'when reauthenticate with Twitter.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
-    } catch (e) {
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when reauthenticate with Twitter.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
+  }
+
+  Future<Result<void, LinkCredentialError>> reauthenticateWithFacebook({
+    required String accessToken,
+  }) async {
+    final twitterAuthCredential = FacebookAuthProvider.credential(accessToken);
+
+    final currentUser = FirebaseAuth.instance.currentUser!;
+
+    try {
+      await currentUser.reauthenticateWithCredential(twitterAuthCredential);
+    } on FirebaseAuthException catch (error, stack) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception '
+            'when reauthenticate with Facebook.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when reauthenticate with Facebook.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
     }
 
@@ -292,7 +340,7 @@ class AuthActions {
 
     try {
       await currentUser.delete();
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException catch (error, stack) {
       if (error.code == 'requires-recent-login') {
         return Result.failure(
           DeleteAccountWithCurrentSessionError.needReauthenticate(
@@ -301,10 +349,22 @@ class AuthActions {
         );
       }
 
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception when delete account',
+      );
+
       return const Result.failure(
         DeleteAccountWithCurrentSessionError.unrecoverable(),
       );
-    } catch (e) {
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when delete account',
+      );
+
       return const Result.failure(
         DeleteAccountWithCurrentSessionError.unrecoverable(),
       );
