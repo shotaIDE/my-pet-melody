@@ -2,6 +2,26 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+class ContinueWithGoogleButton extends StatelessWidget {
+  const ContinueWithGoogleButton({
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ContinueWithThirdPartyProviderButton(
+      onPressed: onPressed,
+      icon: FontAwesomeIcons.google,
+      text: 'Googleで続ける',
+      foregroundColor: Colors.white,
+      backgroundColor: const Color(0xFF1DA1F2),
+    );
+  }
+}
+
 class ContinueWithTwitterButton extends StatelessWidget {
   const ContinueWithTwitterButton({
     required this.onPressed,
@@ -36,8 +56,8 @@ class ContinueWithFacebookButton extends StatelessWidget {
       onPressed: onPressed,
       icon: FontAwesomeIcons.facebook,
       text: 'Facebookで続ける',
-      foregroundColor: Colors.white,
-      backgroundColor: const Color(0xFF1877f2),
+      foregroundColor: Colors.black,
+      backgroundColor: Colors.white,
     );
   }
 }

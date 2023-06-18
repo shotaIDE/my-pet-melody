@@ -49,6 +49,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       textAlign: TextAlign.center,
     );
 
+    final continueWithGoogleButton = ContinueWithGoogleButton(
+      onPressed: _continueWithGoogle,
+    );
     final continueWithTwitterButton = ContinueWithTwitterButton(
       onPressed: _continueWithTwitter,
     );
