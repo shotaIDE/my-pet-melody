@@ -1,5 +1,5 @@
 inputs:
-  env-base64:
+  dart-defines-json-base64-dev:
     required: true
   firebase-options-dart-base64-emulator:
     required: true
@@ -22,13 +22,20 @@ runs:
     - name: Setup CocoaPods
       uses: ./.github/actions/setup-cocoapods
 
+    - name: Setup Ruby
+      uses: ./.github/actions/setup-ruby
+
     - name: Generate uncommited Flutter files
       uses: ./.github/actions/generate-uncommited-flutter-files
       with:
-        env-base64: ${{ inputs.env-base64 }}
         firebase-options-dart-base64-emulator: ${{ inputs.firebase-options-dart-base64-emulator }}
         firebase-options-dart-base64-dev: ${{ inputs.firebase-options-dart-base64-dev }}
         firebase-options-dart-base64-prod: ${{ inputs.firebase-options-dart-base64-prod }}
+
+    - name: Generate uncommited Flutter files for dev
+      uses: ./.github/actions/generate-uncommited-flutter-files-dev
+      with:
+        dart-defines-json-base64-dev: ${{ inputs.dart-defines-json-base64-dev }}
 
     - name: Generate uncommited iOS files
       uses: ./.github/actions/generate-uncommited-ios-files
@@ -37,4 +44,4 @@ runs:
 
     - name: iOS build
       shell: bash
-      run: flutter build ios --dart-define FLAVOR=dev --no-codesign
+      run: flutter build ios --dart-define-from-file dart-defines_dev.json --no-codesign

@@ -29,7 +29,8 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>my-pet-melody$(CALL_BACK_SCHEME_SUFFIX)</string>
+				<string>$(TWITTER_REDIRECT_SCHEME)</string>
+				<string>fb1552321291958638</string>
 			</array>
 		</dict>
 	</array>
@@ -68,5 +69,16 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>FacebookAppID</key>
+	<string>1552321291958638</string>
+	<key>FacebookClientToken</key>
+	<string>$(FACEBOOK_APP_SECRET)</string>
+	<key>FacebookDisplayName</key>
+	<string>うちのコメロディー</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
 </dict>
 </plist>

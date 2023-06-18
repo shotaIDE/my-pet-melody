@@ -1,0 +1,11 @@
+{
+  "FLAVOR": "dev",
+  "TWITTER_CONSUMER_API_KEY": "xxxxxxxxxxxxxxxxxxxxxxxxx",
+  "TWITTER_CONSUMER_SECRET": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "TWITTER_REDIRECT_SCHEME_PREFIX": "my-pet-melody",
+  "FACEBOOK_APP_SECRET": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "REVENUE_CAT_PUBLIC_APPLE_API_KEY": "appl_xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "REVENUE_CAT_PUBLIC_GOOGLE_API_KEY": "goog_xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "SERVER_HOST": "192.168.1.1",
+  "SERVER_ORIGIN": "http://192.168.1.1:5001"
+}

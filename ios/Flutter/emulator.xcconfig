@@ -1,3 +1,1 @@
-FLAVOR=emulator
 APP_ID_SUFFIX=.emulator
-CALL_BACK_SCHEME_SUFFIX=-emulator

@@ -1,31 +1,17 @@
-import 'package:my_pet_melody/environment_config.dart';
-import 'package:my_pet_melody/flavor.dart';
-
 class AppDefinitions {
-  static const serverHostForEmulatorConfiguration =
-      EnvironmentConfig.serverHostForEmulatorConfiguration;
-
-  static String get serverOrigin {
-    switch (F.flavor) {
-      case Flavor.emulator:
-        const port = 5001;
-        return 'http://$serverHostForEmulatorConfiguration:$port';
-      case Flavor.dev:
-        return 'https://asia-east1-colomney-my-pet-melody-dev.cloudfunctions.net';
-      case Flavor.prod:
-        return 'https://asia-east1-colomney-my-pet-melody.cloudfunctions.net';
-    }
-  }
+  static const twitterConsumerApiKey =
+      String.fromEnvironment('TWITTER_CONSUMER_API_KEY');
+  static const twitterConsumerSecret =
+      String.fromEnvironment('TWITTER_CONSUMER_SECRET');
+  static const revenueCatPublicAppleApiKey =
+      String.fromEnvironment('REVENUE_CAT_PUBLIC_APPLE_API_KEY');
+  static const revenueCatPublicGoogleApiKey =
+      String.fromEnvironment('REVENUE_CAT_PUBLIC_GOOGLE_API_KEY');
+  static const serverHost = String.fromEnvironment('SERVER_HOST');
+  static const serverOrigin = String.fromEnvironment('SERVER_ORIGIN');
 
   static String get twitterRedirectUri {
-    final String redirectScheme;
-    if (F.flavor == Flavor.prod) {
-      redirectScheme = EnvironmentConfig.twitterRedirectSchemePrefix;
-    } else {
-      redirectScheme =
-          '${EnvironmentConfig.twitterRedirectSchemePrefix}-${F.flavor.name}';
-    }
-
+    const redirectScheme = String.fromEnvironment('TWITTER_REDIRECT_SCHEME');
     return '$redirectScheme://auth/twitter';
   }
 }

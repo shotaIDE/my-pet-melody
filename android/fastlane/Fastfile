@@ -6,7 +6,7 @@ platform :android do
     generate
 
     Dir.chdir('../') do
-      sh('flutter build apk --dart-define FLAVOR=dev')
+      sh('flutter build apk --dart-define-from-file dart-defines_dev.json')
     end
 
     lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/apk/release/app-release.apk'
@@ -17,7 +17,7 @@ platform :android do
     generate
 
     Dir.chdir('../') do
-      sh('flutter build appbundle --dart-define FLAVOR=prod')
+      sh('flutter build appbundle --dart-define-from-file dart-defines_prod.json')
     end
 
     lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = 'build/app/outputs/bundle/release/app-release.aab'
