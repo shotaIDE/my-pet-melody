@@ -68,6 +68,8 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          continueWithGoogleButton,
+          const SizedBox(height: 16),
           continueWithTwitterButton,
           const SizedBox(height: 16),
           continueWithFacebookButton,
@@ -149,6 +151,36 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
             ],
           )
         : scaffold;
+  }
+
+  Future<void> _continueWithGoogle() async {
+    final result =
+        await ref.read(widget.viewModel.notifier).continueWithGoogle();
+
+    await result.when(
+      success: (_) async {
+        await Navigator.pushReplacement<HomeScreen, void>(
+          context,
+          HomeScreen.route(),
+        );
+      },
+      failure: (error) => error.mapOrNull(
+        alreadyInUse: (_) async {
+          const snackBar = SnackBar(
+            content: Text('このGoogleアカウントはすでに利用されています。他のアカウントでお試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        unrecoverable: (_) async {
+          const snackBar = SnackBar(
+            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+      ),
+    );
   }
 
   Future<void> _continueWithTwitter() async {

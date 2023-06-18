@@ -13,6 +13,18 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   final Ref _ref;
 
+  Future<Result<void, LoginError>> continueWithGoogle() async {
+    state = state.copyWith(isProcessing: true);
+
+    final action = _ref.read(loginWithGoogleActionProvider);
+
+    final result = await action();
+
+    state = state.copyWith(isProcessing: false);
+
+    return result;
+  }
+
   Future<Result<void, LoginError>> continueWithTwitter() async {
     state = state.copyWith(isProcessing: true);
 

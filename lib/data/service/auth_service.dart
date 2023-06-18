@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/logger/error_reporter.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
 import 'package:my_pet_melody/data/model/delete_account_with_current_session_error.dart';
+import 'package:my_pet_melody/data/model/google_credential.dart';
 import 'package:my_pet_melody/data/model/link_credential_error.dart';
 import 'package:my_pet_melody/data/model/login_error.dart';
 import 'package:my_pet_melody/data/model/login_session.dart';
@@ -112,6 +113,41 @@ class AuthActions {
     final credential = await FirebaseAuth.instance.signInAnonymously();
     final idToken = await credential.user?.getIdToken();
     debugPrint('Signed in anonymously: $idToken');
+  }
+
+  Future<Result<void, LinkCredentialError>> loginWithGoogle(
+    GoogleCredential credential,
+  ) async {
+    final googleAuthCredential = GoogleAuthProvider.credential(
+      idToken: credential.idToken,
+      accessToken: credential.accessToken,
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithCredential(googleAuthCredential);
+    } on FirebaseAuthException catch (error, stack) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception when login with Google.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when login with Google.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
   }
 
   Future<Result<void, LinkCredentialError>> loginWithTwitter({

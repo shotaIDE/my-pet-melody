@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
 import 'package:my_pet_melody/data/model/delete_account_error.dart';
+import 'package:my_pet_melody/data/model/google_credential.dart';
 import 'package:my_pet_melody/data/model/login_error.dart';
 import 'package:my_pet_melody/data/model/login_twitter_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
@@ -45,6 +46,43 @@ final signInActionProvider = Provider<Future<void> Function()>((ref) {
   final actions = ref.watch(authActionsProvider);
 
   return actions.signInAnonymously;
+});
+
+final loginWithGoogleActionProvider =
+    Provider<Future<Result<void, LoginError>> Function()>((ref) {
+  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
+  final authActions = ref.watch(authActionsProvider);
+
+  Future<Result<void, LoginError>> action() async {
+    final loginGoogleResult = await thirdPartyAuthActions.loginGoogle();
+    final convertedLoginError = loginGoogleResult.whenOrNull<LoginError>(
+      failure: (error) => error.when(
+        cancelledByUser: LoginError.cancelledByUser,
+        unrecoverable: LoginError.unrecoverable,
+      ),
+    );
+    if (convertedLoginError != null) {
+      return Result.failure(convertedLoginError);
+    }
+
+    final googleCredential =
+        (loginGoogleResult as Success<GoogleCredential, LoginTwitterError>)
+            .value;
+    final loginResult = await authActions.loginWithGoogle(googleCredential);
+    final convertedLinkError = loginResult.whenOrNull(
+      failure: (error) => error.when(
+        alreadyInUse: LoginError.alreadyInUse,
+        unrecoverable: LoginError.unrecoverable,
+      ),
+    );
+    if (convertedLinkError != null) {
+      return Result.failure(convertedLinkError);
+    }
+
+    return const Result.success(null);
+  }
+
+  return action;
 });
 
 final loginWithTwitterActionProvider =
