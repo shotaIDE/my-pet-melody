@@ -13,7 +13,7 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   final Ref _ref;
 
-  Future<Result<void, LoginError>> loginWithTwitter() async {
+  Future<Result<void, LoginError>> continueWithTwitter() async {
     state = state.copyWith(isProcessing: true);
 
     final action = _ref.read(loginWithTwitterActionProvider);
@@ -25,7 +25,7 @@ class LoginViewModel extends StateNotifier<LoginState> {
     return result;
   }
 
-  Future<Result<void, LoginError>> loginWithFacebook() async {
+  Future<Result<void, LoginError>> continueWithFacebook() async {
     state = state.copyWith(isProcessing: true);
 
     final action = _ref.read(loginWithFacebookActionProvider);

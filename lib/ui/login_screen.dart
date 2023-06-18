@@ -49,11 +49,11 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       textAlign: TextAlign.center,
     );
 
-    final loginWithTwitterButton = ContinueWithTwitterButton(
-      onPressed: _loginWithTwitter,
+    final continueWithTwitterButton = ContinueWithTwitterButton(
+      onPressed: _continueWithTwitter,
     );
-    final loginWithFacebookButton = ContinueWithFacebookButton(
-      onPressed: _loginWithFacebook,
+    final continueWithFacebookButton = ContinueWithFacebookButton(
+      onPressed: _continueWithFacebook,
     );
     final loginWithAppleButton = ContinueWithAppleButton(
       onPressed: () {},
@@ -65,9 +65,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          loginWithTwitterButton,
+          continueWithTwitterButton,
           const SizedBox(height: 16),
-          loginWithFacebookButton,
+          continueWithFacebookButton,
           const SizedBox(height: 16),
           loginWithAppleButton,
         ],
@@ -148,8 +148,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         : scaffold;
   }
 
-  Future<void> _loginWithTwitter() async {
-    final result = await ref.read(widget.viewModel.notifier).loginWithTwitter();
+  Future<void> _continueWithTwitter() async {
+    final result =
+        await ref.read(widget.viewModel.notifier).continueWithTwitter();
 
     await result.when(
       success: (_) async {
@@ -177,9 +178,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Future<void> _loginWithFacebook() async {
+  Future<void> _continueWithFacebook() async {
     final result =
-        await ref.read(widget.viewModel.notifier).loginWithFacebook();
+        await ref.read(widget.viewModel.notifier).continueWithFacebook();
 
     await result.when(
       success: (_) async {

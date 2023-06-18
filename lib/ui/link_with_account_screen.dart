@@ -43,10 +43,10 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
       textAlign: TextAlign.center,
     );
 
-    final loginWithTwitterButton = ContinueWithTwitterButton(
-      onPressed: _loginWithTwitter,
+    final continueWithTwitterButton = ContinueWithTwitterButton(
+      onPressed: _continueWithTwitter,
     );
-    final loginWithFacebookButton = ContinueWithFacebookButton(
+    final continueWithFacebookButton = ContinueWithFacebookButton(
       onPressed: _continueWithFacebook,
     );
     final loginWithAppleButton = ContinueWithAppleButton(
@@ -59,9 +59,9 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          loginWithTwitterButton,
+          continueWithTwitterButton,
           const SizedBox(height: 16),
-          loginWithFacebookButton,
+          continueWithFacebookButton,
           const SizedBox(height: 16),
           loginWithAppleButton,
         ],
@@ -129,7 +129,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
         : scaffold;
   }
 
-  Future<void> _loginWithTwitter() async {
+  Future<void> _continueWithTwitter() async {
     final result = await ref.read(widget.viewModel.notifier).loginWithTwitter();
 
     await result.when(
