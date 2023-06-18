@@ -49,6 +49,7 @@ dependencies:
   firebase_analytics: ^10.4.2
   purchases_flutter: ^5.0.0
   flutter_facebook_auth: ^5.0.11
+  google_sign_in: ^6.1.4
 
 dev_dependencies:
   flutter_test:
