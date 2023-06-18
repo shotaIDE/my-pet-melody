@@ -42,6 +42,8 @@
             </intent-filter>
         </activity>
 
+        <!-- Defining facebook app ID in manifest placeholder does not work,
+             so define in @string as the document implies. -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
