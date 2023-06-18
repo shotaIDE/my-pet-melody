@@ -343,6 +343,9 @@ final deleteAccountActionProvider = Provider((ref) {
         }
 
         return const Result.success(null);
+
+      case AccountProvider.apple:
+        return const Result.success(null);
     }
   }
 
