@@ -80,6 +80,10 @@ class ThirdPartyAuthActions {
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
+        webAuthenticationOptions: WebAuthenticationOptions(
+          clientId: AppDefinitions.appleSignInClientId,
+          redirectUri: Uri.parse(AppDefinitions.appleSignInRedirectUri),
+        ),
       );
     } on SignInWithAppleAuthorizationException catch (error) {
       switch (error.code) {
