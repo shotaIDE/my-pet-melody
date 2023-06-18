@@ -55,8 +55,8 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
     final continueWithFacebookButton = ContinueWithFacebookButton(
       onPressed: _continueWithFacebook,
     );
-    final loginWithAppleButton = ContinueWithAppleButton(
-      onPressed: () {},
+    final continueWithAppleButton = ContinueWithAppleButton(
+      onPressed: _continueWithApple,
     );
     final buttonsPanel = ConstrainedBox(
       constraints: const BoxConstraints(
@@ -69,7 +69,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
           const SizedBox(height: 16),
           continueWithFacebookButton,
           const SizedBox(height: 16),
-          loginWithAppleButton,
+          continueWithAppleButton,
         ],
       ),
     );
@@ -193,6 +193,36 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         alreadyInUse: (_) async {
           const snackBar = SnackBar(
             content: Text('このFacebookアカウントはすでに利用されています。他のアカウントでお試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        unrecoverable: (_) async {
+          const snackBar = SnackBar(
+            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+      ),
+    );
+  }
+
+  Future<void> _continueWithApple() async {
+    final result =
+        await ref.read(widget.viewModel.notifier).continueWithApple();
+
+    await result.when(
+      success: (_) async {
+        await Navigator.pushReplacement<HomeScreen, void>(
+          context,
+          HomeScreen.route(),
+        );
+      },
+      failure: (error) => error.mapOrNull(
+        alreadyInUse: (_) async {
+          const snackBar = SnackBar(
+            content: Text('このAppleアカウントはすでに利用されています。他のアカウントでお試しください'),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

@@ -204,6 +204,20 @@ final linkWithFacebookActionProvider =
   return action;
 });
 
+final loginWithAppleActionProvider =
+    Provider<Future<Result<void, LoginError>> Function()>((ref) {
+  final authActions = ref.watch(authActionsProvider);
+
+  return authActions.loginOrLinkWithApple;
+});
+
+final linkWithAppleActionProvider =
+    Provider<Future<Result<void, LoginError>> Function()>((ref) {
+  final authActions = ref.watch(authActionsProvider);
+
+  return authActions.loginOrLinkWithApple;
+});
+
 final signOutActionProvider = Provider((ref) {
   final authActions = ref.watch(authActionsProvider);
   final pushNotificationService = ref.watch(pushNotificationServiceProvider);
@@ -269,18 +283,7 @@ final deleteAccountActionProvider = Provider((ref) {
           return Result.failure(convertedReauthenticateError);
         }
 
-        final deleteOnSecondResult = await authActions.delete();
-        final deleteOnSecondError = deleteOnSecondResult.whenOrNull(
-          failure: (error) => error.when(
-            needReauthenticate: (_) => const DeleteAccountError.unrecoverable(),
-            unrecoverable: DeleteAccountError.unrecoverable,
-          ),
-        );
-        if (deleteOnSecondError != null) {
-          return Result.failure(deleteOnSecondError);
-        }
-
-        return const Result.success(null);
+        break;
 
       case AccountProvider.facebook:
         final loginFacebookResult = await thirdPartyAuthActions.loginFacebook();
@@ -309,19 +312,38 @@ final deleteAccountActionProvider = Provider((ref) {
           return Result.failure(convertedReauthenticateError);
         }
 
-        final deleteOnSecondResult = await authActions.delete();
-        final deleteOnSecondError = deleteOnSecondResult.whenOrNull(
+        break;
+
+      case AccountProvider.apple:
+        final reauthenticateWithAppleResult =
+            await authActions.loginOrLinkWithApple();
+        final convertedLoginError =
+            reauthenticateWithAppleResult.whenOrNull<DeleteAccountError>(
           failure: (error) => error.when(
-            needReauthenticate: (_) => const DeleteAccountError.unrecoverable(),
+            cancelledByUser: DeleteAccountError.cancelledByUser,
+            alreadyInUse: DeleteAccountError.unrecoverable,
             unrecoverable: DeleteAccountError.unrecoverable,
           ),
         );
-        if (deleteOnSecondError != null) {
-          return Result.failure(deleteOnSecondError);
+        if (convertedLoginError != null) {
+          return Result.failure(convertedLoginError);
         }
 
-        return const Result.success(null);
+        break;
     }
+
+    final deleteOnSecondResult = await authActions.delete();
+    final deleteOnSecondError = deleteOnSecondResult.whenOrNull(
+      failure: (error) => error.when(
+        needReauthenticate: (_) => const DeleteAccountError.unrecoverable(),
+        unrecoverable: DeleteAccountError.unrecoverable,
+      ),
+    );
+    if (deleteOnSecondError != null) {
+      return Result.failure(deleteOnSecondError);
+    }
+
+    return const Result.success(null);
   }
 
   return action;

@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:my_pet_melody/data/definitions/app_features.dart';
 import 'package:my_pet_melody/data/model/profile.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
-import 'package:my_pet_melody/flavor.dart';
 import 'package:my_pet_melody/root_view_model.dart';
 import 'package:my_pet_melody/ui/component/profile_icon.dart';
 import 'package:my_pet_melody/ui/component/rounded_settings_list_tile.dart';
@@ -125,8 +125,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             termsOfServiceTile,
             privacyPolicyTile,
             const SizedBox(height: 32),
-            if (F.flavor == Flavor.emulator || F.flavor == Flavor.dev)
-              debugTile,
+            if (AppFeatures.debugScreenAvailable) debugTile,
             versionTile,
             const SizedBox(height: 32),
             _DeleteAccountPanel(

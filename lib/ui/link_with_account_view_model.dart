@@ -35,4 +35,16 @@ class LinkWithAccountViewModel extends StateNotifier<LinkWithAccountState> {
 
     return result;
   }
+
+  Future<Result<void, LoginError>> continueWithApple() async {
+    state = state.copyWith(isProcessing: true);
+
+    final action = _ref.read(linkWithAppleActionProvider);
+
+    final result = await action();
+
+    state = state.copyWith(isProcessing: false);
+
+    return result;
+  }
 }
