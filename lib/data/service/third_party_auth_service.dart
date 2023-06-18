@@ -5,9 +5,11 @@ import 'dart:async';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
+import 'package:my_pet_melody/data/model/apple_credential.dart';
 import 'package:my_pet_melody/data/model/login_twitter_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
 import 'package:my_pet_melody/data/model/twitter_credential.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 final thirdPartyAuthActionsProvider = Provider(
@@ -67,5 +69,42 @@ class ThirdPartyAuthActions {
       case LoginStatus.operationInProgress:
         return const Result.failure(LoginTwitterError.unrecoverable());
     }
+  }
+
+  Future<Result<AppleCredential, LoginTwitterError>> loginApple() async {
+    final AuthorizationCredentialAppleID results;
+
+    try {
+      results = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+    } on SignInWithAppleAuthorizationException catch (error) {
+      switch (error.code) {
+        case AuthorizationErrorCode.canceled:
+          return const Result.failure(LoginTwitterError.cancelledByUser());
+
+        case AuthorizationErrorCode.failed:
+        case AuthorizationErrorCode.invalidResponse:
+        case AuthorizationErrorCode.notHandled:
+        case AuthorizationErrorCode.notInteractive:
+        case AuthorizationErrorCode.unknown:
+          return const Result.failure(LoginTwitterError.unrecoverable());
+      }
+    }
+
+    final idToken = results.identityToken;
+    if (idToken == null) {
+      return const Result.failure(LoginTwitterError.unrecoverable());
+    }
+
+    final appleCredential = AppleCredential(
+      idToken: idToken,
+      accessToken: results.authorizationCode,
+    );
+
+    return Result.success(appleCredential);
   }
 }

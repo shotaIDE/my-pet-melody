@@ -253,6 +253,78 @@ class AuthActions {
     return const Result.success(null);
   }
 
+  Future<Result<void, LinkCredentialError>> loginWithApple({
+    required String idToken,
+    required String accessToken,
+  }) async {
+    final appleProvider = OAuthProvider('apple.com');
+    final appleAuthCredential =
+        appleProvider.credential(idToken: idToken, accessToken: accessToken);
+
+    try {
+      await FirebaseAuth.instance.signInWithCredential(appleAuthCredential);
+    } on FirebaseAuthException catch (error, stack) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception when login with Apple.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when login with Apple.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
+  }
+
+  Future<Result<void, LinkCredentialError>> linkWithApple({
+    required String idToken,
+    required String accessToken,
+  }) async {
+    final appleProvider = OAuthProvider('apple.com');
+    final appleAuthCredential =
+        appleProvider.credential(idToken: idToken, accessToken: accessToken);
+
+    final currentUser = FirebaseAuth.instance.currentUser!;
+
+    try {
+      await currentUser.linkWithCredential(appleAuthCredential);
+    } on FirebaseAuthException catch (error, stack) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception when link with Apple.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when link with Apple.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
+  }
+
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
