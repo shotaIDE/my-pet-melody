@@ -85,6 +85,45 @@ final loginWithGoogleActionProvider =
   return action;
 });
 
+final linkWithGoogleActionProvider =
+    Provider<Future<Result<void, LoginError>> Function()>((ref) {
+  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
+  final authActions = ref.watch(authActionsProvider);
+
+  Future<Result<void, LoginError>> action() async {
+    final loginGoogleResult = await thirdPartyAuthActions.loginGoogle();
+    final convertedLoginError =
+        loginGoogleResult.whenOrNull<Result<void, LoginError>>(
+      failure: (error) => error.when(
+        cancelledByUser: () =>
+            const Result.failure(LoginError.cancelledByUser()),
+        unrecoverable: () => const Result.failure(LoginError.unrecoverable()),
+      ),
+    );
+    if (convertedLoginError != null) {
+      return convertedLoginError;
+    }
+
+    final googleCredential =
+        (loginGoogleResult as Success<GoogleCredential, LoginTwitterError>)
+            .value;
+    final linkResult = await authActions.linkWithGoogle(googleCredential);
+    final convertedLinkError = linkResult.whenOrNull(
+      failure: (error) => error.when(
+        alreadyInUse: LoginError.alreadyInUse,
+        unrecoverable: LoginError.unrecoverable,
+      ),
+    );
+    if (convertedLinkError != null) {
+      return Result.failure(convertedLinkError);
+    }
+
+    return const Result.success(null);
+  }
+
+  return action;
+});
+
 final loginWithTwitterActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
