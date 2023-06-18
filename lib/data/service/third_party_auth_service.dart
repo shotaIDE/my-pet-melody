@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
@@ -72,6 +73,9 @@ class ThirdPartyAuthActions {
   }
 
   Future<Result<AppleCredential, LoginTwitterError>> loginApple() async {
+    final appleProvider = AppleAuthProvider();
+    await FirebaseAuth.instance.signInWithProvider(appleProvider);
+
     final AuthorizationCredentialAppleID results;
 
     try {
