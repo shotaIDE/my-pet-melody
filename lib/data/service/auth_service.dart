@@ -254,7 +254,7 @@ class AuthActions {
     return const Result.success(null);
   }
 
-  Future<Result<void, LoginError>> loginWithApple() async {
+  Future<Result<void, LoginError>> loginOrLinkWithApple() async {
     final appleProvider = AppleAuthProvider();
 
     try {

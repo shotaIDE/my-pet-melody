@@ -208,22 +208,14 @@ final loginWithAppleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final authActions = ref.watch(authActionsProvider);
 
-  Future<Result<void, LoginError>> action() async {
-    return authActions.loginWithApple();
-  }
-
-  return action;
+  return authActions.loginOrLinkWithApple;
 });
 
 final linkWithAppleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final authActions = ref.watch(authActionsProvider);
 
-  Future<Result<void, LoginError>> action() async {
-    return authActions.loginWithApple();
-  }
-
-  return action;
+  return authActions.loginOrLinkWithApple;
 });
 
 final signOutActionProvider = Provider((ref) {
