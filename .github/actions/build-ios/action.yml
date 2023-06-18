@@ -22,6 +22,9 @@ runs:
     - name: Setup CocoaPods
       uses: ./.github/actions/setup-cocoapods
 
+    - name: Setup Ruby
+      uses: ./.github/actions/setup-ruby
+
     - name: Generate uncommited Flutter files
       uses: ./.github/actions/generate-uncommited-flutter-files
       with:

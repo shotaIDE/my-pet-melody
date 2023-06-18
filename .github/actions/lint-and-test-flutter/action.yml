@@ -36,6 +36,9 @@ runs:
     - name: Setup Flutter
       uses: ./.github/actions/setup-flutter
 
+    - name: Setup Ruby
+      uses: ./.github/actions/setup-ruby
+
     - name: Generate uncommited Flutter files
       uses: ./.github/actions/generate-uncommited-flutter-files
       with:

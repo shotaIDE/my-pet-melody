@@ -18,6 +18,4 @@ runs:
 
     - name: Generate automatic codes
       shell: bash
-      run: |
-        flutter pub get
-        flutter pub run build_runner build
+      run: bundle exec fastlane generate
