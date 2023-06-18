@@ -6,6 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/logger/error_reporter.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
 import 'package:my_pet_melody/data/model/delete_account_with_current_session_error.dart';
 import 'package:my_pet_melody/data/model/link_credential_error.dart';
@@ -32,7 +33,11 @@ final sessionStreamProvider = StreamProvider<LoginSession>((ref) {
 });
 
 final authActionsProvider = Provider(
-  (ref) => AuthActions(),
+  (ref) {
+    final errorReporter = ref.watch(errorReporterProvider);
+
+    return AuthActions(errorReporter: errorReporter);
+  },
 );
 
 class SessionProvider extends StateNotifier<LoginSession?> {
@@ -97,6 +102,11 @@ class SessionProvider extends StateNotifier<LoginSession?> {
 }
 
 class AuthActions {
+  const AuthActions({required ErrorReporter errorReporter})
+      : _errorReporter = errorReporter;
+
+  final ErrorReporter _errorReporter;
+
   Future<void> signInAnonymously() async {
     final credential = await FirebaseAuth.instance.signInAnonymously();
     final idToken = await credential.user?.getIdToken();
@@ -114,13 +124,25 @@ class AuthActions {
 
     try {
       await FirebaseAuth.instance.signInWithCredential(twitterAuthCredential);
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException catch (error, stack) {
       if (error.code == 'credential-already-in-use') {
         return const Result.failure(LinkCredentialError.alreadyInUse());
       }
 
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception when login with Twitter.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
-    } catch (e) {
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when login with Twitter.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
     }
 
@@ -140,13 +162,25 @@ class AuthActions {
 
     try {
       await currentUser.linkWithCredential(twitterAuthCredential);
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException catch (error, stack) {
       if (error.code == 'credential-already-in-use') {
         return const Result.failure(LinkCredentialError.alreadyInUse());
       }
 
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception when link with Twitter.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
-    } catch (e) {
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when link with Twitter.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
     }
 
@@ -160,13 +194,25 @@ class AuthActions {
 
     try {
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException catch (error, stack) {
       if (error.code == 'credential-already-in-use') {
         return const Result.failure(LinkCredentialError.alreadyInUse());
       }
 
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception when login with Facebook.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
-    } catch (e) {
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when login with Facebook.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
     }
 
@@ -182,13 +228,25 @@ class AuthActions {
 
     try {
       await currentUser.linkWithCredential(facebookAuthCredential);
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException catch (error, stack) {
       if (error.code == 'credential-already-in-use') {
         return const Result.failure(LinkCredentialError.alreadyInUse());
       }
 
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception when link with Facebook.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
-    } catch (e) {
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when link with Facebook.',
+      );
+
       return const Result.failure(LinkCredentialError.unrecoverable());
     }
 
