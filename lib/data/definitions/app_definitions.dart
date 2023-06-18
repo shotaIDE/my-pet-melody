@@ -3,10 +3,6 @@ class AppDefinitions {
       String.fromEnvironment('TWITTER_CONSUMER_API_KEY');
   static const twitterConsumerSecret =
       String.fromEnvironment('TWITTER_CONSUMER_SECRET');
-  static const appleSignInClientId =
-      String.fromEnvironment('APPLE_SIGN_IN_CLIENT_ID');
-  static const appleSignInRedirectUri =
-      String.fromEnvironment('APPLE_SIGN_IN_REDIRECT_URI');
   static const revenueCatPublicAppleApiKey =
       String.fromEnvironment('REVENUE_CAT_PUBLIC_APPLE_API_KEY');
   static const revenueCatPublicGoogleApiKey =
