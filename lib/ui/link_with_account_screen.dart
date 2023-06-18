@@ -130,7 +130,8 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
   }
 
   Future<void> _continueWithTwitter() async {
-    final result = await ref.read(widget.viewModel.notifier).loginWithTwitter();
+    final result =
+        await ref.read(widget.viewModel.notifier).continueWithTwitter();
 
     await result.when(
       success: (_) async {

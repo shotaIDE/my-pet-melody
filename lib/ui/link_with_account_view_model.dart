@@ -12,7 +12,7 @@ class LinkWithAccountViewModel extends StateNotifier<LinkWithAccountState> {
 
   final Ref _ref;
 
-  Future<Result<void, LoginError>> loginWithTwitter() async {
+  Future<Result<void, LoginError>> continueWithTwitter() async {
     state = state.copyWith(isProcessing: true);
 
     final action = _ref.read(linkWithTwitterActionProvider);
