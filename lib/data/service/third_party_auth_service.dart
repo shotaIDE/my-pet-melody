@@ -21,11 +21,11 @@ class ThirdPartyAuthActions {
     final executor = GoogleSignIn();
 
     final result = await executor.signIn();
-    final authentication = await result?.authentication;
-    if (authentication == null) {
-      return const Result.failure(LoginTwitterError.unrecoverable());
+    if (result == null) {
+      return const Result.failure(LoginTwitterError.cancelledByUser());
     }
 
+    final authentication = await result.authentication;
     final idToken = authentication.idToken;
     final accessToken = authentication.accessToken;
     if (idToken == null || accessToken == null) {
