@@ -365,6 +365,44 @@ class AuthActions {
     await FirebaseAuth.instance.signOut();
   }
 
+  Future<Result<void, LinkCredentialError>> reauthenticateWithGoogle(
+    GoogleCredential credential,
+  ) async {
+    final googleAuthCredential = GoogleAuthProvider.credential(
+      idToken: credential.idToken,
+      accessToken: credential.accessToken,
+    );
+
+    final currentUser = FirebaseAuth.instance.currentUser!;
+
+    try {
+      await currentUser.reauthenticateWithCredential(googleAuthCredential);
+    } on FirebaseAuthException catch (error, stack) {
+      if (error.code == 'credential-already-in-use') {
+        return const Result.failure(LinkCredentialError.alreadyInUse());
+      }
+
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled Firebase Auth exception '
+            'when reauthenticate with Google.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    } catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'unhandled exception when reauthenticate with Google.',
+      );
+
+      return const Result.failure(LinkCredentialError.unrecoverable());
+    }
+
+    return const Result.success(null);
+  }
+
   Future<Result<void, LinkCredentialError>> reauthenticateWithTwitter({
     required String authToken,
     required String secret,

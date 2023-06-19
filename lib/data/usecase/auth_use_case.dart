@@ -329,6 +329,36 @@ final deleteAccountActionProvider = Provider((ref) {
     }
 
     switch (providerNeededAuthenticate) {
+      case AccountProvider.google:
+        final loginGoogleResult = await thirdPartyAuthActions.loginGoogle();
+        final convertedLoginError =
+            loginGoogleResult.whenOrNull<DeleteAccountError>(
+          failure: (error) => error.when(
+            cancelledByUser: DeleteAccountError.cancelledByUser,
+            unrecoverable: DeleteAccountError.unrecoverable,
+          ),
+        );
+        if (convertedLoginError != null) {
+          return Result.failure(convertedLoginError);
+        }
+
+        final googleCredential =
+            (loginGoogleResult as Success<GoogleCredential, LoginTwitterError>)
+                .value;
+        final reauthenticateResult =
+            await authActions.reauthenticateWithGoogle(googleCredential);
+        final convertedReauthenticateError = reauthenticateResult.whenOrNull(
+          failure: (error) => error.when(
+            alreadyInUse: DeleteAccountError.unrecoverable,
+            unrecoverable: DeleteAccountError.unrecoverable,
+          ),
+        );
+        if (convertedReauthenticateError != null) {
+          return Result.failure(convertedReauthenticateError);
+        }
+
+        break;
+
       case AccountProvider.twitter:
         final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
         final convertedLoginError =
@@ -342,13 +372,13 @@ final deleteAccountActionProvider = Provider((ref) {
           return Result.failure(convertedLoginError);
         }
 
-        final credential = (loginTwitterResult
+        final twitterCredential = (loginTwitterResult
                 as Success<TwitterCredential, LoginTwitterError>)
             .value;
         final reauthenticateResult =
             await authActions.reauthenticateWithTwitter(
-          authToken: credential.authToken,
-          secret: credential.secret,
+          authToken: twitterCredential.authToken,
+          secret: twitterCredential.secret,
         );
         final convertedReauthenticateError = reauthenticateResult.whenOrNull(
           failure: (error) => error.when(
