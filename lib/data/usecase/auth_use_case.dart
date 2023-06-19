@@ -4,7 +4,7 @@ import 'package:my_pet_melody/data/model/account_provider.dart';
 import 'package:my_pet_melody/data/model/delete_account_error.dart';
 import 'package:my_pet_melody/data/model/google_credential.dart';
 import 'package:my_pet_melody/data/model/login_error.dart';
-import 'package:my_pet_melody/data/model/login_twitter_error.dart';
+import 'package:my_pet_melody/data/model/login_third_party_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
 import 'package:my_pet_melody/data/model/twitter_credential.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
@@ -66,7 +66,7 @@ final loginWithGoogleActionProvider =
     }
 
     final googleCredential =
-        (loginGoogleResult as Success<GoogleCredential, LoginTwitterError>)
+        (loginGoogleResult as Success<GoogleCredential, LoginThirdPartyError>)
             .value;
     final loginResult = await authActions.loginWithGoogle(googleCredential);
     final convertedLinkError = loginResult.whenOrNull(
@@ -105,7 +105,7 @@ final linkWithGoogleActionProvider =
     }
 
     final googleCredential =
-        (loginGoogleResult as Success<GoogleCredential, LoginTwitterError>)
+        (loginGoogleResult as Success<GoogleCredential, LoginThirdPartyError>)
             .value;
     final linkResult = await authActions.linkWithGoogle(googleCredential);
     final convertedLinkError = linkResult.whenOrNull(
@@ -142,7 +142,7 @@ final loginWithTwitterActionProvider =
     }
 
     final credential =
-        (loginTwitterResult as Success<TwitterCredential, LoginTwitterError>)
+        (loginTwitterResult as Success<TwitterCredential, LoginThirdPartyError>)
             .value;
     final loginResult = await authActions.loginWithTwitter(
       authToken: credential.authToken,
@@ -184,7 +184,7 @@ final linkWithTwitterActionProvider =
     }
 
     final credential =
-        (loginResult as Success<TwitterCredential, LoginTwitterError>).value;
+        (loginResult as Success<TwitterCredential, LoginThirdPartyError>).value;
     final linkResult = await authActions.linkWithTwitter(
       authToken: credential.authToken,
       secret: credential.secret,
@@ -223,7 +223,7 @@ final loginWithFacebookActionProvider =
     }
 
     final accessToken =
-        (loginFacebookResult as Success<String, LoginTwitterError>).value;
+        (loginFacebookResult as Success<String, LoginThirdPartyError>).value;
     final loginResult =
         await authActions.loginWithFacebook(accessToken: accessToken);
     final convertedLinkError = loginResult.whenOrNull(
@@ -262,7 +262,7 @@ final linkWithFacebookActionProvider =
     }
 
     final accessToken =
-        (loginResult as Success<String, LoginTwitterError>).value;
+        (loginResult as Success<String, LoginThirdPartyError>).value;
     final linkResult =
         await authActions.linkWithFacebook(accessToken: accessToken);
     final convertedLinkError = linkResult.whenOrNull(
@@ -342,9 +342,9 @@ final deleteAccountActionProvider = Provider((ref) {
           return Result.failure(convertedLoginError);
         }
 
-        final googleCredential =
-            (loginGoogleResult as Success<GoogleCredential, LoginTwitterError>)
-                .value;
+        final googleCredential = (loginGoogleResult
+                as Success<GoogleCredential, LoginThirdPartyError>)
+            .value;
         final reauthenticateResult =
             await authActions.reauthenticateWithGoogle(googleCredential);
         final convertedReauthenticateError = reauthenticateResult.whenOrNull(
@@ -373,7 +373,7 @@ final deleteAccountActionProvider = Provider((ref) {
         }
 
         final twitterCredential = (loginTwitterResult
-                as Success<TwitterCredential, LoginTwitterError>)
+                as Success<TwitterCredential, LoginThirdPartyError>)
             .value;
         final reauthenticateResult =
             await authActions.reauthenticateWithTwitter(
@@ -406,7 +406,8 @@ final deleteAccountActionProvider = Provider((ref) {
         }
 
         final accessToken =
-            (loginFacebookResult as Success<String, LoginTwitterError>).value;
+            (loginFacebookResult as Success<String, LoginThirdPartyError>)
+                .value;
         final reauthenticateResult = await authActions
             .reauthenticateWithFacebook(accessToken: accessToken);
         final convertedReauthenticateError = reauthenticateResult.whenOrNull(
