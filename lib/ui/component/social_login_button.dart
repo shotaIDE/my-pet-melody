@@ -1,5 +1,6 @@
 // ignore_for_file: prefer-match-file-name
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ContinueWithGoogleButton extends StatelessWidget {
@@ -12,12 +13,38 @@ class ContinueWithGoogleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _ContinueWithThirdPartyProviderButton(
+    const foregroundColor = Colors.black;
+    const backgroundColor = Colors.white;
+
+    return TextButton(
       onPressed: onPressed,
-      icon: FontAwesomeIcons.google,
-      text: 'Googleで続ける',
-      foregroundColor: Colors.white,
-      backgroundColor: const Color(0xFF1DA1F2),
+      style: TextButton.styleFrom(
+        backgroundColor: backgroundColor,
+        textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
+              fontSize: 16,
+              // Specify a default text theme to apply the system font to
+              // "Continue with Apple" button according to
+              // Apple's design guidelines.
+              fontFamily: '',
+            ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            'assets/icon/google.svg',
+            width: 24,
+            height: 24,
+          ),
+          const SizedBox(width: 8),
+          const Text(
+            'Googleで続ける',
+            style: TextStyle(
+              color: foregroundColor,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -56,8 +83,8 @@ class ContinueWithFacebookButton extends StatelessWidget {
       onPressed: onPressed,
       icon: FontAwesomeIcons.facebook,
       text: 'Facebookで続ける',
-      foregroundColor: Colors.black,
-      backgroundColor: Colors.white,
+      foregroundColor: Colors.white,
+      backgroundColor: const Color(0xFF1877f2),
     );
   }
 }
