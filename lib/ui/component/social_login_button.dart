@@ -71,7 +71,7 @@ class ContinueWithFacebookButton extends StatelessWidget {
         color: foregroundColor,
       ),
       text: 'Facebookで続ける',
-      textColor: Colors.white,
+      textColor: foregroundColor,
       backgroundColor: const Color(0xFF1877f2),
     );
   }
@@ -96,7 +96,7 @@ class ContinueWithAppleButton extends StatelessWidget {
         color: foregroundColor,
       ),
       text: 'Appleで続ける',
-      textColor: Colors.white,
+      textColor: foregroundColor,
       backgroundColor: Colors.black,
     );
   }
