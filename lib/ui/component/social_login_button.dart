@@ -13,38 +13,16 @@ class ContinueWithGoogleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const foregroundColor = Colors.black;
-    const backgroundColor = Colors.white;
-
-    return TextButton(
+    return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      style: TextButton.styleFrom(
-        backgroundColor: backgroundColor,
-        textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
-              fontSize: 16,
-              // Specify a default text theme to apply the system font to
-              // "Continue with Apple" button according to
-              // Apple's design guidelines.
-              fontFamily: '',
-            ),
+      icon: SvgPicture.asset(
+        'assets/icon/google.svg',
+        width: 24,
+        height: 24,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            'assets/icon/google.svg',
-            width: 24,
-            height: 24,
-          ),
-          const SizedBox(width: 8),
-          const Text(
-            'Googleで続ける',
-            style: TextStyle(
-              color: foregroundColor,
-            ),
-          ),
-        ],
-      ),
+      text: 'Googleで続ける',
+      textColor: Colors.black,
+      backgroundColor: Colors.white,
     );
   }
 }
@@ -59,11 +37,16 @@ class ContinueWithTwitterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const foregroundColor = Colors.white;
+
     return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      icon: FontAwesomeIcons.twitter,
+      icon: const Icon(
+        FontAwesomeIcons.twitter,
+        color: foregroundColor,
+      ),
       text: 'Twitterで続ける',
-      foregroundColor: Colors.white,
+      textColor: foregroundColor,
       backgroundColor: const Color(0xFF1DA1F2),
     );
   }
@@ -79,11 +62,16 @@ class ContinueWithFacebookButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const foregroundColor = Colors.white;
+
     return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      icon: FontAwesomeIcons.facebook,
+      icon: const Icon(
+        FontAwesomeIcons.facebook,
+        color: foregroundColor,
+      ),
       text: 'Facebookで続ける',
-      foregroundColor: Colors.white,
+      textColor: Colors.white,
       backgroundColor: const Color(0xFF1877f2),
     );
   }
@@ -99,11 +87,16 @@ class ContinueWithAppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const foregroundColor = Colors.white;
+
     return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      icon: FontAwesomeIcons.apple,
+      icon: const Icon(
+        FontAwesomeIcons.apple,
+        color: foregroundColor,
+      ),
       text: 'Appleで続ける',
-      foregroundColor: Colors.white,
+      textColor: Colors.white,
       backgroundColor: Colors.black,
     );
   }
@@ -114,15 +107,15 @@ class _ContinueWithThirdPartyProviderButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     required this.text,
-    required this.foregroundColor,
+    required this.textColor,
     required this.backgroundColor,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback onPressed;
-  final IconData icon;
+  final Widget icon;
   final String text;
-  final Color foregroundColor;
+  final Color textColor;
   final Color backgroundColor;
 
   @override
@@ -142,17 +135,20 @@ class _ContinueWithThirdPartyProviderButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            color: foregroundColor,
+          Expanded(
+            child: icon,
           ),
-          const SizedBox(width: 8),
-          Text(
-            text,
-            style: TextStyle(
-              color: foregroundColor,
+          Expanded(
+            flex: 5,
+            child: Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
+          const SizedBox(width: 16),
         ],
       ),
     );

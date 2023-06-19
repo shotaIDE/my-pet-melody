@@ -69,6 +69,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/icon/
 
   fonts:
     - family: uzura
