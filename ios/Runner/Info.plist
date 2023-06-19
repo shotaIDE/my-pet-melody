@@ -29,6 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>$(GOOGLE_SERVICE_REVERSED_CLIENT_ID)</string>
 				<string>$(TWITTER_REDIRECT_SCHEME)</string>
 				<string>fb1552321291958638</string>
 			</array>
