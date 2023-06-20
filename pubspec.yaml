@@ -51,6 +51,7 @@ dependencies:
   flutter_facebook_auth: ^5.0.11
   google_sign_in: ^6.1.4
   flutter_svg: ^2.0.7
+  device_info_plus: ^8.2.2
 
 dev_dependencies:
   flutter_test:

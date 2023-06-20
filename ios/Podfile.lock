@@ -13,6 +13,8 @@ PODS:
     - Flutter
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - CropViewController (2.6.1)
+  - device_info_plus (0.0.1):
+    - Flutter
   - DKCamera (1.6.7)
   - DKImagePickerController (4.3.4):
     - DKImagePickerController/Camera (= 4.3.4)
@@ -319,6 +321,7 @@ PODS:
 DEPENDENCIES:
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - DKImagePickerController (= 4.3.4)
   - ffmpeg_kit_flutter (from `.symlinks/plugins/ffmpeg_kit_flutter/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
@@ -391,6 +394,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/audioplayers_darwin/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
   ffmpeg_kit_flutter:
     :path: ".symlinks/plugins/ffmpeg_kit_flutter/ios"
   file_picker:
@@ -453,6 +458,7 @@ SPEC CHECKSUMS:
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   cloud_firestore: cc13d04d075c95f45f6a31640e6a3591ae5895fb
   CropViewController: 58fb440f30dac788b129d2a1f24cffdcb102669c
+  device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   DKCamera: a902b66921fca14b7a75266feb8c7568aa7caa71
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
