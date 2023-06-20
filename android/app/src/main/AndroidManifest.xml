@@ -42,6 +42,10 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="google_analytics_adid_collection_enabled"
+            android:value="false" />
+
         <!-- Defining facebook app ID in manifest placeholder does not work,
              so define in @string as the document implies. -->
         <meta-data
