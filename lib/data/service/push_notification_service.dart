@@ -6,25 +6,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class PushNotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();
 
-  Future<void> requestPermission() async {
-    if (Platform.isIOS) {
-      await FirebaseMessaging.instance.requestPermission();
-
-      // iOSでアプリがフォアグラウンドに表示されている際にも通知を表示する
-      await FirebaseMessaging.instance
-          .setForegroundNotificationPresentationOptions(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
-    } else {
-      final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
-
-      await androidPlugin!.requestPermission();
-    }
-  }
-
   Future<void> setupNotification() async {
     if (!Platform.isAndroid) {
       return;
@@ -50,6 +31,25 @@ class PushNotificationService {
         groupId: generatePieceNotificationChannelGroupId,
       ),
     );
+  }
+
+  Future<void> requestPermission() async {
+    if (Platform.isIOS) {
+      await FirebaseMessaging.instance.requestPermission();
+
+      // iOSでアプリがフォアグラウンドに表示されている際にも通知を表示する
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    } else {
+      final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+
+      await androidPlugin!.requestPermission();
+    }
   }
 
   Future<String?> registrationToken() async {
