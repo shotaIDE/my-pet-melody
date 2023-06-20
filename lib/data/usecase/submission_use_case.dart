@@ -73,8 +73,6 @@ final requestPushNotificationPermissionActionProvider = Provider((ref) {
   Future<void> action() async {
     await pushNotificationService.requestPermission();
 
-    await pushNotificationService.setupNotification();
-
     await settingsRepository
         .setHasRequestedPushNotificationPermissionAtLeastOnce();
   }
