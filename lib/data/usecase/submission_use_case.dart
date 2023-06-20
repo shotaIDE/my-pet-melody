@@ -51,7 +51,8 @@ final getShouldShowRequestPushNotificationPermissionActionProvider =
   Future<bool> action() async {
     final androidDeviceSdkInt = await androidDeviceSdkIntFuture;
     if (Platform.isIOS ||
-            (Platform.isAndroid && androidDeviceSdkInt >= 33) // over Android 13
+            (Platform.isAndroid &&
+                androidDeviceSdkInt >= 33) // Android 13 or higher
         ) {
       final hasRequestedPermission = await settingsRepository
           .getHasRequestedPushNotificationPermissionAtLeastOnce();
