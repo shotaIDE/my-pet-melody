@@ -12,6 +12,18 @@ class LinkWithAccountViewModel extends StateNotifier<LinkWithAccountState> {
 
   final Ref _ref;
 
+  Future<Result<void, LoginError>> continueWithGoogle() async {
+    state = state.copyWith(isProcessing: true);
+
+    final action = _ref.read(linkWithGoogleActionProvider);
+
+    final result = await action();
+
+    state = state.copyWith(isProcessing: false);
+
+    return result;
+  }
+
   Future<Result<void, LoginError>> continueWithTwitter() async {
     state = state.copyWith(isProcessing: true);
 

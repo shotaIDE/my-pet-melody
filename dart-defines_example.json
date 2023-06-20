@@ -1,5 +1,6 @@
 {
   "FLAVOR": "dev",
+  "GOOGLE_SERVICE_REVERSED_CLIENT_ID": "com.googleusercontent.apps.000000000000-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "TWITTER_CONSUMER_API_KEY": "xxxxxxxxxxxxxxxxxxxxxxxxx",
   "TWITTER_CONSUMER_SECRET": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "TWITTER_REDIRECT_SCHEME_PREFIX": "my-pet-melody",

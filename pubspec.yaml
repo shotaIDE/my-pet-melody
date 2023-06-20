@@ -49,6 +49,8 @@ dependencies:
   firebase_analytics: ^10.4.2
   purchases_flutter: ^5.0.0
   flutter_facebook_auth: ^5.0.11
+  google_sign_in: ^6.1.4
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +69,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/icon/
 
   fonts:
     - family: uzura

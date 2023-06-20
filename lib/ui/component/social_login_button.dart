@@ -1,6 +1,31 @@
 // ignore_for_file: prefer-match-file-name
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+class ContinueWithGoogleButton extends StatelessWidget {
+  const ContinueWithGoogleButton({
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ContinueWithThirdPartyProviderButton(
+      onPressed: onPressed,
+      icon: SvgPicture.asset(
+        'assets/icon/google.svg',
+        width: 24,
+        height: 24,
+      ),
+      text: 'Googleで続ける',
+      textColor: Colors.black,
+      backgroundColor: Colors.white,
+    );
+  }
+}
 
 class ContinueWithTwitterButton extends StatelessWidget {
   const ContinueWithTwitterButton({
@@ -12,11 +37,16 @@ class ContinueWithTwitterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const foregroundColor = Colors.white;
+
     return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      icon: FontAwesomeIcons.twitter,
+      icon: const Icon(
+        FontAwesomeIcons.twitter,
+        color: foregroundColor,
+      ),
       text: 'Twitterで続ける',
-      foregroundColor: Colors.white,
+      textColor: foregroundColor,
       backgroundColor: const Color(0xFF1DA1F2),
     );
   }
@@ -32,11 +62,16 @@ class ContinueWithFacebookButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const foregroundColor = Colors.white;
+
     return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      icon: FontAwesomeIcons.facebook,
+      icon: const Icon(
+        FontAwesomeIcons.facebook,
+        color: foregroundColor,
+      ),
       text: 'Facebookで続ける',
-      foregroundColor: Colors.white,
+      textColor: foregroundColor,
       backgroundColor: const Color(0xFF1877f2),
     );
   }
@@ -52,11 +87,16 @@ class ContinueWithAppleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const foregroundColor = Colors.white;
+
     return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      icon: FontAwesomeIcons.apple,
+      icon: const Icon(
+        FontAwesomeIcons.apple,
+        color: foregroundColor,
+      ),
       text: 'Appleで続ける',
-      foregroundColor: Colors.white,
+      textColor: foregroundColor,
       backgroundColor: Colors.black,
     );
   }
@@ -67,15 +107,15 @@ class _ContinueWithThirdPartyProviderButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     required this.text,
-    required this.foregroundColor,
+    required this.textColor,
     required this.backgroundColor,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback onPressed;
-  final IconData icon;
+  final Widget icon;
   final String text;
-  final Color foregroundColor;
+  final Color textColor;
   final Color backgroundColor;
 
   @override
@@ -95,17 +135,20 @@ class _ContinueWithThirdPartyProviderButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            color: foregroundColor,
+          Expanded(
+            child: icon,
           ),
-          const SizedBox(width: 8),
-          Text(
-            text,
-            style: TextStyle(
-              color: foregroundColor,
+          Expanded(
+            flex: 5,
+            child: Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
+          const SizedBox(width: 16),
         ],
       ),
     );
