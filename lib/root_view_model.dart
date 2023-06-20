@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/types.dart';
 import 'package:my_pet_melody/data/service/database_service.dart';
+import 'package:my_pet_melody/data/usecase/app_use_case.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
 import 'package:my_pet_melody/root_state.dart';
 
@@ -39,6 +40,8 @@ class RootViewModel extends StateNotifier<RootState> {
 
   Future<void> _setup() async {
     await _determineStartPage();
+
+    await _ref.read(ensureSetupPushNotificationActionProvider.future);
 
     _listener<Future<String?>>(
       registrationTokenProvider.future,

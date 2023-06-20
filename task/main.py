@@ -294,6 +294,11 @@ def piece(request):
                     title='作品が完成しました！',
                     body='Happy Birthday を使った作品が完成しました',
                 ),
+                android=messaging.AndroidConfig(
+                    notification=messaging.AndroidNotification(
+                        channel_id="completed_to_generate_piece",
+                    ),
+                ),
             )
 
             response = messaging.send_multicast(message)
