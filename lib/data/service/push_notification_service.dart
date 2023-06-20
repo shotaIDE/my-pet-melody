@@ -15,6 +15,12 @@ class PushNotificationService {
         badge: true,
         sound: true,
       );
+    } else {
+      final plugin = FlutterLocalNotificationsPlugin();
+      final androidPlugin = plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+
+      await androidPlugin!.requestPermission();
     }
   }
 

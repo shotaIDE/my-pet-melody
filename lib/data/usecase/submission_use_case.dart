@@ -7,6 +7,7 @@ import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/service/app_service.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
 
 final detectActionProvider = FutureProvider((ref) async {
@@ -44,16 +45,21 @@ final uploadActionProvider = FutureProvider((ref) async {
 final getShouldShowRequestPushNotificationPermissionActionProvider =
     Provider((ref) {
   final settingsRepository = ref.read(settingsRepositoryProvider);
+  final androidDeviceSdkIntFuture =
+      ref.read(androidDeviceSdkIntProvider.future);
 
   Future<bool> action() async {
-    if (Platform.isAndroid) {
-      return false;
+    final androidDeviceSdkInt = await androidDeviceSdkIntFuture;
+    if (Platform.isIOS ||
+            (Platform.isAndroid && androidDeviceSdkInt >= 33) // over Android 13
+        ) {
+      final hasRequestedPermission = await settingsRepository
+          .getHasRequestedPushNotificationPermissionAtLeastOnce();
+
+      return !hasRequestedPermission;
     }
 
-    final hasRequestedPermission = await settingsRepository
-        .getHasRequestedPushNotificationPermissionAtLeastOnce();
-
-    return !hasRequestedPermission;
+    return false;
   }
 
   return action;
