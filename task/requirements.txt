@@ -95,7 +95,7 @@ simplejson==3.18.0
 six==1.16.0
 sortedcollections==2.1.0
 sortedcontainers==2.4.0
-SoundFile==0.10.3.post1
+SoundFile==0.12.1
 tensorboard==2.12.0
 tensorboard-data-server==0.7.0
 tensorboard-plugin-wit==1.8.1
