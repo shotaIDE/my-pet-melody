@@ -24,7 +24,7 @@ def send_completed_to_generate_piece(
     response = messaging.send_multicast(message)
 
     print(
-        f'{response.success_count} / {registration_tokens.length} '
+        f'{response.success_count} / {registration_tokens.count()} '
         'messages were sent successfully.'
     )
 
