@@ -6,7 +6,7 @@ from xmlrpc.client import DateTime
 from firebase_admin import firestore
 
 
-def template(id: str) -> list[dict[str, Any]]:
+def get_template(id: str) -> list[dict[str, Any]]:
     db = firestore.client()
 
     template_document_ref = db.collection('systemMedia').document(id)

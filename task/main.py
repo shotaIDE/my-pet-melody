@@ -10,7 +10,7 @@ from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
-from database import set_generated_piece, template
+from database import get_template, set_generated_piece
 from detection import detect_non_silence
 from firebase import initialize_firebase
 from piece import generate_piece_movie, generate_piece_sound
@@ -165,7 +165,7 @@ def piece(request):
     display_name = request_params_json['displayName']
     thumbnail_base_name = request_params_json['thumbnailFileName']
 
-    template = template(id=template_id)
+    template = get_template(id=template_id)
     template_title = template['name']
     overlays = template['overlays']
 
