@@ -10,7 +10,8 @@ from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
-from database import get_registration_tokens, get_template, set_generated_piece
+from database import (get_registration_tokens, get_template_overlays,
+                      set_generated_piece)
 from detection import detect_non_silence
 from firebase import initialize_firebase
 from messaging import send_completed_to_generate_piece
@@ -166,9 +167,7 @@ def piece(request):
     display_name = request_params_json['displayName']
     thumbnail_base_name = request_params_json['thumbnailFileName']
 
-    template = get_template(id=template_id)
-    template_title = template['name']
-    overlays = template['overlays']
+    overlays = get_template_overlays(id=template_id)
 
     bucket = storage.bucket()
 
@@ -282,7 +281,6 @@ def piece(request):
     if registration_tokens is not None:
         send_completed_to_generate_piece(
             display_name=display_name,
-            template_title=template_title,
             registration_tokens=registration_tokens
         )
 

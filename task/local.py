@@ -4,7 +4,8 @@ import os
 from datetime import datetime
 
 from auth import verify_authorization_header
-from database import get_registration_tokens, get_template, set_generated_piece
+from database import (get_registration_tokens, get_template_overlays,
+                      set_generated_piece)
 from detection import detect_non_silence
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
@@ -106,9 +107,7 @@ def piece(request):
     template_path = (f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/'
                      f'{template_id}.wav')
 
-    template = get_template(id=template_id)
-    template_title = template['name']
-    overlays = template['overlays']
+    overlays = get_template_overlays(id=template_id)
 
     current = datetime.now()
     piece_sound_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'
@@ -174,7 +173,6 @@ def piece(request):
     if registration_tokens is not None:
         send_completed_to_generate_piece(
             display_name=display_name,
-            template_title=template_title,
             registration_tokens=registration_tokens
         )
 

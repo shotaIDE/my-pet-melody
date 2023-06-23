@@ -5,13 +5,12 @@ from firebase_admin import messaging
 
 def send_completed_to_generate_piece(
         display_name: str,
-        template_title: str,
         registration_tokens: list[str]
 ):
     message = messaging.MulticastMessage(
         tokens=registration_tokens,
         notification=messaging.Notification(
-            title=f'作品が完成したよ！',
+            title='作品が完成したよ！',
             body=f'{display_name} が完成したよ！アプリを起動して確認してね！',
         ),
         android=messaging.AndroidConfig(
