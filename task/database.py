@@ -14,6 +14,22 @@ def get_template(id: str) -> list[dict[str, Any]]:
     return template_document.to_dict()
 
 
+def get_registration_tokens(uid: str) -> list[str]:
+    db = firestore.client()
+
+    user_document_ref = db.collection('users').document(uid)
+    user_document = user_document_ref.get()
+    if not user_document.exists:
+        return None
+
+    user_data = user_document.to_dict()
+
+    if 'registrationTokens' not in user_data:
+        return None
+
+    return user_data['registrationTokens']
+
+
 def set_generated_piece(
     uid: str,
     id: str,
