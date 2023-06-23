@@ -263,6 +263,12 @@ class _GrayMask extends ConsumerWidget {
         ref.watch(viewModelProvider.select((state) => state.process));
 
     final message = process != null ? _processLabel(process) : '';
+    final messageText = Text(
+      message,
+      style:
+          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
+      textAlign: TextAlign.center,
+    );
 
     return Stack(
       children: [
@@ -275,17 +281,14 @@ class _GrayMask extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  message,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.white),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: DisplayDefinition.screenPaddingSmall,
+                  ),
+                  child: messageText,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: LinearProgressIndicator(),
-                ),
+                const SizedBox(height: 16),
+                const LinearProgressIndicator(),
               ],
             ),
           ),
@@ -297,10 +300,10 @@ class _GrayMask extends ConsumerWidget {
   String _processLabel(TrimSoundForDetectionScreenProcess process) {
     switch (process) {
       case TrimSoundForDetectionScreenProcess.convert:
-        return '動画を変換しています';
+        return '動画を変換しています。\nこれには数分かかる場合があります';
 
       case TrimSoundForDetectionScreenProcess.detect:
-        return '動画の中から鳴き声を探しています';
+        return '動画の中から鳴き声を探しています。\nこれには数分かかる場合があります';
     }
   }
 }
