@@ -23,15 +23,21 @@ def send_completed_to_generate_piece(
 
     response = messaging.send_multicast(message)
 
-    print('{0} messages were sent successfully'.format(
-        response.success_count))
+    print(
+        f'{response.success_count} / {registration_tokens.length} '
+        'messages were sent successfully.'
+    )
 
-    if response.failure_count > 0:
-        responses = response.responses
-        failed_tokens = []
-        for idx, resp in enumerate(responses):
-            if not resp.success:
-                failed_tokens.append(registration_tokens[idx])
+    if response.failure_count == 0:
+        return
 
-        print('List of tokens that caused failures: {0}'.format(
-            failed_tokens))
+    responses = response.responses
+    for index, response in enumerate(responses):
+        if response.success:
+            continue
+
+        registration_token = registration_tokens[index]
+        print(
+            f'Failed to send with "{registration_token}": '
+            f'{response.exception}'
+        )
