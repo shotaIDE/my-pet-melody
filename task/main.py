@@ -10,7 +10,7 @@ from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
-from database import set_generated_piece, template_overlays
+from database import set_generated_piece, template
 from detection import detect_non_silence
 from firebase import initialize_firebase
 from piece import generate_piece_movie, generate_piece_sound
@@ -165,7 +165,9 @@ def piece(request):
     display_name = request_params_json['displayName']
     thumbnail_base_name = request_params_json['thumbnailFileName']
 
-    overlays = template_overlays(id=template_id)
+    template = template(id=template_id)
+    template_title = template['name']
+    overlays = template['overlays']
 
     bucket = storage.bucket()
 
@@ -286,13 +288,9 @@ def piece(request):
 
             message = messaging.MulticastMessage(
                 tokens=registration_tokens,
-                data={
-                    'type': 'new_article',
-                    'article_id': '128',
-                },
                 notification=messaging.Notification(
-                    title='作品が完成しました！',
-                    body='Happy Birthday を使った作品が完成しました',
+                    title=f'{display_name} が完成しました！',
+                    body=f'{template_title} を使った作品が完成しました',
                 ),
                 android=messaging.AndroidConfig(
                     notification=messaging.AndroidNotification(

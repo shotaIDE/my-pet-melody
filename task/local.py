@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 from auth import verify_authorization_header
-from database import set_generated_piece, template_overlays
+from database import set_generated_piece, template
 from detection import detect_non_silence
 from piece import generate_piece_movie, generate_piece_sound
 from thumbnail import (generate_equally_divided_segments,
@@ -105,7 +105,8 @@ def piece(request):
     template_path = (f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/'
                      f'{template_id}.wav')
 
-    overlays = template_overlays(id=template_id)
+    template = template(id=template_id)
+    overlays = template['overlays']
 
     current = datetime.now()
     piece_sound_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'

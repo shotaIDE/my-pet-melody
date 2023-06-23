@@ -6,13 +6,12 @@ from xmlrpc.client import DateTime
 from firebase_admin import firestore
 
 
-def template_overlays(id: str) -> list[dict[str, Any]]:
+def template(id: str) -> list[dict[str, Any]]:
     db = firestore.client()
 
     template_document_ref = db.collection('systemMedia').document(id)
     template_document = template_document_ref.get()
-    template_data = template_document.to_dict()
-    return template_data['overlays']
+    return template_document.to_dict()
 
 
 def set_generated_piece(
