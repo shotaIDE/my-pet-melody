@@ -5,6 +5,9 @@ import base64
 import cv2
 
 _NUM_SEGMENT = 10
+# Apply x2 size when displayed on mobile side
+_EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_HEIGHT = 24 * 2
+_SPECIFIED_SEGMENT_THUMBNAIL_HEIGHT = 74 * 2
 
 
 def generate_equally_divided_segments(store_path: str) -> list[str]:
@@ -19,12 +22,11 @@ def generate_equally_divided_segments(store_path: str) -> list[str]:
     for i in range(_NUM_SEGMENT):
         start_frame = i * frame_count_for_one_segment
 
-        capture.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
-        _, frame = capture.read()
-
-        image_encoded_frame = cv2.imencode('.png', frame)[1]
-
-        encoded_frame = base64.b64encode(image_encoded_frame).decode('utf-8')
+        encoded_frame = _get_resized_base64_frame(
+            capture=capture,
+            start_frame=start_frame,
+            resized_height=_EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_HEIGHT
+        )
 
         base64_images.append(encoded_frame)
 
@@ -45,15 +47,36 @@ def generate_specified_segments(
     for segment_starts_milliseconds in segments_starts_milliseconds:
         start_frame = fps * (segment_starts_milliseconds / 1000)
 
-        capture.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
-        _, frame = capture.read()
-
-        image_encoded_frame = cv2.imencode('.png', frame)[1]
-
-        encoded_frame = base64.b64encode(image_encoded_frame).decode('utf-8')
+        encoded_frame = _get_resized_base64_frame(
+            capture=capture,
+            start_frame=start_frame,
+            resized_height=_SPECIFIED_SEGMENT_THUMBNAIL_HEIGHT
+        )
 
         base64_images.append(encoded_frame)
 
     capture.release()
 
     return base64_images
+
+
+def _get_resized_base64_frame(
+        capture,
+        start_frame: int,
+        resized_height: int,
+) -> str:
+    capture.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
+    _, frame = capture.read()
+
+    height, width = frame.shape[:2]
+    new_width = int(
+        (resized_height / height) * width
+    )
+    resized_frame = cv2.resize(
+        frame,
+        (new_width, resized_height)
+    )
+
+    image_encoded_frame = cv2.imencode('.png', resized_frame)[1]
+
+    return base64.b64encode(image_encoded_frame).decode('utf-8')
