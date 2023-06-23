@@ -5,8 +5,9 @@ import base64
 import cv2
 
 _NUM_SEGMENT = 10
-_EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_MAX_HEIGHT = 24 * 2
-_SPECIFIED_SEGMENT_THUMBNAIL_MAX_HEIGHT = 74 * 2
+# Apply x2 size when displayed on mobile side
+_EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_HEIGHT = 24 * 2
+_SPECIFIED_SEGMENT_THUMBNAIL_HEIGHT = 74 * 2
 
 
 def generate_equally_divided_segments(store_path: str) -> list[str]:
@@ -24,7 +25,7 @@ def generate_equally_divided_segments(store_path: str) -> list[str]:
         encoded_frame = _get_resized_base64_frame(
             capture=capture,
             start_frame=start_frame,
-            resized_height=_EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_MAX_HEIGHT
+            resized_height=_EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_HEIGHT
         )
 
         base64_images.append(encoded_frame)
@@ -49,7 +50,7 @@ def generate_specified_segments(
         encoded_frame = _get_resized_base64_frame(
             capture=capture,
             start_frame=start_frame,
-            resized_height=_SPECIFIED_SEGMENT_THUMBNAIL_MAX_HEIGHT
+            resized_height=_SPECIFIED_SEGMENT_THUMBNAIL_HEIGHT
         )
 
         base64_images.append(encoded_frame)
