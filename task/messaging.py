@@ -11,8 +11,8 @@ def send_completed_to_generate_piece(
     message = messaging.MulticastMessage(
         tokens=registration_tokens,
         notification=messaging.Notification(
-            title=f'{display_name} が完成しました！',
-            body=f'{template_title} を使った作品が完成しました',
+            title=f'作品が完成したよ！',
+            body=f'{display_name} が完成したよ！アプリを起動して確認してね！',
         ),
         android=messaging.AndroidConfig(
             notification=messaging.AndroidNotification(
