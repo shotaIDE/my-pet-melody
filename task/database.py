@@ -1,18 +1,34 @@
 # coding: utf-8
 
-from typing import Any
+from typing import Any, Optional
 from xmlrpc.client import DateTime
 
 from firebase_admin import firestore
 
 
-def template_overlays(id: str) -> list[dict[str, Any]]:
+def get_template_overlays(id: str) -> list[dict[str, Any]]:
     db = firestore.client()
 
     template_document_ref = db.collection('systemMedia').document(id)
     template_document = template_document_ref.get()
     template_data = template_document.to_dict()
     return template_data['overlays']
+
+
+def get_registration_tokens(uid: str) -> Optional[list[str]]:
+    db = firestore.client()
+
+    user_document_ref = db.collection('users').document(uid)
+    user_document = user_document_ref.get()
+    if not user_document.exists:
+        return None
+
+    user_data = user_document.to_dict()
+
+    if 'registrationTokens' not in user_data:
+        return None
+
+    return user_data['registrationTokens']
 
 
 def set_generated_piece(

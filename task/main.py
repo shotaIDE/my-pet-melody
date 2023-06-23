@@ -10,9 +10,11 @@ from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
-from database import set_generated_piece, template_overlays
+from database import (get_registration_tokens, get_template_overlays,
+                      set_generated_piece)
 from detection import detect_non_silence
 from firebase import initialize_firebase
+from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
 from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                      USER_MEDIA_DIRECTORY_NAME)
@@ -165,7 +167,7 @@ def piece(request):
     display_name = request_params_json['displayName']
     thumbnail_base_name = request_params_json['thumbnailFileName']
 
-    overlays = template_overlays(id=template_id)
+    overlays = get_template_overlays(id=template_id)
 
     bucket = storage.bucket()
 
@@ -274,47 +276,13 @@ def piece(request):
         generated_at=current
     )
 
-    db = firestore.client()
+    registration_tokens = get_registration_tokens(uid=uid)
 
-    user_document_ref = db.collection('users').document(uid)
-    user_document = user_document_ref.get()
-    if user_document.exists:
-        user_data = user_document.to_dict()
-
-        if 'registrationTokens' in user_data:
-            registration_tokens = user_data['registrationTokens']
-
-            message = messaging.MulticastMessage(
-                tokens=registration_tokens,
-                data={
-                    'type': 'new_article',
-                    'article_id': '128',
-                },
-                notification=messaging.Notification(
-                    title='作品が完成しました！',
-                    body='Happy Birthday を使った作品が完成しました',
-                ),
-                android=messaging.AndroidConfig(
-                    notification=messaging.AndroidNotification(
-                        channel_id="completed_to_generate_piece",
-                    ),
-                ),
-            )
-
-            response = messaging.send_multicast(message)
-
-            print('{0} messages were sent successfully'.format(
-                response.success_count))
-
-            if response.failure_count > 0:
-                responses = response.responses
-                failed_tokens = []
-                for idx, resp in enumerate(responses):
-                    if not resp.success:
-                        failed_tokens.append(registration_tokens[idx])
-
-                print('List of tokens that caused failures: {0}'.format(
-                    failed_tokens))
+    if registration_tokens is not None:
+        send_completed_to_generate_piece(
+            display_name=display_name,
+            registration_tokens=registration_tokens
+        )
 
     return {
         'id': piece_movie_base_name,
