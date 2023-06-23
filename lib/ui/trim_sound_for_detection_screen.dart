@@ -300,10 +300,10 @@ class _GrayMask extends ConsumerWidget {
   String _processLabel(TrimSoundForDetectionScreenProcess process) {
     switch (process) {
       case TrimSoundForDetectionScreenProcess.convert:
-        return '動画を変換しています。これには数分かかる場合があります';
+        return '動画を変換しています。\nこれには数分かかる場合があります';
 
       case TrimSoundForDetectionScreenProcess.detect:
-        return '動画の中から鳴き声を探しています。これには数分かかる場合があります';
+        return '動画の中から鳴き声を探しています。\nこれには数分かかる場合があります';
     }
   }
 }
