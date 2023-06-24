@@ -6,8 +6,10 @@ import 'package:in_app_review/in_app_review.dart';
 import 'package:my_pet_melody/data/definitions/app_features.dart';
 import 'package:my_pet_melody/data/model/profile.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
+import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
 import 'package:my_pet_melody/root_view_model.dart';
+import 'package:my_pet_melody/ui/component/is_premium_plan_text.dart';
 import 'package:my_pet_melody/ui/component/profile_icon.dart';
 import 'package:my_pet_melody/ui/component/rounded_settings_list_tile.dart';
 import 'package:my_pet_melody/ui/debug_screen.dart';
@@ -57,7 +59,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     const currentPlanTile = RoundedSettingsListTile(
       title: Text('現在のプラン'),
-      trailing: Text('プレミアムプラン'),
+      trailing: _IsPremiumPlanText(),
       positionInGroup: ListTilePositionInGroup.first,
     );
     final registerPremiumPlanTile = RoundedSettingsListTile(
@@ -258,6 +260,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         },
       ),
     );
+  }
+}
+
+class _IsPremiumPlanText extends ConsumerWidget {
+  const _IsPremiumPlanText({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPremiumPlan = ref.watch(isPremiumPlanProvider);
+
+    return IsPremiumPlanText(isPremiumPlan: isPremiumPlan);
   }
 }
 

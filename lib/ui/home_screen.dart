@@ -9,6 +9,7 @@ import 'package:my_pet_melody/ui/component/profile_icon.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/home_state.dart';
 import 'package:my_pet_melody/ui/home_view_model.dart';
+import 'package:my_pet_melody/ui/join_premium_plan_screen.dart';
 import 'package:my_pet_melody/ui/select_template_screen.dart';
 import 'package:my_pet_melody/ui/settings_screen.dart';
 import 'package:my_pet_melody/ui/video_screen.dart';
@@ -16,6 +17,7 @@ import 'package:my_pet_melody/ui/video_screen.dart';
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (ref) => HomeViewModel(
+    ref: ref,
     listener: ref.listen,
   ),
 );
@@ -27,7 +29,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
   static const name = 'HomeScreen';
 
-  final viewModel = homeViewModelProvider;
+  final viewModelProvider = homeViewModelProvider;
 
   static MaterialPageRoute<HomeScreen> route() => MaterialPageRoute<HomeScreen>(
         builder: (_) => HomeScreen(),
@@ -40,8 +42,51 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    ref.read(widget.viewModelProvider.notifier).registerListener(
+      moveToSelectTemplateScreen: () async {
+        if (!mounted) {
+          return;
+        }
+
+        await Navigator.push<void>(context, SelectTemplateScreen.route());
+      },
+      displayPieceMakingIsRestricted: () async {
+        if (!mounted) {
+          return;
+        }
+
+        final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: const Text(
+                'これ以上作品を作れません。今ある作品の保存期限が過ぎるのを待つか、プレミアムプランへの加入を検討してください。',
+              ),
+              actions: [
+                TextButton(
+                  child: const Text('プレミアムプランとは'),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (shouldShowJoinPremiumPlanScreen != true || !mounted) {
+          return;
+        }
+
+        await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
+    final state = ref.watch(widget.viewModelProvider);
     final pieces = state.pieces;
     final Widget body;
     if (pieces == null) {
@@ -49,6 +94,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: CircularProgressIndicator(),
       );
     } else {
+      final currentDateTime = DateTime.now();
+
       if (pieces.isNotEmpty) {
         body = ListView.separated(
           padding: const EdgeInsets.only(
@@ -82,21 +129,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               style: TextStyle(color: foregroundColor),
             );
 
-            final dateFormatter = DateFormat.yMd('ja');
-            final timeFormatter = DateFormat.Hm('ja');
-            final detailsLabel = piece.map(
-              generating: (generating) =>
-                  '${dateFormatter.format(generating.submittedAt)} '
-                  '${timeFormatter.format(generating.submittedAt)}   '
-                  '製作中',
-              generated: (generated) =>
-                  '${dateFormatter.format(generated.generatedAt)} '
-                  '${timeFormatter.format(generated.generatedAt)}',
+            final detailsText = piece.map(
+              generating: (generating) => Text(
+                '製作中',
+                style: TextStyle(color: foregroundColor),
+              ),
+              generated: (generated) {
+                final availableUntil = generated.availableUntil;
+                if (availableUntil == null) {
+                  return null;
+                }
+
+                final dateFormatter = DateFormat.yMd('ja');
+                final timeFormatter = DateFormat.Hm('ja');
+                final text = '保存期限: '
+                    '${dateFormatter.format(availableUntil)} '
+                    '${timeFormatter.format(availableUntil)}';
+                final color = currentDateTime.isAfter(
+                  availableUntil.add(const Duration(days: -1)),
+                )
+                    ? Theme.of(context).colorScheme.error
+                    : foregroundColor;
+
+                return Text(
+                  text,
+                  style: TextStyle(color: color),
+                );
+              },
             );
-            final detailsText = Text(
-              detailsLabel,
-              style: TextStyle(color: foregroundColor),
-            );
+            final body = <Widget>[nameText];
+            if (detailsText != null) {
+              body.addAll([
+                const SizedBox(height: 8),
+                detailsText,
+              ]);
+            }
 
             final onPressedShareButton = piece.map(
               generating: (_) => null,
@@ -148,11 +215,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            nameText,
-                            const SizedBox(height: 8),
-                            detailsText,
-                          ],
+                          children: body,
                         ),
                       ),
                       shareButton,
@@ -213,16 +276,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        onPressed: ref.read(widget.viewModelProvider.notifier).onMakePiece,
         child: const Icon(Icons.add),
-        onPressed: () async {
-          await ref.read(widget.viewModel.notifier).beforeHideScreen();
-
-          if (!mounted) {
-            return;
-          }
-
-          await Navigator.push<void>(context, SelectTemplateScreen.route());
-        },
       ),
       resizeToAvoidBottomInset: false,
     );
@@ -248,7 +303,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       return;
     }
 
-    ref.read(widget.viewModel.notifier).share(piece: generated);
+    ref.read(widget.viewModelProvider.notifier).share(piece: generated);
   }
 }
 

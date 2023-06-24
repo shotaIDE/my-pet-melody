@@ -9,6 +9,19 @@ import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
+import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
+import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
+
+final isAvailableToMakePieceProvider = FutureProvider((ref) async {
+  final isPremiumPlan = ref.watch(isPremiumPlanProvider);
+  final pieces = await ref.watch(piecesProvider.future);
+
+  if (isPremiumPlan == true) {
+    return true;
+  }
+
+  return pieces.length < 5;
+});
 
 final detectActionProvider = FutureProvider((ref) async {
   final session = await ref.watch(sessionStreamProvider.future);

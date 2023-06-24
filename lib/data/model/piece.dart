@@ -15,6 +15,7 @@ class Piece with _$Piece {
     required String id,
     required String name,
     required DateTime generatedAt,
+    required DateTime? availableUntil,
     required String movieUrl,
     required String thumbnailUrl,
   }) = PieceGenerated;
