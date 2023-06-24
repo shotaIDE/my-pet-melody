@@ -4,10 +4,12 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/types.dart';
 import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
+import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
 import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/home_state.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
@@ -17,10 +19,14 @@ import 'package:share_plus/share_plus.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
   HomeViewModel({
+    required Ref ref,
     required Listener listener,
-  }) : super(const HomeState()) {
+  })  : _ref = ref,
+        super(const HomeState()) {
     _setup(listener: listener);
   }
+
+  final Ref _ref;
 
   final _player = AudioPlayer();
 
@@ -44,6 +50,30 @@ class HomeViewModel extends StateNotifier<HomeState> {
     super.dispose();
   }
 
+  VoidCallback? _moveToSelectTemplateScreen;
+  VoidCallback? _displayPieceMakingIsRestricted;
+
+  void registerListener({
+    required VoidCallback moveToSelectTemplateScreen,
+    required VoidCallback displayPieceMakingIsRestricted,
+  }) {
+    _moveToSelectTemplateScreen = moveToSelectTemplateScreen;
+    _displayPieceMakingIsRestricted = displayPieceMakingIsRestricted;
+  }
+
+  Future<void> onMakePiece() async {
+    await _beforeHideScreen();
+
+    final isAvailableToMakePiece =
+        await _ref.read(isAvailableToMakePieceProvider.future);
+    if (isAvailableToMakePiece) {
+      _moveToSelectTemplateScreen?.call();
+      return;
+    }
+
+    _displayPieceMakingIsRestricted?.call();
+  }
+
   Future<void> share({required PieceGenerated piece}) async {
     state = state.copyWith(isProcessing: true);
 
@@ -63,24 +93,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     await Share.shareXFiles([xFile]);
 
     state = state.copyWith(isProcessing: false);
-  }
-
-  Future<void> beforeHideScreen() async {
-    final pieces = state.pieces;
-    if (pieces == null) {
-      return;
-    }
-
-    final stoppedList =
-        PlayerChoiceConverter.getStoppedOrNull(originalList: pieces);
-
-    if (stoppedList != null) {
-      state = state.copyWith(
-        pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
-      );
-    }
-
-    await _player.stop();
   }
 
   Future<void> _setup({required Listener listener}) async {
@@ -181,5 +193,23 @@ class HomeViewModel extends StateNotifier<HomeState> {
     state = state.copyWith(
       pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
     );
+  }
+
+  Future<void> _beforeHideScreen() async {
+    final pieces = state.pieces;
+    if (pieces == null) {
+      return;
+    }
+
+    final stoppedList =
+        PlayerChoiceConverter.getStoppedOrNull(originalList: pieces);
+
+    if (stoppedList != null) {
+      state = state.copyWith(
+        pieces: stoppedList.whereType<PlayerChoicePiece>().toList(),
+      );
+    }
+
+    await _player.stop();
   }
 }

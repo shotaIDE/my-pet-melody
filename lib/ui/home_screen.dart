@@ -9,6 +9,7 @@ import 'package:my_pet_melody/ui/component/profile_icon.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/home_state.dart';
 import 'package:my_pet_melody/ui/home_view_model.dart';
+import 'package:my_pet_melody/ui/join_premium_plan_screen.dart';
 import 'package:my_pet_melody/ui/select_template_screen.dart';
 import 'package:my_pet_melody/ui/settings_screen.dart';
 import 'package:my_pet_melody/ui/video_screen.dart';
@@ -16,6 +17,7 @@ import 'package:my_pet_melody/ui/video_screen.dart';
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (ref) => HomeViewModel(
+    ref: ref,
     listener: ref.listen,
   ),
 );
@@ -27,7 +29,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
   static const name = 'HomeScreen';
 
-  final viewModel = homeViewModelProvider;
+  final viewModelProvider = homeViewModelProvider;
 
   static MaterialPageRoute<HomeScreen> route() => MaterialPageRoute<HomeScreen>(
         builder: (_) => HomeScreen(),
@@ -40,8 +42,49 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    ref.read(widget.viewModelProvider.notifier).registerListener(
+      moveToSelectTemplateScreen: () async {
+        if (!mounted) {
+          return;
+        }
+
+        await Navigator.push<void>(context, SelectTemplateScreen.route());
+      },
+      displayPieceMakingIsRestricted: () async {
+        if (!mounted) {
+          return;
+        }
+        final showPremiumPlanScreen = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: const Text(
+                'これ以上作品を作れません。今ある作品の保存期限が過ぎるのを待つか、プレミアムプランへの加入を検討してください。',
+              ),
+              actions: [
+                TextButton(
+                  child: const Text('プレミアムプランとは'),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (showPremiumPlanScreen != true || !mounted) {
+          return;
+        }
+        await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModel);
+    final state = ref.watch(widget.viewModelProvider);
     final pieces = state.pieces;
     final Widget body;
     if (pieces == null) {
@@ -231,16 +274,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        onPressed: ref.read(widget.viewModelProvider.notifier).onMakePiece,
         child: const Icon(Icons.add),
-        onPressed: () async {
-          await ref.read(widget.viewModel.notifier).beforeHideScreen();
-
-          if (!mounted) {
-            return;
-          }
-
-          await Navigator.push<void>(context, SelectTemplateScreen.route());
-        },
       ),
       resizeToAvoidBottomInset: false,
     );
@@ -266,7 +301,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       return;
     }
 
-    ref.read(widget.viewModel.notifier).share(piece: generated);
+    ref.read(widget.viewModelProvider.notifier).share(piece: generated);
   }
 }
 
