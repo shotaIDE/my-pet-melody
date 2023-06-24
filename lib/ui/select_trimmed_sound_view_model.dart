@@ -57,7 +57,7 @@ class SelectTrimmedSoundViewModel
   final _player = AudioPlayer();
 
   void Function(String)? _moveToTrimForGenerateScreen;
-  VoidCallback? _displayTrimmingForGenerateIsRestricted;
+  VoidCallback? _displayTrimmingForGenerationIsRestricted;
 
   NonSilentSegment? _currentPlayingSegment;
   StreamSubscription<Duration>? _audioPositionSubscription;
@@ -77,11 +77,11 @@ class SelectTrimmedSoundViewModel
 
   Future<void> setup({
     required void Function(String)? moveToTrimForGenerateScreen,
-    required VoidCallback displayTrimmingForGenerateIsRestricted,
+    required VoidCallback displayTrimmingForGenerationIsRestricted,
   }) async {
     _moveToTrimForGenerateScreen = moveToTrimForGenerateScreen;
-    _displayTrimmingForGenerateIsRestricted =
-        displayTrimmingForGenerateIsRestricted;
+    _displayTrimmingForGenerationIsRestricted =
+        displayTrimmingForGenerationIsRestricted;
 
     _audioPositionSubscription =
         _player.onPositionChanged.listen(_onAudioPositionReceived);
@@ -182,7 +182,7 @@ class SelectTrimmedSoundViewModel
       return;
     }
 
-    _displayTrimmingForGenerateIsRestricted?.call();
+    _displayTrimmingForGenerationIsRestricted?.call();
   }
 
   Future<void> play({required PlayerChoiceTrimmedMovie choice}) async {

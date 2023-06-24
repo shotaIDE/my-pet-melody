@@ -70,7 +70,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           TrimSoundForGenerationScreen.route(moviePath: moviePath),
         );
       },
-      displayTrimmingForGenerateIsRestricted: () async {
+      displayTrimmingForGenerationIsRestricted: () async {
         if (!mounted) {
           return;
         }
