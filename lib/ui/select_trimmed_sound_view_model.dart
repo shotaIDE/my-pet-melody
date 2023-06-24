@@ -16,6 +16,7 @@ import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
+import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -56,6 +57,10 @@ class SelectTrimmedSoundViewModel
   final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
 
+  void Function(TrimSoundForGenerationArgs)?
+      _moveToTrimSoundForGenerationScreen;
+  VoidCallback? _displayTrimmingForGenerationIsRestricted;
+
   NonSilentSegment? _currentPlayingSegment;
   StreamSubscription<Duration>? _audioPositionSubscription;
   StreamSubscription<void>? _audioStoppedSubscription;
@@ -72,7 +77,15 @@ class SelectTrimmedSoundViewModel
     super.dispose();
   }
 
-  Future<void> setup() async {
+  Future<void> setup({
+    required void Function(TrimSoundForGenerationArgs)?
+        moveToTrimSoundForGenerationScreen,
+    required VoidCallback displayTrimmingForGenerationIsRestricted,
+  }) async {
+    _moveToTrimSoundForGenerationScreen = moveToTrimSoundForGenerationScreen;
+    _displayTrimmingForGenerationIsRestricted =
+        displayTrimmingForGenerationIsRestricted;
+
     _audioPositionSubscription =
         _player.onPositionChanged.listen(_onAudioPositionReceived);
 
@@ -164,8 +177,20 @@ class SelectTrimmedSoundViewModel
     debugPrint('Running time to output thumbnails: $elapsedDuration');
   }
 
-  String getLocalPathName() {
-    return _moviePath;
+  Future<void> onTrimManually() async {
+    final isAvailable = _ref.read(isAvailableToTrimSoundForGenerationProvider);
+
+    if (isAvailable) {
+      final args = TrimSoundForGenerationArgs(
+        template: _template,
+        displayName: _displayName,
+        soundPath: _moviePath,
+      );
+      _moveToTrimSoundForGenerationScreen?.call(args);
+      return;
+    }
+
+    _displayTrimmingForGenerationIsRestricted?.call();
   }
 
   Future<void> play({required PlayerChoiceTrimmedMovie choice}) async {

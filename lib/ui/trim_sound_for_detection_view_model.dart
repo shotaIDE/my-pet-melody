@@ -108,11 +108,19 @@ class TrimSoundForDetectionViewModel
     );
   }
 
-  void onUpdateStart(double value) {
+  void onUpdateStart(double? value) {
+    if (value == null) {
+      return;
+    }
+    
     state = state.copyWith(startValue: value);
   }
 
-  void onUpdateEnd(double value) {
+  void onUpdateEnd(double? value) {
+    if (value == null) {
+      return;
+    }
+    
     state = state.copyWith(endValue: value);
   }
 

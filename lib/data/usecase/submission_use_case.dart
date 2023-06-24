@@ -23,6 +23,12 @@ final isAvailableToMakePieceProvider = FutureProvider((ref) async {
   return pieces.length < 5;
 });
 
+final isAvailableToTrimSoundForGenerationProvider = Provider((ref) {
+  final isPremiumPlan = ref.watch(isPremiumPlanProvider);
+
+  return isPremiumPlan == true;
+});
+
 final detectActionProvider = FutureProvider((ref) async {
   final session = await ref.watch(sessionStreamProvider.future);
   final storageService = await ref.read(storageServiceProvider.future);
