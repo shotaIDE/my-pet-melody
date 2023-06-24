@@ -1,16 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
-import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 class TrimSoundForGenerationViewModel
@@ -60,42 +56,43 @@ class TrimSoundForGenerationViewModel
     state =
         state.copyWith(process: TrimSoundForGenerationScreenProcess.convert);
 
-    final startPosition = AudioPositionHelper.formattedPosition(
-      milliseconds: state.startValue.toInt(),
-    );
-    final endPosition = AudioPositionHelper.formattedPosition(
-      milliseconds: state.endValue.toInt(),
-    );
-
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
-    final originalExtension = extension(_moviePath);
+    const desiredSizeMegaBytes = 10;
+    const desiredSizeBytes = desiredSizeMegaBytes * 1000 * 1000;
+    final desiredBitrate =
+        (desiredSizeBytes * 8) ~/ maxDurationToTrim.inSeconds;
+    final ffmpegCommand = '-b:v $desiredBitrate -maxrate $desiredBitrate '
+        '-bufsize ${desiredBitrate * 2}';
+    const convertedExtension = '.mp4';
 
-    final outputDirectory = await getTemporaryDirectory();
-    final outputParentPath = outputDirectory.path;
-    final outputFileName = '$originalFileNameWithoutExtension'
-        '_manually_trimmed'
-        '$originalExtension';
-    final outputPath = '$outputParentPath/$outputFileName';
+    final trimmedPathCompleter = Completer<String?>();
 
-    debugPrint(
-      'Begin to trim from $startPosition to $endPosition.',
+    await state.trimmer.saveTrimmedVideo(
+      startValue: state.startValue,
+      endValue: state.endValue,
+      onSave: (value) {
+        trimmedPathCompleter.complete(value);
+      },
+      ffmpegCommand: ffmpegCommand,
+      customVideoFormat: convertedExtension,
     );
 
-    await FFmpegKit.execute(
-      '-ss $startPosition '
-      '-to $endPosition '
-      '-i $_moviePath '
-      '-y '
-      '$outputPath',
-    );
+    final trimmedPath = await trimmedPathCompleter.future;
+    if (trimmedPath == null) {
+      state = state.copyWith(process: null);
+      return null;
+    }
 
-    final outputFile = File(outputPath);
+    state = state.copyWith(process: TrimSoundForGenerationScreenProcess.upload);
 
+    final trimmedFile = File(trimmedPath);
+    final displayFileName =
+        '$originalFileNameWithoutExtension$convertedExtension';
     final uploadAction = await _ref.read(uploadActionProvider.future);
     final uploadedSound = await uploadAction(
-      outputFile,
-      fileName: basename(outputPath),
+      trimmedFile,
+      fileName: displayFileName,
     );
 
     if (uploadedSound == null) {
@@ -103,6 +100,8 @@ class TrimSoundForGenerationViewModel
 
       return null;
     }
+
+    state = state.copyWith(process: null);
 
     return SetPieceTitleArgs(
       template: _template,
