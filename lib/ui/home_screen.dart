@@ -82,21 +82,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               style: TextStyle(color: foregroundColor),
             );
 
-            final dateFormatter = DateFormat.yMd('ja');
-            final timeFormatter = DateFormat.Hm('ja');
             final detailsLabel = piece.map(
-              generating: (generating) =>
-                  '${dateFormatter.format(generating.submittedAt)} '
-                  '${timeFormatter.format(generating.submittedAt)}   '
-                  '製作中',
-              generated: (generated) =>
-                  '${dateFormatter.format(generated.generatedAt)} '
-                  '${timeFormatter.format(generated.generatedAt)}',
+              generating: (generating) => '製作中',
+              generated: (generated) {
+                final availableUntil = generated.availableUntil;
+                if (availableUntil == null) {
+                  return null;
+                }
+
+                final dateFormatter = DateFormat.yMd('ja');
+                return '保存期限: ${dateFormatter.format(availableUntil)}';
+              },
             );
-            final detailsText = Text(
-              detailsLabel,
-              style: TextStyle(color: foregroundColor),
-            );
+            final detailsText = detailsLabel != null
+                ? Text(
+                    detailsLabel,
+                    style: TextStyle(color: foregroundColor),
+                  )
+                : null;
+            final body = <Widget>[nameText];
+            if (detailsText != null) {
+              body.addAll([
+                const SizedBox(height: 8),
+                detailsText,
+              ]);
+            }
 
             final onPressedShareButton = piece.map(
               generating: (_) => null,
@@ -148,11 +158,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            nameText,
-                            const SizedBox(height: 8),
-                            detailsText,
-                          ],
+                          children: body,
                         ),
                       ),
                       shareButton,
