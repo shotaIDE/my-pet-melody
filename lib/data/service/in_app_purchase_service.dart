@@ -58,6 +58,10 @@ class PurchaseActions {
 
   final ErrorReporter _errorReporter;
 
+  Future<String?> userId() async {
+    return Purchases.appUserID;
+  }
+
   Future<Result<void, PurchaseError>> purchase({
     required Purchasable purchasable,
   }) async {

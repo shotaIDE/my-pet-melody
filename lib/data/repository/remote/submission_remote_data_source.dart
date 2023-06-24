@@ -45,6 +45,7 @@ class SubmissionRemoteDataSource {
     required String displayName,
     required UploadedMedia thumbnail,
     required String token,
+    required String purchaseUserId,
   }) async {
     await _api.submit(
       SubmitRequest(
@@ -55,6 +56,7 @@ class SubmissionRemoteDataSource {
         thumbnailFileName: '${thumbnail.id}${thumbnail.extension}',
       ),
       token: token,
+      purchaseUserId: purchaseUserId,
     );
   }
 }

@@ -20,7 +20,7 @@ final isAvailableToMakePieceProvider = FutureProvider((ref) async {
     return true;
   }
 
-  return pieces.length < 5;
+  return pieces.length < 50;
 });
 
 final isAvailableToTrimSoundForGenerationProvider = Provider((ref) {
@@ -99,8 +99,9 @@ final requestPushNotificationPermissionActionProvider = Provider((ref) {
 });
 
 final submitActionProvider = FutureProvider((ref) async {
-  final session = await ref.watch(sessionStreamProvider.future);
   final repository = ref.read(submissionRepositoryProvider);
+  final purchaseActions = ref.watch(purchaseActionsProvider);
+  final session = await ref.watch(sessionStreamProvider.future);
 
   Future<void> action({
     required Template template,
@@ -108,12 +109,15 @@ final submitActionProvider = FutureProvider((ref) async {
     required String displayName,
     required UploadedMedia thumbnail,
   }) async {
+    final purchaseUserId = await purchaseActions.userId();
+
     await repository.submit(
       templateId: template.id,
       sounds: sounds,
       displayName: displayName,
       thumbnail: thumbnail,
       token: session.token,
+      purchaseUserId: purchaseUserId!,
     );
   }
 

@@ -18,6 +18,7 @@ class MyDio {
     required String path,
     required T Function(Map<String, dynamic> json) responseParser,
     required String token,
+    String? purchaseUserId,
     Map<String, dynamic>? data,
   }) async {
     return _getResult<T>(
@@ -31,6 +32,7 @@ class MyDio {
       ),
       responseParser: responseParser,
       token: token,
+      purchaseUserId: purchaseUserId,
     );
   }
 
@@ -66,6 +68,7 @@ class MyDio {
         connectionExecutor,
     required T Function(Map<String, dynamic> json) responseParser,
     String? token,
+    String? purchaseUserId,
   }) async {
     final url = '$_baseUrl$path';
 
@@ -75,6 +78,16 @@ class MyDio {
 
     if (token != null) {
       headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
+    }
+
+    if (purchaseUserId != null) {
+      headers['PurchaseUserId'] = purchaseUserId;
+    }
+
+    if (Platform.isIOS) {
+      headers['Platform'] = 'iOS';
+    } else {
+      headers['Platform'] = 'Android';
     }
 
     dynamic responseDataRaw;

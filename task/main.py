@@ -90,6 +90,8 @@ def submit(request):
     _FUNCTIONS_ORIGIN = os.environ['FIREBASE_FUNCTIONS_API_ORIGIN']
 
     authorization_value = request.headers['authorization']
+    purchase_user_id = request.headers['PurchaseUserId']
+    platform = request.headers['Platform']
 
     uid = verify_authorization_header(value=authorization_value)
 
