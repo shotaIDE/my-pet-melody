@@ -5,6 +5,7 @@ import 'package:my_pet_melody/data/service/auth_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service_mock.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
+import 'package:my_pet_melody/ui/component/is_premium_plan_text.dart';
 import 'package:my_pet_melody/ui/component/rounded_settings_list_tile.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/definition/list_tile_position_in_group.dart';
@@ -47,11 +48,7 @@ class DebugScreen extends ConsumerWidget {
     final isPremiumPlan = ref.watch(isPremiumPlanProvider);
     final toggleCurrentPlanTile = RoundedSettingsListTile(
       title: const Text('プランをトグルする'),
-      trailing: isPremiumPlan != null
-          ? isPremiumPlan
-              ? const Text('プレミアムプラン')
-              : const Text('フリープラン')
-          : const SizedBox.shrink(),
+      trailing: IsPremiumPlanText(isPremiumPlan: isPremiumPlan),
       onTap: ref.watch(toggleIsPremiumPlanForDebugActionProvider),
       positionInGroup: ListTilePositionInGroup.first,
     );

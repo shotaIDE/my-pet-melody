@@ -1,0 +1,22 @@
+import 'package:flutter/material.dart';
+import 'package:skeletons/skeletons.dart';
+
+class IsPremiumPlanText extends StatelessWidget {
+  const IsPremiumPlanText({
+    required this.isPremiumPlan,
+    Key? key,
+  }) : super(key: key);
+
+  final bool? isPremiumPlan;
+
+  @override
+  Widget build(BuildContext context) {
+    final isPremium = isPremiumPlan;
+
+    if (isPremium == null) {
+      return SkeletonParagraph();
+    }
+
+    return isPremium ? const Text('プレミアムプラン') : const Text('フリープラン');
+  }
+}
