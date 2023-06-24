@@ -50,7 +50,6 @@ class DebugScreen extends ConsumerWidget {
       title: const Text('プランをトグルする'),
       trailing: IsPremiumPlanText(isPremiumPlan: isPremiumPlan),
       onTap: ref.watch(toggleIsPremiumPlanForDebugActionProvider),
-      positionInGroup: ListTilePositionInGroup.first,
     );
 
     final crashlyticsLabel = Text(
