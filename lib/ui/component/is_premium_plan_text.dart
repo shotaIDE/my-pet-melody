@@ -14,7 +14,12 @@ class IsPremiumPlanText extends StatelessWidget {
     final isPremium = isPremiumPlan;
 
     if (isPremium == null) {
-      return SkeletonParagraph();
+      return SizedBox(
+        width: 100,
+        child: SkeletonParagraph(
+          style: const SkeletonParagraphStyle(lines: 1),
+        ),
+      );
     }
 
     return isPremium ? const Text('プレミアムプラン') : const Text('フリープラン');
