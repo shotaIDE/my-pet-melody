@@ -41,8 +41,8 @@ class DebugScreen extends ConsumerWidget {
             onTap: ref.watch(signInActionProvider),
           );
 
-    final premiumPlanLabel = Text(
-      'プレミアムプラン',
+    final planLabel = Text(
+      'プラン',
       style: Theme.of(context).textTheme.labelLarge,
     );
     final isPremiumPlan = ref.watch(isPremiumPlanProvider);
@@ -82,7 +82,7 @@ class DebugScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           signOutTile,
           const SizedBox(height: 32),
-          premiumPlanLabel,
+          planLabel,
           const SizedBox(height: 16),
           toggleCurrentPlanTile,
           const SizedBox(height: 32),
