@@ -112,15 +112,27 @@ class TrimSoundForGenerationViewModel
     );
   }
 
-  void onUpdateStart(double value) {
+  void onUpdateStart(double? value) {
+    if (value == null) {
+      return;
+    }
+
     state = state.copyWith(startValue: value);
   }
 
-  void onUpdateEnd(double value) {
+  void onUpdateEnd(double? value) {
+    if (value == null) {
+      return;
+    }
+
     state = state.copyWith(endValue: value);
   }
 
   void onUpdatePlaybackState({required bool isPlaying}) {
+    if (isPlaying == state.isPlaying) {
+      return;
+    }
+
     state = state.copyWith(isPlaying: isPlaying);
   }
 }
