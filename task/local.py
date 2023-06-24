@@ -1,7 +1,12 @@
 # coding: utf-8
 
+import json
 import os
 from datetime import datetime
+
+import pytz
+import requests
+from dateutil.parser import parse
 
 from auth import verify_authorization_header
 from database import (get_registration_tokens, get_template_overlays,
@@ -9,6 +14,7 @@ from database import (get_registration_tokens, get_template_overlays,
 from detection import detect_non_silence
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
+from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
 from utils import generate_store_file_name
@@ -82,6 +88,24 @@ def detect(request):
     }
 
     return results
+
+
+def submit(request):
+    _ = request.headers['authorization']
+    purchase_user_id = request.headers['purchase-user-id']
+    platform = request.headers['platform']
+
+    is_premium_plan = fetch_is_premium_plan(
+        user_id=purchase_user_id,
+        platform=platform,
+    )
+
+    print(
+        f'Purchase user ID: {purchase_user_id}, '
+        f'premium plan: {is_premium_plan}'
+    )
+
+    return {}
 
 
 def piece(request):

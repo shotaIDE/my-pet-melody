@@ -34,6 +34,7 @@ class SubmissionApi {
       path: path,
       responseParser: SubmitResponse.fromJson,
       token: token,
+      purchaseUserId: purchaseUserId,
       data: request.toJson(),
     );
   }

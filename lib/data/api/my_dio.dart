@@ -81,13 +81,13 @@ class MyDio {
     }
 
     if (purchaseUserId != null) {
-      headers['PurchaseUserId'] = purchaseUserId;
+      headers['purchase-user-id'] = purchaseUserId;
     }
 
     if (Platform.isIOS) {
-      headers['Platform'] = 'iOS';
+      headers['platform'] = 'iOS';
     } else {
-      headers['Platform'] = 'Android';
+      headers['platform'] = 'Android';
     }
 
     dynamic responseDataRaw;
