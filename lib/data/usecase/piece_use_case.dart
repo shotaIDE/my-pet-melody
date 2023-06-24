@@ -33,6 +33,8 @@ final piecesProvider = FutureProvider(
     final pieceDrafts = await ref.watch(pieceDraftsProvider.future);
     final storageService = await ref.read(storageServiceProvider.future);
 
+    final currentDateTime = DateTime.now();
+
     final converted = await Future.wait(
       pieceDrafts.map(
         (piece) => piece.map(
@@ -42,6 +44,15 @@ final piecesProvider = FutureProvider(
             submittedAt: piece.submittedAt,
           ),
           generated: (piece) async {
+            final availableUntil = isPremiumPlan == true
+                ? null
+                : piece.generatedAt.add(const Duration(days: 3));
+
+            if (availableUntil != null &&
+                currentDateTime.isAfter(availableUntil)) {
+              return null;
+            }
+
             final movieUrl = await storageService.pieceMovieDownloadUrl(
               fileName: piece.movieFileName,
             );
@@ -49,10 +60,6 @@ final piecesProvider = FutureProvider(
             final thumbnailUrl = await storageService.pieceThumbnailDownloadUrl(
               fileName: piece.thumbnailFileName,
             );
-
-            final availableUntil = isPremiumPlan == true
-                ? null
-                : piece.generatedAt.add(const Duration(days: 3));
 
             return Piece.generated(
               id: piece.id,
@@ -67,7 +74,7 @@ final piecesProvider = FutureProvider(
       ),
     );
 
-    return converted.sorted(
+    return converted.whereNotNull().sorted(
       (a, b) {
         final dateTimeA = a.map(
           generating: (generating) => generating.submittedAt,

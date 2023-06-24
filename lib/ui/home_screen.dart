@@ -49,6 +49,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: CircularProgressIndicator(),
       );
     } else {
+      final currentDateTime = DateTime.now();
+
       if (pieces.isNotEmpty) {
         body = ListView.separated(
           padding: const EdgeInsets.only(
@@ -98,8 +100,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 final text = '保存期限: '
                     '${dateFormatter.format(availableUntil)} '
                     '${timeFormatter.format(availableUntil)}';
-                final color = DateTime.now()
-                        .isAfter(availableUntil.add(const Duration(days: -1)))
+                final color = currentDateTime.isAfter(
+                  availableUntil.add(const Duration(days: -1)),
+                )
                     ? Theme.of(context).colorScheme.error
                     : foregroundColor;
 
