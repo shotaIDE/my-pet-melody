@@ -57,7 +57,8 @@ class SelectTrimmedSoundViewModel
   final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
 
-  void Function(TrimSoundForGenerationArgs)? _moveToTrimForGenerateScreen;
+  void Function(TrimSoundForGenerationArgs)?
+      _moveToTrimSoundForGenerationScreen;
   VoidCallback? _displayTrimmingForGenerationIsRestricted;
 
   NonSilentSegment? _currentPlayingSegment;
@@ -78,10 +79,10 @@ class SelectTrimmedSoundViewModel
 
   Future<void> setup({
     required void Function(TrimSoundForGenerationArgs)?
-        moveToTrimForGenerateScreen,
+        moveToTrimSoundForGenerationScreen,
     required VoidCallback displayTrimmingForGenerationIsRestricted,
   }) async {
-    _moveToTrimForGenerateScreen = moveToTrimForGenerateScreen;
+    _moveToTrimSoundForGenerationScreen = moveToTrimSoundForGenerationScreen;
     _displayTrimmingForGenerationIsRestricted =
         displayTrimmingForGenerationIsRestricted;
 
@@ -177,7 +178,7 @@ class SelectTrimmedSoundViewModel
   }
 
   Future<void> onTrimManually() async {
-    final isAvailable = _ref.read(isAvailableToTrimForGenerationProvider);
+    final isAvailable = _ref.read(isAvailableToTrimSoundForGenerationProvider);
 
     if (isAvailable) {
       final args = TrimSoundForGenerationArgs(
@@ -185,7 +186,7 @@ class SelectTrimmedSoundViewModel
         displayName: _displayName,
         soundPath: _moviePath,
       );
-      _moveToTrimForGenerateScreen?.call(args);
+      _moveToTrimSoundForGenerationScreen?.call(args);
       return;
     }
 
