@@ -1,27 +1,39 @@
 # coding: utf-8
 
 import json
+import os
 from datetime import datetime
 
 import pytz
 import requests
 from dateutil.parser import parse
 
+_REVENUE_CAT_API_BASE_URL = 'https://api.revenuecat.com/v1'
+
 
 def fetch_is_premium_plan(
         user_id: str,
         platform: str,
 ) -> bool:
-    revenue_cat_api_base_url = 'https://api.revenuecat.com/v1'
-    revenue_cat_public_google_api_key = 'goog_XbYcsvBgIsmYtGWqeJIfEUPXrni'
+    REVENUE_CAT_PUBLIC_APPLE_API_KEY = \
+        os.environ['REVENUE_CAT_PUBLIC_APPLE_API_KEY']
+    REVENUE_CAT_PUBLIC_GOOGLE_API_KEY = \
+        os.environ['REVENUE_CAT_PUBLIC_GOOGLE_API_KEY']
+
     premium_plan_entitlement_identifier = 'premium'
 
-    url = f'{revenue_cat_api_base_url}/subscribers/{user_id}'
+    url = f'{_REVENUE_CAT_API_BASE_URL}/subscribers/{user_id}'
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {revenue_cat_public_google_api_key}',
-        'X-Platform': 'android',
     }
+
+    if platform == 'iOS':
+        headers['Authorization'] = f'Bearer {REVENUE_CAT_PUBLIC_APPLE_API_KEY}'
+        headers['X-Platform'] = 'ios'
+    elif platform == 'Android':
+        headers['Authorization'] = \
+            f'Bearer {REVENUE_CAT_PUBLIC_GOOGLE_API_KEY}'
+        headers['X-Platform'] = 'android'
 
     response = requests.get(
         url=url,

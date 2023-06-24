@@ -18,6 +18,7 @@ from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
 from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                      USER_MEDIA_DIRECTORY_NAME)
+from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
 
@@ -93,9 +94,18 @@ def submit(request):
     purchase_user_id = request.headers['PurchaseUserId']
     platform = request.headers['Platform']
 
+    request_params_json = request.json
+    template_id = request_params_json['templateId']
+    sound_base_names = request_params_json['soundFileNames']
+    display_name = request_params_json['displayName']
+    thumbnail_base_name = request_params_json['thumbnailFileName']
+
     uid = verify_authorization_header(value=authorization_value)
 
-    request_params_json = request.json
+    is_premium_plan = fetch_is_premium_plan(
+        user_id=purchase_user_id,
+        platform=platform,
+    )
 
     store_data = {
         'name': 'Generating Piece',
@@ -108,11 +118,6 @@ def submit(request):
         uid).collection('generatedPieces').add(store_data)
 
     piece_id = created_document.id
-
-    template_id = request_params_json['templateId']
-    sound_base_names = request_params_json['soundFileNames']
-    display_name = request_params_json['displayName']
-    thumbnail_base_name = request_params_json['thumbnailFileName']
 
     client = tasks_v2.CloudTasksClient()
 
@@ -131,10 +136,12 @@ def submit(request):
     payload = json.dumps(body_dict)
     converted_payload = payload.encode()
 
-    d = datetime.utcnow() + timedelta(minutes=1)
+    delayed_timedelta = \
+        timedelta() if is_premium_plan else timedelta(minutes=5)
+    schedule_date_time = datetime.utcnow() + delayed_timedelta
 
-    timestamp = timestamp_pb2.Timestamp()
-    timestamp.FromDatetime(d)
+    schedule_timestamp = timestamp_pb2.Timestamp()
+    schedule_timestamp.FromDatetime(schedule_date_time)
 
     task = {
         'http_request': {
@@ -145,7 +152,7 @@ def submit(request):
             },
             'body': converted_payload,
         },
-        'schedule_time': timestamp,
+        'schedule_time': schedule_timestamp,
     }
 
     response = client.create_task(request={
