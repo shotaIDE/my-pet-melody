@@ -9,6 +9,7 @@ import 'package:my_pet_melody/ui/component/footer.dart';
 import 'package:my_pet_melody/ui/component/primary_button.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/join_premium_plan_screen.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_view_model.dart';
@@ -58,7 +59,46 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   void initState() {
     super.initState();
 
-    ref.read(widget.viewModelProvider.notifier).setup();
+    ref.read(widget.viewModelProvider.notifier).setup(
+      moveToTrimForGenerateScreen: (moviePath) async {
+        if (!mounted) {
+          return;
+        }
+
+        await Navigator.push(
+          context,
+          TrimSoundForGenerationScreen.route(moviePath: moviePath),
+        );
+      },
+      displayTrimmingForGenerateIsRestricted: () async {
+        if (!mounted) {
+          return;
+        }
+
+        final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: const Text(
+                '自分でトリミングして鳴き声を設定するには、プレミアムプランに加入してください。',
+              ),
+              actions: [
+                TextButton(
+                  child: const Text('プレミアムプランとは'),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (shouldShowJoinPremiumPlanScreen != true || !mounted) {
+          return;
+        }
+
+        await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+      },
+    );
   }
 
   @override
@@ -113,21 +153,7 @@ class _UnavailableTrimmedSoundScreenState
     );
 
     final trimManuallyButton = TextButton(
-      onPressed: () async {
-        final localPath =
-            ref.read(widget.viewModelProvider.notifier).getLocalPathName();
-
-        final outputPath = await Navigator.push(
-          context,
-          TrimSoundForGenerationScreen.route(moviePath: localPath),
-        );
-
-        if (outputPath == null || !mounted) {
-          return;
-        }
-
-        Navigator.pop(context, outputPath);
-      },
+      onPressed: ref.read(widget.viewModelProvider.notifier).onTrimManually,
       child: const Text('自分でトリミングする'),
     );
 
@@ -229,21 +255,7 @@ class _SelectTrimmedSoundScreenState
     );
 
     final trimManuallyButton = TextButton(
-      onPressed: () async {
-        final localPath =
-            ref.read(widget.viewModelProvider.notifier).getLocalPathName();
-
-        final outputPath = await Navigator.push(
-          context,
-          TrimSoundForGenerationScreen.route(moviePath: localPath),
-        );
-
-        if (outputPath == null || !mounted) {
-          return;
-        }
-
-        Navigator.pop(context, outputPath);
-      },
+      onPressed: ref.read(widget.viewModelProvider.notifier).onTrimManually,
       child: const Text('自分でトリミングする'),
     );
 

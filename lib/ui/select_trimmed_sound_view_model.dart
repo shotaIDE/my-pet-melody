@@ -56,6 +56,9 @@ class SelectTrimmedSoundViewModel
   final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
 
+  void Function(String)? _moveToTrimForGenerateScreen;
+  VoidCallback? _displayTrimmingForGenerateIsRestricted;
+
   NonSilentSegment? _currentPlayingSegment;
   StreamSubscription<Duration>? _audioPositionSubscription;
   StreamSubscription<void>? _audioStoppedSubscription;
@@ -72,7 +75,14 @@ class SelectTrimmedSoundViewModel
     super.dispose();
   }
 
-  Future<void> setup() async {
+  Future<void> setup({
+    required void Function(String)? moveToTrimForGenerateScreen,
+    required VoidCallback displayTrimmingForGenerateIsRestricted,
+  }) async {
+    _moveToTrimForGenerateScreen = moveToTrimForGenerateScreen;
+    _displayTrimmingForGenerateIsRestricted =
+        displayTrimmingForGenerateIsRestricted;
+
     _audioPositionSubscription =
         _player.onPositionChanged.listen(_onAudioPositionReceived);
 
@@ -164,8 +174,9 @@ class SelectTrimmedSoundViewModel
     debugPrint('Running time to output thumbnails: $elapsedDuration');
   }
 
-  String getLocalPathName() {
-    return _moviePath;
+  Future<void> onTrimManually() async {
+    // TODO(ide): Restriction
+    _moveToTrimForGenerateScreen?.call(_moviePath);
   }
 
   Future<void> play({required PlayerChoiceTrimmedMovie choice}) async {
