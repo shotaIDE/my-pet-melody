@@ -82,8 +82,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               style: TextStyle(color: foregroundColor),
             );
 
-            final detailsLabel = piece.map(
-              generating: (generating) => '製作中',
+            final detailsText = piece.map(
+              generating: (generating) => Text(
+                '製作中',
+                style: TextStyle(color: foregroundColor),
+              ),
               generated: (generated) {
                 final availableUntil = generated.availableUntil;
                 if (availableUntil == null) {
@@ -92,17 +95,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                 final dateFormatter = DateFormat.yMd('ja');
                 final timeFormatter = DateFormat.Hm('ja');
-                return '保存期限: '
+                final text = '保存期限: '
                     '${dateFormatter.format(availableUntil)} '
                     '${timeFormatter.format(availableUntil)}';
+                final color = DateTime.now()
+                        .isAfter(availableUntil.add(const Duration(days: -1)))
+                    ? Theme.of(context).colorScheme.error
+                    : foregroundColor;
+
+                return Text(
+                  text,
+                  style: TextStyle(color: color),
+                );
               },
             );
-            final detailsText = detailsLabel != null
-                ? Text(
-                    detailsLabel,
-                    style: TextStyle(color: foregroundColor),
-                  )
-                : null;
             final body = <Widget>[nameText];
             if (detailsText != null) {
               body.addAll([
