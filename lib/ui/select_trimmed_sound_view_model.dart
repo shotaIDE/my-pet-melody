@@ -175,8 +175,14 @@ class SelectTrimmedSoundViewModel
   }
 
   Future<void> onTrimManually() async {
-    // TODO(ide): Restriction
-    _moveToTrimForGenerateScreen?.call(_moviePath);
+    final isAvailable = _ref.read(isAvailableToTrimForGenerationProvider);
+
+    if (isAvailable) {
+      _moveToTrimForGenerateScreen?.call(_moviePath);
+      return;
+    }
+
+    _displayTrimmingForGenerateIsRestricted?.call();
   }
 
   Future<void> play({required PlayerChoiceTrimmedMovie choice}) async {
