@@ -23,7 +23,7 @@ final isAvailableToMakePieceProvider = FutureProvider((ref) async {
   return pieces.length < 5;
 });
 
-final isAvailableToTrimForGenerationProvider = Provider((ref) {
+final isAvailableToTrimSoundForGenerationProvider = Provider((ref) {
   final isPremiumPlan = ref.watch(isPremiumPlanProvider);
 
   return isPremiumPlan == true;
