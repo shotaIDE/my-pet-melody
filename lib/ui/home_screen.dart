@@ -91,7 +91,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 }
 
                 final dateFormatter = DateFormat.yMd('ja');
-                return '保存期限: ${dateFormatter.format(availableUntil)}';
+                final timeFormatter = DateFormat.Hm('ja');
+                return '保存期限: '
+                    '${dateFormatter.format(availableUntil)} '
+                    '${timeFormatter.format(availableUntil)}';
               },
             );
             final detailsText = detailsLabel != null
