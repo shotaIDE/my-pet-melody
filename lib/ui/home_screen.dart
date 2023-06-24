@@ -58,7 +58,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           return;
         }
 
-        final showPremiumPlanScreen = await showDialog<bool>(
+        final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
           context: context,
           builder: (context) {
             return AlertDialog(
@@ -75,7 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           },
         );
 
-        if (showPremiumPlanScreen != true || !mounted) {
+        if (shouldShowJoinPremiumPlanScreen != true || !mounted) {
           return;
         }
 
