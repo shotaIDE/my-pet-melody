@@ -60,14 +60,14 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
     super.initState();
 
     ref.read(widget.viewModelProvider.notifier).setup(
-      moveToTrimForGenerateScreen: (moviePath) async {
+      moveToTrimForGenerateScreen: (args) async {
         if (!mounted) {
           return;
         }
 
         await Navigator.push(
           context,
-          TrimSoundForGenerationScreen.route(moviePath: moviePath),
+          TrimSoundForGenerationScreen.route(args: args),
         );
       },
       displayTrimmingForGenerationIsRestricted: () async {

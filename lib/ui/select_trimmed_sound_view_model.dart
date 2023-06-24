@@ -16,6 +16,7 @@ import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
+import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -56,7 +57,7 @@ class SelectTrimmedSoundViewModel
   final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
 
-  void Function(String)? _moveToTrimForGenerateScreen;
+  void Function(TrimSoundForGenerationArgs)? _moveToTrimForGenerateScreen;
   VoidCallback? _displayTrimmingForGenerationIsRestricted;
 
   NonSilentSegment? _currentPlayingSegment;
@@ -76,7 +77,8 @@ class SelectTrimmedSoundViewModel
   }
 
   Future<void> setup({
-    required void Function(String)? moveToTrimForGenerateScreen,
+    required void Function(TrimSoundForGenerationArgs)?
+        moveToTrimForGenerateScreen,
     required VoidCallback displayTrimmingForGenerationIsRestricted,
   }) async {
     _moveToTrimForGenerateScreen = moveToTrimForGenerateScreen;
@@ -178,7 +180,12 @@ class SelectTrimmedSoundViewModel
     final isAvailable = _ref.read(isAvailableToTrimForGenerationProvider);
 
     if (isAvailable) {
-      _moveToTrimForGenerateScreen?.call(_moviePath);
+      final args = TrimSoundForGenerationArgs(
+        template: _template,
+        displayName: _displayName,
+        soundPath: _moviePath,
+      );
+      _moveToTrimForGenerateScreen?.call(args);
       return;
     }
 

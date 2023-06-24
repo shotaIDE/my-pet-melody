@@ -4,9 +4,10 @@ import 'dart:io';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
 import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
-import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
+import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,16 +17,22 @@ class TrimSoundForGenerationViewModel
     extends StateNotifier<TrimSoundForGenerationState> {
   TrimSoundForGenerationViewModel({
     required Ref ref,
-    required String moviePath,
+    required TrimSoundForGenerationArgs args,
   })  : _ref = ref,
-        _moviePath = moviePath,
+        _template = args.template,
+        _displayName = args.displayName,
+        _moviePath = args.soundPath,
         super(
           TrimSoundForGenerationState(
             trimmer: Trimmer(),
           ),
         );
 
+  static const maxDurationToTrim = Duration(seconds: 10);
+
   final Ref _ref;
+  final Template _template;
+  final String _displayName;
   final String _moviePath;
 
   @override
@@ -49,7 +56,7 @@ class TrimSoundForGenerationViewModel
     state = state.copyWith(isPlaying: playbackState);
   }
 
-  Future<SelectTrimmedSoundResult?> save() async {
+  Future<SetPieceTitleArgs?> onGoNext() async {
     state = state.copyWith(isUploading: true);
 
     final startPosition = AudioPositionHelper.formattedPosition(
@@ -96,11 +103,12 @@ class TrimSoundForGenerationViewModel
       return null;
     }
 
-    return SelectTrimmedSoundResult(
-      uploaded: uploadedSound,
-      displayName: '$originalFileNameWithoutExtension - 手動トリミング',
+    return SetPieceTitleArgs(
+      template: _template,
+      sounds: [uploadedSound],
       // TODO(ide): Generate thumbnail and should be set
       thumbnailLocalPath: '',
+      displayName: _displayName,
     );
   }
 
