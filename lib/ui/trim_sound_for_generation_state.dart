@@ -11,8 +11,16 @@ class TrimSoundForGenerationState with _$TrimSoundForGenerationState {
     @Default(0.0) double startValue,
     @Default(0.0) double endValue,
     @Default(false) bool isPlaying,
-    @Default(false) bool isUploading,
+    @Default(null) TrimSoundForGenerationScreenProcess? process,
   }) = _TrimSoundForGenerationState;
+}
+
+enum TrimSoundForGenerationScreenProcess {
+  /// 動画の変換中
+  convert,
+
+  /// アップロード中
+  upload,
 }
 
 @freezed

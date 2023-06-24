@@ -57,7 +57,8 @@ class TrimSoundForGenerationViewModel
   }
 
   Future<SetPieceTitleArgs?> onGoNext() async {
-    state = state.copyWith(isUploading: true);
+    state =
+        state.copyWith(process: TrimSoundForGenerationScreenProcess.convert);
 
     final startPosition = AudioPositionHelper.formattedPosition(
       milliseconds: state.startValue.toInt(),
@@ -98,7 +99,7 @@ class TrimSoundForGenerationViewModel
     );
 
     if (uploadedSound == null) {
-      state = state.copyWith(isUploading: false);
+      state = state.copyWith(process: null);
 
       return null;
     }

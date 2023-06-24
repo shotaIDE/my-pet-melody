@@ -264,11 +264,12 @@ class _GrayMask extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isUploading =
-        ref.watch(viewModelProvider.select((state) => state.isUploading));
+    final process =
+        ref.watch(viewModelProvider.select((state) => state.process));
 
+    final message = process != null ? _processLabel(process) : '';
     final messageText = Text(
-      'アップロードしています',
+      message,
       style:
           Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
       textAlign: TextAlign.center,
@@ -278,7 +279,7 @@ class _GrayMask extends ConsumerWidget {
       children: [
         child,
         Visibility(
-          visible: isUploading,
+          visible: process != null,
           child: Container(
             alignment: Alignment.center,
             color: Colors.black.withOpacity(0.5),
@@ -299,5 +300,15 @@ class _GrayMask extends ConsumerWidget {
         ),
       ],
     );
+  }
+
+  String _processLabel(TrimSoundForGenerationScreenProcess process) {
+    switch (process) {
+      case TrimSoundForGenerationScreenProcess.convert:
+        return '動画を変換しています。\nこれには数分かかる場合があります';
+
+      case TrimSoundForGenerationScreenProcess.upload:
+        return 'アップロードしています';
+    }
   }
 }
