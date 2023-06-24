@@ -91,8 +91,8 @@ def submit(request):
     _FUNCTIONS_ORIGIN = os.environ['FIREBASE_FUNCTIONS_API_ORIGIN']
 
     authorization_value = request.headers['authorization']
-    purchase_user_id = request.headers['PurchaseUserId']
-    platform = request.headers['Platform']
+    purchase_user_id = request.headers['purchase-user-id']
+    platform = request.headers['platform']
 
     request_params_json = request.json
     template_id = request_params_json['templateId']
