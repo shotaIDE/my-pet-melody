@@ -37,7 +37,7 @@ class PurchaseActionsMock extends PurchaseActions {
       : super(errorReporter: errorReporter);
 
   @override
-  Future<String?> userId() async {
+  Future<String> userId() async {
     return 'DummyPurchaseUserID';
   }
 

@@ -117,7 +117,7 @@ final submitActionProvider = FutureProvider((ref) async {
       displayName: displayName,
       thumbnail: thumbnail,
       token: session.token,
-      purchaseUserId: purchaseUserId!,
+      purchaseUserId: purchaseUserId,
     );
   }
 

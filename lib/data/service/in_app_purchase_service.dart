@@ -58,7 +58,7 @@ class PurchaseActions {
 
   final ErrorReporter _errorReporter;
 
-  Future<String?> userId() async {
+  Future<String> userId() async {
     return Purchases.appUserID;
   }
 
