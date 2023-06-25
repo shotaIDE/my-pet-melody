@@ -20,7 +20,7 @@ final isAvailableToMakePieceProvider = FutureProvider((ref) async {
     return true;
   }
 
-  return pieces.length < 50;
+  return pieces.length < 5;
 });
 
 final isAvailableToTrimSoundForGenerationProvider = Provider((ref) {
