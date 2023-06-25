@@ -13,5 +13,13 @@ final storageServiceProvider = FutureProvider<StorageService>(
 );
 
 final pushNotificationServiceProvider = Provider(
-  (_) => PushNotificationService(),
+  (ref) {
+    final pushNotificationService = PushNotificationService();
+
+    ref.onDispose(() async {
+      await pushNotificationService.dispose();
+    });
+
+    return pushNotificationService;
+  },
 );
