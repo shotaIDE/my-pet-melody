@@ -17,7 +17,7 @@ class PushNotificationService {
 
     await _setupAndroidNotificationChannels();
 
-    await _initializeLocalNotification();
+    await _setupAndroidLocalNotification();
 
     _foregroundNotificationSubscription =
         FirebaseMessaging.onMessage.listen((message) {
@@ -26,12 +26,16 @@ class PushNotificationService {
         return;
       }
 
-      // アプリがフォアグラウンドに表示されている際は通知が表示されないため、
-      // 手動で表示する必要がある
-      _showLocalNotification(
+      final androidNotification = notification.android;
+      if (androidNotification == null) {
+        return;
+      }
+
+      // Notifications will not displayed when the app is in the foreground,
+      // display manually.
+      _showAndroidLocalNotification(
         notification,
-        notification.android,
-        message.data,
+        androidNotification,
       );
     });
   }
@@ -90,14 +94,14 @@ class PushNotificationService {
           channel.title,
           description: channel.description,
           groupId: channel.groupId,
-          // HeadsUp通知にするため重要度をHighに設定している
+          // Set the importance level to High to display as heads up.
           importance: Importance.high,
         ),
       );
     }
   }
 
-  Future<void> _initializeLocalNotification() async {
+  Future<void> _setupAndroidLocalNotification() async {
     await _plugin.initialize(
       const InitializationSettings(
         android: AndroidInitializationSettings('mipmap/ic_launcher_dev'),
@@ -105,33 +109,26 @@ class PushNotificationService {
     );
   }
 
-  Future<void> _showLocalNotification(
+  Future<void> _showAndroidLocalNotification(
     RemoteNotification notification,
-    AndroidNotification? androidNotification,
-    Map<String, dynamic> data,
+    AndroidNotification androidNotification,
   ) async {
-    final NotificationDetails? details;
-    if (androidNotification != null) {
-      final channelId = androidNotification.channelId;
-      if (channelId == null) {
-        return;
-      }
-
-      final channel = NotificationChannelDefinitions.getChannel(id: channelId);
-      if (channel == null) {
-        return;
-      }
-
-      details = NotificationDetails(
-        android: AndroidNotificationDetails(
-          channel.id,
-          channel.title,
-          channelDescription: channel.description,
-        ),
-      );
-    } else {
-      details = null;
+    final channelId = androidNotification.channelId;
+    if (channelId == null) {
+      return;
     }
+
+    final channel = NotificationChannelDefinitions.getChannel(id: channelId);
+    if (channel == null) {
+      return;
+    }
+
+    final details = NotificationDetails(
+      android: AndroidNotificationDetails(
+        channel.id,
+        channel.title,
+      ),
+    );
 
     await _plugin.show(
       notification.hashCode,
