@@ -41,7 +41,7 @@ class RootViewModel extends StateNotifier<RootState> {
   Future<void> _setup() async {
     await _determineStartPage();
 
-    await _ref.read(ensureSetupPushNotificationActionProvider.future);
+    await _ref.read(ensureSetupPushNotificationActionProvider).call();
 
     _listener<Future<String?>>(
       registrationTokenProvider.future,
