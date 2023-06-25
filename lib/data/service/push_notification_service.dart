@@ -8,7 +8,7 @@ import 'package:my_pet_melody/data/definitions/notification_channel_definitions.
 class PushNotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();
 
-  StreamSubscription<void>? _foregroundNotificationSubscription;
+  StreamSubscription<void>? _androidForegroundNotificationSubscription;
 
   Future<void> setupNotification() async {
     if (!Platform.isAndroid) {
@@ -19,7 +19,7 @@ class PushNotificationService {
 
     await _setupAndroidLocalNotification();
 
-    _foregroundNotificationSubscription =
+    _androidForegroundNotificationSubscription =
         FirebaseMessaging.onMessage.listen((message) {
       final notification = message.notification;
       if (notification == null) {
@@ -41,7 +41,7 @@ class PushNotificationService {
   }
 
   Future<void> dispose() async {
-    await _foregroundNotificationSubscription?.cancel();
+    await _androidForegroundNotificationSubscription?.cancel();
   }
 
   Future<void> requestPermission() async {
