@@ -85,10 +85,14 @@ def detect(request):
 
 
 def submit(request):
-    _GCP_PROJECT_ID = os.environ['GOOGLE_CLOUD_PROJECT_ID']
-    _TASKS_LOCATION = os.environ['GOOGLE_CLOUD_TASKS_LOCATION']
-    _TASKS_QUEUE_ID = os.environ['GOOGLE_CLOUD_TASKS_QUEUE_ID']
-    _FUNCTIONS_ORIGIN = os.environ['FIREBASE_FUNCTIONS_API_ORIGIN']
+    GCP_PROJECT_ID = os.environ['GOOGLE_CLOUD_PROJECT_ID']
+    TASKS_LOCATION = os.environ['GOOGLE_CLOUD_TASKS_LOCATION']
+    TASKS_QUEUE_ID = os.environ['GOOGLE_CLOUD_TASKS_QUEUE_ID']
+    FUNCTIONS_ORIGIN = os.environ['FIREBASE_FUNCTIONS_API_ORIGIN']
+    should_eliminate_waiting_time = \
+        os.environ['FEATURE_ELIMINATE_WAITING_TIME_TO_GENERATE'] == 'true'
+    waiting_time_seconds = \
+        int(os.environ['WAITING_TIME_SECONDS_TO_GENERATE'])
 
     authorization_value = request.headers['authorization']
     purchase_user_id = request.headers['purchase-user-id']
@@ -102,10 +106,14 @@ def submit(request):
 
     uid = verify_authorization_header(value=authorization_value)
 
-    is_premium_plan = fetch_is_premium_plan(
-        user_id=purchase_user_id,
-        platform=platform,
-    )
+    if should_eliminate_waiting_time:
+        is_premium_plan = fetch_is_premium_plan(
+            user_id=purchase_user_id,
+            platform=platform,
+        )
+        eliminate_waiting_time = is_premium_plan
+    else:
+        eliminate_waiting_time = False
 
     store_data = {
         'name': 'Generating Piece',
@@ -122,7 +130,7 @@ def submit(request):
     client = tasks_v2.CloudTasksClient()
 
     parent = client.queue_path(
-        _GCP_PROJECT_ID, _TASKS_LOCATION, _TASKS_QUEUE_ID
+        GCP_PROJECT_ID, TASKS_LOCATION, TASKS_QUEUE_ID
     )
 
     body_dict = {
@@ -137,7 +145,8 @@ def submit(request):
     converted_payload = payload.encode()
 
     delayed_timedelta = \
-        timedelta() if is_premium_plan else timedelta(minutes=5)
+        timedelta() if eliminate_waiting_time \
+        else timedelta(seconds=waiting_time_seconds)
     schedule_date_time = datetime.utcnow() + delayed_timedelta
 
     schedule_timestamp = timestamp_pb2.Timestamp()
@@ -146,7 +155,7 @@ def submit(request):
     task = {
         'http_request': {
             'http_method': tasks_v2.HttpMethod.POST,
-            'url': f'{_FUNCTIONS_ORIGIN}/piece',
+            'url': f'{FUNCTIONS_ORIGIN}/piece',
             'headers': {
                 'Content-type': 'application/json',
             },
