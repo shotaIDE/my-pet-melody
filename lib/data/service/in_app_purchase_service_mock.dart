@@ -1,6 +1,11 @@
 // ignore_for_file: prefer-match-file-name
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/logger/error_reporter.dart';
+import 'package:my_pet_melody/data/model/purchasable.dart';
+import 'package:my_pet_melody/data/model/purchase_error.dart';
+import 'package:my_pet_melody/data/model/result.dart';
+import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 
 final isPremiumPlanStateProviderMock =
     StateNotifierProvider<_IsPremiumPlanNotifierMock, bool?>(
@@ -24,5 +29,29 @@ class _IsPremiumPlanNotifierMock extends StateNotifier<bool?> {
     }
 
     state = !current;
+  }
+}
+
+class PurchaseActionsMock extends PurchaseActions {
+  const PurchaseActionsMock({required ErrorReporter errorReporter})
+      : super(errorReporter: errorReporter);
+
+  @override
+  Future<String?> userId() async {
+    return 'DummyPurchaseUserID';
+  }
+
+  @override
+  Future<Result<void, PurchaseError>> purchase({
+    required Purchasable purchasable,
+  }) async {
+    await Future.delayed(const Duration(seconds: 2));
+    return const Result.success(null);
+  }
+
+  @override
+  Future<bool> restore() async {
+    await Future.delayed(const Duration(seconds: 2));
+    return true;
   }
 }

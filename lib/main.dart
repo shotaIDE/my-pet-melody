@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/di/api_providers.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
+import 'package:my_pet_melody/data/logger/error_reporter.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service_mock.dart';
 import 'package:my_pet_melody/data/service/storage_service_local_flask.dart';
@@ -62,12 +63,16 @@ Future<void> main() async {
       }
 
       if (F.flavor != Flavor.prod) {
-        overrides.add(
+        overrides.addAll([
           isPremiumPlanProvider.overrideWith((ref) {
             final isPremiumPlan = ref.watch(isPremiumPlanStateProviderMock);
             return isPremiumPlan;
           }),
-        );
+          purchaseActionsProvider.overrideWith((ref) {
+            final errorReporter = ref.watch(errorReporterProvider);
+            return PurchaseActionsMock(errorReporter: errorReporter);
+          }),
+        ]);
       }
 
       FlutterError.onError =
