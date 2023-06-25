@@ -1,12 +1,7 @@
 # coding: utf-8
 
-import json
 import os
 from datetime import datetime
-
-import pytz
-import requests
-from dateutil.parser import parse
 
 from auth import verify_authorization_header
 from database import (get_registration_tokens, get_template_overlays,

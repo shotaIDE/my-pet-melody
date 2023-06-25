@@ -5,7 +5,7 @@ import os
 import tempfile
 from datetime import datetime, timedelta
 
-from firebase_admin import firestore, messaging, storage
+from firebase_admin import firestore, storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
