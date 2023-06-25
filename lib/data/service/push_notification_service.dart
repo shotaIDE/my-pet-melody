@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:my_pet_melody/data/definitions/notification_channels.dart';
+import 'package:my_pet_melody/data/definitions/notification_channel_definitions.dart';
 
 class PushNotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();
