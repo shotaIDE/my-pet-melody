@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/definitions/app_features.dart';
 import 'package:my_pet_melody/data/model/profile.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
@@ -183,8 +184,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     // In-app reviews are limited to the number of times they can be
     // displayed, so go to Store and open the page to write a review.
     await InAppReview.instance.openStoreListing(
-      // TODO(ide): Fill App Store ID
-      appStoreId: '',
+      appStoreId: AppDefinitions.appStoreId,
     );
   }
 

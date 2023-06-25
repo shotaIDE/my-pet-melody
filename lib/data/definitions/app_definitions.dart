@@ -10,6 +10,8 @@ class AppDefinitions {
   static const serverHost = String.fromEnvironment('SERVER_HOST');
   static const serverOrigin = String.fromEnvironment('SERVER_ORIGIN');
 
+  static const appStoreId = '6450181110';
+
   static String get twitterRedirectUri {
     const redirectScheme = String.fromEnvironment('TWITTER_REDIRECT_SCHEME');
     return '$redirectScheme://auth/twitter';

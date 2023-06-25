@@ -5,6 +5,12 @@ part 'root_state.freezed.dart';
 @freezed
 class RootState with _$RootState {
   const factory RootState({
-    @Default(null) bool? showHomeScreen,
+    @Default(null) StartPage? startPage,
   }) = _RootState;
+}
+
+enum StartPage {
+  updateApp,
+  login,
+  home,
 }
