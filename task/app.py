@@ -21,6 +21,11 @@ def detect():
     return local.detect(request)
 
 
+@app.route('/submit', methods=['POST'])
+def submit():
+    return local.submit(request)
+
+
 @app.route("/piece", methods=['POST'])
 def piece():
     return local.piece(request)

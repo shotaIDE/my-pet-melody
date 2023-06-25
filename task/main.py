@@ -5,7 +5,7 @@ import os
 import tempfile
 from datetime import datetime, timedelta
 
-from firebase_admin import firestore, messaging, storage
+from firebase_admin import firestore, storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
@@ -18,6 +18,7 @@ from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
 from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                      USER_MEDIA_DIRECTORY_NAME)
+from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
 
@@ -84,16 +85,35 @@ def detect(request):
 
 
 def submit(request):
-    _GCP_PROJECT_ID = os.environ['GOOGLE_CLOUD_PROJECT_ID']
-    _TASKS_LOCATION = os.environ['GOOGLE_CLOUD_TASKS_LOCATION']
-    _TASKS_QUEUE_ID = os.environ['GOOGLE_CLOUD_TASKS_QUEUE_ID']
-    _FUNCTIONS_ORIGIN = os.environ['FIREBASE_FUNCTIONS_API_ORIGIN']
+    GCP_PROJECT_ID = os.environ['GOOGLE_CLOUD_PROJECT_ID']
+    TASKS_LOCATION = os.environ['GOOGLE_CLOUD_TASKS_LOCATION']
+    TASKS_QUEUE_ID = os.environ['GOOGLE_CLOUD_TASKS_QUEUE_ID']
+    FUNCTIONS_ORIGIN = os.environ['FIREBASE_FUNCTIONS_API_ORIGIN']
+    should_eliminate_waiting_time = \
+        os.environ['FEATURE_ELIMINATE_WAITING_TIME_TO_GENERATE'] == 'true'
+    waiting_time_seconds = \
+        int(os.environ['WAITING_TIME_SECONDS_TO_GENERATE'])
 
     authorization_value = request.headers['authorization']
+    purchase_user_id = request.headers['purchase-user-id']
+    platform = request.headers['platform']
+
+    request_params_json = request.json
+    template_id = request_params_json['templateId']
+    sound_base_names = request_params_json['soundFileNames']
+    display_name = request_params_json['displayName']
+    thumbnail_base_name = request_params_json['thumbnailFileName']
 
     uid = verify_authorization_header(value=authorization_value)
 
-    request_params_json = request.json
+    if should_eliminate_waiting_time:
+        is_premium_plan = fetch_is_premium_plan(
+            user_id=purchase_user_id,
+            platform=platform,
+        )
+        eliminate_waiting_time = is_premium_plan
+    else:
+        eliminate_waiting_time = False
 
     store_data = {
         'name': 'Generating Piece',
@@ -107,15 +127,10 @@ def submit(request):
 
     piece_id = created_document.id
 
-    template_id = request_params_json['templateId']
-    sound_base_names = request_params_json['soundFileNames']
-    display_name = request_params_json['displayName']
-    thumbnail_base_name = request_params_json['thumbnailFileName']
-
     client = tasks_v2.CloudTasksClient()
 
     parent = client.queue_path(
-        _GCP_PROJECT_ID, _TASKS_LOCATION, _TASKS_QUEUE_ID
+        GCP_PROJECT_ID, TASKS_LOCATION, TASKS_QUEUE_ID
     )
 
     body_dict = {
@@ -129,21 +144,24 @@ def submit(request):
     payload = json.dumps(body_dict)
     converted_payload = payload.encode()
 
-    d = datetime.utcnow() + timedelta(minutes=1)
+    delayed_timedelta = \
+        timedelta() if eliminate_waiting_time \
+        else timedelta(seconds=waiting_time_seconds)
+    schedule_date_time = datetime.utcnow() + delayed_timedelta
 
-    timestamp = timestamp_pb2.Timestamp()
-    timestamp.FromDatetime(d)
+    schedule_timestamp = timestamp_pb2.Timestamp()
+    schedule_timestamp.FromDatetime(schedule_date_time)
 
     task = {
         'http_request': {
             'http_method': tasks_v2.HttpMethod.POST,
-            'url': f'{_FUNCTIONS_ORIGIN}/piece',
+            'url': f'{FUNCTIONS_ORIGIN}/piece',
             'headers': {
                 'Content-type': 'application/json',
             },
             'body': converted_payload,
         },
-        'schedule_time': timestamp,
+        'schedule_time': schedule_timestamp,
     }
 
     response = client.create_task(request={

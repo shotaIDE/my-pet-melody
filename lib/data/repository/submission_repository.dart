@@ -24,6 +24,7 @@ class SubmissionRepository {
     required String displayName,
     required UploadedMedia thumbnail,
     required String token,
+    required String purchaseUserId,
   }) async {
     await _remote.submit(
       templateId: templateId,
@@ -31,6 +32,7 @@ class SubmissionRepository {
       displayName: displayName,
       thumbnail: thumbnail,
       token: token,
+      purchaseUserId: purchaseUserId,
     );
   }
 }

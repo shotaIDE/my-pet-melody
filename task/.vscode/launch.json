@@ -36,6 +36,20 @@
       "jinja": true
     },
     {
+      "name": "Production",
+      "type": "python",
+      "request": "launch",
+      "module": "flask",
+      "env": {
+        "FLASK_APP": "app.py",
+        "FLASK_ENV": "development",
+        "FUNCTION_NAME": "dummy"
+      },
+      "envFile": "${workspaceFolder}/.env.prod",
+      "args": ["run", "--no-debugger", "--host=0.0.0.0", "--port=5001"],
+      "jinja": true
+    },
+    {
       "name": "Generate Piece for Emulator",
       "type": "python",
       "request": "launch",

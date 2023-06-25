@@ -25,6 +25,7 @@ class SubmissionApi {
   Future<SubmitResponse?> submit(
     SubmitRequest request, {
     required String token,
+    required String purchaseUserId,
   }) async {
     // Cloud Tasks が対応していない環境では、直接作品生成のエンドポイントを叩く
     final path = F.flavor == Flavor.emulator ? '/piece' : '/submit';
@@ -33,6 +34,7 @@ class SubmissionApi {
       path: path,
       responseParser: SubmitResponse.fromJson,
       token: token,
+      purchaseUserId: purchaseUserId,
       data: request.toJson(),
     );
   }

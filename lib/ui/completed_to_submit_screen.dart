@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_state.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_view_model.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
 import 'package:my_pet_melody/ui/component/listening_music_cat_image.dart';
 import 'package:my_pet_melody/ui/component/primary_button.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/join_premium_plan_screen.dart';
 
 final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
     CompletedToSubmitViewModel, CompletedToSubmitState>(
@@ -39,14 +41,31 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    const description = Text(
-      '完成までしばらく待ってね！',
-      textAlign: TextAlign.center,
-    );
+    final completeImmediatelyButton = _CompleteImmediatelyButton(
+      onPressed: () async {
+        final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: const Text(
+                '製作の待ち時間を減らすにはプレミアムプランに加入してください。',
+              ),
+              actions: [
+                TextButton(
+                  child: const Text('プレミアムプランとは'),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+              ],
+            );
+          },
+        );
 
-    final notificationButton = TextButton(
-      onPressed: () {},
-      child: const Text('いますぐ作品を完成させる'),
+        if (shouldShowJoinPremiumPlanScreen != true || !mounted) {
+          return;
+        }
+
+        await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+      },
     );
 
     final body = SingleChildScrollView(
@@ -55,9 +74,9 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            description,
+            const _Description(),
             const SizedBox(height: 32),
-            notificationButton,
+            completeImmediatelyButton,
             const SizedBox(height: 32),
             const ListeningMusicCatImage(),
           ],
@@ -100,5 +119,44 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
       ),
       resizeToAvoidBottomInset: false,
     );
+  }
+}
+
+class _Description extends ConsumerWidget {
+  const _Description({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPremiumPlan = ref.watch(isPremiumPlanProvider);
+
+    final text =
+        isPremiumPlan == true ? '完成まで少し待ってね！' : '完成までしばらく待ってね！5分くらいかかるよ！';
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
+class _CompleteImmediatelyButton extends ConsumerWidget {
+  const _CompleteImmediatelyButton({
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPremiumPlan = ref.watch(isPremiumPlanProvider);
+
+    return isPremiumPlan == true
+        ? const SizedBox.shrink()
+        : TextButton(
+            onPressed: onPressed,
+            child: const Text('いますぐ作品を完成させる'),
+          );
   }
 }
