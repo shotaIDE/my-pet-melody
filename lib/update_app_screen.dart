@@ -31,19 +31,16 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: const Scaffold(
-        body: Stack(
-          children: [
-            SizedBox.expand(),
-            Positioned(
-              bottom: 0,
-              right: 16,
-              child: SpeakingCatImage(),
-            ),
-          ],
-        ),
+    return const Scaffold(
+      body: Stack(
+        children: [
+          SizedBox.expand(),
+          Positioned(
+            bottom: 0,
+            right: 16,
+            child: SpeakingCatImage(),
+          ),
+        ],
       ),
     );
   }
@@ -52,20 +49,23 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
     await showDialog<bool>(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          content: const Text(
-            '新しいバージョンがリリースされています。より良い作品を作るために、アップデートしてご利用ください',
-          ),
-          actions: [
-            TextButton(
-              child: const Text('アップデートする'),
-              onPressed: () async {
-                await InAppReview.instance.openStoreListing(
-                  appStoreId: AppDefinitions.appStoreId,
-                );
-              },
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            content: const Text(
+              '新しいバージョンがリリースされています。より良い作品を作るために、アップデートしてご利用ください',
             ),
-          ],
+            actions: [
+              TextButton(
+                child: const Text('アップデートする'),
+                onPressed: () async {
+                  await InAppReview.instance.openStoreListing(
+                    appStoreId: AppDefinitions.appStoreId,
+                  );
+                },
+              ),
+            ],
+          ),
         );
       },
       barrierDismissible: false,
