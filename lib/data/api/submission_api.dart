@@ -38,7 +38,8 @@ class SubmissionApi {
     );
 
     if (F.flavor == Flavor.emulator) {
-      // Cloud Tasks が対応していない環境では、直接作品生成のエンドポイントを叩く
+      // In environments where Cloud Tasks is not supported, reproduce queuing
+      // by making asynchronous requests from client to generation endpoint.
       unawaited(() async {
         await Future.delayed(const Duration(seconds: 3));
 
