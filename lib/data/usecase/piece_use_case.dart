@@ -40,7 +40,7 @@ final piecesProvider = FutureProvider(
         (piece) => piece.map(
           generating: (piece) async {
             final thumbnailUrl =
-                await storageService.generatedPieceThumbnailDownloadUrl(
+                await storageService.generatingPieceThumbnailDownloadUrl(
               fileName: piece.thumbnailFileName,
             );
 

@@ -94,10 +94,10 @@ def submit(request):
     platform = request.headers['platform']
 
     request_params_json = request.json
-    template_id = request_params_json['templateId']
-    sound_base_names = request_params_json['soundFileNames']
+    _ = request_params_json['templateId']
+    _ = request_params_json['soundFileNames']
     display_name = request_params_json['displayName']
-    thumbnail_base_name = request_params_json['thumbnailFileName']
+    thumbnail_file_name = request_params_json['thumbnailFileName']
 
     uid = verify_authorization_header(value=authorization_value)
 
@@ -115,7 +115,7 @@ def submit(request):
     piece_id = set_generating_piece(
         uid=uid,
         display_name=display_name,
-        thumbnail_file_name=thumbnail_base_name,
+        thumbnail_file_name=thumbnail_file_name,
         submitted_at=datetime.now(),
     )
 
