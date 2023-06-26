@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:my_pet_melody/data/api/my_dio.dart';
 import 'package:my_pet_melody/flavor.dart';
@@ -27,16 +29,30 @@ class SubmissionApi {
     required String token,
     required String purchaseUserId,
   }) async {
-    // Cloud Tasks が対応していない環境では、直接作品生成のエンドポイントを叩く
-    final path = F.flavor == Flavor.emulator ? '/piece' : '/submit';
-
-    return _dio.post(
-      path: path,
+    final response = await _dio.post(
+      path: '/submit',
       responseParser: SubmitResponse.fromJson,
       token: token,
       purchaseUserId: purchaseUserId,
       data: request.toJson(),
     );
+
+    if (F.flavor == Flavor.emulator) {
+      // Cloud Tasks が対応していない環境では、直接作品生成のエンドポイントを叩く
+      unawaited(() async {
+        await Future.delayed(const Duration(seconds: 5));
+
+        await _dio.post(
+          path: '/piece',
+          responseParser: SubmitResponse.fromJson,
+          token: token,
+          purchaseUserId: purchaseUserId,
+          data: request.toJson(),
+        );
+      }());
+    }
+
+    return response;
   }
 }
 

@@ -34,10 +34,12 @@ def get_registration_tokens(uid: str) -> Optional[list[str]]:
 def set_generating_piece(
     uid: str,
     display_name: str,
+    thumbnail_file_name: str,
     submitted_at: DateTime
 ) -> str:
     store_data = {
         'name': display_name,
+        'thumbnailFileName': thumbnail_file_name,
         'submittedAt': submitted_at,
     }
 

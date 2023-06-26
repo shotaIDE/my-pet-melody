@@ -49,7 +49,20 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
-  Future<String> pieceThumbnailDownloadUrl({
+  Future<String> generatingPieceThumbnailDownloadUrl({
+    required String fileName,
+  }) async {
+    final userId = _session.userId;
+
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final pathRef = storageRef.child('userMedia/$userId/edited/$fileName');
+
+    return pathRef.getDownloadURL();
+  }
+
+  @override
+  Future<String> generatedPieceThumbnailDownloadUrl({
     required String fileName,
   }) async {
     final userId = _session.userId;

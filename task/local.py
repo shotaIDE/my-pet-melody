@@ -196,3 +196,4 @@ def piece(request):
         )
 
     return {}
+

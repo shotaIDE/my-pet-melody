@@ -118,6 +118,7 @@ def submit(request):
     piece_id = set_generating_piece(
         uid=uid,
         display_name=display_name,
+        thumbnail_file_name=thumbnail_base_name,
         submitted_at=datetime.now(),
     )
 
@@ -177,7 +178,7 @@ def piece(request):
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['soundFileNames']
     display_name = request_params_json['displayName']
-    thumbnail_base_name = request_params_json['thumbnailFileName']
+    thumbnail_file_name = request_params_json['thumbnailFileName']
 
     overlays = get_template_overlays(id=template_id)
 
@@ -223,13 +224,13 @@ def piece(request):
     )
 
     _, thumbnail_local_base_path = tempfile.mkstemp()
-    splitted_thumbnail_file_name = os.path.splitext(thumbnail_base_name)
+    splitted_thumbnail_file_name = os.path.splitext(thumbnail_file_name)
     thumbnail_extension = splitted_thumbnail_file_name[1]
     thumbnail_local_path = f'{thumbnail_local_base_path}{thumbnail_extension}'
 
     thumbnail_relative_path = (
         f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'edited/{thumbnail_base_name}'
+        f'edited/{thumbnail_file_name}'
     )
     thumbnail_blob = bucket.blob(thumbnail_relative_path)
 

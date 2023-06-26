@@ -38,11 +38,19 @@ final piecesProvider = FutureProvider(
     final converted = await Future.wait(
       pieceDrafts.map(
         (piece) => piece.map(
-          generating: (piece) async => Piece.generating(
-            id: piece.id,
-            name: piece.name,
-            submittedAt: piece.submittedAt,
-          ),
+          generating: (piece) async {
+            final thumbnailUrl =
+                await storageService.generatedPieceThumbnailDownloadUrl(
+              fileName: piece.thumbnailFileName,
+            );
+
+            return Piece.generating(
+              id: piece.id,
+              name: piece.name,
+              submittedAt: piece.submittedAt,
+              thumbnailUrl: thumbnailUrl,
+            );
+          },
           generated: (piece) async {
             final availableUntil = isPremiumPlan == true
                 ? null
@@ -57,7 +65,8 @@ final piecesProvider = FutureProvider(
               fileName: piece.movieFileName,
             );
 
-            final thumbnailUrl = await storageService.pieceThumbnailDownloadUrl(
+            final thumbnailUrl =
+                await storageService.generatedPieceThumbnailDownloadUrl(
               fileName: piece.thumbnailFileName,
             );
 

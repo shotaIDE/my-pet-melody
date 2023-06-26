@@ -11,7 +11,11 @@ abstract class StorageService {
     required String fileName,
   });
 
-  Future<String> pieceThumbnailDownloadUrl({
+  Future<String> generatingPieceThumbnailDownloadUrl({
+    required String fileName,
+  });
+
+  Future<String> generatedPieceThumbnailDownloadUrl({
     required String fileName,
   });
 
