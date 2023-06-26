@@ -45,24 +45,4 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
       ),
     );
   }
-
-  Future<void> _showDialog() async {
-    await showDialog<bool>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: const Text(
-            '新しいバージョンが出ています',
-          ),
-          actions: [
-            TextButton(
-              child: const Text('ストアに遷移'),
-              onPressed: () {},
-            ),
-          ],
-        );
-      },
-      barrierDismissible: false,
-    );
-  }
 }
