@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
+import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
 
 class UpdateAppScreen extends StatefulWidget {
   const UpdateAppScreen({Key? key}) : super(key: key);
@@ -30,7 +31,21 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: const Scaffold(
+        body: Stack(
+          children: [
+            SizedBox.expand(),
+            Positioned(
+              bottom: 0,
+              right: 16,
+              child: SpeakingCatImage(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _showDialog() async {
