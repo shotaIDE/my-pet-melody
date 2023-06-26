@@ -2,10 +2,12 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/root_state.dart';
 import 'package:my_pet_melody/root_view_model.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/home_screen.dart';
 import 'package:my_pet_melody/ui/login_screen.dart';
+import 'package:my_pet_melody/update_app_screen.dart';
 
 class RootApp extends ConsumerStatefulWidget {
   RootApp({Key? key}) : super(key: key);
@@ -20,14 +22,13 @@ class _RootAppState extends ConsumerState<RootApp> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
-    final showHomeScreen = state.showHomeScreen;
+    final startPage = state.startPage;
 
-    if (showHomeScreen == null) {
+    if (startPage == null) {
       return Container();
     }
 
-    final initialRoutes =
-        showHomeScreen ? [HomeScreen.route()] : [LoginScreen.route()];
+    final initialRoutes = _initialRoutes(startPage);
 
     final navigatorObservers = <NavigatorObserver>[
       FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
@@ -78,5 +79,24 @@ class _RootAppState extends ConsumerState<RootApp> {
       ],
       navigatorObservers: navigatorObservers,
     );
+  }
+
+  List<MaterialPageRoute<Widget>> _initialRoutes(
+    StartPage startPage,
+  ) {
+    switch (startPage) {
+      case StartPage.updateApp:
+        return [
+          UpdateAppScreen.route(),
+        ];
+      case StartPage.login:
+        return [
+          LoginScreen.route(),
+        ];
+      case StartPage.home:
+        return [
+          HomeScreen.route(),
+        ];
+    }
   }
 }

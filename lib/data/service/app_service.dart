@@ -11,6 +11,12 @@ final fullVersionNameProvider = FutureProvider((_) async {
   return '$versionName ($buildNumber)';
 });
 
+final buildNumberProvider = FutureProvider((_) async {
+  final packageInfo = await PackageInfo.fromPlatform();
+  final buildNumberString = packageInfo.buildNumber;
+  return int.parse(buildNumberString);
+});
+
 final androidDeviceSdkIntProvider = FutureProvider((_) async {
   final deviceInfoPlugin = DeviceInfoPlugin();
   final androidDeviceInfo = await deviceInfoPlugin.androidInfo;

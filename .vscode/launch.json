@@ -16,7 +16,11 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define-from-file", "dart-defines_emulator.json"]
+      "args": [
+        "--profile",
+        "--dart-define-from-file",
+        "dart-defines_emulator.json"
+      ]
     },
     {
       "name": "Develop",
@@ -30,7 +34,7 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define-from-file", "dart-defines_dev.json"]
+      "args": ["--profile", "--dart-define-from-file", "dart-defines_dev.json"]
     },
     {
       "name": "Production",
@@ -44,7 +48,7 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define-from-file", "dart-defines_prod.json"]
+      "args": ["--profile", "--dart-define-from-file", "dart-defines_prod.json"]
     }
   ]
 }
