@@ -42,12 +42,20 @@ class SubmissionApi {
       unawaited(() async {
         await Future.delayed(const Duration(seconds: 5));
 
+        final pieceId = response!.pieceId;
+        final pieceRequest = PieceRequest(
+          pieceId: pieceId,
+          templateId: request.templateId,
+          soundFileNames: request.soundFileNames,
+          displayName: request.displayName,
+          thumbnailFileName: request.thumbnailFileName,
+        );
+
         await _dio.post(
           path: '/piece',
           responseParser: SubmitResponse.fromJson,
           token: token,
-          purchaseUserId: purchaseUserId,
-          data: request.toJson(),
+          data: pieceRequest.toJson(),
         );
       }());
     }
@@ -116,10 +124,23 @@ class SubmitRequest with _$SubmitRequest {
 @freezed
 class SubmitResponse with _$SubmitResponse {
   const factory SubmitResponse({
-    required String? id,
-    required String? path,
+    required String pieceId,
   }) = _SubmitResponse;
 
   factory SubmitResponse.fromJson(Map<String, dynamic> json) =>
       _$SubmitResponseFromJson(json);
+}
+
+@freezed
+class PieceRequest with _$PieceRequest {
+  const factory PieceRequest({
+    required String pieceId,
+    required String templateId,
+    required List<String> soundFileNames,
+    required String displayName,
+    required String thumbnailFileName,
+  }) = _PieceRequest;
+
+  factory PieceRequest.fromJson(Map<String, dynamic> json) =>
+      _$PieceRequestFromJson(json);
 }

@@ -71,12 +71,7 @@ def set_generated_piece(
     generated_pieces_collection = db.collection('userMedia').document(
         uid).collection('generatedPieces')
 
-    if id is not None:
-        generated_pieces_collection.document(id).update(store_data)
-    else:
-        store_data['submittedAt'] = generated_at
-
-        generated_pieces_collection.add(store_data)
+    generated_pieces_collection.document(id).update(store_data)
 
 
 def set_template(name: str, overlays: list[dict[str, Any]]) -> str:

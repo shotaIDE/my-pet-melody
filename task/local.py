@@ -112,14 +112,16 @@ def submit(request):
 
     print(f'Eliminate waiting time: {eliminate_waiting_time}')
 
-    set_generating_piece(
+    piece_id = set_generating_piece(
         uid=uid,
         display_name=display_name,
         thumbnail_file_name=thumbnail_base_name,
         submitted_at=datetime.now(),
     )
 
-    return {}
+    return {
+        'pieceId': piece_id,
+    }
 
 
 def piece(request):
@@ -128,6 +130,8 @@ def piece(request):
     uid = verify_authorization_header(value=authorization_value)
 
     request_params_json = request.json
+
+    piece_id = request_params_json['pieceId']
 
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['soundFileNames']
@@ -199,7 +203,7 @@ def piece(request):
 
     set_generated_piece(
         uid=uid,
-        id=None,
+        id=piece_id,
         display_name=display_name,
         thumbnail_file_name=piece_thumbnail_file_name,
         movie_file_name=piece_movie_file_name,

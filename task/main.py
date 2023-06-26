@@ -166,7 +166,9 @@ def submit(request):
 
     print(f'Created task {response}')
 
-    return {}
+    return {
+        'pieceId': piece_id,
+    }
 
 
 def piece(request):
@@ -297,7 +299,4 @@ def piece(request):
             registration_tokens=registration_tokens
         )
 
-    return {
-        'id': piece_movie_base_name,
-        'path': piece_movie_relative_path,
-    }
+    return {}
