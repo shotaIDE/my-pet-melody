@@ -5,7 +5,7 @@ from datetime import datetime
 
 from auth import verify_authorization_header
 from database import (get_registration_tokens, get_template_overlays,
-                      set_generated_piece)
+                      set_generated_piece, set_generating_piece)
 from detection import detect_non_silence
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
@@ -86,18 +86,37 @@ def detect(request):
 
 
 def submit(request):
-    _ = request.headers['authorization']
+    should_eliminate_waiting_time = \
+        os.environ['FEATURE_ELIMINATE_WAITING_TIME_TO_GENERATE'] == 'true'
+
+    authorization_value = request.headers['authorization']
     purchase_user_id = request.headers['purchase-user-id']
     platform = request.headers['platform']
 
-    is_premium_plan = fetch_is_premium_plan(
-        user_id=purchase_user_id,
-        platform=platform,
-    )
+    request_params_json = request.json
+    template_id = request_params_json['templateId']
+    sound_base_names = request_params_json['soundFileNames']
+    display_name = request_params_json['displayName']
+    thumbnail_base_name = request_params_json['thumbnailFileName']
 
-    print(
-        f'Purchase user ID: {purchase_user_id}, '
-        f'premium plan: {is_premium_plan}'
+    uid = verify_authorization_header(value=authorization_value)
+
+    if should_eliminate_waiting_time:
+        is_premium_plan = fetch_is_premium_plan(
+            user_id=purchase_user_id,
+            platform=platform,
+        )
+        eliminate_waiting_time = is_premium_plan
+    else:
+        eliminate_waiting_time = False
+
+    print(f'Eliminate waiting time: {eliminate_waiting_time}')
+
+    set_generating_piece(
+        uid=uid,
+        display_name=display_name,
+        thumbnail_file_name=thumbnail_base_name,
+        submitted_at=datetime.now(),
     )
 
     return {}
@@ -196,4 +215,3 @@ def piece(request):
         )
 
     return {}
-
