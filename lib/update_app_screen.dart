@@ -50,6 +50,7 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
       context: context,
       builder: (context) {
         return WillPopScope(
+          // Prevent the Android OS back button from dismissing dialog
           onWillPop: () async => false,
           child: AlertDialog(
             content: const Text(
