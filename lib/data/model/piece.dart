@@ -9,6 +9,7 @@ class Piece with _$Piece {
     required String id,
     required String name,
     required DateTime submittedAt,
+    required String thumbnailUrl,
   }) = PieceGenerating;
 
   const factory Piece.generated({
@@ -29,6 +30,7 @@ class PieceDraft with _$PieceDraft {
     required String id,
     required String name,
     required DateTime submittedAt,
+    required String thumbnailFileName,
   }) = _PieceDraftGenerating;
 
   const factory PieceDraft.generated({

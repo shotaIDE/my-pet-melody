@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:my_pet_melody/data/api/my_dio.dart';
 import 'package:my_pet_melody/flavor.dart';
@@ -27,16 +29,39 @@ class SubmissionApi {
     required String token,
     required String purchaseUserId,
   }) async {
-    // Cloud Tasks が対応していない環境では、直接作品生成のエンドポイントを叩く
-    final path = F.flavor == Flavor.emulator ? '/piece' : '/submit';
-
-    return _dio.post(
-      path: path,
+    final response = await _dio.post(
+      path: '/submit',
       responseParser: SubmitResponse.fromJson,
       token: token,
       purchaseUserId: purchaseUserId,
       data: request.toJson(),
     );
+
+    if (F.flavor == Flavor.emulator) {
+      // In environments where Cloud Tasks is not supported, reproduce queuing
+      // by making asynchronous requests from client to generation endpoint.
+      unawaited(() async {
+        await Future.delayed(const Duration(seconds: 3));
+
+        final pieceId = response!.pieceId;
+        final pieceRequest = PieceRequest(
+          pieceId: pieceId,
+          templateId: request.templateId,
+          soundFileNames: request.soundFileNames,
+          displayName: request.displayName,
+          thumbnailFileName: request.thumbnailFileName,
+        );
+
+        await _dio.post(
+          path: '/piece',
+          responseParser: PieceResponse.fromJson,
+          token: token,
+          data: pieceRequest.toJson(),
+        );
+      }());
+    }
+
+    return response;
   }
 }
 
@@ -100,10 +125,31 @@ class SubmitRequest with _$SubmitRequest {
 @freezed
 class SubmitResponse with _$SubmitResponse {
   const factory SubmitResponse({
-    required String? id,
-    required String? path,
+    required String pieceId,
   }) = _SubmitResponse;
 
   factory SubmitResponse.fromJson(Map<String, dynamic> json) =>
       _$SubmitResponseFromJson(json);
+}
+
+@freezed
+class PieceRequest with _$PieceRequest {
+  const factory PieceRequest({
+    required String pieceId,
+    required String templateId,
+    required List<String> soundFileNames,
+    required String displayName,
+    required String thumbnailFileName,
+  }) = _PieceRequest;
+
+  factory PieceRequest.fromJson(Map<String, dynamic> json) =>
+      _$PieceRequestFromJson(json);
+}
+
+@freezed
+class PieceResponse with _$PieceResponse {
+  const factory PieceResponse() = _PieceResponse;
+
+  factory PieceResponse.fromJson(Map<String, dynamic> json) =>
+      _$PieceResponseFromJson(json);
 }

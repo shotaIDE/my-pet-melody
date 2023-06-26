@@ -31,6 +31,26 @@ def get_registration_tokens(uid: str) -> Optional[list[str]]:
     return user_data['registrationTokens']
 
 
+def set_generating_piece(
+    uid: str,
+    display_name: str,
+    thumbnail_file_name: str,
+    submitted_at: DateTime
+) -> str:
+    store_data = {
+        'name': display_name,
+        'thumbnailFileName': thumbnail_file_name,
+        'submittedAt': submitted_at,
+    }
+
+    db = firestore.client()
+
+    _, created_document = db.collection('userMedia').document(
+        uid).collection('generatedPieces').add(store_data)
+
+    return created_document.id
+
+
 def set_generated_piece(
     uid: str,
     id: str,
@@ -51,12 +71,7 @@ def set_generated_piece(
     generated_pieces_collection = db.collection('userMedia').document(
         uid).collection('generatedPieces')
 
-    if id is not None:
-        generated_pieces_collection.document(id).update(store_data)
-    else:
-        store_data['submittedAt'] = generated_at
-
-        generated_pieces_collection.add(store_data)
+    generated_pieces_collection.document(id).update(store_data)
 
 
 def set_template(name: str, overlays: list[dict[str, Any]]) -> str:

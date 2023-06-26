@@ -107,11 +107,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           itemBuilder: (_, index) {
             final playablePiece = pieces[index];
 
-            final thumbnailImage = playablePiece.piece.map(
-              generating: (_) => Container(),
-              generated: (generated) =>
-                  FetchedThumbnail(url: generated.thumbnailUrl),
-            );
+            final thumbnailImageUrl = playablePiece.piece.thumbnailUrl;
+            final thumbnailImage = FetchedThumbnail(url: thumbnailImageUrl);
 
             final thumbnail = SizedBox(
               width: DisplayDefinition.thumbnailWidthLarge,

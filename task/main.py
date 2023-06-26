@@ -5,13 +5,13 @@ import os
 import tempfile
 from datetime import datetime, timedelta
 
-from firebase_admin import firestore, storage
+from firebase_admin import storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
 from database import (get_registration_tokens, get_template_overlays,
-                      set_generated_piece)
+                      set_generated_piece, set_generating_piece)
 from detection import detect_non_silence
 from firebase import initialize_firebase
 from messaging import send_completed_to_generate_piece
@@ -115,17 +115,12 @@ def submit(request):
     else:
         eliminate_waiting_time = False
 
-    store_data = {
-        'name': 'Generating Piece',
-        'submittedAt': datetime.now(),
-    }
-
-    db = firestore.client()
-
-    _, created_document = db.collection('userMedia').document(
-        uid).collection('generatedPieces').add(store_data)
-
-    piece_id = created_document.id
+    piece_id = set_generating_piece(
+        uid=uid,
+        display_name=display_name,
+        thumbnail_file_name=thumbnail_base_name,
+        submitted_at=datetime.now(),
+    )
 
     client = tasks_v2.CloudTasksClient()
 
@@ -171,7 +166,9 @@ def submit(request):
 
     print(f'Created task {response}')
 
-    return {}
+    return {
+        'pieceId': piece_id,
+    }
 
 
 def piece(request):
@@ -183,7 +180,7 @@ def piece(request):
     template_id = request_params_json['templateId']
     sound_base_names = request_params_json['soundFileNames']
     display_name = request_params_json['displayName']
-    thumbnail_base_name = request_params_json['thumbnailFileName']
+    thumbnail_file_name = request_params_json['thumbnailFileName']
 
     overlays = get_template_overlays(id=template_id)
 
@@ -229,13 +226,13 @@ def piece(request):
     )
 
     _, thumbnail_local_base_path = tempfile.mkstemp()
-    splitted_thumbnail_file_name = os.path.splitext(thumbnail_base_name)
+    splitted_thumbnail_file_name = os.path.splitext(thumbnail_file_name)
     thumbnail_extension = splitted_thumbnail_file_name[1]
     thumbnail_local_path = f'{thumbnail_local_base_path}{thumbnail_extension}'
 
     thumbnail_relative_path = (
         f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'edited/{thumbnail_base_name}'
+        f'edited/{thumbnail_file_name}'
     )
     thumbnail_blob = bucket.blob(thumbnail_relative_path)
 
@@ -302,7 +299,4 @@ def piece(request):
             registration_tokens=registration_tokens
         )
 
-    return {
-        'id': piece_movie_base_name,
-        'path': piece_movie_relative_path,
-    }
+    return {}
