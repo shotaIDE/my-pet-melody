@@ -40,7 +40,7 @@ class SubmissionApi {
     if (F.flavor == Flavor.emulator) {
       // Cloud Tasks が対応していない環境では、直接作品生成のエンドポイントを叩く
       unawaited(() async {
-        await Future.delayed(const Duration(seconds: 5));
+        await Future.delayed(const Duration(seconds: 3));
 
         final pieceId = response!.pieceId;
         final pieceRequest = PieceRequest(
@@ -53,7 +53,7 @@ class SubmissionApi {
 
         await _dio.post(
           path: '/piece',
-          responseParser: SubmitResponse.fromJson,
+          responseParser: PieceResponse.fromJson,
           token: token,
           data: pieceRequest.toJson(),
         );
@@ -143,4 +143,12 @@ class PieceRequest with _$PieceRequest {
 
   factory PieceRequest.fromJson(Map<String, dynamic> json) =>
       _$PieceRequestFromJson(json);
+}
+
+@freezed
+class PieceResponse with _$PieceResponse {
+  const factory PieceResponse() = _PieceResponse;
+
+  factory PieceResponse.fromJson(Map<String, dynamic> json) =>
+      _$PieceResponseFromJson(json);
 }
