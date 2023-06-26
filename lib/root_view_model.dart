@@ -62,6 +62,10 @@ class RootViewModel extends StateNotifier<RootState> {
     _listener<Future<Set<String>>>(
       updatedRemoteConfigKeysProvider.future,
       (_, next) async {
+        // Observe remote config changes so that they will be activated
+        // the next time app launches. Even if the monitor does not do anything,
+        // the library will retain the changed values.
+        // https://firebase.google.com/docs/remote-config/loading#strategy_3_load_new_values_for_next_startup
         final configKeys = await next;
 
         debugPrint('Updated remote config keys: $configKeys');
