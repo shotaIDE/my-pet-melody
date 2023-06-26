@@ -5,13 +5,13 @@ import os
 import tempfile
 from datetime import datetime, timedelta
 
-from firebase_admin import firestore, storage
+from firebase_admin import storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
 from auth import verify_authorization_header
 from database import (get_registration_tokens, get_template_overlays,
-                      set_generated_piece)
+                      set_generated_piece, set_generating_piece)
 from detection import detect_non_silence
 from firebase import initialize_firebase
 from messaging import send_completed_to_generate_piece
@@ -115,17 +115,11 @@ def submit(request):
     else:
         eliminate_waiting_time = False
 
-    store_data = {
-        'name': 'Generating Piece',
-        'submittedAt': datetime.now(),
-    }
-
-    db = firestore.client()
-
-    _, created_document = db.collection('userMedia').document(
-        uid).collection('generatedPieces').add(store_data)
-
-    piece_id = created_document.id
+    piece_id = set_generating_piece(
+        uid=uid,
+        display_name=display_name,
+        submitted_at=datetime.now(),
+    )
 
     client = tasks_v2.CloudTasksClient()
 
