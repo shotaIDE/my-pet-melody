@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
+import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 class TrimSoundForGenerationViewModel
@@ -68,9 +71,12 @@ class TrimSoundForGenerationViewModel
 
     final trimmedPathCompleter = Completer<String?>();
 
+    final startMilliseconds = state.startValue;
+    final endMilliseconds = state.endValue;
+
     await state.trimmer.saveTrimmedVideo(
-      startValue: state.startValue,
-      endValue: state.endValue,
+      startValue: startMilliseconds,
+      endValue: endMilliseconds,
       onSave: (value) {
         trimmedPathCompleter.complete(value);
       },
@@ -83,6 +89,20 @@ class TrimSoundForGenerationViewModel
       state = state.copyWith(process: null);
       return null;
     }
+
+    final startPosition = AudioPositionHelper.formattedPosition(
+      milliseconds: startMilliseconds.toInt(),
+    );
+    final thumbnailDirectory = await getTemporaryDirectory();
+    final thumbnailParentPath = thumbnailDirectory.path;
+    final thumbnailPath = '$thumbnailParentPath/thumbnail.png';
+
+    await FFmpegKit.execute(
+      '-ss $startPosition '
+      '-i $_moviePath '
+      '-vframes 1 '
+      '$thumbnailPath',
+    );
 
     state = state.copyWith(process: TrimSoundForGenerationScreenProcess.upload);
 
@@ -106,8 +126,7 @@ class TrimSoundForGenerationViewModel
     return SetPieceTitleArgs(
       template: _template,
       sounds: [uploadedSound],
-      // TODO(ide): Generate thumbnail and should be set
-      thumbnailLocalPath: '',
+      thumbnailLocalPath: thumbnailPath,
       displayName: _displayName,
     );
   }
