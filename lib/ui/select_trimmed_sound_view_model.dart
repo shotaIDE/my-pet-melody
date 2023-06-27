@@ -251,23 +251,30 @@ class SelectTrimmedSoundViewModel
       return null;
     }
 
-    final thumbnailPath = state.equallyDividedThumbnailPaths[index];
-    if (thumbnailPath == null) {
-      return null;
-    }
-
     state = state.copyWith(isUploading: true);
 
     await FFmpegKit.cancel();
 
-    final outputFile = File(outputPath);
+    final startPosition = AudioPositionHelper.formattedPosition(
+      milliseconds: choice.segment.startMilliseconds,
+    );
+    final thumbnailDirectory = await getTemporaryDirectory();
+    final thumbnailParentPath = thumbnailDirectory.path;
+    final thumbnailPath = '$thumbnailParentPath/thumbnail.png';
+
+    await FFmpegKit.execute(
+      '-ss $startPosition '
+      '-i $_moviePath '
+      '-vframes 1 '
+      '$thumbnailPath',
+    );
 
     final uploadAction = await _ref.read(uploadActionProvider.future);
+    final outputFile = File(outputPath);
     final uploadedSound = await uploadAction(
       outputFile,
       fileName: basename(outputPath),
     );
-
     if (uploadedSound == null) {
       state = state.copyWith(isUploading: false);
 
