@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 AppBar transparentAppBar({
   required BuildContext context,
@@ -10,5 +11,9 @@ AppBar transparentAppBar({
     backgroundColor: Colors.transparent,
     foregroundColor: Theme.of(context).colorScheme.onSurface,
     centerTitle: false,
+    systemOverlayStyle: const SystemUiOverlayStyle(
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+    ),
   );
 }
