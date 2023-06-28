@@ -5,6 +5,7 @@ import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/service/database_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
+import 'package:path/path.dart';
 
 final templatesProvider = FutureProvider((ref) async {
   final templateDrafts = await ref.watch(templateDraftsProvider.future);
@@ -65,6 +66,8 @@ final piecesProvider = FutureProvider(
               fileName: piece.movieFileName,
             );
 
+            final movieExtension = extension(piece.movieFileName);
+
             final thumbnailUrl =
                 await storageService.generatedPieceThumbnailDownloadUrl(
               fileName: piece.thumbnailFileName,
@@ -76,6 +79,7 @@ final piecesProvider = FutureProvider(
               generatedAt: piece.generatedAt,
               availableUntil: availableUntil,
               movieUrl: movieUrl,
+              movieExtension: movieExtension,
               thumbnailUrl: thumbnailUrl,
             );
           },

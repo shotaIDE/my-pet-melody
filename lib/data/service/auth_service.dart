@@ -71,15 +71,8 @@ class SessionProvider extends StateNotifier<LoginSession?> {
   }
 
   Future<LoginSession?> _currentSession() async {
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-      return _convertFirebaseUserToLoginSession(user);
-    } on FirebaseAuthException {
-      // TODO(ide): Stop signing out in public apps.
-      await FirebaseAuth.instance.signOut();
-    }
-
-    return null;
+    final user = FirebaseAuth.instance.currentUser;
+    return _convertFirebaseUserToLoginSession(user);
   }
 
   Future<LoginSession?> _convertFirebaseUserToLoginSession(User? user) async {

@@ -35,8 +35,6 @@ final registrationTokenProvider = FutureProvider((ref) async {
 });
 
 final ensureDetermineIfLoggedInActionProvider = FutureProvider((ref) async {
-  // TODO(ide): Not a good idea to write a process here
-  //  that waits until initialization is complete.
   await ref.read(sessionProvider.notifier).setup();
 
   return ref.read(sessionProvider) != null;
