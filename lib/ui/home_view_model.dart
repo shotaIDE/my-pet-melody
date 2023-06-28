@@ -79,12 +79,14 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
     final dio = Dio();
 
+    final pieceName = piece.name;
+
     final parentDirectory = await getApplicationDocumentsDirectory();
     final parentPath = parentDirectory.path;
-    final directory = Directory('$parentPath/${piece.name}');
+    final directory = Directory('$parentPath/$pieceName');
     await directory.create(recursive: true);
 
-    final path = '${directory.path}/${piece.name}${piece.movieExtension}';
+    final path = '${directory.path}/$pieceName${piece.movieExtension}';
     await dio.download(piece.movieUrl, path);
 
     final xFile = XFile(path);
