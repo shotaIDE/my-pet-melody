@@ -18,6 +18,7 @@ class Piece with _$Piece {
     required DateTime generatedAt,
     required DateTime? availableUntil,
     required String movieUrl,
+    required String movieExtension,
     required String thumbnailUrl,
   }) = PieceGenerated;
 

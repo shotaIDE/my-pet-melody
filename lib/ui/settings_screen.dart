@@ -189,10 +189,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _shareWithFriends() async {
-    // TODO(ide): Replace URL
     final storeUrl = Platform.isIOS
-        ? 'https://apps.apple.com/jp/app/xxxx'
-        : 'https://play.google.com/store/apps/details?id=xxxx';
+        ? 'https://apps.apple.com/us/app/うちのコメロディー/id6450181110'
+        : 'https://play.google.com/store/apps/details?id=ide.shota.colomney.MyPetMelody';
     await Share.share('あなたのネコのオリジナルソングを作ろう！ $storeUrl');
   }
 
