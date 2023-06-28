@@ -34,7 +34,6 @@ class VideoViewModel extends StateNotifier<VideoState> {
     final chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
       autoPlay: true,
-      looping: true,
     );
 
     state = state.copyWith(controller: chewieController);
