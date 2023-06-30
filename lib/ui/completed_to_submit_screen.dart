@@ -3,10 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_state.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_view_model.dart';
-import 'package:my_pet_melody/ui/component/footer.dart';
 import 'package:my_pet_melody/ui/component/listening_music_cat_image.dart';
-import 'package:my_pet_melody/ui/component/primary_button.dart';
-import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_screen.dart';
 
 final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
@@ -19,12 +17,13 @@ class CompletedToSubmitScreen extends ConsumerStatefulWidget {
 
   static const name = 'CompletedToSubmitScreen';
 
-  final viewModel = completedToSubmitViewModelProvider;
+  final viewModelProvider = completedToSubmitViewModelProvider;
 
   static MaterialPageRoute<CompletedToSubmitScreen> route() =>
       MaterialPageRoute<CompletedToSubmitScreen>(
         builder: (_) => CompletedToSubmitScreen(),
         settings: const RouteSettings(name: name),
+        fullscreenDialog: true,
       );
 
   @override
@@ -35,6 +34,8 @@ class CompletedToSubmitScreen extends ConsumerStatefulWidget {
 class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(widget.viewModelProvider);
+
     final title = Text(
       '作品の製作が\n開始されました',
       textAlign: TextAlign.center,
@@ -84,22 +85,43 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
       ),
     );
 
-    final footerButton = PrimaryButton(
-      text: 'ホームに戻る',
-      onPressed: () => Navigator.pop(context),
+    final remainTimeSeconds = state.remainTimeSeconds;
+    final remainTimeSecondsInt = remainTimeSeconds.toInt();
+    final automaticallyCloseText = Text(
+      'この画面はあと$remainTimeSecondsInt秒で自動的に閉じます。',
+      style: Theme.of(context).textTheme.bodyMedium,
     );
-    final footerContent = ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxWidth: DisplayDefinition.actionButtonMaxWidth,
-      ),
-      child: footerButton,
+    final remainTimeProgressRing = CircularProgressIndicator(
+      value: remainTimeSeconds /
+          CompletedToSubmitViewModel.waitingTimeToCloseAutomaticallySeconds,
     );
-    final footer = Footer(child: footerContent);
+    final stopButton = IconButton(
+      onPressed: () {},
+      icon: const Icon(Icons.stop),
+    );
+    final automaticallyClosePanel = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        automaticallyCloseText,
+        const SizedBox(width: 16),
+        Stack(
+          children: [
+            remainTimeProgressRing,
+            stopButton,
+          ],
+        ),
+      ],
+    );
 
     return Scaffold(
+      appBar: transparentAppBar(
+        context: context,
+        titleText: '',
+      ),
       body: Column(
         children: [
           SafeArea(
+            top: false,
             bottom: false,
             child: Padding(
               padding: const EdgeInsets.only(top: 32),
@@ -114,7 +136,16 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
               child: body,
             ),
           ),
-          footer,
+          SafeArea(
+            top: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                automaticallyClosePanel,
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
         ],
       ),
       resizeToAvoidBottomInset: false,
