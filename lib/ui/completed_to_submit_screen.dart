@@ -5,7 +5,6 @@ import 'package:my_pet_melody/ui/completed_to_submit_state.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_view_model.dart';
 import 'package:my_pet_melody/ui/component/listening_music_cat_image.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
-import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_screen.dart';
 
 final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
@@ -166,9 +165,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: DisplayDefinition.screenPaddingSmall,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: automaticallyClosePanel,
                 ),
                 const SizedBox(height: 32),
