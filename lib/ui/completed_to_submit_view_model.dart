@@ -12,7 +12,7 @@ class CompletedToSubmitViewModel extends StateNotifier<CompletedToSubmitState> {
           ),
         );
 
-  static const waitingTimeToCloseAutomaticallyMilliseconds = 5000;
+  static const waitingTimeToCloseAutomaticallyMilliseconds = 10 * 1000;
 
   Timer? _timer;
 

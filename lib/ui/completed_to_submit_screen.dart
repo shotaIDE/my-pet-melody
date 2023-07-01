@@ -100,7 +100,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
     final remainTimeMilliseconds = state.remainTimeMilliseconds;
     final Widget automaticallyClosePanel;
     if (remainTimeMilliseconds == null) {
-      automaticallyClosePanel = const SizedBox.shrink();
+      automaticallyClosePanel = const Row();
     } else {
       final remainTimeSeconds = (remainTimeMilliseconds / 1000).ceil();
       final automaticallyCloseText = Text(
