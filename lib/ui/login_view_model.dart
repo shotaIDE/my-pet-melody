@@ -61,6 +61,12 @@ class LoginViewModel extends StateNotifier<LoginState> {
     return result;
   }
 
+  Future<void> toggleMode() async {
+    state = state.copyWith(
+      isCreateMode: !state.isCreateMode,
+    );
+  }
+
   Future<void> continueWithoutLoginButton() async {
     state = state.copyWith(isProcessing: true);
 

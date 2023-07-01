@@ -38,14 +38,20 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
 
-    final title = Text(
-      'アカウントを\n作成しよう',
+    final isCreateMode = state.isCreateMode;
+
+    final title = isCreateMode ? 'アカウントを\n作成しよう' : 'アカウントに\nログインしよう';
+    final titleText = Text(
+      title,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    const description = Text(
-      '大切な作品をバックアップするために、アカウントを作成してね！',
+    final description = isCreateMode
+        ? '大切な作品をバックアップするために、アカウントを作成してね！'
+        : '大切な作品をバックアップするために、ログインしてね！';
+    final descriptionText = Text(
+      description,
       textAlign: TextAlign.center,
     );
 
@@ -79,6 +85,12 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       ),
     );
 
+    final toggleModeText = isCreateMode ? 'アカウントをお持ちの方はログインへ' : 'アカウントを作成する';
+    final toggleModelButton = TextButton(
+      onPressed: () => ref.read(widget.viewModel.notifier).toggleMode(),
+      child: Text(toggleModeText),
+    );
+
     final continueWithoutLoginButton = TextButton(
       onPressed: _continueWithoutLoginButton,
       child: const Text('アカウントを作成せずに続ける'),
@@ -93,9 +105,11 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            description,
+            descriptionText,
             const SizedBox(height: 32),
             buttonsPanel,
+            const SizedBox(height: 32),
+            toggleModelButton,
             const SizedBox(height: 32),
             continueWithoutLoginButton,
           ],
@@ -112,7 +126,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
                 bottom: false,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 32),
-                  child: title,
+                  child: titleText,
                 ),
               ),
               const SizedBox(height: 16),
