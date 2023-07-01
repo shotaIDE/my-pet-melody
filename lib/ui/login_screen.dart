@@ -40,7 +40,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
     final isCreateMode = state.isCreateMode;
 
-    final title = isCreateMode ? 'アカウントを\n作成しよう' : 'アカウントに\nログインしよう';
+    final title = isCreateMode ? 'アカウントを\n作成しよう' : '作成済みアカウントに\nログインしよう';
     final titleText = Text(
       title,
       textAlign: TextAlign.center,
