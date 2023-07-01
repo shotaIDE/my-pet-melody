@@ -43,7 +43,11 @@ final authActionsProvider = Provider(
 );
 
 class SessionProvider extends StateNotifier<LoginSession?> {
-  SessionProvider() : super(null);
+  SessionProvider({required ErrorReporter errorReporter})
+      : _errorReporter = errorReporter,
+        super(null);
+
+  final ErrorReporter _errorReporter;
 
   final _sessionSubject = BehaviorSubject<LoginSession?>();
 
@@ -84,9 +88,13 @@ class SessionProvider extends StateNotifier<LoginSession?> {
     try {
       token = await user.getIdToken();
     } on FirebaseAuthException catch (error, stack) {
-      await FirebaseAuth.instance.signOut();
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'failed to get id, although logged-in user exists.',
+      );
 
-      debugPrint('$error, $stack');
+      await FirebaseAuth.instance.signOut();
 
       return null;
     }
