@@ -40,21 +40,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
       onClose: () async {
         Navigator.pop(context);
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final state = ref.watch(widget.viewModelProvider);
-
-    final title = Text(
-      '作品の製作が\n開始されました',
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headlineMedium,
-    );
-
-    final completeImmediatelyButton = _CompleteImmediatelyButton(
-      onPressed: () async {
+      onCompleteImmediately: () async {
         final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
           context: context,
           builder: (context) {
@@ -78,6 +64,22 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
 
         await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
       },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(widget.viewModelProvider);
+
+    final title = Text(
+      '作品の製作が\n開始されました',
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.headlineMedium,
+    );
+
+    final completeImmediatelyButton = _CompleteImmediatelyButton(
+      onPressed: () =>
+          ref.read(widget.viewModelProvider.notifier).onCompleteImmediately(),
     );
 
     final body = SingleChildScrollView(

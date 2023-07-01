@@ -15,10 +15,14 @@ class CompletedToSubmitViewModel extends StateNotifier<CompletedToSubmitState> {
   static const waitingTimeToCloseAutomaticallyMilliseconds = 10 * 1000;
 
   Timer? _timer;
+  VoidCallback? _completeImmediately;
 
   Future<void> setup({
     required VoidCallback onClose,
+    required VoidCallback onCompleteImmediately,
   }) async {
+    _completeImmediately = onCompleteImmediately;
+
     const tickMilliseconds = 50;
 
     _timer =
@@ -47,6 +51,16 @@ class CompletedToSubmitViewModel extends StateNotifier<CompletedToSubmitState> {
   }
 
   Future<void> stop() async {
+    await _stopTimer();
+  }
+
+  Future<void> onCompleteImmediately() async {
+    await _stopTimer();
+
+    _completeImmediately?.call();
+  }
+
+  Future<void> _stopTimer() async {
     _timer?.cancel();
 
     state = state.copyWith(remainTimeMilliseconds: null);
