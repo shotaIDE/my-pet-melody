@@ -18,7 +18,13 @@ import 'package:my_pet_melody/data/model/result.dart';
 import 'package:rxdart/rxdart.dart';
 
 final sessionProvider = StateNotifierProvider<SessionProvider, LoginSession?>(
-  (_) => SessionProvider(),
+  (ref) {
+    final errorReporter = ref.watch(errorReporterProvider);
+
+    return SessionProvider(
+      errorReporter: errorReporter,
+    );
+  },
 );
 
 /// Provider for session as [Stream].
