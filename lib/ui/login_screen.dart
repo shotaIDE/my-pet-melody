@@ -85,15 +85,17 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       ),
     );
 
-    final toggleModeText = isCreateMode ? 'アカウントをお持ちの方はログインへ' : 'アカウントを作成する';
+    final toggleModeLabel = isCreateMode ? 'アカウントをお持ちの方はログインへ' : 'アカウントを作成する';
     final toggleModelButton = TextButton(
       onPressed: () => ref.read(widget.viewModel.notifier).toggleMode(),
-      child: Text(toggleModeText),
+      child: Text(toggleModeLabel),
     );
 
+    final continueWithoutLoginLabel =
+        isCreateMode ? 'アカウントを作成せずに続ける' : 'ログインせずに続ける';
     final continueWithoutLoginButton = TextButton(
       onPressed: _continueWithoutLoginButton,
-      child: const Text('アカウントを作成せずに続ける'),
+      child: Text(continueWithoutLoginLabel),
     );
 
     final body = SingleChildScrollView(
