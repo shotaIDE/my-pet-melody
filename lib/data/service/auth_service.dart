@@ -18,7 +18,13 @@ import 'package:my_pet_melody/data/model/result.dart';
 import 'package:rxdart/rxdart.dart';
 
 final sessionProvider = StateNotifierProvider<SessionProvider, LoginSession?>(
-  (_) => SessionProvider(),
+  (ref) {
+    final errorReporter = ref.watch(errorReporterProvider);
+
+    return SessionProvider(
+      errorReporter: errorReporter,
+    );
+  },
 );
 
 /// Provider for session as [Stream].
@@ -43,7 +49,11 @@ final authActionsProvider = Provider(
 );
 
 class SessionProvider extends StateNotifier<LoginSession?> {
-  SessionProvider() : super(null);
+  SessionProvider({required ErrorReporter errorReporter})
+      : _errorReporter = errorReporter,
+        super(null);
+
+  final ErrorReporter _errorReporter;
 
   final _sessionSubject = BehaviorSubject<LoginSession?>();
 
@@ -80,7 +90,20 @@ class SessionProvider extends StateNotifier<LoginSession?> {
       return null;
     }
 
-    final token = await user.getIdToken();
+    final String token;
+    try {
+      token = await user.getIdToken();
+    } on FirebaseAuthException catch (error, stack) {
+      await _errorReporter.send(
+        error,
+        stack,
+        reason: 'failed to get id, although logged-in user exists.',
+      );
+
+      await FirebaseAuth.instance.signOut();
+
+      return null;
+    }
 
     final providerData = user.providerData.firstOrNull;
     final name = providerData?.displayName;
