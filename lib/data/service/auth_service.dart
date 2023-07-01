@@ -80,7 +80,16 @@ class SessionProvider extends StateNotifier<LoginSession?> {
       return null;
     }
 
-    final token = await user.getIdToken();
+    final String token;
+    try {
+      token = await user.getIdToken();
+    } on FirebaseAuthException catch (error, stack) {
+      await FirebaseAuth.instance.signOut();
+
+      debugPrint('$error, $stack');
+
+      return null;
+    }
 
     final providerData = user.providerData.firstOrNull;
     final name = providerData?.displayName;

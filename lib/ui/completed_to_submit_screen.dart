@@ -5,6 +5,7 @@ import 'package:my_pet_melody/ui/completed_to_submit_state.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_view_model.dart';
 import 'package:my_pet_melody/ui/component/listening_music_cat_image.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
+import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_screen.dart';
 
 final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
@@ -32,6 +33,17 @@ class CompletedToSubmitScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    ref.read(widget.viewModelProvider.notifier).setup(
+      onClose: () async {
+        Navigator.pop(context);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModelProvider);
@@ -85,33 +97,45 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
       ),
     );
 
-    final remainTimeSeconds = state.remainTimeSeconds;
-    final remainTimeSecondsInt = remainTimeSeconds.toInt();
-    final automaticallyCloseText = Text(
-      'この画面はあと$remainTimeSecondsInt秒で自動的に閉じます。',
-      style: Theme.of(context).textTheme.bodyMedium,
-    );
-    final remainTimeProgressRing = CircularProgressIndicator(
-      value: remainTimeSeconds /
-          CompletedToSubmitViewModel.waitingTimeToCloseAutomaticallySeconds,
-    );
-    final stopButton = IconButton(
-      onPressed: () {},
-      icon: const Icon(Icons.stop),
-    );
-    final automaticallyClosePanel = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        automaticallyCloseText,
-        const SizedBox(width: 16),
-        Stack(
-          children: [
-            remainTimeProgressRing,
-            stopButton,
-          ],
+    final remainTimeMilliseconds = state.remainTimeMilliseconds;
+    final Widget automaticallyClosePanel;
+    if (remainTimeMilliseconds == null) {
+      automaticallyClosePanel = const SizedBox.shrink();
+    } else {
+      final remainTimeSeconds = (remainTimeMilliseconds / 1000).ceil();
+      final automaticallyCloseText = Text(
+        'この画面はあと$remainTimeSeconds秒で自動的に閉じます。',
+        style: Theme.of(context).textTheme.bodyMedium,
+      );
+      final remainTimeProgressRing = CircularProgressIndicator(
+        value: remainTimeMilliseconds /
+            CompletedToSubmitViewModel
+                .waitingTimeToCloseAutomaticallyMilliseconds,
+      );
+      final stopButton = IconButton(
+        onPressed: () => ref.read(widget.viewModelProvider.notifier).stop(),
+        icon: Icon(
+          Icons.stop,
+          color: Theme.of(context).primaryColor,
         ),
-      ],
-    );
+      );
+      automaticallyClosePanel = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: automaticallyCloseText,
+          ),
+          const SizedBox(width: 8),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              remainTimeProgressRing,
+              stopButton,
+            ],
+          ),
+        ],
+      );
+    }
 
     return Scaffold(
       appBar: transparentAppBar(
@@ -141,7 +165,12 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                automaticallyClosePanel,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: DisplayDefinition.screenPaddingSmall,
+                  ),
+                  child: automaticallyClosePanel,
+                ),
                 const SizedBox(height: 32),
               ],
             ),
