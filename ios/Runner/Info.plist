@@ -83,5 +83,9 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>作品のサムネイルを設定するために必要です。</string>
+	<key>NSCameraUsageDescription</key>
+	<string>作品に鳴き声を入れるために必要です。</string>
 </dict>
 </plist>
