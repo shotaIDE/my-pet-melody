@@ -8,10 +8,11 @@ GoogleService-Info.plist
 /assets/original
 /dart-code-metrics.json
 /emulator-data
+/fastlane/app-store-connect-api-key.p8
 /fastlane/firebase-app-distribution-*.json
 /fastlane/report.xml
-/ios/Flutter/DartDefines.xcconfig
 /ios/firebase_app_id_file.json
+/ios/Flutter/DartDefines.xcconfig
 /lib/environment_config.dart
 /lib/firebase_options*.dart
 /task/samples/
