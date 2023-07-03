@@ -3,10 +3,10 @@ default_platform(:ios)
 platform :ios do
   desc 'Build develop app'
   lane :build_dev do
-    generate
-
     apple_api_issuer_id = ENV['APPLE_API_ISSUER_ID'].to_s
     apple_api_key_id = ENV['APPLE_API_KEY_ID'].to_s
+
+    generate
 
     Dir.chdir('../') do
       sh(
