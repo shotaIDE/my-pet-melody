@@ -13,26 +13,26 @@ platform :ios do
         'flutter build ios --dart-define-from-file dart-defines_dev.json '\
         '--no-codesign '
       )
+
+      sh(
+        'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
+        '-workspace ./ios/Runner.xcworkspace '\
+        '-scheme Runner '\
+        '-configuration Release '\
+        '-archivePath ./build/ios/Runner.xcarchive'
+      )
+
+      sh(
+        'xcodebuild -exportArchive '\
+        '-archivePath ./build/ios/Runner.xcarchive '\
+        '-exportPath ./build/ios/ipa '\
+        '-exportOptionsPlist ./ios/ExportOptions_Develop-AdHoc.plist '\
+        '-allowProvisioningUpdates '\
+        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
+        "-authenticationKeyID '#{apple_api_key_id}' "\
+        '-authenticationKeyPath `pwd`/fastlane/app-store-connect-api-key.p8'
+      )
     end
-
-    sh(
-      'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
-      '-workspace ./ios/Runner.xcworkspace '\
-      '-scheme Runner '\
-      '-configuration Release '\
-      '-archivePath ./build/ios/Runner.xcarchive'
-    )
-
-    sh(
-      'xcodebuild -exportArchive '\
-      '-archivePath ./build/ios/Runner.xcarchive '\
-      '-exportPath ./build/ios/ipa '\
-      '-exportOptionsPlist ./ios/ExportOptions_Develop-AdHoc.plist '\
-      '-allowProvisioningUpdates '\
-      "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
-      "-authenticationKeyID '#{apple_api_key_id}' "\
-      '-authenticationKeyPath `pwd`/app-store-connect-api-key.p8'
-    )
 
     lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/my_pet_melody.ipa'
   end
