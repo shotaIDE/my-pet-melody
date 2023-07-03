@@ -57,7 +57,7 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "${{ secrets.PROVISIONING_PROFILE_DEV_AD_HOC_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/dev_ad-hoc.mobileprovision
 
-      - name: Generate Firebase App Distribution service account key file
+      - name: Generate App Store Connect API key file
         run: echo "${{ secrets.APP_STORE_CONNECT_API_KEY_P8_BASE64 }}" | base64 -d > fastlane/app-store-connect-api-key.p8
     
       - name: Generate Firebase App Distribution service account key file
