@@ -28,7 +28,7 @@ platform :android do
     build_dev
 
     firebase_app_distribution(
-      app: '1:1051662796035:android:5d9e3bd77c9543da651536',
+      app: '1:409733918350:android:6e0ef3847f6f80a7fea3df',
       service_credentials_file: 'fastlane/firebase-app-distribution-develop.json',
       groups: 'testers'
     )

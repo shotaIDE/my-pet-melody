@@ -42,7 +42,7 @@ platform :ios do
     build_dev
 
     firebase_app_distribution(
-      app: '1:1051662796035:ios:54af072e93309514651536',
+      app: '1:409733918350:ios:e1fc95560330d3dbfea3df',
       service_credentials_file: 'fastlane/firebase-app-distribution-develop.json',
       groups: 'testers'
     )
