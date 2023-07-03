@@ -3,12 +3,34 @@ default_platform(:ios)
 platform :ios do
   desc 'Build develop app'
   lane :build_dev do
+    apple_api_issuer_id = ENV['APPLE_API_ISSUER_ID'].to_s
+    apple_api_key_id = ENV['APPLE_API_KEY_ID'].to_s
+
     generate
 
     Dir.chdir('../') do
       sh(
-        'flutter build ipa --dart-define-from-file dart-defines_dev.json '\
-        '--export-options-plist=ios/ExportOptions_Develop-AdHoc.plist'
+        'flutter build ios --dart-define-from-file dart-defines_dev.json '\
+        '--no-codesign '
+      )
+
+      sh(
+        'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
+        '-workspace ./ios/Runner.xcworkspace '\
+        '-scheme Runner '\
+        '-configuration Release '\
+        '-archivePath ./build/ios/Runner.xcarchive'
+      )
+
+      sh(
+        'xcodebuild -exportArchive '\
+        '-archivePath ./build/ios/Runner.xcarchive '\
+        '-exportPath ./build/ios/ipa '\
+        '-exportOptionsPlist ./ios/ExportOptions_AdHoc.plist '\
+        '-allowProvisioningUpdates '\
+        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
+        "-authenticationKeyID '#{apple_api_key_id}' "\
+        '-authenticationKeyPath `pwd`/fastlane/app-store-connect-api-key.p8'
       )
     end
 
@@ -20,7 +42,7 @@ platform :ios do
     build_dev
 
     firebase_app_distribution(
-      app: '1:1051662796035:ios:54af072e93309514651536',
+      app: '1:409733918350:ios:e1fc95560330d3dbfea3df',
       service_credentials_file: 'fastlane/firebase-app-distribution-develop.json',
       groups: 'testers'
     )

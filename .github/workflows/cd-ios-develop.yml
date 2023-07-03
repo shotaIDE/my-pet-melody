@@ -46,22 +46,16 @@ jobs:
         with:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
 
-      - name: Import Code-Signing Certificates
-        uses: Apple-Actions/import-codesign-certs@v2
-        with:
-          p12-file-base64: ${{ secrets.APPLE_DISTRIBUTION_P12_BASE64 }}
-          p12-password: ${{ secrets.APPLE_DISTRIBUTION_P12_PASSWORD }}
-
-      - name: Import Provisioning Profile
-        run: |
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo "${{ secrets.PROVISIONING_PROFILE_DEV_AD_HOC_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/dev_ad-hoc.mobileprovision
-
+      - name: Generate App Store Connect API key file
+        run: echo "${{ secrets.APP_STORE_CONNECT_API_KEY_P8_BASE64 }}" | base64 -d > fastlane/app-store-connect-api-key.p8
+    
       - name: Generate Firebase App Distribution service account key file
         uses: ./.github/actions/generate-app-distribution-key-file
         with:
           key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
 
       - name: Deploy dev app to Firebase App Distribution
-        shell: bash
+        env:
+          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
         run: bundle exec fastlane ios deploy_dev
