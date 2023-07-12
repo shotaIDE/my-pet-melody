@@ -9,12 +9,12 @@ import 'package:video_player/video_player.dart';
 class VideoViewModel extends StateNotifier<VideoState> {
   VideoViewModel({
     required PieceGenerated piece,
-  })  : _url = piece.movieUrl,
+  })  : _uri = Uri.parse(piece.movieUrl),
         super(
           VideoState(title: piece.name),
         );
 
-  final String _url;
+  final Uri _uri;
 
   late final VideoPlayerController _videoPlayerController;
 
@@ -27,7 +27,7 @@ class VideoViewModel extends StateNotifier<VideoState> {
   }
 
   Future<void> setup() async {
-    _videoPlayerController = VideoPlayerController.network(_url);
+    _videoPlayerController = VideoPlayerController.networkUrl(_uri);
 
     await _videoPlayerController.initialize();
 
