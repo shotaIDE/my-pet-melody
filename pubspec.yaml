@@ -25,7 +25,7 @@ dependencies:
   path: ^1.8.0
   collection: ^1.15.0
   audioplayers: ^4.1.0
-  share_plus: ^6.3.4
+  share_plus: ^7.0.2
   path_provider: ^2.0.9
   firebase_core: ^2.4.0
   firebase_messaging: ^14.0.1
@@ -37,12 +37,12 @@ dependencies:
   firebase_storage: ^11.0.1
   firebase_auth: ^4.0.0
   cloud_firestore: ^4.0.1
-  chewie: ^1.4.0
+  chewie: ^1.7.0
   video_player: ^2.6.1
   cross_file: ^0.3.3+2
   video_thumbnail: ^0.5.3
   twitter_login: ^4.3.1
-  package_info_plus: ^3.0.0
+  package_info_plus: ^4.0.2
   font_awesome_flutter: ^10.4.0
   in_app_review: ^2.0.6
   firebase_crashlytics: ^3.3.2
