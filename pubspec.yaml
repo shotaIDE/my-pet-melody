@@ -24,7 +24,7 @@ dependencies:
   file_picker: ^5.2.6
   path: ^1.8.0
   collection: ^1.15.0
-  audioplayers: ^3.0.1
+  audioplayers: ^4.1.0
   share_plus: ^6.3.4
   path_provider: ^2.0.9
   firebase_core: ^2.4.0
