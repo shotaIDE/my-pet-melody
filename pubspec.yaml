@@ -29,7 +29,7 @@ dependencies:
   path_provider: ^2.0.9
   firebase_core: ^2.4.0
   firebase_messaging: ^14.0.1
-  flutter_local_notifications: ^14.1.1
+  flutter_local_notifications: ^15.1.0+1
   url_launcher: ^6.1.10
   ffmpeg_kit_flutter: 5.1.0-LTS
   skeletons: ^0.0.3
