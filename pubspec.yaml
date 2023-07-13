@@ -36,7 +36,7 @@ dependencies:
   video_trimmer: ^2.1.0
   firebase_storage: ^11.0.1
   firebase_auth: ^4.0.0
-  cloud_firestore: ^4.0.1
+  cloud_firestore: ^4.8.2
   chewie: ^1.7.0
   video_player: ^2.6.1
   cross_file: ^0.3.3+2

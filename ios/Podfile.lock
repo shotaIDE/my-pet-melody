@@ -7,7 +7,7 @@ PODS:
     - AppAuth/Core
   - audioplayers_darwin (0.0.1):
     - Flutter
-  - cloud_firestore (4.8.0):
+  - cloud_firestore (4.8.2):
     - Firebase/Firestore (= 10.10.0)
     - firebase_core
     - Flutter
@@ -476,7 +476,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
-  cloud_firestore: 4dd02c206e4b7e93ff081cdd0e7fa304112bf906
+  cloud_firestore: 818ebb1a8235177a0dcf7005c14aed5408b8342c
   CropViewController: 58fb440f30dac788b129d2a1f24cffdcb102669c
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   DKCamera: a902b66921fca14b7a75266feb8c7568aa7caa71
