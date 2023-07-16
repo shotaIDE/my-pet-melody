@@ -4,6 +4,8 @@ import json
 import os
 from shutil import copyfile
 
+from firebase_admin import storage
+
 from database import set_template
 from firebase import initialize_firebase
 from storage import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
@@ -58,7 +60,26 @@ def generate_template():
 
         print(f'Created template: ID={template_id}')
 
+        bgm_source_path = f'{target_directory}/{TEMPLATE_FILE_NAME}'
+        thumbnail_source_path = f'{target_directory}/{THUMBNAIL_FILE_NAME}'
+
         if use_firebase_storage:
+
+            bucket = storage.bucket()
+
+            template_relative_path = (
+                # TODO: commonize relative path generations
+                f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
+            )
+            template_blob = bucket.blob(template_relative_path)
+            template_blob.upload_from_file(bgm_source_path)
+
+            thumbnail_relative_path = (
+                f'systemMedia/templates/{template_id}/{THUMBNAIL_FILE_NAME}'
+            )
+            thumbnail_blob = bucket.blob(thumbnail_relative_path)
+            thumbnail_blob.upload_from_file(thumbnail_source_path)
+
             continue
 
         else:
@@ -67,7 +88,6 @@ def generate_template():
             )
             os.makedirs(template_parent_directory)
 
-            bgm_source_path = f'{target_directory}/{TEMPLATE_FILE_NAME}'
             bgm_destination_directory\
                 = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
             copyfile(bgm_source_path, bgm_destination_directory)
@@ -76,7 +96,6 @@ def generate_template():
                 f'"{bgm_destination_directory}"'
             )
 
-            thumbnail_source_path = f'{target_directory}/{THUMBNAIL_FILE_NAME}'
             thumbnail_destination_directory\
                 = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
             copyfile(thumbnail_source_path, thumbnail_destination_directory)
