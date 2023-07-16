@@ -4,6 +4,8 @@ import base64
 
 import cv2
 
+from storage import THUMBNAIL_EXTENSION
+
 _NUM_SEGMENT = 10
 # Apply x2 size when displayed on mobile side
 _EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_HEIGHT = 24 * 2
@@ -77,6 +79,6 @@ def _get_resized_base64_frame(
         (new_width, resized_height)
     )
 
-    image_encoded_frame = cv2.imencode('.png', resized_frame)[1]
+    image_encoded_frame = cv2.imencode(THUMBNAIL_EXTENSION, resized_frame)[1]
 
     return base64.b64encode(image_encoded_frame).decode('utf-8')

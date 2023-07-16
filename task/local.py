@@ -9,6 +9,7 @@ from database import (get_registration_tokens, get_template_overlays,
 from detection import detect_non_silence
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
+from storage import TEMPLATE_EXTENSION
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
@@ -147,7 +148,7 @@ def piece(request):
     # TODO: 鳴き声が2つ存在することを確認するバリデーションチェック
 
     template_path = (f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/'
-                     f'{template_id}.wav')
+                     f'{template_id}{TEMPLATE_EXTENSION}')
 
     overlays = get_template_overlays(id=template_id)
 
