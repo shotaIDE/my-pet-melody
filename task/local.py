@@ -42,12 +42,14 @@ def detect(request):
 
     uploaded_file_name = request_params_json['fileName']
 
-    uploaded_path = get_unedited_user_media_path(file_name=uploaded_file_name)
+    sound_path = get_unedited_user_media_path(
+        file_name=uploaded_file_name
+    )
 
-    non_silences = detect_non_silence(store_path=uploaded_path)
+    non_silences = detect_non_silence(file_path=sound_path)
 
     equally_devided_segment_thumbnails = generate_equally_divided_segments(
-        store_path=uploaded_path
+        store_path=sound_path
     )
 
     non_silence_starts_milliseconds = [
@@ -55,7 +57,7 @@ def detect(request):
         for non_silence in non_silences['segments']
     ]
     non_silence_segment_thumbnails = generate_specified_segments(
-        store_path=uploaded_path,
+        store_path=sound_path,
         segments_starts_milliseconds=non_silence_starts_milliseconds,
     )
 
@@ -128,15 +130,15 @@ def piece(request):
     piece_id = request_params_json['pieceId']
 
     template_id = request_params_json['templateId']
-    sound_base_names = request_params_json['soundFileNames']
+    sound_file_names = request_params_json['soundFileNames']
     display_name = request_params_json['displayName']
-    thumbnail_base_name = request_params_json['thumbnailFileName']
+    thumbnail_file_name = request_params_json['thumbnailFileName']
 
     template_path = get_template_bgm_path(template_id=template_id)
 
     sound_paths = [
-        get_edited_user_media_path(file_name=sound_base_name)
-        for sound_base_name in sound_base_names
+        get_edited_user_media_path(file_name=sound_file_name)
+        for sound_file_name in sound_file_names
     ]
 
     # TODO: ファイルの存在を確認するバリデーションチェック
@@ -158,12 +160,7 @@ def piece(request):
     )
 
     thumbnail_path = get_uploaded_thumbnail_path(
-        id=thumbnail_base_name
-    )
-
-    piece_thumbnail_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_thumbnail'
-    piece_thumbnail_base_path = get_generated_thumbnail_base_path(
-        id=piece_thumbnail_base_name
+        file_name=thumbnail_file_name
     )
 
     piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
@@ -171,7 +168,12 @@ def piece(request):
         id=piece_movie_base_name
     )
 
-    (piece_movie_path, piece_thumbnail_path) = generate_piece_movie(
+    piece_thumbnail_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_thumbnail'
+    piece_thumbnail_base_path = get_generated_thumbnail_base_path(
+        id=piece_thumbnail_base_name
+    )
+
+    piece_movie_path, piece_thumbnail_path = generate_piece_movie(
         thumbnail_path=thumbnail_path,
         piece_sound_path=piece_sound_path,
         title=display_name,

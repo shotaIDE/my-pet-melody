@@ -3,8 +3,7 @@
 import os
 from shutil import copyfile
 
-from storage_path import (TEMPLATE_FILE_NAME,
-                          THUMBNAIL_FILE_NAME)
+from storage_path import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
 from utils import generate_store_file_name
 
 _STATIC_DIRECTORY = 'static'
@@ -76,9 +75,9 @@ def get_edited_user_media_path(file_name: str) -> str:
     )
 
 
-def get_uploaded_thumbnail_path(id: str) -> str:
+def get_uploaded_thumbnail_path(file_name: str) -> str:
     return (
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{id}'
+        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{file_name}'
     )
 
 
