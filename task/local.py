@@ -146,11 +146,6 @@ def piece(request):
     overlays = get_template_overlays(id=template_id)
 
     _, piece_sound_base_path = tempfile.mkstemp()
-    # current = datetime.now()
-    # piece_sound_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'
-    # piece_sound_base_path = get_generated_piece_sound_base_path(
-    #     id=piece_sound_base_name
-    # )
 
     piece_sound_path = generate_piece_sound(
         template_path=template_path,
@@ -183,7 +178,6 @@ def piece(request):
     piece_movie_file_name = f'{piece_movie_base_name}{piece_movie_extension}'
 
     upload_piece_movie(
-        uid=uid,
         file_name=piece_movie_file_name,
         file_path=piece_movie_path
     )
@@ -196,7 +190,6 @@ def piece(request):
     )
 
     upload_piece_thumbnail(
-        uid=uid,
         file_name=piece_thumbnail_file_name,
         file_path=piece_thumbnail_path
     )
