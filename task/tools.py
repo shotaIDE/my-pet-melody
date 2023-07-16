@@ -82,27 +82,26 @@ def generate_template():
 
             continue
 
-        else:
-            template_parent_directory = (
-                f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}'
-            )
-            os.makedirs(template_parent_directory)
+        template_parent_directory = (
+            f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}'
+        )
+        os.makedirs(template_parent_directory)
 
-            bgm_destination_directory\
-                = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
-            copyfile(bgm_source_path, bgm_destination_directory)
-            print(
-                f'Copied BGM file "{bgm_source_path}" to '
-                f'"{bgm_destination_directory}"'
-            )
+        bgm_destination_directory\
+            = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
+        copyfile(bgm_source_path, bgm_destination_directory)
+        print(
+            f'Copied BGM file "{bgm_source_path}" to '
+            f'"{bgm_destination_directory}"'
+        )
 
-            thumbnail_destination_directory\
-                = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
-            copyfile(thumbnail_source_path, thumbnail_destination_directory)
-            print(
-                f'Copied thumbnail file "{thumbnail_source_path}" to '
-                f'"{thumbnail_destination_directory}"'
-            )
+        thumbnail_destination_directory\
+            = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
+        copyfile(thumbnail_source_path, thumbnail_destination_directory)
+        print(
+            f'Copied thumbnail file "{thumbnail_source_path}" to '
+            f'"{thumbnail_destination_directory}"'
+        )
 
 
 if __name__ == '__main__':
