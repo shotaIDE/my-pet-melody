@@ -84,6 +84,6 @@ def set_template(name: str, overlays: list[dict[str, Any]]) -> str:
 
     system_media_ref = db.collection('systemMedia')
 
-    generated_template_doc = system_media_ref.add(store_data)
+    _, created_document = system_media_ref.add(store_data)
 
-    return generated_template_doc
+    return created_document.id

@@ -42,12 +42,12 @@ def generate_template():
             for position_seconds in position_seconds_list
         ]
 
-        template_doc = set_template(
+        template_id = set_template(
             name=meta_json['name'],
             overlays=overlays,
         )
 
-        print(template_doc)
+        print(f'Created template: ID={template_id}')
 
 
 if __name__ == '__main__':
