@@ -3,7 +3,7 @@
 import os
 from shutil import copyfile
 
-from storage_path import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
+from storage_path import (TEMPLATE_FILE_NAME,
                           THUMBNAIL_FILE_NAME)
 from utils import generate_store_file_name
 
@@ -13,10 +13,10 @@ _UPLOADS_DIRECTORY = 'uploads'
 _EXPORTS_DIRECTORY = 'exports'
 
 
-def get_template_bgm_path(id: str) -> str:
+def get_template_bgm_path(template_id: str) -> str:
     return (
         f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/'
-        f'{id}{TEMPLATE_EXTENSION}'
+        f'{template_id}/{TEMPLATE_FILE_NAME}'
     )
 
 

@@ -132,7 +132,7 @@ def piece(request):
     display_name = request_params_json['displayName']
     thumbnail_base_name = request_params_json['thumbnailFileName']
 
-    template_path = get_template_bgm_path(id=template_id)
+    template_path = get_template_bgm_path(template_id=template_id)
 
     sound_paths = [
         get_edited_user_media_path(file_name=sound_base_name)
