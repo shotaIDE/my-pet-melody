@@ -10,7 +10,8 @@ from database import (get_registration_tokens, get_template_overlays,
 from detection import detect_non_silence
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
-from storage_local import (get_generated_piece_movie_base_path,
+from storage_local import (get_edited_user_media_path,
+                           get_generated_piece_movie_base_path,
                            get_generated_piece_sound_base_path,
                            get_generated_thumbnail_base_path,
                            get_template_bgm_path, get_unedited_user_media_path,
@@ -131,15 +132,15 @@ def piece(request):
     display_name = request_params_json['displayName']
     thumbnail_base_name = request_params_json['thumbnailFileName']
 
+    template_path = get_template_bgm_path(id=template_id)
+
     sound_paths = [
-        get_unedited_user_media_path(file_name=sound_base_name)
+        get_edited_user_media_path(file_name=sound_base_name)
         for sound_base_name in sound_base_names
     ]
 
     # TODO: ファイルの存在を確認するバリデーションチェック
     # TODO: 鳴き声が2つ存在することを確認するバリデーションチェック
-
-    template_path = get_template_bgm_path(id=template_id)
 
     overlays = get_template_overlays(id=template_id)
 

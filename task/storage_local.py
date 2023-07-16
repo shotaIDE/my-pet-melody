@@ -9,6 +9,13 @@ _UPLOADS_DIRECTORY = 'uploads'
 _EXPORTS_DIRECTORY = 'exports'
 
 
+def get_template_bgm_path(id: str) -> str:
+    return (
+        f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/'
+        f'{id}{TEMPLATE_EXTENSION}'
+    )
+
+
 def save_user_media(file, file_name: str) -> str:
     store_file_name_base, store_file_extension = generate_store_file_name(
         file_name=file_name
@@ -24,14 +31,13 @@ def save_user_media(file, file_name: str) -> str:
     return store_path
 
 
-def get_template_bgm_path(id: str) -> str:
+def get_unedited_user_media_path(file_name: str) -> str:
     return (
-        f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/'
-        f'{id}{TEMPLATE_EXTENSION}'
+        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{file_name}'
     )
 
 
-def get_unedited_user_media_path(file_name: str) -> str:
+def get_edited_user_media_path(file_name: str) -> str:
     return (
         f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{file_name}'
     )
