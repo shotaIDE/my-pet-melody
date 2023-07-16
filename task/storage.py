@@ -81,6 +81,8 @@ def get_edited_user_media_path(uid: str, file_name: str) -> str:
 
     sound_blob.download_to_filename(sound_local_path)
 
+    return sound_local_path
+
 
 def get_uploaded_thumbnail_path(uid: str, file_name: str) -> str:
     bucket = storage.bucket()
