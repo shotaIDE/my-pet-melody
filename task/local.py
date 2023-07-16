@@ -13,8 +13,8 @@ from piece import generate_piece_movie, generate_piece_sound
 from storage_local import (get_generated_piece_movie_base_path,
                            get_generated_piece_sound_base_path,
                            get_generated_thumbnail_base_path,
-                           get_template_bgm_path, get_uploaded_thumbnail_path,
-                           get_user_media_path, save_user_media)
+                           get_template_bgm_path, get_unedited_user_media_path,
+                           get_uploaded_thumbnail_path, save_user_media)
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
@@ -41,7 +41,7 @@ def detect(request):
 
     uploaded_file_name = request_params_json['fileName']
 
-    uploaded_path = get_user_media_path(file_name=uploaded_file_name)
+    uploaded_path = get_unedited_user_media_path(file_name=uploaded_file_name)
 
     non_silences = detect_non_silence(store_path=uploaded_path)
 
@@ -132,7 +132,7 @@ def piece(request):
     thumbnail_base_name = request_params_json['thumbnailFileName']
 
     sound_paths = [
-        get_user_media_path(file_name=sound_base_name)
+        get_unedited_user_media_path(file_name=sound_base_name)
         for sound_base_name in sound_base_names
     ]
 

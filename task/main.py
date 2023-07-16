@@ -16,6 +16,7 @@ from detection import detect_non_silence
 from firebase import initialize_firebase
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
+from storage import get_unedited_user_media_path
 from storage_path import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                           USER_MEDIA_DIRECTORY_NAME)
 from subscription import fetch_is_premium_plan
@@ -33,21 +34,11 @@ def detect(request):
     request_params_json = request.json
 
     uploaded_file_name = request_params_json['fileName']
-    splitted_file_name = os.path.splitext(uploaded_file_name)
-    uploaded_extension = splitted_file_name[1]
 
-    bucket = storage.bucket()
-
-    _, uploaded_local_base_path = tempfile.mkstemp()
-    uploaded_local_path = f'{uploaded_local_base_path}{uploaded_extension}'
-
-    uploaded_relative_path = (
-        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'unedited/{uploaded_file_name}'
+    uploaded_local_path = get_unedited_user_media_path(
+        uid=uid,
+        file_name=uploaded_file_name
     )
-    uploaded_blob = bucket.blob(uploaded_relative_path)
-
-    uploaded_blob.download_to_filename(uploaded_local_path)
 
     non_silences = detect_non_silence(store_path=uploaded_local_path)
 

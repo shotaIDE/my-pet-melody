@@ -31,7 +31,7 @@ def get_template_bgm_path(id: str) -> str:
     )
 
 
-def get_user_media_path(file_name: str) -> str:
+def get_unedited_user_media_path(file_name: str) -> str:
     return (
         f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{file_name}'
     )
