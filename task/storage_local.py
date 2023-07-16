@@ -4,7 +4,6 @@ import os
 from shutil import copyfile
 
 from storage_path import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
-from utils import generate_store_file_name
 
 _PARENT_DIRECTORY = 'static'
 _TEMPLATES_DIRECTORY = f'{_PARENT_DIRECTORY}/templates'
@@ -43,19 +42,11 @@ def upload_template_thumbnail(template_id: str, file_path: str):
     )
 
 
-def upload_user_media(file, file_name: str) -> str:
-    file_name_base, file_extension = generate_store_file_name(
-        file_name=file_name
-    )
+def upload_user_media(file_name: str, file_path: str):
+    os.makedirs(name=_UNEDITED_USER_MEDIA_DIRECTORY, exist_ok=True)
 
-    file_name = f'{file_name_base}{file_extension}'
-    file_path = (
-        f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{file_name}'
-    )
-
-    file.save(file_path)
-
-    return file_path
+    destination_file_path = f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{file_name}'
+    copyfile(file_path, destination_file_path)
 
 
 def download_unedited_user_media(file_name: str) -> str:

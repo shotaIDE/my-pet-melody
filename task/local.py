@@ -3,7 +3,6 @@
 import os
 import tempfile
 from datetime import datetime
-from os.path import basename, splitext
 
 from auth import verify_authorization_header
 from database import (get_registration_tokens, get_template_overlays,
@@ -17,21 +16,26 @@ from storage_local import (download_edited_user_media, download_template_bgm,
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
+from utils import generate_store_file_name
 
 
 def upload(request):
     file = request.files['file']
-    file_name = file.filename
+    original_file_name = file.filename
 
-    uploaded_file_path = upload_user_media(file=file, file_name=file_name)
+    _, file_path = tempfile.mkstemp()
+    file.save(file_path)
 
-    uploaded_file_name = basename(uploaded_file_path)
-    uploaded_file_base_name, uploaded_file_extension\
-        = splitext(uploaded_file_name)
+    file_name_base, file_extension = generate_store_file_name(
+        file_name=original_file_name
+    )
+    file_name = f'{file_name_base}{file_extension}'
+
+    upload_user_media(file_name=file_name, file_path=file_path)
 
     return {
-        'id': uploaded_file_base_name,
-        'extension': uploaded_file_extension,
+        'id': file_name_base,
+        'extension': file_extension,
     }
 
 
