@@ -6,22 +6,23 @@ from shutil import copyfile
 from storage_path import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
 from utils import generate_store_file_name
 
-_STATIC_DIRECTORY = 'static'
-_TEMPLATES_DIRECTORY = 'templates'
-_UPLOADS_DIRECTORY = 'uploads'
-_EXPORTS_DIRECTORY = 'exports'
+_PARENT_DIRECTORY = 'static'
+_TEMPLATES_DIRECTORY = f'{_PARENT_DIRECTORY}/templates'
+_UNEDITED_USER_MEDIA_DIRECTORY = f'{_PARENT_DIRECTORY}/uploads'
+_EDITED_USER_MEDIA_DIRECTORY = f'{_PARENT_DIRECTORY}/uploads'
+_GENERATED_PIECE_DIRECTORY = f'{_PARENT_DIRECTORY}/exports'
+_GENERATED_THUMBNAIL_DIRECTORY = f'{_PARENT_DIRECTORY}/exports'
 
 
-def get_template_bgm_path(template_id: str) -> str:
+def download_template_bgm_path(template_id: str) -> str:
     return (
-        f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/'
-        f'{template_id}/{TEMPLATE_FILE_NAME}'
+        f'{_TEMPLATES_DIRECTORY}/{template_id}/{TEMPLATE_FILE_NAME}'
     )
 
 
 def upload_template_bgm(template_id: str, file_path: str):
     template_parent_directory = (
-        f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}'
+        f'{_TEMPLATES_DIRECTORY}/{template_id}'
     )
     os.makedirs(name=template_parent_directory, exist_ok=True)
 
@@ -34,7 +35,7 @@ def upload_template_bgm(template_id: str, file_path: str):
 
 def upload_template_thumbnail(template_id: str, file_path: str):
     template_parent_directory = (
-        f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}'
+        f'{_TEMPLATES_DIRECTORY}/{template_id}'
     )
     os.makedirs(name=template_parent_directory, exist_ok=True)
 
@@ -48,14 +49,14 @@ def upload_template_thumbnail(template_id: str, file_path: str):
     )
 
 
-def save_user_media(file, file_name: str) -> str:
+def upload_user_media(file, file_name: str) -> str:
     store_file_name_base, store_file_extension = generate_store_file_name(
         file_name=file_name
     )
 
     store_file_name = f'{store_file_name_base}{store_file_extension}'
     store_path = (
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{store_file_name}'
+        f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{store_file_name}'
     )
 
     file.save(store_path)
@@ -63,56 +64,27 @@ def save_user_media(file, file_name: str) -> str:
     return store_path
 
 
-def get_unedited_user_media_path(file_name: str) -> str:
+def download_unedited_user_media(file_name: str) -> str:
     return (
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{file_name}'
+        f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{file_name}'
     )
 
 
-def get_edited_user_media_path(file_name: str) -> str:
+def download_edited_user_media(file_name: str) -> str:
     return (
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{file_name}'
-    )
-
-
-def get_uploaded_thumbnail_path(file_name: str) -> str:
-    return (
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{file_name}'
-    )
-
-
-def get_generated_piece_sound_base_path(id: str) -> str:
-    return (
-        f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
-        f'{id}'
-    )
-
-
-def get_generated_thumbnail_base_path(id: str) -> str:
-    return (
-        f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
-        f'{id}'
-    )
-
-
-def get_generated_piece_movie_base_path(id: str) -> str:
-    return (
-        f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
-        f'{id}'
+        f'{_EDITED_USER_MEDIA_DIRECTORY}/{file_name}'
     )
 
 
 def upload_piece_movie(file_name: str, file_path: str):
-    parent_directory = f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}'
-    os.makedirs(name=parent_directory, exist_ok=True)
+    os.makedirs(name=_GENERATED_PIECE_DIRECTORY, exist_ok=True)
 
-    destination_path = f'{parent_directory}/{file_name}'
+    destination_path = f'{_GENERATED_PIECE_DIRECTORY}/{file_name}'
     copyfile(file_path, destination_path)
 
 
 def upload_piece_thumbnail(file_name: str, file_path: str):
-    parent_directory = f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}'
-    os.makedirs(name=parent_directory, exist_ok=True)
+    os.makedirs(name=_GENERATED_THUMBNAIL_DIRECTORY, exist_ok=True)
 
-    destination_path = f'{parent_directory}/{file_name}'
+    destination_path = f'{_GENERATED_THUMBNAIL_DIRECTORY}/{file_name}'
     copyfile(file_path, destination_path)

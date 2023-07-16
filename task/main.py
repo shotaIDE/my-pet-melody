@@ -15,8 +15,8 @@ from detection import detect_non_silence
 from firebase import initialize_firebase
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
-from storage import (get_edited_user_media_path, get_template_bgm_path,
-                     get_unedited_user_media_path, get_uploaded_thumbnail_path,
+from storage import (download_edited_user_media, download_template_bgm,
+                     download_unedited_user_media, get_uploaded_thumbnail_path,
                      upload_piece_movie, upload_piece_thumbnail)
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
@@ -34,7 +34,7 @@ def detect(request):
 
     uploaded_file_name = request_params_json['fileName']
 
-    sound_path = get_unedited_user_media_path(
+    sound_path = download_unedited_user_media(
         uid=uid,
         file_name=uploaded_file_name
     )
@@ -174,10 +174,10 @@ def piece(request):
     display_name = request_params_json['displayName']
     thumbnail_file_name = request_params_json['thumbnailFileName']
 
-    template_path = get_template_bgm_path(template_id=template_id)
+    template_path = download_template_bgm(template_id=template_id)
 
     sound_paths = [
-        get_edited_user_media_path(uid=uid, file_name=sound_file_name)
+        download_edited_user_media(uid=uid, file_name=sound_file_name)
         for sound_file_name in sound_file_names
     ]
 

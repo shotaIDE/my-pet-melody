@@ -9,7 +9,7 @@ from storage_path import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                           THUMBNAIL_FILE_NAME, USER_MEDIA_DIRECTORY_NAME)
 
 
-def get_template_bgm_path(template_id: str) -> str:
+def download_template_bgm(template_id: str) -> str:
     bucket = storage.bucket()
 
     _, template_local_base_path = tempfile.mkstemp()
@@ -45,7 +45,7 @@ def upload_template_thumbnail(template_id: str, file_path: str):
     thumbnail_blob.upload_from_filename(file_path)
 
 
-def get_unedited_user_media_path(uid: str, file_name: str) -> str:
+def download_unedited_user_media(uid: str, file_name: str) -> str:
     splitted_file_name = splitext(file_name)
     uploaded_extension = splitted_file_name[1]
 
@@ -65,7 +65,7 @@ def get_unedited_user_media_path(uid: str, file_name: str) -> str:
     return uploaded_local_path
 
 
-def get_edited_user_media_path(uid: str, file_name: str) -> str:
+def download_edited_user_media(uid: str, file_name: str) -> str:
     _, sound_local_base_path = tempfile.mkstemp()
     splitted_piece_movie_file_name = splitext(file_name)
     sound_extension = splitted_piece_movie_file_name[1]
@@ -82,25 +82,6 @@ def get_edited_user_media_path(uid: str, file_name: str) -> str:
     sound_blob.download_to_filename(sound_local_path)
 
     return sound_local_path
-
-
-def get_uploaded_thumbnail_path(uid: str, file_name: str) -> str:
-    bucket = storage.bucket()
-
-    _, thumbnail_local_base_path = tempfile.mkstemp()
-    splitted_thumbnail_file_name = splitext(file_name)
-    thumbnail_extension = splitted_thumbnail_file_name[1]
-    thumbnail_local_path = f'{thumbnail_local_base_path}{thumbnail_extension}'
-
-    thumbnail_relative_path = (
-        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'edited/{file_name}'
-    )
-    thumbnail_blob = bucket.blob(thumbnail_relative_path)
-
-    thumbnail_blob.download_to_filename(thumbnail_local_path)
-
-    return thumbnail_local_path
 
 
 def upload_piece_movie(uid: str, file_name: str, file_path: str):

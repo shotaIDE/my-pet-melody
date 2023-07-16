@@ -11,10 +11,10 @@ from database import (get_registration_tokens, get_template_overlays,
 from detection import detect_non_silence
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
-from storage_local import (get_edited_user_media_path, get_template_bgm_path,
-                           get_unedited_user_media_path,
-                           get_uploaded_thumbnail_path, save_user_media,
-                           upload_piece_movie, upload_piece_thumbnail)
+from storage_local import (download_edited_user_media,
+                           download_template_bgm_path,
+                           download_unedited_user_media, upload_piece_movie,
+                           upload_piece_thumbnail, upload_user_media)
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
@@ -24,7 +24,7 @@ def upload(request):
     file = request.files['file']
     file_name = file.filename
 
-    uploaded_file_path = save_user_media(file=file, file_name=file_name)
+    uploaded_file_path = upload_user_media(file=file, file_name=file_name)
 
     uploaded_file_name = basename(uploaded_file_path)
     uploaded_file_base_name, uploaded_file_extension\
@@ -41,7 +41,7 @@ def detect(request):
 
     uploaded_file_name = request_params_json['fileName']
 
-    sound_path = get_unedited_user_media_path(
+    sound_path = download_unedited_user_media(
         file_name=uploaded_file_name
     )
 
@@ -133,10 +133,10 @@ def piece(request):
     display_name = request_params_json['displayName']
     thumbnail_file_name = request_params_json['thumbnailFileName']
 
-    template_path = get_template_bgm_path(template_id=template_id)
+    template_path = download_template_bgm_path(template_id=template_id)
 
     sound_paths = [
-        get_edited_user_media_path(file_name=sound_file_name)
+        download_edited_user_media(file_name=sound_file_name)
         for sound_file_name in sound_file_names
     ]
 
@@ -154,7 +154,7 @@ def piece(request):
         export_base_path=piece_sound_base_path,
     )
 
-    thumbnail_path = get_uploaded_thumbnail_path(
+    thumbnail_path = download_edited_user_media(
         file_name=thumbnail_file_name
     )
 
