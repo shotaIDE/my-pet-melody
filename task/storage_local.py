@@ -3,7 +3,8 @@
 import os
 from shutil import copyfile
 
-from storage_path import TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME
+from storage_path import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
+                          THUMBNAIL_FILE_NAME)
 from utils import generate_store_file_name
 
 _STATIC_DIRECTORY = 'static'
@@ -23,7 +24,7 @@ def upload_template_bgm(template_id: str, file_path: str):
     template_parent_directory = (
         f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}'
     )
-    os.makedirs(template_parent_directory)
+    os.makedirs(name=template_parent_directory, exist_ok=True)
 
     bgm_destination_directory\
         = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
@@ -36,10 +37,10 @@ def upload_template_thumbnail(template_id: str, file_path: str):
     template_parent_directory = (
         f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}'
     )
-    os.makedirs(template_parent_directory)
+    os.makedirs(name=template_parent_directory, exist_ok=True)
 
     thumbnail_destination_directory\
-        = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
+        = f'{template_parent_directory}/{THUMBNAIL_FILE_NAME}'
     copyfile(file_path, thumbnail_destination_directory)
 
     print(
