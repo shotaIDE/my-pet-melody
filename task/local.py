@@ -11,8 +11,7 @@ from database import (get_registration_tokens, get_template_overlays,
 from detection import detect_non_silence
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
-from storage_local import (download_edited_user_media,
-                           download_template_bgm_path,
+from storage_local import (download_edited_user_media, download_template_bgm,
                            download_unedited_user_media, upload_piece_movie,
                            upload_piece_thumbnail, upload_user_media)
 from subscription import fetch_is_premium_plan
@@ -133,7 +132,7 @@ def piece(request):
     display_name = request_params_json['displayName']
     thumbnail_file_name = request_params_json['thumbnailFileName']
 
-    template_path = download_template_bgm_path(template_id=template_id)
+    template_path = download_template_bgm(template_id=template_id)
 
     sound_paths = [
         download_edited_user_media(file_name=sound_file_name)

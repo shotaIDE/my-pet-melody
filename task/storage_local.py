@@ -14,33 +14,27 @@ _GENERATED_PIECE_DIRECTORY = f'{_PARENT_DIRECTORY}/exports'
 _GENERATED_THUMBNAIL_DIRECTORY = f'{_PARENT_DIRECTORY}/exports'
 
 
-def download_template_bgm_path(template_id: str) -> str:
-    return (
-        f'{_TEMPLATES_DIRECTORY}/{template_id}/{TEMPLATE_FILE_NAME}'
-    )
+def download_template_bgm(template_id: str) -> str:
+    template_directory = _get_template_directory(template_id=template_id)
+    return f'{template_directory}/{TEMPLATE_FILE_NAME}'
 
 
 def upload_template_bgm(template_id: str, file_path: str):
-    template_parent_directory = (
-        f'{_TEMPLATES_DIRECTORY}/{template_id}'
-    )
-    os.makedirs(name=template_parent_directory, exist_ok=True)
+    template_directory = _get_template_directory(template_id=template_id)
+    os.makedirs(name=template_directory, exist_ok=True)
 
-    bgm_destination_directory\
-        = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
+    bgm_destination_directory = f'{template_directory}/{TEMPLATE_FILE_NAME}'
     copyfile(file_path, bgm_destination_directory)
 
     print(f'Copied BGM file "{file_path}" to "{bgm_destination_directory}"')
 
 
 def upload_template_thumbnail(template_id: str, file_path: str):
-    template_parent_directory = (
-        f'{_TEMPLATES_DIRECTORY}/{template_id}'
-    )
-    os.makedirs(name=template_parent_directory, exist_ok=True)
+    template_directory = _get_template_directory(template_id=template_id)
+    os.makedirs(name=template_directory, exist_ok=True)
 
-    thumbnail_destination_directory\
-        = f'{template_parent_directory}/{THUMBNAIL_FILE_NAME}'
+    thumbnail_destination_directory = \
+        f'{template_directory}/{THUMBNAIL_FILE_NAME}'
     copyfile(file_path, thumbnail_destination_directory)
 
     print(
@@ -50,18 +44,18 @@ def upload_template_thumbnail(template_id: str, file_path: str):
 
 
 def upload_user_media(file, file_name: str) -> str:
-    store_file_name_base, store_file_extension = generate_store_file_name(
+    file_name_base, file_extension = generate_store_file_name(
         file_name=file_name
     )
 
-    store_file_name = f'{store_file_name_base}{store_file_extension}'
-    store_path = (
-        f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{store_file_name}'
+    file_name = f'{file_name_base}{file_extension}'
+    file_path = (
+        f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{file_name}'
     )
 
-    file.save(store_path)
+    file.save(file_path)
 
-    return store_path
+    return file_path
 
 
 def download_unedited_user_media(file_name: str) -> str:
@@ -88,3 +82,7 @@ def upload_piece_thumbnail(file_name: str, file_path: str):
 
     destination_path = f'{_GENERATED_THUMBNAIL_DIRECTORY}/{file_name}'
     copyfile(file_path, destination_path)
+
+
+def _get_template_directory(template_id: str):
+    return f'{_TEMPLATES_DIRECTORY}/{template_id}'
