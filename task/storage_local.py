@@ -3,7 +3,7 @@
 import os
 from shutil import copyfile
 
-from storage_path import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
+from storage_rule import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
 
 _PARENT_DIRECTORY = 'static'
 _TEMPLATES_DIRECTORY = f'{_PARENT_DIRECTORY}/templates'

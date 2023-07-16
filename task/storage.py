@@ -5,7 +5,7 @@ from os.path import splitext
 
 from firebase_admin import storage
 
-from storage_path import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
+from storage_rule import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                           THUMBNAIL_FILE_NAME, USER_MEDIA_DIRECTORY_NAME)
 
 

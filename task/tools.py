@@ -7,7 +7,7 @@ import storage
 import storage_local
 from database import set_template
 from firebase import initialize_firebase
-from storage_path import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
+from storage_rule import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
 
 
 def generate_template():

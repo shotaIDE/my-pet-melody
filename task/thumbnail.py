@@ -4,7 +4,7 @@ import base64
 
 import cv2
 
-from storage_path import THUMBNAIL_EXTENSION
+from storage_rule import THUMBNAIL_EXTENSION
 
 _NUM_SEGMENT = 10
 # Apply x2 size when displayed on mobile side
