@@ -6,8 +6,7 @@ from shutil import copyfile
 
 from database import set_template
 from firebase import initialize_firebase
-from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_BASE_NAME,
-                     THUMBNAIL_EXTENSION, THUMBNAIL_FILE_NAME)
+from storage import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
 
 _STATIC_DIRECTORY = 'static'
 _TEMPLATES_DIRECTORY = 'templates'
@@ -66,27 +65,20 @@ def generate_template():
             template_parent_directory = (
                 f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}'
             )
+            os.makedirs(template_parent_directory)
 
-            bgm_source_path = (
-                f'{target_directory}/'
-                f'{TEMPLATE_FILE_BASE_NAME}{TEMPLATE_EXTENSION}'
-            )
-            bgm_destination_directory = (
-                f'{template_parent_directory}/{bgm_source_path}'
-            )
+            bgm_source_path = f'{target_directory}/{TEMPLATE_FILE_NAME}'
+            bgm_destination_directory\
+                = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
             copyfile(bgm_source_path, bgm_destination_directory)
             print(
                 f'Copied BGM file "{bgm_source_path}" to '
                 f'"{bgm_destination_directory}"'
             )
 
-            thumbnail_source_path = (
-                f'{target_directory}/'
-                f'{THUMBNAIL_FILE_NAME}{THUMBNAIL_EXTENSION}'
-            )
-            thumbnail_destination_directory = (
-                f'{template_parent_directory}/{bgm_source_path}'
-            )
+            thumbnail_source_path = f'{target_directory}/{THUMBNAIL_FILE_NAME}'
+            thumbnail_destination_directory\
+                = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
             copyfile(thumbnail_source_path, thumbnail_destination_directory)
             print(
                 f'Copied thumbnail file "{thumbnail_source_path}" to '
