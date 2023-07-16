@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import os
+import tempfile
 from datetime import datetime
 from os.path import basename, splitext
 
@@ -10,12 +11,10 @@ from database import (get_registration_tokens, get_template_overlays,
 from detection import detect_non_silence
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
-from storage_local import (get_edited_user_media_path,
-                           get_generated_piece_movie_base_path,
-                           get_generated_piece_sound_base_path,
-                           get_generated_thumbnail_base_path,
-                           get_template_bgm_path, get_unedited_user_media_path,
-                           get_uploaded_thumbnail_path, save_user_media)
+from storage_local import (get_edited_user_media_path, get_template_bgm_path,
+                           get_unedited_user_media_path,
+                           get_uploaded_thumbnail_path, save_user_media,
+                           upload_piece_movie, upload_piece_thumbnail)
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
@@ -146,11 +145,12 @@ def piece(request):
 
     overlays = get_template_overlays(id=template_id)
 
-    current = datetime.now()
-    piece_sound_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'
-    piece_sound_base_path = get_generated_piece_sound_base_path(
-        id=piece_sound_base_name
-    )
+    _, piece_sound_base_path = tempfile.mkstemp()
+    # current = datetime.now()
+    # piece_sound_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'
+    # piece_sound_base_path = get_generated_piece_sound_base_path(
+    #     id=piece_sound_base_name
+    # )
 
     piece_sound_path = generate_piece_sound(
         template_path=template_path,
@@ -163,15 +163,9 @@ def piece(request):
         file_name=thumbnail_file_name
     )
 
-    piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
-    piece_movie_base_path = get_generated_piece_movie_base_path(
-        id=piece_movie_base_name
-    )
+    _, piece_movie_base_path = tempfile.mkstemp()
 
-    piece_thumbnail_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_thumbnail'
-    piece_thumbnail_base_path = get_generated_thumbnail_base_path(
-        id=piece_thumbnail_base_name
-    )
+    _, piece_thumbnail_base_path = tempfile.mkstemp()
 
     piece_movie_path, piece_thumbnail_path = generate_piece_movie(
         thumbnail_path=thumbnail_path,
@@ -181,16 +175,30 @@ def piece(request):
         movie_export_base_path=piece_movie_base_path,
     )
 
-    splitted_piece_movie_file_name = os.path.splitext(piece_movie_path)
+    current = datetime.now()
+    piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
+    splitted_piece_movie_file_name = os.path.splitext(
+        piece_movie_path)
     piece_movie_extension = splitted_piece_movie_file_name[1]
-    piece_movie_file_name = (
-        f'{piece_movie_base_name}{piece_movie_extension}'
+    piece_movie_file_name = f'{piece_movie_base_name}{piece_movie_extension}'
+
+    upload_piece_movie(
+        uid=uid,
+        file_name=piece_movie_file_name,
+        file_path=piece_movie_path
     )
 
+    piece_thumbnail_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_thumbnail'
     splitted_piece_thumbnail_file_name = os.path.splitext(piece_thumbnail_path)
     piece_thumbnail_extension = splitted_piece_thumbnail_file_name[1]
     piece_thumbnail_file_name = (
         f'{piece_thumbnail_base_name}{piece_thumbnail_extension}'
+    )
+
+    upload_piece_thumbnail(
+        uid=uid,
+        file_name=piece_thumbnail_file_name,
+        file_path=piece_thumbnail_path
     )
 
     set_generated_piece(

@@ -100,3 +100,19 @@ def get_generated_piece_movie_base_path(id: str) -> str:
         f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
         f'{id}'
     )
+
+
+def upload_piece_movie(uid: str, file_name: str, file_path: str):
+    parent_directory = f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}'
+    os.makedirs(name=parent_directory, exist_ok=True)
+
+    destination_path = f'{parent_directory}/{file_name}'
+    copyfile(file_path, destination_path)
+
+
+def upload_piece_thumbnail(uid: str, file_name: str, file_path: str):
+    parent_directory = f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}'
+    os.makedirs(name=parent_directory, exist_ok=True)
+
+    destination_path = f'{parent_directory}/{file_name}'
+    copyfile(file_path, destination_path)
