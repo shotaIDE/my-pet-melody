@@ -6,23 +6,43 @@ from os.path import splitext
 from firebase_admin import storage
 
 from storage_path import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
-                          USER_MEDIA_DIRECTORY_NAME)
+                          THUMBNAIL_FILE_NAME, USER_MEDIA_DIRECTORY_NAME)
 
 
-def get_template_bgm_path(id: str) -> str:
+def get_template_bgm_path(template_id: str) -> str:
     bucket = storage.bucket()
 
     _, template_local_base_path = tempfile.mkstemp()
     template_local_path = f'{template_local_base_path}{TEMPLATE_EXTENSION}'
 
     template_relative_path = (
-        f'systemMedia/templates/{id}/{TEMPLATE_FILE_NAME}'
+        f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
     )
     template_blob = bucket.blob(template_relative_path)
 
     template_blob.download_to_filename(template_local_path)
 
     return template_local_path
+
+
+def upload_template_bgm(template_id: str, file_path: str):
+    bucket = storage.bucket()
+
+    template_relative_path = (
+        f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
+    )
+    template_blob = bucket.blob(template_relative_path)
+    template_blob.upload_from_filename(file_path)
+
+
+def upload_template_thumbnail(template_id: str, file_path: str):
+    bucket = storage.bucket()
+
+    thumbnail_relative_path = (
+        f'systemMedia/templates/{template_id}/{THUMBNAIL_FILE_NAME}'
+    )
+    thumbnail_blob = bucket.blob(thumbnail_relative_path)
+    thumbnail_blob.upload_from_filename(file_path)
 
 
 def get_unedited_user_media_path(uid: str, file_name: str) -> str:

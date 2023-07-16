@@ -2,16 +2,12 @@
 
 import json
 import os
-from shutil import copyfile
 
-from firebase_admin import storage
-
+import storage
+import storage_local
 from database import set_template
 from firebase import initialize_firebase
 from storage_path import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
-
-_STATIC_DIRECTORY = 'static'
-_TEMPLATES_DIRECTORY = 'templates'
 
 
 def generate_template():
@@ -64,43 +60,23 @@ def generate_template():
         thumbnail_source_path = f'{target_directory}/{THUMBNAIL_FILE_NAME}'
 
         if use_firebase_storage:
-
-            bucket = storage.bucket()
-
-            template_relative_path = (
-                # TODO: commonize relative path generations
-                f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
+            storage.upload_template_bgm(
+                template_id=template_id,
+                file_path=bgm_source_path
             )
-            template_blob = bucket.blob(template_relative_path)
-            template_blob.upload_from_filename(bgm_source_path)
-
-            thumbnail_relative_path = (
-                f'systemMedia/templates/{template_id}/{THUMBNAIL_FILE_NAME}'
+            storage.upload_template_thumbnail(
+                template_id=template_id,
+                file_path=thumbnail_source_path
             )
-            thumbnail_blob = bucket.blob(thumbnail_relative_path)
-            thumbnail_blob.upload_from_filename(thumbnail_source_path)
-
             continue
 
-        template_parent_directory = (
-            f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/{template_id}'
+        storage_local.upload_template_bgm(
+            template_id=template_id,
+            file_path=bgm_source_path
         )
-        os.makedirs(template_parent_directory)
-
-        bgm_destination_directory\
-            = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
-        copyfile(bgm_source_path, bgm_destination_directory)
-        print(
-            f'Copied BGM file "{bgm_source_path}" to '
-            f'"{bgm_destination_directory}"'
-        )
-
-        thumbnail_destination_directory\
-            = f'{template_parent_directory}/{TEMPLATE_FILE_NAME}'
-        copyfile(thumbnail_source_path, thumbnail_destination_directory)
-        print(
-            f'Copied thumbnail file "{thumbnail_source_path}" to '
-            f'"{thumbnail_destination_directory}"'
+        storage_local.upload_template_thumbnail(
+            template_id=template_id,
+            file_path=thumbnail_source_path
         )
 
 
