@@ -16,8 +16,8 @@ from detection import detect_non_silence
 from firebase import initialize_firebase
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
-from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
-                     USER_MEDIA_DIRECTORY_NAME)
+from storage_path import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
+                          USER_MEDIA_DIRECTORY_NAME)
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)

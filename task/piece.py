@@ -7,7 +7,7 @@ import ffmpeg
 from ffmpeg import Error
 from pydub import AudioSegment
 
-from storage import THUMBNAIL_EXTENSION
+from storage_path import THUMBNAIL_EXTENSION
 
 _OUTPUT_SOUND_EXTENSION = '.mp3'
 

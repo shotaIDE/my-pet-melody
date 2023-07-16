@@ -8,7 +8,7 @@ from firebase_admin import storage
 
 from database import set_template
 from firebase import initialize_firebase
-from storage import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
+from storage_path import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
 
 _STATIC_DIRECTORY = 'static'
 _TEMPLATES_DIRECTORY = 'templates'

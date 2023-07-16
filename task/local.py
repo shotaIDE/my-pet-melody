@@ -2,6 +2,7 @@
 
 import os
 from datetime import datetime
+from os.path import basename, splitext
 
 from auth import verify_authorization_header
 from database import (get_registration_tokens, get_template_overlays,
@@ -9,36 +10,29 @@ from database import (get_registration_tokens, get_template_overlays,
 from detection import detect_non_silence
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
-from storage import TEMPLATE_EXTENSION
+from storage_local import (get_generated_piece_movie_base_path,
+                           get_generated_piece_sound_base_path,
+                           get_generated_thumbnail_base_path,
+                           get_template_bgm_path, get_uploaded_thumbnail_path,
+                           get_user_media_path, save_user_media)
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
-from utils import generate_store_file_name
-
-_STATIC_DIRECTORY = 'static'
-_TEMPLATES_DIRECTORY = 'templates'
-_UPLOADS_DIRECTORY = 'uploads'
-_EXPORTS_DIRECTORY = 'exports'
 
 
 def upload(request):
-    f = request.files['file']
-    file_name = f.filename
+    file = request.files['file']
+    file_name = file.filename
 
-    store_file_name_base, store_file_extension = generate_store_file_name(
-        file_name=file_name
-    )
+    uploaded_file_path = save_user_media(file=file, file_name=file_name)
 
-    store_file_name = f'{store_file_name_base}{store_file_extension}'
-    store_path_path = (
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{store_file_name}'
-    )
-
-    f.save(store_path_path)
+    uploaded_file_name = basename(uploaded_file_path)
+    uploaded_file_base_name, uploaded_file_extension\
+        = splitext(uploaded_file_name)
 
     return {
-        'id': store_file_name_base,
-        'extension': store_file_extension,
+        'id': uploaded_file_base_name,
+        'extension': uploaded_file_extension,
     }
 
 
@@ -47,9 +41,7 @@ def detect(request):
 
     uploaded_file_name = request_params_json['fileName']
 
-    uploaded_path = (
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{uploaded_file_name}'
-    )
+    uploaded_path = get_user_media_path(file_name=uploaded_file_name)
 
     non_silences = detect_non_silence(store_path=uploaded_path)
 
@@ -140,23 +132,21 @@ def piece(request):
     thumbnail_base_name = request_params_json['thumbnailFileName']
 
     sound_paths = [
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{sound_base_name}'
+        get_user_media_path(file_name=sound_base_name)
         for sound_base_name in sound_base_names
     ]
 
     # TODO: ファイルの存在を確認するバリデーションチェック
     # TODO: 鳴き声が2つ存在することを確認するバリデーションチェック
 
-    template_path = (f'{_STATIC_DIRECTORY}/{_TEMPLATES_DIRECTORY}/'
-                     f'{template_id}{TEMPLATE_EXTENSION}')
+    template_path = get_template_bgm_path(id=template_id)
 
     overlays = get_template_overlays(id=template_id)
 
     current = datetime.now()
     piece_sound_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_sound'
-    piece_sound_base_path = (
-        f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
-        f'{piece_sound_base_name}'
+    piece_sound_base_path = get_generated_piece_sound_base_path(
+        id=piece_sound_base_name
     )
 
     piece_sound_path = generate_piece_sound(
@@ -166,20 +156,18 @@ def piece(request):
         export_base_path=piece_sound_base_path,
     )
 
-    thumbnail_path = (
-        f'{_STATIC_DIRECTORY}/{_UPLOADS_DIRECTORY}/{thumbnail_base_name}'
+    thumbnail_path = get_uploaded_thumbnail_path(
+        id=thumbnail_base_name
     )
 
     piece_thumbnail_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_thumbnail'
-    piece_thumbnail_base_path = (
-        f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
-        f'{piece_thumbnail_base_name}'
+    piece_thumbnail_base_path = get_generated_thumbnail_base_path(
+        id=piece_thumbnail_base_name
     )
 
     piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
-    piece_movie_base_path = (
-        f'{_STATIC_DIRECTORY}/{_EXPORTS_DIRECTORY}/'
-        f'{piece_movie_base_name}'
+    piece_movie_base_path = get_generated_piece_movie_base_path(
+        id=piece_movie_base_name
     )
 
     (piece_movie_path, piece_thumbnail_path) = generate_piece_movie(
