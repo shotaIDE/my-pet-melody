@@ -72,13 +72,13 @@ def generate_template():
                 f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
             )
             template_blob = bucket.blob(template_relative_path)
-            template_blob.upload_from_file(bgm_source_path)
+            template_blob.upload_from_filename(bgm_source_path)
 
             thumbnail_relative_path = (
                 f'systemMedia/templates/{template_id}/{THUMBNAIL_FILE_NAME}'
             )
             thumbnail_blob = bucket.blob(thumbnail_relative_path)
-            thumbnail_blob.upload_from_file(thumbnail_source_path)
+            thumbnail_blob.upload_from_filename(thumbnail_source_path)
 
             continue
 
