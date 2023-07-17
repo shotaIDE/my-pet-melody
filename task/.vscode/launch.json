@@ -60,7 +60,8 @@
       "env": {
         "FIREBASE_AUTH_EMULATOR_HOST": "localhost:9099",
         "FIRESTORE_EMULATOR_HOST": "localhost:8080",
-        "FIREBASE_STORAGE_EMULATOR_HOST": "localhost:9199"
+        "FIREBASE_STORAGE_EMULATOR_HOST": "localhost:9199",
+        "FEATURE_USE_FIREBASE_STORAGE": "false"
       }
     },
     {
@@ -70,7 +71,10 @@
       "program": "${workspaceFolder}/tools.py",
       "console": "integratedTerminal",
       "justMyCode": true,
-      "envFile": "${workspaceFolder}/.env.dev"
+      "envFile": "${workspaceFolder}/.env.dev",
+      "env": {
+        "FEATURE_USE_FIREBASE_STORAGE": "true"
+      }
     },
     {
       "name": "Generate Piece for Production",
@@ -79,7 +83,10 @@
       "program": "${workspaceFolder}/tools.py",
       "console": "integratedTerminal",
       "justMyCode": true,
-      "envFile": "${workspaceFolder}/.env.prod"
+      "envFile": "${workspaceFolder}/.env.prod",
+      "env": {
+        "FEATURE_USE_FIREBASE_STORAGE": "true"
+      }
     },
     {
       "name": "Evaluate Detections Methods",

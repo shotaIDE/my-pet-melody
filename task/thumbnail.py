@@ -4,14 +4,16 @@ import base64
 
 import cv2
 
+from storage_rule import THUMBNAIL_EXTENSION
+
 _NUM_SEGMENT = 10
 # Apply x2 size when displayed on mobile side
 _EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_HEIGHT = 24 * 2
 _SPECIFIED_SEGMENT_THUMBNAIL_HEIGHT = 74 * 2
 
 
-def generate_equally_divided_segments(store_path: str) -> list[str]:
-    capture = cv2.VideoCapture(store_path)
+def generate_equally_divided_segments(sound_path: str) -> list[str]:
+    capture = cv2.VideoCapture(sound_path)
 
     frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
 
@@ -36,9 +38,9 @@ def generate_equally_divided_segments(store_path: str) -> list[str]:
 
 
 def generate_specified_segments(
-        store_path: str, segments_starts_milliseconds: list[int]
+        sound_path: str, segments_starts_milliseconds: list[int]
 ) -> list[str]:
-    capture = cv2.VideoCapture(store_path)
+    capture = cv2.VideoCapture(sound_path)
 
     fps = int(capture.get(cv2.CAP_PROP_FPS))
 
@@ -77,6 +79,6 @@ def _get_resized_base64_frame(
         (new_width, resized_height)
     )
 
-    image_encoded_frame = cv2.imencode('.png', resized_frame)[1]
+    image_encoded_frame = cv2.imencode(THUMBNAIL_EXTENSION, resized_frame)[1]
 
     return base64.b64encode(image_encoded_frame).decode('utf-8')

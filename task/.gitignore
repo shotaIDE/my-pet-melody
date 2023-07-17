@@ -7,6 +7,7 @@
 !/static/templates/.gitkeep
 /static/uploads
 !/static/uploads/.gitkeep
+/templates
 
 /.env.*
 !/.env.example

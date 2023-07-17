@@ -7,6 +7,8 @@ import ffmpeg
 from ffmpeg import Error
 from pydub import AudioSegment
 
+from storage_rule import THUMBNAIL_EXTENSION
+
 _OUTPUT_SOUND_EXTENSION = '.mp3'
 
 
@@ -85,7 +87,9 @@ def generate_piece_movie(
 
     sound = ffmpeg.input(piece_sound_path)
 
-    thumbnail_output_path = f'{thumbnail_export_base_path}.png'
+    thumbnail_output_path = (
+        f'{thumbnail_export_base_path}{THUMBNAIL_EXTENSION}'
+    )
 
     thumbnail_stream = ffmpeg.output(
         background_image,

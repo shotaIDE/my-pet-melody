@@ -14,12 +14,12 @@ class StorageServiceLocalFlask implements StorageService {
 
   @override
   Future<String> templateMusicUrl({required String id}) async {
-    return '${AppDefinitions.serverOrigin}/static/templates/$id.wav';
+    return '${AppDefinitions.serverOrigin}/static/templates/$id/bgm.m4a';
   }
 
   @override
   Future<String> templateThumbnailUrl({required String id}) async {
-    return '${AppDefinitions.serverOrigin}/static/templates/$id.png';
+    return '${AppDefinitions.serverOrigin}/static/templates/$id/thumbnail.png';
   }
 
   @override

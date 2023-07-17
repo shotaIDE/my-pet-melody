@@ -5,7 +5,6 @@ import os
 import tempfile
 from datetime import datetime, timedelta
 
-from firebase_admin import storage
 from google.cloud import tasks_v2
 from google.protobuf import timestamp_pb2
 
@@ -16,8 +15,9 @@ from detection import detect_non_silence
 from firebase import initialize_firebase
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
-from storage import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
-                     USER_MEDIA_DIRECTORY_NAME)
+from storage import (download_edited_user_media, download_template_bgm,
+                     download_unedited_user_media, upload_piece_movie,
+                     upload_piece_thumbnail)
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
@@ -33,26 +33,16 @@ def detect(request):
     request_params_json = request.json
 
     uploaded_file_name = request_params_json['fileName']
-    splitted_file_name = os.path.splitext(uploaded_file_name)
-    uploaded_extension = splitted_file_name[1]
 
-    bucket = storage.bucket()
-
-    _, uploaded_local_base_path = tempfile.mkstemp()
-    uploaded_local_path = f'{uploaded_local_base_path}{uploaded_extension}'
-
-    uploaded_relative_path = (
-        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'unedited/{uploaded_file_name}'
+    sound_path = download_unedited_user_media(
+        uid=uid,
+        file_name=uploaded_file_name
     )
-    uploaded_blob = bucket.blob(uploaded_relative_path)
 
-    uploaded_blob.download_to_filename(uploaded_local_path)
-
-    non_silences = detect_non_silence(store_path=uploaded_local_path)
+    non_silences = detect_non_silence(sound_path=sound_path)
 
     equally_devided_segment_thumbnails = generate_equally_divided_segments(
-        store_path=uploaded_local_path
+        sound_path=sound_path
     )
 
     non_silence_starts_milliseconds = [
@@ -60,7 +50,7 @@ def detect(request):
         for non_silence in non_silences['segments']
     ]
     non_silence_segment_thumbnails = generate_specified_segments(
-        store_path=uploaded_local_path,
+        sound_path=sound_path,
         segments_starts_milliseconds=non_silence_starts_milliseconds,
     )
 
@@ -100,9 +90,9 @@ def submit(request):
 
     request_params_json = request.json
     template_id = request_params_json['templateId']
-    sound_base_names = request_params_json['soundFileNames']
+    sound_file_names = request_params_json['soundFileNames']
     display_name = request_params_json['displayName']
-    thumbnail_base_name = request_params_json['thumbnailFileName']
+    thumbnail_file_name = request_params_json['thumbnailFileName']
 
     uid = verify_authorization_header(value=authorization_value)
 
@@ -115,10 +105,12 @@ def submit(request):
     else:
         eliminate_waiting_time = False
 
+    print(f'Eliminate waiting time: {eliminate_waiting_time}')
+
     piece_id = set_generating_piece(
         uid=uid,
         display_name=display_name,
-        thumbnail_file_name=thumbnail_base_name,
+        thumbnail_file_name=thumbnail_file_name,
         submitted_at=datetime.now(),
     )
 
@@ -132,9 +124,9 @@ def submit(request):
         'uid': uid,
         'pieceId': piece_id,
         'templateId': template_id,
-        'soundFileNames': sound_base_names,
+        'soundFileNames': sound_file_names,
         'displayName': display_name,
-        'thumbnailFileName': thumbnail_base_name,
+        'thumbnailFileName': thumbnail_file_name,
     }
     payload = json.dumps(body_dict)
     converted_payload = payload.encode()
@@ -178,109 +170,69 @@ def piece(request):
     piece_id = request_params_json['pieceId']
 
     template_id = request_params_json['templateId']
-    sound_base_names = request_params_json['soundFileNames']
+    sound_file_names = request_params_json['soundFileNames']
     display_name = request_params_json['displayName']
     thumbnail_file_name = request_params_json['thumbnailFileName']
 
+    template_path = download_template_bgm(template_id=template_id)
+
+    sound_paths = [
+        download_edited_user_media(uid=uid, file_name=sound_file_name)
+        for sound_file_name in sound_file_names
+    ]
+
     overlays = get_template_overlays(id=template_id)
 
-    bucket = storage.bucket()
+    _, piece_sound_base_path = tempfile.mkstemp()
 
-    _, template_local_base_path = tempfile.mkstemp()
-    template_local_path = f'{template_local_base_path}{TEMPLATE_EXTENSION}'
-
-    template_relative_path = (
-        f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
-    )
-    template_blob = bucket.blob(template_relative_path)
-
-    template_blob.download_to_filename(template_local_path)
-
-    sound_local_paths = []
-    for sound_base_name in sound_base_names:
-        _, sound_local_base_path = tempfile.mkstemp()
-        splitted_piece_movie_file_name = os.path.splitext(sound_base_name)
-        sound_extension = splitted_piece_movie_file_name[1]
-        sound_local_path = f'{sound_local_base_path}{sound_extension}'
-
-        sound_relative_path = (
-            f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-            f'edited/{sound_base_name}'
-        )
-        sound_blob = bucket.blob(sound_relative_path)
-
-        sound_blob.download_to_filename(sound_local_path)
-
-        sound_local_paths.append(sound_local_path)
-
-    # TODO: ファイルの存在を確認するバリデーションチェック
-    # TODO: 鳴き声が2つ存在することを確認するバリデーションチェック
-
-    _, piece_sound_local_base_path = tempfile.mkstemp()
-
-    piece_sound_local_path = generate_piece_sound(
-        template_path=template_local_path,
-        sound_paths=sound_local_paths,
+    piece_sound_path = generate_piece_sound(
+        template_path=template_path,
+        sound_paths=sound_paths,
         overlays=overlays,
-        export_base_path=piece_sound_local_base_path,
+        export_base_path=piece_sound_base_path,
     )
 
-    _, thumbnail_local_base_path = tempfile.mkstemp()
-    splitted_thumbnail_file_name = os.path.splitext(thumbnail_file_name)
-    thumbnail_extension = splitted_thumbnail_file_name[1]
-    thumbnail_local_path = f'{thumbnail_local_base_path}{thumbnail_extension}'
-
-    thumbnail_relative_path = (
-        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'edited/{thumbnail_file_name}'
+    thumbnail_path = download_edited_user_media(
+        uid=uid,
+        file_name=thumbnail_file_name
     )
-    thumbnail_blob = bucket.blob(thumbnail_relative_path)
 
-    thumbnail_blob.download_to_filename(thumbnail_local_path)
+    _, piece_movie_base_path = tempfile.mkstemp()
 
-    _, piece_movie_local_base_path = tempfile.mkstemp()
+    _, piece_thumbnail_base_path = tempfile.mkstemp()
 
-    _, piece_thumbnail_local_base_path = tempfile.mkstemp()
-
-    (piece_movie_local_path, piece_thumbnail_local_path) = \
-        generate_piece_movie(
-            thumbnail_path=thumbnail_local_path,
-            piece_sound_path=piece_sound_local_path,
-            title=display_name,
-            thumbnail_export_base_path=piece_thumbnail_local_base_path,
-            movie_export_base_path=piece_movie_local_base_path,
+    piece_movie_path, piece_thumbnail_path = generate_piece_movie(
+        thumbnail_path=thumbnail_path,
+        piece_sound_path=piece_sound_path,
+        title=display_name,
+        thumbnail_export_base_path=piece_thumbnail_base_path,
+        movie_export_base_path=piece_movie_base_path,
     )
 
     current = datetime.now()
     piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
-    splitted_piece_movie_file_name = os.path.splitext(
-        piece_movie_local_path)
+    splitted_piece_movie_file_name = os.path.splitext(piece_movie_path)
     piece_movie_extension = splitted_piece_movie_file_name[1]
     piece_movie_file_name = f'{piece_movie_base_name}{piece_movie_extension}'
 
-    piece_movie_relative_path = (
-        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'generatedPieces/{piece_movie_file_name}'
+    upload_piece_movie(
+        uid=uid,
+        file_name=piece_movie_file_name,
+        file_path=piece_movie_path
     )
-    piece_movie_blob = bucket.blob(piece_movie_relative_path)
-
-    piece_movie_blob.upload_from_filename(piece_movie_local_path)
 
     piece_thumbnail_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_thumbnail'
-    splitted_piece_thumbnail_file_name = os.path.splitext(
-        piece_thumbnail_local_path)
+    splitted_piece_thumbnail_file_name = os.path.splitext(piece_thumbnail_path)
     piece_thumbnail_extension = splitted_piece_thumbnail_file_name[1]
     piece_thumbnail_file_name = (
         f'{piece_thumbnail_base_name}{piece_thumbnail_extension}'
     )
 
-    piece_thumbnail_relative_path = (
-        f'{USER_MEDIA_DIRECTORY_NAME}/{uid}/'
-        f'generatedThumbnail/{piece_thumbnail_file_name}'
+    upload_piece_thumbnail(
+        uid=uid,
+        file_name=piece_thumbnail_file_name,
+        file_path=piece_thumbnail_path
     )
-    piece_thumbnail_blob = bucket.blob(piece_thumbnail_relative_path)
-
-    piece_thumbnail_blob.upload_from_filename(piece_thumbnail_local_path)
 
     set_generated_piece(
         uid=uid,

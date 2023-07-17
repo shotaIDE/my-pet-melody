@@ -20,7 +20,7 @@ class StorageServiceFirebase implements StorageService {
   Future<String> templateMusicUrl({required String id}) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    final pathRef = storageRef.child('systemMedia/templates/$id/template.wav');
+    final pathRef = storageRef.child('systemMedia/templates/$id/bgm.m4a');
 
     return pathRef.getDownloadURL();
   }
