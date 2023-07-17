@@ -181,9 +181,6 @@ def piece(request):
         for sound_file_name in sound_file_names
     ]
 
-    # TODO: ファイルの存在を確認するバリデーションチェック
-    # TODO: 鳴き声が2つ存在することを確認するバリデーションチェック
-
     overlays = get_template_overlays(id=template_id)
 
     _, piece_sound_base_path = tempfile.mkstemp()
