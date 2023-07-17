@@ -43,10 +43,10 @@ def detect_speech_or_music(sound_path: str) -> dict:
     return result
 
 
-def detect_non_silence(file_path: str) -> dict:
+def detect_non_silence(sound_path: str) -> dict:
     detector = detect_non_silence_by_threshould(silence_threshould=-30)
 
-    return detector(file_path)
+    return detector(sound_path)
 
 
 def detect_non_silence_without_normalize_by_threshould(

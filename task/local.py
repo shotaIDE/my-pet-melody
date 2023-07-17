@@ -48,7 +48,7 @@ def detect(request):
         file_name=uploaded_file_name
     )
 
-    non_silences = detect_non_silence(file_path=sound_path)
+    non_silences = detect_non_silence(sound_path=sound_path)
 
     equally_devided_segment_thumbnails = generate_equally_divided_segments(
         sound_path=sound_path
