@@ -17,9 +17,9 @@ def download_template_bgm(template_id: str) -> str:
     _, local_base_path = tempfile.mkstemp()
     local_path = f'{local_base_path}{TEMPLATE_EXTENSION}'
 
-    relative_path = (
-        f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
-    )
+    parent_relative_directory = \
+        _get_template_directory(template_id=template_id)
+    relative_path = f'{parent_relative_directory}/{TEMPLATE_FILE_NAME}'
     blob = bucket.blob(relative_path)
 
     blob.download_to_filename(local_path)
@@ -30,9 +30,9 @@ def download_template_bgm(template_id: str) -> str:
 def upload_template_bgm(template_id: str, file_path: str):
     bucket = storage.bucket()
 
-    relative_path = (
-        f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
-    )
+    parent_relative_directory = \
+        _get_template_directory(template_id=template_id)
+    relative_path = f'{parent_relative_directory}/{TEMPLATE_FILE_NAME}'
     blob = bucket.blob(relative_path)
 
     blob.upload_from_filename(file_path)
@@ -41,9 +41,9 @@ def upload_template_bgm(template_id: str, file_path: str):
 def upload_template_thumbnail(template_id: str, file_path: str):
     bucket = storage.bucket()
 
-    relative_path = (
-        f'systemMedia/templates/{template_id}/{THUMBNAIL_FILE_NAME}'
-    )
+    parent_relative_directory = \
+        _get_template_directory(template_id=template_id)
+    relative_path = f'{parent_relative_directory}/{THUMBNAIL_FILE_NAME}'
     blob = bucket.blob(relative_path)
 
     blob.upload_from_filename(file_path)
@@ -110,3 +110,11 @@ def upload_piece_thumbnail(uid: str, file_name: str, file_path: str):
     blob = bucket.blob(relative_path)
 
     blob.upload_from_filename(file_path)
+
+
+def _get_template_directory(template_id: str):
+    return f'systemMedia/templates/{template_id}'
+
+
+def _get_user_media_parent_directory(uid: str):
+    return f'{_USER_MEDIA_RELATIVE_PARENT_PATH}/{uid}'
