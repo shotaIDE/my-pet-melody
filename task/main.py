@@ -211,8 +211,7 @@ def piece(request):
 
     current = datetime.now()
     piece_movie_base_name = f'{current.strftime("%Y%m%d%H%M%S")}_movie'
-    splitted_piece_movie_file_name = os.path.splitext(
-        piece_movie_path)
+    splitted_piece_movie_file_name = os.path.splitext(piece_movie_path)
     piece_movie_extension = splitted_piece_movie_file_name[1]
     piece_movie_file_name = f'{piece_movie_base_name}{piece_movie_extension}'
 
