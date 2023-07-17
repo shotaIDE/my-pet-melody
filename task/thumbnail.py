@@ -12,8 +12,8 @@ _EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_HEIGHT = 24 * 2
 _SPECIFIED_SEGMENT_THUMBNAIL_HEIGHT = 74 * 2
 
 
-def generate_equally_divided_segments(store_path: str) -> list[str]:
-    capture = cv2.VideoCapture(store_path)
+def generate_equally_divided_segments(sound_path: str) -> list[str]:
+    capture = cv2.VideoCapture(sound_path)
 
     frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
 
@@ -38,9 +38,9 @@ def generate_equally_divided_segments(store_path: str) -> list[str]:
 
 
 def generate_specified_segments(
-        store_path: str, segments_starts_milliseconds: list[int]
+        sound_path: str, segments_starts_milliseconds: list[int]
 ) -> list[str]:
-    capture = cv2.VideoCapture(store_path)
+    capture = cv2.VideoCapture(sound_path)
 
     fps = int(capture.get(cv2.CAP_PROP_FPS))
 

@@ -51,7 +51,7 @@ def detect(request):
     non_silences = detect_non_silence(file_path=sound_path)
 
     equally_devided_segment_thumbnails = generate_equally_divided_segments(
-        store_path=sound_path
+        sound_path=sound_path
     )
 
     non_silence_starts_milliseconds = [
@@ -59,7 +59,7 @@ def detect(request):
         for non_silence in non_silences['segments']
     ]
     non_silence_segment_thumbnails = generate_specified_segments(
-        store_path=sound_path,
+        sound_path=sound_path,
         segments_starts_milliseconds=non_silence_starts_milliseconds,
     )
 
