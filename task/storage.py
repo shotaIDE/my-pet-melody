@@ -14,37 +14,39 @@ _USER_MEDIA_RELATIVE_PARENT_PATH = 'userMedia'
 def download_template_bgm(template_id: str) -> str:
     bucket = storage.bucket()
 
-    _, template_local_base_path = tempfile.mkstemp()
-    template_local_path = f'{template_local_base_path}{TEMPLATE_EXTENSION}'
+    _, local_base_path = tempfile.mkstemp()
+    local_path = f'{local_base_path}{TEMPLATE_EXTENSION}'
 
-    template_relative_path = (
+    relative_path = (
         f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
     )
-    template_blob = bucket.blob(template_relative_path)
+    blob = bucket.blob(relative_path)
 
-    template_blob.download_to_filename(template_local_path)
+    blob.download_to_filename(local_path)
 
-    return template_local_path
+    return local_path
 
 
 def upload_template_bgm(template_id: str, file_path: str):
     bucket = storage.bucket()
 
-    template_relative_path = (
+    relative_path = (
         f'systemMedia/templates/{template_id}/{TEMPLATE_FILE_NAME}'
     )
-    template_blob = bucket.blob(template_relative_path)
-    template_blob.upload_from_filename(file_path)
+    blob = bucket.blob(relative_path)
+
+    blob.upload_from_filename(file_path)
 
 
 def upload_template_thumbnail(template_id: str, file_path: str):
     bucket = storage.bucket()
 
-    thumbnail_relative_path = (
+    relative_path = (
         f'systemMedia/templates/{template_id}/{THUMBNAIL_FILE_NAME}'
     )
-    thumbnail_blob = bucket.blob(thumbnail_relative_path)
-    thumbnail_blob.upload_from_filename(file_path)
+    blob = bucket.blob(relative_path)
+
+    blob.upload_from_filename(file_path)
 
 
 def download_unedited_user_media(uid: str, file_name: str) -> str:
