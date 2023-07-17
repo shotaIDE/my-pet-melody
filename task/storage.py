@@ -1,7 +1,7 @@
 # coding: utf-8
 
+import os
 import tempfile
-from os.path import splitext
 
 from firebase_admin import storage
 
@@ -50,7 +50,7 @@ def upload_template_thumbnail(template_id: str, file_path: str):
 def download_unedited_user_media(uid: str, file_name: str) -> str:
     bucket = storage.bucket()
 
-    splitted_file_name = splitext(file_name)
+    splitted_file_name = os.path.splitext(file_name)
     file_extension = splitted_file_name[1]
 
     _, local_base_path = tempfile.mkstemp()
@@ -68,7 +68,7 @@ def download_unedited_user_media(uid: str, file_name: str) -> str:
 
 def download_edited_user_media(uid: str, file_name: str) -> str:
     _, local_base_path = tempfile.mkstemp()
-    splitted_file_name = splitext(file_name)
+    splitted_file_name = os.path.splitext(file_name)
     file_extension = splitted_file_name[1]
     local_path = f'{local_base_path}{file_extension}'
 
