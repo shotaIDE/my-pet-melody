@@ -26,15 +26,15 @@ def upload(request):
     _, file_path = tempfile.mkstemp()
     file.save(file_path)
 
-    file_name_base, file_extension = generate_store_file_name(
+    file_base_name, file_extension = generate_store_file_name(
         file_name=original_file_name
     )
-    file_name = f'{file_name_base}{file_extension}'
+    file_name = f'{file_base_name}{file_extension}'
 
     upload_user_media(file_name=file_name, file_path=file_path)
 
     return {
-        'id': file_name_base,
+        'id': file_base_name,
         'extension': file_extension,
     }
 
