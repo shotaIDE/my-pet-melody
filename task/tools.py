@@ -54,7 +54,7 @@ def generate_template():
             overlays=overlays,
         )
 
-        print(f'Created template: ID={template_id}')
+        print(f'Created template: ID = {template_id}')
 
         bgm_source_path = f'{target_directory}/{TEMPLATE_FILE_NAME}'
         thumbnail_source_path = f'{target_directory}/{THUMBNAIL_FILE_NAME}'
