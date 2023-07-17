@@ -8,8 +8,6 @@ from firebase_admin import storage
 from storage_rule import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                           THUMBNAIL_FILE_NAME)
 
-_USER_MEDIA_RELATIVE_PARENT_PATH = 'userMedia'
-
 
 def download_template_bgm(template_id: str) -> str:
     bucket = storage.bucket()
@@ -58,9 +56,8 @@ def download_unedited_user_media(uid: str, file_name: str) -> str:
     _, local_base_path = tempfile.mkstemp()
     local_path = f'{local_base_path}{file_extension}'
 
-    parent_relative_directory = (
-        f'{_USER_MEDIA_RELATIVE_PARENT_PATH}/{uid}/unedited'
-    )
+    parent_relative_directory = \
+        _get_unedited_user_media_relative_directory(uid=uid)
     relative_path = f'{parent_relative_directory}/{file_name}'
     blob = bucket.blob(relative_path)
 
@@ -77,9 +74,8 @@ def download_edited_user_media(uid: str, file_name: str) -> str:
 
     bucket = storage.bucket()
 
-    parent_relative_directory = (
-        f'{_USER_MEDIA_RELATIVE_PARENT_PATH}/{uid}/edited'
-    )
+    parent_relative_directory = \
+        _get_edited_user_media_relative_directory(uid=uid)
     relative_path = f'{parent_relative_directory}/{file_name}'
     blob = bucket.blob(relative_path)
 
@@ -91,9 +87,8 @@ def download_edited_user_media(uid: str, file_name: str) -> str:
 def upload_piece_movie(uid: str, file_name: str, file_path: str):
     bucket = storage.bucket()
 
-    parent_relative_directory = (
-        f'{_USER_MEDIA_RELATIVE_PARENT_PATH}/{uid}/generatedPieces'
-    )
+    parent_relative_directory = \
+        _get_generated_pieces_relative_directory(uid=uid)
     relative_path = f'{parent_relative_directory}/{file_name}'
     blob = bucket.blob(relative_path)
 
@@ -103,9 +98,8 @@ def upload_piece_movie(uid: str, file_name: str, file_path: str):
 def upload_piece_thumbnail(uid: str, file_name: str, file_path: str):
     bucket = storage.bucket()
 
-    parent_relative_directory = (
-        f'{_USER_MEDIA_RELATIVE_PARENT_PATH}/{uid}/generatedThumbnail'
-    )
+    parent_relative_directory = \
+        _get_generated_thumbnail_relative_directory(uid=uid)
     relative_path = f'{parent_relative_directory}/{file_name}'
     blob = bucket.blob(relative_path)
 
@@ -116,5 +110,29 @@ def _get_template_directory(template_id: str):
     return f'systemMedia/templates/{template_id}'
 
 
-def _get_user_media_parent_directory(uid: str):
-    return f'{_USER_MEDIA_RELATIVE_PARENT_PATH}/{uid}'
+def _get_unedited_user_media_relative_directory(uid: str):
+    user_media_parent_directory = \
+        _get_user_media_parent_relative_directory(uid=uid)
+    return f'{user_media_parent_directory}/unedited'
+
+
+def _get_edited_user_media_relative_directory(uid: str):
+    user_media_parent_directory = \
+        _get_user_media_parent_relative_directory(uid=uid)
+    return f'{user_media_parent_directory}/edited'
+
+
+def _get_generated_pieces_relative_directory(uid: str):
+    user_media_parent_directory = \
+        _get_user_media_parent_relative_directory(uid=uid)
+    return f'{user_media_parent_directory}/generatedPieces'
+
+
+def _get_generated_thumbnail_relative_directory(uid: str):
+    user_media_parent_directory = \
+        _get_user_media_parent_relative_directory(uid=uid)
+    return f'{user_media_parent_directory}/generatedThumbnail'
+
+
+def _get_user_media_parent_relative_directory(uid: str):
+    return f'userMedia/{uid}'
