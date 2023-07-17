@@ -16,8 +16,8 @@ from firebase import initialize_firebase
 from messaging import send_completed_to_generate_piece
 from piece import generate_piece_movie, generate_piece_sound
 from storage import (download_edited_user_media, download_template_bgm,
-                     download_unedited_user_media, get_uploaded_thumbnail_path,
-                     upload_piece_movie, upload_piece_thumbnail)
+                     download_unedited_user_media, upload_piece_movie,
+                     upload_piece_thumbnail)
 from subscription import fetch_is_premium_plan
 from thumbnail import (generate_equally_divided_segments,
                        generate_specified_segments)
@@ -192,7 +192,7 @@ def piece(request):
         export_base_path=piece_sound_base_path,
     )
 
-    thumbnail_path = get_uploaded_thumbnail_path(
+    thumbnail_path = download_edited_user_media(
         uid=uid,
         file_name=thumbnail_file_name
     )
