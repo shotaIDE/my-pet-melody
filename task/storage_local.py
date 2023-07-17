@@ -50,15 +50,11 @@ def upload_user_media(file_name: str, file_path: str):
 
 
 def download_unedited_user_media(file_name: str) -> str:
-    return (
-        f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{file_name}'
-    )
+    return f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{file_name}'
 
 
 def download_edited_user_media(file_name: str) -> str:
-    return (
-        f'{_EDITED_USER_MEDIA_DIRECTORY}/{file_name}'
-    )
+    return f'{_EDITED_USER_MEDIA_DIRECTORY}/{file_name}'
 
 
 def upload_piece_movie(file_name: str, file_path: str):
