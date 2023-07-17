@@ -10,46 +10,35 @@ from storage_rule import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
 
 
 def download_template_bgm(template_id: str) -> str:
-    bucket = storage.bucket()
-
     _, local_base_path = tempfile.mkstemp()
     local_path = f'{local_base_path}{TEMPLATE_EXTENSION}'
 
     parent_relative_directory = \
         _get_template_directory(template_id=template_id)
     relative_path = f'{parent_relative_directory}/{TEMPLATE_FILE_NAME}'
-    blob = bucket.blob(relative_path)
 
-    blob.download_to_filename(local_path)
+    _download(relative_path=relative_path, local_path=local_path)
 
     return local_path
 
 
 def upload_template_bgm(template_id: str, file_path: str):
-    bucket = storage.bucket()
-
     parent_relative_directory = \
         _get_template_directory(template_id=template_id)
     relative_path = f'{parent_relative_directory}/{TEMPLATE_FILE_NAME}'
-    blob = bucket.blob(relative_path)
 
-    blob.upload_from_filename(file_path)
+    _upload(relative_path=relative_path, local_path=file_path)
 
 
 def upload_template_thumbnail(template_id: str, file_path: str):
-    bucket = storage.bucket()
-
     parent_relative_directory = \
         _get_template_directory(template_id=template_id)
     relative_path = f'{parent_relative_directory}/{THUMBNAIL_FILE_NAME}'
-    blob = bucket.blob(relative_path)
 
-    blob.upload_from_filename(file_path)
+    _upload(relative_path=relative_path, local_path=file_path)
 
 
 def download_unedited_user_media(uid: str, file_name: str) -> str:
-    bucket = storage.bucket()
-
     splitted_file_name = os.path.splitext(file_name)
     file_extension = splitted_file_name[1]
 
@@ -59,51 +48,42 @@ def download_unedited_user_media(uid: str, file_name: str) -> str:
     parent_relative_directory = \
         _get_unedited_user_media_relative_directory(uid=uid)
     relative_path = f'{parent_relative_directory}/{file_name}'
-    blob = bucket.blob(relative_path)
 
-    blob.download_to_filename(local_path)
+    _download(relative_path=relative_path, local_path=local_path)
 
     return local_path
 
 
 def download_edited_user_media(uid: str, file_name: str) -> str:
-    _, local_base_path = tempfile.mkstemp()
     splitted_file_name = os.path.splitext(file_name)
     file_extension = splitted_file_name[1]
-    local_path = f'{local_base_path}{file_extension}'
 
-    bucket = storage.bucket()
+    _, local_base_path = tempfile.mkstemp()
+    local_path = f'{local_base_path}{file_extension}'
 
     parent_relative_directory = \
         _get_edited_user_media_relative_directory(uid=uid)
     relative_path = f'{parent_relative_directory}/{file_name}'
-    blob = bucket.blob(relative_path)
 
-    blob.download_to_filename(local_path)
+    _download(relative_path=relative_path, local_path=local_path)
 
     return local_path
 
 
 def upload_piece_movie(uid: str, file_name: str, file_path: str):
-    bucket = storage.bucket()
-
     parent_relative_directory = \
         _get_generated_pieces_relative_directory(uid=uid)
     relative_path = f'{parent_relative_directory}/{file_name}'
-    blob = bucket.blob(relative_path)
 
-    blob.upload_from_filename(file_path)
+    _upload(relative_path=relative_path, local_path=file_path)
 
 
 def upload_piece_thumbnail(uid: str, file_name: str, file_path: str):
-    bucket = storage.bucket()
-
     parent_relative_directory = \
         _get_generated_thumbnail_relative_directory(uid=uid)
     relative_path = f'{parent_relative_directory}/{file_name}'
-    blob = bucket.blob(relative_path)
 
-    blob.upload_from_filename(file_path)
+    _upload(relative_path=relative_path, local_path=file_path)
 
 
 def _get_template_directory(template_id: str):
@@ -136,3 +116,19 @@ def _get_generated_thumbnail_relative_directory(uid: str):
 
 def _get_user_media_parent_relative_directory(uid: str):
     return f'userMedia/{uid}'
+
+
+def _download(relative_path: str, local_path: str):
+    bucket = storage.bucket()
+
+    blob = bucket.blob(relative_path)
+
+    blob.download_to_filename(local_path)
+
+
+def _upload(relative_path: str, local_path: str):
+    bucket = storage.bucket()
+
+    blob = bucket.blob(relative_path)
+
+    blob.upload_from_filename(local_path)
