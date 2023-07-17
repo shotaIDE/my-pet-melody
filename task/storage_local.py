@@ -6,7 +6,6 @@ from shutil import copyfile
 from storage_rule import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
 
 _PARENT_DIRECTORY = 'static'
-_TEMPLATES_DIRECTORY = f'{_PARENT_DIRECTORY}/templates'
 _UNEDITED_USER_MEDIA_DIRECTORY = f'{_PARENT_DIRECTORY}/uploads'
 _EDITED_USER_MEDIA_DIRECTORY = f'{_PARENT_DIRECTORY}/uploads'
 _GENERATED_PIECE_DIRECTORY = f'{_PARENT_DIRECTORY}/exports'
@@ -72,4 +71,4 @@ def upload_piece_thumbnail(file_name: str, file_path: str):
 
 
 def _get_template_directory(template_id: str):
-    return f'{_TEMPLATES_DIRECTORY}/{template_id}'
+    return f'{_PARENT_DIRECTORY}/templates/{template_id}'
