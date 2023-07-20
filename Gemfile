@@ -5,4 +5,7 @@ gem 'fastlane'
 gem 'rubocop'
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
-eval_gemfile(plugins_path) if File.exist?(plugins_path)
+# No use of defined variable is a workaround
+# for Gemfile parsing failure in dependabot.
+# See https://github.com/dependabot/dependabot-core/issues/1720#issuecomment-600831687
+eval_gemfile('fastlane/Pluginfile') if File.exist?(plugins_path)
