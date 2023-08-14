@@ -11,7 +11,7 @@
       "module": "flask",
       "env": {
         "FLASK_APP": "app.py",
-        "FLASK_ENV": "development",
+        "FLASK_DEBUG": "1",
         "FUNCTION_NAME": "dummy",
         "FIREBASE_AUTH_EMULATOR_HOST": "localhost:9099",
         "FIRESTORE_EMULATOR_HOST": "localhost:8080",
@@ -28,7 +28,7 @@
       "module": "flask",
       "env": {
         "FLASK_APP": "app.py",
-        "FLASK_ENV": "development",
+        "FLASK_DEBUG": "1",
         "FUNCTION_NAME": "dummy"
       },
       "envFile": "${workspaceFolder}/.env.dev",
@@ -42,7 +42,7 @@
       "module": "flask",
       "env": {
         "FLASK_APP": "app.py",
-        "FLASK_ENV": "development",
+        "FLASK_DEBUG": "1",
         "FUNCTION_NAME": "dummy"
       },
       "envFile": "${workspaceFolder}/.env.prod",
