@@ -8,5 +8,6 @@ class VideoState with _$VideoState {
   const factory VideoState({
     required String title,
     @Default(null) ChewieController? controller,
+    @Default(false) bool isProcessing,
   }) = _VideoState;
 }

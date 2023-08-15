@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/types.dart';
@@ -14,8 +12,6 @@ import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/home_state.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
   HomeViewModel({
@@ -72,27 +68,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
 
     _displayPieceMakingIsRestricted?.call();
-  }
-
-  Future<void> share({required PieceGenerated piece}) async {
-    state = state.copyWith(isProcessing: true);
-
-    final dio = Dio();
-
-    final pieceName = piece.name;
-
-    final parentDirectory = await getApplicationDocumentsDirectory();
-    final parentPath = parentDirectory.path;
-    final directory = Directory('$parentPath/$pieceName');
-    await directory.create(recursive: true);
-
-    final path = '${directory.path}/$pieceName${piece.movieExtension}';
-    await dio.download(piece.movieUrl, path);
-
-    final xFile = XFile(path);
-    await Share.shareXFiles([xFile]);
-
-    state = state.copyWith(isProcessing: false);
   }
 
   Future<void> _setup({required Listener listener}) async {

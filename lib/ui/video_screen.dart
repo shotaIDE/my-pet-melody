@@ -57,9 +57,17 @@ class _VideoScreenState extends ConsumerState<VideoScreen> {
             controller: controller,
           );
 
-    return Scaffold(
+    final shareButton = IconButton(
+      onPressed: () => ref.read(widget.viewModel.notifier).share(),
+      icon: const Icon(Icons.share),
+    );
+
+    final scaffold = Scaffold(
       appBar: AppBar(
         title: Text(state.title),
+        actions: [
+          shareButton,
+        ],
       ),
       body: SafeArea(
         top: false,
@@ -67,5 +75,19 @@ class _VideoScreenState extends ConsumerState<VideoScreen> {
       ),
       resizeToAvoidBottomInset: false,
     );
+
+    return state.isProcessing
+        ? Stack(
+            children: [
+              scaffold,
+              ColoredBox(
+                color: Colors.black.withOpacity(0.5),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            ],
+          )
+        : scaffold;
   }
 }
