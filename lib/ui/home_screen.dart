@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
 import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
 import 'package:my_pet_melody/ui/component/lying_down_cat_image.dart';
@@ -162,16 +161,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ]);
             }
 
-            final onPressedShareButton = piece.map(
-              generating: (_) => null,
-              generated: (_) => () => _share(piece: piece),
-            );
-            final shareButton = IconButton(
-              icon: const Icon(Icons.share),
-              color: foregroundColor,
-              onPressed: onPressedShareButton,
-            );
-
             final onTap = piece.map(
               generating: (_) => null,
               generated: (generatedPiece) => () => Navigator.push(
@@ -215,7 +204,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: body,
                         ),
                       ),
-                      shareButton,
                       const SizedBox(width: 16),
                     ],
                   ),
@@ -243,7 +231,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     }
 
-    final scaffold = Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text('つくった作品'),
         actions: [
@@ -278,29 +266,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       resizeToAvoidBottomInset: false,
     );
-
-    return state.isProcessing
-        ? Stack(
-            children: [
-              scaffold,
-              ColoredBox(
-                color: Colors.black.withOpacity(0.5),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              )
-            ],
-          )
-        : scaffold;
-  }
-
-  void _share({required Piece piece}) {
-    final generated = piece.mapOrNull(generated: (generated) => generated);
-    if (generated == null) {
-      return;
-    }
-
-    ref.read(widget.viewModelProvider.notifier).share(piece: generated);
   }
 }
 
