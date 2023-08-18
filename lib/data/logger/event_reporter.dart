@@ -33,6 +33,12 @@ class EventReporter {
       name: 'start_to_detect',
     );
   }
+
+  Future<void> videoFinished() async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'video_finished',
+    );
+  }
 }
 
 extension _AnalyticsValue on AccountProvider {
