@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/ui/video_state.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,12 +14,15 @@ import 'package:video_player/video_player.dart';
 class VideoViewModel extends StateNotifier<VideoState> {
   VideoViewModel({
     required PieceGenerated piece,
+    required EventReporter eventReporter,
   })  : _piece = piece,
+        _eventReporter = eventReporter,
         super(
           VideoState(title: piece.name),
         );
 
   final PieceGenerated _piece;
+  final EventReporter _eventReporter;
 
   late final VideoPlayerController _videoPlayerController;
 
@@ -40,6 +44,13 @@ class VideoViewModel extends StateNotifier<VideoState> {
       videoPlayerController: _videoPlayerController,
       autoPlay: true,
     );
+
+    _videoPlayerController.addListener(() {
+      if (_videoPlayerController.value.position ==
+          _videoPlayerController.value.duration) {
+        _eventReporter.videoFinished();
+      }
+    });
 
     state = state.copyWith(controller: chewieController);
   }

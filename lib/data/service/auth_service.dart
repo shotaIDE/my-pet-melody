@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/logger/error_reporter.dart';
+import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
 import 'package:my_pet_melody/data/model/delete_account_with_current_session_error.dart';
 import 'package:my_pet_melody/data/model/google_credential.dart';
@@ -43,8 +44,12 @@ final sessionStreamProvider = StreamProvider<LoginSession>((ref) {
 final authActionsProvider = Provider(
   (ref) {
     final errorReporter = ref.watch(errorReporterProvider);
+    final eventReporter = ref.watch(eventReporterProvider);
 
-    return AuthActions(errorReporter: errorReporter);
+    return AuthActions(
+      errorReporter: errorReporter,
+      eventReporter: eventReporter,
+    );
   },
 );
 
@@ -120,15 +125,24 @@ class SessionProvider extends StateNotifier<LoginSession?> {
 }
 
 class AuthActions {
-  const AuthActions({required ErrorReporter errorReporter})
-      : _errorReporter = errorReporter;
+  const AuthActions({
+    required ErrorReporter errorReporter,
+    required EventReporter eventReporter,
+  })  : _errorReporter = errorReporter,
+        _eventReporter = eventReporter;
 
   final ErrorReporter _errorReporter;
+  final EventReporter _eventReporter;
 
   Future<void> signInAnonymously() async {
     final credential = await FirebaseAuth.instance.signInAnonymously();
     final idToken = await credential.user?.getIdToken();
+
     debugPrint('Signed in anonymously: $idToken');
+
+    unawaited(
+      _eventReporter.continueWithoutLogin(),
+    );
   }
 
   Future<Result<void, LinkCredentialError>> loginWithGoogle(

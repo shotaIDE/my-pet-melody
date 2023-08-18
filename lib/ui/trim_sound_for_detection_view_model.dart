@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
@@ -12,9 +13,11 @@ import 'package:video_trimmer/video_trimmer.dart';
 class TrimSoundForDetectionViewModel
     extends StateNotifier<TrimSoundForDetectionState> {
   TrimSoundForDetectionViewModel({
+    required EventReporter eventReporter,
     required Ref ref,
     required TrimSoundForDetectionArgs args,
-  })  : _ref = ref,
+  })  : _eventReporter = eventReporter,
+        _ref = ref,
         _template = args.template,
         _moviePath = args.moviePath,
         super(
@@ -25,6 +28,7 @@ class TrimSoundForDetectionViewModel
 
   static const maxDurationToTrim = Duration(seconds: 20);
 
+  final EventReporter _eventReporter;
   final Ref _ref;
   final Template _template;
   final String _moviePath;
@@ -52,6 +56,10 @@ class TrimSoundForDetectionViewModel
 
   Future<SelectTrimmedSoundArgs?> onGoNext() async {
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.convert);
+
+    unawaited(
+      _eventReporter.startToConvertMovieForDetection(),
+    );
 
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
@@ -83,6 +91,10 @@ class TrimSoundForDetectionViewModel
 
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.detect);
 
+    unawaited(
+      _eventReporter.startToDetect(),
+    );
+
     final trimmedFile = File(trimmedPath);
     final displayFileName =
         '$originalFileNameWithoutExtension$convertedExtension';
@@ -112,7 +124,7 @@ class TrimSoundForDetectionViewModel
     if (value == null) {
       return;
     }
-    
+
     state = state.copyWith(startValue: value);
   }
 
@@ -120,7 +132,7 @@ class TrimSoundForDetectionViewModel
     if (value == null) {
       return;
     }
-    
+
     state = state.copyWith(endValue: value);
   }
 

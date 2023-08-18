@@ -1,15 +1,21 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/ui/video_state.dart';
 import 'package:my_pet_melody/ui/video_view_model.dart';
 
 final _videoViewModelProvider = StateNotifierProvider.autoDispose
     .family<VideoViewModel, VideoState, PieceGenerated>(
-  (ref, piece) => VideoViewModel(
-    piece: piece,
-  ),
+  (ref, piece) {
+    final eventReporter = ref.watch(eventReporterProvider);
+
+    return VideoViewModel(
+      piece: piece,
+      eventReporter:eventReporter,
+    );
+  },
 );
 
 class VideoScreen extends ConsumerStatefulWidget {
