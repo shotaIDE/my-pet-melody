@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
 import 'package:my_pet_melody/ui/component/primary_button.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
@@ -12,10 +13,15 @@ import 'package:video_trimmer/video_trimmer.dart';
 final _trimSoundForDetectionViewModelProvider =
     StateNotifierProvider.autoDispose.family<TrimSoundForDetectionViewModel,
         TrimSoundForDetectionState, TrimSoundForDetectionArgs>(
-  (ref, args) => TrimSoundForDetectionViewModel(
-    ref: ref,
-    args: args,
-  ),
+  (ref, args) {
+    final eventReporter = ref.watch(eventReporterProvider);
+
+    return TrimSoundForDetectionViewModel(
+      eventReporter: eventReporter,
+      ref: ref,
+      args: args,
+    );
+  },
 );
 
 class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
