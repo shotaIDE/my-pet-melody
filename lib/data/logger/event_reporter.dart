@@ -15,6 +15,12 @@ class EventReporter {
       },
     );
   }
+
+  Future<void> sendContinueWithoutLogin() async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'continue_without_login',
+    );
+  }
 }
 
 extension _AnalyticsValue on AccountProvider {
