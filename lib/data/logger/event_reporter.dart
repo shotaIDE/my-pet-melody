@@ -7,7 +7,7 @@ final eventReporterProvider = Provider(
 );
 
 class EventReporter {
-  Future<void> sendSignUp(AccountProvider provider) async {
+  Future<void> signUp(AccountProvider provider) async {
     await FirebaseAnalytics.instance.logEvent(
       name: 'sign_up',
       parameters: {
@@ -16,9 +16,21 @@ class EventReporter {
     );
   }
 
-  Future<void> sendContinueWithoutLogin() async {
+  Future<void> continueWithoutLogin() async {
     await FirebaseAnalytics.instance.logEvent(
       name: 'continue_without_login',
+    );
+  }
+
+  Future<void> startToConvertMovieForDetection() async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'start_to_convert_movie_for_detection',
+    );
+  }
+
+  Future<void> startToDetect() async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'start_to_detect',
     );
   }
 }

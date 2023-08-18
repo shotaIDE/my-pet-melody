@@ -82,7 +82,7 @@ final loginWithGoogleActionProvider =
     }
 
     unawaited(
-      eventReporter.sendSignUp(AccountProvider.google),
+      eventReporter.signUp(AccountProvider.google),
     );
 
     return const Result.success(null);
@@ -126,7 +126,7 @@ final linkWithGoogleActionProvider =
     }
 
     unawaited(
-      eventReporter.sendSignUp(AccountProvider.google),
+      eventReporter.signUp(AccountProvider.google),
     );
 
     return const Result.success(null);
@@ -171,7 +171,7 @@ final loginWithTwitterActionProvider =
     }
 
     unawaited(
-      eventReporter.sendSignUp(AccountProvider.twitter),
+      eventReporter.signUp(AccountProvider.twitter),
     );
 
     return const Result.success(null);
@@ -217,7 +217,7 @@ final linkWithTwitterActionProvider =
     }
 
     unawaited(
-      eventReporter.sendSignUp(AccountProvider.twitter),
+      eventReporter.signUp(AccountProvider.twitter),
     );
 
     return const Result.success(null);
@@ -259,7 +259,7 @@ final loginWithFacebookActionProvider =
     }
 
     unawaited(
-      eventReporter.sendSignUp(AccountProvider.facebook),
+      eventReporter.signUp(AccountProvider.facebook),
     );
 
     return const Result.success(null);
@@ -303,7 +303,7 @@ final linkWithFacebookActionProvider =
     }
 
     unawaited(
-      eventReporter.sendSignUp(AccountProvider.facebook),
+      eventReporter.signUp(AccountProvider.facebook),
     );
 
     return const Result.success(null);
@@ -321,7 +321,7 @@ final loginWithAppleActionProvider =
     final result = await authActions.loginOrLinkWithApple();
 
     unawaited(
-      eventReporter.sendSignUp(AccountProvider.apple),
+      eventReporter.signUp(AccountProvider.apple),
     );
 
     return result;
@@ -339,7 +339,7 @@ final linkWithAppleActionProvider =
     final result = await authActions.loginOrLinkWithApple();
 
     unawaited(
-      eventReporter.sendSignUp(AccountProvider.apple),
+      eventReporter.signUp(AccountProvider.apple),
     );
 
     return result;

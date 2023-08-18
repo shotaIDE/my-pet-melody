@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
@@ -53,6 +54,12 @@ class TrimSoundForDetectionViewModel
   Future<SelectTrimmedSoundArgs?> onGoNext() async {
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.convert);
 
+    final eventReporter = _ref.read(eventReporterProvider);
+
+    unawaited(
+      eventReporter.startToConvertMovieForDetection(),
+    );
+
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
     const desiredSizeMegaBytes = 10;
@@ -83,6 +90,10 @@ class TrimSoundForDetectionViewModel
 
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.detect);
 
+    unawaited(
+      eventReporter.startToDetect(),
+    );
+
     final trimmedFile = File(trimmedPath);
     final displayFileName =
         '$originalFileNameWithoutExtension$convertedExtension';
@@ -112,7 +123,7 @@ class TrimSoundForDetectionViewModel
     if (value == null) {
       return;
     }
-    
+
     state = state.copyWith(startValue: value);
   }
 
@@ -120,7 +131,7 @@ class TrimSoundForDetectionViewModel
     if (value == null) {
       return;
     }
-    
+
     state = state.copyWith(endValue: value);
   }
 

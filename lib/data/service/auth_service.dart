@@ -141,7 +141,7 @@ class AuthActions {
     debugPrint('Signed in anonymously: $idToken');
 
     unawaited(
-      _eventReporter.sendContinueWithoutLogin(),
+      _eventReporter.continueWithoutLogin(),
     );
   }
 
