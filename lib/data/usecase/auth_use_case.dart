@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
+import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
 import 'package:my_pet_melody/data/model/delete_account_error.dart';
 import 'package:my_pet_melody/data/model/google_credential.dart';
@@ -50,6 +53,7 @@ final loginWithGoogleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
+  final eventReporter = ref.watch(eventReporterProvider);
 
   Future<Result<void, LoginError>> action() async {
     final loginGoogleResult = await thirdPartyAuthActions.loginGoogle();
@@ -77,6 +81,10 @@ final loginWithGoogleActionProvider =
       return Result.failure(convertedLinkError);
     }
 
+    unawaited(
+      eventReporter.sendSignUp(AccountProvider.google),
+    );
+
     return const Result.success(null);
   }
 
@@ -87,6 +95,7 @@ final linkWithGoogleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
+  final eventReporter = ref.watch(eventReporterProvider);
 
   Future<Result<void, LoginError>> action() async {
     final loginGoogleResult = await thirdPartyAuthActions.loginGoogle();
@@ -116,6 +125,10 @@ final linkWithGoogleActionProvider =
       return Result.failure(convertedLinkError);
     }
 
+    unawaited(
+      eventReporter.sendSignUp(AccountProvider.google),
+    );
+
     return const Result.success(null);
   }
 
@@ -126,6 +139,7 @@ final loginWithTwitterActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
+  final eventReporter = ref.watch(eventReporterProvider);
 
   Future<Result<void, LoginError>> action() async {
     final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
@@ -156,6 +170,10 @@ final loginWithTwitterActionProvider =
       return Result.failure(convertedLinkError);
     }
 
+    unawaited(
+      eventReporter.sendSignUp(AccountProvider.twitter),
+    );
+
     return const Result.success(null);
   }
 
@@ -166,6 +184,7 @@ final linkWithTwitterActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
+  final eventReporter = ref.watch(eventReporterProvider);
 
   Future<Result<void, LoginError>> action() async {
     final loginResult = await thirdPartyAuthActions.loginTwitter();
@@ -197,6 +216,10 @@ final linkWithTwitterActionProvider =
       return Result.failure(convertedLinkError);
     }
 
+    unawaited(
+      eventReporter.sendSignUp(AccountProvider.twitter),
+    );
+
     return const Result.success(null);
   }
 
@@ -207,6 +230,7 @@ final loginWithFacebookActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
+  final eventReporter = ref.watch(eventReporterProvider);
 
   Future<Result<void, LoginError>> action() async {
     final loginFacebookResult = await thirdPartyAuthActions.loginFacebook();
@@ -234,6 +258,10 @@ final loginWithFacebookActionProvider =
       return Result.failure(convertedLinkError);
     }
 
+    unawaited(
+      eventReporter.sendSignUp(AccountProvider.facebook),
+    );
+
     return const Result.success(null);
   }
 
@@ -244,6 +272,7 @@ final linkWithFacebookActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
   final authActions = ref.watch(authActionsProvider);
+  final eventReporter = ref.watch(eventReporterProvider);
 
   Future<Result<void, LoginError>> action() async {
     final loginResult = await thirdPartyAuthActions.loginFacebook();
@@ -273,6 +302,10 @@ final linkWithFacebookActionProvider =
       return Result.failure(convertedLinkError);
     }
 
+    unawaited(
+      eventReporter.sendSignUp(AccountProvider.facebook),
+    );
+
     return const Result.success(null);
   }
 
@@ -282,15 +315,37 @@ final linkWithFacebookActionProvider =
 final loginWithAppleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final authActions = ref.watch(authActionsProvider);
+  final eventReporter = ref.watch(eventReporterProvider);
 
-  return authActions.loginOrLinkWithApple;
+  Future<Result<void, LoginError>> action() async {
+    final result = await authActions.loginOrLinkWithApple();
+
+    unawaited(
+      eventReporter.sendSignUp(AccountProvider.apple),
+    );
+
+    return result;
+  }
+
+  return action;
 });
 
 final linkWithAppleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final authActions = ref.watch(authActionsProvider);
+  final eventReporter = ref.watch(eventReporterProvider);
 
-  return authActions.loginOrLinkWithApple;
+  Future<Result<void, LoginError>> action() async {
+    final result = await authActions.loginOrLinkWithApple();
+
+    unawaited(
+      eventReporter.sendSignUp(AccountProvider.apple),
+    );
+
+    return result;
+  }
+
+  return action;
 });
 
 final signOutActionProvider = Provider((ref) {
