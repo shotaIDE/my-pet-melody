@@ -13,9 +13,11 @@ import 'package:video_trimmer/video_trimmer.dart';
 class TrimSoundForDetectionViewModel
     extends StateNotifier<TrimSoundForDetectionState> {
   TrimSoundForDetectionViewModel({
+    required EventReporter eventReporter,
     required Ref ref,
     required TrimSoundForDetectionArgs args,
-  })  : _ref = ref,
+  })  : _eventReporter = eventReporter,
+        _ref = ref,
         _template = args.template,
         _moviePath = args.moviePath,
         super(
@@ -26,6 +28,7 @@ class TrimSoundForDetectionViewModel
 
   static const maxDurationToTrim = Duration(seconds: 20);
 
+  final EventReporter _eventReporter;
   final Ref _ref;
   final Template _template;
   final String _moviePath;
@@ -54,10 +57,8 @@ class TrimSoundForDetectionViewModel
   Future<SelectTrimmedSoundArgs?> onGoNext() async {
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.convert);
 
-    final eventReporter = _ref.read(eventReporterProvider);
-
     unawaited(
-      eventReporter.startToConvertMovieForDetection(),
+      _eventReporter.startToConvertMovieForDetection(),
     );
 
     final originalFileNameWithoutExtension =
@@ -91,7 +92,7 @@ class TrimSoundForDetectionViewModel
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.detect);
 
     unawaited(
-      eventReporter.startToDetect(),
+      _eventReporter.startToDetect(),
     );
 
     final trimmedFile = File(trimmedPath);
