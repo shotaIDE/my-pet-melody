@@ -159,7 +159,7 @@ class _SelectTemplateState
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           )
         : scaffold;

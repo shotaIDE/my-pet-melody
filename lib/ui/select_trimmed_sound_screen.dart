@@ -92,7 +92,11 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           },
         );
 
-        if (shouldShowJoinPremiumPlanScreen != true || !mounted) {
+        if (shouldShowJoinPremiumPlanScreen != true) {
+          return;
+        }
+
+        if (!mounted) {
           return;
         }
 
@@ -354,7 +358,7 @@ class _SelectTrimmedSoundScreenState
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           )
         : scaffold;

@@ -201,7 +201,7 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
                 alignment: Alignment.center,
                 color: Colors.black.withOpacity(0.5),
                 child: const LinearProgressIndicator(),
-              )
+              ),
             ],
           )
         : scaffold;

@@ -58,7 +58,11 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
           },
         );
 
-        if (shouldShowJoinPremiumPlanScreen != true || !mounted) {
+        if (shouldShowJoinPremiumPlanScreen != true) {
+          return;
+        }
+
+        if (!mounted) {
           return;
         }
 
