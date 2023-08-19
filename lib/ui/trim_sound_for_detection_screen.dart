@@ -158,7 +158,11 @@ class _TrimSoundForDetectionScreenState
 
   Future<void> _onGoNext() async {
     final args = await ref.read(widget.viewModelProvider.notifier).onGoNext();
-    if (args == null || !mounted) {
+    if (args == null) {
+      return;
+    }
+
+    if (!mounted) {
       return;
     }
 

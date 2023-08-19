@@ -74,7 +74,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           },
         );
 
-        if (shouldShowJoinPremiumPlanScreen != true || !mounted) {
+        if (shouldShowJoinPremiumPlanScreen != true) {
+          return;
+        }
+
+        if (!mounted) {
           return;
         }
 
