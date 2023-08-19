@@ -201,7 +201,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           )
         : gestureDetectorWrappedScaffold;

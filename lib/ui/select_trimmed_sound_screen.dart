@@ -354,7 +354,7 @@ class _SelectTrimmedSoundScreenState
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           )
         : scaffold;

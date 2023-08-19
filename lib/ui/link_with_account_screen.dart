@@ -128,7 +128,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
                 child: const Center(
                   child: CircularProgressIndicator(),
                 ),
-              )
+              ),
             ],
           )
         : scaffold;

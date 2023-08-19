@@ -132,7 +132,7 @@ class SelectTrimmedSoundViewModel
         await file.writeAsBytes(thumbnailBytes);
 
         final equallyDividedThumbnailPaths = [
-          ...state.equallyDividedThumbnailPaths
+          ...state.equallyDividedThumbnailPaths,
         ];
         equallyDividedThumbnailPaths[index] = outputPath;
         state = state.copyWith(

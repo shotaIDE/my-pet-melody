@@ -237,7 +237,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         actions: [
           _SettingsButton(
             onPressed: () => Navigator.push(context, SettingsScreen.route()),
-          )
+          ),
         ],
       ),
       body: Column(

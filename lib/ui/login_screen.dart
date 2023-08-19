@@ -163,7 +163,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
                 child: const Center(
                   child: CircularProgressIndicator(),
                 ),
-              )
+              ),
             ],
           )
         : scaffold;

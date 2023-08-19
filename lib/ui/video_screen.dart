@@ -13,7 +13,7 @@ final _videoViewModelProvider = StateNotifierProvider.autoDispose
 
     return VideoViewModel(
       piece: piece,
-      eventReporter:eventReporter,
+      eventReporter: eventReporter,
     );
   },
 );
@@ -91,7 +91,7 @@ class _VideoScreenState extends ConsumerState<VideoScreen> {
                 child: const Center(
                   child: CircularProgressIndicator(),
                 ),
-              )
+              ),
             ],
           )
         : scaffold;
