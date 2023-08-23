@@ -112,7 +112,7 @@ tzdata==2023.3
 uritemplate==4.1.1
 urllib3==1.26.9
 watchdog==2.2.1
-Werkzeug==2.2.3
+Werkzeug==2.3.7
 wrapt==1.14.1
 xarray==2022.3.0
 zipp==3.8.0
