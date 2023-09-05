@@ -19,7 +19,7 @@ jobs:
     if: ${{ github.actor == 'dependabot[bot]' }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # Specify PR head commit
           # because the difference may not be reflected on the default merge commit
