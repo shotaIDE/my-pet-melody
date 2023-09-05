@@ -42,7 +42,7 @@ h5py==3.9.0
 httplib2==0.20.4
 idna==3.4
 imageio==2.31.1
-importlib-metadata==4.11.4
+importlib-metadata==6.8.0
 inaSpeechSegmenter==0.7.3
 iniconfig==2.0.0
 itsdangerous==2.1.2
