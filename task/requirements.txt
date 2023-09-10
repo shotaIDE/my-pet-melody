@@ -52,6 +52,7 @@ joblib==1.2.0
 keras==2.13.1
 Keras-Preprocessing==1.1.2
 kiwisolver==1.4.5
+lazy_loader==0.3
 libclang==14.0.1
 Markdown==3.3.7
 MarkupSafe==2.1.1
@@ -111,7 +112,7 @@ typing_extensions==4.4.0
 tzdata==2023.3
 uritemplate==4.1.1
 urllib3==1.26.9
-watchdog==2.2.1
+watchdog==3.0.0
 Werkzeug==2.3.7
 wrapt==1.14.1
 xarray==2022.3.0
