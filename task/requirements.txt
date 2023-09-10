@@ -104,7 +104,7 @@ tensorflow-estimator==2.13.0
 tensorflow-io-gcs-filesystem==0.26.0
 termcolor==2.2.0
 threadpoolctl==3.1.0
-tifffile==2022.5.4
+tifffile==2022.8.12
 toml==0.10.2
 tomli==2.0.1
 typing_extensions==4.4.0
