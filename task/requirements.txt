@@ -52,6 +52,7 @@ joblib==1.2.0
 keras==2.13.1
 Keras-Preprocessing==1.1.2
 kiwisolver==1.4.5
+lazy_loader==0.3
 libclang==14.0.1
 Markdown==3.3.7
 MarkupSafe==2.1.1
@@ -87,7 +88,7 @@ PyWavelets==1.4.1
 requests==2.31.0
 requests-oauthlib==1.3.1
 rsa==4.9
-scikit-image==0.19.2
+scikit-image==0.21.0
 scikit-learn==1.3.0
 scipy==1.10.0
 serpent==1.41
@@ -104,14 +105,14 @@ tensorflow-estimator==2.13.0
 tensorflow-io-gcs-filesystem==0.26.0
 termcolor==2.2.0
 threadpoolctl==3.1.0
-tifffile==2022.5.4
+tifffile==2022.8.12
 toml==0.10.2
 tomli==2.0.1
 typing_extensions==4.4.0
 tzdata==2023.3
 uritemplate==4.1.1
 urllib3==1.26.9
-watchdog==2.2.1
+watchdog==3.0.0
 Werkzeug==2.3.7
 wrapt==1.14.1
 xarray==2022.3.0
