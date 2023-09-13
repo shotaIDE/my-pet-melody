@@ -115,5 +115,5 @@ urllib3==1.26.9
 watchdog==3.0.0
 Werkzeug==2.3.7
 wrapt==1.14.1
-xarray==2022.3.0
+xarray==2023.8.0
 zipp==3.8.0
