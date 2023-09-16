@@ -38,7 +38,9 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
   }
 
   Future<void> onChanged(String text) async {
-    state = state.copyWith(isFooterButtonEnabled: text.isNotEmpty);
+    state = state.copyWith(
+      isFooterButtonEnabled: getFooterButtonEnabled(text),
+    );
   }
 
   RequestPushNotificationPermissionArgs getRequestPermissionArgs() {
