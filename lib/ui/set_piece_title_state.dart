@@ -11,6 +11,7 @@ class SetPieceTitleState with _$SetPieceTitleState {
     required String thumbnailLocalPath,
     required TextEditingController displayNameController,
     required FocusNode displayNameFocusNode,
+    required bool isFooterButtonEnabled,
     @Default(null) bool? isRequestStepExists,
     @Default(false) bool isProcessing,
   }) = _SetPieceTitleState;

@@ -22,6 +22,7 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
             displayNameController:
                 TextEditingController(text: args.displayName),
             displayNameFocusNode: FocusNode(),
+            isFooterButtonEnabled: getFooterButtonEnabled(args.displayName),
           ),
         ) {
     _setup();
@@ -31,6 +32,14 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
   final List<UploadedMedia> _sounds;
 
   final Ref _ref;
+
+  static bool getFooterButtonEnabled(String text) {
+    return text.isNotEmpty;
+  }
+
+  Future<void> onChanged(String text) async {
+    state = state.copyWith(isFooterButtonEnabled: text.isNotEmpty);
+  }
 
   RequestPushNotificationPermissionArgs getRequestPermissionArgs() {
     final displayName = state.displayNameController.text;

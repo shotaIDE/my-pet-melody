@@ -56,6 +56,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     );
 
     final isRequestStepExists = state.isRequestStepExists;
+    final isFooterButtonEnabled = state.isFooterButtonEnabled;
     final Widget footerContent;
     if (isRequestStepExists == null) {
       footerContent = const CircularProgressIndicator();
@@ -64,12 +65,12 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       if (isRequestStepExists) {
         footerButton = PrimaryButton(
           text: '作品をつくる準備に進む',
-          onPressed: _showRequestScreen,
+          onPressed: isFooterButtonEnabled ? _showRequestScreen : null,
         );
       } else {
         footerButton = PrimaryButton(
           text: '作品をつくる',
-          onPressed: _submit,
+          onPressed: isFooterButtonEnabled ? _submit : null,
         );
       }
 
@@ -104,6 +105,8 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
         ),
       ),
       autofocus: true,
+      onChanged: (text) =>
+          ref.read(widget.viewModelProvider.notifier).onChanged(text),
       enabled: !state.isProcessing,
     );
 
