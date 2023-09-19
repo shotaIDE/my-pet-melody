@@ -18,20 +18,20 @@ jobs:
     name: Check impact for API
     runs-on: ubuntu-latest
     outputs:
-      has-related-changed-files: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Check related files
-        id: changed-files
+        id: check-related-files
         uses: tj-actions/changed-files@v39
         with:
           files: "task/**"
   test:
     name: Test API
     needs: check-impact
-    if: needs.check-impact.outputs.has-related-changed-files == 'true'
+    if: needs.check-impact.outputs.has-changed-related-files == 'true'
     # Use the different version of the environment on which the production runtime is based.
     # This is because upgrading the runtime version of Cloud Functions causes
     # deployment failures, and GitHub Actions has already deprecated ubuntu 18.04.
@@ -78,7 +78,7 @@ jobs:
   build-no-need:
     name: Test API (no need)
     needs: check-impact
-    if: needs.check-impact.outputs.has-related-changed-files == 'false'
+    if: needs.check-impact.outputs.has-changed-related-files == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Skip

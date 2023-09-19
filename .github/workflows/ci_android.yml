@@ -18,13 +18,13 @@ jobs:
     name: Check impact for building Android
     runs-on: ubuntu-latest
     outputs:
-      has-related-changed-files: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Check related files
-        id: changed-files
+        id: check-related-files
         uses: tj-actions/changed-files@v39
         with:
           files: |
@@ -34,7 +34,7 @@ jobs:
   build:
     name: Build Android app
     needs: check-impact
-    if: needs.check-impact.outputs.has-related-changed-files == 'true'
+    if: needs.check-impact.outputs.has-changed-related-files == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -70,7 +70,7 @@ jobs:
   build-no-need:
     name: Build Android app (no need)
     needs: check-impact
-    if: needs.check-impact.outputs.has-related-changed-files == 'false'
+    if: needs.check-impact.outputs.has-changed-related-files == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Skip
