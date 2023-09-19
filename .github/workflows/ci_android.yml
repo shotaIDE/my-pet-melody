@@ -4,10 +4,6 @@ on:
   pull_request:
     branches:
       - "main"
-    paths:
-      - "android/**"
-      - ".tool-versions"
-      - "pubspec.lock"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
@@ -18,8 +14,27 @@ permissions:
   pull-requests: write
 
 jobs:
+  check-impact:
+    name: Check impact for building Android
+    runs-on: ubuntu-latest
+    outputs:
+      has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check related files
+        id: check-related-files
+        uses: tj-actions/changed-files@v39
+        with:
+          files: |
+            android/**
+            .tool-versions
+            pubspec.lock
   build:
     name: Build Android app
+    needs: check-impact
+    if: needs.check-impact.outputs.has-changed-related-files == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -52,3 +67,11 @@ jobs:
           key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
       - name: Android build
         run: flutter build appbundle --dart-define-from-file dart-defines_dev.json
+  build-no-need:
+    name: Build Android app (no need)
+    needs: check-impact
+    if: needs.check-impact.outputs.has-changed-related-files == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip
+        run: echo "No changes in files related to build Android, skipping."
