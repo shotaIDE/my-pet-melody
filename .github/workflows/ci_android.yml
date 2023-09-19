@@ -6,6 +6,7 @@ on:
       - "main"
     paths:
       - "android/**"
+      - ".tool-versions"
       - "pubspec.lock"
 
 concurrency:
