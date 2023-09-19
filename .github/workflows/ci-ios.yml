@@ -1,4 +1,4 @@
-name: CI/iOS
+name: CI / iOS
 
 on:
   pull_request:
@@ -14,20 +14,37 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: write
+  
 jobs:
   build:
     name: Build iOS app
     runs-on: macos-13
-    if: ${{ github.actor != 'dependabot[bot]' }}
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Build iOS
-        uses: ./.github/actions/build-ios
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Setup Xcode
+        uses: ./.github/actions/setup-xcode
+      - name: Setup CocoaPods
+        uses: ./.github/actions/setup-cocoapods
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
+      - name: Generate uncommited Flutter files
+        uses: ./.github/actions/generate-uncommited-flutter-files
         with:
-          dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
           firebase-options-dart-base64-prod: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_PROD }}
+      - name: Generate uncommited Flutter files for dev
+        uses: ./.github/actions/generate-uncommited-flutter-files-dev
+        with:
+          dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
+      - name: Generate uncommited iOS files
+        uses: ./.github/actions/generate-uncommited-ios-files
+        with:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
+      - name: iOS build
+        run: flutter build ios --dart-define-from-file dart-defines_dev.json --no-codesign
