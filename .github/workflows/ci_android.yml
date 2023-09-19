@@ -4,10 +4,6 @@ on:
   pull_request:
     branches:
       - "main"
-    paths:
-      - "android/**"
-      - ".tool-versions"
-      - "pubspec.lock"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
