@@ -36,7 +36,7 @@ if (dartEnvironmentVariables.FLAVOR == 'emulator') {
     networkConfigSuffix = '_emulator'
 }
 
-// Copy the firebase file and move it to android/app directory test
+// Copy the firebase file and move it to android/app directory
 task copyGoogleServicesJson(type: Copy) {
     from "firebase/${dartEnvironmentVariables.FLAVOR}/google-services.json"
     into './'
