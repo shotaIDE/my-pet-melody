@@ -14,11 +14,11 @@ permissions:
   pull-requests: write
 
 jobs:
-  check-changed-files:
-    name: Check changed files
+  check-impact:
+    name: Check related files for building iOS
     runs-on: ubuntu-latest
     outputs:
-      has-changes: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      has-related-changed-files: ${{ steps.changed-files.outputs.any_changed == 'true' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,8 +35,8 @@ jobs:
             pubspec.lock
   build:
     name: Build iOS app
-    needs: check-changed-files
-    if: needs.check-changed-files.outputs.has-changes == 'true'
+    needs: check-impact
+    if: needs.check-impact.outputs.has-related-changed-files == 'true'
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
@@ -64,10 +64,10 @@ jobs:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
       - name: iOS build
         run: flutter build ios --dart-define-from-file dart-defines_dev.json --no-codesign
-  skip-build:
+  build-no-need:
     name: Build iOS app (no need)
-    needs: check-changed-files
-    if: needs.check-changed-files.outputs.has-changes == 'false'
+    needs: check-impact
+    if: needs.check-impact.outputs.has-related-changed-files == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Skip
