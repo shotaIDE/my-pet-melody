@@ -1,5 +1,4 @@
 # coding: utf-8
-# test
 
 from flask import Flask, request
 
