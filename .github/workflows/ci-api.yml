@@ -22,6 +22,9 @@ jobs:
     # This is because upgrading the runtime version of Cloud Functions causes 
     # deployment failures, and GitHub Actions has already deprecated ubuntu 18.04.
     runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: task
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v3
@@ -39,7 +42,6 @@ jobs:
           sudo apt-get install ffmpeg=7:4.4.2-0ubuntu0.22.04.1
       - name: Get Python version
         id: get-python-version
-        working-directory: task
         run: |
           python_version="$(cat .python-version)"
           echo "python-version=$python_version" >> $GITHUB_OUTPUT
@@ -48,18 +50,15 @@ jobs:
         with:
           python-version: ${{ steps.get-python-version.outputs.python-version }}
       - name: Install Python dependencies
-        working-directory: task
         run: |
           python -m pip install --upgrade pip
           pip install --ignore-installed -r requirements.txt
       - name: Download test samples
-        working-directory: task
         run: |
           mkdir samples
           cd samples
           wget -O samples.zip "${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}"
           unzip samples.zip
       - name: Test
-        working-directory: task
         run: pytest
   
