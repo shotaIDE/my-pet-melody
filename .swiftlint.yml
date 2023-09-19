@@ -2,4 +2,3 @@ parent_config: ios/.swiftlint.yml
 
 excluded:
   - ios/Pods
-# test
