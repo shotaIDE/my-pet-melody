@@ -1,4 +1,4 @@
-name: CD/iOS-Develop
+name: CD / Android Develop
 
 on:
   push:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: macos-13
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -20,11 +20,8 @@ jobs:
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
 
-      - name: Setup Xcode
-        uses: ./.github/actions/setup-xcode
-
-      - name: Setup CocoaPods
-        uses: ./.github/actions/setup-cocoapods
+      - name: Setup Gradle
+        uses: ./.github/actions/setup-gradle
 
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
@@ -40,22 +37,24 @@ jobs:
         uses: ./.github/actions/generate-uncommited-flutter-files-dev
         with:
           dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
-      
-      - name: Generate uncommited iOS files
-        uses: ./.github/actions/generate-uncommited-ios-files
-        with:
-          google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
-
-      - name: Generate App Store Connect API key file
-        run: echo "${{ secrets.APP_STORE_CONNECT_API_KEY_P8_BASE64 }}" | base64 -d > fastlane/app-store-connect-api-key.p8
     
+      - name: Generate uncommited Android files
+        uses: ./.github/actions/generate-uncommited-android-files
+        with:
+          google-service-json-base64-dev: ${{ secrets.GOOGLE_SERVICE_JSON_BASE64_DEV }}
+    
+      - name: Generate key store
+        uses: ./.github/actions/generate-key-store
+        with:
+          keystore-jks-base64: ${{ secrets.KEYSTORE_JKS_BASE64 }}
+          store-password: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+          key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+
       - name: Generate Firebase App Distribution service account key file
         uses: ./.github/actions/generate-app-distribution-key-file
         with:
           key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
 
       - name: Deploy dev app to Firebase App Distribution
-        env:
-          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
-          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
-        run: bundle exec fastlane ios deploy_dev
+        run: bundle exec fastlane android deploy_dev
