@@ -14,12 +14,12 @@ concurrency:
 permissions:
   contents: read
   pull-requests: write
-  
+
 jobs:
   test:
     name: Test API
     # Use the different version of the environment on which the production runtime is based.
-    # This is because upgrading the runtime version of Cloud Functions causes 
+    # This is because upgrading the runtime version of Cloud Functions causes
     # deployment failures, and GitHub Actions has already deprecated ubuntu 18.04.
     runs-on: ubuntu-22.04
     defaults:
@@ -61,4 +61,3 @@ jobs:
           unzip samples.zip
       - name: Test
         run: pytest
-  

@@ -15,7 +15,7 @@ concurrency:
 permissions:
   contents: read
   pull-requests: write
-  
+
 jobs:
   build:
     name: Build Android app
@@ -50,5 +50,4 @@ jobs:
           key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
           key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
       - name: Android build
-        shell: bash
         run: flutter build appbundle --dart-define-from-file dart-defines_dev.json

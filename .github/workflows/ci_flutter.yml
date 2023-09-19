@@ -45,13 +45,11 @@ jobs:
       - name: Generate uncommited Flutter files for dev
         uses: ./.github/actions/generate-uncommited-flutter-files-dev
         with:
-          dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}  
+          dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
       - name: Flutter analyze
-        shell: bash
         run: flutter analyze --fatal-infos > flutter-analyze.log
       - name: Run reviewdog for Flutter Analyzer
         if: failure()
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: cat flutter-analyze.log | reviewdog -efm='%#%t%.%# • %m • %f:%l:%c %r' -name='Flutter Analyzer' -reporter='github-pr-review'
-  
