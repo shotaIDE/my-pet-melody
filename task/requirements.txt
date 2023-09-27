@@ -54,7 +54,7 @@ Keras-Preprocessing==1.1.2
 kiwisolver==1.4.5
 lazy_loader==0.3
 libclang==14.0.1
-Markdown==3.3.7
+Markdown==3.4.4
 MarkupSafe==2.1.1
 matplotlib==3.5.2
 msgpack==1.0.3
