@@ -1,5 +1,4 @@
 enum PreferenceKey {
   hasRequestedPushNotificationPermissionAtLeastOnce,
-
-  temporaryPiecesJsonString,
+  appCompletedToPlayVideoCount,
 }

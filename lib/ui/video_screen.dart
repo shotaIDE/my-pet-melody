@@ -14,6 +14,7 @@ final _videoViewModelProvider = StateNotifierProvider.autoDispose
     return VideoViewModel(
       piece: piece,
       eventReporter: eventReporter,
+      ref: ref,
     );
   },
 );

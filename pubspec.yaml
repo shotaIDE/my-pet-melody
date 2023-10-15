@@ -65,6 +65,7 @@ dev_dependencies:
     git:
       url: https://github.com/shotaIDE/ColomneyFlutterLints.git
       ref: main
+  mocktail: ^1.0.0
 
 flutter:
   uses-material-design: true
