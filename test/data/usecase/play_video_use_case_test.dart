@@ -32,13 +32,7 @@ void main() {
           .thenAnswer((_) async {});
       providerContainer = ProviderContainer(
         overrides: [
-          requestInAppReviewActionProvider.overrideWith((_) {
-            Future<void> test() async {
-              await action.execute();
-            }
-
-            return test;
-          }),
+          requestInAppReviewActionProvider.overrideWithValue(action.execute),
           preferenceServiceProvider.overrideWithValue(preferenceService),
         ],
       );
