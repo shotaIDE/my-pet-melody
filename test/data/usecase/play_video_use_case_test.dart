@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -19,10 +20,19 @@ void main() {
   late PreferenceServiceMock preferenceService;
   late ProviderContainer providerContainer;
 
+  setUpAll(() {
+    registerFallbackValue(PreferenceKey.appCompletedToPlayVideoCount);
+  });
+
   group('OnAppCompletedToPlayVideoAction', () {
     setUp(() {
       action = ActionMock();
+      when(action.call).thenAnswer((_) async {
+        debugPrint('test');
+      });
       preferenceService = PreferenceServiceMock();
+      when(() => preferenceService.setInt(any(), value: any(named: 'value')))
+          .thenAnswer((_) async {});
       providerContainer = ProviderContainer(
         overrides: [
           requestInAppReviewActionProvider.overrideWithValue(action.call),
@@ -36,11 +46,13 @@ void main() {
       when(
         () => preferenceService
             .getInt(PreferenceKey.appCompletedToPlayVideoCount),
-      ).thenAnswer((_) async => 1);
+      ).thenAnswer((_) async => 0);
 
-      await providerContainer.read(onAppCompletedToPlayVideoActionProvider)();
+      await providerContainer
+          .read(onAppCompletedToPlayVideoActionProvider)
+          .call();
 
-      verify(action).called(1);
+      verify(action.call).called(1);
       verify(
         () => preferenceService.setInt(
           PreferenceKey.appCompletedToPlayVideoCount,
@@ -53,17 +65,19 @@ void main() {
       when(
         () => preferenceService
             .getInt(PreferenceKey.appCompletedToPlayVideoCount),
-      ).thenAnswer((_) async => 2);
+      ).thenAnswer((_) async => 1);
 
-      await providerContainer.read(onAppCompletedToPlayVideoActionProvider)();
+      await providerContainer
+          .read(onAppCompletedToPlayVideoActionProvider)
+          .call();
 
-      verifyNever(action);
+      verifyNever(action.call);
       verify(
         () => preferenceService.setInt(
           PreferenceKey.appCompletedToPlayVideoCount,
           value: 2,
         ),
-      ).called(3);
+      ).called(1);
     });
   });
 }
