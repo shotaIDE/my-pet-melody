@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -10,7 +9,7 @@ import 'package:my_pet_melody/data/usecase/play_video_use_case.dart';
 import '../service/preference_service_mock.dart';
 
 class Action {
-  Future<void> call() async {}
+  Future<void> execute() async {}
 }
 
 class ActionMock extends Mock implements Action {}
@@ -27,15 +26,19 @@ void main() {
   group('OnAppCompletedToPlayVideoAction', () {
     setUp(() {
       action = ActionMock();
-      when(action.call).thenAnswer((_) async {
-        debugPrint('test');
-      });
+      when(action.execute).thenAnswer((_) async {});
       preferenceService = PreferenceServiceMock();
       when(() => preferenceService.setInt(any(), value: any(named: 'value')))
           .thenAnswer((_) async {});
       providerContainer = ProviderContainer(
         overrides: [
-          requestInAppReviewActionProvider.overrideWithValue(action.call),
+          requestInAppReviewActionProvider.overrideWith((_) {
+            Future<void> test() async {
+              await action.execute();
+            }
+
+            return test;
+          }),
           preferenceServiceProvider.overrideWithValue(preferenceService),
         ],
       );
@@ -52,11 +55,11 @@ void main() {
           .read(onAppCompletedToPlayVideoActionProvider)
           .call();
 
-      verify(action.call).called(1);
+      verify(action.execute).called(1);
       verify(
         () => preferenceService.setInt(
           PreferenceKey.appCompletedToPlayVideoCount,
-          value: 2,
+          value: 1,
         ),
       ).called(1);
     });
@@ -71,7 +74,7 @@ void main() {
           .read(onAppCompletedToPlayVideoActionProvider)
           .call();
 
-      verifyNever(action.call);
+      verifyNever(action.execute);
       verify(
         () => preferenceService.setInt(
           PreferenceKey.appCompletedToPlayVideoCount,
