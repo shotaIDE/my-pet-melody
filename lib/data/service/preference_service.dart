@@ -15,6 +15,19 @@ class PreferenceService {
     await preferences.setBool(key.name, value);
   }
 
+  static Future<int?> getInt(PreferenceKey key) async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getInt(key.name);
+  }
+
+  static Future<void> setInt(
+    PreferenceKey key, {
+    required int value,
+  }) async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setInt(key.name, value);
+  }
+
   static Future<String?> getString(PreferenceKey key) async {
     final preferences = await SharedPreferences.getInstance();
     return preferences.getString(key.name);
