@@ -42,6 +42,6 @@ Edit the contents of the `.env` file as needed.
 
 In VSCode's "Run and Debug" screen, execute "Run".
 
-# References
+## References
 
 https://zenn.dev/happy_elements/articles/0b2691b3fc53fd
