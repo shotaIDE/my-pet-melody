@@ -9,7 +9,7 @@ import 'package:my_pet_melody/data/usecase/play_video_use_case.dart';
 import '../service/preference_service_mock.dart';
 
 class Action {
-  Future<void> execute() async {}
+  Future<void> requestInAppReview() async {}
 }
 
 class ActionMock extends Mock implements Action {}
@@ -26,13 +26,14 @@ void main() {
   group('OnAppCompletedToPlayVideoAction', () {
     setUp(() {
       action = ActionMock();
-      when(action.execute).thenAnswer((_) async {});
+      when(action.requestInAppReview).thenAnswer((_) async {});
       preferenceService = PreferenceServiceMock();
       when(() => preferenceService.setInt(any(), value: any(named: 'value')))
           .thenAnswer((_) async {});
       providerContainer = ProviderContainer(
         overrides: [
-          requestInAppReviewActionProvider.overrideWithValue(action.execute),
+          requestInAppReviewActionProvider
+              .overrideWithValue(action.requestInAppReview),
           preferenceServiceProvider.overrideWithValue(preferenceService),
         ],
       );
@@ -49,7 +50,7 @@ void main() {
           .read(onAppCompletedToPlayVideoActionProvider)
           .call();
 
-      verify(action.execute).called(1);
+      verify(action.requestInAppReview).called(1);
       verify(
         () => preferenceService.setInt(
           PreferenceKey.appCompletedToPlayVideoCount,
@@ -68,7 +69,7 @@ void main() {
           .read(onAppCompletedToPlayVideoActionProvider)
           .call();
 
-      verifyNever(action.execute);
+      verifyNever(action.requestInAppReview);
       verify(
         () => preferenceService.setInt(
           PreferenceKey.appCompletedToPlayVideoCount,
