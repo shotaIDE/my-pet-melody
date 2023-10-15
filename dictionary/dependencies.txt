@@ -8,6 +8,7 @@ firestore
 fullscreen
 maxrate
 mipmap
+mocktail
 reorderable
 riverpod
 rxdart
