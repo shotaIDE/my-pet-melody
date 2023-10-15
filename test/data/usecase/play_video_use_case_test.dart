@@ -23,7 +23,7 @@ void main() {
     registerFallbackValue(PreferenceKey.appCompletedToPlayVideoCount);
   });
 
-  group('OnAppCompletedToPlayVideoAction', () {
+  group('Request in-app review when completed to play video.', () {
     setUp(() {
       action = ActionMock();
       when(action.requestInAppReview).thenAnswer((_) async {});
@@ -39,8 +39,7 @@ void main() {
       );
     });
 
-    test('when newCount is 1, 5, 20 or 40 trigger requestInAppReviewAction',
-        () async {
+    test('Play count is 1, then request.', () async {
       when(
         () => preferenceService
             .getInt(PreferenceKey.appCompletedToPlayVideoCount),
@@ -59,7 +58,7 @@ void main() {
       ).called(1);
     });
 
-    test('when newCount is any number that is not 1, 5, 20 or 40', () async {
+    test('Play count is 2, then skip request.', () async {
       when(
         () => preferenceService
             .getInt(PreferenceKey.appCompletedToPlayVideoCount),
