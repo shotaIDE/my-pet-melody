@@ -12,7 +12,9 @@ final onAppCompletedToPlayVideoActionProvider = Provider((ref) {
         ) ??
         0;
 
-    // 1, 5, 20, 40, 60,... 回の節目でレビューサジェスト発動
+    // In-app review suggestions are triggered at 1, 5, 20, 40, 60, ... .
+    // This is due to the constraints of OS, which does not allow for
+    // frequent in-app reviews to be performed.
     final newCount = previousCount + 1;
     if (newCount == 1 || newCount == 5 || newCount % 20 == 0) {
       await requestInAppReviewAction.call();
