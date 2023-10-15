@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/model/piece.dart';
+import 'package:my_pet_melody/data/usecase/play_video_use_case.dart';
 import 'package:my_pet_melody/ui/video_state.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -15,14 +16,17 @@ class VideoViewModel extends StateNotifier<VideoState> {
   VideoViewModel({
     required PieceGenerated piece,
     required EventReporter eventReporter,
+    required Ref ref,
   })  : _piece = piece,
         _eventReporter = eventReporter,
+        _ref = ref,
         super(
           VideoState(title: piece.name),
         );
 
   final PieceGenerated _piece;
   final EventReporter _eventReporter;
+  final Ref _ref;
 
   late final VideoPlayerController _videoPlayerController;
 
@@ -48,6 +52,8 @@ class VideoViewModel extends StateNotifier<VideoState> {
     _videoPlayerController.addListener(() {
       if (_videoPlayerController.value.position ==
           _videoPlayerController.value.duration) {
+        _ref.read(onAppCompletedToPlayVideoActionProvider).call();
+
         _eventReporter.videoFinished();
       }
     });
