@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/usecase/purchase_use_case.dart';
 import 'package:my_pet_melody/ui/component/rounded_and_chained_list_tile.dart';
@@ -80,7 +81,9 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
         size: iconSize,
       ),
       title: Text('広大な制作スペース'),
-      description: Text('最大30作品を保存しておくことができるようになります。'),
+      description: Text(
+        '最大${AppDefinitions.maxPiecesOnPremiumPlan}作品を保存しておくことができるようになります。',
+      ),
       positionInGroup: ListTilePositionInGroup.first,
     );
     const rapidGenerationFeatureTile = _RoundedDescriptionListTile(

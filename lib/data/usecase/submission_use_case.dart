@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/di/repository_providers.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/model/make_piece_availability.dart';
@@ -28,7 +29,7 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
             false;
 
     if (isPremiumPlan == true) {
-      if (pieces.length < 30) {
+      if (pieces.length < AppDefinitions.maxPiecesOnPremiumPlan) {
         return MakePieceAvailability.available;
       }
 
