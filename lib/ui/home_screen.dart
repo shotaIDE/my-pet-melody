@@ -87,36 +87,57 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       },
       displayPieceMakingIsRestrictedByPremiumPlan: () async {
         if (!mounted) {
-          return;
+          return null;
         }
 
-        await showDialog<bool>(
+        return showDialog<ConfirmToMakePieceResult>(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              content: const Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。',
+            var requestedDoNotShowAgain = false;
+
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        '所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。',
+                      ),
+                      const SizedBox(height: 16),
+                      CheckboxListTile(
+                        value: requestedDoNotShowAgain,
+                        onChanged: (value) {
+                          setState(() {
+                            requestedDoNotShowAgain = value!;
+                          });
+                        },
+                        title: const Text('今後表示しない'),
+                      ),
+                    ],
                   ),
-                  CheckboxListTile(
-                    value: false,
-                    onChanged: null,
-                    title: Text('今後このメッセージを表示しない'),
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  child: const Text('続ける'),
-                  onPressed: () => Navigator.pop(context, true),
-                ),
-                TextButton(
-                  child: const Text('キャンセル'),
-                  onPressed: () => Navigator.pop(context, true),
-                ),
-              ],
+                  actions: [
+                    TextButton(
+                      child: const Text('続ける'),
+                      onPressed: () => Navigator.pop(
+                        context,
+                        ConfirmToMakePieceResult.continued(
+                          requestedDoNotShowAgain: requestedDoNotShowAgain,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      child: const Text('キャンセル'),
+                      onPressed: () => Navigator.pop(
+                        context,
+                        ConfirmToMakePieceResult.canceled(
+                          requestedDoNotShowAgain: requestedDoNotShowAgain,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             );
           },
         );

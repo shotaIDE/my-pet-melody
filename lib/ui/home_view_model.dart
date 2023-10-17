@@ -29,7 +29,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   VoidCallback? _moveToSelectTemplateScreen;
   VoidCallback? _displayPieceMakingIsRestrictedByFreePlan;
-  VoidCallback? _displayPieceMakingIsRestrictedByPremiumPlan;
+  Future<ConfirmToMakePieceResult?> Function()?
+      _displayPieceMakingIsRestrictedByPremiumPlan;
   Duration? _currentAudioDuration;
   StreamSubscription<List<Piece>>? _piecesSubscription;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -53,7 +54,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
   void registerListener({
     required VoidCallback moveToSelectTemplateScreen,
     required VoidCallback displayPieceMakingIsRestrictedByFreePlan,
-    required VoidCallback displayPieceMakingIsRestrictedByPremiumPlan,
+    required Future<ConfirmToMakePieceResult?> Function()
+        displayPieceMakingIsRestrictedByPremiumPlan,
   }) {
     _moveToSelectTemplateScreen = moveToSelectTemplateScreen;
     _displayPieceMakingIsRestrictedByFreePlan =
@@ -67,17 +69,32 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
     final makePieceAvailability =
         await _ref.read(makePieceAvailabilityProvider.future);
-    makePieceAvailability.when(
+    await makePieceAvailability.when(
       available: () {
         _moveToSelectTemplateScreen?.call();
       },
-      unavailable: (reason) {
+      unavailable: (reason) async {
         switch (reason) {
           case MakePieceUnavailableReason.hasMaxPiecesAllowedOnFreePlan:
             _displayPieceMakingIsRestrictedByFreePlan?.call();
             break;
           case MakePieceUnavailableReason.hasMaxPiecesAllowedOnPremiumPlan:
-            _displayPieceMakingIsRestrictedByPremiumPlan?.call();
+            final result =
+                await _displayPieceMakingIsRestrictedByPremiumPlan?.call();
+            if (result == null) {
+              return;
+            }
+
+            if (result.requestedDoNotShowAgain) {
+              // TODO: Save the user's preference
+            }
+
+            result.maybeMap(
+              continued: (_) {
+                _moveToSelectTemplateScreen?.call();
+              },
+              orElse: () {},
+            );
             break;
         }
       },
