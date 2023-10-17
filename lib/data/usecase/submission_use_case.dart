@@ -19,7 +19,7 @@ final makePieceAvailabilityProvider =
   final pieces = await ref.watch(piecesProvider.future);
 
   if (isPremiumPlan == true) {
-    if (pieces.length < 100) {
+    if (pieces.length < 30) {
       return const MakePieceAvailability.available();
     }
 

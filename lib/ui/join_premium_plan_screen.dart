@@ -80,7 +80,7 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
         size: iconSize,
       ),
       title: Text('広大な制作スペース'),
-      description: Text('最大100作品を保存しておくことができるようになります。'),
+      description: Text('最大30作品を保存しておくことができるようになります。'),
       positionInGroup: ListTilePositionInGroup.first,
     );
     const rapidGenerationFeatureTile = _RoundedDescriptionListTile(
