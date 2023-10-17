@@ -19,7 +19,7 @@ import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
   final isPremiumPlan = ref.watch(isPremiumPlanProvider);
   final pieces = await ref.watch(piecesProvider.future);
-  final preferenceService = ref.read(preferenceServiceProvider);
+  final preferenceService = ref.watch(preferenceServiceProvider);
 
   Future<MakePieceAvailability> action() async {
     final userRequestedDoNotShowAgainWarningsForMakingPiece =
@@ -52,7 +52,7 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
 
 final requestDoNotShowAgainWarningsForMakingPieceActionProvider =
     Provider((ref) {
-  final preferenceService = ref.read(preferenceServiceProvider);
+  final preferenceService = ref.watch(preferenceServiceProvider);
 
   Future<void> action() async {
     await preferenceService.setBool(
