@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/di/repository_providers.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
+import 'package:my_pet_melody/data/model/make_piece_availability.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
@@ -12,15 +13,28 @@ import 'package:my_pet_melody/data/service/auth_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 
-final isAvailableToMakePieceProvider = FutureProvider((ref) async {
+final makePieceAvailabilityProvider =
+    FutureProvider<MakePieceAvailability>((ref) async {
   final isPremiumPlan = ref.watch(isPremiumPlanProvider);
   final pieces = await ref.watch(piecesProvider.future);
 
   if (isPremiumPlan == true) {
-    return true;
+    if (pieces.length < 100) {
+      return const MakePieceAvailability.available();
+    }
+
+    return const MakePieceAvailability.unavailable(
+      reason: MakePieceUnavailableReason.hasMaxPiecesAllowedOnPremiumPlan,
+    );
   }
 
-  return pieces.length < 5;
+  if (pieces.length < 5) {
+    return const MakePieceAvailability.available();
+  }
+
+  return const MakePieceAvailability.unavailable(
+    reason: MakePieceUnavailableReason.hasMaxPiecesAllowedOnFreePlan,
+  );
 });
 
 final isAvailableToTrimSoundForGenerationProvider = Provider((ref) {

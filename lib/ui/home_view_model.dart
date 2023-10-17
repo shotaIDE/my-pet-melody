@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/types.dart';
+import 'package:my_pet_melody/data/model/make_piece_availability.dart';
 import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
@@ -26,6 +27,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   final _player = AudioPlayer();
 
+  VoidCallback? _moveToSelectTemplateScreen;
+  VoidCallback? _displayPieceMakingIsRestrictedByFreePlan;
+  VoidCallback? _displayPieceMakingIsRestrictedByPremiumPlan;
   Duration? _currentAudioDuration;
   StreamSubscription<List<Piece>>? _piecesSubscription;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -46,28 +50,38 @@ class HomeViewModel extends StateNotifier<HomeState> {
     super.dispose();
   }
 
-  VoidCallback? _moveToSelectTemplateScreen;
-  VoidCallback? _displayPieceMakingIsRestricted;
-
   void registerListener({
     required VoidCallback moveToSelectTemplateScreen,
-    required VoidCallback displayPieceMakingIsRestricted,
+    required VoidCallback displayPieceMakingIsRestrictedByFreePlan,
+    required VoidCallback displayPieceMakingIsRestrictedByPremiumPlan,
   }) {
     _moveToSelectTemplateScreen = moveToSelectTemplateScreen;
-    _displayPieceMakingIsRestricted = displayPieceMakingIsRestricted;
+    _displayPieceMakingIsRestrictedByFreePlan =
+        displayPieceMakingIsRestrictedByFreePlan;
+    _displayPieceMakingIsRestrictedByPremiumPlan =
+        displayPieceMakingIsRestrictedByPremiumPlan;
   }
 
   Future<void> onMakePiece() async {
     await _beforeHideScreen();
 
-    final isAvailableToMakePiece =
-        await _ref.read(isAvailableToMakePieceProvider.future);
-    if (isAvailableToMakePiece) {
-      _moveToSelectTemplateScreen?.call();
-      return;
-    }
-
-    _displayPieceMakingIsRestricted?.call();
+    final makePieceAvailability =
+        await _ref.read(makePieceAvailabilityProvider.future);
+    makePieceAvailability.when(
+      available: () {
+        _moveToSelectTemplateScreen?.call();
+      },
+      unavailable: (reason) {
+        switch (reason) {
+          case MakePieceUnavailableReason.hasMaxPiecesAllowedOnFreePlan:
+            _displayPieceMakingIsRestrictedByFreePlan?.call();
+            break;
+          case MakePieceUnavailableReason.hasMaxPiecesAllowedOnPremiumPlan:
+            _displayPieceMakingIsRestrictedByPremiumPlan?.call();
+            break;
+        }
+      },
+    );
   }
 
   Future<void> _setup({required Listener listener}) async {

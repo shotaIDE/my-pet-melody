@@ -52,7 +52,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
         await Navigator.push<void>(context, SelectTemplateScreen.route());
       },
-      displayPieceMakingIsRestricted: () async {
+      displayPieceMakingIsRestrictedByFreePlan: () async {
         if (!mounted) {
           return;
         }
@@ -83,6 +83,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         }
 
         await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+      },
+      displayPieceMakingIsRestrictedByPremiumPlan: () async {
+        if (!mounted) {
+          return;
+        }
+
+        await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: const Text(
+                'これ以上作品を作れません。今ある作品を削除してください。',
+              ),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            );
+          },
+        );
       },
     );
   }
