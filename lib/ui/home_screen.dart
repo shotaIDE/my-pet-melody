@@ -92,16 +92,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         await showDialog<bool>(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              content: const Text(
+            return const AlertDialog(
+              content: Text(
                 'これ以上作品を作れません。今ある作品を削除してください。',
               ),
-              actions: [
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
             );
           },
         );
