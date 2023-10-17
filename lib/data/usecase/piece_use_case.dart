@@ -87,7 +87,7 @@ final piecesProvider = FutureProvider(
       ),
     );
 
-    return converted.whereNotNull().sorted(
+    final sorted = converted.whereNotNull().sorted(
       (a, b) {
         final dateTimeA = a.map(
           generating: (generating) => generating.submittedAt,
@@ -102,5 +102,11 @@ final piecesProvider = FutureProvider(
         return dateTimeB.compareTo(dateTimeA);
       },
     );
+
+    if (sorted.length < 30) {
+      return sorted;
+    }
+
+    return sorted.sublist(0, 30);
   },
 );
