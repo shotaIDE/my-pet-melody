@@ -116,6 +116,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ],
                   ),
+                  contentPadding:
+                      const EdgeInsets.only(top: 20, left: 24, right: 24),
                   actions: [
                     TextButton(
                       child: const Text('続ける'),
