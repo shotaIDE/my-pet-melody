@@ -14,8 +14,7 @@ class HomeState with _$HomeState {
 class ConfirmToMakePieceResult with _$ConfirmToMakePieceResult {
   const factory ConfirmToMakePieceResult.continued({
     required bool requestedDoNotShowAgain,
-  }) = _ConfirmToMakePieceResultContinue;
-  const factory ConfirmToMakePieceResult.canceled({
-    required bool requestedDoNotShowAgain,
-  }) = _ConfirmToMakePieceResultCancel;
+  }) = _ConfirmToMakePieceResultContinued;
+  const factory ConfirmToMakePieceResult.canceled() =
+      _ConfirmToMakePieceResultCanceled;
 }

@@ -82,17 +82,19 @@ class HomeViewModel extends StateNotifier<HomeState> {
           return;
         }
 
-        if (result.requestedDoNotShowAgain) {
-          await _ref
-              .read(requestDoNotShowAgainWarningsForMakingPieceActionProvider)
-              .call();
-        }
+        await result.when(
+          continued: (requestedDoNotShowAgain) async {
+            if (requestedDoNotShowAgain) {
+              await _ref
+                  .read(
+                    requestDoNotShowAgainWarningsForMakingPieceActionProvider,
+                  )
+                  .call();
+            }
 
-        result.maybeMap(
-          continued: (_) {
             _moveToSelectTemplateScreen?.call();
           },
-          orElse: () {},
+          canceled: () {},
         );
         break;
 

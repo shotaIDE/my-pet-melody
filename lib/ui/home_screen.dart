@@ -130,9 +130,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       child: const Text('キャンセル'),
                       onPressed: () => Navigator.pop(
                         context,
-                        ConfirmToMakePieceResult.canceled(
-                          requestedDoNotShowAgain: requestedDoNotShowAgain,
-                        ),
+                        const ConfirmToMakePieceResult.canceled(),
                       ),
                     ),
                   ],
