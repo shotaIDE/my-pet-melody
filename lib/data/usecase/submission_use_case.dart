@@ -6,35 +6,61 @@ import 'package:my_pet_melody/data/di/repository_providers.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/model/make_piece_availability.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
+import 'package:my_pet_melody/data/model/preference_key.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
+import 'package:my_pet_melody/data/service/preference_service.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 
-final makePieceAvailabilityProvider =
-    FutureProvider<MakePieceAvailability>((ref) async {
+final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
   final isPremiumPlan = ref.watch(isPremiumPlanProvider);
   final pieces = await ref.watch(piecesProvider.future);
+  final preferenceService = ref.read(preferenceServiceProvider);
 
-  if (isPremiumPlan == true) {
-    if (pieces.length < 30) {
-      return const MakePieceAvailability.available();
+  Future<MakePieceAvailability> action() async {
+    final userRequestedDoNotShowAgainWarningsForMakingPiece =
+        await preferenceService.getBool(
+              PreferenceKey.userRequestedDoNotShowAgainWarningsForMakingPiece,
+            ) ??
+            false;
+
+    if (isPremiumPlan == true) {
+      if (pieces.length < 30) {
+        return MakePieceAvailability.available;
+      }
+
+      if (userRequestedDoNotShowAgainWarningsForMakingPiece) {
+        return MakePieceAvailability.available;
+      }
+
+      return MakePieceAvailability.availableWithWarnings;
     }
 
-    return const MakePieceAvailability.unavailable(
-      reason: MakePieceUnavailableReason.hasMaxPiecesAllowedOnPremiumPlan,
+    if (pieces.length < 5) {
+      return MakePieceAvailability.available;
+    }
+
+    return MakePieceAvailability.unavailable;
+  }
+
+  return action;
+});
+
+final requestDoNotShowAgainWarningsForMakingPieceActionProvider =
+    Provider((ref) {
+  final preferenceService = ref.read(preferenceServiceProvider);
+
+  Future<void> action() async {
+    await preferenceService.setBool(
+      PreferenceKey.userRequestedDoNotShowAgainWarningsForMakingPiece,
+      value: true,
     );
   }
 
-  if (pieces.length < 5) {
-    return const MakePieceAvailability.available();
-  }
-
-  return const MakePieceAvailability.unavailable(
-    reason: MakePieceUnavailableReason.hasMaxPiecesAllowedOnFreePlan,
-  );
+  return action;
 });
 
 final isAvailableToTrimSoundForGenerationProvider = Provider((ref) {

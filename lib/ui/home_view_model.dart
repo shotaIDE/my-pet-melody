@@ -67,38 +67,39 @@ class HomeViewModel extends StateNotifier<HomeState> {
   Future<void> onMakePiece() async {
     await _beforeHideScreen();
 
-    final makePieceAvailability =
-        await _ref.read(makePieceAvailabilityProvider.future);
-    await makePieceAvailability.when(
-      available: () {
+    final getMakePieceAvailabilityAction =
+        await _ref.read(getMakePieceAvailabilityActionProvider.future);
+    final makePieceAvailability = await getMakePieceAvailabilityAction();
+    switch (makePieceAvailability) {
+      case MakePieceAvailability.available:
         _moveToSelectTemplateScreen?.call();
-      },
-      unavailable: (reason) async {
-        switch (reason) {
-          case MakePieceUnavailableReason.hasMaxPiecesAllowedOnFreePlan:
-            _displayPieceMakingIsRestrictedByFreePlan?.call();
-            break;
-          case MakePieceUnavailableReason.hasMaxPiecesAllowedOnPremiumPlan:
-            final result =
-                await _displayPieceMakingIsRestrictedByPremiumPlan?.call();
-            if (result == null) {
-              return;
-            }
+        break;
 
-            if (result.requestedDoNotShowAgain) {
-              // TODO: Save the user's preference
-            }
-
-            result.maybeMap(
-              continued: (_) {
-                _moveToSelectTemplateScreen?.call();
-              },
-              orElse: () {},
-            );
-            break;
+      case MakePieceAvailability.availableWithWarnings:
+        final result =
+            await _displayPieceMakingIsRestrictedByPremiumPlan?.call();
+        if (result == null) {
+          return;
         }
-      },
-    );
+
+        if (result.requestedDoNotShowAgain) {
+          await _ref
+              .read(requestDoNotShowAgainWarningsForMakingPieceActionProvider)
+              .call();
+        }
+
+        result.maybeMap(
+          continued: (_) {
+            _moveToSelectTemplateScreen?.call();
+          },
+          orElse: () {},
+        );
+        break;
+
+      case MakePieceAvailability.unavailable:
+        _displayPieceMakingIsRestrictedByFreePlan?.call();
+        break;
+    }
   }
 
   Future<void> _setup({required Listener listener}) async {
