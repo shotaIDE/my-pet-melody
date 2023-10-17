@@ -40,7 +40,7 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
       return MakePieceAvailability.availableWithWarnings;
     }
 
-    if (pieces.length < 5) {
+    if (pieces.length < AppDefinitions.maxPiecesOnFreePlan) {
       return MakePieceAvailability.available;
     }
 

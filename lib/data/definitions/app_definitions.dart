@@ -12,6 +12,7 @@ class AppDefinitions {
 
   static const appStoreId = '6450181110';
 
+  static const maxPiecesOnFreePlan = 5;
   static const maxPiecesOnPremiumPlan = 30;
 
   static String get twitterRedirectUri {
