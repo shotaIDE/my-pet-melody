@@ -62,7 +62,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           builder: (context) {
             return AlertDialog(
               content: const Text(
-                'これ以上作品を作れません。今ある作品の保存期限が過ぎるのを待つか、プレミアムプランへの加入を検討してください。',
+                '所有できる作品の最大数を超えました。'
+                '新しく作品をつくるには、今ある作品の保存期限が過ぎるのを待つか、プレミアムプランへの加入を検討してください。',
               ),
               actions: [
                 TextButton(
@@ -92,10 +93,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         await showDialog<bool>(
           context: context,
           builder: (context) {
-            return const AlertDialog(
-              content: Text(
-                'これ以上作品を作れません。今ある作品を削除してください。',
+            return AlertDialog(
+              content: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。',
+                  ),
+                  CheckboxListTile(
+                    value: false,
+                    onChanged: null,
+                    title: Text('今後このメッセージを表示しない'),
+                  ),
+                ],
               ),
+              actions: [
+                TextButton(
+                  child: const Text('続ける'),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+                TextButton(
+                  child: const Text('キャンセル'),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+              ],
             );
           },
         );
