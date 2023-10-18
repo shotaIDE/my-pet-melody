@@ -2,25 +2,66 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/di/repository_providers.dart';
 import 'package:my_pet_melody/data/di/service_providers.dart';
+import 'package:my_pet_melody/data/model/make_piece_availability.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
+import 'package:my_pet_melody/data/model/preference_key.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
+import 'package:my_pet_melody/data/service/preference_service.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 
-final isAvailableToMakePieceProvider = FutureProvider((ref) async {
+final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
   final isPremiumPlan = ref.watch(isPremiumPlanProvider);
   final pieces = await ref.watch(piecesProvider.future);
+  final preferenceService = ref.watch(preferenceServiceProvider);
 
-  if (isPremiumPlan == true) {
-    return true;
+  Future<MakePieceAvailability> action() async {
+    final userRequestedDoNotShowWarningsAgainForMakingPiece =
+        await preferenceService.getBool(
+              PreferenceKey.userRequestedDoNotShowWarningsAgainForMakingPiece,
+            ) ??
+            false;
+
+    if (isPremiumPlan == true) {
+      if (pieces.length < AppDefinitions.maxPiecesOnPremiumPlan) {
+        return MakePieceAvailability.available;
+      }
+
+      if (userRequestedDoNotShowWarningsAgainForMakingPiece) {
+        return MakePieceAvailability.available;
+      }
+
+      return MakePieceAvailability.availableWithWarnings;
+    }
+
+    if (pieces.length < AppDefinitions.maxPiecesOnFreePlan) {
+      return MakePieceAvailability.available;
+    }
+
+    return MakePieceAvailability.unavailable;
   }
 
-  return pieces.length < 5;
+  return action;
+});
+
+final requestDoNotShowWarningsAgainForMakingPieceActionProvider =
+    Provider((ref) {
+  final preferenceService = ref.watch(preferenceServiceProvider);
+
+  Future<void> action() async {
+    await preferenceService.setBool(
+      PreferenceKey.userRequestedDoNotShowWarningsAgainForMakingPiece,
+      value: true,
+    );
+  }
+
+  return action;
 });
 
 final isAvailableToTrimSoundForGenerationProvider = Provider((ref) {

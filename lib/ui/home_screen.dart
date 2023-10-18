@@ -52,7 +52,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
         await Navigator.push<void>(context, SelectTemplateScreen.route());
       },
-      displayPieceMakingIsRestricted: () async {
+      displayMakingPieceIsRestricted: () async {
         if (!mounted) {
           return;
         }
@@ -62,7 +62,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           builder: (context) {
             return AlertDialog(
               content: const Text(
-                'これ以上作品を作れません。今ある作品の保存期限が過ぎるのを待つか、プレミアムプランへの加入を検討してください。',
+                '所有できる作品の最大数を超えました。'
+                '新しく作品をつくるには、今ある作品の保存期限が過ぎるのを待つか、プレミアムプランへの加入を検討してください。',
               ),
               actions: [
                 TextButton(
@@ -83,6 +84,64 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         }
 
         await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+      },
+      confirmToMakePieceWithWarnings: () async {
+        if (!mounted) {
+          return null;
+        }
+
+        return showDialog<ConfirmToMakePieceResult>(
+          context: context,
+          builder: (context) {
+            var requestedDoNotShowAgain = false;
+
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        '所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。',
+                      ),
+                      const SizedBox(height: 16),
+                      CheckboxListTile(
+                        value: requestedDoNotShowAgain,
+                        onChanged: (value) {
+                          setState(() {
+                            requestedDoNotShowAgain = value!;
+                          });
+                        },
+                        title: const Text('今後表示しない'),
+                      ),
+                    ],
+                  ),
+                  contentPadding:
+                      const EdgeInsets.only(top: 20, left: 24, right: 24),
+                  actions: [
+                    TextButton(
+                      child: const Text('続ける'),
+                      onPressed: () => Navigator.pop(
+                        context,
+                        ConfirmToMakePieceResult.continued(
+                          requestedDoNotShowWarningsAgain:
+                              requestedDoNotShowAgain,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      child: const Text('キャンセル'),
+                      onPressed: () => Navigator.pop(
+                        context,
+                        const ConfirmToMakePieceResult.canceled(),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        );
       },
     );
   }

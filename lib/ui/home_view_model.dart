@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/types.dart';
+import 'package:my_pet_melody/data/model/make_piece_availability.dart';
 import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
@@ -26,6 +27,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   final _player = AudioPlayer();
 
+  VoidCallback? _moveToSelectTemplateScreen;
+  VoidCallback? _displayMakingPieceIsRestricted;
+  Future<ConfirmToMakePieceResult?> Function()? _confirmToMakePieceWithWarnings;
   Duration? _currentAudioDuration;
   StreamSubscription<List<Piece>>? _piecesSubscription;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -46,28 +50,54 @@ class HomeViewModel extends StateNotifier<HomeState> {
     super.dispose();
   }
 
-  VoidCallback? _moveToSelectTemplateScreen;
-  VoidCallback? _displayPieceMakingIsRestricted;
-
   void registerListener({
     required VoidCallback moveToSelectTemplateScreen,
-    required VoidCallback displayPieceMakingIsRestricted,
+    required VoidCallback displayMakingPieceIsRestricted,
+    required Future<ConfirmToMakePieceResult?> Function()
+        confirmToMakePieceWithWarnings,
   }) {
     _moveToSelectTemplateScreen = moveToSelectTemplateScreen;
-    _displayPieceMakingIsRestricted = displayPieceMakingIsRestricted;
+    _displayMakingPieceIsRestricted = displayMakingPieceIsRestricted;
+    _confirmToMakePieceWithWarnings = confirmToMakePieceWithWarnings;
   }
 
   Future<void> onMakePiece() async {
     await _beforeHideScreen();
 
-    final isAvailableToMakePiece =
-        await _ref.read(isAvailableToMakePieceProvider.future);
-    if (isAvailableToMakePiece) {
-      _moveToSelectTemplateScreen?.call();
-      return;
-    }
+    final getMakePieceAvailabilityAction =
+        await _ref.read(getMakePieceAvailabilityActionProvider.future);
+    final makePieceAvailability = await getMakePieceAvailabilityAction();
+    switch (makePieceAvailability) {
+      case MakePieceAvailability.available:
+        _moveToSelectTemplateScreen?.call();
+        break;
 
-    _displayPieceMakingIsRestricted?.call();
+      case MakePieceAvailability.availableWithWarnings:
+        final result = await _confirmToMakePieceWithWarnings?.call();
+        if (result == null) {
+          return;
+        }
+
+        await result.when(
+          continued: (requestedDoNotShowAgain) async {
+            if (requestedDoNotShowAgain) {
+              await _ref
+                  .read(
+                    requestDoNotShowWarningsAgainForMakingPieceActionProvider,
+                  )
+                  .call();
+            }
+
+            _moveToSelectTemplateScreen?.call();
+          },
+          canceled: () {},
+        );
+        break;
+
+      case MakePieceAvailability.unavailable:
+        _displayMakingPieceIsRestricted?.call();
+        break;
+    }
   }
 
   Future<void> _setup({required Listener listener}) async {

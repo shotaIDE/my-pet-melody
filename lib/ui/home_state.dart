@@ -9,3 +9,12 @@ class HomeState with _$HomeState {
     @Default(null) List<PlayerChoicePiece>? pieces,
   }) = _HomeState;
 }
+
+@freezed
+class ConfirmToMakePieceResult with _$ConfirmToMakePieceResult {
+  const factory ConfirmToMakePieceResult.continued({
+    required bool requestedDoNotShowWarningsAgain,
+  }) = _ConfirmToMakePieceResultContinued;
+  const factory ConfirmToMakePieceResult.canceled() =
+      _ConfirmToMakePieceResultCanceled;
+}
