@@ -28,9 +28,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final _player = AudioPlayer();
 
   VoidCallback? _moveToSelectTemplateScreen;
-  VoidCallback? _displayMakingPieceIsRestrictedByFreePlan;
-  Future<ConfirmToMakePieceResult?> Function()?
-      _displayMakingPieceIsRestrictedByPremiumPlan;
+  VoidCallback? _displayMakingPieceIsRestricted;
+  Future<ConfirmToMakePieceResult?> Function()? _confirmToMakePieceWithWarnings;
   Duration? _currentAudioDuration;
   StreamSubscription<List<Piece>>? _piecesSubscription;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -53,15 +52,13 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   void registerListener({
     required VoidCallback moveToSelectTemplateScreen,
-    required VoidCallback displayMakingPieceIsRestrictedByFreePlan,
+    required VoidCallback displayMakingPieceIsRestricted,
     required Future<ConfirmToMakePieceResult?> Function()
-        displayMakingPieceIsRestrictedByPremiumPlan,
+        confirmToMakePieceWithWarnings,
   }) {
     _moveToSelectTemplateScreen = moveToSelectTemplateScreen;
-    _displayMakingPieceIsRestrictedByFreePlan =
-        displayMakingPieceIsRestrictedByFreePlan;
-    _displayMakingPieceIsRestrictedByPremiumPlan =
-        displayMakingPieceIsRestrictedByPremiumPlan;
+    _displayMakingPieceIsRestricted = displayMakingPieceIsRestricted;
+    _confirmToMakePieceWithWarnings = confirmToMakePieceWithWarnings;
   }
 
   Future<void> onMakePiece() async {
@@ -76,8 +73,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
         break;
 
       case MakePieceAvailability.availableWithWarnings:
-        final result =
-            await _displayMakingPieceIsRestrictedByPremiumPlan?.call();
+        final result = await _confirmToMakePieceWithWarnings?.call();
         if (result == null) {
           return;
         }
@@ -87,7 +83,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
             if (requestedDoNotShowAgain) {
               await _ref
                   .read(
-                    requestDoNotShowAgainWarningsForMakingPieceActionProvider,
+                    requestDoNotShowWarningsAgainForMakingPieceActionProvider,
                   )
                   .call();
             }
@@ -99,7 +95,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
         break;
 
       case MakePieceAvailability.unavailable:
-        _displayMakingPieceIsRestrictedByFreePlan?.call();
+        _displayMakingPieceIsRestricted?.call();
         break;
     }
   }

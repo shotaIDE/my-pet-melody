@@ -52,7 +52,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
         await Navigator.push<void>(context, SelectTemplateScreen.route());
       },
-      displayMakingPieceIsRestrictedByFreePlan: () async {
+      displayMakingPieceIsRestricted: () async {
         if (!mounted) {
           return;
         }
@@ -85,7 +85,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
         await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
       },
-      displayMakingPieceIsRestrictedByPremiumPlan: () async {
+      confirmToMakePieceWithWarnings: () async {
         if (!mounted) {
           return null;
         }
@@ -124,7 +124,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       onPressed: () => Navigator.pop(
                         context,
                         ConfirmToMakePieceResult.continued(
-                          requestedDoNotShowAgain: requestedDoNotShowAgain,
+                          requestedDoNotShowWarningsAgain:
+                              requestedDoNotShowAgain,
                         ),
                       ),
                     ),

@@ -22,9 +22,9 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
   final preferenceService = ref.watch(preferenceServiceProvider);
 
   Future<MakePieceAvailability> action() async {
-    final userRequestedDoNotShowAgainWarningsForMakingPiece =
+    final userRequestedDoNotShowWarningsAgainForMakingPiece =
         await preferenceService.getBool(
-              PreferenceKey.userRequestedDoNotShowAgainWarningsForMakingPiece,
+              PreferenceKey.userRequestedDoNotShowWarningsAgainForMakingPiece,
             ) ??
             false;
 
@@ -33,7 +33,7 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
         return MakePieceAvailability.available;
       }
 
-      if (userRequestedDoNotShowAgainWarningsForMakingPiece) {
+      if (userRequestedDoNotShowWarningsAgainForMakingPiece) {
         return MakePieceAvailability.available;
       }
 
@@ -50,13 +50,13 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
   return action;
 });
 
-final requestDoNotShowAgainWarningsForMakingPieceActionProvider =
+final requestDoNotShowWarningsAgainForMakingPieceActionProvider =
     Provider((ref) {
   final preferenceService = ref.watch(preferenceServiceProvider);
 
   Future<void> action() async {
     await preferenceService.setBool(
-      PreferenceKey.userRequestedDoNotShowAgainWarningsForMakingPiece,
+      PreferenceKey.userRequestedDoNotShowWarningsAgainForMakingPiece,
       value: true,
     );
   }

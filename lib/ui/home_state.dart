@@ -13,7 +13,7 @@ class HomeState with _$HomeState {
 @freezed
 class ConfirmToMakePieceResult with _$ConfirmToMakePieceResult {
   const factory ConfirmToMakePieceResult.continued({
-    required bool requestedDoNotShowAgain,
+    required bool requestedDoNotShowWarningsAgain,
   }) = _ConfirmToMakePieceResultContinued;
   const factory ConfirmToMakePieceResult.canceled() =
       _ConfirmToMakePieceResultCanceled;

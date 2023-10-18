@@ -1,5 +1,5 @@
 enum PreferenceKey {
-  userRequestedDoNotShowAgainWarningsForMakingPiece,
+  userRequestedDoNotShowWarningsAgainForMakingPiece,
   hasRequestedPushNotificationPermissionAtLeastOnce,
   appCompletedToPlayVideoCount,
 }
