@@ -28,9 +28,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final _player = AudioPlayer();
 
   VoidCallback? _moveToSelectTemplateScreen;
-  VoidCallback? _displayPieceMakingIsRestrictedByFreePlan;
+  VoidCallback? _displayMakingPieceIsRestrictedByFreePlan;
   Future<ConfirmToMakePieceResult?> Function()?
-      _displayPieceMakingIsRestrictedByPremiumPlan;
+      _displayMakingPieceIsRestrictedByPremiumPlan;
   Duration? _currentAudioDuration;
   StreamSubscription<List<Piece>>? _piecesSubscription;
   StreamSubscription<Duration>? _audioDurationSubscription;
@@ -53,15 +53,15 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   void registerListener({
     required VoidCallback moveToSelectTemplateScreen,
-    required VoidCallback displayPieceMakingIsRestrictedByFreePlan,
+    required VoidCallback displayMakingPieceIsRestrictedByFreePlan,
     required Future<ConfirmToMakePieceResult?> Function()
-        displayPieceMakingIsRestrictedByPremiumPlan,
+        displayMakingPieceIsRestrictedByPremiumPlan,
   }) {
     _moveToSelectTemplateScreen = moveToSelectTemplateScreen;
-    _displayPieceMakingIsRestrictedByFreePlan =
-        displayPieceMakingIsRestrictedByFreePlan;
-    _displayPieceMakingIsRestrictedByPremiumPlan =
-        displayPieceMakingIsRestrictedByPremiumPlan;
+    _displayMakingPieceIsRestrictedByFreePlan =
+        displayMakingPieceIsRestrictedByFreePlan;
+    _displayMakingPieceIsRestrictedByPremiumPlan =
+        displayMakingPieceIsRestrictedByPremiumPlan;
   }
 
   Future<void> onMakePiece() async {
@@ -77,7 +77,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
       case MakePieceAvailability.availableWithWarnings:
         final result =
-            await _displayPieceMakingIsRestrictedByPremiumPlan?.call();
+            await _displayMakingPieceIsRestrictedByPremiumPlan?.call();
         if (result == null) {
           return;
         }
@@ -99,7 +99,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
         break;
 
       case MakePieceAvailability.unavailable:
-        _displayPieceMakingIsRestrictedByFreePlan?.call();
+        _displayMakingPieceIsRestrictedByFreePlan?.call();
         break;
     }
   }

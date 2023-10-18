@@ -52,7 +52,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
         await Navigator.push<void>(context, SelectTemplateScreen.route());
       },
-      displayPieceMakingIsRestrictedByFreePlan: () async {
+      displayMakingPieceIsRestrictedByFreePlan: () async {
         if (!mounted) {
           return;
         }
@@ -85,7 +85,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
         await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
       },
-      displayPieceMakingIsRestrictedByPremiumPlan: () async {
+      displayMakingPieceIsRestrictedByPremiumPlan: () async {
         if (!mounted) {
           return null;
         }
