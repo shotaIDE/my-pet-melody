@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
 import 'package:my_pet_melody/data/model/delete_account_error.dart';
@@ -11,6 +10,7 @@ import 'package:my_pet_melody/data/model/login_third_party_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
 import 'package:my_pet_melody/data/model/twitter_credential.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
+import 'package:my_pet_melody/data/service/push_notification_service.dart';
 import 'package:my_pet_melody/data/service/third_party_auth_service.dart';
 
 final nonAnonymousProfileProvider = Provider((ref) {

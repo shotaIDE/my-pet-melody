@@ -2,17 +2,27 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
+import 'package:my_pet_melody/data/logger/error_reporter.dart';
+
+final dioProvider = Provider(
+  (ref) => MyDio(
+    errorReporter: ref.watch(errorReporterProvider),
+  ),
+);
 
 class MyDio {
-  MyDio() : _dio = Dio(BaseOptions());
+  MyDio({required ErrorReporter errorReporter})
+      : _dio = Dio(BaseOptions()),
+        _errorReporter = errorReporter;
 
   static const _contentTypeJson = 'application/json';
   static const _contentTypeForm = 'application/x-www-form-urlencoded';
 
   final String _baseUrl = AppDefinitions.serverOrigin;
   final Dio _dio;
+  final ErrorReporter _errorReporter;
 
   Future<T?> post<T>({
     required String path,
@@ -90,25 +100,29 @@ class MyDio {
       headers['platform'] = 'Android';
     }
 
-    dynamic responseDataRaw;
-
     try {
       final response = await connectionExecutor(url, Options(headers: headers));
-      responseDataRaw = response.data;
 
       final responseData =
           responseParser(response.data as Map<String, dynamic>);
 
       return responseData;
-    } on DioException catch (error) {
-      debugPrint('DioException: $responseDataRaw');
-      debugPrint('$error');
+    } on DioException catch (error, stack) {
+      unawaited(
+        _errorReporter.send(
+          error,
+          stack,
+          reason: 'exception when calling API',
+          information: [
+            error.message?.toString() ?? '(No message)',
+            error.type.name,
+            error.response.toString(),
+          ],
+        ),
+      );
 
       return null;
-    } on SocketException catch (error) {
-      debugPrint('SocketException: $responseDataRaw');
-      debugPrint('$error');
-
+    } on SocketException {
       return null;
     }
   }

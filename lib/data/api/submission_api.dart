@@ -1,11 +1,18 @@
 import 'dart:async';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:my_pet_melody/data/api/my_dio.dart';
 import 'package:my_pet_melody/flavor.dart';
 
 part 'submission_api.freezed.dart';
 part 'submission_api.g.dart';
+
+final submissionApiProvider = Provider(
+  (ref) => SubmissionApi(
+    dio: ref.watch(dioProvider),
+  ),
+);
 
 class SubmissionApi {
   SubmissionApi({required MyDio dio}) : _dio = dio;

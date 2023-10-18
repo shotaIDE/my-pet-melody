@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
-import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/service/database_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
+import 'package:my_pet_melody/data/service/storage_service_firebase.dart';
 import 'package:path/path.dart';
 
 final templatesProvider = FutureProvider((ref) async {
