@@ -2,6 +2,7 @@
 
 import json
 import os
+from datetime import datetime
 
 import storage
 import storage_local
@@ -51,6 +52,7 @@ def generate_template():
 
         template_id = set_template(
             name=meta_json['name'],
+            published_at=datetime.now(),
             overlays=overlays,
         )
 
