@@ -74,9 +74,14 @@ def set_generated_piece(
     generated_pieces_collection.document(id).update(store_data)
 
 
-def set_template(name: str, overlays: list[dict[str, Any]]) -> str:
+def set_template(
+    name: str,
+    published_at: DateTime,
+    overlays: list[dict[str, Any]],
+) -> str:
     store_data = {
         'name': name,
+        'publishedAt': published_at,
         'overlays': overlays,
     }
 
