@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/circled_play_button.dart';
@@ -77,6 +78,14 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               );
 
+              final dateFormatter = DateFormat.yMd('ja');
+              final publishedAtText =
+                  dateFormatter.format(template.publishedAt);
+              final subtitle = Text(
+                publishedAtText,
+                style: Theme.of(context).textTheme.bodySmall,
+              );
+
               final button = CircledPlayButton(
                 status: status,
                 onPressedWhenStop: () => ref
@@ -112,7 +121,14 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                             thumbnail,
                             const SizedBox(width: 16),
                             Expanded(
-                              child: title,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  title,
+                                  const SizedBox(height: 4),
+                                  subtitle,
+                                ],
+                              ),
                             ),
                             const SizedBox(width: 16),
                             button,
