@@ -10,11 +10,13 @@ class ErrorReporter {
     dynamic error,
     StackTrace stack, {
     String? reason,
+    Iterable<Object> information = const [],
   }) async {
     await FirebaseCrashlytics.instance.recordError(
       error,
       stack,
       reason: reason,
+      information: information,
     );
   }
 }

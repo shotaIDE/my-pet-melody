@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/logger/error_reporter.dart';
@@ -112,18 +111,21 @@ class MyDio {
 
       return responseData;
     } on DioException catch (error, stack) {
-      debugPrint('DioException: $responseDataRaw');
-      debugPrint('$error');
-
       unawaited(
-        _errorReporter.send(error, stack, reason: 'response error from Server'),
+        _errorReporter.send(
+          error,
+          stack,
+          reason: 'exception when calling API',
+          information: [
+            error.message?.toString() ?? '(No message)',
+            error.type.name,
+            error.response.toString(),
+          ],
+        ),
       );
 
       return null;
-    } on SocketException catch (error) {
-      debugPrint('SocketException: $responseDataRaw');
-      debugPrint('$error');
-
+    } on SocketException {
       return null;
     }
   }
