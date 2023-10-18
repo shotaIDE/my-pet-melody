@@ -52,6 +52,8 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       textAlign: TextAlign.center,
     );
 
+    final current = DateTime.now();
+
     final list = templates != null
         ? ListView.separated(
             shrinkWrap: true,
@@ -65,6 +67,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final template = playableTemplate.template;
               final status = playableTemplate.status;
 
+              final publishedAt = template.publishedAt;
               final thumbnail = SizedBox(
                 width: DisplayDefinition.thumbnailWidthLarge,
                 height: DisplayDefinition.thumbnailHeightLarge,
@@ -72,6 +75,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                   url: template.thumbnailUrl,
                 ),
               );
+              final showNewChip = current.difference(publishedAt).inDays < 7;
 
               final title = Text(
                 template.name,
@@ -79,8 +83,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               );
 
               final dateFormatter = DateFormat.yMd('ja');
-              final publishedAtText =
-                  dateFormatter.format(template.publishedAt);
+              final publishedAtText = dateFormatter.format(publishedAt);
               final subtitle = Text(
                 publishedAtText,
                 style: Theme.of(context).textTheme.bodySmall,
@@ -118,7 +121,17 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            thumbnail,
+                            Stack(
+                              children: [
+                                thumbnail,
+                                if (showNewChip)
+                                  const Positioned(
+                                    bottom: 0,
+                                    right: 8,
+                                    child: _NewChip(),
+                                  ),
+                              ],
+                            ),
                             const SizedBox(width: 16),
                             Expanded(
                               child: Column(
@@ -213,6 +226,29 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     await Navigator.push<void>(
       context,
       SelectSoundsScreen.route(template: template),
+    );
+  }
+}
+
+class _NewChip extends StatelessWidget {
+  const _NewChip({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(
+      label: const Text('New'),
+      labelStyle: Theme.of(context)
+          .textTheme
+          .bodySmall!
+          .copyWith(color: Theme.of(context).colorScheme.onPrimary),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          DisplayDefinition.cornerRadiusSizeLarge,
+        ),
+      ),
     );
   }
 }
