@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
+import 'package:my_pet_melody/data/service/push_notification_service.dart';
 import 'package:my_pet_melody/data/service/remote_config_service.dart';
 
 final ensureSetupPushNotificationActionProvider = Provider((ref) {

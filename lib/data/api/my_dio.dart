@@ -3,7 +3,12 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
+
+final dioProvider = Provider(
+  (ref) => MyDio(),
+);
 
 class MyDio {
   MyDio() : _dio = Dio(BaseOptions());

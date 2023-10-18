@@ -3,17 +3,19 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
-import 'package:my_pet_melody/data/di/repository_providers.dart';
-import 'package:my_pet_melody/data/di/service_providers.dart';
 import 'package:my_pet_melody/data/model/make_piece_availability.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
 import 'package:my_pet_melody/data/model/preference_key.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/repository/settings_repository.dart';
+import 'package:my_pet_melody/data/repository/submission_repository.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/service/preference_service.dart';
+import 'package:my_pet_melody/data/service/push_notification_service.dart';
+import 'package:my_pet_melody/data/service/storage_service_firebase.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 
 final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {

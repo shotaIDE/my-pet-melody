@@ -3,7 +3,20 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/notification_channel_definitions.dart';
+
+final pushNotificationServiceProvider = Provider(
+  (ref) {
+    final pushNotificationService = PushNotificationService();
+
+    ref.onDispose(() async {
+      await pushNotificationService.dispose();
+    });
+
+    return pushNotificationService;
+  },
+);
 
 class PushNotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();

@@ -1,11 +1,21 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:my_pet_melody/data/model/login_session.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/data/service/auth_service.dart';
 import 'package:my_pet_melody/data/service/storage_service.dart';
 import 'package:path/path.dart';
+
+final storageServiceProvider = FutureProvider<StorageService>(
+  (ref) async {
+    final session = await ref.watch(sessionStreamProvider.future);
+
+    return StorageServiceFirebase(session: session);
+  },
+);
 
 class StorageServiceFirebase implements StorageService {
   StorageServiceFirebase({
