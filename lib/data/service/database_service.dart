@@ -13,11 +13,15 @@ final templateDraftsProvider = StreamProvider(
           (snapshot) => snapshot.docs.map(
             (documentSnapshot) {
               final id = documentSnapshot.id;
-              final name = documentSnapshot.get('name') as String;
+              final data = documentSnapshot.data();
+              final name = data['name'] as String;
+              final publishedAtTimestamp = data['publishedAt'] as Timestamp;
+              final publishedAt = publishedAtTimestamp.toDate();
 
               return TemplateDraft(
                 id: id,
                 name: name,
+                publishedAt: publishedAt,
               );
             },
           ).toList(),

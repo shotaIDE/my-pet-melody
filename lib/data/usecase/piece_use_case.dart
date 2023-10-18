@@ -22,6 +22,7 @@ final templatesProvider = FutureProvider((ref) async {
       return Template(
         id: templateDraft.id,
         name: templateDraft.name,
+        publishedAt: templateDraft.publishedAt,
         musicUrl: musicUrl,
         thumbnailUrl: thumbnailUrl,
       );
