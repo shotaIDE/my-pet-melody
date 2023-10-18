@@ -100,11 +100,8 @@ class MyDio {
       headers['platform'] = 'Android';
     }
 
-    dynamic responseDataRaw;
-
     try {
       final response = await connectionExecutor(url, Options(headers: headers));
-      responseDataRaw = response.data;
 
       final responseData =
           responseParser(response.data as Map<String, dynamic>);
