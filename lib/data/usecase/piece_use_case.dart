@@ -12,7 +12,7 @@ final templatesProvider = FutureProvider((ref) async {
   final templateDrafts = await ref.watch(templateDraftsProvider.future);
   final storageService = await ref.watch(storageServiceProvider.future);
 
-  return Future.wait(
+  final converted = await Future.wait(
     templateDrafts.map((templateDraft) async {
       final musicUrl =
           await storageService.templateMusicUrl(id: templateDraft.id);
@@ -28,6 +28,11 @@ final templatesProvider = FutureProvider((ref) async {
       );
     }),
   );
+
+  return converted
+      .sortedBy((template) => template.publishedAt)
+      .reversed
+      .toList();
 });
 
 final piecesProvider = FutureProvider(
