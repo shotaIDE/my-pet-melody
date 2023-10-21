@@ -40,7 +40,7 @@ def generate_template():
             continue
 
         position_seconds_list: list[float] \
-            = meta_json['recipe']['overlayPositionsMilliseconds']
+            = meta_json['recipe']['overlayPositionSeconds']
 
         overlays = [
             {
