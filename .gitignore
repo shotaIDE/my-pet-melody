@@ -8,6 +8,7 @@ GoogleService-Info.plist
 /assets/original
 /dart-code-metrics.json
 /emulator-data
+/fastlane/.env
 /fastlane/app-store-connect-api-key.p8
 /fastlane/firebase-app-distribution-*.json
 /fastlane/report.xml

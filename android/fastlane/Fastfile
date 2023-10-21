@@ -12,17 +12,6 @@ platform :android do
     lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/apk/release/app-release.apk'
   end
 
-  desc 'Build production app'
-  lane :build_prod do
-    generate
-
-    Dir.chdir('../') do
-      sh('flutter build appbundle --dart-define-from-file dart-defines_prod.json')
-    end
-
-    lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = 'build/app/outputs/bundle/release/app-release.aab'
-  end
-
   desc 'Deploy develop app to Firebase App Distribution'
   lane :deploy_dev do
     build_dev
@@ -31,6 +20,32 @@ platform :android do
       app: '1:409733918350:android:6e0ef3847f6f80a7fea3df',
       service_credentials_file: 'fastlane/firebase-app-distribution-develop.json',
       groups: 'testers'
+    )
+  end
+
+  desc 'Build production app'
+  lane :deploy_prod do
+    generate
+
+    Dir.chdir('../') do
+      sh('flutter build appbundle --dart-define-from-file dart-defines_prod.json')
+    end
+
+    lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = 'build/app/outputs/bundle/release/app-release.aab'
+
+    upload_to_play_store(
+      release_status: 'completed',
+      track: 'internal',
+      metadata_path: 'fastlane/metadata/android',
+      json_key: 'fastlane/google_play_key_prod.json'
+    )
+
+    upload_to_play_store(
+      skip_upload_aab: true,
+      track_promote_to: 'production',
+      track_promote_release_status: 'completed',
+      metadata_path: 'fastlane/metadata/android',
+      json_key: 'fastlane/google_play_key_prod.json'
     )
   end
 end

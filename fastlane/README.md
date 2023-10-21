@@ -71,6 +71,14 @@ Build develop app
 
 Deploy develop app to Firebase App Distribution
 
+### ios deploy_prod
+
+```sh
+[bundle exec] fastlane ios deploy_prod
+```
+
+Deploy production app to App Store Connect
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
