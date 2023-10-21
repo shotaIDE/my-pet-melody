@@ -34,14 +34,6 @@ Generate automatic codes
 
 Build develop app
 
-### android build_prod
-
-```sh
-[bundle exec] fastlane android build_prod
-```
-
-Build production app
-
 ### android deploy_dev
 
 ```sh
@@ -49,6 +41,14 @@ Build production app
 ```
 
 Deploy develop app to Firebase App Distribution
+
+### android deploy_prod
+
+```sh
+[bundle exec] fastlane android deploy_prod
+```
+
+Build production app
 
 ----
 
