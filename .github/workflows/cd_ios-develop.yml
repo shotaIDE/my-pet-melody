@@ -48,7 +48,4 @@ jobs:
         with:
           key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
       - name: Deploy dev app to Firebase App Distribution
-        env:
-          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
-          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
         run: bundle exec fastlane ios deploy_dev
