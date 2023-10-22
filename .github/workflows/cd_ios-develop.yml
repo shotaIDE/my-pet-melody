@@ -13,47 +13,36 @@ concurrency:
 jobs:
   deploy:
     runs-on: macos-13
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
-
       - name: Setup Xcode
         uses: ./.github/actions/setup-xcode
-
       - name: Setup CocoaPods
         uses: ./.github/actions/setup-cocoapods
-
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
-
       - name: Generate uncommited Flutter files
         uses: ./.github/actions/generate-uncommited-flutter-files
         with:
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
           firebase-options-dart-base64-prod: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_PROD }}
-
       - name: Generate uncommited Flutter files for dev
         uses: ./.github/actions/generate-uncommited-flutter-files-dev
         with:
           dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
-      
       - name: Generate uncommited iOS files
         uses: ./.github/actions/generate-uncommited-ios-files
         with:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
-
       - name: Generate App Store Connect API key file
         run: echo "${{ secrets.APP_STORE_CONNECT_API_KEY_P8_BASE64 }}" | base64 -d > fastlane/app-store-connect-api-key.p8
-    
       - name: Generate Firebase App Distribution service account key file
         uses: ./.github/actions/generate-app-distribution-key-file
         with:
           key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
-
       - name: Deploy dev app to Firebase App Distribution
         env:
           APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}

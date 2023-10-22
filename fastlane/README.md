@@ -71,6 +71,14 @@ Build production app
 
 Build develop app
 
+### ios build_dev_with_no_code_sign
+
+```sh
+[bundle exec] fastlane ios build_dev_with_no_code_sign
+```
+
+Build develop app with no code sign
+
 ### ios build_prod
 
 ```sh

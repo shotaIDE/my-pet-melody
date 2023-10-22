@@ -66,7 +66,7 @@ jobs:
           key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
           key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
       - name: Android build
-        run: flutter build appbundle --dart-define-from-file dart-defines_dev.json
+        run: bundle exec fastlane android build_dev
   build-no-need:
     name: Build Android app (no need)
     needs: check-impact

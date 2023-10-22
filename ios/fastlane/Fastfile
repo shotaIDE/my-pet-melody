@@ -19,6 +19,15 @@ platform :ios do
     )
   end
 
+  desc 'Build develop app with no code sign'
+  lane :build_dev_with_no_code_sign do
+    generate
+
+    build_flutter_with_no_code_sign(
+      dart_defines_path: 'dart-defines_dev.json'
+    )
+  end
+
   desc 'Build production app'
   lane :build_prod do
     Dotenv.load '.env'
@@ -82,9 +91,8 @@ platform :ios do
       apple_api_key_id = options[:apple_api_key_id]
       app_store_connect_api_key_path = options[:app_store_connect_api_key_path]
 
-      sh(
-        "flutter build ios --dart-define-from-file #{dart_defines_path} "\
-        '--no-codesign '
+      build_flutter_with_no_code_sign(
+        dart_defines_path: dart_defines_path
       )
 
       sh(
@@ -108,5 +116,16 @@ platform :ios do
     end
 
     lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/うちメロ.ipa'
+  end
+
+  private_lane :build_flutter_with_no_code_sign do |options|
+    Dir.chdir('../') do
+      dart_defines_path = options[:dart_defines_path]
+
+      sh(
+        "flutter build ios --dart-define-from-file #{dart_defines_path} "\
+        '--no-codesign '
+      )
+    end
   end
 end

@@ -63,7 +63,7 @@ jobs:
         with:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
       - name: iOS build
-        run: flutter build ios --dart-define-from-file dart-defines_dev.json --no-codesign
+        run: bundle exec fastlane ios build_dev_with_no_code_sign
   build-no-need:
     name: Build iOS app (no need)
     needs: check-impact
