@@ -61,10 +61,10 @@ jobs:
       - name: Generate key store
         uses: ./.github/actions/generate-key-store
         with:
-          keystore-jks-base64: ""
-          store-password: ""
-          key-password: ""
-          key-alias: ""
+          keystore-jks-base64: ${{ secrets.KEYSTORE_JKS_BASE64 }}
+          store-password: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+          key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
       - name: Android build
         run: bundle exec fastlane android build_dev
   build-no-need:
