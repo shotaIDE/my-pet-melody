@@ -58,6 +58,13 @@ jobs:
         uses: ./.github/actions/generate-uncommited-android-files
         with:
           google-service-json-base64-dev: ${{ secrets.GOOGLE_SERVICE_JSON_BASE64_DEV }}
+      - name: Generate key store
+        uses: ./.github/actions/generate-key-store
+        with:
+          keystore-jks-base64: ""
+          store-password: ""
+          key-password: ""
+          key-alias: ""
       - name: Android build
         run: bundle exec fastlane android build_dev
   build-no-need:
