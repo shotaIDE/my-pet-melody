@@ -1,0 +1,10 @@
+inputs:
+  env-base64:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate env file
+      shell: bash
+      run: echo "${{ inputs.env-base64 }}" | base64 -d > fastlane/.env
