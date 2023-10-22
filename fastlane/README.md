@@ -63,6 +63,14 @@ Build production app
 
 Build develop app
 
+### ios build_prod
+
+```sh
+[bundle exec] fastlane ios build_prod
+```
+
+Build production app
+
 ### ios deploy_dev
 
 ```sh
