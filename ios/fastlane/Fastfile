@@ -96,14 +96,6 @@ platform :ios do
       )
 
       sh(
-        'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
-        '-workspace ./ios/Runner.xcworkspace '\
-        '-scheme Runner '\
-        '-configuration Release '\
-        '-archivePath ./build/ios/Runner.xcarchive'
-      )
-
-      sh(
         'xcodebuild -exportArchive '\
         '-archivePath ./build/ios/Runner.xcarchive '\
         '-exportPath ./build/ios/ipa '\
