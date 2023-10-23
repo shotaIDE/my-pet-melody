@@ -35,7 +35,7 @@ dependencies:
   skeletons: ^0.0.3
   video_trimmer: ^2.1.0
   firebase_storage: ^11.0.1
-  firebase_auth: ^4.7.2
+  firebase_auth: ^4.11.1
   cloud_firestore: ^4.8.2
   chewie: ^1.7.0
   video_player: ^2.6.1
