@@ -95,7 +95,7 @@ class SessionProvider extends StateNotifier<LoginSession?> {
       return null;
     }
 
-    final String token;
+    final String? token;
     try {
       token = await user.getIdToken();
     } on FirebaseAuthException catch (error, stack) {
@@ -107,6 +107,10 @@ class SessionProvider extends StateNotifier<LoginSession?> {
 
       await FirebaseAuth.instance.signOut();
 
+      return null;
+    }
+
+    if (token == null) {
       return null;
     }
 

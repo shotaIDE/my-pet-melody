@@ -84,17 +84,17 @@ platform :ios do
   end
 
   private_lane :build do |options|
+    dart_defines_path = options[:dart_defines_path]
+    export_options_plist_path = options[:export_options_plist_path]
+    apple_api_issuer_id = options[:apple_api_issuer_id]
+    apple_api_key_id = options[:apple_api_key_id]
+    app_store_connect_api_key_path = options[:app_store_connect_api_key_path]
+
+    archive_with_no_code_sign(
+      dart_defines_path: dart_defines_path
+    )
+
     Dir.chdir('../') do
-      dart_defines_path = options[:dart_defines_path]
-      export_options_plist_path = options[:export_options_plist_path]
-      apple_api_issuer_id = options[:apple_api_issuer_id]
-      apple_api_key_id = options[:apple_api_key_id]
-      app_store_connect_api_key_path = options[:app_store_connect_api_key_path]
-
-      archive_with_no_code_sign(
-        dart_defines_path: dart_defines_path
-      )
-
       sh(
         'xcodebuild -exportArchive '\
         '-archivePath ./build/ios/Runner.xcarchive '\
