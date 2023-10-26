@@ -50,6 +50,14 @@ Build production app
 
 Deploy develop app to Firebase App Distribution
 
+### android deploy_prod
+
+```sh
+[bundle exec] fastlane android deploy_prod
+```
+
+Build production app
+
 ----
 
 
@@ -63,6 +71,22 @@ Deploy develop app to Firebase App Distribution
 
 Build develop app
 
+### ios build_dev_with_no_code_sign
+
+```sh
+[bundle exec] fastlane ios build_dev_with_no_code_sign
+```
+
+Build develop app with no code sign
+
+### ios build_prod
+
+```sh
+[bundle exec] fastlane ios build_prod
+```
+
+Build production app
+
 ### ios deploy_dev
 
 ```sh
@@ -70,6 +94,14 @@ Build develop app
 ```
 
 Deploy develop app to Firebase App Distribution
+
+### ios deploy_prod
+
+```sh
+[bundle exec] fastlane ios deploy_prod
+```
+
+Deploy production app to App Store Connect
 
 ----
 

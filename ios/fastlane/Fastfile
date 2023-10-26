@@ -3,38 +3,47 @@ default_platform(:ios)
 platform :ios do
   desc 'Build develop app'
   lane :build_dev do
+    Dotenv.load '.env'
+
     apple_api_issuer_id = ENV['APPLE_API_ISSUER_ID'].to_s
     apple_api_key_id = ENV['APPLE_API_KEY_ID'].to_s
 
     generate
 
-    Dir.chdir('../') do
-      sh(
-        'flutter build ios --dart-define-from-file dart-defines_dev.json '\
-        '--no-codesign '
-      )
+    build(
+      dart_defines_path: 'dart-defines_dev.json',
+      export_options_plist_path: './ios/ExportOptions_AdHoc.plist',
+      apple_api_issuer_id: apple_api_issuer_id,
+      apple_api_key_id: apple_api_key_id,
+      app_store_connect_api_key_path: 'fastlane/app-store-connect-api-key.p8'
+    )
+  end
 
-      sh(
-        'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
-        '-workspace ./ios/Runner.xcworkspace '\
-        '-scheme Runner '\
-        '-configuration Release '\
-        '-archivePath ./build/ios/Runner.xcarchive'
-      )
+  desc 'Build develop app with no code sign'
+  lane :build_dev_with_no_code_sign do
+    generate
 
-      sh(
-        'xcodebuild -exportArchive '\
-        '-archivePath ./build/ios/Runner.xcarchive '\
-        '-exportPath ./build/ios/ipa '\
-        '-exportOptionsPlist ./ios/ExportOptions_AdHoc.plist '\
-        '-allowProvisioningUpdates '\
-        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
-        "-authenticationKeyID '#{apple_api_key_id}' "\
-        '-authenticationKeyPath `pwd`/fastlane/app-store-connect-api-key.p8'
-      )
-    end
+    archive_with_no_code_sign(
+      dart_defines_path: 'dart-defines_dev.json'
+    )
+  end
 
-    lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/my_pet_melody.ipa'
+  desc 'Build production app'
+  lane :build_prod do
+    Dotenv.load '.env'
+
+    apple_api_issuer_id = ENV['APPLE_API_ISSUER_ID'].to_s
+    apple_api_key_id = ENV['APPLE_API_KEY_ID'].to_s
+
+    generate
+
+    build(
+      dart_defines_path: 'dart-defines_prod.json',
+      export_options_plist_path: './ios/ExportOptions_AppStore.plist',
+      apple_api_issuer_id: apple_api_issuer_id,
+      apple_api_key_id: apple_api_key_id,
+      app_store_connect_api_key_path: 'fastlane/app-store-connect-api-key.p8'
+    )
   end
 
   desc 'Deploy develop app to Firebase App Distribution'
@@ -46,5 +55,77 @@ platform :ios do
       service_credentials_file: 'fastlane/firebase-app-distribution-develop.json',
       groups: 'testers'
     )
+  end
+
+  desc 'Deploy production app to App Store Connect'
+  lane :deploy_prod do
+    Dotenv.load '.env'
+
+    apple_api_key_id = ENV['APPLE_API_KEY_ID'].to_s
+    apple_api_issuer_id = ENV['APPLE_API_ISSUER_ID'].to_s
+
+    app_store_connect_api_key_path = 'fastlane/app-store-connect-api-key.p8'
+
+    build_prod
+
+    api_key = app_store_connect_api_key(
+      key_id: apple_api_key_id,
+      issuer_id: apple_api_issuer_id,
+      key_filepath: app_store_connect_api_key_path
+    )
+
+    upload_to_app_store(
+      api_key: api_key,
+      metadata_path: 'fastlane/metadata/ios',
+      skip_metadata: false,
+      skip_screenshots: true,
+      force: true
+    )
+  end
+
+  private_lane :build do |options|
+    dart_defines_path = options[:dart_defines_path]
+    export_options_plist_path = options[:export_options_plist_path]
+    apple_api_issuer_id = options[:apple_api_issuer_id]
+    apple_api_key_id = options[:apple_api_key_id]
+    app_store_connect_api_key_path = options[:app_store_connect_api_key_path]
+
+    archive_with_no_code_sign(
+      dart_defines_path: dart_defines_path
+    )
+
+    Dir.chdir('../') do
+      sh(
+        'xcodebuild -exportArchive '\
+        '-archivePath ./build/ios/Runner.xcarchive '\
+        '-exportPath ./build/ios/ipa '\
+        "-exportOptionsPlist #{export_options_plist_path} "\
+        '-allowProvisioningUpdates '\
+        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
+        "-authenticationKeyID '#{apple_api_key_id}' "\
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
+      )
+    end
+
+    lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/うちメロ.ipa'
+  end
+
+  private_lane :archive_with_no_code_sign do |options|
+    Dir.chdir('../') do
+      dart_defines_path = options[:dart_defines_path]
+
+      sh(
+        "flutter build ios --dart-define-from-file #{dart_defines_path} "\
+        '--no-codesign '
+      )
+
+      sh(
+        'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
+        '-workspace ./ios/Runner.xcworkspace '\
+        '-scheme Runner '\
+        '-configuration Release '\
+        '-archivePath ./build/ios/Runner.xcarchive'
+      )
+    end
   end
 end

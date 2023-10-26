@@ -46,6 +46,8 @@ jobs:
         uses: ./.github/actions/generate-uncommited-flutter-files-dev
         with:
           dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
+      - name: Generate automatic codes
+        run: bundle exec fastlane generate
       - name: Flutter analyze
         run: flutter analyze --fatal-infos > flutter-analyze.log
       - name: Run reviewdog for Flutter Analyzer

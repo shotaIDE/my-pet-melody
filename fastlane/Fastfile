@@ -1,8 +1,22 @@
 import '../android/fastlane/Fastfile'
 import '../ios/fastlane/Fastfile'
 
+require 'yaml'
+
 desc 'Generate automatic codes'
 lane :generate do
   sh('flutter pub get')
   sh('flutter pub run build_runner build --delete-conflicting-outputs')
+end
+
+private_lane :get_version_code do
+  pubspec = Dir.chdir('../') do
+    YAML.load_file('./pubspec.yaml')
+  end
+  current_version_full_text = pubspec['version']
+
+  matched = /^\d+\.\d+\.\d+\+(\d+)$/.match(current_version_full_text)
+
+  version_code = matched[1].to_i
+  version_code
 end
