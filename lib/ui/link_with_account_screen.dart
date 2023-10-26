@@ -49,9 +49,6 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
     final continueWithTwitterButton = ContinueWithTwitterButton(
       onPressed: _continueWithTwitter,
     );
-    final continueWithFacebookButton = ContinueWithFacebookButton(
-      onPressed: _continueWithFacebook,
-    );
     final continueWithAppleButton = ContinueWithAppleButton(
       onPressed: _continueWithApple,
     );
@@ -65,8 +62,6 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
           continueWithGoogleButton,
           const SizedBox(height: 16),
           continueWithTwitterButton,
-          const SizedBox(height: 16),
-          continueWithFacebookButton,
           const SizedBox(height: 16),
           continueWithAppleButton,
         ],
@@ -173,33 +168,6 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
         alreadyInUse: (_) async {
           const snackBar = SnackBar(
             content: Text('このTwitterアカウントはすでに利用されています。他のアカウントでお試しください'),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-        unrecoverable: (_) async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-      ),
-    );
-  }
-
-  Future<void> _continueWithFacebook() async {
-    final result =
-        await ref.read(widget.viewModel.notifier).continueWithFacebook();
-
-    await result.when(
-      success: (_) async {
-        Navigator.pop(context);
-      },
-      failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
-          const snackBar = SnackBar(
-            content: Text('このFacebookアカウントはすでに利用されています。他のアカウントでお試しください'),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
