@@ -164,7 +164,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
       return;
     }
 
-    final positionRatio = AudioPositionHelper.getPositionRatio(
+    final positionRatio = getAudioPositionRatio(
       duration: duration,
       position: position,
     );

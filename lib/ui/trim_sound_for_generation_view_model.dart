@@ -90,7 +90,7 @@ class TrimSoundForGenerationViewModel
       return null;
     }
 
-    final startPosition = AudioPositionHelper.formattedPosition(
+    final startPosition = formattedAudioPosition(
       milliseconds: startMilliseconds.toInt(),
     );
     final thumbnailDirectory = await getTemporaryDirectory();

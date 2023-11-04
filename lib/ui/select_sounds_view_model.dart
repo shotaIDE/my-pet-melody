@@ -138,7 +138,7 @@ class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
       return;
     }
 
-    final positionRatio = AudioPositionHelper.getPositionRatio(
+    final positionRatio = getAudioPositionRatio(
       duration: duration,
       position: position,
     );

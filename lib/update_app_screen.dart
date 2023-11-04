@@ -61,7 +61,7 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
                 child: const Text('アップデートする'),
                 onPressed: () async {
                   await InAppReview.instance.openStoreListing(
-                    appStoreId: AppDefinitions.appStoreId,
+                    appStoreId: appStoreId,
                   );
                 },
               ),

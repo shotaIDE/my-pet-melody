@@ -31,7 +31,7 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
             false;
 
     if (isPremiumPlan == true) {
-      if (pieces.length < AppDefinitions.maxPiecesOnPremiumPlan) {
+      if (pieces.length < maxPiecesOnPremiumPlan) {
         return MakePieceAvailability.available;
       }
 
@@ -42,7 +42,7 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
       return MakePieceAvailability.availableWithWarnings;
     }
 
-    if (pieces.length < AppDefinitions.maxPiecesOnFreePlan) {
+    if (pieces.length < maxPiecesOnFreePlan) {
       return MakePieceAvailability.available;
     }
 

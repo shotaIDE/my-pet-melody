@@ -28,10 +28,10 @@ class SelectSoundsScreen extends ConsumerStatefulWidget {
   final AutoDisposeStateNotifierProvider<SelectSoundsViewModel,
       SelectSoundsState> viewModelProvider;
 
-  static MaterialPageRoute route({
+  static MaterialPageRoute<SelectSoundsScreen> route({
     required Template template,
   }) =>
-      MaterialPageRoute<SelectSoundsScreen>(
+      MaterialPageRoute(
         builder: (_) => SelectSoundsScreen(template: template),
         settings: const RouteSettings(name: name),
       );

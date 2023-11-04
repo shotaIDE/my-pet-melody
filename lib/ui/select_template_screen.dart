@@ -25,7 +25,7 @@ class SelectTemplateScreen extends ConsumerStatefulWidget {
 
   final viewModel = selectTemplateViewModelProvider;
 
-  static MaterialPageRoute route() => MaterialPageRoute<SelectTemplateScreen>(
+  static MaterialPageRoute<SelectTemplateScreen> route() => MaterialPageRoute(
         builder: (_) => SelectTemplateScreen(),
         settings: const RouteSettings(name: name),
       );

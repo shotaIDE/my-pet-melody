@@ -32,10 +32,10 @@ class SetPieceTitleScreen extends ConsumerStatefulWidget {
   final AutoDisposeStateNotifierProvider<SetPieceTitleViewModel,
       SetPieceTitleState> viewModelProvider;
 
-  static MaterialPageRoute route({
+  static MaterialPageRoute<SetPieceTitleScreen> route({
     required SetPieceTitleArgs args,
   }) =>
-      MaterialPageRoute<SetPieceTitleScreen>(
+      MaterialPageRoute(
         builder: (_) => SetPieceTitleScreen(args: args),
         settings: const RouteSettings(name: name),
       );

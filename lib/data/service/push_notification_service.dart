@@ -88,8 +88,7 @@ class PushNotificationService {
     final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
 
-    final notificationChannelGroups = NotificationChannelDefinitions.allGroups;
-    for (final group in notificationChannelGroups) {
+    for (final group in allNotificationChannelGroups) {
       await androidPlugin?.createNotificationChannelGroup(
         AndroidNotificationChannelGroup(
           group.id,
@@ -99,8 +98,7 @@ class PushNotificationService {
       );
     }
 
-    final notificationChannels = NotificationChannelDefinitions.allChannels;
-    for (final channel in notificationChannels) {
+    for (final channel in allNotificationChannels) {
       await androidPlugin?.createNotificationChannel(
         AndroidNotificationChannel(
           channel.id,
@@ -131,7 +129,7 @@ class PushNotificationService {
       return;
     }
 
-    final channel = NotificationChannelDefinitions.getChannel(id: channelId);
+    final channel = getNotificationChannel(id: channelId);
     if (channel == null) {
       return;
     }

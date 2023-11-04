@@ -23,7 +23,7 @@ class JoinPremiumPlanScreen extends ConsumerStatefulWidget {
 
   final viewModelProvider = _joinPremiumPlanViewModelProvider;
 
-  static MaterialPageRoute route() => MaterialPageRoute<JoinPremiumPlanScreen>(
+  static MaterialPageRoute<JoinPremiumPlanScreen> route() => MaterialPageRoute(
         builder: (_) => JoinPremiumPlanScreen(),
         settings: const RouteSettings(name: name),
       );
@@ -82,7 +82,7 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       ),
       title: Text('広大な制作スペース'),
       description: Text(
-        '最大${AppDefinitions.maxPiecesOnPremiumPlan}作品を保存しておくことができるようになります。',
+        '最大$maxPiecesOnPremiumPlan作品を保存しておくことができるようになります。',
       ),
       positionInGroup: ListTilePositionInGroup.first,
     );

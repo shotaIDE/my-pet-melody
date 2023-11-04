@@ -147,10 +147,10 @@ class SelectTrimmedSoundViewModel
         final outputFileName = 'choice_$paddedIndex$originalExtension';
         final outputPath = '$outputParentPath/$outputFileName';
 
-        final startPosition = AudioPositionHelper.formattedPosition(
+        final startPosition = formattedAudioPosition(
           milliseconds: choice.segment.startMilliseconds,
         );
-        final endPosition = AudioPositionHelper.formattedPosition(
+        final endPosition = formattedAudioPosition(
           milliseconds: choice.segment.endMilliseconds,
         );
 
@@ -255,7 +255,7 @@ class SelectTrimmedSoundViewModel
 
     await FFmpegKit.cancel();
 
-    final startPosition = AudioPositionHelper.formattedPosition(
+    final startPosition = formattedAudioPosition(
       milliseconds: choice.segment.startMilliseconds,
     );
     final thumbnailDirectory = await getTemporaryDirectory();
@@ -301,7 +301,7 @@ class SelectTrimmedSoundViewModel
       milliseconds: segment.endMilliseconds - segment.startMilliseconds,
     );
 
-    final positionRatio = AudioPositionHelper.getPositionRatio(
+    final positionRatio = getAudioPositionRatio(
       duration: duration,
       position: position,
     );

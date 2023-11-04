@@ -44,7 +44,7 @@ class SubmissionApi {
       data: request.toJson(),
     );
 
-    if (F.flavor == Flavor.emulator) {
+    if (flavor == Flavor.emulator) {
       // In environments where Cloud Tasks is not supported, reproduce queuing
       // by making asynchronous requests from client to generation endpoint.
       unawaited(() async {

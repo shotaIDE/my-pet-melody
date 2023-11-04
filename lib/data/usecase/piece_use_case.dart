@@ -110,10 +110,10 @@ final piecesProvider = FutureProvider(
       },
     );
 
-    if (sorted.length < AppDefinitions.maxPiecesOnPremiumPlan) {
+    if (sorted.length < maxPiecesOnPremiumPlan) {
       return sorted;
     }
 
-    return sorted.sublist(0, AppDefinitions.maxPiecesOnPremiumPlan);
+    return sorted.sublist(0, maxPiecesOnPremiumPlan);
   },
 );
