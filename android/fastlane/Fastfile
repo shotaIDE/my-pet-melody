@@ -55,10 +55,11 @@ platform :android do
       package_name: package_name,
       version_code: version_code,
       skip_upload_aab: true,
-      track_promote_to: 'production',
-      track_promote_release_status: 'completed',
+      track: 'internal',
       metadata_path: metadata_path,
-      json_key: google_play_json_key_path
+      json_key: google_play_json_key_path,
+      track_promote_to: 'production',
+      track_promote_release_status: 'completed'
     )
   end
 end
