@@ -21,6 +21,6 @@ updates:
     schedule:
       interval: "daily"
     # By default, Flutter repository is determined as a library and only version
-    # constraint updates are made, so change the versioning strategy."
+    # constraint updates are made, so change the versioning strategy.
     # See https://github.com/dependabot/dependabot-core/issues/4979
     versioning-strategy: "increase-if-necessary"
