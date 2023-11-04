@@ -1,4 +1,4 @@
-include: package:colomney_lints/analysis_options.yaml
+include: package:pedantic_mono/analysis_options.yaml
 
 analyzer:
   exclude:
@@ -7,3 +7,7 @@ analyzer:
     - "**/*.g.dart"
     - "lib/firebase_options*.dart"
     - "lib/generated_plugin_registrant.dart"
+
+linter:
+  rules:
+    avoid_catches_without_on_clauses: false

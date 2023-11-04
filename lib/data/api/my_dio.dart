@@ -20,7 +20,7 @@ class MyDio {
   static const _contentTypeJson = 'application/json';
   static const _contentTypeForm = 'application/x-www-form-urlencoded';
 
-  final String _baseUrl = AppDefinitions.serverOrigin;
+  final String _baseUrl = serverOrigin;
   final Dio _dio;
   final ErrorReporter _errorReporter;
 

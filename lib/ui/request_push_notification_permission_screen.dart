@@ -34,10 +34,10 @@ class RequestPushNotificationPermissionScreen extends ConsumerStatefulWidget {
       RequestPushNotificationPermissionViewModel,
       RequestPushNotificationPermissionState> viewModel;
 
-  static MaterialPageRoute route({
+  static MaterialPageRoute<RequestPushNotificationPermissionScreen> route({
     required RequestPushNotificationPermissionArgs args,
   }) =>
-      MaterialPageRoute<RequestPushNotificationPermissionScreen>(
+      MaterialPageRoute(
         builder: (_) => RequestPushNotificationPermissionScreen(args: args),
         settings: const RouteSettings(name: name),
       );

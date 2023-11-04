@@ -14,33 +14,33 @@ class StorageServiceLocalFlask implements StorageService {
 
   @override
   Future<String> templateMusicUrl({required String id}) async {
-    return '${AppDefinitions.serverOrigin}/static/templates/$id/bgm.m4a';
+    return '$serverOrigin/static/templates/$id/bgm.m4a';
   }
 
   @override
   Future<String> templateThumbnailUrl({required String id}) async {
-    return '${AppDefinitions.serverOrigin}/static/templates/$id/thumbnail.png';
+    return '$serverOrigin/static/templates/$id/thumbnail.png';
   }
 
   @override
   Future<String> pieceMovieDownloadUrl({
     required String fileName,
   }) async {
-    return '${AppDefinitions.serverOrigin}/static/exports/$fileName';
+    return '$serverOrigin/static/exports/$fileName';
   }
 
   @override
   Future<String> generatingPieceThumbnailDownloadUrl({
     required String fileName,
   }) async {
-    return '${AppDefinitions.serverOrigin}/static/uploads/$fileName';
+    return '$serverOrigin/static/uploads/$fileName';
   }
 
   @override
   Future<String> generatedPieceThumbnailDownloadUrl({
     required String fileName,
   }) async {
-    return '${AppDefinitions.serverOrigin}/static/exports/$fileName';
+    return '$serverOrigin/static/exports/$fileName';
   }
 
   @override
@@ -71,8 +71,7 @@ class StorageServiceLocalFlask implements StorageService {
     final id = response.id;
     final extension = response.extension;
     final uploadedFileName = '$id$extension';
-    final url =
-        '${AppDefinitions.serverOrigin}/static/uploads/$uploadedFileName';
+    final url = '$serverOrigin/static/uploads/$uploadedFileName';
 
     return UploadedMedia(
       id: response.id,

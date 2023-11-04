@@ -30,7 +30,7 @@ Future<void> main() async {
       WidgetsFlutterBinding.ensureInitialized();
 
       final FirebaseOptions options;
-      switch (F.flavor) {
+      switch (flavor) {
         case Flavor.emulator:
           options = emulator.DefaultFirebaseOptions.currentPlatform;
           break;
@@ -45,8 +45,7 @@ Future<void> main() async {
 
       final overrides = <Override>[];
 
-      if (F.flavor == Flavor.emulator) {
-        const serverHost = AppDefinitions.serverHost;
+      if (flavor == Flavor.emulator) {
         await FirebaseAuth.instance.useAuthEmulator(serverHost, 9099);
         FirebaseFirestore.instance.useFirestoreEmulator(serverHost, 8080);
         await FirebaseStorage.instance.useStorageEmulator(serverHost, 9199);
@@ -63,7 +62,7 @@ Future<void> main() async {
         ]);
       }
 
-      if (F.flavor != Flavor.prod) {
+      if (flavor != Flavor.prod) {
         overrides.addAll([
           isPremiumPlanProvider.overrideWith((ref) {
             final isPremiumPlan = ref.watch(isPremiumPlanStateProviderMock);
@@ -84,17 +83,17 @@ Future<void> main() async {
         return true;
       };
 
-      if (F.flavor == Flavor.prod) {
+      if (flavor == Flavor.prod) {
         await Purchases.setLogLevel(LogLevel.debug);
 
         final PurchasesConfiguration configuration;
         if (Platform.isIOS) {
           configuration = PurchasesConfiguration(
-            AppDefinitions.revenueCatPublicAppleApiKey,
+            revenueCatPublicAppleApiKey,
           );
         } else {
           configuration = PurchasesConfiguration(
-            AppDefinitions.revenueCatPublicGoogleApiKey,
+            revenueCatPublicGoogleApiKey,
           );
         }
         await Purchases.configure(configuration);

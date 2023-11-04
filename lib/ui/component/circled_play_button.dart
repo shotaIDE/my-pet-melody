@@ -27,7 +27,7 @@ class CircledPlayButton extends StatelessWidget {
       playing: (_) => onPressedWhenPlaying,
     );
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(

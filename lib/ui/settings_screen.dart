@@ -128,7 +128,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             termsOfServiceTile,
             privacyPolicyTile,
             const SizedBox(height: 32),
-            if (AppFeatures.debugScreenAvailable) debugTile,
+            if (debugScreenAvailable) debugTile,
             versionTile,
             const SizedBox(height: 32),
             _DeleteAccountPanel(
@@ -183,9 +183,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Future<void> _writeReview() async {
     // In-app reviews are limited to the number of times they can be
     // displayed, so go to Store and open the page to write a review.
-    await InAppReview.instance.openStoreListing(
-      appStoreId: AppDefinitions.appStoreId,
-    );
+    await InAppReview.instance.openStoreListing(appStoreId: appStoreId);
   }
 
   Future<void> _shareWithFriends() async {
