@@ -48,7 +48,7 @@ class SubmissionApi {
       // In environments where Cloud Tasks is not supported, reproduce queuing
       // by making asynchronous requests from client to generation endpoint.
       unawaited(() async {
-        await Future.delayed(const Duration(seconds: 3));
+        await Future<void>.delayed(const Duration(seconds: 3));
 
         final pieceId = response!.pieceId;
         final pieceRequest = PieceRequest(

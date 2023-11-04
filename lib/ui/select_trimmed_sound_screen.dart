@@ -427,7 +427,7 @@ class _MovieTile extends ConsumerWidget {
           DisplayDefinition.cornerRadiusSizeSmall,
         ),
       ),
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           border: Border.all(color: Theme.of(context).dividerColor),
           borderRadius: const BorderRadius.all(

@@ -45,13 +45,13 @@ class PurchaseActionsMock extends PurchaseActions {
   Future<Result<void, PurchaseError>> purchase({
     required Purchasable purchasable,
   }) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future<void>.delayed(const Duration(seconds: 2));
     return const Result.success(null);
   }
 
   @override
   Future<bool> restore() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future<void>.delayed(const Duration(seconds: 2));
     return true;
   }
 }
