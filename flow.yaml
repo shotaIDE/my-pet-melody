@@ -21,10 +21,10 @@ appId: ide.shota.colomney.MyPetMelody.emulator
 - inputText: "Happy Birthday Test"
 - tapOn:
     id: "Done"
-- tapOn:
-    id: "android:id/input_method_nav_back"
-# - tapOn: "作品をつくる"
-- tapOn: "作品をつくる準備に進む"
-- tapOn: "許可して作品をつくる"
-- tapOn: "許可"
+# - tapOn:
+#     id: "android:id/input_method_nav_back"
+- tapOn: "作品をつくる"
+# - tapOn: "作品をつくる準備に進む"
+# - tapOn: "許可して作品をつくる"
+# - tapOn: "許可"
 - assertVisible: "Happy Birthday Test"
