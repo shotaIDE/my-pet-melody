@@ -583,10 +583,13 @@ class _ChoiceRadioButton extends ConsumerWidget {
       viewModelProvider.select((state) => state.selectedIndex),
     );
 
-    return Radio<int?>(
-      value: selectedIndex,
-      groupValue: index,
-      onChanged: (_) => onSelect(),
+    return Semantics(
+      label: '$index番目の鳴き声を選択する',
+      child: Radio<int?>(
+        value: selectedIndex,
+        groupValue: index,
+        onChanged: (_) => onSelect(),
+      ),
     );
   }
 }
