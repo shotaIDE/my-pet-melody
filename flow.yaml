@@ -1,21 +1,27 @@
 appId: ide.shota.colomney.MyPetMelody.dev
 ---
 - launchApp
-- tapOn: "アカウントを作成せずに続ける"
+# - tapOn: "アカウントを作成せずに続ける"
 - tapOn: "作品をつくる"
 - tapOn: |-
     Happy Birthday オルゴール
     2023/10/22
 - tapOn: "動画を選択する"
 # Androidのファイル選択画面専用
-- tapOn: "ルートを表示する"
-- tapOn: "ダウンロード"
+# - tapOn: "ルートを表示する"
+# - tapOn: "ダウンロード"
 - tapOn: "大きい鳴き声-01.MP4"
 - tapOn: "次へ"
+- assertVisible: "動画を変換しています。\nこれには数分かかる場合があります"
+- assertVisible: "動画の中から鳴き声を探しています。\nこれには数分かかる場合があります"
 - tapOn: "0番目の鳴き声を選択する"
 - tapOn: "次へ"
-- tapOn: "作品のタイトル"
-- inputText: "Happy Birthday オルゴール Test\n"
-- tapOn: "作品をつくる準備に進む"
-- tapOn: "許可して作品をつくる"
-- tapOn: "許可"
+- inputText: "Happy Birthday Test"
+- tapOn:
+    id: "android:id/input_method_nav_back"
+- tapOn: "作品をつくる"
+# - tapOn: "作品をつくる準備に進む"
+# - tapOn: "許可して作品をつくる"
+# - tapOn: "許可"
+- assertVisible: "Happy Birthday Test\n製作中"
+- assertVisible: "Happy Birthday Test"
