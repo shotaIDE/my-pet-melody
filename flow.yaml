@@ -1,0 +1,14 @@
+appId: ide.shota.colomney.MyPetMelody.dev
+---
+- launchApp
+# - tapOn: "アカウントを作成せずに続ける"
+- tapOn: "作品をつくる"
+- tapOn: |-
+    Happy Birthday オルゴール
+    2023/10/22
+- tapOn: "動画を選択する"
+# Androidのファイル選択画面専用
+- tapOn: "ルートを表示する"
+- tapOn: "ダウンロード"
+- tapOn: "大きい鳴き声-01.MP4"
+- tapOn: "次へ"
