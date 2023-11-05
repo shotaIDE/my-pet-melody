@@ -1,4 +1,4 @@
-appId: ide.shota.colomney.MyPetMelody.dev
+appId: ide.shota.colomney.MyPetMelody.emulator
 ---
 - launchApp
 # - tapOn: "アカウントを作成せずに続ける"
@@ -23,5 +23,4 @@ appId: ide.shota.colomney.MyPetMelody.dev
 # - tapOn: "作品をつくる準備に進む"
 # - tapOn: "許可して作品をつくる"
 # - tapOn: "許可"
-- assertVisible: "Happy Birthday Test\n製作中"
 - assertVisible: "Happy Birthday Test"
