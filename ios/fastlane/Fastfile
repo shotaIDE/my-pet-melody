@@ -85,6 +85,8 @@ platform :ios do
       skip_metadata: false,
       skip_screenshots: true,
       force: true,
+      submit_for_review: true,
+      reject_if_possible: true,
       precheck_include_in_app_purchases: false
     )
   end
