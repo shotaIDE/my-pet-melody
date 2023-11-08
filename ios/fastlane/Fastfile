@@ -76,12 +76,7 @@ platform :ios do
 
     upload_to_app_store(
       api_key: api_key,
-      app_identifier: 'ide.shota.colomney.MyPetMelody',
       metadata_path: 'fastlane/metadata/ios',
-      # Do not upload ipa here because uploaded directly with Xcode at export.
-      # Uploading with Xcode is because Sign in with Apple does not work.
-      # The reason is unknown.
-      skip_binary_upload: true,
       skip_metadata: false,
       skip_screenshots: true,
       force: true,
