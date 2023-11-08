@@ -13,7 +13,6 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
     addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
     algoliasearch (1.27.5)
@@ -305,7 +304,6 @@ GEM
       rouge (~> 2.0.7)
     xcpretty-travis-formatter (1.0.1)
       xcpretty (~> 0.2, >= 0.0.7)
-    zeitwerk (2.6.12)
 
 PLATFORMS
   x86_64-darwin-19
