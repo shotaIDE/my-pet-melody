@@ -21,19 +21,21 @@ platform :ios do
 
   desc 'Build develop app with no code sign'
   lane :build_dev_with_no_code_sign do
-    Dotenv.load '.env'
-
-    apple_api_issuer_id = ENV['APPLE_API_ISSUER_ID'].to_s
-    apple_api_key_id = ENV['APPLE_API_KEY_ID'].to_s
-
     generate
 
-    archive_with_no_code_sign(
-      dart_defines_path: 'dart-defines_prod.json',
-      apple_api_issuer_id: apple_api_issuer_id,
-      apple_api_key_id: apple_api_key_id,
-      app_store_connect_api_key_path: 'fastlane/app-store-connect-api-key.p8'
+    build_flutter_with_no_code_sign(
+      dart_defines_path: 'dart-defines_prod.json'
     )
+
+    Dir.chdir('../') do
+      sh(
+        'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
+        '-workspace ./ios/Runner.xcworkspace '\
+        '-scheme Runner '\
+        '-configuration Release '\
+        '-archivePath ./build/ios/Runner.xcarchive'
+      )
+    end
   end
 
   desc 'Build production app'
@@ -101,11 +103,22 @@ platform :ios do
     apple_api_key_id = options[:apple_api_key_id]
     app_store_connect_api_key_path = options[:app_store_connect_api_key_path]
 
-    archive_with_no_code_sign(
+    build_flutter_with_no_code_sign(
       dart_defines_path: dart_defines_path
     )
 
     Dir.chdir('../') do
+      sh(
+        'xcodebuild archive '\
+        '-workspace ./ios/Runner.xcworkspace '\
+        '-scheme Runner '\
+        '-configuration Release '\
+        '-archivePath ./build/ios/Runner.xcarchive '\
+        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
+        "-authenticationKeyID '#{apple_api_key_id}' "\
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
+      )
+
       sh(
         'xcodebuild -exportArchive '\
         '-archivePath ./build/ios/Runner.xcarchive '\
@@ -121,27 +134,13 @@ platform :ios do
     lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/うちメロ.ipa'
   end
 
-  private_lane :archive_with_no_code_sign do |options|
+  private_lane :build_flutter_with_no_code_sign do |options|
     Dir.chdir('../') do
       dart_defines_path = options[:dart_defines_path]
-      apple_api_issuer_id = options[:apple_api_issuer_id]
-      apple_api_key_id = options[:apple_api_key_id]
-      app_store_connect_api_key_path = options[:app_store_connect_api_key_path]
 
       sh(
         "flutter build ios --dart-define-from-file #{dart_defines_path} "\
         '--no-codesign '
-      )
-
-      sh(
-        'xcodebuild archive '\
-        '-workspace ./ios/Runner.xcworkspace '\
-        '-scheme Runner '\
-        '-configuration Release '\
-        '-archivePath ./build/ios/Runner.xcarchive '\
-        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
-        "-authenticationKeyID '#{apple_api_key_id}' "\
-        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
       )
     end
   end
