@@ -24,7 +24,7 @@ platform :ios do
     generate
 
     build_flutter_with_no_code_sign(
-      dart_defines_path: 'dart-defines_prod.json'
+      dart_defines_path: 'dart-defines_dev.json'
     )
 
     Dir.chdir('../') do
