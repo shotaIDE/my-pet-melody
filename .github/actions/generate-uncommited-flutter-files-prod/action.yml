@@ -1,0 +1,11 @@
+inputs:
+  dart-defines-json-base64-prod:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate dart defines json file
+      shell: bash
+      run: |
+        echo "${{ inputs.dart-defines-json-base64-prod }}" | base64 -d > dart-defines_prod.json

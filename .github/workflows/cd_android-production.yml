@@ -30,14 +30,12 @@ jobs:
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
           firebase-options-dart-base64-prod: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_PROD }}
-      - name: Generate uncommited Flutter files for dev
-        uses: ./.github/actions/generate-uncommited-flutter-files-dev
+      - name: Generate uncommited Flutter files for prod
+        uses: ./.github/actions/generate-uncommited-flutter-files-prod
         with:
-          dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_PROD }}
-      - name: Generate uncommited Android files
-        uses: ./.github/actions/generate-uncommited-android-files
-        with:
-          google-service-json-base64-dev: ${{ secrets.GOOGLE_SERVICE_JSON_BASE64_PROD }}
+          dart-defines-json-base64-prod: ${{ secrets.DART_DEFINES_JSON_BASE64_PROD }}
+      - name: Generate uncommited Android files for prod
+        run: echo "${{ secrets.GOOGLE_SERVICE_JSON_BASE64_PROD }}" | base64 -d > android/app/firebase/prod/google-services.json
       - name: Generate key store
         uses: ./.github/actions/generate-key-store
         with:
