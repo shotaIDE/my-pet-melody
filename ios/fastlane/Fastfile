@@ -29,6 +29,7 @@ platform :ios do
 
     Dir.chdir('../') do
       sh(
+        'set -o pipefail && '\
         'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
         '-workspace ./ios/Runner.xcworkspace '\
         '-scheme Runner '\
@@ -111,6 +112,7 @@ platform :ios do
 
     Dir.chdir('../') do
       sh(
+        'set -o pipefail && '\
         'xcodebuild archive '\
         '-workspace ./ios/Runner.xcworkspace '\
         '-scheme Runner '\
@@ -123,6 +125,7 @@ platform :ios do
       )
 
       sh(
+        'set -o pipefail && '\
         'xcodebuild -exportArchive '\
         '-archivePath ./build/ios/Runner.xcarchive '\
         '-exportPath ./build/ios/ipa '\
