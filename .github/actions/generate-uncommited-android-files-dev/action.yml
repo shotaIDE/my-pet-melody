@@ -5,6 +5,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Generate Google service plist file for dev
+    - name: Generate Google service json file
       shell: bash
       run: echo "${{ inputs.google-service-json-base64-dev }}" | base64 -d > android/app/firebase/dev/google-services.json

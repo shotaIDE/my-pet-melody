@@ -38,10 +38,6 @@ jobs:
           dart-defines-json-base64-prod: ${{ secrets.DART_DEFINES_JSON_BASE64_PROD }}
       - name: Generate uncommited iOS files for prod
         run: echo "${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_PROD }}" | base64 -d > ios/Runner/Firebase/Prod/GoogleService-Info.plist
-      - name: Generate uncommited iOS files
-        uses: ./.github/actions/generate-uncommited-ios-files
-        with:
-          google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_PROD }}
       - name: Generate env file
         uses: ./.github/actions/generate-env-file
         with:
