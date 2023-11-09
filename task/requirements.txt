@@ -99,7 +99,7 @@ sortedcollections==2.1.0
 sortedcontainers==2.4.0
 soundfile==0.12.1
 tensorboard==2.14.1
-tensorboard-data-server==0.7.0
+tensorboard-data-server==0.7.2
 tensorboard-plugin-wit==1.8.1
 tensorflow==2.14.0
 tensorflow-estimator==2.14.0
