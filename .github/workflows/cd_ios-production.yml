@@ -1,6 +1,9 @@
 name: CD / iOS Production
 
 on:
+  pull_request:
+    branches:
+      - "main"
   push:
     tags:
       - "rc/*"
