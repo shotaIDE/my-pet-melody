@@ -37,7 +37,7 @@ jobs:
     name: Build iOS app
     needs: check-impact
     if: needs.check-impact.outputs.has-changed-related-files == 'true'
-    runs-on: macos-14
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
       - name: Setup Flutter
