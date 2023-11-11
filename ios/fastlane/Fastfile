@@ -29,11 +29,13 @@ platform :ios do
 
     Dir.chdir('../') do
       sh(
+        'set -o pipefail && '\
         'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
         '-workspace ./ios/Runner.xcworkspace '\
         '-scheme Runner '\
         '-configuration Release '\
-        '-archivePath ./build/ios/Runner.xcarchive'
+        '-archivePath ./build/ios/Runner.xcarchive '\
+        '| xcpretty'
       )
     end
   end
@@ -110,6 +112,7 @@ platform :ios do
 
     Dir.chdir('../') do
       sh(
+        'set -o pipefail && '\
         'xcodebuild archive '\
         '-workspace ./ios/Runner.xcworkspace '\
         '-scheme Runner '\
@@ -117,10 +120,12 @@ platform :ios do
         '-archivePath ./build/ios/Runner.xcarchive '\
         "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
         "-authenticationKeyID '#{apple_api_key_id}' "\
-        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path} "\
+        '| xcpretty'
       )
 
       sh(
+        'set -o pipefail && '\
         'xcodebuild -exportArchive '\
         '-archivePath ./build/ios/Runner.xcarchive '\
         '-exportPath ./build/ios/ipa '\
@@ -128,7 +133,8 @@ platform :ios do
         '-allowProvisioningUpdates '\
         "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
         "-authenticationKeyID '#{apple_api_key_id}' "\
-        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path} "\
+        '| xcpretty'
       )
     end
 

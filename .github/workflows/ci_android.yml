@@ -54,8 +54,8 @@ jobs:
         uses: ./.github/actions/generate-uncommited-flutter-files-dev
         with:
           dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
-      - name: Generate uncommited Android files
-        uses: ./.github/actions/generate-uncommited-android-files
+      - name: Generate uncommited Android files for dev
+        uses: ./.github/actions/generate-uncommited-android-files-dev
         with:
           google-service-json-base64-dev: ${{ secrets.GOOGLE_SERVICE_JSON_BASE64_DEV }}
       - name: Generate key store

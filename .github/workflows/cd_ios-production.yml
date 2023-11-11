@@ -1,9 +1,9 @@
-name: CD / iOS Develop
+name: CD / iOS Production
 
 on:
-  push:
-    tags:
-      - "beta/*"
+  # Tag triggers are not set currently due to build failures in GitHub Actions.
+  # Waiting for macOS 14 to be available in GitHub Actions.
+  # https://github.com/github/roadmap/issues/813
   workflow_dispatch:
 
 concurrency:
@@ -29,23 +29,17 @@ jobs:
           firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
           firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
           firebase-options-dart-base64-prod: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_PROD }}
-      - name: Generate uncommited Flutter files for dev
-        uses: ./.github/actions/generate-uncommited-flutter-files-dev
+      - name: Generate uncommited Flutter files for prod
+        uses: ./.github/actions/generate-uncommited-flutter-files-prod
         with:
-          dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
-      - name: Generate uncommited iOS files for dev
-        uses: ./.github/actions/generate-uncommited-ios-files-dev
-        with:
-          google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
+          dart-defines-json-base64-prod: ${{ secrets.DART_DEFINES_JSON_BASE64_PROD }}
+      - name: Generate uncommited iOS files for prod
+        run: echo "${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_PROD }}" | base64 -d > ios/Runner/Firebase/Prod/GoogleService-Info.plist
       - name: Generate env file
         uses: ./.github/actions/generate-env-file
         with:
           env-base64: ${{ secrets.ENV_BASE64 }}
       - name: Generate App Store Connect API key file
         run: echo "${{ secrets.APP_STORE_CONNECT_API_KEY_P8_BASE64 }}" | base64 -d > fastlane/app-store-connect-api-key.p8
-      - name: Generate Firebase App Distribution service account key file
-        uses: ./.github/actions/generate-app-distribution-key-file
-        with:
-          key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
-      - name: Deploy dev app to Firebase App Distribution
-        run: bundle exec fastlane ios deploy_dev
+      - name: Deploy prod app to App Store
+        run: bundle exec fastlane ios deploy_prod
