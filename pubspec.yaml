@@ -9,58 +9,58 @@ environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
-  audioplayers: ^5.1.0
-  chewie: ^1.7.0
-  cloud_firestore: ^4.8.2
-  collection: ^1.15.0
-  cross_file: ^0.3.3+2
-  cupertino_icons: ^1.0.2
-  device_info_plus: ^9.0.2
-  dio: ^5.1.0
+  audioplayers:
+  chewie:
+  cloud_firestore:
+  collection:
+  cross_file:
+  cupertino_icons:
+  device_info_plus:
+  dio:
   ffmpeg_kit_flutter: 5.1.0-LTS
-  file_picker: ^5.2.6
-  firebase_analytics: ^10.4.2
-  firebase_auth: ^4.11.1
-  firebase_core: ^2.4.0
-  firebase_crashlytics: ^3.3.2
-  firebase_messaging: ^14.0.1
-  firebase_remote_config: ^4.2.3
-  firebase_storage: ^11.0.1
+  file_picker:
+  firebase_analytics:
+  firebase_auth:
+  firebase_core:
+  firebase_crashlytics:
+  firebase_messaging:
+  firebase_remote_config:
+  firebase_storage:
   flutter:
     sdk: flutter
-  flutter_facebook_auth: ^5.0.11
-  flutter_local_notifications: ^15.1.0+1
+  flutter_facebook_auth:
+  flutter_local_notifications:
   flutter_localizations:
     sdk: flutter
-  flutter_riverpod: ^2.3.6
-  flutter_svg: ^2.0.7
-  font_awesome_flutter: ^10.4.0
-  freezed_annotation: ^2.0.3
-  google_sign_in: ^6.1.4
-  in_app_review: ^2.0.6
-  intl: ^0.18.0
-  package_info_plus: ^4.0.2
-  path: ^1.8.0
-  path_provider: ^2.0.9
-  purchases_flutter: ^5.0.0
-  rxdart: ^0.27.3
-  share_plus: ^7.0.2
-  shared_preferences: ^2.0.20
-  skeletons: ^0.0.3
-  twitter_login: ^4.3.1
-  url_launcher: ^6.1.10
-  video_player: ^2.6.1
-  video_thumbnail: ^0.5.3
-  video_trimmer: ^2.1.0
+  flutter_riverpod:
+  flutter_svg:
+  font_awesome_flutter:
+  freezed_annotation:
+  google_sign_in:
+  in_app_review:
+  intl:
+  package_info_plus:
+  path:
+  path_provider:
+  purchases_flutter:
+  rxdart:
+  share_plus:
+  shared_preferences:
+  skeletons:
+  twitter_login:
+  url_launcher:
+  video_player:
+  video_thumbnail:
+  video_trimmer:
 
 dev_dependencies:
-  build_runner: ^2.3.3
+  build_runner:
   flutter_test:
     sdk: flutter
-  freezed: ^2.3.2
-  json_serializable: ^6.6.2
-  mocktail: ^1.0.0
-  pedantic_mono: ^1.24.0+1
+  freezed:
+  json_serializable:
+  mocktail:
+  pedantic_mono:
 
 flutter:
   uses-material-design: true
