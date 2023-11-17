@@ -35,7 +35,7 @@ jobs:
         run: bundle exec fastlane install_flutter_dependencies
       - name: Commit
         run: |
-          git pull origin main
+          git checkout main
           git checkout main pubspec.yaml
           git add pubspec.lock
           git commit --allow-empty -m 'build: fix pubspec.yaml and pubspec.lock'
