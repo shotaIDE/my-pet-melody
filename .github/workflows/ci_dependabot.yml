@@ -19,7 +19,7 @@ jobs:
   push-back-diff:
     name: Push back diff after building
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'pub')
+    # if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'pub')
     steps:
       - uses: actions/checkout@v4
         with:
