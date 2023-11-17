@@ -38,6 +38,7 @@ jobs:
           git checkout main
           git checkout main pubspec.yaml
           git add pubspec.lock
+          echo "# test" >> pubspec.yaml
           git commit --allow-empty -m 'build: fix pubspec.yaml and pubspec.lock'
       - name: Push back
         run: |
