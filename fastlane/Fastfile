@@ -9,6 +9,17 @@ lane :generate do
   sh('flutter pub run build_runner build --delete-conflicting-outputs')
 end
 
+lane :build_flutter_with_no_code_sign do |options|
+  Dir.chdir('../') do
+    dart_defines_path = options[:dart_defines_path]
+
+    sh(
+      "flutter build ios --dart-define-from-file #{dart_defines_path} "\
+      '--no-codesign '
+    )
+  end
+end
+
 private_lane :get_version_code do
   pubspec = Dir.chdir('../') do
     YAML.load_file('./pubspec.yaml')

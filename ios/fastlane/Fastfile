@@ -141,15 +141,4 @@ platform :ios do
 
     lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/うちメロ.ipa'
   end
-
-  private_lane :build_flutter_with_no_code_sign do |options|
-    Dir.chdir('../') do
-      dart_defines_path = options[:dart_defines_path]
-
-      sh(
-        "flutter build ios --dart-define-from-file #{dart_defines_path} "\
-        '--no-codesign '
-      )
-    end
-  end
 end
