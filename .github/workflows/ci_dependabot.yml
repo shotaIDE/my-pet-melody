@@ -35,7 +35,9 @@ jobs:
         run: bundle exec fastlane install_flutter_dependencies
       - name: Commit
         run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           git checkout main
+          git switch "$BRANCH_NAME"
           git checkout main pubspec.yaml
           git add pubspec.lock
           echo "# test" >> pubspec.yaml
