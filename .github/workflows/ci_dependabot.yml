@@ -40,8 +40,8 @@ jobs:
         uses: ./.github/actions/generate-uncommited-flutter-files-dev
         with:
           dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
-      - name: iOS build
-        run: bundle exec fastlane build_flutter_with_no_code_sign dart_defines_path:'dart-defines_dev.json'
+      - name: 
+        run: bundle exec fastlane install_flutter_dependencies
       - name: Commit
         run: |
           git checkout develop pubspec.yaml

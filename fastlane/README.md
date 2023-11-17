@@ -13,6 +13,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
+### install_flutter_dependencies
+
+```sh
+[bundle exec] fastlane install_flutter_dependencies
+```
+
+Get Flutter dependencies
+
 ### generate
 
 ```sh

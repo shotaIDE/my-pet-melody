@@ -99,7 +99,7 @@ platform :ios do
       precheck_include_in_app_purchases: false
     )
   end
-
+  
   private_lane :build do |options|
     dart_defines_path = options[:dart_defines_path]
     export_options_plist_path = options[:export_options_plist_path]
@@ -140,5 +140,16 @@ platform :ios do
     end
 
     lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/うちメロ.ipa'
+  end
+
+  private_lane :build_flutter_with_no_code_sign do |options|
+    Dir.chdir('../') do
+      dart_defines_path = options[:dart_defines_path]
+  
+      sh(
+        "flutter build ios --dart-define-from-file #{dart_defines_path} "\
+        '--no-codesign '
+      )
+    end
   end
 end

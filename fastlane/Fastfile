@@ -3,21 +3,15 @@ import '../ios/fastlane/Fastfile'
 
 require 'yaml'
 
-desc 'Generate automatic codes'
-lane :generate do
-  sh('flutter pub get')
-  sh('flutter pub run build_runner build --delete-conflicting-outputs')
+desc 'Get Flutter dependencies'
+lane :install_flutter_dependencies do
+  sh('flutter pub get --no-example')
 end
 
-lane :build_flutter_with_no_code_sign do |options|
-  Dir.chdir('../') do
-    dart_defines_path = options[:dart_defines_path]
-
-    sh(
-      "flutter build ios --dart-define-from-file #{dart_defines_path} "\
-      '--no-codesign '
-    )
-  end
+desc 'Generate automatic codes'
+lane :generate do
+  install_flutter_dependencies
+  sh('flutter pub run build_runner build --delete-conflicting-outputs')
 end
 
 private_lane :get_version_code do
