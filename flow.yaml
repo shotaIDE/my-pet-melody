@@ -15,7 +15,7 @@ appId: ide.shota.colomney.MyPetMelody.emulator
     when:
       platform: iOS
     commands:
-      - tapOn: "Video, fourteen seconds, March 25, 2021, 3:20 PM"
+      - tapOn: "ビデオ, 十四秒.*"
 - runFlow:
     when:
       platform: Android

@@ -21,8 +21,10 @@ Execute the following command.
 
 ```shell
 flutter build ios --dart-define-from-file 'dart-defines_emulator.json' --simulator
-xcrun simctl uninstall booted 'ide.shota.colomney.MyPetMelody.emulator'
+xcrun simctl erase 'iPhone 15'
+xcrun simctl boot 'iPhone 15'
 xcrun simctl install booted 'build/ios/iphonesimulator/Runner.app'
+xcrun simctl addmedia booted 'task/samples/大きい鳴き声-01.mp4'
 maestro test flow.yaml
 ```
 
