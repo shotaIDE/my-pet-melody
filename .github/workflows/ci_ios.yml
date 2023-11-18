@@ -65,7 +65,7 @@ jobs:
       - name: iOS build
         run: bundle exec fastlane ios build_dev_with_no_code_sign
   push-back-diff:
-    name: Push back Git's differences after resolving iOS dependencies
+    name: Push back Git differences after resolving iOS dependencies
     needs: check-impact
     if: needs.check-impact.outputs.has-changed-related-files == 'true'
     runs-on: ubuntu-latest
