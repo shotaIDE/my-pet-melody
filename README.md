@@ -25,7 +25,7 @@ xcrun simctl erase 'iPhone 15'
 xcrun simctl boot 'iPhone 15'
 xcrun simctl install booted 'build/ios/iphonesimulator/Runner.app'
 xcrun simctl addmedia booted 'task/samples/大きい鳴き声-01.mp4'
-maestro test flow.yaml
+maestro test '.maestro/Generate Piece.yaml'
 ```
 
 ### Android
@@ -40,8 +40,9 @@ Execute the following command.
 flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
 adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
 adb install 'build/app/outputs/flutter-apk/app-release.apk'
+adb shell rm -r '/sdcard/Download/*'
 adb push 'task/samples/大きい鳴き声-01.mp4' /sdcard/Download/
-maestro test flow.yaml
+maestro test '.maestro/Generate Piece.yaml'
 ```
 
 ### Upgrade Flutter version
