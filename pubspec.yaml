@@ -16,7 +16,7 @@ dependencies:
   cloud_firestore:
   collection:
   cross_file:
-  cupertino_icons: 1.0.6
+  cupertino_icons:
   device_info_plus:
   dio:
   ffmpeg_kit_flutter: 5.1.0-LTS
