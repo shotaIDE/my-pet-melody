@@ -21,9 +21,16 @@ jobs:
     runs-on: ubuntu-latest
     # if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'pub')
     steps:
+      - name: Generate token
+        id: generate-token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.COLOMNEY_WORKFLOW_APP_ID }}
+          private_key: ${{ secrets.COLOMNEY_WORKFLOW_APP_PRIVATE_KEY_PEM }}
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
+          token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
       - name: Setup Git
         uses: ./.github/actions/setup-git
