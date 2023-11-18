@@ -1,7 +1,7 @@
 appId: ide.shota.colomney.MyPetMelody.emulator
 ---
 - launchApp
-# - tapOn: "アカウントを作成せずに続ける"
+- tapOn: "アカウントを作成せずに続ける"
 - tapOn: "作品をつくる"
 - tapOn: |-
     Happy Birthday オルゴール
@@ -37,8 +37,11 @@ appId: ide.shota.colomney.MyPetMelody.emulator
     commands:
       - tapOn:
           id: "android:id/input_method_nav_back"
-- tapOn: "作品をつくる"
-# - tapOn: "作品をつくる準備に進む"
-# - tapOn: "許可して作品をつくる"
-# - tapOn: "許可"
+- tapOn: "作品をつくる準備に進む"
+- tapOn: "許可して作品をつくる"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "許可"
 - assertVisible: "Happy Birthday Test"

@@ -31,7 +31,8 @@ Execute the following command.
 
 ```shell
 flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
-adb install -r 'build/app/outputs/flutter-apk/app-release.apk'
+adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
+adb install 'build/app/outputs/flutter-apk/app-release.apk'
 maestro test flow.yaml
 ```
 
