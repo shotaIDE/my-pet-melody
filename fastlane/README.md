@@ -71,6 +71,14 @@ Build production app
 
 ## iOS
 
+### ios install_dependencies
+
+```sh
+[bundle exec] fastlane ios install_dependencies
+```
+
+Install iOS dependencies
+
 ### ios build_dev
 
 ```sh

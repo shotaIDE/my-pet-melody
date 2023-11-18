@@ -1,6 +1,16 @@
 default_platform(:ios)
 
 platform :ios do
+  desc 'Install iOS dependencies'
+  lane :install_dependencies do
+    install_flutter_dependencies
+
+    Dir.chdir('../ios') do
+      sh('flutter precache --ios')
+      sh('pod install')
+    end
+  end
+
   desc 'Build develop app'
   lane :build_dev do
     Dotenv.load '.env'
