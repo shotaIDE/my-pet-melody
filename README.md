@@ -11,6 +11,10 @@ firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-da
 
 ## E2E Testing
 
+### Requirements
+
+Install [Maestro](https://maestro.mobile.dev/getting-started/installing-maestro).
+
 ### iOS
 
 Launch iOS simulator.
