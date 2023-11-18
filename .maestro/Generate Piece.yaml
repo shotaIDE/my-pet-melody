@@ -20,8 +20,6 @@ appId: ide.shota.colomney.MyPetMelody.emulator
     when:
       platform: Android
     commands:
-      - tapOn: "ルートを表示する"
-      - tapOn: "ダウンロード"
       - tapOn: "大きい鳴き声-01.MP4"
 - tapOn: "次へ"
 - tapOn: "0番目の鳴き声を選択する"
