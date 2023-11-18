@@ -15,9 +15,9 @@ permissions: {}
 
 jobs:
   push-back-diff:
-    name: Push back Git's differences after resolving dependencies
+    name: Push back Git's differences after resolving Flutter dependencies
     runs-on: ubuntu-latest
-    # if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dart')
+    if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dart')
     steps:
       - name: Generate token
         id: generate-token
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
-          # Use Workflow App tokens instead of default token `GITHUB_TOKEN`
+          # Use App tokens instead of default token `GITHUB_TOKEN`
           # to ensure that CI will be triggered again after push back.
           token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
@@ -48,11 +48,9 @@ jobs:
           git checkout main pubspec.yaml
       - name: Install Flutter dependencies
         run: bundle exec fastlane install_flutter_dependencies
-      - name: Install iOS dependencies
-        run: bundle exec fastlane ios install_dependencies
       - name: Commit
         run: |
-          git add pubspec.yaml pubspec.lock ios/Podfile.lock
+          git add pubspec.yaml pubspec.lock
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else

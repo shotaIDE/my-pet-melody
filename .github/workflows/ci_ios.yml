@@ -64,6 +64,45 @@ jobs:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
       - name: iOS build
         run: bundle exec fastlane ios build_dev_with_no_code_sign
+  push-back-diff:
+    name: Push back Git's differences after resolving iOS dependencies
+    needs: check-impact
+    if: needs.check-impact.outputs.has-changed-related-files == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate token
+        id: generate-token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.COLOMNEY_WORKFLOW_APP_ID }}
+          private_key: ${{ secrets.COLOMNEY_WORKFLOW_APP_PRIVATE_KEY_PEM }}
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          # Use App tokens instead of default token `GITHUB_TOKEN`
+          # to ensure that CI will be triggered again after push back.
+          token: ${{ steps.generate-token.outputs.token }}
+          fetch-depth: 0
+      - name: Setup Git
+        uses: ./.github/actions/setup-git
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
+      - name: Install iOS dependencies
+        run: bundle exec fastlane ios install_dependencies
+      - name: Commit
+        run: |
+          git add ios/Podfile.lock
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m 'build: fix Podfile.lock'
+          fi
+      - name: Push back if needed
+        run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          git push origin "$BRANCH_NAME"
   build-no-need:
     name: Build iOS app (no need)
     needs: check-impact
