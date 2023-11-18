@@ -24,8 +24,6 @@ appId: ide.shota.colomney.MyPetMelody.emulator
       - tapOn: "ダウンロード"
       - tapOn: "大きい鳴き声-01.MP4"
 - tapOn: "次へ"
-# - assertVisible: "動画を変換しています。\nこれには数分かかる場合があります"
-# - assertVisible: "動画の中から鳴き声を探しています。\nこれには数分かかる場合があります"
 - tapOn: "0番目の鳴き声を選択する"
 - tapOn: "次へ"
 - inputText: "Happy Birthday Test"
