@@ -17,7 +17,7 @@ jobs:
   push-back-diff:
     name: Push back Git's differences after resolving dependencies
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dart')
+    # if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dart')
     steps:
       - name: Generate token
         id: generate-token
