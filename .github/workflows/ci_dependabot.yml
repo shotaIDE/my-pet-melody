@@ -49,7 +49,11 @@ jobs:
           git switch "$BRANCH_NAME"
           git checkout main pubspec.yaml
           git add pubspec.yaml pubspec.lock
-          git commit -m 'build: fix pubspec.yaml and pubspec.lock'
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m 'build: fix pubspec.yaml and pubspec.lock'
+          fi
       - name: Push back
         run: |
           BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
