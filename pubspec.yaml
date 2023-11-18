@@ -37,7 +37,7 @@ dependencies:
   flutter_riverpod:
   flutter_svg:
   font_awesome_flutter:
-  freezed_annotation:
+  freezed_annotation: 2.4.1
   google_sign_in:
   in_app_review:
   intl:
