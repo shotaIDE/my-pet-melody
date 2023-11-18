@@ -54,7 +54,7 @@ dependencies:
   video_trimmer:
 
 dev_dependencies:
-  build_runner: 2.3.3
+  build_runner:
   flutter_test:
     sdk: flutter
   freezed:
