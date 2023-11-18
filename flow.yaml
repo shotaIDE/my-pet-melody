@@ -1,7 +1,11 @@
 appId: ide.shota.colomney.MyPetMelody.emulator
 ---
 - launchApp
-- tapOn: "アカウントを作成せずに続ける"
+- runFlow:
+    when:
+      visible: "アカウントを作成せずに続ける"
+    commands:
+      - tapOn: "アカウントを作成せずに続ける"
 - tapOn: "作品をつくる"
 - tapOn: |-
     Happy Birthday オルゴール
