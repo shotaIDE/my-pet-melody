@@ -9,6 +9,32 @@ firebase use default
 firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-data
 ```
 
+## E2E Testing
+
+### iOS
+
+Launch iOS simulator.
+
+Execute the following command.
+
+```shell
+flutter build ios --dart-define-from-file 'dart-defines_emulator.json' --simulator
+xcrun simctl install Booted 'build/ios/iphonesimulator/Runner.app'
+maestro test flow.yaml
+```
+
+### Android
+
+Launch Android emulator.
+
+Execute the following command.
+
+```shell
+flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
+adb install -r 'build/app/outputs/flutter-apk/app-release.apk'
+maestro test flow.yaml
+```
+
 ### Upgrade Flutter version
 
 ```shell
