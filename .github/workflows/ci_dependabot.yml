@@ -40,12 +40,14 @@ jobs:
         uses: ./.github/actions/setup-ruby
       - name: Install Flutter dependencies
         run: bundle exec fastlane install_flutter_dependencies
-      - name: Commit
+      - name: Revert pubspec.yaml
         run: |
           BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           git checkout main
           git switch "$BRANCH_NAME"
           git checkout main pubspec.yaml
+      - name: Commit
+        run: |
           git add pubspec.yaml pubspec.lock
           if git diff --cached --quiet; then
             echo "No changes to commit"
