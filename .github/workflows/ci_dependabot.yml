@@ -46,7 +46,6 @@ jobs:
           git checkout main
           git switch "$BRANCH_NAME"
           git checkout main pubspec.yaml
-          echo "# test" >> pubspec.lock
           git add pubspec.yaml pubspec.lock
           git commit -m 'build: fix pubspec.yaml and pubspec.lock'
       - name: Push back
