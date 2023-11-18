@@ -3,9 +3,14 @@ import '../ios/fastlane/Fastfile'
 
 require 'yaml'
 
+desc 'Get Flutter dependencies'
+lane :install_flutter_dependencies do
+  sh('flutter pub get --no-example')
+end
+
 desc 'Generate automatic codes'
 lane :generate do
-  sh('flutter pub get')
+  install_flutter_dependencies
   sh('flutter pub run build_runner build --delete-conflicting-outputs')
 end
 
