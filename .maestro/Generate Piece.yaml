@@ -27,6 +27,12 @@ appId: ide.shota.colomney.MyPetMelody.emulator
 - inputText: "Happy Birthday Test"
 - runFlow:
     when:
+      visible: "Continue"
+      platform: iOS
+    commands:
+      - tapOn: "Continue"
+- runFlow:
+    when:
       platform: iOS
     commands:
       - tapOn:
