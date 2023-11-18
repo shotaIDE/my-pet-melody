@@ -40,6 +40,7 @@ Execute the following command.
 flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
 adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
 adb install 'build/app/outputs/flutter-apk/app-release.apk'
+adb push 'task/samples/大きい鳴き声-01.mp4' /sdcard/Download/
 maestro test flow.yaml
 ```
 
