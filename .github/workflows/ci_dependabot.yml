@@ -16,7 +16,7 @@ permissions: {}
 jobs:
   push-back-diff:
     name: Push back Git's differences after resolving dependencies
-    runs-on: ubuntu-latest
+    runs-on: macos-13
     # if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dart')
     steps:
       - name: Generate token
@@ -58,7 +58,7 @@ jobs:
           else
             git commit -m 'build: fix pubspec.yaml and pubspec.lock'
           fi
-      - name: Push back
+      - name: Push back if needed
         run: |
           BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           git push origin "$BRANCH_NAME"
