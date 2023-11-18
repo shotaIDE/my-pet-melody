@@ -323,9 +323,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: ref.read(widget.viewModelProvider.notifier).onMakePiece,
-        child: const Icon(Icons.add),
+      floatingActionButton: Semantics(
+        label: '作品をつくる',
+        child: FloatingActionButton(
+          onPressed: ref.read(widget.viewModelProvider.notifier).onMakePiece,
+          child: const Icon(Icons.add),
+        ),
       ),
       resizeToAvoidBottomInset: false,
     );

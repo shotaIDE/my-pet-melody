@@ -93,6 +93,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       controller: state.displayNameController,
       focusNode: state.displayNameFocusNode,
       decoration: InputDecoration(
+        labelText: '作品のタイトル',
         filled: true,
         fillColor: Theme.of(context).cardColor,
         border: OutlineInputBorder(
