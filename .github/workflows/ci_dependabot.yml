@@ -14,8 +14,8 @@ concurrency:
 permissions: {}
 
 jobs:
-  push-back-diff:
-    name: Push back Git differences after resolving Flutter dependencies
+  push-back-diffs-if-needed:
+    name: Push back diffs after resolving Flutter dependencies if needed
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dart')
     steps:

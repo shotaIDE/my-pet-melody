@@ -64,8 +64,8 @@ jobs:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
       - name: iOS build
         run: bundle exec fastlane ios build_dev_with_no_code_sign
-  push-back-diff:
-    name: Push back Git differences after resolving iOS dependencies
+  push-back-diffs-if-needed:
+    name: Push back diffs after resolving dependencies if needed
     needs: check-impact
     if: needs.check-impact.outputs.has-changed-related-files == 'true'
     runs-on: ubuntu-latest
