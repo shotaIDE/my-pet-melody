@@ -49,7 +49,7 @@ dependencies:
   share_plus:
   shared_preferences:
   skeletons:
-  twitter_login: 4.4.2
+  twitter_login:
   url_launcher:
   video_player:
   video_thumbnail:
