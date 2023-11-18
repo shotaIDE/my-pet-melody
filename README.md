@@ -11,6 +11,10 @@ firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-da
 
 ## E2E Testing
 
+### Requirements
+
+Install [Maestro](https://maestro.mobile.dev/getting-started/installing-maestro).
+
 ### iOS
 
 Launch iOS simulator.
@@ -21,9 +25,11 @@ Execute the following command.
 
 ```shell
 flutter build ios --dart-define-from-file 'dart-defines_emulator.json' --simulator
-xcrun simctl uninstall booted 'ide.shota.colomney.MyPetMelody.emulator'
+xcrun simctl erase 'iPhone 15'
+xcrun simctl boot 'iPhone 15'
 xcrun simctl install booted 'build/ios/iphonesimulator/Runner.app'
-maestro test flow.yaml
+xcrun simctl addmedia booted 'task/samples/大きい鳴き声-01.mp4'
+maestro test '.maestro/Generate Piece.yaml'
 ```
 
 ### Android
@@ -38,7 +44,9 @@ Execute the following command.
 flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
 adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
 adb install 'build/app/outputs/flutter-apk/app-release.apk'
-maestro test flow.yaml
+adb shell rm -r '/sdcard/Download/*'
+adb push 'task/samples/大きい鳴き声-01.mp4' /sdcard/Download/
+maestro test '.maestro/Generate Piece.yaml'
 ```
 
 ### Upgrade Flutter version

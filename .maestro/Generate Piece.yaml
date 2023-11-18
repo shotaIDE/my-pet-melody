@@ -15,18 +15,22 @@ appId: ide.shota.colomney.MyPetMelody.emulator
     when:
       platform: iOS
     commands:
-      - tapOn: "Video, fourteen seconds, March 25, 2021, 3:20 PM"
+      - tapOn: "ビデオ, 十四秒.*"
 - runFlow:
     when:
       platform: Android
     commands:
-      - tapOn: "ルートを表示する"
-      - tapOn: "ダウンロード"
       - tapOn: "大きい鳴き声-01.MP4"
 - tapOn: "次へ"
 - tapOn: "0番目の鳴き声を選択する"
 - tapOn: "次へ"
 - inputText: "Happy Birthday Test"
+- runFlow:
+    when:
+      visible: "Continue"
+      platform: iOS
+    commands:
+      - tapOn: "Continue"
 - runFlow:
     when:
       platform: iOS
@@ -41,4 +45,9 @@ appId: ide.shota.colomney.MyPetMelody.emulator
           id: "android:id/input_method_nav_back"
 - tapOn: "作品をつくる準備に進む"
 - tapOn: "許可して作品をつくる"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "許可"
 - assertVisible: "Happy Birthday Test"
