@@ -15,7 +15,7 @@ permissions: {}
 
 jobs:
   push-back-diff:
-    name: Push back diff after building
+    name: Push back Git's differences after resolving Flutter's dependencies
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'pub')
     steps:
