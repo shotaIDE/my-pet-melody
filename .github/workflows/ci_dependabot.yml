@@ -15,7 +15,7 @@ permissions: {}
 
 jobs:
   push-back-diff:
-    name: Push back Git's differences after resolving Flutter's dependencies
+    name: Push back Git's differences after resolving dependencies
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'dart')
     steps:
@@ -48,9 +48,11 @@ jobs:
           git checkout main pubspec.yaml
       - name: Install Flutter dependencies
         run: bundle exec fastlane install_flutter_dependencies
+      - name: Install iOS dependencies
+        run: bundle exec fastlane ios install_dependencies
       - name: Commit
         run: |
-          git add pubspec.yaml pubspec.lock
+          git add pubspec.yaml pubspec.lock ios/Podfile.lock
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else

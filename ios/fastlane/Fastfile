@@ -1,6 +1,13 @@
 default_platform(:ios)
 
 platform :ios do
+  desc 'Install iOS dependencies'
+  lane :install_dependencies do
+    Dir.chdir('../ios') do
+      sh('pod install')
+    end
+  end
+
   desc 'Build develop app'
   lane :build_dev do
     Dotenv.load '.env'
