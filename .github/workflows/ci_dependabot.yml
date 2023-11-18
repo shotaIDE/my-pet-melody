@@ -38,8 +38,6 @@ jobs:
         uses: ./.github/actions/setup-flutter
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
-      - name: Install Flutter dependencies
-        run: bundle exec fastlane install_flutter_dependencies
       # Workaround for the problem that dependabot writes version constraints 
       # in `pubspec.yaml` and next version update will not work.
       - name: Revert pubspec.yaml
@@ -48,6 +46,8 @@ jobs:
           git checkout main
           git switch "$BRANCH_NAME"
           git checkout main pubspec.yaml
+      - name: Install Flutter dependencies
+        run: bundle exec fastlane install_flutter_dependencies
       - name: Commit
         run: |
           git add pubspec.yaml pubspec.lock
