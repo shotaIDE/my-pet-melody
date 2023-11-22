@@ -13,7 +13,7 @@ environment:
 dependencies:
   audioplayers:
   chewie:
-  cloud_firestore: 4.13.2
+  cloud_firestore:
   collection:
   cross_file:
   cupertino_icons:
