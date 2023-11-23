@@ -44,7 +44,7 @@ dependencies:
   package_info_plus:
   path:
   path_provider:
-  purchases_flutter:
+  purchases_flutter: 6.3.0
   rxdart:
   share_plus:
   shared_preferences:
