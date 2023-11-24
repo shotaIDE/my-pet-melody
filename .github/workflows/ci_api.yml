@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - "main"
+    paths:
+      - "task/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
@@ -14,27 +16,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  check-impact:
-    name: Check impact for API
-    runs-on: ubuntu-latest
-    outputs:
-      has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Check related files
-        id: check-related-files
-        uses: tj-actions/changed-files@v40
-        with:
-          files: "task/**"
   test:
     name: Test API
-    needs: check-impact
-    if: needs.check-impact.outputs.has-changed-related-files == 'true'
-    # Use the different version of the environment on which the production runtime is based.
-    # This is because upgrading the runtime version of Cloud Functions causes
-    # deployment failures, and GitHub Actions has already deprecated ubuntu 18.04.
     runs-on: ubuntu-22.04
     defaults:
       run:
@@ -75,11 +58,3 @@ jobs:
           unzip samples.zip
       - name: Test
         run: pytest
-  build-no-need:
-    name: Test API (no need)
-    needs: check-impact
-    if: needs.check-impact.outputs.has-changed-related-files == 'false'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Skip
-        run: echo "No changes in files related to API, skipping."
