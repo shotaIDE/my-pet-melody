@@ -1,5 +1,4 @@
 # coding: utf-8
-# Test
 
 import os
 from datetime import datetime
