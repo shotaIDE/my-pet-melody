@@ -1,0 +1,47 @@
+name: CD / API Develop
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    tags:
+      - "function/*"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: task
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate env YAML file
+        run: echo "${{ secrets.FUNCTIONS_ENV_YAML_BASE64_DEV }}" | base64 -d > .env.dev.yaml
+      - name: Generate Firebase service account key JSON file
+        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > firebase-serviceAccountKey_dev.json
+      - name: Generate Cloud Tasks service account key JSON file
+        run: echo "${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > cloud-tasks-serviceAccountKey_dev.json
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
+          service_account: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_MAIL_DEV }}
+      - uses: 'google-github-actions/deploy-cloud-functions@v1'
+        with:
+          name: 'detect'
+          runtime: 'python39'
+          memory_mb: 2048
+          resion: 'asia-east1'
+          env_vars_file: '.env.dev.yaml'
+          source_dir: '.'
+          project_id: 'colomney-my-pet-melody-dev'
+          min_instances: 0
+          max_instances: 1
+          event_trigger_type: 'http'
+          docker_repository: 'artifact-registry'
