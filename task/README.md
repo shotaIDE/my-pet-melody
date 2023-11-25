@@ -9,6 +9,7 @@
 ```shell
 gcloud functions deploy detect \
     --project colomney-my-pet-melody-dev \
+    --docker-registry=artifact-registry \
     --region=asia-east1 \
     --source=. \
     --ignore-file=.gcloudignore.dev \
@@ -19,6 +20,7 @@ gcloud functions deploy detect \
     --allow-unauthenticated
 gcloud functions deploy submit \
     --project colomney-my-pet-melody-dev \
+    --docker-registry=artifact-registry \
     --region=asia-east1 \
     --source=. \
     --ignore-file=.gcloudignore.dev \
@@ -29,6 +31,7 @@ gcloud functions deploy submit \
     --allow-unauthenticated
 gcloud functions deploy piece \
     --project colomney-my-pet-melody-dev \
+    --docker-registry=artifact-registry \
     --region=asia-east1 \
     --source=. \
     --ignore-file=.gcloudignore.dev \
@@ -44,6 +47,7 @@ gcloud functions deploy piece \
 ```shell
 gcloud functions deploy detect \
     --project colomney-my-pet-melody \
+    --docker-registry=artifact-registry \
     --region=asia-east1 \
     --source=. \
     --ignore-file=.gcloudignore.prod \
@@ -54,6 +58,7 @@ gcloud functions deploy detect \
     --allow-unauthenticated
 gcloud functions deploy submit \
     --project colomney-my-pet-melody \
+    --docker-registry=artifact-registry \
     --region=asia-east1 \
     --source=. \
     --ignore-file=.gcloudignore.prod \
@@ -64,6 +69,7 @@ gcloud functions deploy submit \
     --allow-unauthenticated
 gcloud functions deploy piece \
     --project colomney-my-pet-melody \
+    --docker-registry=artifact-registry \
     --region=asia-east1 \
     --source=. \
     --ignore-file=.gcloudignore.prod \
