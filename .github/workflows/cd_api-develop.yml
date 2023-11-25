@@ -31,6 +31,8 @@ jobs:
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > firebase-serviceAccountKey_dev.json
       - name: Generate Cloud Tasks service account key JSON file
         run: echo "${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > cloud-tasks-serviceAccountKey_dev.json
+      - name: Ls
+        run: ls -la
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
         with:
