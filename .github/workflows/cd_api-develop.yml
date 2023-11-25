@@ -6,7 +6,7 @@ on:
       - "main"
   push:
     tags:
-      - "function/*"
+      - "function/beta/*"
   workflow_dispatch:
 
 concurrency:
@@ -37,30 +37,30 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
           service_account: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_MAIL_DEV }}
-      # - name: Deploy detect Functions to Google Cloud
-      #   uses: 'google-github-actions/deploy-cloud-functions@v1'
-      #   with:
-      #     name: 'detect'
-      #     runtime: 'python39'
-      #     memory_mb: 2048
-      #     region: 'asia-east1'
-      #     env_vars_file: 'task/.env.dev.yaml'
-      #     source_dir: 'task'
-      #     project_id: 'colomney-my-pet-melody-dev'
-      #     min_instances: 0
-      #     max_instances: 1
-      # - name: Deploy submit Functions to Google Cloud
-      #   uses: 'google-github-actions/deploy-cloud-functions@v1'
-      #   with:
-      #     name: 'submit'
-      #     runtime: 'python39'
-      #     memory_mb: 512
-      #     region: 'asia-east1'
-      #     env_vars_file: 'task/.env.dev.yaml'
-      #     source_dir: 'task'
-      #     project_id: 'colomney-my-pet-melody-dev'
-      #     min_instances: 0
-      #     max_instances: 1
+      - name: Deploy detect Functions to Google Cloud
+        uses: 'google-github-actions/deploy-cloud-functions@v1'
+        with:
+          name: 'detect'
+          runtime: 'python39'
+          memory_mb: 2048
+          region: 'asia-east1'
+          env_vars_file: 'task/.env.dev.yaml'
+          source_dir: 'task'
+          project_id: 'colomney-my-pet-melody-dev'
+          min_instances: 0
+          max_instances: 1
+      - name: Deploy submit Functions to Google Cloud
+        uses: 'google-github-actions/deploy-cloud-functions@v1'
+        with:
+          name: 'submit'
+          runtime: 'python39'
+          memory_mb: 512
+          region: 'asia-east1'
+          env_vars_file: 'task/.env.dev.yaml'
+          source_dir: 'task'
+          project_id: 'colomney-my-pet-melody-dev'
+          min_instances: 0
+          max_instances: 1
       - name: Deploy piece Functions to Google Cloud
         uses: 'google-github-actions/deploy-cloud-functions@v1'
         with:
