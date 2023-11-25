@@ -48,4 +48,3 @@ jobs:
           min_instances: 0
           max_instances: 1
           event_trigger_type: 'http'
-          docker_repository: 'artifact-registry'
