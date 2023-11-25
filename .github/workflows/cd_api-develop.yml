@@ -49,4 +49,3 @@ jobs:
           project_id: 'colomney-my-pet-melody-dev'
           min_instances: 0
           max_instances: 1
-          event_trigger_type: 'http'
