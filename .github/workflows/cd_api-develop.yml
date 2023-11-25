@@ -41,7 +41,7 @@ jobs:
           name: 'detect'
           runtime: 'python39'
           memory_mb: 2048
-          resion: 'asia-east1'
+          region: 'asia-east1'
           env_vars_file: '.env.dev.yaml'
           source_dir: '.'
           project_id: 'colomney-my-pet-melody-dev'
