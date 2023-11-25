@@ -50,7 +50,6 @@ gcloud functions deploy detect \
     --trigger-http \
     --runtime=python39 \
     --memory=2048MB \
-    --min-instances=1 \
     --env-vars-file=.env.prod.yaml \
     --allow-unauthenticated
 gcloud functions deploy submit \
@@ -61,7 +60,6 @@ gcloud functions deploy submit \
     --trigger-http \
     --runtime=python39 \
     --memory=512MB \
-    --min-instances=1 \
     --env-vars-file=.env.prod.yaml \
     --allow-unauthenticated
 gcloud functions deploy piece \
