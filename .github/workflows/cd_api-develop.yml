@@ -44,7 +44,7 @@ jobs:
           runtime: 'python39'
           memory_mb: 2048
           region: 'asia-east1'
-          env_vars_file: './.env.dev.yaml'
+          env_vars_file: 'task/.env.dev.yaml'
           source_dir: '.'
           project_id: 'colomney-my-pet-melody-dev'
           min_instances: 0
