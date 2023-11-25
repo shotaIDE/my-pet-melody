@@ -31,14 +31,15 @@ jobs:
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > firebase-serviceAccountKey_dev.json
       - name: Generate Cloud Tasks service account key JSON file
         run: echo "${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > cloud-tasks-serviceAccountKey_dev.json
-      - name: Ls
-        run: ls -la
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
+        id: 'auth'
         with:
           workload_identity_provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
           service_account: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_MAIL_DEV }}
-      - uses: 'google-github-actions/deploy-cloud-functions@v1'
+      - name: Deploy Functions to Google Cloud
+        uses: 'google-github-actions/deploy-cloud-functions@v1'
+        id: 'deploy'
         with:
           name: 'detect'
           runtime: 'python39'
