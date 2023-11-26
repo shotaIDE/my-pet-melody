@@ -1,0 +1,75 @@
+name: CD / API Production
+
+on:
+  push:
+    tags:
+      - "function/release/*"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: task
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate env YAML file
+        run: echo "${{ secrets.FUNCTIONS_ENV_YAML_BASE64_PROD }}" | base64 -d > .env.prod.yaml
+      - name: Generate Firebase service account key JSON file
+        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_PROD }}" | base64 -d > firebase-serviceAccountKey_prod.json
+      - name: Generate Cloud Tasks service account key JSON file
+        run: echo "${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_PROD }}" | base64 -d > cloud-tasks-serviceAccountKey_prod.json
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        id: 'auth'
+        with:
+          workload_identity_provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_PROD }}
+          service_account: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_MAIL_PROD }}
+      - name: Deploy detect Functions to Google Cloud
+        uses: google-github-actions/deploy-cloud-functions@v1
+        with:
+          name: 'detect'
+          runtime: 'python39'
+          memory_mb: 2048
+          region: 'asia-east1'
+          env_vars_file: 'task/.env.prod.yaml'
+          source_dir: 'task'
+          project_id: 'colomney-my-pet-melody'
+          min_instances: 0
+          max_instances: 1
+          deploy_timeout: 600
+      - name: Deploy submit Functions to Google Cloud
+        uses: google-github-actions/deploy-cloud-functions@v1
+        with:
+          name: 'submit'
+          runtime: 'python39'
+          memory_mb: 512
+          region: 'asia-east1'
+          env_vars_file: 'task/.env.prod.yaml'
+          source_dir: 'task'
+          project_id: 'colomney-my-pet-melody'
+          min_instances: 0
+          max_instances: 1
+          deploy_timeout: 600
+      - name: Deploy piece Functions to Google Cloud
+        uses: google-github-actions/deploy-cloud-functions@v1
+        with:
+          name: 'piece'
+          runtime: 'python39'
+          memory_mb: 1024
+          region: 'asia-east1'
+          env_vars_file: 'task/.env.prod.yaml'
+          source_dir: 'task'
+          project_id: 'colomney-my-pet-melody'
+          min_instances: 0
+          max_instances: 1
+          deploy_timeout: 600
