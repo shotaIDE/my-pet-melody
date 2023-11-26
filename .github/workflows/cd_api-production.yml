@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: task
+        working-directory: function
     steps:
       - uses: actions/checkout@v4
       - name: Generate env YAML file
@@ -41,8 +41,8 @@ jobs:
           runtime: 'python39'
           memory_mb: 2048
           region: 'asia-east1'
-          env_vars_file: 'task/.env.prod.yaml'
-          source_dir: 'task'
+          env_vars_file: 'function/.env.prod.yaml'
+          source_dir: 'function'
           project_id: 'colomney-my-pet-melody'
           min_instances: 0
           max_instances: 1
@@ -54,8 +54,8 @@ jobs:
           runtime: 'python39'
           memory_mb: 512
           region: 'asia-east1'
-          env_vars_file: 'task/.env.prod.yaml'
-          source_dir: 'task'
+          env_vars_file: 'function/.env.prod.yaml'
+          source_dir: 'function'
           project_id: 'colomney-my-pet-melody'
           min_instances: 0
           max_instances: 1
@@ -67,8 +67,8 @@ jobs:
           runtime: 'python39'
           memory_mb: 1024
           region: 'asia-east1'
-          env_vars_file: 'task/.env.prod.yaml'
-          source_dir: 'task'
+          env_vars_file: 'function/.env.prod.yaml'
+          source_dir: 'function'
           project_id: 'colomney-my-pet-melody'
           min_instances: 0
           max_instances: 1

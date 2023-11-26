@@ -27,7 +27,7 @@ jobs:
         id: check-related-files
         uses: tj-actions/changed-files@v40
         with:
-          files: "task/**"
+          files: "function/**"
   test:
     name: Test API
     needs: check-impact

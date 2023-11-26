@@ -19,7 +19,7 @@ Install [Maestro](https://maestro.mobile.dev/getting-started/installing-maestro)
 
 Launch iOS simulator.
 
-Launch `task/` server.
+Launch `function/` server.
 
 Execute the following command.
 
@@ -35,7 +35,7 @@ maestro test '.maestro/GeneratePiece.yaml'
 
 Launch Android emulator.
 
-Launch `task/` server.
+Launch `function/` server.
 
 Execute the following command.
 

@@ -17,7 +17,7 @@ GoogleService-Info.plist
 /ios/Flutter/DartDefines.xcconfig
 /lib/environment_config.dart
 /lib/firebase_options*.dart
-/task/samples/
+/function/samples/
 
 !/dart-defines_example.json
 

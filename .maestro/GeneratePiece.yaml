@@ -1,7 +1,7 @@
 appId: ide.shota.colomney.MyPetMelody.emulator
 ---
 - addMedia:
-    - ../task/samples/大きい鳴き声-01.mp4
+    - ../function/samples/大きい鳴き声-01.mp4
 - launchApp
 - runFlow:
     when:
