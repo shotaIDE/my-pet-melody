@@ -1,9 +1,6 @@
 name: CD / API Production
 
 on:
-  pull_request:
-    branches:
-      - "main"
   push:
     tags:
       - "function/release/*"
