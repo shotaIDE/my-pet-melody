@@ -35,7 +35,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_riverpod:
-  flutter_svg: 2.0.9
+  flutter_svg:
   font_awesome_flutter:
   freezed_annotation:
   google_sign_in:
