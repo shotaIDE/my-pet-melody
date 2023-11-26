@@ -16,6 +16,8 @@ gcloud functions deploy detect \
     --trigger-http \
     --runtime=python39 \
     --memory=2048MB \
+    --max-instances=1 \
+    --min-instances=0 \
     --env-vars-file=.env.dev.yaml \
     --allow-unauthenticated
 gcloud functions deploy submit \
@@ -27,6 +29,8 @@ gcloud functions deploy submit \
     --trigger-http \
     --runtime=python39 \
     --memory=512MB \
+    --max-instances=1 \
+    --min-instances=0 \
     --env-vars-file=.env.dev.yaml \
     --allow-unauthenticated
 gcloud functions deploy piece \
@@ -38,6 +42,8 @@ gcloud functions deploy piece \
     --trigger-http \
     --runtime=python39 \
     --memory=1024MB \
+    --max-instances=1 \
+    --min-instances=0 \
     --env-vars-file=.env.dev.yaml \
     --allow-unauthenticated
 ```
@@ -54,6 +60,8 @@ gcloud functions deploy detect \
     --trigger-http \
     --runtime=python39 \
     --memory=2048MB \
+    --max-instances=1 \
+    --min-instances=0 \
     --env-vars-file=.env.prod.yaml \
     --allow-unauthenticated
 gcloud functions deploy submit \
@@ -65,6 +73,8 @@ gcloud functions deploy submit \
     --trigger-http \
     --runtime=python39 \
     --memory=512MB \
+    --max-instances=1 \
+    --min-instances=0 \
     --env-vars-file=.env.prod.yaml \
     --allow-unauthenticated
 gcloud functions deploy piece \
@@ -76,6 +86,8 @@ gcloud functions deploy piece \
     --trigger-http \
     --runtime=python39 \
     --memory=1024MB \
+    --max-instances=1 \
+    --min-instances=0 \
     --env-vars-file=.env.prod.yaml \
     --allow-unauthenticated
 ```
