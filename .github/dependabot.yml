@@ -16,7 +16,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "pip"
-    directory: "/task/"
+    directory: "/function/"
     open-pull-requests-limit: 1
     schedule:
       interval: "daily"

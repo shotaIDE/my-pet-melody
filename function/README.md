@@ -1,10 +1,8 @@
-# Task
+# Function
 
 ## How to deploy
 
-### Functions
-
-#### Develop
+### Develop
 
 ```shell
 gcloud functions deploy detect \
@@ -48,7 +46,7 @@ gcloud functions deploy piece \
     --allow-unauthenticated
 ```
 
-#### Production
+### Production
 
 ```shell
 gcloud functions deploy detect \

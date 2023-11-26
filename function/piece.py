@@ -37,7 +37,7 @@ def generate_piece_sound(
 
     normalized_overlayed = overlayed.normalize(headroom=1.0)
 
-    export_path = f'{export_base_path}'f'{_OUTPUT_SOUND_EXTENSION}'
+    export_path = f'{export_base_path}{_OUTPUT_SOUND_EXTENSION}'
 
     normalized_overlayed.export(export_path)
 
