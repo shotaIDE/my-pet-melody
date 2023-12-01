@@ -4,6 +4,7 @@
     "dart-code.flutter",
     "esbenp.prettier-vscode",
     "gaetschwartz.build-runner",
+    "hashicorp.terraform",
     "localizely.flutter-intl",
     "misogi.ruby-rubocop",
     "streetsidesoftware.code-spell-checker",
