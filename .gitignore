@@ -13,11 +13,12 @@ GoogleService-Info.plist
 /fastlane/firebase-app-distribution-*.json
 /fastlane/google-play-service-account-key.json
 /fastlane/report.xml
+/function/samples/
+/infra/google-cloud-credentials.json
 /ios/firebase_app_id_file.json
 /ios/Flutter/DartDefines.xcconfig
 /lib/environment_config.dart
 /lib/firebase_options*.dart
-/function/samples/
 
 !/dart-defines_example.json
 
