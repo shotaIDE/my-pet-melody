@@ -39,7 +39,7 @@ dependencies:
   font_awesome_flutter:
   freezed_annotation:
   google_sign_in:
-  in_app_review: 2.0.8
+  in_app_review:
   intl:
   package_info_plus:
   path:
