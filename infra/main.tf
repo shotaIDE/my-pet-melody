@@ -68,6 +68,7 @@ resource "google_project_service" "default" {
     "firebasestorage.googleapis.com",
     "firestore.googleapis.com",
     "serviceusage.googleapis.com",
+    "identitytoolkit.googleapis.com",
   ])
   service = each.key
 
