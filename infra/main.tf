@@ -57,6 +57,7 @@ resource "google_project_service" "default" {
   for_each = toset([
     "cloudbilling.googleapis.com",
     "cloudresourcemanager.googleapis.com",
+    "cloudtasks.googleapis.com",
     "firebase.googleapis.com",
     "serviceusage.googleapis.com",
   ])

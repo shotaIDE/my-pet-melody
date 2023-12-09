@@ -15,4 +15,8 @@ resource "google_cloud_tasks_queue" "advanced_configuration" {
   retry_config {
     max_attempts = 2
   }
+
+  depends_on = [
+    google_project_service.default
+  ]
 }
