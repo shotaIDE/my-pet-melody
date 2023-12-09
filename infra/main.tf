@@ -13,6 +13,11 @@ variable "google_billing_account_id" {
   description = "Billing account ID to be associated with GCP project."
 }
 
+variable "application_id_suffix" {
+  type        = string
+  description = "Application ID suffix for iOS and Android."
+}
+
 terraform {
   required_providers {
     google-beta = {
@@ -70,12 +75,25 @@ resource "google_firebase_project" "default" {
   ]
 }
 
+resource "google_firebase_apple_app" "default" {
+  provider = google-beta
+
+  project      = google_project.default.project_id
+  display_name = "iOS"
+  bundle_id    = "ide.shota.colomney.MyPetMelody${var.application_id_suffix}"
+  team_id      = "4UGYN353AH"
+
+  depends_on = [
+    google_firebase_project.default,
+  ]
+}
+
 resource "google_firebase_android_app" "default" {
   provider = google-beta
 
   project      = google_project.default.project_id
-  display_name = "Android-Dev"
-  package_name = "ide.shota.colomney.MyPetMelody.dev"
+  display_name = "Android"
+  package_name = "ide.shota.colomney.MyPetMelody${var.application_id_suffix}"
 
   depends_on = [
     google_firebase_project.default,
