@@ -13,6 +13,11 @@ variable "google_billing_account_id" {
   description = "Billing account ID to be associated with GCP project."
 }
 
+variable "google_project_location" {
+  type        = string
+  description = "Location for GCP project."
+}
+
 variable "application_id_suffix" {
   type        = string
   description = "Application ID suffix for iOS and Android."
@@ -59,6 +64,9 @@ resource "google_project_service" "default" {
     "cloudresourcemanager.googleapis.com",
     "cloudtasks.googleapis.com",
     "firebase.googleapis.com",
+    "firebaserules.googleapis.com",
+    "firebasestorage.googleapis.com",
+    "firestore.googleapis.com",
     "serviceusage.googleapis.com",
   ])
   service = each.key
