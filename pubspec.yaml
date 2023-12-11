@@ -34,7 +34,7 @@ dependencies:
   flutter_local_notifications:
   flutter_localizations:
     sdk: flutter
-  flutter_riverpod:
+  flutter_riverpod: 2.4.9
   flutter_svg:
   font_awesome_flutter:
   freezed_annotation:
