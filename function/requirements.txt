@@ -81,7 +81,7 @@ pycodestyle==2.10.0
 pycparser==2.21
 pydub==0.25.1
 PyJWT==2.8.0
-pyparsing==3.0.9
+pyparsing==3.1.1
 Pyro4==4.82
 pytest==7.4.3
 pytextgrid==0.1.4
