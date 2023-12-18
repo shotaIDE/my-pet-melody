@@ -59,7 +59,7 @@ dev_dependencies:
   build_runner:
   flutter_test:
     sdk: flutter
-  freezed: 2.4.6
+  freezed:
   json_serializable:
   mocktail:
   pedantic_mono:
