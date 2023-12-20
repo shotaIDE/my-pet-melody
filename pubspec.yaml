@@ -14,7 +14,7 @@ dependencies:
   audioplayers:
   chewie:
   cloud_firestore:
-  collection: 1.18.0
+  collection:
   cross_file:
   cupertino_icons:
   device_info_plus:
