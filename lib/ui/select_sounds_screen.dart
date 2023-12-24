@@ -225,10 +225,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
     );
 
-    final scaffold = WillPopScope(
-      onWillPop: () async {
+    final scaffold = PopScope(
+      canPop: false,
+      onPopInvoked: (_) async {
         await ref.read(widget.viewModelProvider.notifier).beforeHideScreen();
-        return true;
       },
       child: Scaffold(
         appBar: transparentAppBar(
