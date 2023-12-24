@@ -1,8 +1,8 @@
 {
   "[dart]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll": true,
-      "source.organizeImports": true
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
     },
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
@@ -11,7 +11,7 @@
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "editor.suggestSelection": "first",
     "editor.tabCompletion": "onlySnippets",
-    "editor.wordBasedSuggestions": false
+    "editor.wordBasedSuggestions": "off"
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
