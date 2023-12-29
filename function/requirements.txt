@@ -21,7 +21,7 @@ flatbuffers==23.5.26
 fonttools==4.45.0
 functions-framework==3.3.0
 future==0.18.3
-gast==0.4.0
+gast==0.5.4
 google-api-core==2.11.0
 google-api-python-client==2.107.0
 google-auth==2.25.2
