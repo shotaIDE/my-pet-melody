@@ -15,7 +15,7 @@ deprecation==2.1.0
 docopt==0.6.2
 exceptiongroup==1.1.0
 ffmpeg-python==0.2.0
-firebase-admin==6.2.0
+firebase-admin==6.3.0
 Flask==2.2.5
 flatbuffers==23.5.26
 fonttools==4.45.0
