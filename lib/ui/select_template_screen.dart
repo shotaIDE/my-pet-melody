@@ -185,7 +185,6 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     );
 
     return PopScope(
-      canPop: false,
       onPopInvoked: (_) async {
         await ref.read(widget.viewModel.notifier).beforeHideScreen();
       },
