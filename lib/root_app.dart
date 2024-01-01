@@ -37,6 +37,7 @@ class _RootAppState extends ConsumerState<RootApp> {
     return MaterialApp(
       title: 'うちのコメロディー',
       theme: ThemeData(
+        useMaterial3: false,
         primarySwatch: Colors.brown,
         fontFamily: 'uzura',
         textTheme: const TextTheme(

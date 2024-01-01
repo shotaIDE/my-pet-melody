@@ -184,10 +184,9 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       ),
     );
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      onPopInvoked: (_) async {
         await ref.read(widget.viewModel.notifier).beforeHideScreen();
-        return true;
       },
       child: Scaffold(
         appBar: transparentAppBar(

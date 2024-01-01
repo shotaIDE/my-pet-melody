@@ -8,7 +8,7 @@ version: 1.0.5+28
 environment:
   sdk: ">=2.16.0 <3.0.0"
   # Specify for inference of dependabot
-  flutter: ">=3.13.9"
+  flutter: ">=3.16.5"
 
 dependencies:
   audioplayers:

@@ -49,9 +49,9 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
     await showDialog<bool>(
       context: context,
       builder: (context) {
-        return WillPopScope(
+        return PopScope(
           // Prevent the Android OS back button from dismissing dialog
-          onWillPop: () async => false,
+          canPop: false,
           child: AlertDialog(
             content: const Text(
               '新しいバージョンがリリースされています。より良い作品を作るために、アップデートしてご利用ください',
