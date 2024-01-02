@@ -8,4 +8,8 @@ def verify_authorization_header(value: str) -> str:
 
     decoded_token = auth.verify_id_token(id_token)
 
-    return decoded_token['uid']
+    uid = decoded_token['uid']
+    
+    print(f'Decoded uid from ID token of Firebase Auth: {uid}')
+
+    return uid
