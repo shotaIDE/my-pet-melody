@@ -42,7 +42,7 @@ def upload(request):
 def detect(request):
     authorization_value = request.headers['authorization']
 
-    uid = verify_authorization_header(value=authorization_value)
+    _ = verify_authorization_header(value=authorization_value)
 
     request_params_json = request.json
 
