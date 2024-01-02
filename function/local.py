@@ -40,6 +40,10 @@ def upload(request):
 
 
 def detect(request):
+    authorization_value = request.headers['authorization']
+
+    _ = verify_authorization_header(value=authorization_value)
+
     request_params_json = request.json
 
     uploaded_file_name = request_params_json['fileName']
