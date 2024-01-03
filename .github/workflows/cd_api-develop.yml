@@ -52,7 +52,7 @@ jobs:
         with:
           name: 'submit'
           runtime: 'python39'
-          memory_mb: 512
+          memory_mb: 1024
           region: 'asia-east1'
           env_vars_file: 'function/.env.dev.yaml'
           source_dir: 'function'
