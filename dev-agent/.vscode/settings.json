@@ -15,9 +15,9 @@
   },
   "[python]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll": true,
-      "source.organizeImports": true,
-      "source.unusedImports": true
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit",
+      "source.unusedImports": "explicit"
     },
     "editor.defaultFormatter": "ms-python.autopep8",
     "editor.formatOnSave": true
