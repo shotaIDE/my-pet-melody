@@ -42,7 +42,7 @@ gunicorn==20.1.0
 h5py==3.10.0
 httplib2==0.22.0
 idna==3.4
-imageio==2.33.0
+imageio==2.33.1
 importlib-metadata==6.8.0
 inaSpeechSegmenter==0.7.6
 iniconfig==2.0.0
