@@ -26,7 +26,7 @@ gcloud functions deploy submit \
     --ignore-file=.gcloudignore.dev \
     --trigger-http \
     --runtime=python39 \
-    --memory=512MB \
+    --memory=1024MB \
     --max-instances=1 \
     --min-instances=0 \
     --env-vars-file=.env.dev.yaml \
@@ -70,7 +70,7 @@ gcloud functions deploy submit \
     --ignore-file=.gcloudignore.prod \
     --trigger-http \
     --runtime=python39 \
-    --memory=512MB \
+    --memory=1024MB \
     --max-instances=1 \
     --min-instances=0 \
     --env-vars-file=.env.prod.yaml \
