@@ -23,7 +23,7 @@ dependencies:
   file_picker:
   firebase_analytics:
   firebase_auth:
-  firebase_core: 2.24.2
+  firebase_core:
   firebase_crashlytics:
   firebase_messaging:
   firebase_remote_config:
