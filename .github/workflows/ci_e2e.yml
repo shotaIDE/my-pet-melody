@@ -43,7 +43,7 @@ jobs:
       - name: Download samples videos
         uses: ./.github/actions/download-sample-videos
         with:
-          sample-movies-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
+          sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Generate E2E media files
         uses: ./.github/actions/generate-e2e-media-files
       # - name: Build iOS dev app
@@ -91,7 +91,7 @@ jobs:
       - name: Download samples videos
         uses: ./.github/actions/download-sample-videos
         with:
-          sample-movies-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
+          sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Generate E2E media files
         uses: ./.github/actions/generate-e2e-media-files
       - name: Build Android dev app

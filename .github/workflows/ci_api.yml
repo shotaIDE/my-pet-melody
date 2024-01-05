@@ -70,7 +70,7 @@ jobs:
       - name: Download samples videos
         uses: ./.github/actions/download-sample-videos
         with:
-          sample-movies-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
+          sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Test
         run: pytest
   build-no-need:

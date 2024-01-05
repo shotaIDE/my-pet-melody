@@ -1,5 +1,5 @@
 inputs:
-  sample-movies-zip-url:
+  sample-videos-zip-url:
     required: true
 
 runs:
@@ -11,5 +11,5 @@ runs:
       run: |
         mkdir samples
         cd samples
-        wget -O samples.zip "${{ inputs.sample-movies-zip-url }}"
+        wget -O samples.zip "${{ inputs.sample-videos-zip-url }}"
         unzip samples.zip
