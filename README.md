@@ -25,7 +25,7 @@ Execute the following command.
 
 ```shell
 flutter build ios --dart-define-from-file 'dart-defines_dev.json' --simulator
-maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' .maestro
+maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-locale ja_JP .maestro
 ```
 
 ### Android
@@ -34,7 +34,7 @@ Execute the following command.
 
 ```shell
 flutter build apk --dart-define-from-file 'dart-defines_dev.json'
-maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-release.apk' .maestro
+maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-release.apk' --device-locale ja_JP .maestro
 ```
 
 ### Upgrade Flutter version
