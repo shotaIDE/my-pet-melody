@@ -1,9 +1,10 @@
 name: CI / E2E
 
 on:
-  pull_request:
-    branches:
-      - "main"
+  # pull_request:
+  #   branches:
+  #     - "main"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
