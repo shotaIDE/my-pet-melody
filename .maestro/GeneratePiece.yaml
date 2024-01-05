@@ -56,6 +56,3 @@ appId: ide.shota.colomney.MyPetMelody.dev
 - assertVisible: |-
     Happy Birthday Test
     製作中
-- extendedWaitUntil:
-    visible: "Happy Birthday Test"
-    timeout: 30000
