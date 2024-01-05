@@ -33,18 +33,11 @@ maestro test '.maestro/GeneratePiece.yaml'
 
 ### Android
 
-Launch Android emulator.
-
-Launch `function/` server.
-
 Execute the following command.
 
 ```shell
-flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
-adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
-adb install 'build/app/outputs/flutter-apk/app-release.apk'
-adb shell rm -r '/sdcard/Movies/*'
-maestro test '.maestro/GeneratePiece.yaml'
+flutter build apk --dart-define-from-file 'dart-defines_dev.json'
+maestro cloud --app-file 'build/app/outputs/flutter-apk/app-release.apk' --android-api-level 33 .maestro
 ```
 
 ### Upgrade Flutter version
