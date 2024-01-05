@@ -24,11 +24,8 @@ Launch `function/` server.
 Execute the following command.
 
 ```shell
-flutter build ios --dart-define-from-file 'dart-defines_emulator.json' --simulator
-xcrun simctl erase 'iPhone 15'
-xcrun simctl boot 'iPhone 15'
-xcrun simctl install booted 'build/ios/iphonesimulator/Runner.app'
-maestro test '.maestro/GeneratePiece.yaml'
+flutter build ios --dart-define-from-file 'dart-defines_dev.json' --simulator
+maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' .maestro
 ```
 
 ### Android
@@ -37,7 +34,7 @@ Execute the following command.
 
 ```shell
 flutter build apk --dart-define-from-file 'dart-defines_dev.json'
-maestro cloud --app-file 'build/app/outputs/flutter-apk/app-release.apk' --android-api-level 33 .maestro
+maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-release.apk' .maestro
 ```
 
 ### Upgrade Flutter version
