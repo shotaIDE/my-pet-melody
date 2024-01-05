@@ -4,6 +4,7 @@ dart-defines*.json
 google-services.json
 GoogleService-Info.plist
 
+/.maestro/*.mp4
 /assets/edited
 /assets/original
 /dart-code-metrics.json

@@ -1,7 +1,7 @@
-appId: ide.shota.colomney.MyPetMelody.emulator
+appId: ide.shota.colomney.MyPetMelody.dev
 ---
 - addMedia:
-    - ../function/samples/大きい鳴き声-01.mp4
+    - "大きい鳴き声-01.mp4"
 - launchApp
 - runFlow:
     when:
@@ -11,7 +11,7 @@ appId: ide.shota.colomney.MyPetMelody.emulator
 - tapOn: "作品をつくる"
 - tapOn: |-
     Happy Birthday オルゴール
-    2023/10/22
+    2023/10/21
 - tapOn: "動画を選択する"
 - runFlow:
     when:
