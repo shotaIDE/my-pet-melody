@@ -67,12 +67,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --ignore-installed -r requirements.txt
-      - name: Download test samples
-        run: |
-          mkdir samples
-          cd samples
-          wget -O samples.zip "${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}"
-          unzip samples.zip
+      - name: Download samples videos
+        uses: ./.github/actions/download-sample-videos
+        with:
+          sample-movies-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Test
         run: pytest
   build-no-need:

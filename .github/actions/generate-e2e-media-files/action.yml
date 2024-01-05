@@ -1,0 +1,6 @@
+runs:
+  using: "composite"
+  steps:
+    - name: Generate E2E media files
+      shell: bash
+      run: mv 'function/samples/大きい鳴き声-01.mp4' .maestro/

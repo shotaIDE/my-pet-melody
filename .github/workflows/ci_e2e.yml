@@ -40,15 +40,12 @@ jobs:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
       - name: Generate automatic codes
         run: bundle exec fastlane generate
-      - name: Download test samples
-        working-directory: function
-        run: |
-          mkdir samples
-          cd samples
-          wget -O samples.zip "${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}"
-          unzip samples.zip
-      - name: Extract needed sample
-        run: mv 'function/samples/大きい鳴き声-01.mp4' .maestro/
+      - name: Download samples videos
+        uses: ./.github/actions/download-sample-videos
+        with:
+          sample-movies-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
+      - name: Generate E2E media files
+        uses: ./.github/actions/generate-e2e-media-files
       # - name: Build iOS dev app
       #   run: flutter build ios --dart-define-from-file 'dart-defines_dev.json' --simulator
       # - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
@@ -91,15 +88,12 @@ jobs:
           key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
       - name: Generate automatic codes
         run: bundle exec fastlane generate
-      - name: Download test samples
-        working-directory: function
-        run: |
-          mkdir samples
-          cd samples
-          wget -O samples.zip "${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}"
-          unzip samples.zip
-      - name: Extract needed sample
-        run: mv 'function/samples/大きい鳴き声-01.mp4' .maestro/
+      - name: Download samples videos
+        uses: ./.github/actions/download-sample-videos
+        with:
+          sample-movies-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
+      - name: Generate E2E media files
+        uses: ./.github/actions/generate-e2e-media-files
       - name: Build Android dev app
         run: flutter build apk --dart-define-from-file 'dart-defines_dev.json'
       - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
