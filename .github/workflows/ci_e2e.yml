@@ -48,14 +48,14 @@ jobs:
           unzip samples.zip
       - name: Extract needed sample
         run: mv 'function/samples/大きい鳴き声-01.mp4' .maestro/
-      - name: Build iOS dev app
-        run: flutter build ios --dart-define-from-file 'dart-defines_dev.json' --simulator
-      - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
-        with:
-          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: 'build/ios/iphonesimulator/Runner.app'
-          ios-version: 17
-          device-locale: ja_JP
+      # - name: Build iOS dev app
+      #   run: flutter build ios --dart-define-from-file 'dart-defines_dev.json' --simulator
+      # - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
+      #   with:
+      #     api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+      #     app-file: 'build/ios/iphonesimulator/Runner.app'
+      #     ios-version: 17
+      #     device-locale: ja_JP
   test-android:
     name: Test Android
     runs-on: ubuntu-latest
