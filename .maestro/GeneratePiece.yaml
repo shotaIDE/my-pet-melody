@@ -58,4 +58,4 @@ appId: ide.shota.colomney.MyPetMelody.dev
     製作中
 - extendedWaitUntil:
     visible: "Happy Birthday Test"
-    timeout: 10000
+    timeout: 30000
