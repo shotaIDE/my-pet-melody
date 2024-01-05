@@ -15,6 +15,8 @@ firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-da
 
 Install [Maestro](https://maestro.mobile.dev/getting-started/installing-maestro).
 
+Copy "大きい鳴き声-01.mp4" to `.maestro/`.
+
 ### iOS
 
 Launch iOS simulator.
@@ -29,6 +31,8 @@ maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-l
 ```
 
 ### Android
+
+Launch Android emulator.
 
 Execute the following command.
 
