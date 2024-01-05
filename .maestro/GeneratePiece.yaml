@@ -26,6 +26,7 @@ appId: ide.shota.colomney.MyPetMelody.dev
 - tapOn: "次へ"
 - tapOn: "0番目の鳴き声を選択する"
 - tapOn: "次へ"
+- assertVisible: "作品のタイトル"
 - inputText: "Happy Birthday Test"
 - runFlow:
     when:
