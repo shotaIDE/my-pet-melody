@@ -21,7 +21,7 @@ Copy "大きい鳴き声-01.mp4" to `.maestro/`.
 
 #### iOS
 
-Launch iOS simulator.
+Launch iOS simulator app.
 
 Launch `function/` server.
 
@@ -37,7 +37,7 @@ maestro test --env=APP_ID_SUFFIX=.emulator .maestro
 
 #### Android
 
-Launch Android emulator.
+Launch Android emulator which SDK version is 33.
 
 Launch `function/` server.
 
