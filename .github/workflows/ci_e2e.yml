@@ -1,9 +1,6 @@
 name: CI / E2E
 
 on:
-  pull_request:
-    branches:
-      - "main"
   workflow_dispatch:
 
 concurrency:
@@ -11,49 +8,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test-ios:
-    name: Test iOS app
-    runs-on: macos-13
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Flutter
-        uses: ./.github/actions/setup-flutter
-      - name: Setup Xcode
-        uses: ./.github/actions/setup-xcode
-      - name: Setup CocoaPods
-        uses: ./.github/actions/setup-cocoapods
-      - name: Setup Ruby
-        uses: ./.github/actions/setup-ruby
-      - name: Generate uncommited Flutter files
-        uses: ./.github/actions/generate-uncommited-flutter-files
-        with:
-          firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
-          firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
-          firebase-options-dart-base64-prod: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_PROD }}
-      - name: Generate uncommited Flutter files for dev
-        uses: ./.github/actions/generate-uncommited-flutter-files-dev
-        with:
-          dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
-      - name: Generate uncommited iOS files for dev
-        uses: ./.github/actions/generate-uncommited-ios-files-dev
-        with:
-          google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
-      - name: Generate automatic codes
-        run: bundle exec fastlane generate
-      - name: Generate E2E media files
-        uses: ./.github/actions/generate-e2e-media-files
-        with:
-          sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
-      # - name: Build iOS dev app
-      #   run: flutter build ios --dart-define-from-file 'dart-defines_dev.json' --simulator
-      # - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
-      #   with:
-      #     api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-      #     app-file: 'build/ios/iphonesimulator/Runner.app'
-      #     ios-version: 17
-      #     device-locale: ja_JP
-      #     env: |
-      #       APP_ID_SUFFIX=.dev
   test-android:
     name: Test Android
     runs-on: ubuntu-latest
