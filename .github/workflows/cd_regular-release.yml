@@ -91,5 +91,7 @@ jobs:
           git commit -m "${full_version_name}"
       - name: Add tag
         run: bundle exec fastlane add_release_candidate_tag
-      - name: Push back
-        run: git push --force-with-lease origin ${{ github.ref_name }} --tags
+      - name: Push back tag
+        run: |
+          latest_tag_name="$(git describe --tags --abbrev=0)"
+          git push origin "${latest_tag_name}"

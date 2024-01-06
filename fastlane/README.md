@@ -45,6 +45,14 @@ Bump patch version
 
 Add release candidate tag
 
+### set_full_version_name_from_latest_tag
+
+```sh
+[bundle exec] fastlane set_full_version_name_from_latest_tag
+```
+
+Set full version name from latest tag
+
 ----
 
 
