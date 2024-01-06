@@ -32,6 +32,21 @@ lane :add_release_candidate_tag do
   )
 end
 
+desc 'Set full version name from latest tag'
+lane :set_full_version_name_from_latest_tag do
+  latest_tag_name = Dir.chdir('../') do
+    sh('git describe --tags --abbrev=0')
+  end
+
+  matched = %r{^.*/(\d+\.\d+\.\d+\+\d+)$}.match(latest_tag_name)
+
+  full_version_name = matched[1]
+
+  Dir.chdir('../') do
+    sh("dart run cider version #{full_version_name}")
+  end
+end
+
 private_lane :get_full_version_name do
   Dir.chdir('../') do
     sh('dart run cider version').chomp
