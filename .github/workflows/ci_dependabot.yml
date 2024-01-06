@@ -29,7 +29,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           # Use App tokens instead of default token `GITHUB_TOKEN`
-          # to ensure that CI will be triggered again after push back.
+          # to ensure that GitHub Actions will be triggered again after push back.
           token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
       - name: Setup Git

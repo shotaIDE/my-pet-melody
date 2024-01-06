@@ -29,6 +29,22 @@ Get Flutter dependencies
 
 Generate automatic codes
 
+### bump_patch_version
+
+```sh
+[bundle exec] fastlane bump_patch_version
+```
+
+Bump patch version
+
+### add_release_candidate_tag
+
+```sh
+[bundle exec] fastlane add_release_candidate_tag
+```
+
+Add release candidate tag
+
 ----
 
 

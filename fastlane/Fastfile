@@ -14,13 +14,34 @@ lane :generate do
   sh('flutter pub run build_runner build --delete-conflicting-outputs')
 end
 
-private_lane :get_version_code do
-  pubspec = Dir.chdir('../') do
-    YAML.load_file('./pubspec.yaml')
+desc 'Bump patch version'
+lane :bump_patch_version do
+  Dir.chdir('../') do
+    sh('dart run cider bump patch --bump-build')
   end
-  current_version_full_text = pubspec['version']
+end
 
-  matched = /^\d+\.\d+\.\d+\+(\d+)$/.match(current_version_full_text)
+desc 'Add release candidate tag'
+lane :add_release_candidate_tag do
+  full_version_name = get_full_version_name
+
+  add_git_tag(
+    grouping: 'rc',
+    includes_lane: false,
+    build_number: full_version_name
+  )
+end
+
+private_lane :get_full_version_name do
+  Dir.chdir('../') do
+    sh('dart run cider version').chomp
+  end
+end
+
+private_lane :get_version_code do
+  full_version_name = get_full_version_name
+
+  matched = /^\d+\.\d+\.\d+\+(\d+)$/.match(full_version_name)
 
   version_code = matched[1].to_i
   version_code
