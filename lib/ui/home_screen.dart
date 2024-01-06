@@ -182,7 +182,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final foregroundColor = piece.map(
               generating: (_) => Theme.of(context).disabledColor,
               generated: (_) => null,
-              expired: (_) => null,
+              expired: (_) => Theme.of(context).disabledColor,
             );
             final nameText = Text(
               piece.name,
@@ -259,12 +259,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final borderColor = piece.map(
               generating: (_) => Theme.of(context).dividerColor,
               generated: (_) => Colors.transparent,
-              expired: (_) => Colors.transparent,
+              expired: (_) => Theme.of(context).dividerColor,
             );
             final backgroundColor = piece.map(
               generating: (_) => Colors.transparent,
               generated: (_) => Theme.of(context).cardColor,
-              expired: (_) => Theme.of(context).cardColor,
+              expired: (_) => Colors.transparent,
             );
 
             return ClipRRect(
