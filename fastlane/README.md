@@ -29,6 +29,14 @@ Get Flutter dependencies
 
 Generate automatic codes
 
+### bump_patch_version
+
+```sh
+[bundle exec] fastlane bump_patch_version
+```
+
+Bump patch version
+
 ----
 
 
