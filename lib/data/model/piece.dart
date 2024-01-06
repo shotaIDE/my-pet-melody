@@ -22,6 +22,14 @@ class Piece with _$Piece {
     required String thumbnailUrl,
   }) = PieceGenerated;
 
+  const factory Piece.expired({
+    required String id,
+    required String name,
+    required DateTime generatedAt,
+    required DateTime? availableUntil,
+    required String thumbnailUrl,
+  }) = PieceExpired;
+
   factory Piece.fromJson(Map<String, dynamic> json) => _$PieceFromJson(json);
 }
 
