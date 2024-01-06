@@ -84,11 +84,6 @@ jobs:
         run: bundle exec fastlane install_flutter_dependencies
       - name: Bump patch version
         run: bundle exec fastlane bump_patch_version
-      - name: Commit
-        run: |
-          git add pubspec.yaml
-          full_version_name="$(dart run cider version)"
-          git commit -m "${full_version_name}"
       - name: Add tag
         run: bundle exec fastlane add_release_candidate_tag
       - name: Push back tag
