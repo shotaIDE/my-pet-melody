@@ -200,20 +200,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   return null;
                 }
 
-                final dateFormatter = DateFormat.yMd('ja');
-                final timeFormatter = DateFormat.Hm('ja');
-                final text = '保存期限: '
-                    '${dateFormatter.format(availableUntil)} '
-                    '${timeFormatter.format(availableUntil)}';
-                final color = currentDateTime.isAfter(
-                  availableUntil.add(const Duration(days: -1)),
-                )
-                    ? Theme.of(context).colorScheme.error
-                    : foregroundColor;
-
-                return Text(
-                  text,
-                  style: TextStyle(color: color),
+                return _AvailableUntilText(
+                  availableUntil: availableUntil,
+                  current: currentDateTime,
+                  defaultForegroundColor: foregroundColor,
                 );
               },
               expired: (expired) {
@@ -222,20 +212,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   return null;
                 }
 
-                final dateFormatter = DateFormat.yMd('ja');
-                final timeFormatter = DateFormat.Hm('ja');
-                final text = '保存期限: '
-                    '${dateFormatter.format(availableUntil)} '
-                    '${timeFormatter.format(availableUntil)}';
-                final color = currentDateTime.isAfter(
-                  availableUntil.add(const Duration(days: -1)),
-                )
-                    ? Theme.of(context).colorScheme.error
-                    : foregroundColor;
-
-                return Text(
-                  text,
-                  style: TextStyle(color: color),
+                return _AvailableUntilText(
+                  availableUntil: availableUntil,
+                  current: currentDateTime,
+                  defaultForegroundColor: foregroundColor,
                 );
               },
             );
@@ -387,6 +367,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+  }
+}
+
+class _AvailableUntilText extends StatelessWidget {
+  const _AvailableUntilText({
+    Key? key,
+    required this.availableUntil,
+    required this.current,
+    required this.defaultForegroundColor,
+  }) : super(key: key);
+
+  final DateTime availableUntil;
+  final DateTime current;
+  final Color? defaultForegroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final dateFormatter = DateFormat.yMd('ja');
+    final timeFormatter = DateFormat.Hm('ja');
+    final text = '保存期限: '
+        '${dateFormatter.format(availableUntil)} '
+        '${timeFormatter.format(availableUntil)}';
+    final color = current.isAfter(
+      availableUntil.add(const Duration(days: -1)),
+    )
+        ? Theme.of(context).colorScheme.error
+        : defaultForegroundColor;
+
+    return Text(
+      text,
+      style: TextStyle(color: color),
+    );
   }
 }
 
