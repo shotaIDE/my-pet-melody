@@ -370,6 +370,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
+class _SettingsButton extends ConsumerWidget {
+  const _SettingsButton({
+    required this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final photoUrl = ref.watch(profilePhotoUrlProvider);
+
+    return IconButton(
+      onPressed: onPressed,
+      icon: ProfileIcon(photoUrl: photoUrl),
+    );
+  }
+}
+
 class _AvailableUntilText extends StatelessWidget {
   const _AvailableUntilText({
     Key? key,
@@ -398,25 +417,6 @@ class _AvailableUntilText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(color: color),
-    );
-  }
-}
-
-class _SettingsButton extends ConsumerWidget {
-  const _SettingsButton({
-    required this.onPressed,
-    Key? key,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final photoUrl = ref.watch(profilePhotoUrlProvider);
-
-    return IconButton(
-      onPressed: onPressed,
-      icon: ProfileIcon(photoUrl: photoUrl),
     );
   }
 }
