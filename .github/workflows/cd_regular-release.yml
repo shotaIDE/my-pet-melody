@@ -89,5 +89,7 @@ jobs:
           git add pubspec.yaml
           full_version_name="$(dart run cider version)"
           git commit -m "${full_version_name}"
+      - name: Add tag
+        run: bundle exec fastlane add_release_candidate_tag
       - name: Push back
-        run: git push origin HEAD:${{ github.ref }}
+        run: git push origin HEAD:${{ github.ref }} --tags
