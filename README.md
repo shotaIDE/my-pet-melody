@@ -32,7 +32,7 @@ flutter build ios --dart-define-from-file 'dart-defines_emulator.json' --simulat
 xcrun simctl erase 'iPhone 15'
 xcrun simctl boot 'iPhone 15'
 xcrun simctl install booted 'build/ios/iphonesimulator/Runner.app'
-maestro test --env=APP_ID_SUFFIX=.emulator .maestro
+maestro test --env=APP_ID_SUFFIX=.emulator '.maestro/GeneratePiece.yaml'
 ```
 
 #### Android
@@ -48,7 +48,7 @@ flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
 adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
 adb install 'build/app/outputs/flutter-apk/app-release.apk'
 adb shell rm -r '/sdcard/Movies/*'
-maestro test --env=APP_ID_SUFFIX=.emulator .maestro
+maestro test --env=APP_ID_SUFFIX=.emulator '.maestro/GeneratePiece.yaml'
 ```
 
 ### Launch on Maesro Cloud
