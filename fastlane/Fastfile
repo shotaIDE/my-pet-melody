@@ -21,13 +21,27 @@ lane :bump_patch_version do
   end
 end
 
-private_lane :get_version_code do
-  pubspec = Dir.chdir('../') do
-    YAML.load_file('./pubspec.yaml')
-  end
-  current_version_full_text = pubspec['version']
+desc 'Add release candidate tag'
+lane :add_release_candidate_tag do
+  full_version_name = get_full_version_name
 
-  matched = /^\d+\.\d+\.\d+\+(\d+)$/.match(current_version_full_text)
+  add_git_tag(
+    grouping: 'rc',
+    includes_lane: false,
+    build_number: full_version_name
+  )
+end
+
+private_lane :get_full_version_name do
+  Dir.chdir('../') do
+    sh('dart run cider version').chomp
+  end
+end
+
+private_lane :get_version_code do
+  full_version_name = get_full_version_name
+
+  matched = /^\d+\.\d+\.\d+\+(\d+)$/.match(full_version_name)
 
   version_code = matched[1].to_i
   version_code

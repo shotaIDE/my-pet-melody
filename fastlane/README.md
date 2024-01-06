@@ -37,6 +37,14 @@ Generate automatic codes
 
 Bump patch version
 
+### add_release_candidate_tag
+
+```sh
+[bundle exec] fastlane add_release_candidate_tag
+```
+
+Add release candidate tag
+
 ----
 
 
