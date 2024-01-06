@@ -52,6 +52,8 @@ jobs:
       #     app-file: 'build/ios/iphonesimulator/Runner.app'
       #     ios-version: 17
       #     device-locale: ja_JP
+      #     env: |
+      #       APP_ID_SUFFIX=.dev
   test-android:
     name: Test Android
     runs-on: ubuntu-latest
@@ -98,3 +100,5 @@ jobs:
           app-file: 'build/app/outputs/flutter-apk/app-release.apk'
           android-api-level: 33
           device-locale: ja_JP
+          env: |
+            APP_ID_SUFFIX=.dev

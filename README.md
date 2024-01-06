@@ -32,7 +32,7 @@ flutter build ios --dart-define-from-file 'dart-defines_emulator.json' --simulat
 xcrun simctl erase 'iPhone 15'
 xcrun simctl boot 'iPhone 15'
 xcrun simctl install booted 'build/ios/iphonesimulator/Runner.app'
-maestro test '.maestro/GeneratePiece.yaml'
+maestro test --env=APP_ID_SUFFIX=.emulator .maestro
 ```
 
 #### Android
@@ -48,7 +48,7 @@ flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
 adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
 adb install 'build/app/outputs/flutter-apk/app-release.apk'
 adb shell rm -r '/sdcard/Movies/*'
-maestro test '.maestro/GeneratePiece.yaml'
+maestro test --env=APP_ID_SUFFIX=.emulator .maestro
 ```
 
 ### Launch on Maesro Cloud
@@ -59,7 +59,7 @@ Execute the following command.
 
 ```shell
 flutter build ios --dart-define-from-file 'dart-defines_dev.json' --simulator
-maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-locale ja_JP .maestro
+maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
 ```
 
 #### Android
@@ -68,7 +68,7 @@ Execute the following command.
 
 ```shell
 flutter build apk --dart-define-from-file 'dart-defines_dev.json'
-maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-release.apk' --device-locale ja_JP .maestro
+maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-release.apk' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
 ```
 
 ### Upgrade Flutter version
