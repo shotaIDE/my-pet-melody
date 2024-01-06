@@ -82,6 +82,8 @@ jobs:
         uses: ./.github/actions/setup-ruby
       - name: Install Flutter dependencies
         run: bundle exec fastlane install_flutter_dependencies
+      - name: Set full version name from tag
+        run: bundle exec fastlane set_full_version_name_from_latest_tag
       - name: Bump patch version
         run: bundle exec fastlane bump_patch_version
       - name: Add tag

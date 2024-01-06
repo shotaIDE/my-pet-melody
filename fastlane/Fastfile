@@ -35,7 +35,7 @@ end
 desc 'Set full version name from latest tag'
 lane :set_full_version_name_from_latest_tag do
   latest_tag_name = Dir.chdir('../') do
-    sh('git describe --tags --abbrev=0')
+    sh("git describe --tags --abbrev=0 --match='rc/*'")
   end
 
   matched = %r{^.*/(\d+\.\d+\.\d+\+\d+)$}.match(latest_tag_name)
