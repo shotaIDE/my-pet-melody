@@ -1,0 +1,14 @@
+inputs:
+  sample-videos-zip-url:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download samples videos
+      uses: ./.github/actions/download-sample-videos
+      with:
+        sample-videos-zip-url: ${{ inputs.sample-videos-zip-url }}
+    - name: Generate E2E media files
+      shell: bash
+      run: mv 'function/samples/大きい鳴き声-01.mp4' .maestro/

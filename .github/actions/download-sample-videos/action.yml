@@ -1,0 +1,15 @@
+inputs:
+  sample-videos-zip-url:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download samples videos
+      shell: bash
+      working-directory: function
+      run: |
+        mkdir samples
+        cd samples
+        wget -O samples.zip "${{ inputs.sample-videos-zip-url }}"
+        unzip samples.zip

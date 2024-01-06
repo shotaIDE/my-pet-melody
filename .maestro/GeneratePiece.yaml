@@ -1,7 +1,7 @@
-appId: ide.shota.colomney.MyPetMelody.emulator
+appId: ide.shota.colomney.MyPetMelody${APP_ID_SUFFIX}
 ---
 - addMedia:
-    - ../function/samples/大きい鳴き声-01.mp4
+    - "大きい鳴き声-01.mp4"
 - launchApp
 - runFlow:
     when:
@@ -9,9 +9,7 @@ appId: ide.shota.colomney.MyPetMelody.emulator
     commands:
       - tapOn: "アカウントを作成せずに続ける"
 - tapOn: "作品をつくる"
-- tapOn: |-
-    Happy Birthday オルゴール
-    2023/10/22
+- tapOn: "Happy Birthday オルゴール.*"
 - tapOn: "動画を選択する"
 - runFlow:
     when:
@@ -26,6 +24,7 @@ appId: ide.shota.colomney.MyPetMelody.emulator
 - tapOn: "次へ"
 - tapOn: "0番目の鳴き声を選択する"
 - tapOn: "次へ"
+- assertVisible: "作品のタイトル"
 - inputText: "Happy Birthday Test"
 - runFlow:
     when:
@@ -52,4 +51,4 @@ appId: ide.shota.colomney.MyPetMelody.emulator
       platform: iOS
     commands:
       - tapOn: "許可"
-- assertVisible: "Happy Birthday Test"
+- assertVisible: "Happy Birthday Test.*"
