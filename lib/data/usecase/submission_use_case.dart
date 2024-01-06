@@ -23,6 +23,14 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
   final pieces = await ref.watch(piecesProvider.future);
   final preferenceService = ref.watch(preferenceServiceProvider);
 
+  final validPieces = pieces.where(
+    (piece) => piece.map(
+      generating: (_) => true,
+      generated: (_) => true,
+      expired: (_) => false,
+    ),
+  );
+
   Future<MakePieceAvailability> action() async {
     final userRequestedDoNotShowWarningsAgainForMakingPiece =
         await preferenceService.getBool(
@@ -31,7 +39,7 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
             false;
 
     if (isPremiumPlan == true) {
-      if (pieces.length < maxPiecesOnPremiumPlan) {
+      if (validPieces.length < maxPiecesOnPremiumPlan) {
         return MakePieceAvailability.available;
       }
 
@@ -42,7 +50,7 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
       return MakePieceAvailability.availableWithWarnings;
     }
 
-    if (pieces.length < maxPiecesOnFreePlan) {
+    if (validPieces.length < maxPiecesOnFreePlan) {
       return MakePieceAvailability.available;
     }
 

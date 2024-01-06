@@ -64,9 +64,20 @@ final piecesProvider = FutureProvider(
                 ? null
                 : piece.generatedAt.add(const Duration(days: 3));
 
+            final thumbnailUrl =
+                await storageService.generatedPieceThumbnailDownloadUrl(
+              fileName: piece.thumbnailFileName,
+            );
+
             if (availableUntil != null &&
                 currentDateTime.isAfter(availableUntil)) {
-              return null;
+              return Piece.expired(
+                id: piece.id,
+                name: piece.name,
+                generatedAt: piece.generatedAt,
+                availableUntil: availableUntil,
+                thumbnailUrl: thumbnailUrl,
+              );
             }
 
             final movieUrl = await storageService.pieceMovieDownloadUrl(
@@ -74,11 +85,6 @@ final piecesProvider = FutureProvider(
             );
 
             final movieExtension = extension(piece.movieFileName);
-
-            final thumbnailUrl =
-                await storageService.generatedPieceThumbnailDownloadUrl(
-              fileName: piece.thumbnailFileName,
-            );
 
             return Piece.generated(
               id: piece.id,
@@ -99,11 +105,13 @@ final piecesProvider = FutureProvider(
         final dateTimeA = a.map(
           generating: (generating) => generating.submittedAt,
           generated: (generated) => generated.generatedAt,
+          expired: (expired) => expired.generatedAt,
         );
 
         final dateTimeB = b.map(
           generating: (generating) => generating.submittedAt,
           generated: (generated) => generated.generatedAt,
+          expired: (expired) => expired.generatedAt,
         );
 
         return dateTimeB.compareTo(dateTimeA);

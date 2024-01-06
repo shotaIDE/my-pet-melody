@@ -182,6 +182,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             final foregroundColor = piece.map(
               generating: (_) => Theme.of(context).disabledColor,
               generated: (_) => null,
+              expired: (_) => Theme.of(context).disabledColor,
             );
             final nameText = Text(
               piece.name,
@@ -199,20 +200,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   return null;
                 }
 
-                final dateFormatter = DateFormat.yMd('ja');
-                final timeFormatter = DateFormat.Hm('ja');
-                final text = '保存期限: '
-                    '${dateFormatter.format(availableUntil)} '
-                    '${timeFormatter.format(availableUntil)}';
-                final color = currentDateTime.isAfter(
-                  availableUntil.add(const Duration(days: -1)),
-                )
-                    ? Theme.of(context).colorScheme.error
-                    : foregroundColor;
+                return _AvailableUntilText(
+                  availableUntil: availableUntil,
+                  current: currentDateTime,
+                  defaultForegroundColor: foregroundColor,
+                );
+              },
+              expired: (expired) {
+                final availableUntil = expired.availableUntil;
+                if (availableUntil == null) {
+                  return null;
+                }
 
-                return Text(
-                  text,
-                  style: TextStyle(color: color),
+                return _AvailableUntilText(
+                  availableUntil: availableUntil,
+                  current: currentDateTime,
+                  defaultForegroundColor: foregroundColor,
                 );
               },
             );
@@ -230,15 +233,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     context,
                     VideoScreen.route(piece: generatedPiece),
                   ),
+              expired: (_) => _showPieceIsExpiredDialog,
             );
 
             final borderColor = piece.map(
               generating: (_) => Theme.of(context).dividerColor,
               generated: (_) => Colors.transparent,
+              expired: (_) => Theme.of(context).dividerColor,
             );
             final backgroundColor = piece.map(
               generating: (_) => Colors.transparent,
               generated: (_) => Theme.of(context).cardColor,
+              expired: (_) => Colors.transparent,
             );
 
             return ClipRRect(
@@ -333,6 +339,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       resizeToAvoidBottomInset: false,
     );
   }
+
+  Future<void> _showPieceIsExpiredDialog() async {
+    final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: const Text(
+            '作品の保存期限が切れています。この作品を閲覧するには、プレミアムプランへの加入を検討してください。',
+          ),
+          actions: [
+            TextButton(
+              child: const Text('プレミアムプランとは'),
+              onPressed: () => Navigator.pop(context, true),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldShowJoinPremiumPlanScreen != true) {
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+  }
 }
 
 class _SettingsButton extends ConsumerWidget {
@@ -350,6 +385,38 @@ class _SettingsButton extends ConsumerWidget {
     return IconButton(
       onPressed: onPressed,
       icon: ProfileIcon(photoUrl: photoUrl),
+    );
+  }
+}
+
+class _AvailableUntilText extends StatelessWidget {
+  const _AvailableUntilText({
+    Key? key,
+    required this.availableUntil,
+    required this.current,
+    required this.defaultForegroundColor,
+  }) : super(key: key);
+
+  final DateTime availableUntil;
+  final DateTime current;
+  final Color? defaultForegroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final dateFormatter = DateFormat.yMd('ja');
+    final timeFormatter = DateFormat.Hm('ja');
+    final text = '保存期限: '
+        '${dateFormatter.format(availableUntil)} '
+        '${timeFormatter.format(availableUntil)}';
+    final color = current.isAfter(
+      availableUntil.add(const Duration(days: -1)),
+    )
+        ? Theme.of(context).colorScheme.error
+        : defaultForegroundColor;
+
+    return Text(
+      text,
+      style: TextStyle(color: color),
     );
   }
 }
