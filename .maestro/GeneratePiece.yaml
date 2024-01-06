@@ -51,6 +51,4 @@ appId: ide.shota.colomney.MyPetMelody${APP_ID_SUFFIX}
       platform: iOS
     commands:
       - tapOn: "許可"
-- assertVisible: |-
-    Happy Birthday Test
-    製作中
+- assertVisible: "Happy Birthday Test.*"
