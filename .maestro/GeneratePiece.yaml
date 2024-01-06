@@ -1,4 +1,4 @@
-appId: ide.shota.colomney.MyPetMelody.dev
+appId: ide.shota.colomney.MyPetMelody${APP_ID_SUFFIX}
 ---
 - addMedia:
     - "大きい鳴き声-01.mp4"
