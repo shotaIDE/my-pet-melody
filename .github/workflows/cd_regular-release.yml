@@ -92,4 +92,4 @@ jobs:
       - name: Add tag
         run: bundle exec fastlane add_release_candidate_tag
       - name: Push back
-        run: git push origin HEAD:${{ github.ref_name }} --tags
+        run: git push --force-with-lease origin HEAD:${{ github.ref_name }} --tags
