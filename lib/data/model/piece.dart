@@ -9,7 +9,7 @@ class Piece with _$Piece {
     required String id,
     required String name,
     required DateTime submittedAt,
-    required String thumbnailUrl,
+    required String? thumbnailUrl,
   }) = PieceGenerating;
 
   const factory Piece.generated({

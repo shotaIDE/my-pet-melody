@@ -59,7 +59,7 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
-  Future<String> generatingPieceThumbnailDownloadUrl({
+  Future<String?> generatingPieceThumbnailDownloadUrl({
     required String fileName,
   }) async {
     final userId = _session.userId;
@@ -69,7 +69,14 @@ class StorageServiceFirebase implements StorageService {
     final pathRef =
         storageRef.child('userTemporaryMedia/edited/$userId/$fileName');
 
-    return pathRef.getDownloadURL();
+    try {
+      return await pathRef.getDownloadURL();
+    } on FirebaseException catch (e) {
+      if (e.code == 'object-not-found') {
+        return null;
+      }
+      rethrow;
+    }
   }
 
   @override
