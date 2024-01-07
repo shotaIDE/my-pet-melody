@@ -91,15 +91,17 @@ def _get_template_directory(template_id: str):
 
 
 def _get_unedited_user_media_relative_directory(uid: str):
-    user_media_parent_directory = \
-        _get_user_media_parent_relative_directory(uid=uid)
-    return f'{user_media_parent_directory}/unedited'
+    return _get_user_temporary_media_parent_relative_directory(
+        uid=uid,
+        type='unedited'
+    )
 
 
 def _get_edited_user_media_relative_directory(uid: str):
-    user_media_parent_directory = \
-        _get_user_media_parent_relative_directory(uid=uid)
-    return f'{user_media_parent_directory}/edited'
+    return _get_user_temporary_media_parent_relative_directory(
+        uid=uid,
+        type='edited'
+    )
 
 
 def _get_generated_pieces_relative_directory(uid: str):
@@ -112,6 +114,10 @@ def _get_generated_thumbnail_relative_directory(uid: str):
     user_media_parent_directory = \
         _get_user_media_parent_relative_directory(uid=uid)
     return f'{user_media_parent_directory}/generatedThumbnail'
+
+
+def _get_user_temporary_media_parent_relative_directory(uid: str, type: str):
+    return f'userTemporaryMedia/{type}/{uid}'
 
 
 def _get_user_media_parent_relative_directory(uid: str):

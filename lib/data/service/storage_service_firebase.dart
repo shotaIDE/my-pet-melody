@@ -66,7 +66,8 @@ class StorageServiceFirebase implements StorageService {
 
     final storageRef = FirebaseStorage.instance.ref();
 
-    final pathRef = storageRef.child('userMedia/$userId/edited/$fileName');
+    final pathRef =
+        storageRef.child('userTemporaryMedia/edited/$userId/$fileName');
 
     return pathRef.getDownloadURL();
   }
@@ -99,7 +100,8 @@ class StorageServiceFirebase implements StorageService {
 
     final fileExtension = extension(fileName);
 
-    final path = '/userMedia/$userId/unedited/$uploadFileId$fileExtension';
+    final path =
+        '/userTemporaryMedia/unedited/$userId/$uploadFileId$fileExtension';
 
     final pathRef = storageRef.child(path);
 
@@ -133,7 +135,8 @@ class StorageServiceFirebase implements StorageService {
 
     final fileExtension = extension(fileName);
 
-    final path = '/userMedia/$userId/edited/$uploadFileId$fileExtension';
+    final path =
+        '/userTemporaryMedia/edited/$userId/$uploadFileId$fileExtension';
 
     final pathRef = storageRef.child(path);
 
