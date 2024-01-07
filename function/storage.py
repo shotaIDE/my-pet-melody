@@ -3,6 +3,8 @@
 import os
 import tempfile
 
+from firebase_admin import storage
+
 from storage_rule import (TEMPLATE_EXTENSION, TEMPLATE_FILE_NAME,
                           THUMBNAIL_FILE_NAME)
 
