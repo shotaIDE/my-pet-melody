@@ -73,6 +73,8 @@ class StorageServiceFirebase implements StorageService {
       return await pathRef.getDownloadURL();
     } on FirebaseException catch (e) {
       if (e.code == 'object-not-found') {
+        // If the piece generation fails and is maintained for several days,
+        // the thumbnail may be deleted, so return null in that case.
         return null;
       }
       rethrow;
