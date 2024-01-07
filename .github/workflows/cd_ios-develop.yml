@@ -1,9 +1,9 @@
 name: CD / iOS Develop
 
 on:
-  push:
-    tags:
-      - "beta/*"
+  # Tag triggers are not set currently due to build failures in GitHub Actions.
+  # Waiting for macOS 14 to be available in GitHub Actions.
+  # https://github.com/github/roadmap/issues/813
   workflow_dispatch:
 
 concurrency:
