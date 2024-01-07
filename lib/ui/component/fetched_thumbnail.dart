@@ -7,12 +7,16 @@ class FetchedThumbnail extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final String url;
+  final String? url;
 
   @override
   Widget build(BuildContext context) {
+    if (url == null) {
+      return const SizedBox.shrink();
+    }
+
     return Image.network(
-      url,
+      url!,
       loadingBuilder: (_, child, loadingProgress) {
         if (loadingProgress != null) {
           return const SkeletonLine(
