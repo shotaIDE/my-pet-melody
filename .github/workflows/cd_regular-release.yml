@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Setup Gradle
@@ -76,6 +74,7 @@ jobs:
           # Use App tokens instead of default token `GITHUB_TOKEN`
           # to ensure that GitHub Actions will be triggered again after push back.
           token: ${{ steps.generate-token.outputs.token }}
+          fetch-depth: 0
       - name: Setup Git
         uses: ./.github/actions/setup-git
       - name: Setup Flutter
