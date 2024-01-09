@@ -38,7 +38,7 @@ dependencies:
   flutter_svg:
   font_awesome_flutter:
   freezed_annotation:
-  google_sign_in: 6.2.1
+  google_sign_in:
   in_app_review:
   intl:
   package_info_plus:
