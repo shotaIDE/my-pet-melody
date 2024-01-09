@@ -7,7 +7,7 @@ def send_completed_to_generate_piece(
         display_name: str,
         registration_tokens: list[str]
 ):
-    message = messaging.MulticastMessage(
+    multicast_message = messaging.MulticastMessage(
         tokens=registration_tokens,
         notification=messaging.Notification(
             title='作品が完成したよ！',
@@ -20,7 +20,7 @@ def send_completed_to_generate_piece(
         ),
     )
 
-    response = messaging.send_multicast(message)
+    response = messaging.send_each_for_multicast(multicast_message)
 
     print(
         f'{response.success_count} / {len(registration_tokens)} '
