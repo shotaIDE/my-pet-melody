@@ -12,7 +12,7 @@ gcloud functions deploy detect \
     --source=. \
     --ignore-file=.gcloudignore.dev \
     --trigger-http \
-    --runtime=python39 \
+    --runtime=python310 \
     --memory=2048MB \
     --max-instances=1 \
     --min-instances=0 \
