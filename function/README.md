@@ -25,7 +25,7 @@ gcloud functions deploy submit \
     --source=. \
     --ignore-file=.gcloudignore.dev \
     --trigger-http \
-    --runtime=python39 \
+    --runtime=python310 \
     --memory=1024MB \
     --max-instances=1 \
     --min-instances=0 \
@@ -38,7 +38,7 @@ gcloud functions deploy piece \
     --source=. \
     --ignore-file=.gcloudignore.dev \
     --trigger-http \
-    --runtime=python39 \
+    --runtime=python310 \
     --memory=1024MB \
     --max-instances=1 \
     --min-instances=0 \
@@ -56,7 +56,7 @@ gcloud functions deploy detect \
     --source=. \
     --ignore-file=.gcloudignore.prod \
     --trigger-http \
-    --runtime=python39 \
+    --runtime=python310 \
     --memory=2048MB \
     --max-instances=1 \
     --min-instances=0 \
@@ -69,7 +69,7 @@ gcloud functions deploy submit \
     --source=. \
     --ignore-file=.gcloudignore.prod \
     --trigger-http \
-    --runtime=python39 \
+    --runtime=python310 \
     --memory=1024MB \
     --max-instances=1 \
     --min-instances=0 \
@@ -82,7 +82,7 @@ gcloud functions deploy piece \
     --source=. \
     --ignore-file=.gcloudignore.prod \
     --trigger-http \
-    --runtime=python39 \
+    --runtime=python310 \
     --memory=1024MB \
     --max-instances=1 \
     --min-instances=0 \

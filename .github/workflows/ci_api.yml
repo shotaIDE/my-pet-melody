@@ -32,9 +32,8 @@ jobs:
     name: Test API
     needs: check-impact
     if: needs.check-impact.outputs.has-changed-related-files == 'true'
-    # Use the different version of the environment on which the production runtime is based.
-    # This is because upgrading the runtime version of Cloud Functions causes
-    # deployment failures, and GitHub Actions has already deprecated ubuntu 18.04.
+    # Use the same version to the production runtime.
+    # https://cloud.google.com/functions/docs/concepts/execution-environment#python
     runs-on: ubuntu-22.04
     defaults:
       run:
