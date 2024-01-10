@@ -38,7 +38,7 @@ jobs:
         uses: google-github-actions/deploy-cloud-functions@v2
         with:
           name: 'detect'
-          runtime: 'python310'
+          runtime: 'python311'
           memory_mb: 2048
           region: 'asia-east1'
           env_vars_file: 'function/.env.dev.yaml'
@@ -51,7 +51,7 @@ jobs:
         uses: google-github-actions/deploy-cloud-functions@v2
         with:
           name: 'submit'
-          runtime: 'python310'
+          runtime: 'python311'
           memory_mb: 1024
           region: 'asia-east1'
           env_vars_file: 'function/.env.dev.yaml'
@@ -64,7 +64,7 @@ jobs:
         uses: google-github-actions/deploy-cloud-functions@v2
         with:
           name: 'piece'
-          runtime: 'python310'
+          runtime: 'python311'
           memory_mb: 1024
           region: 'asia-east1'
           env_vars_file: 'function/.env.dev.yaml'
