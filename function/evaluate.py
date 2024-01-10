@@ -3,8 +3,7 @@
 from typing import Callable
 
 from detection import (detect_non_silence_by_threshould,
-                       detect_non_silence_without_normalize_by_threshould,
-                       detect_speech_or_music)
+                       detect_non_silence_without_normalize_by_threshould)
 
 _expected_results = [
     {
@@ -84,9 +83,6 @@ def evaluate_detection_methods():
             )
         )
         for index in range(10)
-    ])
-    methods.extend([
-        ('inaSpeechSegmenter', detect_speech_or_music),
     ])
 
     accuracies = [
