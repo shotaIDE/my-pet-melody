@@ -699,14 +699,14 @@ PODS:
   - DKPhotoGallery/Resource (0.0.17):
     - SDWebImage
     - SwiftyGif
-  - FBAEMKit (16.0.1):
-    - FBSDKCoreKit_Basics (= 16.0.1)
-  - FBSDKCoreKit (16.0.1):
-    - FBAEMKit (= 16.0.1)
-    - FBSDKCoreKit_Basics (= 16.0.1)
-  - FBSDKCoreKit_Basics (16.0.1)
-  - FBSDKLoginKit (16.0.1):
-    - FBSDKCoreKit (= 16.0.1)
+  - FBAEMKit (16.2.1):
+    - FBSDKCoreKit_Basics (= 16.2.1)
+  - FBSDKCoreKit (16.2.1):
+    - FBAEMKit (= 16.2.1)
+    - FBSDKCoreKit_Basics (= 16.2.1)
+  - FBSDKCoreKit_Basics (16.2.1)
+  - FBSDKLoginKit (16.2.1):
+    - FBSDKCoreKit (= 16.2.1)
   - ffmpeg-kit-ios-https (5.1.LTS)
   - ffmpeg_kit_flutter (5.1.0.LTS):
     - ffmpeg_kit_flutter/https-lts (= 5.1.0.LTS)
@@ -870,8 +870,8 @@ PODS:
     - FirebaseCoreExtension (~> 10.0)
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - Flutter (1.0.0)
-  - flutter_facebook_auth (5.0.9):
-    - FBSDKLoginKit (~> 16.0.1)
+  - flutter_facebook_auth (6.0.3):
+    - FBSDKLoginKit (~> 16.2.0)
     - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
@@ -992,7 +992,7 @@ PODS:
   - GTMAppAuth (2.0.0):
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
-  - GTMSessionFetcher/Core (2.3.0)
+  - GTMSessionFetcher/Core (3.2.0)
   - in_app_review (0.2.0):
     - Flutter
   - leveldb-library (1.22.2)
@@ -1028,9 +1028,9 @@ PODS:
     - RevenueCat (= 4.31.2)
   - RecaptchaInterop (100.0.0)
   - RevenueCat (4.31.2)
-  - SDWebImage (5.18.8):
-    - SDWebImage/Core (= 5.18.8)
-  - SDWebImage/Core (5.18.8)
+  - SDWebImage (5.18.10):
+    - SDWebImage/Core (= 5.18.10)
+  - SDWebImage/Core (5.18.10)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -1201,13 +1201,13 @@ SPEC CHECKSUMS:
   DKCamera: a902b66921fca14b7a75266feb8c7568aa7caa71
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  FBAEMKit: daac7466b918752f020345be5c7d9787f98cfc07
-  FBSDKCoreKit: 2cb033464b2134af0138f87d20b859eb3f9be359
-  FBSDKCoreKit_Basics: d37280da2e65872f0e931d15f45d97ea324fec37
-  FBSDKLoginKit: c47a3b90920702487b10b647c63520dc2676dad9
+  FBAEMKit: 4763aa27b8f69eb9d2c274189e91388de1dbd88a
+  FBSDKCoreKit: 40ae989ca1da1bbeba56acd4671dde64ad415506
+  FBSDKCoreKit_Basics: 1257d71d2d692661290bf2af4bea5f9a101387af
+  FBSDKLoginKit: bf4f96d0ce475de2da4b1800ce150bd8a6f120f3
   ffmpeg-kit-ios-https: 9e50ffa7eaa6272a0021829e054ef241f2ecffb2
   ffmpeg_kit_flutter: fb5bee3a6038231463ee99e30f97a5763e0ae40f
-  file_picker: ce3938a0df3cc1ef404671531facef740d03f920
+  file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
   Firebase: 414ad272f8d02dfbf12662a9d43f4bba9bec2a06
   firebase_analytics: b3d6dd14c61549a29abb10e9843446a4d8bb53eb
   firebase_auth: 235243e35b0cc8cda8b4d04ce8bd7257b0f07a34
@@ -1234,7 +1234,7 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: f34eeb7d3ea87a34497629b6ca41657beadef76a
   FirebaseStorage: 8333c4b183764cdd170d9539a61322b71c23adff
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_facebook_auth: 42016bec1574eabf69bc2fe4311e8cd55813d352
+  flutter_facebook_auth: 24f9040e28e60ef2a8a93fdd1848e18a9cacb148
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   google_sign_in_ios: ede92ec558c3a73ec07cb180f31820152fb8ca89
@@ -1245,7 +1245,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 2df8cba576898bdacd29f0266d5236fa0e26ba6a
   gRPC-Core: a21a60aefc08c68c247b439a9ef97174b0c54f96
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
-  GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  GTMSessionFetcher: 41b9ef0b4c08a6db4b7eb51a21ae5183ec99a2c8
   in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
@@ -1258,7 +1258,7 @@ SPEC CHECKSUMS:
   PurchasesHybridCommon: 2439f6e671fb4d60878a652e4377fa7e588368e6
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RevenueCat: 63f6f4ae6916095561b90b2e1de86a492af67493
-  SDWebImage: a81bbb3ba4ea5f810f4069c68727cb118467a04a
+  SDWebImage: fc8f2d48bbfd72ef39d70e981bd24a3f3be53fec
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
