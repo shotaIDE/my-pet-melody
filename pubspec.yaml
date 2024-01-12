@@ -36,7 +36,7 @@ dependencies:
     sdk: flutter
   flutter_riverpod:
   flutter_svg:
-  font_awesome_flutter:
+  font_awesome_flutter: 10.6.0
   freezed_annotation:
   google_sign_in:
   in_app_review:
