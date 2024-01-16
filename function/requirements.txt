@@ -6,7 +6,7 @@ CacheControl==0.12.11
 cachetools==5.3.1
 certifi==2023.11.17
 cffi==1.16.0
-charset-normalizer==3.2.0
+charset-normalizer==3.3.2
 click==8.1.7
 cloudevents==1.10.1
 cryptography==41.0.7
