@@ -57,7 +57,7 @@ dependencies:
 
 dev_dependencies:
   build_runner:
-  cider: 0.2.5
+  cider:
   flutter_test:
     sdk: flutter
   freezed:
