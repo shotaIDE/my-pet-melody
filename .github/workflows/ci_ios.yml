@@ -25,10 +25,10 @@ jobs:
           fetch-depth: 0
       - name: Check related files
         id: check-related-files
-        uses: tj-actions/changed-files@v41
+        uses: tj-actions/changed-files@v42
         with:
           files: |
-            ios/**
+            ios/
             .swiftlint.yml
             .tool-versions
             .xcode-version
