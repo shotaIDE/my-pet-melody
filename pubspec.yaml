@@ -41,7 +41,7 @@ dependencies:
   google_sign_in:
   in_app_review:
   intl:
-  package_info_plus:
+  package_info_plus: 5.0.1
   path:
   path_provider:
   purchases_flutter:
