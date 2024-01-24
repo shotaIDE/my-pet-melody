@@ -232,7 +232,7 @@ GEM
     optparse (0.4.0)
     os (1.1.4)
     parallel (1.24.0)
-    parser (3.3.0.4)
+    parser (3.3.0.5)
       ast (~> 2.4.1)
       racc
     plist (3.7.1)
@@ -248,7 +248,7 @@ GEM
     retriable (3.1.2)
     rexml (3.2.6)
     rouge (2.0.7)
-    rubocop (1.60.1)
+    rubocop (1.60.2)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
