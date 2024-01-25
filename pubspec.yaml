@@ -63,7 +63,7 @@ dev_dependencies:
   freezed:
   json_serializable:
   mocktail:
-  pedantic_mono: 1.25.0
+  pedantic_mono:
   watcher: ^1.1.0
 
 flutter:
