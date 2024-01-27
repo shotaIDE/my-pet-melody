@@ -11,6 +11,9 @@ _EDITED_USER_MEDIA_DIRECTORY = f'{_PARENT_DIRECTORY}/uploads'
 _GENERATED_PIECE_DIRECTORY = f'{_PARENT_DIRECTORY}/exports'
 _GENERATED_THUMBNAIL_DIRECTORY = f'{_PARENT_DIRECTORY}/exports'
 
+class NotAllowedPathException(Exception):
+    pass
+
 
 def download_template_bgm(template_id: str) -> str:
     template_directory = _get_template_directory(template_id=template_id)
@@ -99,6 +102,8 @@ def _get_normalized_path(base_directory: str, file_name: str) -> str:
     path = os.path.join(base_directory, file_name)
     normalized_path = os.path.normpath(path)
     if not normalized_path.startswith(path):
-        raise Exception(f'Not allowed file name: {file_name}')
+        raise NotAllowedPathException(
+            f'Not allowed file name has been detected: {file_name}'
+        )
 
     return normalized_path
