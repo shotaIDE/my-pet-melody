@@ -11,6 +11,9 @@ _EDITED_USER_MEDIA_DIRECTORY = f'{_PARENT_DIRECTORY}/uploads'
 _GENERATED_PIECE_DIRECTORY = f'{_PARENT_DIRECTORY}/exports'
 _GENERATED_THUMBNAIL_DIRECTORY = f'{_PARENT_DIRECTORY}/exports'
 
+class NotAllowedPathException(Exception):
+    pass
+
 
 def download_template_bgm(template_id: str) -> str:
     template_directory = _get_template_directory(template_id=template_id)
@@ -42,33 +45,65 @@ def upload_template_thumbnail(template_id: str, file_path: str):
 
 
 def upload_user_media(file_name: str, file_path: str):
+    destination_file_path = _get_normalized_path(
+        base_directory=_UNEDITED_USER_MEDIA_DIRECTORY,
+        file_name=file_name
+    )
+
     os.makedirs(name=_UNEDITED_USER_MEDIA_DIRECTORY, exist_ok=True)
 
-    destination_file_path = f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{file_name}'
     copyfile(file_path, destination_file_path)
 
 
 def download_unedited_user_media(file_name: str) -> str:
-    return f'{_UNEDITED_USER_MEDIA_DIRECTORY}/{file_name}'
+    return _get_normalized_path(
+        base_directory=_UNEDITED_USER_MEDIA_DIRECTORY,
+        file_name=file_name
+    )
 
 
 def download_edited_user_media(file_name: str) -> str:
-    return f'{_EDITED_USER_MEDIA_DIRECTORY}/{file_name}'
+    return _get_normalized_path(
+        base_directory=_EDITED_USER_MEDIA_DIRECTORY,
+        file_name=file_name
+    )
 
 
 def upload_piece_movie(file_name: str, file_path: str):
     os.makedirs(name=_GENERATED_PIECE_DIRECTORY, exist_ok=True)
 
-    destination_path = f'{_GENERATED_PIECE_DIRECTORY}/{file_name}'
-    copyfile(file_path, destination_path)
+    destination_file_path = _get_normalized_path(
+        base_directory=_GENERATED_PIECE_DIRECTORY,
+        file_name=file_name
+    )
+
+    copyfile(file_path, destination_file_path)
 
 
 def upload_piece_thumbnail(file_name: str, file_path: str):
+    destination_file_path = _get_normalized_path(
+        base_directory=_GENERATED_THUMBNAIL_DIRECTORY,
+        file_name=file_name
+    )
+
     os.makedirs(name=_GENERATED_THUMBNAIL_DIRECTORY, exist_ok=True)
 
-    destination_path = f'{_GENERATED_THUMBNAIL_DIRECTORY}/{file_name}'
-    copyfile(file_path, destination_path)
+    copyfile(file_path, destination_file_path)
 
 
 def _get_template_directory(template_id: str):
-    return f'{_PARENT_DIRECTORY}/templates/{template_id}'
+    return _get_normalized_path(
+        base_directory=f'{_PARENT_DIRECTORY}/templates',
+        file_name=template_id
+    )
+
+
+def _get_normalized_path(base_directory: str, file_name: str) -> str:
+    path = os.path.join(base_directory, file_name)
+    normalized_path = os.path.normpath(path)
+    if normalized_path != path:
+        raise NotAllowedPathException(
+            f'Not allowed file name has been detected: {file_name}'
+        )
+
+    return normalized_path
