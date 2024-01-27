@@ -1,8 +1,6 @@
 name: CD / Regular release
 
 on:
-  schedule:
-    - cron:  "0 9 28 * *" # 13:00 JST on the 28th day of every month
   workflow_dispatch:
 
 concurrency:
