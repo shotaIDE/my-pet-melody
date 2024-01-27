@@ -81,12 +81,12 @@ def upload_piece_movie(file_name: str, file_path: str):
 
 
 def upload_piece_thumbnail(file_name: str, file_path: str):
-    os.makedirs(name=_GENERATED_THUMBNAIL_DIRECTORY, exist_ok=True)
-
     destination_file_path = _get_normalized_path(
         base_directory=_GENERATED_THUMBNAIL_DIRECTORY,
         file_name=file_name
     )
+
+    os.makedirs(name=_GENERATED_THUMBNAIL_DIRECTORY, exist_ok=True)
 
     copyfile(file_path, destination_file_path)
 
