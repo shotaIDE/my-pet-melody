@@ -101,7 +101,7 @@ def _get_template_directory(template_id: str):
 def _get_normalized_path(base_directory: str, file_name: str) -> str:
     path = os.path.join(base_directory, file_name)
     normalized_path = os.path.normpath(path)
-    if not normalized_path == path:
+    if normalized_path != path:
         raise NotAllowedPathException(
             f'Not allowed file name has been detected: {file_name}'
         )
