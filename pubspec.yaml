@@ -50,7 +50,7 @@ dependencies:
   shared_preferences:
   skeletons:
   twitter_login:
-  url_launcher:
+  url_launcher: 6.2.4
   video_player:
   video_thumbnail:
   video_trimmer:
