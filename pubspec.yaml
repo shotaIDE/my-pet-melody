@@ -17,7 +17,7 @@ dependencies:
   collection:
   cross_file:
   cupertino_icons:
-  device_info_plus: 9.1.2
+  device_info_plus:
   dio:
   ffmpeg_kit_flutter: 5.1.0-LTS
   file_picker:
