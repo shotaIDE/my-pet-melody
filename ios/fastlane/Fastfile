@@ -129,9 +129,11 @@ platform :ios do
         '-scheme Runner '\
         '-configuration Release '\
         '-archivePath ./build/ios/Runner.xcarchive '\
+        '-allowProvisioningUpdates '\
         "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
         "-authenticationKeyID '#{apple_api_key_id}' "\
-        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path} "\
+        '| xcpretty'
       )
 
       sh(
@@ -143,7 +145,8 @@ platform :ios do
         '-allowProvisioningUpdates '\
         "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
         "-authenticationKeyID '#{apple_api_key_id}' "\
-        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path} "\
+        '| xcpretty'
       )
     end
 
