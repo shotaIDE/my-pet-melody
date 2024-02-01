@@ -30,7 +30,7 @@ dependencies:
   firebase_storage:
   flutter:
     sdk: flutter
-  flutter_facebook_auth:
+  flutter_facebook_auth: 6.0.4
   flutter_local_notifications:
   flutter_localizations:
     sdk: flutter
