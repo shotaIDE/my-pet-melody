@@ -132,8 +132,7 @@ platform :ios do
         '-allowProvisioningUpdates '\
         "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
         "-authenticationKeyID '#{apple_api_key_id}' "\
-        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path} "\
-        '| xcpretty'
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
       )
 
       sh(
@@ -145,8 +144,7 @@ platform :ios do
         '-allowProvisioningUpdates '\
         "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
         "-authenticationKeyID '#{apple_api_key_id}' "\
-        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path} "\
-        '| xcpretty'
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
       )
     end
 
