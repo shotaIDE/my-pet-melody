@@ -119,6 +119,14 @@ Build develop app
 
 Build develop app with no code sign
 
+### ios build_dev_for_simulator
+
+```sh
+[bundle exec] fastlane ios build_dev_for_simulator
+```
+
+Build develop app for Simulator
+
 ### ios build_prod
 
 ```sh
