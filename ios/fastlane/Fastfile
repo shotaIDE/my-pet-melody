@@ -121,37 +121,8 @@ platform :ios do
 
     Dir.chdir('../') do
       sh(
-        'set -o pipefail && '\
-        'xcodebuild -showdestinations '\
-        '-workspace ./ios/Runner.xcworkspace '\
-        '-scheme Runner '\
-        '-configuration Release'
-      )
-
-      sh(
-        'set -o pipefail && '\
-        'xcodebuild archive '\
-        '-workspace ./ios/Runner.xcworkspace '\
-        '-scheme Runner '\
-        '-configuration Release '\
-        "-destination 'generic/platform=iOS' "\
-        '-archivePath ./build/ios/Runner.xcarchive '\
-        '-allowProvisioningUpdates '\
-        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
-        "-authenticationKeyID '#{apple_api_key_id}' "\
-        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
-      )
-
-      sh(
-        'set -o pipefail && '\
-        'xcodebuild -exportArchive '\
-        '-archivePath ./build/ios/Runner.xcarchive '\
-        '-exportPath ./build/ios/ipa '\
-        "-exportOptionsPlist #{export_options_plist_path} "\
-        '-allowProvisioningUpdates '\
-        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
-        "-authenticationKeyID '#{apple_api_key_id}' "\
-        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
+        "flutter build ipa --dart-define-from-file '#{dart_defines_path}' "\
+        "--export-options-plist=#{export_options_plist_path}"
       )
     end
 
