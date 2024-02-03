@@ -52,6 +52,6 @@ jobs:
       - name: Import Provisioning Profile
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo "${{ secrets.PROVISIONING_PROFILE_PROD_APP_STORE_BASE64 }}" | base64 -d > "~/Library/MobileDevice/Provisioning Profiles/prod_app-store.mobileprovision"
+          echo "${{ secrets.PROVISIONING_PROFILE_PROD_APP_STORE_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/prod_app-store.mobileprovision
       - name: Deploy prod app to App Store
         run: bundle exec fastlane ios deploy_prod
