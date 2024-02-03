@@ -12,6 +12,7 @@ concurrency:
 
 jobs:
   e2e-test-ios:
+    name: E2E test iOS app
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
