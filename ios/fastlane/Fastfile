@@ -127,7 +127,10 @@ platform :ios do
         '-scheme Runner '\
         '-configuration Release '\
         '-archivePath ./build/ios/Runner.xcarchive '\
-        'CODE_SIGNING_ALLOWED=NO'
+        '-allowProvisioningUpdates '\
+        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
+        "-authenticationKeyID '#{apple_api_key_id}' "\
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
       )
 
       sh(
