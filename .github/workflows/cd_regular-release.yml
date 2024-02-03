@@ -45,7 +45,7 @@ jobs:
         with:
           sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Build iOS dev app
-        run: flutter build ios --debug --simulator --dart-define-from-file 'dart-defines_dev.json'
+        run: flutter build ios --debug --dart-define-from-file 'dart-defines_dev.json'
       - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
