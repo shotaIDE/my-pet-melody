@@ -122,7 +122,7 @@ platform :ios do
     Dir.chdir('../') do
       sh(
         "flutter build ipa --dart-define-from-file '#{dart_defines_path}' "\
-        '--export-method app-store'
+        "--export-options-plist=#{export_options_plist_path}"
       )
     end
 
