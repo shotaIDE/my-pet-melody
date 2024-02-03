@@ -23,21 +23,14 @@ platform :ios do
 
   desc 'Build develop app with no code sign'
   lane :build_dev_with_no_code_sign do
-    generate
+    dart_defines_path = 'dart-defines_dev.json'
 
-    build_flutter_with_no_code_sign(
-      dart_defines_path: 'dart-defines_dev.json'
-    )
+    generate
 
     Dir.chdir('../') do
       sh(
-        'set -o pipefail && '\
-        'xcodebuild archive CODE_SIGNING_ALLOWED=NO '\
-        '-workspace ./ios/Runner.xcworkspace '\
-        '-scheme Runner '\
-        '-configuration Release '\
-        '-archivePath ./build/ios/Runner.xcarchive '\
-        '| xcpretty'
+        "flutter build ipa --dart-define-from-file '#{dart_defines_path}' "\
+        '--no-codesign'
       )
     end
   end
@@ -104,16 +97,5 @@ platform :ios do
     end
 
     lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/うちメロ.ipa'
-  end
-
-  private_lane :build_flutter_with_no_code_sign do |options|
-    Dir.chdir('../') do
-      dart_defines_path = options[:dart_defines_path]
-
-      sh(
-        "flutter build ios --dart-define-from-file #{dart_defines_path} "\
-        '--no-codesign '
-      )
-    end
   end
 end
