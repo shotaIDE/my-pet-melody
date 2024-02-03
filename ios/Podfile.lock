@@ -7,7 +7,7 @@ PODS:
     - AppAuth/Core
   - audioplayers_darwin (0.0.1):
     - Flutter
-  - cloud_firestore (4.15.3):
+  - cloud_firestore (4.14.0):
     - Firebase/Firestore (= 10.20.0)
     - firebase_core
     - Flutter
@@ -64,14 +64,14 @@ PODS:
   - DKPhotoGallery/Resource (0.0.17):
     - SDWebImage
     - SwiftyGif
-  - FBAEMKit (16.3.1):
-    - FBSDKCoreKit_Basics (= 16.3.1)
-  - FBSDKCoreKit (16.3.1):
-    - FBAEMKit (= 16.3.1)
-    - FBSDKCoreKit_Basics (= 16.3.1)
-  - FBSDKCoreKit_Basics (16.3.1)
-  - FBSDKLoginKit (16.3.1):
-    - FBSDKCoreKit (= 16.3.1)
+  - FBAEMKit (16.2.1):
+    - FBSDKCoreKit_Basics (= 16.2.1)
+  - FBSDKCoreKit (16.2.1):
+    - FBAEMKit (= 16.2.1)
+    - FBSDKCoreKit_Basics (= 16.2.1)
+  - FBSDKCoreKit_Basics (16.2.1)
+  - FBSDKLoginKit (16.2.1):
+    - FBSDKCoreKit (= 16.2.1)
   - ffmpeg-kit-ios-https (5.1.LTS)
   - ffmpeg_kit_flutter (5.1.0.LTS):
     - ffmpeg_kit_flutter/https-lts (= 5.1.0.LTS)
@@ -107,30 +107,30 @@ PODS:
   - Firebase/Storage (10.20.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 10.20.0)
-  - firebase_analytics (10.8.4):
+  - firebase_analytics (10.8.0):
     - Firebase/Analytics (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_auth (4.17.3):
+  - firebase_auth (4.16.0):
     - Firebase/Auth (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.25.3):
+  - firebase_core (2.25.2):
     - Firebase/CoreOnly (= 10.20.0)
     - Flutter
-  - firebase_crashlytics (3.4.13):
+  - firebase_crashlytics (3.4.9):
     - Firebase/Crashlytics (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (14.7.14):
+  - firebase_messaging (14.7.10):
     - Firebase/Messaging (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (4.3.12):
+  - firebase_remote_config (4.3.1):
     - Firebase/RemoteConfig (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_storage (11.6.4):
+  - firebase_storage (11.3.1):
     - Firebase/Storage (= 10.20.0)
     - firebase_core
     - Flutter
@@ -237,10 +237,12 @@ PODS:
     - FirebaseCoreExtension (~> 10.0)
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - Flutter (1.0.0)
-  - flutter_facebook_auth (6.0.4):
-    - FBSDKLoginKit (~> 16.3.1)
+  - flutter_facebook_auth (6.0.3):
+    - FBSDKLoginKit (~> 16.2.0)
     - Flutter
   - flutter_local_notifications (0.0.1):
+    - Flutter
+  - flutter_secure_storage (6.0.0):
     - Flutter
   - google_sign_in_ios (0.0.1):
     - Flutter
@@ -325,13 +327,13 @@ PODS:
   - PromisesObjC (2.3.1)
   - PromisesSwift (2.3.1):
     - PromisesObjC (= 2.3.1)
-  - purchases_flutter (6.19.0):
+  - purchases_flutter (6.18.0):
     - Flutter
-    - PurchasesHybridCommon (= 9.3.0)
-  - PurchasesHybridCommon (9.3.0):
-    - RevenueCat (= 4.33.0)
+    - PurchasesHybridCommon (= 9.2.0)
+  - PurchasesHybridCommon (9.2.0):
+    - RevenueCat (= 4.32.2)
   - RecaptchaInterop (100.0.0)
-  - RevenueCat (4.33.0)
+  - RevenueCat (4.32.2)
   - SDWebImage (5.18.10):
     - SDWebImage/Core (= 5.18.10)
   - SDWebImage/Core (5.18.10)
@@ -372,6 +374,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -470,6 +473,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   in_app_review:
@@ -503,27 +508,27 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
-  cloud_firestore: c956777ddc3fba2d5f633e307db2db6337ebb81c
+  cloud_firestore: 29c11f5505013f7027beb0b46121d1f3d2933e34
   CropViewController: 58fb440f30dac788b129d2a1f24cffdcb102669c
   device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
   DKCamera: a902b66921fca14b7a75266feb8c7568aa7caa71
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  FBAEMKit: 6c7b5eb77c96861bb59e040842c6e55bf39512ce
-  FBSDKCoreKit: 5e4dd478947ab1bcc887e8cfadeae0727af1a942
-  FBSDKCoreKit_Basics: cd7b5f5d1e8868c26706917919d058999ca672c3
-  FBSDKLoginKit: 572cca0bc6c90067ef197187697cb3b584310c52
+  FBAEMKit: 4763aa27b8f69eb9d2c274189e91388de1dbd88a
+  FBSDKCoreKit: 40ae989ca1da1bbeba56acd4671dde64ad415506
+  FBSDKCoreKit_Basics: 1257d71d2d692661290bf2af4bea5f9a101387af
+  FBSDKLoginKit: bf4f96d0ce475de2da4b1800ce150bd8a6f120f3
   ffmpeg-kit-ios-https: 9e50ffa7eaa6272a0021829e054ef241f2ecffb2
   ffmpeg_kit_flutter: fb5bee3a6038231463ee99e30f97a5763e0ae40f
   file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
   Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
-  firebase_analytics: 6c4873e8164677423b57f44172fb20c202310d7a
-  firebase_auth: 37eb4a237d7407336d9dc3b739e81153c5077d70
-  firebase_core: 96a734ae596de989b81a66f8a205f54485263555
-  firebase_crashlytics: daf6839ff459f660d9856cd73f4b6aa6f3435725
-  firebase_messaging: 9a5136ff704c8aa1e2a664c6b159c41b3c3778d7
-  firebase_remote_config: 28b8792e48b06e1f3dff94dc3481c440a25fa27a
-  firebase_storage: cab6237615be4a29f042640cc6364d54e1b6ffc4
+  firebase_analytics: c460665db61552acca5c3cf4898a1cc4053c90ee
+  firebase_auth: 50e205714f2f30db4908f68c485e4cbf1c8c2701
+  firebase_core: 1612f1d8bbc8ed40598b1317e805658f1d79512f
+  firebase_crashlytics: 426aeb9b591a6c7a413d2d26b08008c85e66f00e
+  firebase_messaging: 4a89fe9957bfcef1827867ab8d58dae2fcf62846
+  firebase_remote_config: cb9b902f807d8f091717c640082d6e111f28777e
+  firebase_storage: 5a5533824e30c495a21dc61449a66fc6065a2fc9
   FirebaseABTesting: 1d5d49804bcfc5fa782bc2491a8c1364e2cf7241
   FirebaseAnalytics: a2731bf3670747ce8f65368b118d18aa8e368246
   FirebaseAppCheckInterop: e81bdb1cdb82f8e0cef353ba5018a8402682032c
@@ -547,9 +552,10 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: 2fbf73618288b7a36b2014b957745dcdd781389e
   FirebaseStorage: 8505bae8ac6662474b5b50e07759fb2765c15746
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_facebook_auth: c8700ab1770f3d8e5e7456220e4f3bbcdb831454
-  flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
-  google_sign_in_ios: 1bfaf6607b44cd1b24c4d4bc39719870440f9ce1
+  flutter_facebook_auth: 24f9040e28e60ef2a8a93fdd1848e18a9cacb148
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  google_sign_in_ios: ede92ec558c3a73ec07cb180f31820152fb8ca89
   GoogleAppMeasurement: bb3c564c3efb933136af0e94899e0a46167466a8
   GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
   GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
@@ -561,20 +567,20 @@ SPEC CHECKSUMS:
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
-  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
-  purchases_flutter: 72d49bdd40138037da9e0cf29a0a355ff0bbed80
-  PurchasesHybridCommon: 809461dbc8ff23b4dd0d5260c005b4017d6205b6
+  purchases_flutter: d72ff299589418cddae4ccac2d2ce55e0fbd1eba
+  PurchasesHybridCommon: e6c4550d06ecdfc61a228a0e17b2f125b3bd14c2
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  RevenueCat: 1512a074bebd78b7efb341ce1c33bfc8d292c53a
+  RevenueCat: 298f40f434e6675ea51744cfca5945f09f7c5a07
   SDWebImage: fc8f2d48bbfd72ef39d70e981bd24a3f3be53fec
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
-  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
+  shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   twitter_login: 2794db69b7640681171b17b3c2c84ad9dfb4a57f
   url_launcher_ios: bbd758c6e7f9fd7b5b1d4cde34d2b95fcce5e812
-  video_player_avfoundation: 02011213dab73ae3687df27ce441fbbcc82b5579
+  video_player_avfoundation: e9e6f9cae7d7a6d9b43519b0aab382bca60fcfd1
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
   wakelock_plus: 8b09852c8876491e4b6d179e17dfe2a0b5f60d47
 
