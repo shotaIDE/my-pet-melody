@@ -40,10 +40,6 @@ jobs:
         uses: ./.github/actions/generate-uncommited-ios-files-dev
         with:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
-      - name: Generate env file
-        uses: ./.github/actions/generate-env-file
-        with:
-          env-base64: ${{ secrets.ENV_BASE64 }}
       - name: Generate App Store Connect API key file
         run: echo "${{ secrets.APP_STORE_CONNECT_API_KEY_P8_BASE64 }}" | base64 -d > fastlane/app-store-connect-api-key.p8
       - name: Generate Firebase App Distribution service account key file
