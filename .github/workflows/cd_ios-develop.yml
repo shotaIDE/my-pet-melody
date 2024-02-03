@@ -1,6 +1,9 @@
 name: CD / iOS Develop
 
 on:
+  pull_request:
+    branches:
+      - "main"
   # Tag triggers are not set currently due to build failures in GitHub Actions.
   # Waiting for macOS 14 to be available in GitHub Actions.
   # https://github.com/github/roadmap/issues/813
@@ -47,5 +50,14 @@ jobs:
         uses: ./.github/actions/generate-app-distribution-key-file
         with:
           key-json-base64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
+      - name: Import Code-Signing Certificates
+        uses: Apple-Actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.APP_DISTRIBUTION_P12_BASE64 }}
+          p12-password: ${{ secrets.APP_DISTRIBUTION_P12_PASSWORD }}
+      - name: Import Provisioning Profile
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "${{ secrets.PROVISIONING_PROFILE_DEV_AD_HOC_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/dev_ad-hoc.mobileprovision
       - name: Deploy dev app to Firebase App Distribution
         run: bundle exec fastlane ios deploy_dev
