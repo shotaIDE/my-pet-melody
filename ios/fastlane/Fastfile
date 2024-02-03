@@ -57,7 +57,7 @@ platform :ios do
     apple_api_issuer_id = ENV['APPLE_API_ISSUER_ID'].to_s
     apple_api_key_id = ENV['APPLE_API_KEY_ID'].to_s
 
-    generate
+    # generate
 
     build(
       dart_defines_path: 'dart-defines_prod.json',
@@ -115,9 +115,9 @@ platform :ios do
     apple_api_key_id = options[:apple_api_key_id]
     app_store_connect_api_key_path = options[:app_store_connect_api_key_path]
 
-    build_flutter_with_no_code_sign(
-      dart_defines_path: dart_defines_path
-    )
+    # build_flutter_with_no_code_sign(
+    #   dart_defines_path: dart_defines_path
+    # )
 
     Dir.chdir('../') do
       sh(
