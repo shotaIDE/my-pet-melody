@@ -134,7 +134,7 @@ platform :ios do
         '-workspace ./ios/Runner.xcworkspace '\
         '-scheme Runner '\
         '-configuration Release '\
-        "-destination 'name=Any iOS Device' "\
+        "-destination 'generic/platform=iOS' "\
         '-archivePath ./build/ios/Runner.xcarchive '\
         '-allowProvisioningUpdates '\
         "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
