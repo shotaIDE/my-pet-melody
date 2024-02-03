@@ -1,9 +1,9 @@
 name: CD / iOS Production
 
 on:
-  # Tag triggers are not set currently due to build failures in GitHub Actions.
-  # Waiting for macOS 14 to be available in GitHub Actions.
-  # https://github.com/github/roadmap/issues/813
+  push:
+    tags:
+      - "rc/*"
   workflow_dispatch:
 
 concurrency:
@@ -23,6 +23,8 @@ jobs:
         uses: ./.github/actions/setup-cocoapods
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
+      - name: Set full version name from tag
+        run: bundle exec fastlane set_full_version_name_from_latest_tag
       - name: Generate uncommited Flutter files
         uses: ./.github/actions/generate-uncommited-flutter-files
         with:
