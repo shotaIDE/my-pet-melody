@@ -115,9 +115,9 @@ platform :ios do
     apple_api_key_id = options[:apple_api_key_id]
     app_store_connect_api_key_path = options[:app_store_connect_api_key_path]
 
-    # build_flutter_with_no_code_sign(
-    #   dart_defines_path: dart_defines_path
-    # )
+    build_flutter_with_no_code_sign(
+      dart_defines_path: dart_defines_path
+    )
 
     Dir.chdir('../') do
       sh(
