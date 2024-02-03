@@ -57,7 +57,7 @@ platform :ios do
     apple_api_issuer_id = ENV['APPLE_API_ISSUER_ID'].to_s
     apple_api_key_id = ENV['APPLE_API_KEY_ID'].to_s
 
-    # generate
+    generate
 
     build(
       dart_defines_path: 'dart-defines_prod.json',
