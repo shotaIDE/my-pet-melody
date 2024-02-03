@@ -22,6 +22,20 @@ platform :ios do
   end
 
   desc 'Build develop app with no code sign'
+  lane :build_dev_for_simulator do
+    dart_defines_path = 'dart-defines_dev.json'
+
+    generate
+
+    Dir.chdir('../') do
+      sh(
+        "flutter build ios --dart-define-from-file '#{dart_defines_path}' "\
+        '--debug --simulator'
+      )
+    end
+  end
+
+  desc 'Build develop app with no code sign'
   lane :build_dev_with_no_code_sign do
     dart_defines_path = 'dart-defines_dev.json'
 

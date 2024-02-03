@@ -111,6 +111,14 @@ Install iOS dependencies
 
 Build develop app
 
+### ios build_dev_for_simulator
+
+```sh
+[bundle exec] fastlane ios build_dev_for_simulator
+```
+
+Build develop app with no code sign
+
 ### ios build_dev_with_no_code_sign
 
 ```sh
