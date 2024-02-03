@@ -122,6 +122,14 @@ platform :ios do
     Dir.chdir('../') do
       sh(
         'set -o pipefail && '\
+        'xcodebuild -showdestinations '\
+        '-workspace ./ios/Runner.xcworkspace '\
+        '-scheme Runner '\
+        '-configuration Release'
+      )
+
+      sh(
+        'set -o pipefail && '\
         'xcodebuild archive '\
         '-workspace ./ios/Runner.xcworkspace '\
         '-scheme Runner '\
