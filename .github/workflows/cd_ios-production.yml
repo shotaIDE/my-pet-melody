@@ -49,5 +49,9 @@ jobs:
         with:
           p12-file-base64: ${{ secrets.APP_DISTRIBUTION_P12_BASE64 }}
           p12-password: ${{ secrets.APP_DISTRIBUTION_P12_PASSWORD }}
+      - name: Import Provisioning Profile
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "${{ secrets.PROVISIONING_PROFILE_PROD_APP_STORE_BASE64 }}" | base64 -d > "~/Library/MobileDevice/Provisioning Profiles/prod_app-store.mobileprovision
       - name: Deploy prod app to App Store
         run: bundle exec fastlane ios deploy_prod
