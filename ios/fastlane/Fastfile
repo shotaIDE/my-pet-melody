@@ -115,8 +115,32 @@ platform :ios do
     apple_api_key_id = options[:apple_api_key_id]
     app_store_connect_api_key_path = options[:app_store_connect_api_key_path]
 
+    build_flutter_with_no_code_sign(
+      dart_defines_path: dart_defines_path
+    )
+
     Dir.chdir('../') do
-      sh("flutter build ipa --dart-define-from-file #{dart_defines_path}")
+      sh(
+        'set -o pipefail && '\
+        'xcodebuild -showdestinations '\
+        '-workspace ./ios/Runner.xcworkspace '\
+        '-scheme Runner '\
+        '-configuration Release'
+      )
+
+      sh(
+        'set -o pipefail && '\
+        'xcodebuild archive '\
+        '-workspace ./ios/Runner.xcworkspace '\
+        '-scheme Runner '\
+        '-configuration Release '\
+        "-destination 'generic/platform=iOS' "\
+        '-archivePath ./build/ios/Runner.xcarchive '\
+        '-allowProvisioningUpdates '\
+        "-authenticationKeyIssuerID '#{apple_api_issuer_id}' "\
+        "-authenticationKeyID '#{apple_api_key_id}' "\
+        "-authenticationKeyPath `pwd`/#{app_store_connect_api_key_path}"
+      )
 
       sh(
         'set -o pipefail && '\
