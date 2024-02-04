@@ -32,8 +32,14 @@ jobs:
         with:
           base_sha: ${{ steps.get-latest-rc-tag-name.outputs.tag-name }}
           files: |
+            .maestro/
             android/
-            ios/
+            assets/
+            dictionary/
+            fonts/
+            lib/
+            test/
+            .swiftlint.yml
   e2e-test-ios:
     name: E2E test iOS app
     needs: check-unreleased-diff
