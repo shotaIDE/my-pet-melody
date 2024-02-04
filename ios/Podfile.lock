@@ -64,14 +64,6 @@ PODS:
   - DKPhotoGallery/Resource (0.0.17):
     - SDWebImage
     - SwiftyGif
-  - FBAEMKit (16.2.1):
-    - FBSDKCoreKit_Basics (= 16.2.1)
-  - FBSDKCoreKit (16.2.1):
-    - FBAEMKit (= 16.2.1)
-    - FBSDKCoreKit_Basics (= 16.2.1)
-  - FBSDKCoreKit_Basics (16.2.1)
-  - FBSDKLoginKit (16.2.1):
-    - FBSDKCoreKit (= 16.2.1)
   - ffmpeg-kit-ios-https (5.1.LTS)
   - ffmpeg_kit_flutter (5.1.0.LTS):
     - ffmpeg_kit_flutter/https-lts (= 5.1.0.LTS)
@@ -237,12 +229,7 @@ PODS:
     - FirebaseCoreExtension (~> 10.0)
     - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - Flutter (1.0.0)
-  - flutter_facebook_auth (6.0.3):
-    - FBSDKLoginKit (~> 16.2.0)
-    - Flutter
   - flutter_local_notifications (0.0.1):
-    - Flutter
-  - flutter_secure_storage (6.0.0):
     - Flutter
   - google_sign_in_ios (0.0.1):
     - Flutter
@@ -372,9 +359,7 @@ DEPENDENCIES:
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.20.0`)
   - Flutter (from `Flutter`)
-  - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
-  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -395,10 +380,6 @@ SPEC REPOS:
     - DKCamera
     - DKImagePickerController
     - DKPhotoGallery
-    - FBAEMKit
-    - FBSDKCoreKit
-    - FBSDKCoreKit_Basics
-    - FBSDKLoginKit
     - ffmpeg-kit-ios-https
     - Firebase
     - FirebaseABTesting
@@ -469,12 +450,8 @@ EXTERNAL SOURCES:
     :tag: 10.20.0
   Flutter:
     :path: Flutter
-  flutter_facebook_auth:
-    :path: ".symlinks/plugins/flutter_facebook_auth/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
-  flutter_secure_storage:
-    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   in_app_review:
@@ -514,10 +491,6 @@ SPEC CHECKSUMS:
   DKCamera: a902b66921fca14b7a75266feb8c7568aa7caa71
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  FBAEMKit: 4763aa27b8f69eb9d2c274189e91388de1dbd88a
-  FBSDKCoreKit: 40ae989ca1da1bbeba56acd4671dde64ad415506
-  FBSDKCoreKit_Basics: 1257d71d2d692661290bf2af4bea5f9a101387af
-  FBSDKLoginKit: bf4f96d0ce475de2da4b1800ce150bd8a6f120f3
   ffmpeg-kit-ios-https: 9e50ffa7eaa6272a0021829e054ef241f2ecffb2
   ffmpeg_kit_flutter: fb5bee3a6038231463ee99e30f97a5763e0ae40f
   file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
@@ -552,9 +525,7 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: 2fbf73618288b7a36b2014b957745dcdd781389e
   FirebaseStorage: 8505bae8ac6662474b5b50e07759fb2765c15746
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_facebook_auth: 24f9040e28e60ef2a8a93fdd1848e18a9cacb148
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
-  flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   google_sign_in_ios: ede92ec558c3a73ec07cb180f31820152fb8ca89
   GoogleAppMeasurement: bb3c564c3efb933136af0e94899e0a46167466a8
   GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
