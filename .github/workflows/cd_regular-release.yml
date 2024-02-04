@@ -37,9 +37,17 @@ jobs:
             assets/
             dictionary/
             fonts/
+            ios/
             lib/
             test/
             .swiftlint.yml
+            .tool-versions
+            .xcode-version
+            analysis_options.yaml
+            cspell.json
+            dart-defines_example.json
+            pubspec.lock
+            pubspec.yaml
   e2e-test-ios:
     name: E2E test iOS app
     needs: check-unreleased-diff
