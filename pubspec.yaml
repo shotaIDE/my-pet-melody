@@ -50,7 +50,7 @@ dependencies:
   skeletons:
   twitter_login:
   url_launcher:
-  video_player:
+  video_player: 2.8.2
   video_thumbnail:
   video_trimmer:
 
