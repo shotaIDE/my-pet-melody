@@ -1,10 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ide.shota.colomney.my_pet_melody">
 
-    <queries>
-        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
-    </queries>
-
     <application
         android:name="${applicationName}"
         android:icon="${ICON_RESOURCE}"
@@ -42,15 +38,6 @@
                     android:scheme="${TWITTER_REDIRECT_SCHEME}" />
             </intent-filter>
         </activity>
-
-        <!-- Defining facebook app ID in manifest placeholder does not work,
-             so define in @string as the document implies. -->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.facebook.sdk.ClientToken"
-            android:value="${FACEBOOK_APP_SECRET}" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

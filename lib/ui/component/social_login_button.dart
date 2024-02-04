@@ -52,31 +52,6 @@ class ContinueWithTwitterButton extends StatelessWidget {
   }
 }
 
-class ContinueWithFacebookButton extends StatelessWidget {
-  const ContinueWithFacebookButton({
-    required this.onPressed,
-    Key? key,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    const foregroundColor = Colors.white;
-
-    return _ContinueWithThirdPartyProviderButton(
-      onPressed: onPressed,
-      icon: const Icon(
-        FontAwesomeIcons.facebook,
-        color: foregroundColor,
-      ),
-      text: 'Facebookで続ける',
-      textColor: foregroundColor,
-      backgroundColor: const Color(0xFF1877f2),
-    );
-  }
-}
-
 class ContinueWithAppleButton extends StatelessWidget {
   const ContinueWithAppleButton({
     required this.onPressed,

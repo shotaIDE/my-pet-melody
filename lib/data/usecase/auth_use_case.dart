@@ -226,92 +226,6 @@ final linkWithTwitterActionProvider =
   return action;
 });
 
-final loginWithFacebookActionProvider =
-    Provider<Future<Result<void, LoginError>> Function()>((ref) {
-  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
-  final authActions = ref.watch(authActionsProvider);
-  final eventReporter = ref.watch(eventReporterProvider);
-
-  Future<Result<void, LoginError>> action() async {
-    final loginFacebookResult = await thirdPartyAuthActions.loginFacebook();
-    final convertedLoginError = loginFacebookResult.whenOrNull<LoginError>(
-      failure: (error) => error.when(
-        cancelledByUser: LoginError.cancelledByUser,
-        unrecoverable: LoginError.unrecoverable,
-      ),
-    );
-    if (convertedLoginError != null) {
-      return Result.failure(convertedLoginError);
-    }
-
-    final accessToken =
-        (loginFacebookResult as Success<String, LoginThirdPartyError>).value;
-    final loginResult =
-        await authActions.loginWithFacebook(accessToken: accessToken);
-    final convertedLinkError = loginResult.whenOrNull(
-      failure: (error) => error.when(
-        alreadyInUse: LoginError.alreadyInUse,
-        unrecoverable: LoginError.unrecoverable,
-      ),
-    );
-    if (convertedLinkError != null) {
-      return Result.failure(convertedLinkError);
-    }
-
-    unawaited(
-      eventReporter.signUp(AccountProvider.facebook),
-    );
-
-    return const Result.success(null);
-  }
-
-  return action;
-});
-
-final linkWithFacebookActionProvider =
-    Provider<Future<Result<void, LoginError>> Function()>((ref) {
-  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
-  final authActions = ref.watch(authActionsProvider);
-  final eventReporter = ref.watch(eventReporterProvider);
-
-  Future<Result<void, LoginError>> action() async {
-    final loginResult = await thirdPartyAuthActions.loginFacebook();
-    final convertedLoginError =
-        loginResult.whenOrNull<Result<void, LoginError>>(
-      failure: (error) => error.when(
-        cancelledByUser: () =>
-            const Result.failure(LoginError.cancelledByUser()),
-        unrecoverable: () => const Result.failure(LoginError.unrecoverable()),
-      ),
-    );
-    if (convertedLoginError != null) {
-      return convertedLoginError;
-    }
-
-    final accessToken =
-        (loginResult as Success<String, LoginThirdPartyError>).value;
-    final linkResult =
-        await authActions.linkWithFacebook(accessToken: accessToken);
-    final convertedLinkError = linkResult.whenOrNull(
-      failure: (error) => error.when(
-        alreadyInUse: LoginError.alreadyInUse,
-        unrecoverable: LoginError.unrecoverable,
-      ),
-    );
-    if (convertedLinkError != null) {
-      return Result.failure(convertedLinkError);
-    }
-
-    unawaited(
-      eventReporter.signUp(AccountProvider.facebook),
-    );
-
-    return const Result.success(null);
-  }
-
-  return action;
-});
-
 final loginWithAppleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final authActions = ref.watch(authActionsProvider);
@@ -433,36 +347,6 @@ final deleteAccountActionProvider = Provider((ref) {
           authToken: twitterCredential.authToken,
           secret: twitterCredential.secret,
         );
-        final convertedReauthenticateError = reauthenticateResult.whenOrNull(
-          failure: (error) => error.when(
-            alreadyInUse: DeleteAccountError.unrecoverable,
-            unrecoverable: DeleteAccountError.unrecoverable,
-          ),
-        );
-        if (convertedReauthenticateError != null) {
-          return Result.failure(convertedReauthenticateError);
-        }
-
-        break;
-
-      case AccountProvider.facebook:
-        final loginFacebookResult = await thirdPartyAuthActions.loginFacebook();
-        final convertedLoginError =
-            loginFacebookResult.whenOrNull<DeleteAccountError>(
-          failure: (error) => error.when(
-            cancelledByUser: DeleteAccountError.cancelledByUser,
-            unrecoverable: DeleteAccountError.unrecoverable,
-          ),
-        );
-        if (convertedLoginError != null) {
-          return Result.failure(convertedLoginError);
-        }
-
-        final accessToken =
-            (loginFacebookResult as Success<String, LoginThirdPartyError>)
-                .value;
-        final reauthenticateResult = await authActions
-            .reauthenticateWithFacebook(accessToken: accessToken);
         final convertedReauthenticateError = reauthenticateResult.whenOrNull(
           failure: (error) => error.when(
             alreadyInUse: DeleteAccountError.unrecoverable,

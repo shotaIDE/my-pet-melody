@@ -295,72 +295,6 @@ class AuthActions {
     return const Result.success(null);
   }
 
-  Future<Result<void, LinkCredentialError>> loginWithFacebook({
-    required String accessToken,
-  }) async {
-    final facebookAuthCredential = FacebookAuthProvider.credential(accessToken);
-
-    try {
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-    } on FirebaseAuthException catch (error, stack) {
-      if (error.code == 'credential-already-in-use') {
-        return const Result.failure(LinkCredentialError.alreadyInUse());
-      }
-
-      await _errorReporter.send(
-        error,
-        stack,
-        reason: 'unhandled Firebase Auth exception when login with Facebook.',
-      );
-
-      return const Result.failure(LinkCredentialError.unrecoverable());
-    } catch (error, stack) {
-      await _errorReporter.send(
-        error,
-        stack,
-        reason: 'unhandled exception when login with Facebook.',
-      );
-
-      return const Result.failure(LinkCredentialError.unrecoverable());
-    }
-
-    return const Result.success(null);
-  }
-
-  Future<Result<void, LinkCredentialError>> linkWithFacebook({
-    required String accessToken,
-  }) async {
-    final facebookAuthCredential = FacebookAuthProvider.credential(accessToken);
-
-    final currentUser = FirebaseAuth.instance.currentUser!;
-
-    try {
-      await currentUser.linkWithCredential(facebookAuthCredential);
-    } on FirebaseAuthException catch (error, stack) {
-      if (error.code == 'credential-already-in-use') {
-        return const Result.failure(LinkCredentialError.alreadyInUse());
-      }
-
-      await _errorReporter.send(
-        error,
-        stack,
-        reason: 'unhandled Firebase Auth exception when link with Facebook.',
-      );
-
-      return const Result.failure(LinkCredentialError.unrecoverable());
-    } catch (error, stack) {
-      await _errorReporter.send(
-        error,
-        stack,
-        reason: 'unhandled exception when link with Facebook.',
-      );
-
-      return const Result.failure(LinkCredentialError.unrecoverable());
-    }
-
-    return const Result.success(null);
-  }
-
   Future<Result<void, LoginError>> loginOrLinkWithApple() async {
     final appleProvider = AppleAuthProvider();
 
@@ -468,41 +402,6 @@ class AuthActions {
         error,
         stack,
         reason: 'unhandled exception when reauthenticate with Twitter.',
-      );
-
-      return const Result.failure(LinkCredentialError.unrecoverable());
-    }
-
-    return const Result.success(null);
-  }
-
-  Future<Result<void, LinkCredentialError>> reauthenticateWithFacebook({
-    required String accessToken,
-  }) async {
-    final twitterAuthCredential = FacebookAuthProvider.credential(accessToken);
-
-    final currentUser = FirebaseAuth.instance.currentUser!;
-
-    try {
-      await currentUser.reauthenticateWithCredential(twitterAuthCredential);
-    } on FirebaseAuthException catch (error, stack) {
-      if (error.code == 'credential-already-in-use') {
-        return const Result.failure(LinkCredentialError.alreadyInUse());
-      }
-
-      await _errorReporter.send(
-        error,
-        stack,
-        reason: 'unhandled Firebase Auth exception '
-            'when reauthenticate with Facebook.',
-      );
-
-      return const Result.failure(LinkCredentialError.unrecoverable());
-    } catch (error, stack) {
-      await _errorReporter.send(
-        error,
-        stack,
-        reason: 'unhandled exception when reauthenticate with Facebook.',
       );
 
       return const Result.failure(LinkCredentialError.unrecoverable());
