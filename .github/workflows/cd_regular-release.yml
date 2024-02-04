@@ -1,6 +1,9 @@
 name: CD / Regular release
 
 on:
+  repository_dispatch:
+    types:
+      - "regular-release"
   workflow_dispatch:
 
 concurrency:
@@ -8,8 +11,47 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  check-unreleased-diff:
+    name: Check some diffs exist related to app
+    runs-on: ubuntu-latest
+    outputs:
+      has-diff-related-to-app: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Get latest RC tag name
+        id: get-latest-rc-tag-name
+        run: |
+          latest_rc_tag_name="$(git describe --tags --abbrev=0 --match 'rc/*')"
+          echo "tag-name=$latest_rc_tag_name" >> $GITHUB_OUTPUT
+      - name: Check related files
+        id: check-related-files
+        uses: tj-actions/changed-files@v42
+        with:
+          base_sha: ${{ steps.get-latest-rc-tag-name.outputs.tag-name }}
+          files: |
+            .maestro/
+            android/
+            assets/
+            dictionary/
+            fonts/
+            ios/
+            lib/
+            test/
+            .swiftlint.yml
+            .tool-versions
+            .xcode-version
+            analysis_options.yaml
+            cspell.json
+            dart-defines_example.json
+            pubspec.lock
+            pubspec.yaml
   e2e-test-ios:
     name: E2E test iOS app
+    needs: check-unreleased-diff
+    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true'
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
@@ -53,6 +95,8 @@ jobs:
             APP_ID_SUFFIX=.dev
   e2e-test-android:
     name: E2E test Android app
+    needs: check-unreleased-diff
+    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
