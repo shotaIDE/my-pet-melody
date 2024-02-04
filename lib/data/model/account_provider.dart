@@ -1,4 +1,4 @@
-enum AccountProvider { google, twitter, facebook, apple }
+enum AccountProvider { google, twitter, apple }
 
 extension AccountProviderGenerator on AccountProvider {
   static AccountProvider? fromProviderId(String providerId) {
@@ -7,8 +7,6 @@ extension AccountProviderGenerator on AccountProvider {
         return AccountProvider.google;
       case 'twitter.com':
         return AccountProvider.twitter;
-      case 'facebook.com':
-        return AccountProvider.facebook;
       case 'apple.com':
         return AccountProvider.apple;
       default:

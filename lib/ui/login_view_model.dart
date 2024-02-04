@@ -37,18 +37,6 @@ class LoginViewModel extends StateNotifier<LoginState> {
     return result;
   }
 
-  Future<Result<void, LoginError>> continueWithFacebook() async {
-    state = state.copyWith(isProcessing: true);
-
-    final action = _ref.read(loginWithFacebookActionProvider);
-
-    final result = await action();
-
-    state = state.copyWith(isProcessing: false);
-
-    return result;
-  }
-
   Future<Result<void, LoginError>> continueWithApple() async {
     state = state.copyWith(isProcessing: true);
 

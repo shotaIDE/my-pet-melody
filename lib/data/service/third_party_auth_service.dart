@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
@@ -66,27 +65,6 @@ class ThirdPartyAuthActions {
         return const Result.failure(LoginThirdPartyError.cancelledByUser());
 
       case TwitterLoginStatus.error:
-        return const Result.failure(LoginThirdPartyError.unrecoverable());
-    }
-  }
-
-  Future<Result<String, LoginThirdPartyError>> loginFacebook() async {
-    final results = await FacebookAuth.instance.login();
-
-    switch (results.status) {
-      case LoginStatus.success:
-        final accessToken = results.accessToken?.token;
-        if (accessToken == null) {
-          return const Result.failure(LoginThirdPartyError.unrecoverable());
-        }
-
-        return Result.success(accessToken);
-
-      case LoginStatus.cancelled:
-        return const Result.failure(LoginThirdPartyError.cancelledByUser());
-
-      case LoginStatus.failed:
-      case LoginStatus.operationInProgress:
         return const Result.failure(LoginThirdPartyError.unrecoverable());
     }
   }
