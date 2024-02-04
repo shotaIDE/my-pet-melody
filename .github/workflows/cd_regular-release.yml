@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - "main"
+  repository_dispatch:
+    types:
+      - "regular-release"
   workflow_dispatch:
 
 concurrency:
