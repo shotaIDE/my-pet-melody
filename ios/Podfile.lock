@@ -107,10 +107,10 @@ PODS:
     - Firebase/Auth (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.25.2):
+  - firebase_core (2.25.4):
     - Firebase/CoreOnly (= 10.20.0)
     - Flutter
-  - firebase_crashlytics (3.4.9):
+  - firebase_crashlytics (3.4.14):
     - Firebase/Crashlytics (= 10.20.0)
     - firebase_core
     - Flutter
@@ -497,8 +497,8 @@ SPEC CHECKSUMS:
   Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
   firebase_analytics: c460665db61552acca5c3cf4898a1cc4053c90ee
   firebase_auth: 50e205714f2f30db4908f68c485e4cbf1c8c2701
-  firebase_core: 1612f1d8bbc8ed40598b1317e805658f1d79512f
-  firebase_crashlytics: 426aeb9b591a6c7a413d2d26b08008c85e66f00e
+  firebase_core: a46c312d8bae4defa3d009b2aa7b5b413aeb394e
+  firebase_crashlytics: 3d12285fcbd865d576b9965bd4090cd8b68e11fd
   firebase_messaging: 4a89fe9957bfcef1827867ab8d58dae2fcf62846
   firebase_remote_config: cb9b902f807d8f091717c640082d6e111f28777e
   firebase_storage: 5a5533824e30c495a21dc61449a66fc6065a2fc9
@@ -557,4 +557,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6254208dac81aaa3f54bebd476ac96dcbb5b85c3
 
-COCOAPODS: 1.15.0
+COCOAPODS: 1.15.2
