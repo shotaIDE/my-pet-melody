@@ -50,8 +50,8 @@ jobs:
             pubspec.yaml
   e2e-test-ios:
     name: E2E test iOS app
-    # needs: check-unreleased-diff
-    # if: needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true'
+    needs: check-unreleased-diff
+    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true'
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
