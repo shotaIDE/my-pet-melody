@@ -3,6 +3,8 @@ default_platform(:android)
 platform :android do
   desc 'Build develop app'
   lane :build_dev do
+    install_flutter_dependencies
+
     generate
 
     Dir.chdir('../') do
@@ -14,6 +16,8 @@ platform :android do
 
   desc 'Build production app'
   lane :build_prod do
+    install_flutter_dependencies
+
     generate
 
     Dir.chdir('../') do

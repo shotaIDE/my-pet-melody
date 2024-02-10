@@ -10,7 +10,6 @@ end
 
 desc 'Generate automatic codes'
 lane :generate do
-  install_flutter_dependencies
   sh('flutter pub run build_runner build --delete-conflicting-outputs')
 end
 
