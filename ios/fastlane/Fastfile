@@ -39,6 +39,8 @@ platform :ios do
   lane :build_dev_for_simulator do
     dart_defines_path = 'dart-defines_dev.json'
 
+    install_dependencies
+
     generate
 
     Dir.chdir('../') do
