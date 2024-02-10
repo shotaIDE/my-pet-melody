@@ -77,8 +77,6 @@ jobs:
         uses: ./.github/actions/generate-uncommited-ios-files-dev
         with:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
-      - name: Generate automatic codes
-        run: bundle exec fastlane generate
       - name: Generate E2E media files
         uses: ./.github/actions/generate-e2e-media-files
         with:

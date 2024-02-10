@@ -13,6 +13,8 @@ platform :ios do
 
   desc 'Build develop app'
   lane :build_dev do
+    install_dependencies
+
     generate
 
     build(
@@ -24,6 +26,8 @@ platform :ios do
   desc 'Build develop app with no code sign'
   lane :build_dev_with_no_code_sign do
     dart_defines_path = 'dart-defines_dev.json'
+
+    install_dependencies
 
     generate
 
@@ -39,6 +43,8 @@ platform :ios do
   lane :build_dev_for_simulator do
     dart_defines_path = 'dart-defines_dev.json'
 
+    install_dependencies
+
     generate
 
     Dir.chdir('../') do
@@ -51,6 +57,8 @@ platform :ios do
 
   desc 'Build production app'
   lane :build_prod do
+    install_dependencies
+
     generate
 
     build(
