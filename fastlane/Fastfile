@@ -5,12 +5,16 @@ require 'yaml'
 
 desc 'Get Flutter dependencies'
 lane :install_flutter_dependencies do
-  sh('flutter pub get --no-example')
+  Dir.chdir('../') do
+    sh('flutter pub get --no-example')
+  end
 end
 
 desc 'Generate automatic codes'
 lane :generate do
-  sh('flutter pub run build_runner build --delete-conflicting-outputs')
+  Dir.chdir('../') do
+    sh('flutter pub run build_runner build --delete-conflicting-outputs')
+  end
 end
 
 desc 'Bump patch version'
