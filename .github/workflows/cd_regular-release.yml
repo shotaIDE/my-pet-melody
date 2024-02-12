@@ -145,6 +145,7 @@ jobs:
     name: Trigger CD production
     runs-on: ubuntu-latest
     needs: 
+      - e2e-test-ios
       - e2e-test-android
     steps:
       - name: Generate token
