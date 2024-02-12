@@ -151,6 +151,14 @@ Deploy develop app to Firebase App Distribution
 
 Deploy production app to App Store Connect
 
+### ios deploy_prod_without_build
+
+```sh
+[bundle exec] fastlane ios deploy_prod_without_build
+```
+
+Deploy production app to App Store Connect. This lane does not build, so you need to build before running this lane.
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
