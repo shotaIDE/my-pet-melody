@@ -109,9 +109,11 @@ platform :ios do
       skip_metadata: false,
       skip_screenshots: true,
       force: true,
+      submit_for_review: true,
+      reject_if_possible: true,
+      automatic_release: true,
       submission_information: { add_id_info_uses_idfa: false },
-      precheck_include_in_app_purchases: false,
-      verify_only: true
+      precheck_include_in_app_purchases: false
     )
   end
 

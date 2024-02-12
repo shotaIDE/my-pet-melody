@@ -1,9 +1,6 @@
 name: CD / iOS Production
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     tags:
       - "rc/*"
@@ -26,8 +23,8 @@ jobs:
         uses: ./.github/actions/setup-cocoapods
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
-      # - name: Set full version name from tag
-      #   run: bundle exec fastlane set_full_version_name_from_latest_tag
+      - name: Set full version name from tag
+        run: bundle exec fastlane set_full_version_name_from_latest_tag
       - name: Generate uncommited Flutter files
         uses: ./.github/actions/generate-uncommited-flutter-files
         with:
