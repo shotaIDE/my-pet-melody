@@ -52,5 +52,12 @@ jobs:
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "${{ secrets.PROVISIONING_PROFILE_PROD_APP_STORE_BASE64 }}" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/prod_app-store.mobileprovision
+      - name: Build prod app
+        run: bundle exec fastlane ios build_prod
       - name: Deploy prod app to App Store
-        run: bundle exec fastlane ios deploy_prod
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 360
+          max_attempts: 3
+          retry_on: error
+          command: bundle exec fastlane ios deploy_prod_without_build
