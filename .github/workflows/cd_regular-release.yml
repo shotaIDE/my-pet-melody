@@ -1,6 +1,9 @@
 name: CD / Regular release
 
 on:
+  pull_request:
+    branches:
+      - main
   repository_dispatch:
     types:
       - "regular-release"
@@ -11,47 +14,45 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-unreleased-diff:
-    name: Check some diffs exist related to app
-    runs-on: ubuntu-latest
-    outputs:
-      has-diff-related-to-app: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-      - name: Get latest RC tag name
-        id: get-latest-rc-tag-name
-        run: |
-          latest_rc_tag_name="$(git describe --tags --abbrev=0 --match 'rc/*')"
-          echo "tag-name=$latest_rc_tag_name" >> $GITHUB_OUTPUT
-      - name: Check related files
-        id: check-related-files
-        uses: tj-actions/changed-files@v42
-        with:
-          base_sha: ${{ steps.get-latest-rc-tag-name.outputs.tag-name }}
-          files: |
-            .maestro/
-            android/
-            assets/
-            dictionary/
-            fonts/
-            ios/
-            lib/
-            test/
-            .swiftlint.yml
-            .tool-versions
-            .xcode-version
-            analysis_options.yaml
-            cspell.json
-            dart-defines_example.json
-            pubspec.lock
-            pubspec.yaml
+  # check-unreleased-diff:
+  #   name: Check some diffs exist related to app
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     has-diff-related-to-app: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ github.head_ref }}
+  #         fetch-depth: 0
+  #     - name: Get latest RC tag name
+  #       id: get-latest-rc-tag-name
+  #       run: |
+  #         latest_rc_tag_name="$(git describe --tags --abbrev=0 --match 'rc/*')"
+  #         echo "tag-name=$latest_rc_tag_name" >> $GITHUB_OUTPUT
+  #     - name: Check related files
+  #       id: check-related-files
+  #       uses: tj-actions/changed-files@v42
+  #       with:
+  #         base_sha: ${{ steps.get-latest-rc-tag-name.outputs.tag-name }}
+  #         files: |
+  #           .maestro/
+  #           android/
+  #           assets/
+  #           dictionary/
+  #           fonts/
+  #           ios/
+  #           lib/
+  #           test/
+  #           .swiftlint.yml
+  #           .tool-versions
+  #           .xcode-version
+  #           analysis_options.yaml
+  #           cspell.json
+  #           dart-defines_example.json
+  #           pubspec.lock
+  #           pubspec.yaml
   e2e-test-ios:
     name: E2E test iOS app
-    needs: check-unreleased-diff
-    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true'
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
@@ -91,90 +92,90 @@ jobs:
           device-locale: ja_JP
           env: |
             APP_ID_SUFFIX=.dev
-  e2e-test-android:
-    name: E2E test Android app
-    needs: check-unreleased-diff
-    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Flutter
-        uses: ./.github/actions/setup-flutter
-      - name: Setup Gradle
-        uses: ./.github/actions/setup-gradle
-      - name: Setup Ruby
-        uses: ./.github/actions/setup-ruby
-      - name: Generate uncommited Flutter files
-        uses: ./.github/actions/generate-uncommited-flutter-files
-        with:
-          firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
-          firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
-          firebase-options-dart-base64-prod: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_PROD }}
-      - name: Generate uncommited Flutter files for dev
-        uses: ./.github/actions/generate-uncommited-flutter-files-dev
-        with:
-          dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
-      - name: Generate uncommited Android files for dev
-        uses: ./.github/actions/generate-uncommited-android-files-dev
-        with:
-          google-service-json-base64-dev: ${{ secrets.GOOGLE_SERVICE_JSON_BASE64_DEV }}
-      - name: Generate key store
-        uses: ./.github/actions/generate-key-store
-        with:
-          keystore-jks-base64: ${{ secrets.KEYSTORE_JKS_BASE64 }}
-          store-password: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
-          key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
-          key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
-      - name: Generate automatic codes
-        run: bundle exec fastlane generate
-      - name: Generate E2E media files
-        uses: ./.github/actions/generate-e2e-media-files
-        with:
-          sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
-      - name: Build Android dev app
-        run: flutter build apk --dart-define-from-file 'dart-defines_dev.json'
-      - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
-        with:
-          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: 'build/app/outputs/flutter-apk/app-release.apk'
-          android-api-level: 33
-          device-locale: ja_JP
-          env: |
-            APP_ID_SUFFIX=.dev
-  trigger-cd-production:
-    name: Trigger CD production
-    runs-on: ubuntu-latest
-    needs: 
-      - e2e-test-ios
-      - e2e-test-android
-    steps:
-      - name: Generate token
-        id: generate-token
-        uses: tibdex/github-app-token@v2
-        with:
-          app_id: ${{ secrets.COLOMNEY_WORKFLOW_APP_ID }}
-          private_key: ${{ secrets.COLOMNEY_WORKFLOW_APP_PRIVATE_KEY_PEM }}
-      - uses: actions/checkout@v4
-        with:
-          # Use App tokens instead of default token `GITHUB_TOKEN`
-          # to ensure that GitHub Actions will be triggered again after push back.
-          token: ${{ steps.generate-token.outputs.token }}
-          fetch-depth: 0
-      - name: Setup Git
-        uses: ./.github/actions/setup-git
-      - name: Setup Flutter
-        uses: ./.github/actions/setup-flutter
-      - name: Setup Ruby
-        uses: ./.github/actions/setup-ruby
-      - name: Install Flutter dependencies
-        run: bundle exec fastlane install_flutter_dependencies
-      - name: Set full version name from tag
-        run: bundle exec fastlane set_full_version_name_from_latest_tag
-      - name: Bump patch version
-        run: bundle exec fastlane bump_patch_version
-      - name: Add tag
-        run: bundle exec fastlane add_release_candidate_tag
-      - name: Push back tag
-        run: |
-          latest_tag_name="$(git describe --tags --abbrev=0)"
-          git push origin "${latest_tag_name}"
+  # e2e-test-android:
+  #   name: E2E test Android app
+  #   needs: check-unreleased-diff
+  #   if: needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup Flutter
+  #       uses: ./.github/actions/setup-flutter
+  #     - name: Setup Gradle
+  #       uses: ./.github/actions/setup-gradle
+  #     - name: Setup Ruby
+  #       uses: ./.github/actions/setup-ruby
+  #     - name: Generate uncommited Flutter files
+  #       uses: ./.github/actions/generate-uncommited-flutter-files
+  #       with:
+  #         firebase-options-dart-base64-emulator: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_EMULATOR }}
+  #         firebase-options-dart-base64-dev: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_DEV }}
+  #         firebase-options-dart-base64-prod: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64_PROD }}
+  #     - name: Generate uncommited Flutter files for dev
+  #       uses: ./.github/actions/generate-uncommited-flutter-files-dev
+  #       with:
+  #         dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
+  #     - name: Generate uncommited Android files for dev
+  #       uses: ./.github/actions/generate-uncommited-android-files-dev
+  #       with:
+  #         google-service-json-base64-dev: ${{ secrets.GOOGLE_SERVICE_JSON_BASE64_DEV }}
+  #     - name: Generate key store
+  #       uses: ./.github/actions/generate-key-store
+  #       with:
+  #         keystore-jks-base64: ${{ secrets.KEYSTORE_JKS_BASE64 }}
+  #         store-password: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+  #         key-password: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+  #         key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+  #     - name: Generate automatic codes
+  #       run: bundle exec fastlane generate
+  #     - name: Generate E2E media files
+  #       uses: ./.github/actions/generate-e2e-media-files
+  #       with:
+  #         sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
+  #     - name: Build Android dev app
+  #       run: flutter build apk --dart-define-from-file 'dart-defines_dev.json'
+  #     - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
+  #       with:
+  #         api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+  #         app-file: 'build/app/outputs/flutter-apk/app-release.apk'
+  #         android-api-level: 33
+  #         device-locale: ja_JP
+  #         env: |
+  #           APP_ID_SUFFIX=.dev
+  # trigger-cd-production:
+  #   name: Trigger CD production
+  #   runs-on: ubuntu-latest
+  #   needs: 
+  #     - e2e-test-ios
+  #     - e2e-test-android
+  #   steps:
+  #     - name: Generate token
+  #       id: generate-token
+  #       uses: tibdex/github-app-token@v2
+  #       with:
+  #         app_id: ${{ secrets.COLOMNEY_WORKFLOW_APP_ID }}
+  #         private_key: ${{ secrets.COLOMNEY_WORKFLOW_APP_PRIVATE_KEY_PEM }}
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         # Use App tokens instead of default token `GITHUB_TOKEN`
+  #         # to ensure that GitHub Actions will be triggered again after push back.
+  #         token: ${{ steps.generate-token.outputs.token }}
+  #         fetch-depth: 0
+  #     - name: Setup Git
+  #       uses: ./.github/actions/setup-git
+  #     - name: Setup Flutter
+  #       uses: ./.github/actions/setup-flutter
+  #     - name: Setup Ruby
+  #       uses: ./.github/actions/setup-ruby
+  #     - name: Install Flutter dependencies
+  #       run: bundle exec fastlane install_flutter_dependencies
+  #     - name: Set full version name from tag
+  #       run: bundle exec fastlane set_full_version_name_from_latest_tag
+  #     - name: Bump patch version
+  #       run: bundle exec fastlane bump_patch_version
+  #     - name: Add tag
+  #       run: bundle exec fastlane add_release_candidate_tag
+  #     - name: Push back tag
+  #       run: |
+  #         latest_tag_name="$(git describe --tags --abbrev=0)"
+  #         git push origin "${latest_tag_name}"
