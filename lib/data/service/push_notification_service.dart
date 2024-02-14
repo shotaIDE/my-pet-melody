@@ -72,7 +72,7 @@ class PushNotificationService {
       final androidPlugin = _plugin.resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>();
 
-      await androidPlugin!.requestPermission();
+      await androidPlugin!.requestNotificationsPermission();
     }
   }
 
