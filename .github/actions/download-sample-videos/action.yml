@@ -11,5 +11,5 @@ runs:
       run: |
         mkdir samples
         cd samples
-        wget -O samples.zip "${{ inputs.sample-videos-zip-url }}"
+        curl "${{ inputs.sample-videos-zip-url }}" -o samples.zip
         unzip samples.zip
