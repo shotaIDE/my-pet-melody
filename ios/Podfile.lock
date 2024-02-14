@@ -525,7 +525,7 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: 2fbf73618288b7a36b2014b957745dcdd781389e
   FirebaseStorage: 8505bae8ac6662474b5b50e07759fb2765c15746
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   google_sign_in_ios: ede92ec558c3a73ec07cb180f31820152fb8ca89
   GoogleAppMeasurement: bb3c564c3efb933136af0e94899e0a46167466a8
   GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
