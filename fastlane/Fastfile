@@ -76,7 +76,7 @@ lane :check_mobile_apps_are_currently_released do
   UI.success 'The latest status is "Released".'
 end
 
-desc 'Update mobile apps status to "In release" on Google Spreadsheet'
+desc 'Update mobile apps status to "in release process" on Google Spreadsheet'
 lane :update_mobile_apps_status_to_in_release_process do
   Dotenv.load '.env'
 

@@ -67,7 +67,7 @@ Check if mobile apps are currently released from Google Spreadsheet. If not, rai
 [bundle exec] fastlane update_mobile_apps_status_to_in_release_process
 ```
 
-Update mobile apps status to "In release" on Google Spreadsheet
+Update mobile apps status to "in release process" on Google Spreadsheet
 
 ----
 
