@@ -1,6 +1,7 @@
 import '../android/fastlane/Fastfile'
 import '../ios/fastlane/Fastfile'
 
+require 'google_drive'
 require 'yaml'
 
 desc 'Get Flutter dependencies'
@@ -48,6 +49,29 @@ lane :set_full_version_name_from_latest_tag do
   Dir.chdir('../') do
     sh("dart run cider version #{full_version_name}")
   end
+end
+
+lane :check_mobile_apps_are_currently_released do
+  Dotenv.load '.env'
+
+  target_spreadsheet_id = ENV['MOBILE_APPS_CURRENTLY_STATUS_SPREADSHEET_ID'].to_s
+  sheet_name = ENV['MOBILE_APPS_CURRENTLY_STATUS_SHEET_NAME'].to_s
+  target_range = ENV['MOBILE_APPS_CURRENTLY_STATUS_RANGE'].to_s
+  released_value = ENV['MOBILE_APPS_CURRENTLY_STATUS_RELEASED_VALUE'].to_s
+
+  servcie_account_key_json = File.read('spreadsheet-service-account-key.json')
+  service_account_key = StringIO.new(servcie_account_key_json)
+  session = GoogleDrive::Session.from_service_account_key(service_account_key)
+
+  spreadsheet = session.spreadsheet_by_key(target_spreadsheet_id)
+  sheet = spreadsheet.worksheet_by_title(sheet_name)
+  latest_status = sheet[target_range]
+
+  UI.success "Fetched the latest status: #{latest_status}"
+
+  raise 'The latest status is "NOT released".' unless latest_status == released_value
+
+  UI.success 'The latest status is "Released".'
 end
 
 private_lane :get_full_version_name do

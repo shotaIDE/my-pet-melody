@@ -14,6 +14,7 @@ GoogleService-Info.plist
 /fastlane/firebase-app-distribution-*.json
 /fastlane/google-play-service-account-key.json
 /fastlane/report.xml
+/fastlane/spreadsheet-service-account-key.json
 /function/samples/
 /infra/google-cloud-credentials.json
 /ios/firebase_app_id_file.json

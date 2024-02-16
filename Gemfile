@@ -1,7 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'cocoapods'
+gem 'faraday'
 gem 'fastlane'
+gem 'google-api-client'
+gem 'google_drive'
 gem 'rubocop'
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
