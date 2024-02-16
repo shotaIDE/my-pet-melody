@@ -51,6 +51,8 @@ lane :set_full_version_name_from_latest_tag do
   end
 end
 
+desc 'Check if mobile apps are currently released from Google Spreadsheet. '\
+  'If not, raise an error.'
 lane :check_mobile_apps_are_currently_released do
   Dotenv.load '.env'
 

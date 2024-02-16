@@ -59,7 +59,7 @@ Set full version name from latest tag
 [bundle exec] fastlane check_mobile_apps_are_currently_released
 ```
 
-
+Check if mobile apps are currently released from Google Spreadsheet. If not, raise an error.
 
 ----
 
