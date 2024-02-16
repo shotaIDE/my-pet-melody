@@ -11,8 +11,31 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  check-apps-status:
+    name: Check apps status
+    runs-on: ubuntu-latest
+    outputs:
+      is-release-available: ${{ steps.check-apps-currently-released.outputs.is_released }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
+      - name: Generate service account key file
+        run: echo ${{ secrets.SPREADSHEET_SERVICE_ACCOUNT_KEY_JSON_BASE64 }} | base64 -d > fastlane/spreadsheet-service-account-key.json
+      - name: Check apps currently released
+        id: check-apps-currently-released
+        run: |
+          if bundle exec fastlane check_apps_currently_released; then
+            echo "Apps are currently released."
+            echo "is_released=true" >> $GITHUB_OUTPUT
+          else
+            echo "Apps are not currently released."
+            echo "is_released=false" >> $GITHUB_OUTPUT
+          fi
   check-unreleased-diff:
     name: Check some diffs exist related to app
+    needs: check-apps-status
+    if: needs.check-apps-status.outputs.is-release-available == 'true'
     runs-on: ubuntu-latest
     outputs:
       has-diff-related-to-app: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
