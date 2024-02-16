@@ -76,6 +76,25 @@ lane :check_mobile_apps_are_currently_released do
   UI.success 'The latest status is "Released".'
 end
 
+desc 'Update mobile apps status to "In release" on Google Spreadsheet'
+lane :update_mobile_apps_status_to_in_release_process do
+  Dotenv.load '.env'
+
+  target_spreadsheet_id = ENV['MOBILE_APPS_CURRENTLY_STATUS_SPREADSHEET_ID'].to_s
+  sheet_name = ENV['MOBILE_APPS_CURRENTLY_STATUS_SHEET_NAME'].to_s
+  target_range = ENV['MOBILE_APPS_CURRENTLY_STATUS_RANGE'].to_s
+  in_release_process_value = ENV['MOBILE_APPS_CURRENTLY_STATUS_IN_RELEASE_PROCESS'].to_s
+
+  servcie_account_key_json = File.read('spreadsheet-service-account-key.json')
+  service_account_key = StringIO.new(servcie_account_key_json)
+  session = GoogleDrive::Session.from_service_account_key(service_account_key)
+
+  spreadsheet = session.spreadsheet_by_key(target_spreadsheet_id)
+  sheet = spreadsheet.worksheet_by_title(sheet_name)
+  sheet[target_range] = in_release_process_value
+  sheet.save
+end
+
 private_lane :get_full_version_name do
   Dir.chdir('../') do
     sh('dart run cider version').chomp

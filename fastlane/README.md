@@ -61,6 +61,14 @@ Set full version name from latest tag
 
 Check if mobile apps are currently released from Google Spreadsheet. If not, raise an error.
 
+### update_mobile_apps_status_to_in_release_process
+
+```sh
+[bundle exec] fastlane update_mobile_apps_status_to_in_release_process
+```
+
+Update mobile apps status to "In release" on Google Spreadsheet
+
 ----
 
 
