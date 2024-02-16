@@ -207,3 +207,19 @@ jobs:
         run: |
           latest_tag_name="$(git describe --tags --abbrev=0)"
           git push origin "${latest_tag_name}"
+  update-apps-status:
+    name: Update apps status
+    runs-on: ubuntu-latest
+    needs: trigger-cd-production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
+      - name: Generate env file
+        uses: ./.github/actions/generate-env-file
+        with:
+          env-base64: ${{ secrets.ENV_BASE64 }}
+      - name: Generate service account key file
+        run: echo ${{ secrets.SPREADSHEET_SERVICE_ACCOUNT_KEY_JSON_BASE64 }} | base64 -d > fastlane/spreadsheet-service-account-key.json
+      - name: Update apps status
+        run: bundle exec fastlane update_mobile_apps_status_to_in_release_process
