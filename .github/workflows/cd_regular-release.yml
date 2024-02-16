@@ -28,7 +28,7 @@ jobs:
       - name: Check apps currently released
         id: check-apps-currently-released
         run: |
-          if bundle exec fastlane check_apps_currently_released; then
+          if bundle exec fastlane check_mobile_apps_are_currently_released; then
             echo "Apps are currently released."
             echo "is_released=true" >> $GITHUB_OUTPUT
           else
