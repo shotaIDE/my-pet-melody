@@ -23,6 +23,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
+      - name: Generate env file
+        uses: ./.github/actions/generate-env-file
+        with:
+          env-base64: ${{ secrets.ENV_BASE64 }}
       - name: Generate service account key file
         run: echo ${{ secrets.SPREADSHEET_SERVICE_ACCOUNT_KEY_JSON_BASE64 }} | base64 -d > fastlane/spreadsheet-service-account-key.json
       - name: Check apps currently released
