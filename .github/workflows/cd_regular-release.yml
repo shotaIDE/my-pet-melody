@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    - cron: '0 23 * * *' # 08:00 JST every day
   repository_dispatch:
     types:
       - "regular-release"
