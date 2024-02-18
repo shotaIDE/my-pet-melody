@@ -112,7 +112,7 @@ jobs:
           sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Build iOS dev app
         run: bundle exec fastlane ios build_dev_for_simulator
-      - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
+      - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
           app-file: 'build/ios/iphonesimulator/Runner.app'
@@ -162,7 +162,7 @@ jobs:
           sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Build Android dev app
         run: flutter build apk --dart-define-from-file 'dart-defines_dev.json'
-      - uses: mobile-dev-inc/action-maestro-cloud@v1.8.0
+      - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
           app-file: 'build/app/outputs/flutter-apk/app-release.apk'
