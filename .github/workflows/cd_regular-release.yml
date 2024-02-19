@@ -17,7 +17,7 @@ jobs:
     name: Check apps status
     runs-on: ubuntu-latest
     outputs:
-      is-release-available: ${{ steps.check-apps-currently-released.outputs.is_released }}
+      is-release-available: ${{ steps.check-apps-currently-released.outputs.is_released == 'true' }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Ruby
@@ -41,7 +41,7 @@ jobs:
   check-unreleased-diff:
     name: Check some diffs exist related to app
     needs: check-apps-status
-    if: needs.check-apps-status.outputs.is-release-available == 'true'
+    if: needs.check-apps-status.outputs.is-release-available
     runs-on: ubuntu-latest
     outputs:
       has-diff-related-to-app: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
@@ -80,7 +80,7 @@ jobs:
   e2e-test-ios:
     name: E2E test iOS app
     needs: check-unreleased-diff
-    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true'
+    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
@@ -123,7 +123,7 @@ jobs:
   e2e-test-android:
     name: E2E test Android app
     needs: check-unreleased-diff
-    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true'
+    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
