@@ -46,7 +46,7 @@ dependencies:
   purchases_flutter:
   rxdart:
   share_plus:
-  shared_preferences: 2.2.2
+  shared_preferences:
   skeletons:
   twitter_login:
   url_launcher:
