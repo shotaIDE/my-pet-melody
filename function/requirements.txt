@@ -102,7 +102,7 @@ soundfile==0.12.1
 tensorboard==2.15.1
 tensorboard-data-server==0.7.2
 tensorboard-plugin-wit==1.8.1
-tensorflow==2.15.0
+tensorflow==2.15.0.post1
 tensorflow-estimator==2.15.0
 tensorflow-io-gcs-filesystem==0.35.0
 termcolor==2.4.0
