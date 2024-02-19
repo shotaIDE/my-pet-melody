@@ -24,8 +24,8 @@ jobs:
         uses: ./.github/actions/setup-gradle
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
-      - name: Set full version name from tag
-        run: bundle exec fastlane set_full_version_name_from_latest_tag
+      # - name: Set full version name from tag
+      #   run: bundle exec fastlane set_full_version_name_from_latest_tag
       - name: Generate uncommited Flutter files
         uses: ./.github/actions/generate-uncommited-flutter-files
         with:
