@@ -28,7 +28,7 @@ jobs:
         uses: tj-actions/changed-files@v42
         with:
           files: |
-            android/
+            android/**
             .tool-versions
             pubspec.lock
   build:

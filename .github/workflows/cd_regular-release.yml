@@ -61,14 +61,14 @@ jobs:
         with:
           base_sha: ${{ steps.get-latest-rc-tag-name.outputs.tag-name }}
           files: |
-            .maestro/
-            android/
-            assets/
-            dictionary/
-            fonts/
-            ios/
-            lib/
-            test/
+            .maestro/**
+            android/**
+            assets/**
+            dictionary/**
+            fonts/**
+            ios/**
+            lib/**
+            test/**
             .swiftlint.yml
             .tool-versions
             .xcode-version
