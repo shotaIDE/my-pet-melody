@@ -28,7 +28,7 @@ jobs:
         uses: tj-actions/changed-files@v42
         with:
           files: |
-            ios/
+            ios/**
             .swiftlint.yml
             .tool-versions
             .xcode-version
