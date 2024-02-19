@@ -51,8 +51,7 @@ platform :android do
       release_status: 'completed',
       track: 'internal',
       metadata_path: metadata_path,
-      json_key: google_play_json_key_path,
-      validate_only: true
+      json_key: google_play_json_key_path
     )
 
     version_code = get_version_code
@@ -64,8 +63,7 @@ platform :android do
       metadata_path: metadata_path,
       json_key: google_play_json_key_path,
       track_promote_to: 'production',
-      track_promote_release_status: 'completed',
-      validate_only: true
+      track_promote_release_status: 'completed'
     )
   end
 end
