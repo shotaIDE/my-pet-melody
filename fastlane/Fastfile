@@ -61,8 +61,8 @@ lane :check_mobile_apps_are_currently_released do
   target_range = ENV['MOBILE_APPS_CURRENTLY_STATUS_RANGE'].to_s
   released_value = ENV['MOBILE_APPS_CURRENTLY_STATUS_RELEASED_VALUE'].to_s
 
-  servcie_account_key_json = File.read('spreadsheet-service-account-key.json')
-  service_account_key = StringIO.new(servcie_account_key_json)
+  service_account_key_json = File.read('spreadsheet-service-account-key.json')
+  service_account_key = StringIO.new(service_account_key_json)
   session = GoogleDrive::Session.from_service_account_key(service_account_key)
 
   spreadsheet = session.spreadsheet_by_key(target_spreadsheet_id)
@@ -85,8 +85,8 @@ lane :update_mobile_apps_status_to_in_release_process do
   target_range = ENV['MOBILE_APPS_CURRENTLY_STATUS_RANGE'].to_s
   in_release_process_value = ENV['MOBILE_APPS_CURRENTLY_STATUS_IN_RELEASE_PROCESS'].to_s
 
-  servcie_account_key_json = File.read('spreadsheet-service-account-key.json')
-  service_account_key = StringIO.new(servcie_account_key_json)
+  service_account_key_json = File.read('spreadsheet-service-account-key.json')
+  service_account_key = StringIO.new(service_account_key_json)
   session = GoogleDrive::Session.from_service_account_key(service_account_key)
 
   spreadsheet = session.spreadsheet_by_key(target_spreadsheet_id)
