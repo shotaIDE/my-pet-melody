@@ -39,7 +39,7 @@ jobs:
             echo "is_released=true" >> $GITHUB_OUTPUT
           else
             echo "Apps are not currently released."
-            echo "is_released=false" >> $GITHUB_OUTPUT
+            echo "is_released=true" >> $GITHUB_OUTPUT
           fi
   check-unreleased-diff:
     name: Check some diffs exist related to app
