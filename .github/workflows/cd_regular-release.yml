@@ -74,7 +74,7 @@ jobs:
       - name: Check related files
         id: check-related-files
         uses: tj-actions/changed-files@v42
-        if: ${{ steps.check-latest-release-is-not-based-on-latest-commit.outputs.result == 'false' }}
+        if: ${{ steps.check-latest-release-is-not-based-on-latest-commit.outputs.result == 'true' }}
         with:
           base_sha: ${{ steps.get-latest-rc-tag-name.outputs.tag-name }}
           files: |
