@@ -54,6 +54,7 @@ jobs:
         id: get-latest-rc-tag-name
         run: |
           latest_rc_tag_name="$(git describe --tags --abbrev=0 --match 'rc/*')"
+          echo "Latest RC tag name: $latest_rc_tag_name"
           echo "tag-name=$latest_rc_tag_name" >> $GITHUB_OUTPUT
       - name: Check related files
         id: check-related-files
@@ -77,6 +78,7 @@ jobs:
             dart-defines_example.json
             pubspec.lock
             pubspec.yaml
+          sha: 'HEAD'
   e2e-test-ios:
     name: E2E test iOS app
     needs: check-unreleased-diff
