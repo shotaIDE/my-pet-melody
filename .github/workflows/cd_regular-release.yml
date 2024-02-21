@@ -41,7 +41,7 @@ jobs:
   check-unreleased-diff:
     name: Check some diffs exist related to app
     needs: check-apps-status
-    if: needs.check-apps-status.outputs.is-release-available
+    if: ${{ needs.check-apps-status.outputs.is-release-available == 'true' }}
     runs-on: ubuntu-latest
     outputs:
       has-diff-related-to-app: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
@@ -54,10 +54,24 @@ jobs:
         id: get-latest-rc-tag-name
         run: |
           latest_rc_tag_name="$(git describe --tags --abbrev=0 --match 'rc/*')"
+          echo "Latest RC tag name: $latest_rc_tag_name"
           echo "tag-name=$latest_rc_tag_name" >> $GITHUB_OUTPUT
+      - name: Check latest release is not based on lastest commit
+        id: check-latest-release-is-not-based-on-latest-commit
+        run: |
+          latest_release_commit_sha="$(git rev-list -n 1 HEAD)"
+          latest_rc_tag_commit_sha="$(git rev-list -n 1 ${{ steps.get-latest-rc-tag-name.outputs.tag-name }})"
+          if [ "$latest_release_commit_sha" = "$latest_rc_tag_commit_sha" ]; then
+            echo "Latest release is based on the latest commit."
+            echo "result=false" >> $GITHUB_OUTPUT
+          else
+            echo "Latest release is not based on latest commit."
+            echo "result=true" >> $GITHUB_OUTPUT
+          fi
       - name: Check related files
         id: check-related-files
         uses: tj-actions/changed-files@v42
+        if: ${{ steps.check-latest-release-is-not-based-on-latest-commit.outputs.result == 'true' }}
         with:
           base_sha: ${{ steps.get-latest-rc-tag-name.outputs.tag-name }}
           files: |
@@ -77,10 +91,11 @@ jobs:
             dart-defines_example.json
             pubspec.lock
             pubspec.yaml
+          sha: 'HEAD'
   e2e-test-ios:
     name: E2E test iOS app
     needs: check-unreleased-diff
-    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app
+    if: ${{ needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true' }}
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
@@ -123,7 +138,7 @@ jobs:
   e2e-test-android:
     name: E2E test Android app
     needs: check-unreleased-diff
-    if: needs.check-unreleased-diff.outputs.has-diff-related-to-app
+    if: ${{ needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
