@@ -16,35 +16,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # check-apps-status:
-  #   name: Check apps status
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     is-release-available: ${{ steps.check-apps-currently-released.outputs.is_released == 'true' }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Setup Ruby
-  #       uses: ./.github/actions/setup-ruby
-  #     - name: Generate env file
-  #       uses: ./.github/actions/generate-env-file
-  #       with:
-  #         env-base64: ${{ secrets.ENV_BASE64 }}
-  #     - name: Generate service account key file
-  #       run: echo ${{ secrets.SPREADSHEET_SERVICE_ACCOUNT_KEY_JSON_BASE64 }} | base64 -d > fastlane/spreadsheet-service-account-key.json
-  #     - name: Check apps currently released
-  #       id: check-apps-currently-released
-  #       run: |
-  #         if bundle exec fastlane check_mobile_apps_are_currently_released; then
-  #           echo "Apps are currently released."
-  #           echo "is_released=true" >> $GITHUB_OUTPUT
-  #         else
-  #           echo "Apps are not currently released."
-  #           echo "is_released=false" >> $GITHUB_OUTPUT
-  #         fi
+  check-apps-status:
+    name: Check apps status
+    runs-on: ubuntu-latest
+    outputs:
+      is-release-available: ${{ steps.check-apps-currently-released.outputs.is_released == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ./.github/actions/setup-ruby
+      - name: Generate env file
+        uses: ./.github/actions/generate-env-file
+        with:
+          env-base64: ${{ secrets.ENV_BASE64 }}
+      - name: Generate service account key file
+        run: echo ${{ secrets.SPREADSHEET_SERVICE_ACCOUNT_KEY_JSON_BASE64 }} | base64 -d > fastlane/spreadsheet-service-account-key.json
+      - name: Check apps currently released
+        id: check-apps-currently-released
+        run: |
+          if bundle exec fastlane check_mobile_apps_are_currently_released; then
+            echo "Apps are currently released."
+            echo "is_released=true" >> $GITHUB_OUTPUT
+          else
+            echo "Apps are not currently released."
+            echo "is_released=false" >> $GITHUB_OUTPUT
+          fi
   check-unreleased-diff:
     name: Check some diffs exist related to app
-    # needs: check-apps-status
-    # if: needs.check-apps-status.outputs.is-release-available
+    needs: check-apps-status
+    if: ${{ needs.check-apps-status.outputs.is-release-available == 'true' }}
     runs-on: ubuntu-latest
     outputs:
       has-diff-related-to-app: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
@@ -138,13 +138,13 @@ jobs:
   #         device-locale: ja_JP
   #         env: |
   #           APP_ID_SUFFIX=.dev
-  # e2e-test-android:
-  #   name: E2E test Android app
-  #   needs: check-unreleased-diff
-  #   if: needs.check-unreleased-diff.outputs.has-diff-related-to-app
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
+  e2e-test-android:
+    name: E2E test Android app
+    needs: check-unreleased-diff
+    if: ${{ needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
   #     - name: Setup Flutter
   #       uses: ./.github/actions/setup-flutter
   #     - name: Setup Gradle
