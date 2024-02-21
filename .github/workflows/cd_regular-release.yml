@@ -62,7 +62,7 @@ jobs:
       - name: Check latest release is not based on lastest commit
         id: check-latest-release-is-not-based-on-latest-commit
         run: |
-          latest_release_commit_sha="$(git rev-list -n 1 ${{ github.ref }})"
+          latest_release_commit_sha="$(git rev-list -n 1 HEAD)"
           latest_rc_tag_commit_sha="$(git rev-list -n 1 ${{ steps.get-latest-rc-tag-name.outputs.tag-name }})"
           if [ "$latest_release_commit_sha" = "$latest_rc_tag_commit_sha" ]; then
             echo "Latest release is based on the latest commit."
