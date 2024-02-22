@@ -12,7 +12,7 @@ environment:
 
 dependencies:
   audioplayers:
-  chewie:
+  chewie: 1.7.5
   cloud_firestore:
   collection:
   cross_file:
