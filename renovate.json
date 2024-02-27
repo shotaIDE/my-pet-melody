@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["asdf"]
+    },
+    {
+      "matchPackagePatterns": ["gradle-wrapper"]
+    },
+    {
+      "matchPackagePatterns": ["pyenv"]
+    },
+    {
+      "matchPackagePatterns": ["ruby-version"]
+    },
+    {
+      "matchPackagePatterns": ["terraform"]
+    }
+  ]
+}
