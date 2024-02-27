@@ -1,27 +1,34 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabledManagers": [
+    "asdf",
+    "gradle-wrapper",
+    "pyenv",
+    "ruby-version",
+    "terraform"
+  ],
   "labels": ["dependencies"],
   "semanticCommitType": "build",
   "packageRules": [
     {
       "matchPackagePatterns": ["asdf"],
-      "labels": ["asdf"]
+      "addLabels": ["asdf"]
     },
     {
       "matchPackagePatterns": ["gradle-wrapper"],
-      "labels": ["gradle-wrapper"]
+      "addLabels": ["gradle-wrapper"]
     },
     {
       "matchPackagePatterns": ["pyenv"],
-      "labels": ["pyenv"]
+      "addLabels": ["pyenv"]
     },
     {
       "matchPackagePatterns": ["ruby-version"],
-      "labels": ["ruby-version"]
+      "addLabels": ["ruby-version"]
     },
     {
       "matchPackagePatterns": ["terraform"],
-      "labels": ["terraform"]
+      "addLabels": ["terraform"]
     }
   ]
 }
