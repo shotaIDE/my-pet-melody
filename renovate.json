@@ -12,19 +12,23 @@
   "packageRules": [
     {
       "matchPackagePatterns": ["asdf"],
-      "addLabels": ["asdf"]
+      "addLabels": ["flutter"],
+      "automerge": true
     },
     {
       "matchPackagePatterns": ["gradle-wrapper"],
-      "addLabels": ["gradle-wrapper"]
+      "addLabels": ["gradle"],
+      "automerge": true
     },
     {
       "matchPackagePatterns": ["pyenv"],
-      "addLabels": ["pyenv"]
+      "addLabels": ["python"],
+      "automerge": true
     },
     {
       "matchPackagePatterns": ["ruby-version"],
-      "addLabels": ["ruby-version"]
+      "addLabels": ["ruby"],
+      "automerge": true
     },
     {
       "matchPackagePatterns": ["terraform"],
