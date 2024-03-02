@@ -5,34 +5,36 @@
     "gradle-wrapper",
     "pyenv",
     "ruby-version",
-    "terraform"
+    "terraform",
+    "terraform-version"
   ],
   "labels": ["dependencies"],
   "semanticCommitType": "build",
   "packageRules": [
     {
-      "matchPackagePatterns": ["asdf"],
+      "matchManagers": ["asdf"],
       "addLabels": ["flutter"],
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["gradle-wrapper"],
+      "matchManagers": ["gradle-wrapper"],
       "addLabels": ["gradle"],
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["pyenv"],
+      "matchManagers": ["pyenv"],
       "addLabels": ["python"],
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["ruby-version"],
+      "matchManagers": ["ruby-version"],
       "addLabels": ["ruby"],
       "automerge": true
     },
     {
-      "matchPackagePatterns": ["terraform"],
-      "addLabels": ["terraform"]
+      "matchManagers": ["terraform", "terraform-version"],
+      "addLabels": ["terraform"],
+      "automerge": true
     }
   ]
 }
