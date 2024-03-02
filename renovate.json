@@ -11,24 +11,24 @@
   "semanticCommitType": "build",
   "packageRules": [
     {
-      "matchPackagePatterns": ["asdf"],
-      "addLabels": ["flutter"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
+    },
+    {
+      "matchPackagePatterns": ["asdf"],
+      "addLabels": ["flutter"]
     },
     {
       "matchPackagePatterns": ["gradle-wrapper"],
-      "addLabels": ["gradle"],
-      "automerge": true
+      "addLabels": ["gradle"]
     },
     {
       "matchPackagePatterns": ["pyenv"],
-      "addLabels": ["python"],
-      "automerge": true
+      "addLabels": ["python"]
     },
     {
       "matchPackagePatterns": ["ruby-version"],
-      "addLabels": ["ruby"],
-      "automerge": true
+      "addLabels": ["ruby"]
     },
     {
       "matchPackagePatterns": ["terraform"],
