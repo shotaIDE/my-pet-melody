@@ -28,7 +28,7 @@ Launch `function/` server.
 Execute the following command.
 
 ```shell
-flutter build ios --dart-define-from-file 'dart-defines_emulator.json' --simulator
+flutter build ios --dart-define FLAVOR=emulator --dart-define-from-file 'dart-defines_emulator.json' --simulator
 xcrun simctl erase 'iPhone 15'
 xcrun simctl boot 'iPhone 15'
 xcrun simctl install booted 'build/ios/iphonesimulator/Runner.app'
@@ -44,7 +44,7 @@ Launch `function/` server.
 Execute the following command.
 
 ```shell
-flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
+flutter build apk --dart-define FLAVOR=emulator --dart-define-from-file 'dart-defines_emulator.json'
 adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
 adb install 'build/app/outputs/flutter-apk/app-release.apk'
 adb shell rm -r '/sdcard/Movies/*'
@@ -58,7 +58,7 @@ maestro test --env=APP_ID_SUFFIX=.emulator '.maestro/GeneratePiece.yaml'
 Execute the following command.
 
 ```shell
-flutter build ios --dart-define-from-file 'dart-defines_dev.json' --simulator
+flutter build ios --dart-define FLAVOR=dev --dart-define-from-file 'dart-defines_dev.json' --simulator
 maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
 ```
 
@@ -67,7 +67,7 @@ maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-l
 Execute the following command.
 
 ```shell
-flutter build apk --dart-define-from-file 'dart-defines_dev.json'
+flutter build apk --dart-define FLAVOR=dev --dart-define-from-file 'dart-defines_dev.json'
 maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-release.apk' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
 ```
 

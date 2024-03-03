@@ -176,7 +176,7 @@ jobs:
         with:
           sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Build Android dev app
-        run: flutter build apk --dart-define-from-file 'dart-defines_dev.json'
+        run: flutter build apk --dart-define FLAVOR=dev --dart-define-from-file 'dart-defines_dev.json'
       - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
