@@ -31,7 +31,7 @@ platform :ios do
     Dir.chdir('../') do
       sh(
         'flutter build ipa '\
-        '--dart-define FLAVOR=dev '\
+        '--flavor dev '\
         "--dart-define-from-file '#{dart_defines_path}' "\
         '--no-codesign'
       )
@@ -47,7 +47,7 @@ platform :ios do
     Dir.chdir('../') do
       sh(
         'flutter build ios '\
-        '--dart-define FLAVOR=dev '\
+        '--flavor dev '\
         "--dart-define-from-file '#{dart_defines_path}' "\
         '--debug --simulator'
       )
@@ -102,7 +102,7 @@ platform :ios do
     )
 
     upload_to_app_store(
-      api_key: api_key,
+      api_key:,
       metadata_path: 'fastlane/metadata/ios',
       skip_metadata: false,
       skip_screenshots: true,
@@ -123,7 +123,7 @@ platform :ios do
     Dir.chdir('../') do
       sh(
         'flutter build ipa '\
-        '--dart-define FLAVOR=dev '\
+        "--flavor #{flavor} "\
         "--dart-define-from-file '#{dart_defines_path}' "\
         "--export-options-plist=#{export_options_plist_path}"
       )

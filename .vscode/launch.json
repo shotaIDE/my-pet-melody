@@ -37,8 +37,8 @@
       "type": "dart",
       "program": "lib/main.dart",
       "args": [
-        "--dart-define",
-        "FLAVOR=dev",
+        "--flavor",
+        "dev",
         "--dart-define-from-file",
         "dart-defines_dev.json"
       ]
@@ -50,8 +50,8 @@
       "program": "lib/main.dart",
       "args": [
         "--profile",
-        "--dart-define",
-        "FLAVOR=dev",
+        "--flavor",
+        "dev",
         "--dart-define-from-file",
         "dart-defines_dev.json"
       ]

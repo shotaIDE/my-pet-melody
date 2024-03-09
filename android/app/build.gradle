@@ -84,6 +84,13 @@ android {
                     TWITTER_REDIRECT_SCHEME: "my-pet-melody",
             ]
         }
+        dev {
+            dimension "server"
+            applicationIdSuffix ".dev"
+            manifestPlaceholders += [
+                    TWITTER_REDIRECT_SCHEME: "my-pet-melody",
+            ]
+        }
     }
 
     lintOptions {

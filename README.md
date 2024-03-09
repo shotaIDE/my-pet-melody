@@ -58,7 +58,7 @@ maestro test --env=APP_ID_SUFFIX=.emulator '.maestro/GeneratePiece.yaml'
 Execute the following command.
 
 ```shell
-flutter build ios --dart-define FLAVOR=dev --dart-define-from-file 'dart-defines_dev.json' --simulator
+flutter build ios --flavor dev --dart-define-from-file 'dart-defines_dev.json' --simulator
 maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
 ```
 
@@ -67,7 +67,7 @@ maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-l
 Execute the following command.
 
 ```shell
-flutter build apk --dart-define FLAVOR=dev --dart-define-from-file 'dart-defines_dev.json'
+flutter build apk --flavor dev --dart-define-from-file 'dart-defines_dev.json'
 maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-release.apk' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
 ```
 
