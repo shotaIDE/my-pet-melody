@@ -21,34 +21,6 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def dartEnvironmentVariables = [:]
-if (project.hasProperty('dart-defines')) {
-    dartEnvironmentVariables = dartEnvironmentVariables + project.property('dart-defines')
-            .split(',')
-            .collectEntries { entry ->
-                def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
-                [(pair.first()): pair.last()]
-            }
-}
-
-def networkConfigSuffix = ''
-if (dartEnvironmentVariables.FLAVOR == 'emulator') {
-    networkConfigSuffix = '_emulator'
-}
-
-// Copy the firebase file and move it to android/app directory
-task copyGoogleServicesJson(type: Copy) {
-    from "firebase/${dartEnvironmentVariables.FLAVOR}/google-services.json"
-    into './'
-}
-
-// Set to wait for firebase file copy task before processing file needs
-tasks.whenTaskAdded { task ->
-    if (task.name ==~ /process.*GoogleServices/) {
-        task.dependsOn copyGoogleServicesJson
-    }
-}
-
 apply plugin: 'com.android.application'
 // START: FlutterFire Configuration
 apply plugin: 'com.google.gms.google-services'
@@ -85,16 +57,6 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-
-        if (dartEnvironmentVariables.FLAVOR != 'prod') {
-            applicationIdSuffix ".${dartEnvironmentVariables.FLAVOR}"
-        }
-
-        manifestPlaceholders += [
-                TWITTER_REDIRECT_SCHEME         : "${dartEnvironmentVariables.TWITTER_REDIRECT_SCHEME}",
-                ICON_RESOURCE                   : "@mipmap/ic_launcher_${dartEnvironmentVariables.FLAVOR}",
-                NETWORK_SECURITY_CONFIG_RESOURCE: "@xml/network_security_config$networkConfigSuffix",
-        ]
     }
 
     signingConfigs {
@@ -118,6 +80,9 @@ android {
         emulator {
             dimension "server"
             applicationIdSuffix ".emulator"
+            manifestPlaceholders += [
+                    TWITTER_REDIRECT_SCHEME: "my-pet-melody",
+            ]
         }
     }
 
