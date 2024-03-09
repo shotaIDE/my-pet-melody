@@ -35,7 +35,7 @@
 
                 <data
                     android:host="auth"
-                    android:scheme="${TWITTER_REDIRECT_SCHEME}" />
+                    android:scheme="my-pet-melody" />
             </intent-filter>
         </activity>
 

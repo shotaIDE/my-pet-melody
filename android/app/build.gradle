@@ -80,16 +80,13 @@ android {
         emulator {
             dimension "server"
             applicationIdSuffix ".emulator"
-            manifestPlaceholders += [
-                    TWITTER_REDIRECT_SCHEME: "my-pet-melody",
-            ]
         }
         dev {
             dimension "server"
             applicationIdSuffix ".dev"
-            manifestPlaceholders += [
-                    TWITTER_REDIRECT_SCHEME: "my-pet-melody",
-            ]
+        }
+        prod {
+            dimension "server"
         }
     }
 
