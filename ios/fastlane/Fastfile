@@ -102,7 +102,7 @@ platform :ios do
     )
 
     upload_to_app_store(
-      api_key:,
+      api_key: api_key,
       metadata_path: 'fastlane/metadata/ios',
       skip_metadata: false,
       skip_screenshots: true,
