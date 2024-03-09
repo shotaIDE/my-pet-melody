@@ -81,6 +81,10 @@ asdf local flutter <version>
 
 ### Update Firebase configuration dart files
 
+If you want to update Firebase configuration dart files, execute the following command at first.
+
+https://firebase.google.com/docs/flutter/setup?hl=ja&platform=ios#install-cli-tools
+
 ```shell
 firebase use --clear
 flutterfire config \
