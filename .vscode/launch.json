@@ -9,7 +9,12 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define-from-file", "dart-defines_emulator.json"]
+      "args": [
+        "--flavor",
+        "emulator",
+        "--dart-define-from-file",
+        "dart-defines_emulator.json"
+      ]
     },
     {
       "name": "Emulator-Profile",
@@ -18,6 +23,8 @@
       "program": "lib/main.dart",
       "args": [
         "--profile",
+        "--flavor",
+        "emulator",
         "--dart-define-from-file",
         "dart-defines_emulator.json"
       ]
@@ -27,28 +34,50 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define-from-file", "dart-defines_dev.json"]
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define-from-file",
+        "dart-defines_dev.json"
+      ]
     },
     {
       "name": "Develop-Profile",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--profile", "--dart-define-from-file", "dart-defines_dev.json"]
+      "args": [
+        "--profile",
+        "--flavor",
+        "dev",
+        "--dart-define-from-file",
+        "dart-defines_dev.json"
+      ]
     },
     {
       "name": "Production",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--dart-define-from-file", "dart-defines_prod.json"]
+      "args": [
+        "--flavor",
+        "prod",
+        "--dart-define-from-file",
+        "dart-defines_prod.json"
+      ]
     },
     {
       "name": "Production-Profile",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--profile", "--dart-define-from-file", "dart-defines_prod.json"]
+      "args": [
+        "--profile",
+        "--flavor",
+        "prod",
+        "--dart-define-from-file",
+        "dart-defines_prod.json"
+      ]
     }
   ]
 }

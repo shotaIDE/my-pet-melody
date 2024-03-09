@@ -1,0 +1,4 @@
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug-emulator.xcconfig"
+#include "Generated.xcconfig"
+
+#include "emulator.xcconfig"

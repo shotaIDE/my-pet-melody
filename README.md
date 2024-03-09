@@ -28,7 +28,7 @@ Launch `function/` server.
 Execute the following command.
 
 ```shell
-flutter build ios --dart-define-from-file 'dart-defines_emulator.json' --simulator
+flutter build ios --flavor emulator --dart-define-from-file 'dart-defines_emulator.json' --simulator
 xcrun simctl erase 'iPhone 15'
 xcrun simctl boot 'iPhone 15'
 xcrun simctl install booted 'build/ios/iphonesimulator/Runner.app'
@@ -44,9 +44,9 @@ Launch `function/` server.
 Execute the following command.
 
 ```shell
-flutter build apk --dart-define-from-file 'dart-defines_emulator.json'
+flutter build apk --flavor emulator --dart-define-from-file 'dart-defines_emulator.json'
 adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
-adb install 'build/app/outputs/flutter-apk/app-release.apk'
+adb install 'build/app/outputs/flutter-apk/app-emulator-release.apk'
 adb shell rm -r '/sdcard/Movies/*'
 maestro test --env=APP_ID_SUFFIX=.emulator '.maestro/GeneratePiece.yaml'
 ```
@@ -58,7 +58,7 @@ maestro test --env=APP_ID_SUFFIX=.emulator '.maestro/GeneratePiece.yaml'
 Execute the following command.
 
 ```shell
-flutter build ios --dart-define-from-file 'dart-defines_dev.json' --simulator
+flutter build ios --flavor dev --dart-define-from-file 'dart-defines_dev.json' --simulator
 maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
 ```
 
@@ -67,8 +67,8 @@ maestro cloud --ios-version 17 'build/ios/iphonesimulator/Runner.app' --device-l
 Execute the following command.
 
 ```shell
-flutter build apk --dart-define-from-file 'dart-defines_dev.json'
-maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-release.apk' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
+flutter build apk --flavor dev --dart-define-from-file 'dart-defines_dev.json'
+maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-dev-release.apk' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
 ```
 
 ### Upgrade Flutter version
@@ -81,6 +81,10 @@ asdf local flutter <version>
 
 ### Update Firebase configuration dart files
 
+If you want to update Firebase configuration dart files, execute the following command at first.
+
+https://firebase.google.com/docs/flutter/setup?hl=ja&platform=ios#install-cli-tools
+
 ```shell
 firebase use --clear
 flutterfire config \
@@ -88,7 +92,7 @@ flutterfire config \
   --out=lib/firebase_options_emulator.dart \
   --ios-bundle-id=ide.shota.colomney.MyPetMelody.emulator \
   --android-app-id=ide.shota.colomney.MyPetMelody.emulator
-mv android/app/google-services.json android/app/firebase/emulator
+mv android/app/google-services.json android/app/src/emulator
 mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Emulator
 mv ios/firebase_app_id_file.json ios/Runner/Firebase/Emulator
 flutterfire config \
@@ -96,7 +100,7 @@ flutterfire config \
   --out=lib/firebase_options_dev.dart \
   --ios-bundle-id=ide.shota.colomney.MyPetMelody.dev \
   --android-app-id=ide.shota.colomney.MyPetMelody.dev
-mv android/app/google-services.json android/app/firebase/dev
+mv android/app/google-services.json android/app/src/dev
 mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Dev
 mv ios/firebase_app_id_file.json ios/Runner/Firebase/Dev
 ```
@@ -108,7 +112,7 @@ flutterfire config \
   --out=lib/firebase_options_prod.dart \
   --ios-bundle-id=ide.shota.colomney.MyPetMelody \
   --android-app-id=ide.shota.colomney.MyPetMelody
-mv android/app/google-services.json android/app/firebase/prod
+mv android/app/google-services.json android/app/src/prod
 mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Prod
 mv ios/firebase_app_id_file.json ios/Runner/Firebase/Prod
 ```

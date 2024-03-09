@@ -6,10 +6,10 @@ platform :android do
     generate
 
     Dir.chdir('../') do
-      sh('flutter build apk --dart-define-from-file dart-defines_dev.json')
+      sh('flutter build apk --flavor dev --dart-define-from-file dart-defines_dev.json')
     end
 
-    lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/apk/release/app-release.apk'
+    lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/flutter-apk/app-dev-release.apk'
   end
 
   desc 'Build production app'
@@ -17,10 +17,10 @@ platform :android do
     generate
 
     Dir.chdir('../') do
-      sh('flutter build appbundle --dart-define-from-file dart-defines_prod.json')
+      sh('flutter build appbundle --flavor prod --dart-define-from-file dart-defines_prod.json')
     end
 
-    lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = 'build/app/outputs/bundle/release/app-release.aab'
+    lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = 'build/app/outputs/bundle/prodRelease/app-prod-release.aab'
   end
 
   desc 'Deploy develop app to Firebase App Distribution'
@@ -43,20 +43,20 @@ platform :android do
     build_prod
 
     upload_to_play_store(
-      package_name: package_name,
+      package_name:,
       release_status: 'completed',
       track: 'internal',
-      metadata_path: metadata_path,
+      metadata_path:,
       json_key: google_play_json_key_path
     )
 
     version_code = get_version_code
     upload_to_play_store(
-      package_name: package_name,
-      version_code: version_code,
+      package_name:,
+      version_code:,
       skip_upload_aab: true,
       track: 'internal',
-      metadata_path: metadata_path,
+      metadata_path:,
       json_key: google_play_json_key_path,
       track_promote_to: 'production',
       track_promote_release_status: 'completed'

@@ -16,6 +16,7 @@ platform :ios do
     generate
 
     build(
+      flavor: 'dev',
       dart_defines_path: 'dart-defines_dev.json',
       export_options_plist_path: './ios/ExportOptions_AdHoc.plist'
     )
@@ -29,7 +30,9 @@ platform :ios do
 
     Dir.chdir('../') do
       sh(
-        "flutter build ipa --dart-define-from-file '#{dart_defines_path}' "\
+        'flutter build ipa '\
+        '--flavor dev '\
+        "--dart-define-from-file '#{dart_defines_path}' "\
         '--no-codesign'
       )
     end
@@ -43,7 +46,9 @@ platform :ios do
 
     Dir.chdir('../') do
       sh(
-        "flutter build ios --dart-define-from-file '#{dart_defines_path}' "\
+        'flutter build ios '\
+        '--flavor dev '\
+        "--dart-define-from-file '#{dart_defines_path}' "\
         '--debug --simulator'
       )
     end
@@ -54,6 +59,7 @@ platform :ios do
     generate
 
     build(
+      flavor: 'prod',
       dart_defines_path: 'dart-defines_prod.json',
       export_options_plist_path: './ios/ExportOptions_AppStore.plist'
     )
@@ -110,12 +116,15 @@ platform :ios do
   end
 
   private_lane :build do |options|
+    flavor = options[:flavor]
     dart_defines_path = options[:dart_defines_path]
     export_options_plist_path = options[:export_options_plist_path]
 
     Dir.chdir('../') do
       sh(
-        "flutter build ipa --dart-define-from-file '#{dart_defines_path}' "\
+        'flutter build ipa '\
+        "--flavor #{flavor} "\
+        "--dart-define-from-file '#{dart_defines_path}' "\
         "--export-options-plist=#{export_options_plist_path}"
       )
     end
