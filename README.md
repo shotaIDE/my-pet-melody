@@ -46,7 +46,7 @@ Execute the following command.
 ```shell
 flutter build apk --flavor emulator --dart-define-from-file 'dart-defines_emulator.json'
 adb uninstall 'ide.shota.colomney.MyPetMelody.emulator'
-adb install 'build/app/outputs/flutter-apk/app-release.apk'
+adb install 'build/app/outputs/flutter-apk/app-emulator-release.apk'
 adb shell rm -r '/sdcard/Movies/*'
 maestro test --env=APP_ID_SUFFIX=.emulator '.maestro/GeneratePiece.yaml'
 ```
@@ -68,7 +68,7 @@ Execute the following command.
 
 ```shell
 flutter build apk --flavor dev --dart-define-from-file 'dart-defines_dev.json'
-maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-release.apk' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
+maestro cloud --android-api-level 33 'build/app/outputs/flutter-apk/app-dev-release.apk' --device-locale ja_JP --env=APP_ID_SUFFIX=.dev .maestro
 ```
 
 ### Upgrade Flutter version

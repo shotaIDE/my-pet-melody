@@ -180,7 +180,7 @@ jobs:
       - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: 'build/app/outputs/flutter-apk/app-release.apk'
+          app-file: 'build/app/outputs/flutter-apk/app-dev-release.apk'
           android-api-level: 33
           device-locale: ja_JP
           env: |
