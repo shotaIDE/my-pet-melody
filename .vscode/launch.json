@@ -22,11 +22,9 @@
       "type": "dart",
       "program": "lib/main.dart",
       "args": [
+        "--profile",
         "--flavor",
         "emulator",
-        "--profile",
-        "--dart-define",
-        "FLAVOR=emulator",
         "--dart-define-from-file",
         "dart-defines_emulator.json"
       ]
