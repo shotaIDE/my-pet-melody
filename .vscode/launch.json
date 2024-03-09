@@ -10,8 +10,8 @@
       "type": "dart",
       "program": "lib/main.dart",
       "args": [
-        "--dart-define",
-        "FLAVOR=emulator",
+        "--flavor",
+        "emulator",
         "--dart-define-from-file",
         "dart-defines_emulator.json"
       ]
@@ -22,6 +22,8 @@
       "type": "dart",
       "program": "lib/main.dart",
       "args": [
+        "--flavor",
+        "emulator",
         "--profile",
         "--dart-define",
         "FLAVOR=emulator",

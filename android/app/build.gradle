@@ -112,6 +112,15 @@ android {
         }
     }
 
+    flavorDimensions = ["server"]
+
+    productFlavors {
+        emulator {
+            dimension "server"
+            applicationIdSuffix ".emulator"
+        }
+    }
+
     lintOptions {
         checkReleaseBuilds false
     }
