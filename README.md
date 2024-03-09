@@ -88,7 +88,7 @@ flutterfire config \
   --out=lib/firebase_options_emulator.dart \
   --ios-bundle-id=ide.shota.colomney.MyPetMelody.emulator \
   --android-app-id=ide.shota.colomney.MyPetMelody.emulator
-mv android/app/google-services.json android/app/firebase/emulator
+mv android/app/google-services.json android/app/src/emulator
 mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Emulator
 mv ios/firebase_app_id_file.json ios/Runner/Firebase/Emulator
 flutterfire config \
@@ -96,7 +96,7 @@ flutterfire config \
   --out=lib/firebase_options_dev.dart \
   --ios-bundle-id=ide.shota.colomney.MyPetMelody.dev \
   --android-app-id=ide.shota.colomney.MyPetMelody.dev
-mv android/app/google-services.json android/app/firebase/dev
+mv android/app/google-services.json android/app/src/dev
 mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Dev
 mv ios/firebase_app_id_file.json ios/Runner/Firebase/Dev
 ```
@@ -108,7 +108,7 @@ flutterfire config \
   --out=lib/firebase_options_prod.dart \
   --ios-bundle-id=ide.shota.colomney.MyPetMelody \
   --android-app-id=ide.shota.colomney.MyPetMelody
-mv android/app/google-services.json android/app/firebase/prod
+mv android/app/google-services.json android/app/src/prod
 mv ios/Runner/GoogleService-Info.plist ios/Runner/Firebase/Prod
 mv ios/firebase_app_id_file.json ios/Runner/Firebase/Prod
 ```
