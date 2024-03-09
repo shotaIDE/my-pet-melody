@@ -9,7 +9,7 @@ platform :android do
       sh('flutter build apk --flavor dev --dart-define-from-file dart-defines_dev.json')
     end
 
-    lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/apk/release/app-dev-release.apk'
+    lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = 'build/app/outputs/flutter-apk/app-dev-release.apk'
   end
 
   desc 'Build production app'
@@ -20,7 +20,7 @@ platform :android do
       sh('flutter build appbundle --flavor prod --dart-define-from-file dart-defines_prod.json')
     end
 
-    lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = 'build/app/outputs/bundle/release/app-prod-release.aab'
+    lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = 'build/app/outputs/bundle/prodRelease/app-prod-release.aab'
   end
 
   desc 'Deploy develop app to Firebase App Distribution'
