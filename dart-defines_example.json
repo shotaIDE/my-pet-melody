@@ -1,4 +1,5 @@
 {
+  "FLAVOR": "dev",
   "TWITTER_CONSUMER_API_KEY": "xxxxxxxxxxxxxxxxxxxxxxxxx",
   "TWITTER_CONSUMER_SECRET": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "REVENUE_CAT_PUBLIC_APPLE_API_KEY": "appl_xxxxxxxxxxxxxxxxxxxxxxxxxxx",
