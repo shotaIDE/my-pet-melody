@@ -75,7 +75,7 @@ protobuf==4.25.3
 pyannote.algorithms==0.8
 pyannote.core==5.0.0
 pyannote.parser==0.8
-pyasn1==0.5.0
+pyasn1==0.5.1
 pyasn1-modules==0.3.0
 pycodestyle==2.11.1
 pycparser==2.21
