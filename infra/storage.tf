@@ -13,8 +13,7 @@ resource "google_storage_bucket" "default" {
   provider                    = google-beta
   project                     = google_project.default.project_id
   location                    = var.google_project_location
-  uniform_bucket_level_access = true
-
+  uniform_bucket_level_access = false
 
   lifecycle_rule {
     action {
@@ -36,6 +35,10 @@ resource "google_firebase_storage_bucket" "default-bucket" {
   provider  = google-beta
   project   = google_project.default.project_id
   bucket_id = google_storage_bucket.default.id
+
+  depends_on = [
+    google_storage_bucket.default,
+  ]
 }
 
 # Creates a ruleset of Cloud Storage Security Rules from a local file.
