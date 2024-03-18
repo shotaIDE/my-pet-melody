@@ -15,7 +15,7 @@ dependencies:
   chewie:
   cloud_firestore:
   collection:
-  cross_file:
+  cross_file: 0.3.4+1
   cupertino_icons:
   device_info_plus:
   dio:
