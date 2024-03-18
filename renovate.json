@@ -26,6 +26,10 @@
       "automerge": true
     },
     {
+      "matchManagers": ["pub"],
+      "addLabels": ["dart"]
+    },
+    {
       "matchManagers": ["ruby-version"],
       "addLabels": ["ruby"],
       "automerge": true
