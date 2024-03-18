@@ -28,7 +28,8 @@
     },
     {
       "matchManagers": ["pub"],
-      "addLabels": ["dart"]
+      "addLabels": ["dart"],
+      "automerge": true
     },
     {
       "matchManagers": ["ruby-version"],
