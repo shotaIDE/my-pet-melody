@@ -4,6 +4,7 @@
     "asdf",
     "gradle-wrapper",
     "pyenv",
+    "pub",
     "ruby-version",
     "terraform",
     "terraform-version"
