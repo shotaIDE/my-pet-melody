@@ -34,7 +34,7 @@ jobs:
         with:
           dart-defines-json-base64-prod: ${{ secrets.DART_DEFINES_JSON_BASE64_PROD }}
       - name: Generate uncommited Android files for prod
-        run: echo "${{ secrets.GOOGLE_SERVICE_JSON_BASE64_PROD }}" | base64 -d > android/app/firebase/prod/google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICE_JSON_BASE64_PROD }}" | base64 -d > android/app/src/prod/google-services.json
       - name: Generate key store
         uses: ./.github/actions/generate-key-store
         with:
