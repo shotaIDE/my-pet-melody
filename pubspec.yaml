@@ -23,7 +23,7 @@ dependencies:
   file_picker: 6.2.0
   firebase_analytics: 10.8.6
   firebase_auth: 4.16.0
-  firebase_core: 2.25.4
+  firebase_core: 2.27.1
   firebase_crashlytics: 3.4.15
   firebase_messaging: 14.7.15
   firebase_remote_config: 4.3.13
@@ -40,7 +40,7 @@ dependencies:
   google_sign_in: 6.2.1
   in_app_review: 2.0.9
   intl: 0.18.1
-  package_info_plus: 5.0.1
+  package_info_plus: 4.2.0
   path: 1.9.0
   path_provider: 2.1.2
   purchases_flutter: 6.19.0
