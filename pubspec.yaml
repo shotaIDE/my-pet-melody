@@ -11,7 +11,7 @@ environment:
   flutter: ">=3.19.3"
 
 dependencies:
-  audioplayers: 5.2.1
+  audioplayers: 6.0.0
   chewie: 1.7.5
   cloud_firestore: 4.15.9
   collection: 1.18.0
