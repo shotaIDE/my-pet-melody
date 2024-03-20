@@ -20,7 +20,7 @@ dependencies:
   device_info_plus: 9.1.2
   dio: 5.4.1
   ffmpeg_kit_flutter: 5.1.0-LTS
-  file_picker: 6.2.0
+  file_picker: 6.2.1
   firebase_analytics: 10.8.6
   firebase_auth: 4.16.0
   firebase_core: 2.27.1
