@@ -22,7 +22,7 @@ dependencies:
   ffmpeg_kit_flutter: 5.1.0-LTS
   file_picker: 6.2.1
   firebase_analytics: 10.8.10
-  firebase_auth: 4.16.0
+  firebase_auth: 4.17.9
   firebase_core: 2.27.1
   firebase_crashlytics: 3.4.19
   firebase_messaging: 14.7.20
