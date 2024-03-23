@@ -26,7 +26,7 @@ dependencies:
   firebase_core: 2.27.1
   firebase_crashlytics: 3.4.19
   firebase_messaging: 14.7.20
-  firebase_remote_config: 4.3.13
+  firebase_remote_config: 4.3.18
   firebase_storage: 11.6.5
   flutter:
     sdk: flutter
