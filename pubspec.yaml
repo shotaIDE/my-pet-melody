@@ -15,12 +15,12 @@ dependencies:
   chewie: 1.7.5
   cloud_firestore: 4.15.9
   collection: 1.18.0
-  cross_file: 0.3.3+4
+  cross_file: 0.3.4+1
   cupertino_icons: 1.0.6
   device_info_plus: 9.1.2
   dio: 5.4.1
   ffmpeg_kit_flutter: 5.1.0-LTS
-  file_picker: 6.2.1
+  file_picker: 8.0.0+1
   firebase_analytics: 10.8.10
   firebase_auth: 4.17.9
   firebase_core: 2.27.1
