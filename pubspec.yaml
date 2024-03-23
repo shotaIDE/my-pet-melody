@@ -19,7 +19,7 @@ dependencies:
   cupertino_icons: 1.0.6
   device_info_plus: 9.1.2
   dio: 5.4.1
-  ffmpeg_kit_flutter: 5.1.0-LTS
+  ffmpeg_kit_flutter: 6.0.3
   file_picker: 8.0.0+1
   firebase_analytics: 10.8.10
   firebase_auth: 4.17.9
@@ -52,7 +52,7 @@ dependencies:
   url_launcher: 6.2.5
   video_player: 2.8.3
   video_thumbnail: 0.5.3
-  video_trimmer: 2.1.0
+  video_trimmer: 3.0.1
 
 dev_dependencies:
   build_runner: 2.4.8

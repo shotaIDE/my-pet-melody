@@ -357,10 +357,10 @@ packages:
     dependency: "direct main"
     description:
       name: ffmpeg_kit_flutter
-      sha256: "2b13913a5850d5c0149fe5a322770e72b107e0941d112a5334bce71d91051134"
+      sha256: "843aae41823ca94a0988d975b4b6cdc6948744b9b7e2707d81a3a9cd237b0100"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0-LTS"
+    version: "6.0.3"
   ffmpeg_kit_flutter_platform_interface:
     dependency: transitive
     description:
@@ -1510,10 +1510,10 @@ packages:
     dependency: "direct main"
     description:
       name: video_trimmer
-      sha256: "9890756d5be511354e5e50464605ff02baac363c7ce9fab8206f43c7e467592c"
+      sha256: "9f25516d21788a91c5448e9a57e0c876509aaf735686b007862ff124ab6aff9e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "3.0.1"
   vm_service:
     dependency: transitive
     description:
