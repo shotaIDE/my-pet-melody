@@ -77,13 +77,22 @@ android {
         emulator {
             dimension "server"
             applicationIdSuffix ".emulator"
+            manifestPlaceholders = [
+                    usesCleartextTraffic: "true"
+            ]
         }
         dev {
             dimension "server"
             applicationIdSuffix ".dev"
+            manifestPlaceholders = [
+                    usesCleartextTraffic: "false"
+            ]
         }
         prod {
             dimension "server"
+            manifestPlaceholders = [
+                    usesCleartextTraffic: "false"
+            ]
         }
     }
 
