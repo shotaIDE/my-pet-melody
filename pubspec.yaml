@@ -27,7 +27,7 @@ dependencies:
   firebase_crashlytics: 3.4.19
   firebase_messaging: 14.7.20
   firebase_remote_config: 4.3.18
-  firebase_storage: 11.6.5
+  firebase_storage: 11.6.10
   flutter:
     sdk: flutter
   flutter_local_notifications: 17.0.0
