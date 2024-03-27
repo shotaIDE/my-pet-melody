@@ -13,7 +13,7 @@ environment:
 dependencies:
   audioplayers: 6.0.0
   chewie: 1.7.5
-  cloud_firestore: 4.15.9
+  cloud_firestore: 4.15.10
   collection: 1.18.0
   cross_file: 0.3.4+1
   cupertino_icons: 1.0.6
