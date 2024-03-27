@@ -21,7 +21,7 @@ dependencies:
   dio: 5.4.2
   ffmpeg_kit_flutter: 6.0.3
   file_picker: 8.0.0+1
-  firebase_analytics: 10.8.10
+  firebase_analytics: 10.9.0
   firebase_auth: 4.17.9
   firebase_core: 2.27.2
   firebase_crashlytics: 3.4.20
