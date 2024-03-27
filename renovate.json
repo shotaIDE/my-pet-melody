@@ -10,7 +10,6 @@
     "terraform-version"
   ],
   "labels": ["dependencies"],
-  "semanticCommitType": "build",
   "packageRules": [
     {
       "matchManagers": ["asdf"],
@@ -41,5 +40,7 @@
       "addLabels": ["terraform"],
       "automerge": true
     }
-  ]
+  ],
+  "prConcurrentLimit": 1,
+  "semanticCommitType": "build"
 }
