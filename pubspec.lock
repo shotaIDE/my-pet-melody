@@ -501,26 +501,26 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_remote_config
-      sha256: ec95cc5b024cc7014a37bf2e269c677284807caa7ef8081a4d08ae2b4b717123
+      sha256: f3b42cb8b74837a4f392c6aeda74795a9d6b6a17f46f2aec4e81b5b38e094818
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.18"
+    version: "4.3.19"
   firebase_remote_config_platform_interface:
     dependency: transitive
     description:
       name: firebase_remote_config_platform_interface
-      sha256: be4829ea3f36b31752905e0fec189b98f1e070ce552d193b9a212434f97c1892
+      sha256: d91129111b4919cf0935228576e783d8e6e01bc20fa262491f55ff06cc87d49e
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.26"
+    version: "1.4.27"
   firebase_remote_config_web:
     dependency: transitive
     description:
       name: firebase_remote_config_web
-      sha256: d9cb08f8cf86f098e20574fb54a6d90596d945fb2c425eadfbb2a3aec51e3c8d
+      sha256: "67cd7e6a250118ad3a2a334ae344de7de39b2e553a1bc4c26d701ecfcf1c48c6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.26"
+    version: "1.5.0"
   firebase_storage:
     dependency: "direct main"
     description:
