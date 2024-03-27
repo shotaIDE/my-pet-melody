@@ -24,7 +24,7 @@ dependencies:
   firebase_analytics: 10.8.10
   firebase_auth: 4.17.9
   firebase_core: 2.27.2
-  firebase_crashlytics: 3.4.19
+  firebase_crashlytics: 3.4.20
   firebase_messaging: 14.7.21
   firebase_remote_config: 4.3.18
   firebase_storage: 11.6.10
