@@ -122,7 +122,7 @@ PODS:
     - Firebase/RemoteConfig (= 10.22.0)
     - firebase_core
     - Flutter
-  - firebase_storage (11.6.10):
+  - firebase_storage (11.6.11):
     - Firebase/Storage (= 10.22.0)
     - firebase_core
     - Flutter
@@ -510,7 +510,7 @@ SPEC CHECKSUMS:
   firebase_crashlytics: a5050259f9e6989a44c131dbf14887a434b4395a
   firebase_messaging: bca531e02d5b4d3ed940f234d4e1b6f970e8278a
   firebase_remote_config: 644777e8115d9d1b9d2330fe6e53a2971eabdbb1
-  firebase_storage: 4d91299aefc706729b17bd17c3a1e874a53722df
+  firebase_storage: 8acf9d33013e2ac77ba3461abade0d13b706dd20
   FirebaseABTesting: aec61ed9a34d85a95e2013a3fdf051426a2419df
   FirebaseAnalytics: 8d0ff929c63b7f72260f332b86ccf569776b75d3
   FirebaseAppCheckInterop: a1955ce8c30f38f87e7d091630e871e91154d65d
