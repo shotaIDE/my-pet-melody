@@ -12,7 +12,7 @@ environment:
 
 dependencies:
   audioplayers: 6.0.0
-  chewie: 1.8.0
+  chewie: 1.8.1
   cloud_firestore: 4.15.10
   collection: 1.18.0
   cross_file: 0.3.4+1
@@ -40,7 +40,7 @@ dependencies:
   google_sign_in: 6.2.1
   in_app_review: 2.0.9
   intl: 0.18.1
-  package_info_plus: 4.2.0
+  package_info_plus: 6.0.0
   path: 1.9.0
   path_provider: 2.1.2
   purchases_flutter: 6.24.0
