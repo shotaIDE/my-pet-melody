@@ -32,8 +32,8 @@ jobs:
         uses: google-github-actions/auth@v2
         id: 'auth'
         with:
+          project_id: 'colomney-my-pet-melody'
           workload_identity_provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_PROD }}
-          service_account: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_MAIL_PROD }}
       - name: Deploy detect Functions to Google Cloud
         uses: google-github-actions/deploy-cloud-functions@v2
         with:
