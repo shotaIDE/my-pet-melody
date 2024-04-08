@@ -59,7 +59,7 @@ dev_dependencies:
   cider: 0.2.7
   flutter_test:
     sdk: flutter
-  freezed: 2.5.0
+  freezed: 2.5.1
   json_serializable: 6.7.1
   mocktail: 1.0.3
   pedantic_mono: 1.26.0
