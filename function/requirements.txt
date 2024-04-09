@@ -19,7 +19,7 @@ ffmpeg-python==0.2.0
 firebase-admin==6.3.0
 Flask==3.0.2
 flatbuffers==23.5.26
-fonttools==4.49.0
+fonttools==4.51.0
 functions-framework==3.5.0
 future==0.18.3
 gast==0.5.4
