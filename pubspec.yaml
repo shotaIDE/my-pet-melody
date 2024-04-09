@@ -40,7 +40,7 @@ dependencies:
   google_sign_in: 6.2.1
   in_app_review: 2.0.9
   intl: 0.18.1
-  package_info_plus: 6.0.0
+  package_info_plus: 7.0.0
   path: 1.9.0
   path_provider: 2.1.2
   purchases_flutter: 6.25.0
