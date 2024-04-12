@@ -556,7 +556,7 @@ SPEC CHECKSUMS:
   RevenueCat: 237cb14ba0ba0fa07153c801585b42b73be0fe7e
   SDWebImage: 981fd7e860af070920f249fd092420006014c3eb
   share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
-  shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
+  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   twitter_login: 2794db69b7640681171b17b3c2c84ad9dfb4a57f
   url_launcher_ios: bbd758c6e7f9fd7b5b1d4cde34d2b95fcce5e812
