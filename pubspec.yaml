@@ -23,7 +23,7 @@ dependencies:
   file_picker: 8.0.0+1
   firebase_analytics: 10.10.2
   firebase_auth: 4.19.1
-  firebase_core: 2.29.0
+  firebase_core: 2.30.0
   firebase_crashlytics: 3.5.1
   firebase_messaging: 14.8.1
   firebase_remote_config: 4.4.1
