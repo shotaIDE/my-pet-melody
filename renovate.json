@@ -42,5 +42,6 @@
     }
   ],
   "prConcurrentLimit": 1,
+  "rangeStrategy": "pin",
   "semanticCommitType": "build"
 }
