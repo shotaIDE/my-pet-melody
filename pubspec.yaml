@@ -6,9 +6,9 @@ publish_to: "none"
 version: 1.0.24+54
 
 environment:
-  sdk: "3.3.3"
+  sdk: ">=2.16.0 <3.0.0"
   # Specify for inference of dependabot
-  flutter: "3.19.5"
+  flutter: 3.19.5
 
 dependencies:
   audioplayers: 6.0.0
