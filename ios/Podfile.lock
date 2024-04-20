@@ -7,11 +7,10 @@ PODS:
     - AppAuth/Core
   - audioplayers_darwin (0.0.1):
     - Flutter
-  - cloud_firestore (4.16.1):
+  - cloud_firestore (4.17.0):
     - Firebase/Firestore (= 10.24.0)
     - firebase_core
     - Flutter
-    - nanopb (< 2.30910.0, >= 2.30908.0)
   - CropViewController (2.6.1)
   - device_info_plus (0.0.1):
     - Flutter
@@ -498,7 +497,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AppAuth: a13994980c1ec792f7e2e665acd4d4aa6be43240
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
-  cloud_firestore: 36490c6c56284ab278beba54439929bef238e9aa
+  cloud_firestore: ec5623634fc3b82f7b23a6e87f116c953eae714d
   CropViewController: 58fb440f30dac788b129d2a1f24cffdcb102669c
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   DKCamera: a902b66921fca14b7a75266feb8c7568aa7caa71
