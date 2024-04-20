@@ -13,7 +13,8 @@
   "packageRules": [
     {
       "matchManagers": ["asdf"],
-      "addLabels": ["flutter"]
+      "addLabels": ["flutter"],
+      "automerge": true
     },
     {
       "matchManagers": ["gradle-wrapper"],
