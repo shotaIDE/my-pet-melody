@@ -98,7 +98,7 @@ requests==2.31.0
 requests-oauthlib==2.0.0
 rich==13.7.1
 rsa==4.9
-scikit-image==0.22.0
+scikit-image==0.23.2
 scikit-learn==1.4.1.post1
 scipy==1.13.0
 serpent==1.41
