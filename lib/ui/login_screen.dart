@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/component/social_login_button.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
@@ -40,7 +41,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
     final isCreateMode = state.isCreateMode;
 
-    final title = isCreateMode ? 'アカウントを\n作成しよう' : 'アカウントに\nログインしよう';
+    final title = isCreateMode
+        ? AppLocalizations.of(context)!.createAccount
+        : AppLocalizations.of(context)!.loginAccount;
     final titleText = Text(
       title,
       textAlign: TextAlign.center,
@@ -48,8 +51,8 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
     );
 
     final description = isCreateMode
-        ? '大切な作品をバックアップするために、アカウントを作成してね！'
-        : '大切な作品をバックアップするために、ログインしてね！';
+        ? AppLocalizations.of(context)!.accountCreationReasonDescription
+        : AppLocalizations.of(context)!.accountLoginReasonDescription;
     final descriptionText = Text(
       description,
       textAlign: TextAlign.center,
@@ -80,14 +83,17 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       ),
     );
 
-    final toggleModeLabel = isCreateMode ? 'アカウントをお持ちの方はログインへ' : 'アカウントを作成する';
+    final toggleModeLabel = isCreateMode
+        ? AppLocalizations.of(context)!.loginIfYouHaveAccount
+        : AppLocalizations.of(context)!.createAccountIfYouHaveNoAccount;
     final toggleModelButton = TextButton(
       onPressed: () => ref.read(widget.viewModel.notifier).toggleMode(),
       child: Text(toggleModeLabel),
     );
 
-    final continueWithoutLoginLabel =
-        isCreateMode ? 'アカウントを作成せずに続ける' : 'ログインせずに続ける';
+    final continueWithoutLoginLabel = isCreateMode
+        ? AppLocalizations.of(context)!.continueWithoutCreatingAccount
+        : AppLocalizations.of(context)!.continueWithoutLogin;
     final continueWithoutLoginButton = TextButton(
       onPressed: _continueWithoutLoginButton,
       child: Text(continueWithoutLoginLabel),

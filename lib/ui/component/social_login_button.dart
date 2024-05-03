@@ -1,5 +1,6 @@
 // ignore_for_file: prefer-match-file-name
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -20,7 +21,7 @@ class ContinueWithGoogleButton extends StatelessWidget {
         width: 24,
         height: 24,
       ),
-      text: 'Googleで続ける',
+      text: AppLocalizations.of(context)!.continueWithGoogle,
       textColor: Colors.black,
       backgroundColor: Colors.white,
     );
@@ -45,7 +46,7 @@ class ContinueWithTwitterButton extends StatelessWidget {
         FontAwesomeIcons.twitter,
         color: foregroundColor,
       ),
-      text: 'Twitterで続ける',
+      text: AppLocalizations.of(context)!.continueWithTwitter,
       textColor: foregroundColor,
       backgroundColor: const Color(0xFF1DA1F2),
     );
@@ -70,7 +71,7 @@ class ContinueWithAppleButton extends StatelessWidget {
         FontAwesomeIcons.apple,
         color: foregroundColor,
       ),
-      text: 'Appleで続ける',
+      text: AppLocalizations.of(context)!.continueWithApple,
       textColor: foregroundColor,
       backgroundColor: Colors.black,
     );

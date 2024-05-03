@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "myPetMelody": "My Pet Melody",
+  "createAccount": "Create Account",
+  "loginAccount": "Login Account",
+  "accountCreationReasonDescription": "Create an account to backup your pet's pieces and access them from any device.",
+  "accountLoginReasonDescription": "Login your account to backup your pet's pieces and access them from any device.",
+  "continueWithGoogle": "Continue with Google",
+  "continueWithTwitter": "Continue with Twitter",
+  "continueWithApple": "Continue with Apple",
+  "loginIfYouHaveAccount": "Login if you have an account",
+  "createAccountIfYouHaveNoAccount": "Create account",
+  "continueWithoutCreatingAccount": "Continue without creating account",
+  "continueWithoutLogin": "Continue without login"
+}
