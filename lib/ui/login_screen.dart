@@ -51,8 +51,8 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
     );
 
     final description = isCreateMode
-        ? '大切な作品をバックアップするために、アカウントを作成してね！'
-        : '大切な作品をバックアップするために、ログインしてね！';
+        ? AppLocalizations.of(context)!.accountCreationReasonDescription
+        : AppLocalizations.of(context)!.accountLoginReasonDescription;
     final descriptionText = Text(
       description,
       textAlign: TextAlign.center,

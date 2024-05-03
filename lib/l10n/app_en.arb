@@ -2,5 +2,7 @@
   "@@locale": "en",
   "myPetMelody": "My Pet Melody",
   "createAccount": "Create Account",
-  "loginAccount": "Login Account"
+  "loginAccount": "Login Account",
+  "accountCreationReasonDescription": "Create an account to backup your pet's pieces and access it from any device.",
+  "accountLoginReasonDescription": "Login your account to backup your pet's pieces and access it from any device."
 }
