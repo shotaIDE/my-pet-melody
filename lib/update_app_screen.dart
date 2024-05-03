@@ -5,7 +5,7 @@ import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
 
 class UpdateAppScreen extends StatefulWidget {
-  const UpdateAppScreen({Key? key}) : super(key: key);
+  const UpdateAppScreen({super.key});
 
   static const name = 'UpdateAppScreen';
 

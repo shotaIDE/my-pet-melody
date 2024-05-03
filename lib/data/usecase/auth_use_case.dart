@@ -324,7 +324,6 @@ final deleteAccountActionProvider = Provider((ref) {
           return Result.failure(convertedReauthenticateError);
         }
 
-        break;
 
       case AccountProvider.twitter:
         final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
@@ -357,7 +356,6 @@ final deleteAccountActionProvider = Provider((ref) {
           return Result.failure(convertedReauthenticateError);
         }
 
-        break;
 
       case AccountProvider.apple:
         final reauthenticateWithAppleResult =
@@ -374,7 +372,6 @@ final deleteAccountActionProvider = Provider((ref) {
           return Result.failure(convertedLoginError);
         }
 
-        break;
     }
 
     final deleteOnSecondResult = await authActions.delete();

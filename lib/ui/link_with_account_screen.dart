@@ -15,8 +15,8 @@ final _linkWithAccountViewModelProvider = StateNotifierProvider.autoDispose<
 
 class LinkWithAccountScreen extends ConsumerStatefulWidget {
   LinkWithAccountScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const name = 'LinkWithAccountScreen';
 

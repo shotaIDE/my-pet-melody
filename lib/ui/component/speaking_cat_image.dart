@@ -4,8 +4,8 @@ import 'package:my_pet_melody/ui/component/flickering_image.dart';
 class SpeakingCatImage extends StatelessWidget {
   const SpeakingCatImage({
     this.flipHorizontally = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const width = 195.0;
   static const height = 131.0;

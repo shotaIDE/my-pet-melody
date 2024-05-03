@@ -19,7 +19,7 @@ final selectTemplateViewModelProvider = StateNotifierProvider.autoDispose<
 );
 
 class SelectTemplateScreen extends ConsumerStatefulWidget {
-  SelectTemplateScreen({Key? key}) : super(key: key);
+  SelectTemplateScreen({super.key});
 
   static const name = 'SelectTemplateScreen';
 
@@ -230,9 +230,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
 }
 
 class _NewChip extends StatelessWidget {
-  const _NewChip({
-    Key? key,
-  }) : super(key: key);
+  const _NewChip();
 
   @override
   Widget build(BuildContext context) {

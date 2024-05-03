@@ -7,8 +7,8 @@ class FlickeringImage extends StatefulWidget {
     required this.firstImage,
     required this.secondImage,
     this.flipHorizontally = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String firstImage;
   final String secondImage;

@@ -3,8 +3,8 @@ import 'package:my_pet_melody/ui/component/flickering_image.dart';
 
 class LyingDownCatImage extends StatelessWidget {
   const LyingDownCatImage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const width = 193.0;
   static const height = 101.0;

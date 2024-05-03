@@ -6,8 +6,8 @@ class CircledPlayButton extends StatelessWidget {
     required this.status,
     required this.onPressedWhenStop,
     required this.onPressedWhenPlaying,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final PlayStatus status;
   final VoidCallback onPressedWhenStop;

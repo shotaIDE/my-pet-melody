@@ -3,8 +3,8 @@ import 'package:my_pet_melody/ui/component/flickering_image.dart';
 
 class ListeningMusicCatImage extends StatelessWidget {
   const ListeningMusicCatImage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const width = 170.0;
   static const height = 179.0;

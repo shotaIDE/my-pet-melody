@@ -4,8 +4,8 @@ import 'package:skeletons/skeletons.dart';
 class IsPremiumPlanText extends StatelessWidget {
   const IsPremiumPlanText({
     required this.isPremiumPlan,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final bool? isPremiumPlan;
 

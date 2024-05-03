@@ -10,7 +10,7 @@ import 'package:my_pet_melody/ui/login_screen.dart';
 import 'package:my_pet_melody/update_app_screen.dart';
 
 class RootApp extends ConsumerStatefulWidget {
-  RootApp({Key? key}) : super(key: key);
+  RootApp({super.key});
 
   final viewModel = rootViewModelProvider;
 

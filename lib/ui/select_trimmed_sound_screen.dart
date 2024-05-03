@@ -32,9 +32,8 @@ const _seekBarHeight = 24.0;
 class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   SelectTrimmedSoundScreen({
     required SelectTrimmedSoundArgs args,
-    Key? key,
-  })  : viewModelProvider = selectTrimmedSoundViewModelProvider(args),
-        super(key: key);
+    super.key,
+  })  : viewModelProvider = selectTrimmedSoundViewModelProvider(args);
 
   static const name = 'SelectTrimmedSoundScreen';
 
@@ -124,8 +123,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
 class _UnavailableTrimmedSoundScreen extends ConsumerStatefulWidget {
   const _UnavailableTrimmedSoundScreen({
     required this.viewModelProvider,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -206,8 +204,7 @@ class _UnavailableTrimmedSoundScreenState
 class _SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   const _SelectTrimmedSoundScreen({
     required this.viewModelProvider,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -386,8 +383,7 @@ class _MovieTile extends ConsumerWidget {
     required this.viewModelProvider,
     required this.thumbnailWidth,
     required this.thumbnailHeight,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -449,8 +445,7 @@ class _ChoicePanel extends StatelessWidget {
     required this.onPlay,
     required this.onStop,
     required this.onSelect,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -569,8 +564,7 @@ class _ChoiceRadioButton extends ConsumerWidget {
     required this.viewModelProvider,
     required this.index,
     required this.onSelect,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -598,8 +592,7 @@ class _ChoiceThumbnail extends ConsumerWidget {
   const _ChoiceThumbnail({
     required this.viewModelProvider,
     required this.index,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -623,8 +616,7 @@ class _PositionText extends ConsumerWidget {
   const _PositionText({
     required this.viewModelProvider,
     required this.index,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -667,8 +659,7 @@ class _PlayingIndicator extends ConsumerWidget {
   const _PlayingIndicator({
     required this.viewModelProvider,
     required this.index,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -688,8 +679,7 @@ class _SeekBar extends ConsumerWidget {
   const _SeekBar({
     required this.viewModelProvider,
     required this.index,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -773,8 +763,7 @@ class _SeekBar extends ConsumerWidget {
 class _SeekBarBackgroundLayer extends ConsumerWidget {
   const _SeekBarBackgroundLayer({
     required this.viewModelProvider,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -834,8 +823,7 @@ class _ChoicePlayButton extends ConsumerWidget {
     required this.index,
     required this.onPlay,
     required this.onStop,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -863,8 +851,7 @@ class _EquallyDividedThumbnail extends ConsumerWidget {
     required this.index,
     required this.width,
     required this.height,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
       SelectTrimmedSoundState> viewModelProvider;
@@ -892,8 +879,7 @@ class _Thumbnail extends StatelessWidget {
     required this.path,
     required this.width,
     required this.height,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final String? path;
   final double width;

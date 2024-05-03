@@ -33,13 +33,10 @@ Future<void> main() async {
       switch (flavor) {
         case Flavor.emulator:
           options = emulator.DefaultFirebaseOptions.currentPlatform;
-          break;
         case Flavor.dev:
           options = dev.DefaultFirebaseOptions.currentPlatform;
-          break;
         case Flavor.prod:
           options = prod.DefaultFirebaseOptions.currentPlatform;
-          break;
       }
       await Firebase.initializeApp(options: options);
 
