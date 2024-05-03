@@ -1,6 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/root_state.dart';
 import 'package:my_pet_melody/root_view_model.dart';
@@ -35,7 +35,7 @@ class _RootAppState extends ConsumerState<RootApp> {
     ];
 
     return MaterialApp(
-      title: 'うちのコメロディー',
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.myPetMelody,
       theme: ThemeData(
         useMaterial3: false,
         primarySwatch: Colors.brown,
@@ -70,15 +70,8 @@ class _RootAppState extends ConsumerState<RootApp> {
         '/': (_) => HomeScreen(),
       },
       onGenerateInitialRoutes: (_) => initialRoutes,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('ja', 'JP'),
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       navigatorObservers: navigatorObservers,
     );
   }
