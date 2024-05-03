@@ -76,6 +76,7 @@ class _RootAppState extends ConsumerState<RootApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
+        Locale('en'),
         Locale('ja', 'JP'),
       ],
       navigatorObservers: navigatorObservers,
