@@ -1,4 +1,6 @@
 {
   "@@locale": "ja",
-  "myPetMelody": "うちのコメロディー"
+  "myPetMelody": "うちのコメロディー",
+  "createAccount": "'アカウントを\n作成しよう",
+  "loginAccount": "アカウントに\nログインしよう"
 }

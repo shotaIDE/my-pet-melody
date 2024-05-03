@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/component/social_login_button.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
@@ -40,7 +41,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
     final isCreateMode = state.isCreateMode;
 
-    final title = isCreateMode ? 'アカウントを\n作成しよう' : 'アカウントに\nログインしよう';
+    final title = isCreateMode
+        ? AppLocalizations.of(context)!.createAccount
+        : AppLocalizations.of(context)!.loginAccount;
     final titleText = Text(
       title,
       textAlign: TextAlign.center,

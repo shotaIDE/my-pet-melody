@@ -1,4 +1,6 @@
 {
   "@@locale": "en",
-  "myPetMelody": "My Pet Melody"
+  "myPetMelody": "My Pet Melody",
+  "createAccount": "Create Account",
+  "loginAccount": "Login Account"
 }
