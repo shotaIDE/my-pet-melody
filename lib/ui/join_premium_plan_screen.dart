@@ -17,7 +17,7 @@ final _joinPremiumPlanViewModelProvider = StateNotifierProvider.autoDispose<
 );
 
 class JoinPremiumPlanScreen extends ConsumerStatefulWidget {
-  JoinPremiumPlanScreen({Key? key}) : super(key: key);
+  JoinPremiumPlanScreen({super.key});
 
   static const name = 'SetPieceTitleScreen';
 
@@ -217,8 +217,7 @@ class _RoundedDescriptionListTile extends StatelessWidget {
     required this.description,
     this.leading,
     this.positionInGroup = ListTilePositionInGroup.only,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final Widget title;
   final Widget description;
@@ -271,8 +270,7 @@ class _RoundedDescriptionListTile extends StatelessWidget {
 class _PurchaseActionsPanel extends ConsumerWidget {
   const _PurchaseActionsPanel({
     required this.viewModelProvider,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
       JoinPremiumPlanState> viewModelProvider;
@@ -307,8 +305,7 @@ class _PurchaseActionsPanel extends ConsumerWidget {
 class _PurchaseButtonsPanel extends ConsumerWidget {
   const _PurchaseButtonsPanel({
     required this.viewModelProvider,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
       JoinPremiumPlanState> viewModelProvider;
@@ -353,9 +350,7 @@ class _PurchaseButtonsPanel extends ConsumerWidget {
 }
 
 class _NoAvailablePurchasableText extends StatelessWidget {
-  const _NoAvailablePurchasableText({
-    Key? key,
-  }) : super(key: key);
+  const _NoAvailablePurchasableText();
 
   @override
   Widget build(BuildContext context) {
@@ -370,8 +365,7 @@ class _PurchasableButton extends StatelessWidget {
   const _PurchasableButton({
     required this.text,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final String text;
   final VoidCallback? onPressed;

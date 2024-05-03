@@ -23,8 +23,8 @@ final homeViewModelProvider =
 
 class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const name = 'HomeScreen';
 
@@ -373,8 +373,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 class _SettingsButton extends ConsumerWidget {
   const _SettingsButton({
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
 
@@ -391,11 +390,10 @@ class _SettingsButton extends ConsumerWidget {
 
 class _AvailableUntilText extends StatelessWidget {
   const _AvailableUntilText({
-    Key? key,
     required this.availableUntil,
     required this.current,
     required this.defaultForegroundColor,
-  }) : super(key: key);
+  });
 
   final DateTime availableUntil;
   final DateTime current;

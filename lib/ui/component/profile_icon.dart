@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class ProfileIcon extends StatelessWidget {
   const ProfileIcon({
     required this.photoUrl,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String? photoUrl;
 

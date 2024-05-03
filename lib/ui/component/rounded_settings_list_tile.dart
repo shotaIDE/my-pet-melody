@@ -8,8 +8,8 @@ class RoundedSettingsListTile extends StatelessWidget {
     this.trailing,
     this.onTap,
     this.positionInGroup = ListTilePositionInGroup.only,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget title;
   final Widget? trailing;

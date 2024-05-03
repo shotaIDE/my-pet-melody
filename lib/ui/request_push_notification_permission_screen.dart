@@ -24,9 +24,8 @@ final requestPushNotificationPermissionViewModelProvider =
 class RequestPushNotificationPermissionScreen extends ConsumerStatefulWidget {
   RequestPushNotificationPermissionScreen({
     required RequestPushNotificationPermissionArgs args,
-    Key? key,
-  })  : viewModel = requestPushNotificationPermissionViewModelProvider(args),
-        super(key: key);
+    super.key,
+  })  : viewModel = requestPushNotificationPermissionViewModelProvider(args);
 
   static const name = 'RequestPushNotificationPermissionScreen';
 

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class Footer extends StatelessWidget {
   const Footer({
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
 

@@ -7,8 +7,8 @@ class RoundedAndChainedListTile extends StatelessWidget {
     required this.child,
     this.onTap,
     this.positionInGroup = ListTilePositionInGroup.only,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final VoidCallback? onTap;
@@ -27,10 +27,8 @@ class RoundedAndChainedListTile extends StatelessWidget {
             DisplayDefinition.cornerRadiusSizeSmall,
           ),
         );
-        break;
       case ListTilePositionInGroup.middle:
         borderRadius = BorderRadius.zero;
-        break;
       case ListTilePositionInGroup.last:
         borderRadius = const BorderRadius.only(
           bottomLeft: Radius.circular(
@@ -40,7 +38,6 @@ class RoundedAndChainedListTile extends StatelessWidget {
             DisplayDefinition.cornerRadiusSizeSmall,
           ),
         );
-        break;
       case ListTilePositionInGroup.only:
         borderRadius = const BorderRadius.all(
           Radius.circular(

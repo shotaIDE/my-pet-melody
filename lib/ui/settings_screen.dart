@@ -30,8 +30,8 @@ final _settingsViewModelProvider =
 
 class SettingsScreen extends ConsumerStatefulWidget {
   SettingsScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const name = 'SettingsScreen';
 
@@ -261,9 +261,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 }
 
 class _IsPremiumPlanText extends ConsumerWidget {
-  const _IsPremiumPlanText({
-    Key? key,
-  }) : super(key: key);
+  const _IsPremiumPlanText();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -274,9 +272,7 @@ class _IsPremiumPlanText extends ConsumerWidget {
 }
 
 class _FullVersionNameText extends ConsumerWidget {
-  const _FullVersionNameText({
-    Key? key,
-  }) : super(key: key);
+  const _FullVersionNameText();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -292,8 +288,7 @@ class _FullVersionNameText extends ConsumerWidget {
 class _ProfileTile extends ConsumerWidget {
   const _ProfileTile({
     required this.onTapCreateAccountTile,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTapCreateAccountTile;
 
@@ -309,8 +304,7 @@ class _ProfileTile extends ConsumerWidget {
 class _LoggedInProfileTile extends StatelessWidget {
   const _LoggedInProfileTile({
     required this.profile,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final Profile profile;
 
@@ -336,8 +330,7 @@ class _LoggedInProfileTile extends StatelessWidget {
 class _NotLoggedInTile extends StatelessWidget {
   const _NotLoggedInTile({
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
 
@@ -354,8 +347,7 @@ class _NotLoggedInTile extends StatelessWidget {
 class _DeleteAccountPanel extends ConsumerWidget {
   const _DeleteAccountPanel({
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
 

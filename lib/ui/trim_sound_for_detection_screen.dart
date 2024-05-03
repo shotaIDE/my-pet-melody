@@ -27,9 +27,8 @@ final _trimSoundForDetectionViewModelProvider =
 class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
   TrimSoundForDetectionScreen({
     required TrimSoundForDetectionArgs args,
-    Key? key,
-  })  : viewModelProvider = _trimSoundForDetectionViewModelProvider(args),
-        super(key: key);
+    super.key,
+  })  : viewModelProvider = _trimSoundForDetectionViewModelProvider(args);
 
   static const name = 'TrimSoundForDetectionScreen';
 
@@ -176,8 +175,7 @@ class _TrimSoundForDetectionScreenState
 class _VideoViewer extends ConsumerWidget {
   const _VideoViewer({
     required this.viewModelProvider,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
       TrimSoundForDetectionState> viewModelProvider;
@@ -194,8 +192,7 @@ class _VideoViewer extends ConsumerWidget {
 class _TrimEditor extends ConsumerWidget {
   const _TrimEditor({
     required this.viewModelProvider,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
       TrimSoundForDetectionState> viewModelProvider;
@@ -235,8 +232,7 @@ class _TrimEditor extends ConsumerWidget {
 class _PlayControlButton extends ConsumerWidget {
   const _PlayControlButton({
     required this.viewModelProvider,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
       TrimSoundForDetectionState> viewModelProvider;
@@ -260,8 +256,7 @@ class _GrayMask extends ConsumerWidget {
   const _GrayMask({
     required this.viewModelProvider,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
       TrimSoundForDetectionState> viewModelProvider;

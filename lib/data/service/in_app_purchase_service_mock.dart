@@ -1,7 +1,6 @@
 // ignore_for_file: prefer-match-file-name
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_pet_melody/data/logger/error_reporter.dart';
 import 'package:my_pet_melody/data/model/purchasable.dart';
 import 'package:my_pet_melody/data/model/purchase_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
@@ -33,8 +32,7 @@ class _IsPremiumPlanNotifierMock extends StateNotifier<bool?> {
 }
 
 class PurchaseActionsMock extends PurchaseActions {
-  const PurchaseActionsMock({required ErrorReporter errorReporter})
-      : super(errorReporter: errorReporter);
+  const PurchaseActionsMock({required super.errorReporter});
 
   @override
   Future<String> userId() async {

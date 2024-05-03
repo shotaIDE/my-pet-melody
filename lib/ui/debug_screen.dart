@@ -12,8 +12,8 @@ import 'package:my_pet_melody/ui/definition/list_tile_position_in_group.dart';
 
 class DebugScreen extends ConsumerWidget {
   const DebugScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const name = 'DebugScreen';
 

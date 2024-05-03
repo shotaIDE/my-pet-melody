@@ -22,9 +22,8 @@ final _videoViewModelProvider = StateNotifierProvider.autoDispose
 class VideoScreen extends ConsumerStatefulWidget {
   VideoScreen({
     required PieceGenerated piece,
-    Key? key,
-  })  : viewModel = _videoViewModelProvider(piece),
-        super(key: key);
+    super.key,
+  })  : viewModel = _videoViewModelProvider(piece);
 
   static const name = 'VideoScreen';
 

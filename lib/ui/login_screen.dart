@@ -16,8 +16,8 @@ final _loginViewModelProvider =
 
 class LoginScreen extends ConsumerStatefulWidget {
   LoginScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const name = 'LoginScreen';
 

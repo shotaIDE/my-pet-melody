@@ -5,8 +5,8 @@ class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     required this.text,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String text;
   final VoidCallback? onPressed;

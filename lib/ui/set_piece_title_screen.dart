@@ -23,9 +23,8 @@ final setPieceTitleViewModelProvider = StateNotifierProvider.autoDispose
 );
 
 class SetPieceTitleScreen extends ConsumerStatefulWidget {
-  SetPieceTitleScreen({required SetPieceTitleArgs args, Key? key})
-      : viewModelProvider = setPieceTitleViewModelProvider(args),
-        super(key: key);
+  SetPieceTitleScreen({required SetPieceTitleArgs args, super.key})
+      : viewModelProvider = setPieceTitleViewModelProvider(args);
 
   static const name = 'SetPieceTitleScreen';
 

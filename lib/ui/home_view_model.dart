@@ -70,7 +70,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     switch (makePieceAvailability) {
       case MakePieceAvailability.available:
         _moveToSelectTemplateScreen?.call();
-        break;
 
       case MakePieceAvailability.availableWithWarnings:
         final result = await _confirmToMakePieceWithWarnings?.call();
@@ -92,11 +91,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
           },
           canceled: () {},
         );
-        break;
 
       case MakePieceAvailability.unavailable:
         _displayMakingPieceIsRestricted?.call();
-        break;
     }
   }
 

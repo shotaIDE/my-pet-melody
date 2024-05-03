@@ -13,7 +13,7 @@ final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
 );
 
 class CompletedToSubmitScreen extends ConsumerStatefulWidget {
-  CompletedToSubmitScreen({Key? key}) : super(key: key);
+  CompletedToSubmitScreen({super.key});
 
   static const name = 'CompletedToSubmitScreen';
 
@@ -186,9 +186,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
 }
 
 class _Description extends ConsumerWidget {
-  const _Description({
-    Key? key,
-  }) : super(key: key);
+  const _Description();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -206,8 +204,7 @@ class _Description extends ConsumerWidget {
 class _CompleteImmediatelyButton extends ConsumerWidget {
   const _CompleteImmediatelyButton({
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
 

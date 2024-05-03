@@ -5,8 +5,8 @@ class OutlinedActionButton extends StatelessWidget {
   const OutlinedActionButton({
     required this.text,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String text;
   final VoidCallback? onPressed;

@@ -6,8 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class ContinueWithGoogleButton extends StatelessWidget {
   const ContinueWithGoogleButton({
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback onPressed;
 
@@ -30,8 +30,8 @@ class ContinueWithGoogleButton extends StatelessWidget {
 class ContinueWithTwitterButton extends StatelessWidget {
   const ContinueWithTwitterButton({
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback onPressed;
 
@@ -55,8 +55,8 @@ class ContinueWithTwitterButton extends StatelessWidget {
 class ContinueWithAppleButton extends StatelessWidget {
   const ContinueWithAppleButton({
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final VoidCallback onPressed;
 
@@ -84,8 +84,7 @@ class _ContinueWithThirdPartyProviderButton extends StatelessWidget {
     required this.text,
     required this.textColor,
     required this.backgroundColor,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
   final Widget icon;

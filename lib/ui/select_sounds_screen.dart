@@ -19,9 +19,8 @@ final _selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
 );
 
 class SelectSoundsScreen extends ConsumerStatefulWidget {
-  SelectSoundsScreen({required Template template, Key? key})
-      : viewModelProvider = _selectSoundsViewModelProvider(template),
-        super(key: key);
+  SelectSoundsScreen({required Template template, super.key})
+      : viewModelProvider = _selectSoundsViewModelProvider(template);
 
   static const name = 'SelectSoundsScreen';
 

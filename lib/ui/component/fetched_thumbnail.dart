@@ -4,8 +4,8 @@ import 'package:skeletons/skeletons.dart';
 class FetchedThumbnail extends StatelessWidget {
   const FetchedThumbnail({
     required this.url,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String? url;
 

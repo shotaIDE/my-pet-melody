@@ -5,8 +5,8 @@ import 'package:skeletons/skeletons.dart';
 class ChoicePositionBar extends StatelessWidget {
   const ChoicePositionBar({
     required this.status,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final PlayStatus status;
 
