@@ -4,5 +4,12 @@
   "createAccount": "'アカウントを\n作成しよう",
   "loginAccount": "アカウントに\nログインしよう",
   "accountCreationReasonDescription": "大切な作品をバックアップするために、アカウントを作成してね！",
-  "accountLoginReasonDescription": "大切な作品をバックアップするために、ログインしてね！"
+  "accountLoginReasonDescription": "大切な作品をバックアップするために、ログインしてね！",
+  "continueWithGoogle": "Googleで続ける",
+  "continueWithTwitter": "Twitterで続ける",
+  "continueWithApple": "Appleで続ける",
+  "loginIfYouHaveAccount": "アカウントをお持ちの方はログインへ",
+  "createAccountIfYouHaveNoAccount": "アカウントを作成する",
+  "continueWithoutCreatingAccount": "アカウントを作成せずに続ける",
+  "continueWithoutLogin": "ログインせずに続ける"
 }
