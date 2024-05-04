@@ -6,11 +6,11 @@
 
 Place the following files in the root directory of the project.
 
-| Path                                  | Description                                                                                                                        |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `.env.emulator`                       | Copy and paste `.env.example` file and edit.                                                                                       |
-| `firebase-serviceAccountKey_dev.json` | Firebase admin service account key for dev. Please ask development leader to share the file.                                       |
-| `templates/`                          | Contains templates directories. Template directories contain wav and meta data files. Please ask development leader to share them. |
+| Path                                  | Description                                                                                                                       |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `.env.emulator`                       | Copy and paste `.env.example` file and edit.                                                                                      |
+| `firebase-serviceAccountKey_dev.json` | Firebase admin service account key for dev. Please ask development leader to share the file.                                      |
+| `templates/`                          | Contains templates directories. Template directories contain wav and metadata files. Please ask development leader to share them. |
 
 Run `Generate Piece for Emulator` configuration in VSCode to generate template data in Firestore emulator.
 
