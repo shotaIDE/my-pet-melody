@@ -15,5 +15,7 @@
   "googleAccountIsAlreadyUsedErrorDescription": "このGoogleアカウントはすでに利用されています。他のアカウントでお試しください",
   "twitterAccountIsAlreadyUsedErrorDescription": "このTwitterアカウントはすでに利用されています。他のアカウントでお試しください",
   "appleAccountIsAlreadyUsedErrorDescription": "このAppleアカウントはすでに利用されています。他のアカウントでお試しください",
-  "unknownErrorDescription": "エラーが発生しました。しばらくしてから再度お試しください"
+  "unknownErrorDescription": "エラーが発生しました。しばらくしてから再度お試しください",
+  "updateAppDescription": "新しいバージョンがリリースされています。より良い作品を作るために、アップデートしてご利用ください",
+  "update": "アップデートする"
 }
