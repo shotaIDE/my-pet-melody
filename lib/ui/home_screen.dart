@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
 import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
 import 'package:my_pet_melody/ui/component/lying_down_cat_image.dart';
@@ -404,11 +403,8 @@ class _AvailableUntilText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateFormatter = DateFormat.yMd('ja');
-    final timeFormatter = DateFormat.Hm('ja');
-    final text = '保存期限: '
-        '${dateFormatter.format(availableUntil)} '
-        '${timeFormatter.format(availableUntil)}';
+    final text = AppLocalizations.of(context)!
+        .retentionPeriodFormat(availableUntil, availableUntil);
     final color = current.isAfter(
       availableUntil.add(const Duration(days: -1)),
     )
