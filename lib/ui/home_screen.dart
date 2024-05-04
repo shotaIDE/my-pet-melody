@@ -101,8 +101,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        '所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。',
+                      Text(
+                        AppLocalizations.of(context)!
+                            .retainedPiecesCountReachedTheMaxWarningDescription,
                       ),
                       const SizedBox(height: 16),
                       CheckboxListTile(
@@ -112,7 +113,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             requestedDoNotShowAgain = value!;
                           });
                         },
-                        title: const Text('今後表示しない'),
+                        title: Text(
+                          AppLocalizations.of(context)!.doNotShowAgain,
+                        ),
                       ),
                     ],
                   ),
@@ -120,7 +123,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       const EdgeInsets.only(top: 20, left: 24, right: 24),
                   actions: [
                     TextButton(
-                      child: const Text('続ける'),
+                      child: Text(AppLocalizations.of(context)!.doContinue),
                       onPressed: () => Navigator.pop(
                         context,
                         ConfirmToMakePieceResult.continued(
@@ -130,7 +133,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                     TextButton(
-                      child: const Text('キャンセル'),
+                      child: Text(AppLocalizations.of(context)!.cancel),
                       onPressed: () => Navigator.pop(
                         context,
                         const ConfirmToMakePieceResult.canceled(),

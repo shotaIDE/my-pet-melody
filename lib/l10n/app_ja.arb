@@ -36,5 +36,9 @@
         "format": "Hm"
       }
     }
-  }
+  },
+  "retainedPiecesCountReachedTheMaxWarningDescription": "所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。",
+  "doNotShowAgain": "今後表示しない",
+  "doContinue": "続ける",
+  "cancel": "キャンセル"
 }
