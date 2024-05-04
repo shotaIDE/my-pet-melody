@@ -1,7 +1,7 @@
 {
   "@@locale": "ja",
   "myPetMelody": "うちのコメロディー",
-  "createAccount": "'アカウントを\n作成しよう",
+  "createAccount": "アカウントを\n作成しよう",
   "loginAccount": "アカウントに\nログインしよう",
   "accountCreationReasonDescription": "大切な作品をバックアップするために、アカウントを作成してね！",
   "accountLoginReasonDescription": "大切な作品をバックアップするために、ログインしてね！",
