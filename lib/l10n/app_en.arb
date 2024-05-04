@@ -11,5 +11,9 @@
   "loginIfYouHaveAccount": "Login if you have an account",
   "createAccountIfYouHaveNoAccount": "Create account",
   "continueWithoutCreatingAccount": "Continue without creating account",
-  "continueWithoutLogin": "Continue without login"
+  "continueWithoutLogin": "Continue without login",
+  "googleAccountIsAlreadyUsedErrorDescription": "This Google account is already in use. Please try with another account.",
+  "twitterAccountIsAlreadyUsedErrorDescription": "This Twitter account is already in use. Please try with another account.",
+  "appleAccountIsAlreadyUsedErrorDescription": "This Apple account is already in use. Please try with another account.",
+  "unknownErrorDescription": "An error has occurred. Please try again later."
 }
