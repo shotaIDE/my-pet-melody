@@ -1,5 +1,16 @@
 # Function
 
+## Development
+
+### Requirements
+
+Place the following files in the root directory of the project.
+
+| Path                                  | Description                                  |
+| ------------------------------------- | -------------------------------------------- |
+| `.env.emulator`                       | Copy and paste `.env.example` file and edit. |
+| `firebase-serviceAccountKey_dev.json` | Firebase admin service account key for dev.  |
+
 ## How to deploy
 
 ### Develop
