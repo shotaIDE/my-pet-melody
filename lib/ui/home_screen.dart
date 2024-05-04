@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
 import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
 import 'package:my_pet_melody/ui/component/lying_down_cat_image.dart';
@@ -61,13 +61,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              content: const Text(
-                '所有できる作品の最大数を超えました。'
-                '新しく作品をつくるには、今ある作品の保存期限が過ぎるのを待つか、プレミアムプランへの加入を検討してください。',
+              content: Text(
+                AppLocalizations.of(context)!
+                    .accessiblePiecesCountReachedTheMaxErrorDescription,
               ),
               actions: [
                 TextButton(
-                  child: const Text('プレミアムプランとは'),
+                  child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
                   onPressed: () => Navigator.pop(context, true),
                 ),
               ],
@@ -95,15 +95,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           builder: (context) {
             var requestedDoNotShowAgain = false;
 
+            final text = Text(
+              AppLocalizations.of(context)!
+                  .accessiblePiecesCountReachedTheMaxWarningDescription,
+            );
+
             return StatefulBuilder(
               builder: (context, setState) {
                 return AlertDialog(
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        '所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。',
-                      ),
+                      text,
                       const SizedBox(height: 16),
                       CheckboxListTile(
                         value: requestedDoNotShowAgain,
@@ -112,7 +115,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             requestedDoNotShowAgain = value!;
                           });
                         },
-                        title: const Text('今後表示しない'),
+                        title: Text(
+                          AppLocalizations.of(context)!.doNotShowAgain,
+                        ),
                       ),
                     ],
                   ),
@@ -120,7 +125,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       const EdgeInsets.only(top: 20, left: 24, right: 24),
                   actions: [
                     TextButton(
-                      child: const Text('続ける'),
+                      child: Text(AppLocalizations.of(context)!.doContinue),
                       onPressed: () => Navigator.pop(
                         context,
                         ConfirmToMakePieceResult.continued(
@@ -130,7 +135,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                     TextButton(
-                      child: const Text('キャンセル'),
+                      child: Text(AppLocalizations.of(context)!.cancel),
                       onPressed: () => Navigator.pop(
                         context,
                         const ConfirmToMakePieceResult.canceled(),
@@ -191,7 +196,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
             final detailsText = piece.map(
               generating: (generating) => Text(
-                '製作中',
+                AppLocalizations.of(context)!.generating,
                 style: TextStyle(color: foregroundColor),
               ),
               generated: (generated) {
@@ -288,7 +293,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'まだ作品を製作していません。\n右下の “+” ボタンから作品を製作しましょう。',
+              AppLocalizations.of(context)!.noPiecesDescription,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
@@ -302,7 +307,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('つくった作品'),
+        title: Text(
+          AppLocalizations.of(context)!.createdPieces,
+        ),
         actions: [
           _SettingsButton(
             onPressed: () => Navigator.push(context, SettingsScreen.route()),
@@ -330,7 +337,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ],
       ),
       floatingActionButton: Semantics(
-        label: '作品をつくる',
+        label: AppLocalizations.of(context)!.createPiece,
         child: FloatingActionButton(
           onPressed: ref.read(widget.viewModelProvider.notifier).onMakePiece,
           child: const Icon(Icons.add),
@@ -345,12 +352,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: const Text(
-            '作品の保存期限が切れています。この作品を閲覧するには、プレミアムプランへの加入を検討してください。',
+          content: Text(
+            AppLocalizations.of(context)!.pieceExpiredDescription,
           ),
           actions: [
             TextButton(
-              child: const Text('プレミアムプランとは'),
+              child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
               onPressed: () => Navigator.pop(context, true),
             ),
           ],
@@ -401,11 +408,8 @@ class _AvailableUntilText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateFormatter = DateFormat.yMd('ja');
-    final timeFormatter = DateFormat.Hm('ja');
-    final text = '保存期限: '
-        '${dateFormatter.format(availableUntil)} '
-        '${timeFormatter.format(availableUntil)}';
+    final text = AppLocalizations.of(context)!
+        .retentionPeriodFormat(availableUntil, availableUntil);
     final color = current.isAfter(
       availableUntil.add(const Duration(days: -1)),
     )

@@ -183,15 +183,20 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       },
       failure: (error) => error.mapOrNull(
         alreadyInUse: (_) async {
-          const snackBar = SnackBar(
-            content: Text('このGoogleアカウントはすでに利用されています。他のアカウントでお試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!
+                  .googleAccountIsAlreadyUsedErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         unrecoverable: (_) async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.unknownErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -213,15 +218,19 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       },
       failure: (error) => error.mapOrNull(
         alreadyInUse: (_) async {
-          const snackBar = SnackBar(
-            content: Text('このTwitterアカウントはすでに利用されています。他のアカウントでお試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!
+                  .twitterAccountIsAlreadyUsedErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         unrecoverable: (_) async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          final snackBar = SnackBar(
+            content:
+                Text(AppLocalizations.of(context)!.unknownErrorDescription),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -243,15 +252,19 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       },
       failure: (error) => error.mapOrNull(
         alreadyInUse: (_) async {
-          const snackBar = SnackBar(
-            content: Text('このAppleアカウントはすでに利用されています。他のアカウントでお試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!
+                  .appleAccountIsAlreadyUsedErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         unrecoverable: (_) async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          final snackBar = SnackBar(
+            content:
+                Text(AppLocalizations.of(context)!.unknownErrorDescription),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

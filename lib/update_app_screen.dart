@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
@@ -53,12 +54,12 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
           // Prevent the Android OS back button from dismissing dialog
           canPop: false,
           child: AlertDialog(
-            content: const Text(
-              '新しいバージョンがリリースされています。より良い作品を作るために、アップデートしてご利用ください',
+            content: Text(
+              AppLocalizations.of(context)!.updateAppDescription,
             ),
             actions: [
               TextButton(
-                child: const Text('アップデートする'),
+                child: Text(AppLocalizations.of(context)!.update),
                 onPressed: () async {
                   await InAppReview.instance.openStoreListing(
                     appStoreId: appStoreId,

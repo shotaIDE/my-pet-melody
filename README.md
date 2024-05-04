@@ -1,4 +1,4 @@
-# うちのコメロディー
+# My Pet Melody (うちのコメロディー)
 
 ## Development
 

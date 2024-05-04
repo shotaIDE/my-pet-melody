@@ -11,5 +11,35 @@
   "loginIfYouHaveAccount": "Login if you have an account",
   "createAccountIfYouHaveNoAccount": "Create account",
   "continueWithoutCreatingAccount": "Continue without creating account",
-  "continueWithoutLogin": "Continue without login"
+  "continueWithoutLogin": "Continue without login",
+  "googleAccountIsAlreadyUsedErrorDescription": "This Google account is already in use. Please try with another account.",
+  "twitterAccountIsAlreadyUsedErrorDescription": "This Twitter account is already in use. Please try with another account.",
+  "appleAccountIsAlreadyUsedErrorDescription": "This Apple account is already in use. Please try with another account.",
+  "unknownErrorDescription": "An error has occurred. Please try again later.",
+  "updateAppDescription": "A new version has been released. Please update and use to create better pieces.",
+  "update": "Update",
+  "createdPieces": "Created Pieces",
+  "noPiecesDescription": "You haven't created any pieces yet. Create your pieces by tapping the “+” button at the bottom right.",
+  "createPiece": "Create Piece",
+  "pieceExpiredDescription": "The piece's retention period has expired. To view this piece, please consider subscribing to premium plan.",
+  "aboutPremiumPlan": "About premium plan",
+  "generating": "Generating...",
+  "retentionPeriodFormat": "Accessible until {date} {time}",
+  "@retentionPeriodFormat": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "Hm"
+      }
+    }
+  },
+  "accessiblePiecesCountReachedTheMaxErrorDescription": "You have reached the maximum number of pieces you can access. To create a new piece, please wait until the oldest piece's access expired or consider subscribing to premium plan.",
+  "accessiblePiecesCountReachedTheMaxWarningDescription": "You have reached the maximum number of pieces you can access. When you create a new piece, one oldest piece will be deleted.",
+  "doNotShowAgain": "Don't show again",
+  "doContinue": "Continue",
+  "cancel": "Cancel"
 }
