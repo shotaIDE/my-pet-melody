@@ -23,6 +23,7 @@
   "createPiece": "作品をつくる",
   "pieceExpiredDescription": "作品の保存期限が切れています。この作品を閲覧するには、プレミアムプランへの加入を検討してください。",
   "aboutPremiumPlan": "プレミアムプランとは",
+  "generating": "製作中...",
   "retentionPeriodFormat": "保存期限: {date} {time}",
   "@retentionPeriodFormat": {
     "placeholders": {

@@ -191,7 +191,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
             final detailsText = piece.map(
               generating: (generating) => Text(
-                '製作中',
+                AppLocalizations.of(context)!.generating,
                 style: TextStyle(color: foregroundColor),
               ),
               generated: (generated) {
