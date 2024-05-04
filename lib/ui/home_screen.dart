@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
@@ -288,7 +289,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'まだ作品を製作していません。\n右下の “+” ボタンから作品を製作しましょう。',
+              AppLocalizations.of(context)!.noPiecesDescription,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
@@ -302,7 +303,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('つくった作品'),
+        title: Text(
+          AppLocalizations.of(context)!.createdPieces,
+        ),
         actions: [
           _SettingsButton(
             onPressed: () => Navigator.push(context, SettingsScreen.route()),
@@ -330,7 +333,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ],
       ),
       floatingActionButton: Semantics(
-        label: '作品をつくる',
+        label: AppLocalizations.of(context)!.createPiece,
         child: FloatingActionButton(
           onPressed: ref.read(widget.viewModelProvider.notifier).onMakePiece,
           child: const Icon(Icons.add),
@@ -345,12 +348,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: const Text(
-            '作品の保存期限が切れています。この作品を閲覧するには、プレミアムプランへの加入を検討してください。',
+          content: Text(
+            AppLocalizations.of(context)!.pieceExpiredDescription,
           ),
           actions: [
             TextButton(
-              child: const Text('プレミアムプランとは'),
+              child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
               onPressed: () => Navigator.pop(context, true),
             ),
           ],

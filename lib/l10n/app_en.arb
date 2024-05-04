@@ -17,5 +17,10 @@
   "appleAccountIsAlreadyUsedErrorDescription": "This Apple account is already in use. Please try with another account.",
   "unknownErrorDescription": "An error has occurred. Please try again later.",
   "updateAppDescription": "A new version has been released. Please update and use to create better pieces.",
-  "update": "Update"
+  "update": "Update",
+  "createdPieces": "Created Pieces",
+  "noPiecesDescription": "You haven't created any pieces yet. Create your pieces by tapping the “+” button at the bottom right.",
+  "createPiece": "Create Piece",
+  "pieceExpiredDescription": "The piece's retention period has expired. To view this piece, please consider subscribing to the premium plan.",
+  "aboutPremiumPlan": "About the premium plan"
 }

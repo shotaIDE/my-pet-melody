@@ -17,5 +17,10 @@
   "appleAccountIsAlreadyUsedErrorDescription": "このAppleアカウントはすでに利用されています。他のアカウントでお試しください",
   "unknownErrorDescription": "エラーが発生しました。しばらくしてから再度お試しください",
   "updateAppDescription": "新しいバージョンがリリースされています。より良い作品を作るために、アップデートしてご利用ください",
-  "update": "アップデートする"
+  "update": "アップデートする",
+  "createdPieces": "つくった作品",
+  "noPiecesDescription": "まだ作品を製作していません。\n右下の “+” ボタンから作品を製作しましょう。",
+  "createPiece": "作品をつくる",
+  "pieceExpiredDescription": "作品の保存期限が切れています。この作品を閲覧するには、プレミアムプランへの加入を検討してください。",
+  "aboutPremiumPlan": "プレミアムプランとは"
 }
