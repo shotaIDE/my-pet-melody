@@ -21,10 +21,10 @@
   "createdPieces": "Created Pieces",
   "noPiecesDescription": "You haven't created any pieces yet. Create your pieces by tapping the “+” button at the bottom right.",
   "createPiece": "Create Piece",
-  "pieceExpiredDescription": "The piece's retention period has expired. To view this piece, please consider subscribing to the premium plan.",
-  "aboutPremiumPlan": "About the premium plan",
+  "pieceExpiredDescription": "The piece's retention period has expired. To view this piece, please consider subscribing to premium plan.",
+  "aboutPremiumPlan": "About premium plan",
   "generating": "Generating...",
-  "retentionPeriodFormat": "Retained until {date} {time}",
+  "retentionPeriodFormat": "Accessible until {date} {time}",
   "@retentionPeriodFormat": {
     "placeholders": {
       "date": {
@@ -37,7 +37,8 @@
       }
     }
   },
-  "retainedPiecesCountReachedTheMaxWarningDescription": "You have reached the maximum count of pieces you can retain. When you create a new piece, one oldest piece will be deleted.",
+  "accessiblePiecesCountReachedTheMaxErrorDescription": "You have reached the maximum number of pieces you can access. To create a new piece, please wait until the oldest piece's access expired or consider subscribing to premium plan.",
+  "accessiblePiecesCountReachedTheMaxWarningDescription": "You have reached the maximum number of pieces you can access. When you create a new piece, one oldest piece will be deleted.",
   "doNotShowAgain": "Don't show again",
   "doContinue": "Continue",
   "cancel": "Cancel"

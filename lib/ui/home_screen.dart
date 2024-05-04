@@ -61,13 +61,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              content: const Text(
-                '所有できる作品の最大数を超えました。'
-                '新しく作品をつくるには、今ある作品の保存期限が過ぎるのを待つか、プレミアムプランへの加入を検討してください。',
+              content: Text(
+                AppLocalizations.of(context)!
+                    .accessiblePiecesCountReachedTheMaxErrorDescription,
               ),
               actions: [
                 TextButton(
-                  child: const Text('プレミアムプランとは'),
+                  child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
                   onPressed: () => Navigator.pop(context, true),
                 ),
               ],
@@ -95,16 +95,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           builder: (context) {
             var requestedDoNotShowAgain = false;
 
+            final text = Text(
+              AppLocalizations.of(context)!
+                  .accessiblePiecesCountReachedTheMaxWarningDescription,
+            );
+
             return StatefulBuilder(
               builder: (context, setState) {
                 return AlertDialog(
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        AppLocalizations.of(context)!
-                            .retainedPiecesCountReachedTheMaxWarningDescription,
-                      ),
+                      text,
                       const SizedBox(height: 16),
                       CheckboxListTile(
                         value: requestedDoNotShowAgain,

@@ -37,7 +37,8 @@
       }
     }
   },
-  "retainedPiecesCountReachedTheMaxWarningDescription": "所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。",
+  "accessiblePiecesCountReachedTheMaxErrorDescription": "所有できる作品の最大数を超えました。新しく作品をつくるには、今ある作品の保存期限が過ぎるのを待つか、プレミアムプランへの加入を検討してください。",
+  "accessiblePiecesCountReachedTheMaxWarningDescription": "所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。",
   "doNotShowAgain": "今後表示しない",
   "doContinue": "続ける",
   "cancel": "キャンセル"
