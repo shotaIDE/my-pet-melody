@@ -9,6 +9,7 @@
     "terraform",
     "terraform-version"
   ],
+  "extends": ["config:recommended", ":pinDevDependencies"],
   "labels": ["dependencies"],
   "packageRules": [
     {
@@ -34,7 +35,8 @@
     {
       "matchManagers": ["ruby-version"],
       "addLabels": ["ruby"],
-      "automerge": true
+      "automerge": true,
+      "semanticCommitType": "dev"
     },
     {
       "matchManagers": ["terraform", "terraform-version"],
@@ -43,6 +45,5 @@
     }
   ],
   "prConcurrentLimit": 1,
-  "rangeStrategy": "pin",
-  "semanticCommitType": "build"
+  "rangeStrategy": "pin"
 }
