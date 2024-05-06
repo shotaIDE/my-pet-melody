@@ -192,7 +192,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       child: Scaffold(
         appBar: transparentAppBar(
           context: context,
-          titleText: 'STEP 1/5',
+          titleText: AppLocalizations.of(context)!.step1,
         ),
         body: SafeArea(
           top: false,
@@ -236,7 +236,9 @@ class _NewChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(
-      label: const Text('New'),
+      label: Text(
+        AppLocalizations.of(context)!.newDescription,
+      ),
       labelStyle: Theme.of(context)
           .textTheme
           .bodySmall!

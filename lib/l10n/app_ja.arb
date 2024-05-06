@@ -42,6 +42,8 @@
   "doNotShowAgain": "今後表示しない",
   "doContinue": "続ける",
   "cancel": "キャンセル",
+  "step1": "STEP 1/5",
   "selectTemplate": "作品のBGMを選ぼう",
-  "selectTemplateDescription": "選んだBGMに鳴き声が入るよ！"
+  "selectTemplateDescription": "選んだBGMに鳴き声が入るよ！",
+  "newDescription": "New"
 }
