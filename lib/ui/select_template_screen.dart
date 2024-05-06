@@ -82,10 +82,8 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               );
 
-              final publishedAtText =
-                  AppLocalizations.of(context)!.publishDateFormat(publishedAt);
               final subtitle = Text(
-                publishedAtText,
+                AppLocalizations.of(context)!.publishDateFormat(publishedAt),
                 style: Theme.of(context).textTheme.bodySmall,
               );
 
