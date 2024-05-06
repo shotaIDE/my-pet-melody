@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/circled_play_button.dart';
@@ -41,13 +41,13 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     final templates = state.templates;
 
     final title = Text(
-      '作品のBGMを選ぼう',
+      AppLocalizations.of(context)!.selectTemplate,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final description = Text(
-      '選んだBGMに鳴き声が入るよ！',
+      AppLocalizations.of(context)!.selectTemplateDescription,
       style: Theme.of(context).textTheme.bodyLarge,
       textAlign: TextAlign.center,
     );
@@ -82,10 +82,8 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                 style: Theme.of(context).textTheme.bodyMedium,
               );
 
-              final dateFormatter = DateFormat.yMd('ja');
-              final publishedAtText = dateFormatter.format(publishedAt);
               final subtitle = Text(
-                publishedAtText,
+                AppLocalizations.of(context)!.publishDateFormat(publishedAt),
                 style: Theme.of(context).textTheme.bodySmall,
               );
 
@@ -191,7 +189,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       child: Scaffold(
         appBar: transparentAppBar(
           context: context,
-          titleText: 'STEP 1/5',
+          titleText: AppLocalizations.of(context)!.step1Of5,
         ),
         body: SafeArea(
           top: false,
@@ -235,7 +233,9 @@ class _NewChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(
-      label: const Text('New'),
+      label: Text(
+        AppLocalizations.of(context)!.newDescription,
+      ),
       labelStyle: Theme.of(context)
           .textTheme
           .bodySmall!

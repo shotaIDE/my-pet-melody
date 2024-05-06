@@ -41,5 +41,18 @@
   "accessiblePiecesCountReachedTheMaxWarningDescription": "所有できる作品の最大数を超えました。新しく作品を1つ完成させると過去の作品が1つ削除されていきます。",
   "doNotShowAgain": "今後表示しない",
   "doContinue": "続ける",
-  "cancel": "キャンセル"
+  "cancel": "キャンセル",
+  "step1Of5": "STEP 1/5",
+  "selectTemplate": "作品のBGMを選ぼう",
+  "selectTemplateDescription": "選んだBGMに鳴き声が入るよ！",
+  "newDescription": "New",
+  "publishDateFormat": "{date}",
+  "@publishDateFormat": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  }
 }
