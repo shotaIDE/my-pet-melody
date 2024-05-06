@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:my_pet_melody/data/model/template.dart';
@@ -41,13 +42,13 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     final templates = state.templates;
 
     final title = Text(
-      '作品のBGMを選ぼう',
+      AppLocalizations.of(context)!.selectTemplate,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final description = Text(
-      '選んだBGMに鳴き声が入るよ！',
+      AppLocalizations.of(context)!.selectTemplateDescription,
       style: Theme.of(context).textTheme.bodyLarge,
       textAlign: TextAlign.center,
     );
