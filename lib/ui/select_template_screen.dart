@@ -191,7 +191,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
       child: Scaffold(
         appBar: transparentAppBar(
           context: context,
-          titleText: AppLocalizations.of(context)!.step1,
+          titleText: AppLocalizations.of(context)!.step1Of5,
         ),
         body: SafeArea(
           top: false,

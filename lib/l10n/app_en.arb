@@ -42,7 +42,7 @@
   "doNotShowAgain": "Don't show again",
   "doContinue": "Continue",
   "cancel": "Cancel",
-  "step1": "STEP 1/5",
+  "step1Of5": "STEP 1/5",
   "selectTemplate": "Choose BGM for your piece",
   "selectTemplateDescription": "Your pet's sounds will be included in the selected BGM!",
   "newDescription": "New",
