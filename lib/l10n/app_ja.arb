@@ -45,5 +45,14 @@
   "step1": "STEP 1/5",
   "selectTemplate": "作品のBGMを選ぼう",
   "selectTemplateDescription": "選んだBGMに鳴き声が入るよ！",
-  "newDescription": "New"
+  "newDescription": "New",
+  "publishDateFormat": "{date}",
+  "@publishDateFormat": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  }
 }

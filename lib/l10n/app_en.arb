@@ -45,5 +45,14 @@
   "step1": "STEP 1/5",
   "selectTemplate": "Choose BGM for your piece",
   "selectTemplateDescription": "Your pet's sounds will be included in the selected BGM!",
-  "newDescription": "New"
+  "newDescription": "New",
+  "publishDateFormat": "{date}",
+  "@publishDateFormat": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  }
 }
