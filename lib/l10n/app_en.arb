@@ -59,5 +59,11 @@
   "selectSound": "Select your cat's sound",
   "selectSoundDescription": "Choose a video of your cat meowing!",
   "selectVideo": "Select a video",
-  "selectingVideo": "Selecting a video"
+  "selectingVideo": "Selecting a video",
+  "step3Of5": "STEP 3/5",
+  "selectRange": "Select a range for the sound",
+  "selectRangeDescription": "Your cat's meow will be automatically searched within the selected range!",
+  "goToNext": "Next",
+  "convertingVideoDescription": "Converting video.\nThis may take a few minutes.",
+  "searchingSoundDescription": "Searching for your cat's meow in the video. \nThis may take a few minutes."
 }

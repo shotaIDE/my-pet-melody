@@ -59,5 +59,11 @@
   "selectSound": "鳴き声の動画を選ぼう",
   "selectSoundDescription": "あなたのねこが鳴いてる動画を選んでね！",
   "selectVideo": "動画を選択する",
-  "selectingVideo": "動画を選択しています"
+  "selectingVideo": "動画を選択しています",
+  "step3Of5": "STEP 3/5",
+  "selectRange": "鳴き声の範囲を選ぼう",
+  "selectRangeDescription": "選択した範囲から自動で鳴き声を探すよ！",
+  "goToNext": "次へ",
+  "convertingVideoDescription": "動画を変換しています。\nこれには数分かかる場合があります",
+  "searchingSoundDescription": "動画の中から鳴き声を探しています。\nこれには数分かかる場合があります"
 }
