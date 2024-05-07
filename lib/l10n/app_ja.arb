@@ -78,5 +78,23 @@
       }
     }
   },
+  "numberN": "No. {number}",
+  "@numberN": {
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "nSeconds": "{seconds}秒",
+  "@numberN": {
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
   "uploading": "アップロードしています"
 }

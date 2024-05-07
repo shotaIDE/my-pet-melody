@@ -637,7 +637,7 @@ class _PositionText extends ConsumerWidget {
     final durationSeconds = durationMilliseconds / 1000;
 
     final indexText = Text(
-      'No.${index + 1}',
+      AppLocalizations.of(context)!.numberN(index + 1),
       style: Theme.of(context).textTheme.bodyMedium,
     );
     final durationText = Text(
