@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
@@ -65,7 +66,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
-      '鳴き声の動画を選ぼう',
+      AppLocalizations.of(context)!.selectSound,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
@@ -148,7 +149,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final description = Text(
-      'あなたのねこが鳴いてる動画を選んでね！',
+      AppLocalizations.of(context)!.selectSoundDescription,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyLarge,
     );
@@ -162,7 +163,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ref.read(widget.viewModelProvider.notifier).onSelectSound();
 
         final label = Text(
-          '動画を選択する',
+          AppLocalizations.of(context)!.selectVideo,
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
@@ -231,7 +232,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       child: Scaffold(
         appBar: transparentAppBar(
           context: context,
-          titleText: 'STEP 2/5',
+          titleText: AppLocalizations.of(context)!.step2Of5,
         ),
         body: Column(
           children: [
@@ -278,7 +279,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '動画を選択しています',
+                      AppLocalizations.of(context)!.selectingVideo,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!

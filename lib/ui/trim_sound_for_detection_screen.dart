@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
@@ -28,7 +29,7 @@ class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
   TrimSoundForDetectionScreen({
     required TrimSoundForDetectionArgs args,
     super.key,
-  })  : viewModelProvider = _trimSoundForDetectionViewModelProvider(args);
+  }) : viewModelProvider = _trimSoundForDetectionViewModelProvider(args);
 
   static const name = 'TrimSoundForDetectionScreen';
 
@@ -60,13 +61,13 @@ class _TrimSoundForDetectionScreenState
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      '鳴き声の範囲を選ぼう',
+      AppLocalizations.of(context)!.selectRange,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final description = Text(
-      '選択した範囲から自動で鳴き声を探すよ！',
+      AppLocalizations.of(context)!.selectRangeDescription,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyMedium,
     );
@@ -90,7 +91,7 @@ class _TrimSoundForDetectionScreenState
 
     final footerButton = PrimaryButton(
       onPressed: _onGoNext,
-      text: '次へ',
+      text: AppLocalizations.of(context)!.goToNext,
     );
     final footerContent = ConstrainedBox(
       constraints: const BoxConstraints(
@@ -103,7 +104,7 @@ class _TrimSoundForDetectionScreenState
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 3/5',
+        titleText: AppLocalizations.of(context)!.step3Of5,
       ),
       body: Column(
         children: [
@@ -267,7 +268,7 @@ class _GrayMask extends ConsumerWidget {
     final process =
         ref.watch(viewModelProvider.select((state) => state.process));
 
-    final message = process != null ? _processLabel(process) : '';
+    final message = process != null ? _processLabel(process, context) : '';
     final messageText = Text(
       message,
       style:
@@ -302,13 +303,16 @@ class _GrayMask extends ConsumerWidget {
     );
   }
 
-  String _processLabel(TrimSoundForDetectionScreenProcess process) {
+  String _processLabel(
+    TrimSoundForDetectionScreenProcess process,
+    BuildContext context,
+  ) {
     switch (process) {
       case TrimSoundForDetectionScreenProcess.convert:
-        return '動画を変換しています。\nこれには数分かかる場合があります';
+        return AppLocalizations.of(context)!.convertingVideoDescription;
 
       case TrimSoundForDetectionScreenProcess.detect:
-        return '動画の中から鳴き声を探しています。\nこれには数分かかる場合があります';
+        return AppLocalizations.of(context)!.searchingSoundDescription;
     }
   }
 }
