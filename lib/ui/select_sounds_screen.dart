@@ -149,7 +149,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final description = Text(
-      'あなたのねこが鳴いてる動画を選んでね！',
+      AppLocalizations.of(context)!.selectSoundDescription,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyLarge,
     );
@@ -163,7 +163,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
             ref.read(widget.viewModelProvider.notifier).onSelectSound();
 
         final label = Text(
-          '動画を選択する',
+          AppLocalizations.of(context)!.selectVideo,
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
@@ -232,7 +232,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       child: Scaffold(
         appBar: transparentAppBar(
           context: context,
-          titleText: 'STEP 2/5',
+          titleText: AppLocalizations.of(context)!.step2Of5,
         ),
         body: Column(
           children: [
@@ -279,7 +279,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '動画を選択しています',
+                      AppLocalizations.of(context)!.selectingVideo,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!

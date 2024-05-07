@@ -55,5 +55,9 @@
       }
     }
   },
-  "selectSound": "鳴き声の動画を選ぼう"
+  "step2Of5": "STEP 2/5",
+  "selectSound": "鳴き声の動画を選ぼう",
+  "selectSoundDescription": "あなたのねこが鳴いてる動画を選んでね！",
+  "selectVideo": "動画を選択する",
+  "selectingVideo": "動画を選択しています"
 }

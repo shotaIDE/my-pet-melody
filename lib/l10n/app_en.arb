@@ -55,5 +55,9 @@
       }
     }
   },
-  "selectSound": "Select your cat's sound"
+  "step2Of5": "STEP 2/5",
+  "selectSound": "Select your cat's sound",
+  "selectSoundDescription": "Choose a video of your cat meowing!",
+  "selectVideo": "Select a video",
+  "selectingVideo": "Selecting a video"
 }
