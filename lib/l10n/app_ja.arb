@@ -54,5 +54,6 @@
         "format": "yMd"
       }
     }
-  }
+  },
+  "selectSound": "鳴き声の動画を選ぼう"
 }

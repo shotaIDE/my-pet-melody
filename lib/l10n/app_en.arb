@@ -54,5 +54,6 @@
         "format": "yMd"
       }
     }
-  }
+  },
+  "selectSound": "Select your cat's sound"
 }

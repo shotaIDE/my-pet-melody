@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
@@ -65,7 +66,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
-      '鳴き声の動画を選ぼう',
+      AppLocalizations.of(context)!.selectSound,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
