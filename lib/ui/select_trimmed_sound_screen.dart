@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/circled_play_button.dart';
@@ -33,7 +34,7 @@ class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
   SelectTrimmedSoundScreen({
     required SelectTrimmedSoundArgs args,
     super.key,
-  })  : viewModelProvider = selectTrimmedSoundViewModelProvider(args);
+  }) : viewModelProvider = selectTrimmedSoundViewModelProvider(args);
 
   static const name = 'SelectTrimmedSoundScreen';
 
@@ -83,7 +84,7 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
               ),
               actions: [
                 TextButton(
-                  child: const Text('プレミアムプランとは'),
+                  child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
                   onPressed: () => Navigator.pop(context, true),
                 ),
               ],
@@ -230,7 +231,7 @@ class _SelectTrimmedSoundScreenState
     final viewModel = ref.watch(widget.viewModelProvider.notifier);
 
     final title = Text(
-      '鳴き声を選ぼう',
+      AppLocalizations.of(context)!.selectMeow,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
@@ -257,7 +258,7 @@ class _SelectTrimmedSoundScreenState
 
     final trimManuallyButton = TextButton(
       onPressed: ref.read(widget.viewModelProvider.notifier).onTrimManually,
-      child: const Text('自分でトリミングする'),
+      child: Text(AppLocalizations.of(context)!.trimManually),
     );
 
     final choicesPanel = ListView.separated(
@@ -294,7 +295,7 @@ class _SelectTrimmedSoundScreenState
 
     final footerButton = PrimaryButton(
       onPressed: isAvailableGoNext ? _onGoNext : null,
-      text: '次へ',
+      text: AppLocalizations.of(context)!.goToNext,
     );
     final footerContent = ConstrainedBox(
       constraints: const BoxConstraints(
@@ -307,7 +308,7 @@ class _SelectTrimmedSoundScreenState
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 4/5',
+        titleText: AppLocalizations.of(context)!.step4Of5,
       ),
       body: SafeArea(
         top: false,
@@ -343,7 +344,7 @@ class _SelectTrimmedSoundScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'アップロードしています',
+                      AppLocalizations.of(context)!.uploading,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
@@ -578,7 +579,7 @@ class _ChoiceRadioButton extends ConsumerWidget {
     );
 
     return Semantics(
-      label: '$index番目の鳴き声を選択する',
+      label: AppLocalizations.of(context)!.selectNThMeow(index),
       child: Radio<int?>(
         value: selectedIndex,
         groupValue: index,

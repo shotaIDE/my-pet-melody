@@ -65,5 +65,18 @@
   "selectRangeDescription": "選択した範囲から自動で鳴き声を探すよ！",
   "goToNext": "次へ",
   "convertingVideoDescription": "動画を変換しています。\nこれには数分かかる場合があります",
-  "searchingSoundDescription": "動画の中から鳴き声を探しています。\nこれには数分かかる場合があります"
+  "searchingSoundDescription": "動画の中から鳴き声を探しています。\nこれには数分かかる場合があります",
+  "step4Of5": "STEP 4/5",
+  "selectMeow": "Select a meow",
+  "trimManually": "自分でトリミングする",
+  "selectNThMeow": "Select the {index}-th meow",
+  "@selectNThMeow": {
+    "placeholders": {
+      "index": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "uploading": "アップロードしています"
 }

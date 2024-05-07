@@ -65,5 +65,18 @@
   "selectRangeDescription": "Your cat's meow will be automatically searched within the selected range!",
   "goToNext": "Next",
   "convertingVideoDescription": "Converting video.\nThis may take a few minutes.",
-  "searchingSoundDescription": "Searching for your cat's meow in the video. \nThis may take a few minutes."
+  "searchingSoundDescription": "Searching for your cat's meow in the video. \nThis may take a few minutes.",
+  "step4Of5": "STEP 4/5",
+  "selectMeow": "Select a meow",
+  "trimManually": "Trim manually",
+  "selectNThMeow": "Select the {index}-th meow",
+  "@selectNThMeow": {
+    "placeholders": {
+      "index": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "uploading": "Uploading"
 }
