@@ -45,5 +45,6 @@
     }
   ],
   "prConcurrentLimit": 1,
-  "rangeStrategy": "pin"
+  "rangeStrategy": "pin",
+  "reviewers": ["shotaIDE"]
 }
