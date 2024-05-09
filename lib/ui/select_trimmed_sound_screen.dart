@@ -238,7 +238,7 @@ class _SelectTrimmedSoundScreenState
     );
 
     final noDesiredTrimmingDescription = Text(
-      AppLocalizations.of(context)!.aboutPremiumPlan,
+      AppLocalizations.of(context)!.selectMeowDescription,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyLarge,
     );
