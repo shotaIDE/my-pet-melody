@@ -79,8 +79,9 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              content: const Text(
-                '自分でトリミングして鳴き声を設定するには、プレミアムプランに加入してください。',
+              content: Text(
+                AppLocalizations.of(context)!
+                    .manualTrimmingIsRestrictedDescription,
               ),
               actions: [
                 TextButton(
@@ -139,7 +140,7 @@ class _UnavailableTrimmedSoundScreenState
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      '鳴き声が\n見つかりませんでした',
+      AppLocalizations.of(context)!.noMeowsWereFound,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
@@ -150,14 +151,14 @@ class _UnavailableTrimmedSoundScreenState
       thumbnailHeight: DisplayDefinition.thumbnailHeightSmall,
     );
 
-    const noDesiredTrimmingDescription = Text(
-      '自分で鳴き声部分をトリミングして設定してね！',
+    final noDesiredTrimmingDescription = Text(
+      AppLocalizations.of(context)!.noMeowsWereFoundDescription,
       textAlign: TextAlign.center,
     );
 
     final trimManuallyButton = TextButton(
       onPressed: ref.read(widget.viewModelProvider.notifier).onTrimManually,
-      child: const Text('自分でトリミングする'),
+      child: Text(AppLocalizations.of(context)!.trimManually),
     );
 
     final body = SingleChildScrollView(
@@ -181,7 +182,7 @@ class _UnavailableTrimmedSoundScreenState
     return Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 2/3 (2)',
+        titleText: AppLocalizations.of(context)!.step4Of5,
       ),
       body: SafeArea(
         top: false,

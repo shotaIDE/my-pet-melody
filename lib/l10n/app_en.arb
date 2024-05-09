@@ -69,6 +69,7 @@
   "step4Of5": "STEP 4/5",
   "selectMeow": "Select a meow",
   "trimManually": "Trim manually",
+  "manualTrimmingIsRestrictedDescription": "To trim manually, please subscribe to our premium plan.",
   "selectNThMeow": "Select the {index}-th meow",
   "@selectNThMeow": {
     "placeholders": {
@@ -95,5 +96,7 @@
       }
     }
   },
-  "uploading": "Uploading"
+  "uploading": "Uploading",
+  "noMeowsWereFound": "No meows were found",
+  "noMeowsWereFoundDescription": "Trim the selected video and set a meow yourself!"
 }

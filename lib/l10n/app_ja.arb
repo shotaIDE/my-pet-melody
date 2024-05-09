@@ -69,6 +69,7 @@
   "step4Of5": "STEP 4/5",
   "selectMeow": "鳴き声を選ぼう",
   "trimManually": "自分でトリミングする",
+  "manualTrimmingIsRestrictedDescription": "自分でトリミングして鳴き声を設定するには、プレミアムプランに加入してください。",
   "selectNThMeow": "{index}番目の鳴き声を選択する",
   "@selectNThMeow": {
     "placeholders": {
@@ -95,5 +96,7 @@
       }
     }
   },
-  "uploading": "アップロードしています"
+  "uploading": "アップロードしています",
+  "noMeowsWereFound": "鳴き声が\n見つかりませんでした",
+  "noMeowsWereFoundDescription": "自分で鳴き声部分をトリミングして設定してね！"
 }
