@@ -68,7 +68,9 @@
   "searchingSoundDescription": "Searching for your cat's meow in the video. \nThis may take a few minutes.",
   "step4Of5": "STEP 4/5",
   "selectMeow": "Select a meow",
+  "selectMeowDescription": "Select the one that makes you hear your cat's meowing as soon as you play it! If it's not there, try trimming manually!",
   "trimManually": "Trim manually",
+  "manualTrimmingIsRestrictedDescription": "To trim manually, please consider subscribing to premium plan.",
   "selectNThMeow": "Select the {index}-th meow",
   "@selectNThMeow": {
     "placeholders": {
@@ -91,10 +93,11 @@
   "@nSeconds": {
     "placeholders": {
       "seconds": {
-        "type": "int",
-        "format": "decimalPattern"
+        "type": "String"
       }
     }
   },
-  "uploading": "Uploading"
+  "uploading": "Uploading",
+  "noMeowsWereFound": "No meows were found",
+  "noMeowsWereFoundDescription": "Trim the selected video manually and set a meow!"
 }

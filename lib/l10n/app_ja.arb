@@ -68,7 +68,9 @@
   "searchingSoundDescription": "動画の中から鳴き声を探しています。\nこれには数分かかる場合があります",
   "step4Of5": "STEP 4/5",
   "selectMeow": "鳴き声を選ぼう",
+  "selectMeowDescription": "再生するとすぐに鳴き声が聞こえるものを選んでね！この中にない場合は自分でトリミングしてみてね！",
   "trimManually": "自分でトリミングする",
+  "manualTrimmingIsRestrictedDescription": "自分でトリミングして鳴き声を設定するには、プレミアムプランに加入してください。",
   "selectNThMeow": "{index}番目の鳴き声を選択する",
   "@selectNThMeow": {
     "placeholders": {
@@ -91,10 +93,11 @@
   "@nSeconds": {
     "placeholders": {
       "seconds": {
-        "type": "int",
-        "format": "decimalPattern"
+        "type": "String"
       }
     }
   },
-  "uploading": "アップロードしています"
+  "uploading": "アップロードしています",
+  "noMeowsWereFound": "鳴き声が\n見つかりませんでした",
+  "noMeowsWereFoundDescription": "自分で鳴き声部分をトリミングして設定してね！"
 }
