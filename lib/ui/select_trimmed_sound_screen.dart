@@ -237,24 +237,10 @@ class _SelectTrimmedSoundScreenState
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
-    final noDesiredTrimmingDescription = RichText(
-      text: TextSpan(
-        style: Theme.of(context).textTheme.bodyLarge,
-        children: const [
-          TextSpan(
-            text: '再生すると',
-          ),
-          TextSpan(
-            text: 'すぐに鳴き声が聞こえる',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          TextSpan(
-            text: 'ものを選んでね！'
-                'この中にない場合は自分でトリミングしてみてね！',
-          ),
-        ],
-      ),
+    final noDesiredTrimmingDescription = Text(
+      AppLocalizations.of(context)!.aboutPremiumPlan,
       textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.bodyLarge,
     );
 
     final trimManuallyButton = TextButton(

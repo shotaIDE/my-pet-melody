@@ -98,5 +98,6 @@
   },
   "uploading": "Uploading",
   "noMeowsWereFound": "No meows were found",
-  "noMeowsWereFoundDescription": "Trim the selected video and set a meow yourself!"
+  "noMeowsWereFoundDescription": "Trim the selected video and set a meow yourself!",
+  "selectMeowDescription": "Select the one that makes you hear your cat's meowing as soon as you play it! If it's not there, try trimming yourself!"
 }

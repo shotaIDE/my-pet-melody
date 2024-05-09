@@ -98,5 +98,7 @@
   },
   "uploading": "アップロードしています",
   "noMeowsWereFound": "鳴き声が\n見つかりませんでした",
-  "noMeowsWereFoundDescription": "自分で鳴き声部分をトリミングして設定してね！"
+  "noMeowsWereFoundDescription": "自分で鳴き声部分をトリミングして設定してね！",
+  "selectMeowDescription": "再生するとすぐに鳴き声が聞こえるものを選んでね！この中にない場合は自分でトリミングしてみてね！"
+
 }
