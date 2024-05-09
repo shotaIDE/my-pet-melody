@@ -70,7 +70,7 @@
   "selectMeow": "Select a meow",
   "selectMeowDescription": "Select the one that makes you hear your cat's meowing as soon as you play it! If it's not there, try trimming manually!",
   "trimManually": "Trim manually",
-  "manualTrimmingIsRestrictedDescription": "To trim manually, please subscribe to our premium plan.",
+  "manualTrimmingIsRestrictedDescription": "To trim manually, please consider subscribing to premium plan.",
   "selectNThMeow": "Select the {index}-th meow",
   "@selectNThMeow": {
     "placeholders": {
