@@ -640,8 +640,9 @@ class _PositionText extends ConsumerWidget {
       AppLocalizations.of(context)!.numberN(index + 1),
       style: Theme.of(context).textTheme.bodyMedium,
     );
+    final durationSecondsString = durationSeconds.toStringAsFixed(3);
     final durationText = Text(
-      '${durationSeconds.toStringAsFixed(3)}秒',
+      AppLocalizations.of(context)!.nSeconds(durationSecondsString),
       style: Theme.of(context).textTheme.bodySmall,
     );
 
