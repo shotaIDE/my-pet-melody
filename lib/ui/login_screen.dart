@@ -42,8 +42,8 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
     final isCreateMode = state.isCreateMode;
 
     final title = isCreateMode
-        ? AppLocalizations.of(context)!.createAccount
-        : AppLocalizations.of(context)!.loginAccount;
+        ? AppLocalizations.of(context)!.letsCreateAccount
+        : AppLocalizations.of(context)!.letsLoginAccount;
     final titleText = Text(
       title,
       textAlign: TextAlign.center,

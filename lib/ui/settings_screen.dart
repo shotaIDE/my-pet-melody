@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
@@ -58,52 +59,52 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           Navigator.push<void>(context, LinkWithAccountScreen.route()),
     );
 
-    const currentPlanTile = RoundedSettingsListTile(
-      title: Text('現在のプラン'),
-      trailing: _IsPremiumPlanText(),
+    final currentPlanTile = RoundedSettingsListTile(
+      title: Text(AppLocalizations.of(context)!.currentPlan),
+      trailing: const _IsPremiumPlanText(),
       positionInGroup: ListTilePositionInGroup.first,
     );
     final registerPremiumPlanTile = RoundedSettingsListTile(
-      title: const Text('プレミアムプランに登録する'),
+      title: Text(AppLocalizations.of(context)!.subscribeToPremiumPlan),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push<void>(context, JoinPremiumPlanScreen.route()),
       positionInGroup: ListTilePositionInGroup.last,
     );
 
     final writeReviewTile = RoundedSettingsListTile(
-      title: const Text('レビューを書く'),
+      title: Text(AppLocalizations.of(context)!.writeReview),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _writeReview,
       positionInGroup: ListTilePositionInGroup.first,
     );
     final shareWithFriendsTile = RoundedSettingsListTile(
-      title: const Text('友達に教える'),
+      title: Text(AppLocalizations.of(context)!.shareWithFriends),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _shareWithFriends,
       positionInGroup: ListTilePositionInGroup.middle,
     );
     final termsOfServiceTile = RoundedSettingsListTile(
-      title: const Text('利用規約'),
+      title: Text(AppLocalizations.of(context)!.termsOfUse),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openTermsOfService,
       positionInGroup: ListTilePositionInGroup.middle,
     );
     final privacyPolicyTile = RoundedSettingsListTile(
-      title: const Text('プライバシーポリシー'),
+      title: Text(AppLocalizations.of(context)!.privacyPolicy),
       trailing: const Icon(Icons.open_in_browser),
       onTap: _openPrivacyPolicy,
       positionInGroup: ListTilePositionInGroup.last,
     );
 
     final debugTile = RoundedSettingsListTile(
-      title: const Text('デバッグ'),
+      title: Text(AppLocalizations.of(context)!.debug),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.push(context, DebugScreen.route()),
       positionInGroup: ListTilePositionInGroup.first,
     );
-    const versionTile = RoundedSettingsListTile(
-      title: Text('バージョン'),
-      trailing: _FullVersionNameText(),
+    final versionTile = RoundedSettingsListTile(
+      title: Text(AppLocalizations.of(context)!.version),
+      trailing: const _FullVersionNameText(),
       positionInGroup: ListTilePositionInGroup.last,
     );
 
@@ -141,7 +142,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     final scaffold = Scaffold(
       appBar: AppBar(
-        title: const Text('設定'),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: SafeArea(
         top: false,
@@ -162,7 +163,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'アカウントを削除しています',
+                      AppLocalizations.of(context)!.deletingAccount,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
@@ -190,7 +191,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final storeUrl = Platform.isIOS
         ? 'https://apps.apple.com/us/app/うちのコメロディー/id6450181110'
         : 'https://play.google.com/store/apps/details?id=ide.shota.colomney.MyPetMelody';
-    await Share.share('あなたのネコのオリジナルソングを作ろう！ $storeUrl');
+    await Share.share(
+      AppLocalizations.of(context)!.shareWithFriendsSentence(storeUrl),
+    );
   }
 
   Future<void> _openTermsOfService() async {
@@ -214,14 +217,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: const Text('本当にアカウントを削除しますか？削除すると、これまで製作した作品を閲覧できなくなります。'),
+          content: Text(AppLocalizations.of(context)!.deleteAccountDescription),
           actions: [
             TextButton(
-              child: const Text('削除する'),
+              child: Text(AppLocalizations.of(context)!.delete),
               onPressed: () => Navigator.pop(context, true),
             ),
             TextButton(
-              child: const Text('キャンセル'),
+              child: Text(AppLocalizations.of(context)!.cancel),
               onPressed: () => Navigator.pop(context, false),
             ),
           ],
@@ -249,8 +252,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       failure: (error) => error.when(
         cancelledByUser: () {},
         unrecoverable: () async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          final snackBar = SnackBar(
+            content:
+                Text(AppLocalizations.of(context)!.unknownErrorDescription),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -314,7 +318,7 @@ class _LoggedInProfileTile extends StatelessWidget {
     final icon = ProfileIcon(photoUrl: photoUrl);
 
     final name = profile.name;
-    final titleText = name ?? '(No Name)';
+    final titleText = name ?? AppLocalizations.of(context)!.noNameLabel;
 
     return ListTile(
       leading: SizedBox(
@@ -337,7 +341,7 @@ class _NotLoggedInTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RoundedSettingsListTile(
-      title: const Text('アカウントを作成する'),
+      title: Text(AppLocalizations.of(context)!.createAccount),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
     );
@@ -361,7 +365,7 @@ class _DeleteAccountPanel extends ConsumerWidget {
 
     return RoundedSettingsListTile(
       title: Text(
-        'アカウント削除',
+        AppLocalizations.of(context)!.deleteAccount,
         style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
       onTap: onTap,

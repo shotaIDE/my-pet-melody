@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/component/social_login_button.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
@@ -38,8 +39,8 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
 
-    const description = Text(
-      '大切な作品をバックアップするために、アカウントを作成してね！',
+    final description = Text(
+      AppLocalizations.of(context)!.accountCreationReasonDescription,
       textAlign: TextAlign.center,
     );
 
@@ -89,7 +90,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
 
     final scaffold = Scaffold(
       appBar: AppBar(
-        title: const Text('アカウント作成'),
+        title: Text(AppLocalizations.of(context)!.accountCreation),
       ),
       body: Column(
         children: [
@@ -139,15 +140,20 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
       },
       failure: (error) => error.mapOrNull(
         alreadyInUse: (_) async {
-          const snackBar = SnackBar(
-            content: Text('このGoogleアカウントはすでに利用されています。他のアカウントでお試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!
+                  .googleAccountIsAlreadyUsedErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         unrecoverable: (_) async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.unknownErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -166,15 +172,20 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
       },
       failure: (error) => error.mapOrNull(
         alreadyInUse: (_) async {
-          const snackBar = SnackBar(
-            content: Text('このTwitterアカウントはすでに利用されています。他のアカウントでお試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!
+                  .twitterAccountIsAlreadyUsedErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         unrecoverable: (_) async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.unknownErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -193,15 +204,20 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
       },
       failure: (error) => error.mapOrNull(
         alreadyInUse: (_) async {
-          const snackBar = SnackBar(
-            content: Text('このAppleアカウントはすでに利用されています。他のアカウントでお試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!
+                  .appleAccountIsAlreadyUsedErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         unrecoverable: (_) async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          final snackBar = SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.unknownErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

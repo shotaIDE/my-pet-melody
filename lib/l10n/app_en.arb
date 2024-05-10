@@ -1,8 +1,8 @@
 {
   "@@locale": "en",
   "myPetMelody": "My Pet Melody",
-  "createAccount": "Create Account",
-  "loginAccount": "Login Account",
+  "letsCreateAccount": "Create Account",
+  "letsLoginAccount": "Login Account",
   "accountCreationReasonDescription": "Create an account to backup your pet's pieces and access them from any device.",
   "accountLoginReasonDescription": "Login your account to backup your pet's pieces and access them from any device.",
   "continueWithGoogle": "Continue with Google",
@@ -99,5 +99,89 @@
   },
   "uploading": "Uploading",
   "noMeowsWereFound": "No meows were found",
-  "noMeowsWereFoundDescription": "Trim the selected video manually and set a meow!"
+  "noMeowsWereFoundDescription": "Trim the selected video manually and set a meow!",
+  "step4TrimmingOf5": "STEP 4/5 Trimming",
+  "trimMeow": "Trim a meow",
+  "trimMeowDescription": "The clipped range will be played in your piece as is!",
+  "step5Of5": "STEP 5/5",
+  "setTitleOfPiece": "Set title of your piece",
+  "titleOfPiece": "Title of piece",
+  "goToPreparation": "Proceed to preparation",
+  "generatePiece": "Generate piece",
+  "submitting": "Submitting",
+  "preparationToGeneratePiece": "Preparation",
+  "allowPushNotification": "Allow push notifications",
+  "allowPushNotificationDescription": "You can receive a notification when your piece is completed! Please allow push notification permission!",
+  "allowAndGeneratePiece": "Allow and generate",
+  "notAllowAndGeneratePiece": "Not allow and generate",
+  "generationOfPieceHasBegun": "Generation of piece has begun",
+  "waitALittleDescription": "Wait a little while until your piece is completed!",
+  "waitAFewMinutesDescription": "Wait for a while until your piece is completed! It will take about 5 minutes!",
+  "completePieceRightNow": "Complete piece right now",
+  "completePieceRightNowIsRestrictedDescription": "To complete your piece right now, please consider subscribing to premium plan.",
+  "thisScreenWillBeClosedInNSeconds": "This screen will be closed in {seconds} seconds",
+  "@thisScreenWillBeClosedInNSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "settings": "Settings",
+  "noNameLabel": "(No Name)",
+  "createAccount": "Create an account",
+  "currentPlan": "Current plan",
+  "freePlan": "Free plan",
+  "premiumPlan": "Premium plan",
+  "subscribeToPremiumPlan": "Subscribe to premium plan",
+  "writeReview": "Write a review",
+  "shareWithFriends": "Share with friends",
+  "termsOfUse": "Terms of use",
+  "privacyPolicy": "Privacy policy",
+  "debug": "Debug",
+  "version": "Version",
+  "deleteAccount": "Delete your account",
+  "shareWithFriendsSentence": "Create an original song for your cat! {url}",
+  "@shareWithFriendsSentence": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteAccountDescription": "Are you sure to delete your account? If you delete it, you will no longer be able to access the pieces you have created so far.",
+  "delete": "Delete",
+  "deletingAccount": "Deleting account",
+  "accountCreation": "Create account",
+  "largerCreationSpace": "Larger creation space",
+  "largerCreationSpaceDescription": "You will be able to save up to {maxNumber} pieces.",
+  "@largerCreationSpaceDescription": {
+    "placeholders": {
+      "maxNumber": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "fasterGenerationSpeed": "Faster generation speed",
+  "fasterGenerationSpeedDescription": "Piece creation will now take priority over the free plan, reducing the waiting time for piece completion.",
+  "higherCreationQuality": "Higher creation quality",
+  "higherCreationQualityDescription": "You will be able to specify your own trimmed meows in your piece.",
+  "alreadyJoinedPremiumPlan": "Already subscribed to premium plan",
+  "noPurchasablePlanWasFound": "No purchasable plan",
+  "restoreWhenChangedDevice": "Restore when changed device",
+  "aboutAutomaticRecurringBilling": "About automatic recurring billing",
+  "aboutAutomaticRecurringBillingDescription": "If you do not cancel automatic renewal at least 24 hours before the end of the period, the contract period will be automatically renewed.",
+  "confirmationAndCancellation": "Confirmation and cancellation",
+  "confirmationAndCancellationDescriptionForIOS": "You can check the next automatic renewal timing or cancel automatic renewal from the [Your Name] > [Subscription] > [My Pet Melody] screen by opening the Settings app.",
+  "confirmationAndCancellationDescriptionForAndroid": "You can check the next automatic update timing or cancel automatic update by opening the Play Store app and going to Settings > [Subscriptions] > [My Pet Melody] screen.",
+  "restorationWhenChangedDevice": "Restoration when changed device",
+  "restorationWhenChangedDeviceDescriptionForIOS": "When changing devices, you can restore your previously purchased plan from this screen. Please sign in to the App Store with the same Apple ID you used when you purchased it, then restore it.",
+  "restorationWhenChangedDeviceDescriptionForAndroid": "When changing devices, you can restore your previously purchased plan from this screen. Please sign in to the Play Store with the same Google account you used when you purchased it, then restore it.",
+  "pointsToNote": "Points to note",
+  "pointsToNoteDescriptionForIOS": "If you have been charged within the app, you cannot cancel your subscription using any method other than the above. We do not accept cancellations for the current month. You will be charged through your Apple ID account.",
+  "pointsToNoteDescriptionForAndroid": "If you have been charged within the app, you cannot cancel your subscription using any method other than the above. We do not accept cancellations for the current month. You will be charged through your Google Account.",
+  "youHaveJoinedPremiumPlan": "You have joined to premium plan",
+  "purchasedPlanHasBeenRestored": "The purchased plan has been restored"
 }

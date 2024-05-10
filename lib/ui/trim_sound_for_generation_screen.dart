@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
 import 'package:my_pet_melody/ui/component/primary_button.dart';
@@ -23,7 +24,7 @@ class TrimSoundForGenerationScreen extends ConsumerStatefulWidget {
   TrimSoundForGenerationScreen({
     required TrimSoundForGenerationArgs args,
     super.key,
-  })  : viewModelProvider = _trimSoundForGenerationViewModelProvider(args);
+  }) : viewModelProvider = _trimSoundForGenerationViewModelProvider(args);
 
   static const name = 'TrimSoundForGenerationScreen';
 
@@ -55,13 +56,13 @@ class _TrimSoundForGenerationScreenState
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      '鳴き声を切り取ろう',
+      AppLocalizations.of(context)!.trimMeow,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final description = Text(
-      '切り取った範囲がそのまま作品で再生されるよ！',
+      AppLocalizations.of(context)!.trimMeowDescription,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.bodyMedium,
     );
@@ -85,7 +86,7 @@ class _TrimSoundForGenerationScreenState
 
     final footerButton = PrimaryButton(
       onPressed: _onGoNext,
-      text: '次へ',
+      text: AppLocalizations.of(context)!.goToNext,
     );
     final footerContent = ConstrainedBox(
       constraints: const BoxConstraints(
@@ -98,7 +99,7 @@ class _TrimSoundForGenerationScreenState
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 4/5 トリミング',
+        titleText: AppLocalizations.of(context)!.step4TrimmingOf5,
       ),
       body: Column(
         children: [
@@ -262,7 +263,7 @@ class _GrayMask extends ConsumerWidget {
     final process =
         ref.watch(viewModelProvider.select((state) => state.process));
 
-    final message = process != null ? _processLabel(process) : '';
+    final message = process != null ? _processLabel(process, context) : '';
     final messageText = Text(
       message,
       style:
@@ -297,13 +298,16 @@ class _GrayMask extends ConsumerWidget {
     );
   }
 
-  String _processLabel(TrimSoundForGenerationScreenProcess process) {
+  String _processLabel(
+    TrimSoundForGenerationScreenProcess process,
+    BuildContext context,
+  ) {
     switch (process) {
       case TrimSoundForGenerationScreenProcess.convert:
-        return '動画を変換しています。\nこれには数分かかる場合があります';
+        return AppLocalizations.of(context)!.convertingVideoDescription;
 
       case TrimSoundForGenerationScreenProcess.upload:
-        return 'アップロードしています';
+        return AppLocalizations.of(context)!.uploading;
     }
   }
 }

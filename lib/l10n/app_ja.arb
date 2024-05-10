@@ -1,8 +1,8 @@
 {
   "@@locale": "ja",
   "myPetMelody": "うちのコメロディー",
-  "createAccount": "アカウントを\n作成しよう",
-  "loginAccount": "アカウントに\nログインしよう",
+  "letsCreateAccount": "アカウントを\n作成しよう",
+  "letsLoginAccount": "アカウントに\nログインしよう",
   "accountCreationReasonDescription": "大切な作品をバックアップするために、アカウントを作成してね！",
   "accountLoginReasonDescription": "大切な作品をバックアップするために、ログインしてね！",
   "continueWithGoogle": "Googleで続ける",
@@ -99,5 +99,89 @@
   },
   "uploading": "アップロードしています",
   "noMeowsWereFound": "鳴き声が\n見つかりませんでした",
-  "noMeowsWereFoundDescription": "自分で鳴き声部分をトリミングして設定してね！"
+  "noMeowsWereFoundDescription": "自分で鳴き声部分をトリミングして設定してね！",
+  "step4TrimmingOf5": "STEP 4/5 トリミング",
+  "trimMeow": "鳴き声を切り取ろう",
+  "trimMeowDescription": "切り取った範囲がそのまま作品で再生されるよ！",
+  "step5Of5": "STEP 5/5",
+  "setTitleOfPiece": "作品にタイトルを\nつけよう",
+  "titleOfPiece": "作品のタイトル",
+  "goToPreparation": "作品をつくる準備に進む",
+  "generatePiece": "作品をつくる",
+  "submitting": "提出しています",
+  "preparationToGeneratePiece": "依頼前の準備",
+  "allowPushNotification": "プッシュ通知を\n許可しよう",
+  "allowPushNotificationDescription": "作品が完成したときに通知が受け取れるよ！通知を許可してね！",
+  "allowAndGeneratePiece": "許可して作品をつくる",
+  "notAllowAndGeneratePiece": "許可しないで作品をつくる",
+  "generationOfPieceHasBegun": "作品の製作が\n開始されました",
+  "waitALittleDescription": "完成まで少し待ってね！",
+  "waitAFewMinutesDescription": "完成までしばらく待ってね！5分くらいかかるよ！",
+  "completePieceRightNow": "いますぐ作品を完成させる",
+  "completePieceRightNowIsRestrictedDescription": "製作の待ち時間を減らすにはプレミアムプランに加入してください。",
+  "thisScreenWillBeClosedInNSeconds": "この画面はあと{seconds}秒で自動的に閉じます。",
+  "@thisScreenWillBeClosedInNSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "settings": "設定",
+  "noNameLabel": "(名前未設定)",
+  "createAccount": "アカウントを作成する",
+  "currentPlan": "現在のプラン",
+  "freePlan": "フリープラン",
+  "premiumPlan": "プレミアムプラン",
+  "subscribeToPremiumPlan": "プレミアムプランに登録する",
+  "writeReview": "レビューを書く",
+  "shareWithFriends": "友達に教える",
+  "termsOfUse": "利用規約",
+  "privacyPolicy": "プライバシーポリシー",
+  "debug": "デバッグ",
+  "version": "バージョン",
+  "deleteAccount": "アカウント削除",
+  "shareWithFriendsSentence": "あなたのネコのオリジナルソングを作ろう！ {url}",
+  "@shareWithFriendsSentence": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteAccountDescription": "本当にアカウントを削除しますか？削除すると、これまで製作した作品を閲覧できなくなります。",
+  "delete": "削除する",
+  "deletingAccount": "アカウントを削除しています",
+  "accountCreation": "アカウント作成",
+  "largerCreationSpace": "広大な制作スペース",
+  "largerCreationSpaceDescription": "最大{maxNumber}作品を保存しておくことができるようになります。",
+  "@largerCreationSpaceDescription": {
+    "placeholders": {
+      "maxNumber": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "fasterGenerationSpeed": "高速な制作スピード",
+  "fasterGenerationSpeedDescription": "フリープランよりも優先して作品制作が行われるようになり、作品完成までの待ち時間が短くなります。",
+  "higherCreationQuality": "高い制作クオリティ",
+  "higherCreationQualityDescription": "自分でトリミングした鳴き声を作品に指定できるようになります。",
+  "alreadyJoinedPremiumPlan": "プレミアムプランに加入済み",
+  "noPurchasablePlanWasFound": "購入可能な商品が見つかりません",
+  "restoreWhenChangedDevice": "機種変更時の復元",
+  "aboutAutomaticRecurringBilling": "自動継続課金について",
+  "aboutAutomaticRecurringBillingDescription": "期間終了日の24時間以上前に自動更新の解除を行わない場合、契約期間が自動更新されます。",
+  "confirmationAndCancellation": "確認と解約",
+  "confirmationAndCancellationDescriptionForIOS": "設定アプリを開き、[ご自分の名前] > [サブスクリプション] > [うちのコメロディー]の画面から、次回の自動更新タイミングの確認や、自動更新の解除ができます。",
+  "confirmationAndCancellationDescriptionForAndroid": "Play ストアアプリを開き、設定 > [定期購入] > [うちのコメロディー]の画面から、次回の自動更新タイミングの確認や、自動更新の解除ができます。",
+  "restorationWhenChangedDevice": "機種変更時の復元",
+  "restorationWhenChangedDeviceDescriptionForIOS": "機種変更時には、本画面から以前購入したプランを無料で復元できます。購入時と同じ Apple ID で App Store にログインした上で復元してください。",
+  "restorationWhenChangedDeviceDescriptionForAndroid": "機種変更時には、本画面から以前購入したプランを無料で復元できます。購入時と同じ Google アカウントで Play ストアにログインした上で復元してください。",
+  "pointsToNote": "注意点",
+  "pointsToNoteDescriptionForIOS": "アプリ内で課金された方は上記以外の方法での解約できません。当月分のキャンセルについては受け付けておりません。Apple ID アカウントを経由して課金されます。",
+  "pointsToNoteDescriptionForAndroid": "アプリ内で課金された方は上記以外の方法での解約できません。当月分のキャンセルについては受け付けておりません。Google アカウントを経由して課金されます。",
+  "youHaveJoinedPremiumPlan": "プレミアムプランに加入しました",
+  "purchasedPlanHasBeenRestored": "購入履歴を復元しました"
 }

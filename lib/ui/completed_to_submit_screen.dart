@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_state.dart';
@@ -45,12 +46,13 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              content: const Text(
-                '製作の待ち時間を減らすにはプレミアムプランに加入してください。',
+              content: Text(
+                AppLocalizations.of(context)!
+                    .completePieceRightNowIsRestrictedDescription,
               ),
               actions: [
                 TextButton(
-                  child: const Text('プレミアムプランとは'),
+                  child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
                   onPressed: () => Navigator.pop(context, true),
                 ),
               ],
@@ -76,7 +78,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
     final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
-      '作品の製作が\n開始されました',
+      AppLocalizations.of(context)!.generationOfPieceHasBegun,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
@@ -109,7 +111,8 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
     } else {
       final remainTimeSeconds = (remainTimeMilliseconds / 1000).ceil();
       final automaticallyCloseText = Text(
-        'この画面はあと$remainTimeSeconds秒で自動的に閉じます。',
+        AppLocalizations.of(context)!
+            .thisScreenWillBeClosedInNSeconds(remainTimeSeconds),
         style: Theme.of(context).textTheme.bodyMedium,
       );
       final remainTimeProgressRing = CircularProgressIndicator(
@@ -154,7 +157,10 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
             bottom: false,
             child: Padding(
               padding: const EdgeInsets.only(top: 32),
-              child: title,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: title,
+              ),
             ),
           ),
           const SizedBox(height: 16),
@@ -192,8 +198,9 @@ class _Description extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isPremiumPlan = ref.watch(isPremiumPlanProvider);
 
-    final text =
-        isPremiumPlan == true ? '完成まで少し待ってね！' : '完成までしばらく待ってね！5分くらいかかるよ！';
+    final text = isPremiumPlan == true
+        ? AppLocalizations.of(context)!.waitALittleDescription
+        : AppLocalizations.of(context)!.waitAFewMinutesDescription;
     return Text(
       text,
       textAlign: TextAlign.center,
@@ -216,7 +223,7 @@ class _CompleteImmediatelyButton extends ConsumerWidget {
         ? const SizedBox.shrink()
         : TextButton(
             onPressed: onPressed,
-            child: const Text('いますぐ作品を完成させる'),
+            child: Text(AppLocalizations.of(context)!.completePieceRightNow),
           );
   }
 }
