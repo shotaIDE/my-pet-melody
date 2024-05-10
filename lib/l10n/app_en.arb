@@ -113,5 +113,19 @@
   "allowPushNotification": "Allow push notifications",
   "allowPushNotificationDescription": "You can receive a notification when your piece is completed! Please allow push notification permission!",
   "allowAndGeneratePiece": "Allow and generate",
-  "notAllowAndGeneratePiece": "Not allow and generate"
+  "notAllowAndGeneratePiece": "Not allow and generate",
+  "generationOfPieceHasBegun": "Generation of piece has begun",
+  "waitALittleDescription": "Wait a little while until your piece is completed!",
+  "waitAFewMinutesDescription": "Wait for a while until your piece is completed! It will take about 5 minutes!",
+  "completePieceRightNow": "Complete piece right now",
+  "completePieceRightNowIsRestrictedDescription": "To complete your piece right now, please consider subscribing to premium plan.",
+  "thisScreenWillBeClosedInNSeconds": "This screen will be closed in {seconds} seconds",
+  "@thisScreenWillBeClosedInNSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  }
 }

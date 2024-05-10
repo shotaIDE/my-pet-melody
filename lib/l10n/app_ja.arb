@@ -113,5 +113,20 @@
   "allowPushNotification": "プッシュ通知を\n許可しよう",
   "allowPushNotificationDescription": "作品が完成したときに通知が受け取れるよ！通知を許可してね！",
   "allowAndGeneratePiece": "許可して作品をつくる",
-  "notAllowAndGeneratePiece": "許可しないで作品をつくる"
+  "notAllowAndGeneratePiece": "許可しないで作品をつくる",
+  "generationOfPieceHasBegun": "作品の製作が\n開始されました",
+  "pleaseWaitAMinute": "完成まで少し待ってね！",
+  "waitALittleDescription": "完成まで少し待ってね！",
+  "waitAFewMinutesDescription": "完成までしばらく待ってね！5分くらいかかるよ！",
+  "completePieceRightNow": "いますぐ作品を完成させる",
+  "completePieceRightNowIsRestrictedDescription": "製作の待ち時間を減らすにはプレミアムプランに加入してください。",
+  "thisScreenWillBeClosedInNSeconds": "この画面はあと{seconds}秒で自動的に閉じます。",
+  "@thisScreenWillBeClosedInNSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  }
 }
