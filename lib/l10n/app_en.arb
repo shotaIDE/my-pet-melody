@@ -104,9 +104,9 @@
   "trimMeow": "Trim a meow",
   "trimMeowDescription": "The clipped range will be played in your piece as is!",
   "step5Of5": "STEP 5/5",
-  "setTitleOfPiece": "Set a title of your piece",
+  "setTitleOfPiece": "Set title of your piece",
   "titleOfPiece": "Title of piece",
-  "goToPieceGeneration": "Proceed to generate piece",
+  "goToPreparation": "Proceed to preparation",
   "generatePiece": "Generate piece",
   "submitting": "Submitting"
 }

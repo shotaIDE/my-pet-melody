@@ -64,7 +64,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       final PrimaryButton footerButton;
       if (isRequestStepExists) {
         footerButton = PrimaryButton(
-          text: AppLocalizations.of(context)!.goToPieceGeneration,
+          text: AppLocalizations.of(context)!.goToPreparation,
           onPressed: isFooterButtonEnabled ? _showRequestScreen : null,
         );
       } else {

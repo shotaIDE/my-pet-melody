@@ -106,7 +106,7 @@
   "step5Of5": "STEP 5/5",
   "setTitleOfPiece": "作品にタイトルを\nつけよう",
   "titleOfPiece": "作品のタイトル",
-  "goToPieceGeneration": "作品をつくる準備に進む",
+  "goToPreparation": "作品をつくる準備に進む",
   "generatePiece": "作品をつくる",
   "submitting": "提出しています"
 }
