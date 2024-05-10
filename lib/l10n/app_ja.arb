@@ -170,6 +170,7 @@
   "higherCreationQualityDescription": "自分でトリミングした鳴き声を作品に指定できるようになります。",
   "alreadyJoinedPremiumPlan": "プレミアムプランに加入済み",
   "noPurchasablePlanWasFound": "購入可能な商品が見つかりません",
+  "restorationWhenChangedDevice": "機種変更時の復元",
   "youHaveJoinedPremiumPlan": "プレミアムプランに加入しました",
   "purchasedPlanHasBeenRestored": "購入履歴を復元しました"
 }

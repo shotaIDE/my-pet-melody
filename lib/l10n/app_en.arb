@@ -169,6 +169,7 @@
   "higherCreationQualityDescription": "You will be able to specify your own trimmed meows in your piece.",
   "alreadyJoinedPremiumPlan": "Already subscribed to premium plan",
   "noPurchasablePlanWasFound": "No purchasable plan",
+  "restorationWhenChangedDevice": "Restoration when changed device",
   "youHaveJoinedPremiumPlan": "You have joined to premium plan",
   "purchasedPlanHasBeenRestored": "The purchased plan has been restored"
 }
