@@ -99,5 +99,8 @@
   },
   "uploading": "Uploading",
   "noMeowsWereFound": "No meows were found",
-  "noMeowsWereFoundDescription": "Trim the selected video manually and set a meow!"
+  "noMeowsWereFoundDescription": "Trim the selected video manually and set a meow!",
+  "step4TrimmingOf5": "STEP 4/5 Trimming",
+  "trimMeow": "Trim a meow",
+  "trimMeowDescription": "The clipped range will be played in your piece as is!"
 }
