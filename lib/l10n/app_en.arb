@@ -129,6 +129,7 @@
     }
   },
   "settings": "Settings",
+  "noNameLabel": "(No Name)",
   "createAccount": "Create an account",
   "currentPlan": "Current plan",
   "freePlan": "Free plan",
@@ -139,5 +140,17 @@
   "termsOfUse": "Terms of use",
   "privacyPolicy": "Privacy policy",
   "debug": "Debug",
-  "version": "Version"
+  "version": "Version",
+  "deleteAccount": "Delete your account",
+  "shareWithFriendsSentence": "Create an original song for your cat! {url}",
+  "@shareWithFriendsSentence": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteAccountDescription": "Are you sure to delete your account? If you delete it, you will no longer be able to access the pieces you have created so far.",
+  "delete": "Delete",
+  "deletingAccount": "Deleting account"
 }

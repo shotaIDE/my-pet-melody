@@ -163,7 +163,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'アカウントを削除しています',
+                      AppLocalizations.of(context)!.deletingAccount,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
@@ -191,7 +191,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final storeUrl = Platform.isIOS
         ? 'https://apps.apple.com/us/app/うちのコメロディー/id6450181110'
         : 'https://play.google.com/store/apps/details?id=ide.shota.colomney.MyPetMelody';
-    await Share.share('あなたのネコのオリジナルソングを作ろう！ $storeUrl');
+    await Share.share(
+      AppLocalizations.of(context)!.shareWithFriendsSentence(storeUrl),
+    );
   }
 
   Future<void> _openTermsOfService() async {
@@ -215,14 +217,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: const Text('本当にアカウントを削除しますか？削除すると、これまで製作した作品を閲覧できなくなります。'),
+          content: Text(AppLocalizations.of(context)!.deleteAccountDescription),
           actions: [
             TextButton(
-              child: const Text('削除する'),
+              child: Text(AppLocalizations.of(context)!.delete),
               onPressed: () => Navigator.pop(context, true),
             ),
             TextButton(
-              child: const Text('キャンセル'),
+              child: Text(AppLocalizations.of(context)!.cancel),
               onPressed: () => Navigator.pop(context, false),
             ),
           ],
@@ -250,8 +252,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       failure: (error) => error.when(
         cancelledByUser: () {},
         unrecoverable: () async {
-          const snackBar = SnackBar(
-            content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+          final snackBar = SnackBar(
+            content:
+                Text(AppLocalizations.of(context)!.unknownErrorDescription),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -315,7 +318,7 @@ class _LoggedInProfileTile extends StatelessWidget {
     final icon = ProfileIcon(photoUrl: photoUrl);
 
     final name = profile.name;
-    final titleText = name ?? '(No Name)';
+    final titleText = name ?? AppLocalizations.of(context)!.noNameLabel;
 
     return ListTile(
       leading: SizedBox(
@@ -362,7 +365,7 @@ class _DeleteAccountPanel extends ConsumerWidget {
 
     return RoundedSettingsListTile(
       title: Text(
-        'アカウント削除',
+        AppLocalizations.of(context)!.deleteAccount,
         style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
       onTap: onTap,

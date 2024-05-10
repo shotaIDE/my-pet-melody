@@ -130,6 +130,7 @@
     }
   },
   "settings": "設定",
+  "noNameLabel": "(名前未設定)",
   "createAccount": "アカウントを作成する",
   "currentPlan": "現在のプラン",
   "freePlan": "フリープラン",
@@ -140,5 +141,17 @@
   "termsOfUse": "利用規約",
   "privacyPolicy": "プライバシーポリシー",
   "debug": "デバッグ",
-  "version": "バージョン"
+  "version": "バージョン",
+  "deleteAccount": "アカウント削除",
+  "shareWithFriendsSentence": "あなたのネコのオリジナルソングを作ろう！ {url}",
+  "@shareWithFriendsSentence": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteAccountDescription": "本当にアカウントを削除しますか？削除すると、これまで製作した作品を閲覧できなくなります。",
+  "delete": "削除する",
+  "deletingAccount": "アカウントを削除しています"
 }
