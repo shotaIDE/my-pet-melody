@@ -127,5 +127,15 @@
         "format": "decimalPattern"
       }
     }
-  }
+  },
+  "settings": "Settings",
+  "createAccount": "Create an account",
+  "currentPlan": "Current plan",
+  "subscribeToPremiumPlan": "Subscribe to premium plan",
+  "writeReview": "Write a review",
+  "shareWithFriends": "Share with friends",
+  "termsOfUse": "Terms of use",
+  "privacyPolicy": "Privacy policy",
+  "debug": "Debug",
+  "version": "Version"
 }

@@ -128,5 +128,15 @@
         "format": "decimalPattern"
       }
     }
-  }
+  },
+  "settings": "設定",
+  "createAccount": "アカウントを作成する",
+  "currentPlan": "現在のプラン",
+  "subscribeToPremiumPlan": "プレミアムプランに登録する",
+  "writeReview": "レビューを書く",
+  "shareWithFriends": "友達に教える",
+  "termsOfUse": "利用規約",
+  "privacyPolicy": "プライバシーポリシー",
+  "debug": "デバッグ",
+  "version": "バージョン"
 }
