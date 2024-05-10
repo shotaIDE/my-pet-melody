@@ -171,6 +171,16 @@
   "alreadyJoinedPremiumPlan": "Already subscribed to premium plan",
   "noPurchasablePlanWasFound": "No purchasable plan",
   "restorationWhenChangedDevice": "Restoration when changed device",
+  "aboutAutomaticRecurringBilling": "About automatic recurring billing",
+  "aboutAutomaticRecurringBillingDescription": "If you do not cancel automatic renewal at least 24 hours before the end of the period, the contract period will be automatically renewed.",
+  "confirmationAndCancellation": "Confirmation and cancellation",
+  "confirmationAndCancellationDescriptionForIOS": "You can check the next automatic renewal timing or cancel automatic renewal from the [Your Name] > [Subscription] > [My Pet Melody] screen by opening the Settings app.",
+  "confirmationAndCancellationDescriptionForAndroid": "You can check the next automatic update timing or cancel automatic update by opening the Play Store app and going to Settings > [Subscriptions] > [My Pet Melody] screen.",
+  "restorationWhenChangedDeviceDescriptionForIOS": "When changing devices, you can restore your previously purchased plan from this screen. Please sign in to the App Store with the same Apple ID you used when you purchased it, then restore it.",
+  "restorationWhenChangedDeviceDescriptionForAndroid": "When changing devices, you can restore your previously purchased plan from this screen. Please sign in to the Play Store with the same Google account you used when you purchased it, then restore it.",
+  "pointsToNote": "Points to note",
+  "pointsToNoteDescriptionForIOS": "If you have been charged within the app, you cannot cancel your subscription using any method other than the above. We do not accept cancellations for the current month. You will be charged through your Apple ID account.",
+  "pointsToNoteDescriptionForAndroid": "If you have been charged within the app, you cannot cancel your subscription using any method other than the above. We do not accept cancellations for the current month. You will be charged through your Google Account.",
   "youHaveJoinedPremiumPlan": "You have joined to premium plan",
   "purchasedPlanHasBeenRestored": "The purchased plan has been restored"
 }

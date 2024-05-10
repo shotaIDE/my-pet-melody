@@ -119,43 +119,41 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       child: Text(AppLocalizations.of(context)!.restorationWhenChangedDevice),
     );
 
-    const subscriptionDescription1Tile = _RoundedDescriptionListTile(
-      title: Text('自動継続課金について'),
-      description: Text('期間終了日の24時間以上前に自動更新の解除を行わない場合、契約期間が自動更新されます。'),
+    final subscriptionDescription1Tile = _RoundedDescriptionListTile(
+      title: Text(AppLocalizations.of(context)!.aboutAutomaticRecurringBilling),
+      description: Text(
+        AppLocalizations.of(context)!.aboutAutomaticRecurringBillingDescription,
+      ),
       positionInGroup: ListTilePositionInGroup.first,
     );
     final subscriptionDescription2Tile = _RoundedDescriptionListTile(
-      title: const Text('確認と解約'),
+      title: Text(AppLocalizations.of(context)!.confirmationAndCancellation),
       description: Text(
         Platform.isIOS
-            ? '設定アプリを開き、[ご自分の名前] > [サブスクリプション] > [うちのコメロディー]の画面から、'
-                '次回の自動更新タイミングの確認や、自動更新の解除ができます。'
-            : 'Play ストアアプリを開き、設定 > [定期購入] > [うちのコメロディー]の画面から、'
-                '次回の自動更新タイミングの確認や、自動更新の解除ができます。',
+            ? AppLocalizations.of(context)!
+                .confirmationAndCancellationDescriptionForIOS
+            : AppLocalizations.of(context)!
+                .confirmationAndCancellationDescriptionForAndroid,
       ),
       positionInGroup: ListTilePositionInGroup.middle,
     );
     final subscriptionDescription3Tile = _RoundedDescriptionListTile(
-      title: const Text('機種変更時の復元'),
+      title: Text(AppLocalizations.of(context)!.restorationWhenChangedDevice),
       description: Text(
         Platform.isIOS
-            ? '機種変更時には、本画面から以前購入したプランを無料で復元できます。'
-                '購入時と同じ Apple ID で App Store にログインした上で復元してください。'
-            : '機種変更時には、本画面から以前購入したプランを無料で復元できます。'
-                '購入時と同じ Google アカウントで Play ストアにログインした上で復元してください。',
+            ? AppLocalizations.of(context)!
+                .restorationWhenChangedDeviceDescriptionForIOS
+            : AppLocalizations.of(context)!
+                .restorationWhenChangedDeviceDescriptionForAndroid,
       ),
       positionInGroup: ListTilePositionInGroup.middle,
     );
     final subscriptionDescription4Tile = _RoundedDescriptionListTile(
-      title: const Text('注意点'),
+      title: Text(AppLocalizations.of(context)!.pointsToNote),
       description: Text(
         Platform.isIOS
-            ? 'アプリ内で課金された方は上記以外の方法での解約できません。'
-                '当月分のキャンセルについては受け付けておりません。'
-                'Apple ID アカウントを経由して課金されます。'
-            : 'アプリ内で課金された方は上記以外の方法での解約できません。'
-                '当月分のキャンセルについては受け付けておりません。'
-                'Google アカウントを経由して課金されます。',
+            ? AppLocalizations.of(context)!.pointsToNoteDescriptionForIOS
+            : AppLocalizations.of(context)!.pointsToNoteDescriptionForAndroid,
       ),
       positionInGroup: ListTilePositionInGroup.last,
     );
