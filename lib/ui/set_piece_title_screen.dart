@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_screen.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
@@ -49,7 +50,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     final state = ref.watch(widget.viewModelProvider);
 
     final title = Text(
-      '作品にタイトルを\nつけよう',
+      AppLocalizations.of(context)!.setTitleOfPiece,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
@@ -63,12 +64,12 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       final PrimaryButton footerButton;
       if (isRequestStepExists) {
         footerButton = PrimaryButton(
-          text: '作品をつくる準備に進む',
+          text: AppLocalizations.of(context)!.goToPieceGeneration,
           onPressed: isFooterButtonEnabled ? _showRequestScreen : null,
         );
       } else {
         footerButton = PrimaryButton(
-          text: '作品をつくる',
+          text: AppLocalizations.of(context)!.generatePiece,
           onPressed: isFooterButtonEnabled ? _submit : null,
         );
       }
@@ -92,7 +93,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       controller: state.displayNameController,
       focusNode: state.displayNameFocusNode,
       decoration: InputDecoration(
-        labelText: '作品のタイトル',
+        labelText: AppLocalizations.of(context)!.titleOfPiece,
         filled: true,
         fillColor: Theme.of(context).cardColor,
         border: OutlineInputBorder(
@@ -132,7 +133,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: 'STEP 5/5',
+        titleText: AppLocalizations.of(context)!.step5Of5,
       ),
       body: Column(
         children: [
@@ -192,7 +193,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '提出しています',
+                      AppLocalizations.of(context)!.submitting,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!

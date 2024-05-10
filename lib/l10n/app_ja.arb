@@ -102,5 +102,11 @@
   "noMeowsWereFoundDescription": "自分で鳴き声部分をトリミングして設定してね！",
   "step4TrimmingOf5": "STEP 4/5 トリミング",
   "trimMeow": "鳴き声を切り取ろう",
-  "trimMeowDescription": "切り取った範囲がそのまま作品で再生されるよ！"
+  "trimMeowDescription": "切り取った範囲がそのまま作品で再生されるよ！",
+  "step5Of5": "STEP 5/5",
+  "setTitleOfPiece": "作品にタイトルを\nつけよう",
+  "titleOfPiece": "作品のタイトル",
+  "goToPieceGeneration": "作品をつくる準備に進む",
+  "generatePiece": "作品をつくる",
+  "submitting": "提出しています"
 }
