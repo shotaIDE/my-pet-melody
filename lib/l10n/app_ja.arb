@@ -153,5 +153,23 @@
   },
   "deleteAccountDescription": "本当にアカウントを削除しますか？削除すると、これまで製作した作品を閲覧できなくなります。",
   "delete": "削除する",
-  "deletingAccount": "アカウントを削除しています"
+  "deletingAccount": "アカウントを削除しています",
+  "largerCreationSpace": "広大な制作スペース",
+  "largerCreationSpaceDescription": "最大{maxNumber}作品を保存しておくことができるようになります。",
+  "@largerCreationSpaceDescription": {
+    "placeholders": {
+      "maxNumber": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "fasterGenerationSpeed": "高速な制作スピード",
+  "fasterGenerationSpeedDescription": "フリープランよりも優先して作品制作が行われるようになり、作品完成までの待ち時間が短くなります。",
+  "higherCreationQuality": "高い制作クオリティ",
+  "higherCreationQualityDescription": "自分でトリミングした鳴き声を作品に指定できるようになります。",
+  "alreadyJoinedPremiumPlan": "プレミアムプランに加入済み",
+  "noPurchasablePlanWasFound": "購入可能な商品が見つかりません",
+  "youHaveJoinedPremiumPlan": "プレミアムプランに加入しました",
+  "purchasedPlanHasBeenRestored": "購入履歴を復元しました"
 }

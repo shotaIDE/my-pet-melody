@@ -152,5 +152,23 @@
   },
   "deleteAccountDescription": "Are you sure to delete your account? If you delete it, you will no longer be able to access the pieces you have created so far.",
   "delete": "Delete",
-  "deletingAccount": "Deleting account"
+  "deletingAccount": "Deleting account",
+  "largerCreationSpace": "Larger creation space",
+  "largerCreationSpaceDescription": "You will be able to save up to {maxNumber} pieces.",
+  "@largerCreationSpaceDescription": {
+    "placeholders": {
+      "maxNumber": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "fasterGenerationSpeed": "Faster generation speed",
+  "fasterGenerationSpeedDescription": "Piece creation will now take priority over the free plan, reducing the waiting time for piece completion.",
+  "higherCreationQuality": "Higher creation quality",
+  "higherCreationQualityDescription": "You will be able to specify your own trimmed meows in your piece.",
+  "alreadyJoinedPremiumPlan": "Already subscribed to premium plan",
+  "noPurchasablePlanWasFound": "No purchasable plan",
+  "youHaveJoinedPremiumPlan": "You have joined to premium plan",
+  "purchasedPlanHasBeenRestored": "The purchased plan has been restored"
 }

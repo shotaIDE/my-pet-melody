@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
@@ -40,29 +41,30 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
 
     ref.read(widget.viewModelProvider.notifier).registerListener(
       showCompletedJoiningPremiumPlan: () {
-        const snackBar = SnackBar(
-          content: Text('プレミアムプランに加入しました'),
+        final snackBar = SnackBar(
+          content: Text(AppLocalizations.of(context)!.youHaveJoinedPremiumPlan),
         );
 
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
       showFailedJoiningPremiumPlan: () {
-        const snackBar = SnackBar(
-          content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+        final snackBar = SnackBar(
+          content: Text(AppLocalizations.of(context)!.unknownErrorDescription),
         );
 
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
       showCompletedRestoring: () {
-        const snackBar = SnackBar(
-          content: Text('購入履歴を復元しました'),
+        final snackBar = SnackBar(
+          content:
+              Text(AppLocalizations.of(context)!.purchasedPlanHasBeenRestored),
         );
 
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
       showFailedRestoring: () {
-        const snackBar = SnackBar(
-          content: Text('エラーが発生しました。しばらくしてから再度お試しください'),
+        final snackBar = SnackBar(
+          content: Text(AppLocalizations.of(context)!.unknownErrorDescription),
         );
 
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -75,33 +77,36 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
     final state = ref.watch(widget.viewModelProvider);
 
     const iconSize = 48.0;
-    const largeStorageFeatureTile = _RoundedDescriptionListTile(
-      leading: Icon(
+    final largeStorageFeatureTile = _RoundedDescriptionListTile(
+      leading: const Icon(
         Icons.cloud_done,
         size: iconSize,
       ),
-      title: Text('広大な制作スペース'),
+      title: Text(AppLocalizations.of(context)!.largerCreationSpace),
       description: Text(
-        '最大$maxPiecesOnPremiumPlan作品を保存しておくことができるようになります。',
+        AppLocalizations.of(context)!
+            .largerCreationSpaceDescription(maxPiecesOnPremiumPlan),
       ),
       positionInGroup: ListTilePositionInGroup.first,
     );
-    const rapidGenerationFeatureTile = _RoundedDescriptionListTile(
-      leading: Icon(
+    final rapidGenerationFeatureTile = _RoundedDescriptionListTile(
+      leading: const Icon(
         Icons.hourglass_disabled,
         size: iconSize,
       ),
-      title: Text('高速な制作スピード'),
-      description: Text('フリープランよりも優先して作品制作が行われるようになり、作品完成までの待ち時間が短くなります。'),
+      title: Text(AppLocalizations.of(context)!.fasterGenerationSpeed),
+      description:
+          Text(AppLocalizations.of(context)!.fasterGenerationSpeedDescription),
       positionInGroup: ListTilePositionInGroup.middle,
     );
-    const highQualityGenerationFeatureTile = _RoundedDescriptionListTile(
-      leading: Icon(
+    final highQualityGenerationFeatureTile = _RoundedDescriptionListTile(
+      leading: const Icon(
         Icons.music_video,
         size: iconSize,
       ),
-      title: Text('高い制作クオリティ'),
-      description: Text('自分でトリミングした鳴き声を作品に指定できるようになります。'),
+      title: Text(AppLocalizations.of(context)!.higherCreationQuality),
+      description:
+          Text(AppLocalizations.of(context)!.higherCreationQualityDescription),
       positionInGroup: ListTilePositionInGroup.last,
     );
 
@@ -186,7 +191,7 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
 
     final scaffold = Scaffold(
       appBar: AppBar(
-        title: const Text('プレミアムプラン'),
+        title: Text(AppLocalizations.of(context)!.premiumPlan),
       ),
       body: SafeArea(
         top: false,
@@ -284,16 +289,16 @@ class _PurchaseActionsPanel extends ConsumerWidget {
     }
 
     if (isPremiumPlan) {
-      return const Row(
+      return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.check_circle,
             color: Colors.green,
           ),
-          SizedBox(width: 16),
-          Text('プレミアムプランに加入済み'),
-          SizedBox(width: 8),
+          const SizedBox(width: 16),
+          Text(AppLocalizations.of(context)!.alreadyJoinedPremiumPlan),
+          const SizedBox(width: 8),
         ],
       );
     }
@@ -355,7 +360,7 @@ class _NoAvailablePurchasableText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      '購入可能な商品が見つかりません',
+      AppLocalizations.of(context)!.noPurchasablePlanWasFound,
       style: Theme.of(context).textTheme.bodySmall,
     );
   }
