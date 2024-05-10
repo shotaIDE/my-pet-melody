@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:skeletons/skeletons.dart';
 
 class IsPremiumPlanText extends StatelessWidget {
@@ -22,6 +23,8 @@ class IsPremiumPlanText extends StatelessWidget {
       );
     }
 
-    return isPremium ? const Text('プレミアムプラン') : const Text('フリープラン');
+    return isPremium
+        ? Text(AppLocalizations.of(context)!.premiumPlan)
+        : Text(AppLocalizations.of(context)!.freePlan);
   }
 }
