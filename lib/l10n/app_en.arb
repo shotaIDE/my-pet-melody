@@ -153,6 +153,7 @@
   "deleteAccountDescription": "Are you sure to delete your account? If you delete it, you will no longer be able to access the pieces you have created so far.",
   "delete": "Delete",
   "deletingAccount": "Deleting account",
+  "accountCreation": "Create account",
   "largerCreationSpace": "Larger creation space",
   "largerCreationSpaceDescription": "You will be able to save up to {maxNumber} pieces.",
   "@largerCreationSpaceDescription": {

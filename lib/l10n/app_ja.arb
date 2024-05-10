@@ -154,6 +154,7 @@
   "deleteAccountDescription": "本当にアカウントを削除しますか？削除すると、これまで製作した作品を閲覧できなくなります。",
   "delete": "削除する",
   "deletingAccount": "アカウントを削除しています",
+  "accountCreation": "アカウント作成",
   "largerCreationSpace": "広大な制作スペース",
   "largerCreationSpaceDescription": "最大{maxNumber}作品を保存しておくことができるようになります。",
   "@largerCreationSpaceDescription": {
