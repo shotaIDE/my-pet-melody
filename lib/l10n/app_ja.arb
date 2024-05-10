@@ -108,5 +108,10 @@
   "titleOfPiece": "作品のタイトル",
   "goToPreparation": "作品をつくる準備に進む",
   "generatePiece": "作品をつくる",
-  "submitting": "提出しています"
+  "submitting": "提出しています",
+  "preparationToGeneratePiece": "依頼前の準備",
+  "allowPushNotification": "プッシュ通知を\n許可しよう",
+  "allowPushNotificationDescription": "作品が完成したときに通知が受け取れるよ！通知を許可してね！",
+  "allowAndGeneratePiece": "許可して作品をつくる",
+  "notAllowAndGeneratePiece": "許可しないで作品をつくる"
 }

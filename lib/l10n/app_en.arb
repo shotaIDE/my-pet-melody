@@ -108,5 +108,10 @@
   "titleOfPiece": "Title of piece",
   "goToPreparation": "Proceed to preparation",
   "generatePiece": "Generate piece",
-  "submitting": "Submitting"
+  "submitting": "Submitting",
+  "preparationToGeneratePiece": "Preparation",
+  "allowPushNotification": "Allow push notifications",
+  "allowPushNotificationDescription": "You can receive a notification when your piece is completed! Please allow push notification permission!",
+  "allowAndGeneratePiece": "Allow and generate",
+  "notAllowAndGeneratePiece": "Not allow and generate"
 }

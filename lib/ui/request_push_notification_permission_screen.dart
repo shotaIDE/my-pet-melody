@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_screen.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
@@ -25,7 +26,7 @@ class RequestPushNotificationPermissionScreen extends ConsumerStatefulWidget {
   RequestPushNotificationPermissionScreen({
     required RequestPushNotificationPermissionArgs args,
     super.key,
-  })  : viewModel = requestPushNotificationPermissionViewModelProvider(args);
+  }) : viewModel = requestPushNotificationPermissionViewModelProvider(args);
 
   static const name = 'RequestPushNotificationPermissionScreen';
 
@@ -53,13 +54,13 @@ class _SelectTemplateState
     final state = ref.watch(widget.viewModel);
 
     final title = Text(
-      'プッシュ通知を\n許可しよう',
+      AppLocalizations.of(context)!.allowPushNotification,
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headlineMedium,
     );
 
     final description = Text(
-      '作品が完成したときに通知が受け取れるよ！通知を許可してね！',
+      AppLocalizations.of(context)!.allowPushNotificationDescription,
       style: Theme.of(context).textTheme.bodyLarge,
       textAlign: TextAlign.center,
     );
@@ -82,12 +83,12 @@ class _SelectTemplateState
     );
 
     final requestPermissionAndSubmitButton = PrimaryButton(
-      text: '許可して作品をつくる',
+      text: AppLocalizations.of(context)!.allowAndGeneratePiece,
       onPressed: _requestPermissionAndSubmit,
     );
     final submitButton = OutlinedActionButton(
       onPressed: _submit,
-      text: '許可しないで作品をつくる',
+      text: AppLocalizations.of(context)!.notAllowAndGeneratePiece,
     );
     final footerContent = ConstrainedBox(
       constraints: const BoxConstraints(
@@ -107,7 +108,7 @@ class _SelectTemplateState
     final scaffold = Scaffold(
       appBar: transparentAppBar(
         context: context,
-        titleText: '依頼前の準備',
+        titleText: AppLocalizations.of(context)!.preparationToGeneratePiece,
       ),
       body: Stack(
         children: [
@@ -117,7 +118,10 @@ class _SelectTemplateState
               SafeArea(
                 top: false,
                 bottom: false,
-                child: title,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: title,
+                ),
               ),
               const SizedBox(height: 16),
               Expanded(
@@ -146,7 +150,7 @@ class _SelectTemplateState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '提出しています',
+                      AppLocalizations.of(context)!.submitting,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
