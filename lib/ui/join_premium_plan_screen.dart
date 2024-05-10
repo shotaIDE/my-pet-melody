@@ -116,7 +116,7 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
 
     final restoreButton = TextButton(
       onPressed: ref.read(widget.viewModelProvider.notifier).restore,
-      child: Text(AppLocalizations.of(context)!.restorationWhenChangedDevice),
+      child: Text(AppLocalizations.of(context)!.restoreWhenChangedDevice),
     );
 
     final subscriptionDescription1Tile = _RoundedDescriptionListTile(
