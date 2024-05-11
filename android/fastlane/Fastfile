@@ -37,7 +37,7 @@ platform :android do
   desc 'Build production app'
   lane :deploy_prod do
     package_name = 'ide.shota.colomney.MyPetMelody'
-    metadata_path = 'fastlane/metadata/android'
+    metadata_path = 'fastlane/android/metadata'
     google_play_json_key_path = 'fastlane/google-play-service-account-key.json'
 
     build_prod

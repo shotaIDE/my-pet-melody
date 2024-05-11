@@ -103,8 +103,8 @@ platform :ios do
 
     upload_to_app_store(
       api_key:,
-      metadata_path: 'fastlane/metadata/ios',
-      screenshots_path: 'fastlane/screenshots/ios',
+      metadata_path: 'fastlane/ios/metadata',
+      screenshots_path: 'fastlane/ios/screenshots',
       skip_metadata: false,
       skip_screenshots: false,
       force: true,
