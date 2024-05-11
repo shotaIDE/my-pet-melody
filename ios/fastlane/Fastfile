@@ -105,7 +105,7 @@ platform :ios do
       api_key: api_key,
       metadata_path: 'fastlane/metadata/ios',
       skip_metadata: false,
-      skip_screenshots: true,
+      skip_screenshots: false,
       force: true,
       submit_for_review: true,
       reject_if_possible: true,
