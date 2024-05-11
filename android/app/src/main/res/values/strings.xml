@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_short_name">うちメロ</string>
-    <string name="app_name">うちのコメロディー</string>
+    <string name="app_short_name">MyPetMelody</string>
+    <string name="app_name">My Pet Melody</string>
 </resources>
