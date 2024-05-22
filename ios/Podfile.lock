@@ -7,7 +7,7 @@ PODS:
     - AppAuth/Core
   - audioplayers_darwin (0.0.1):
     - Flutter
-  - cloud_firestore (4.17.3):
+  - cloud_firestore (4.17.4):
     - Firebase/Firestore (= 10.25.0)
     - firebase_core
     - Flutter
@@ -106,7 +106,7 @@ PODS:
     - Firebase/Auth (= 10.25.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.31.0):
+  - firebase_core (2.31.1):
     - Firebase/CoreOnly (= 10.25.0)
     - Flutter
   - firebase_crashlytics (3.5.5):
@@ -499,7 +499,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AppAuth: a13994980c1ec792f7e2e665acd4d4aa6be43240
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
-  cloud_firestore: 792f773e5e8c080ffcbadd49f9fb397927f29af6
+  cloud_firestore: bf5f14c0a7d1e9f5f831015d9ae9f738e92065b4
   CropViewController: 58fb440f30dac788b129d2a1f24cffdcb102669c
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   DKCamera: a902b66921fca14b7a75266feb8c7568aa7caa71
@@ -511,7 +511,7 @@ SPEC CHECKSUMS:
   Firebase: 0312a2352584f782ea56f66d91606891d4607f06
   firebase_analytics: 0b2b459312872129295c3f9c44225eda552fd8f3
   firebase_auth: 76ea642e91a9e914b3af751a416046ce1a965cf4
-  firebase_core: 0b39f4f424e02eecabb2356ddf331fa07b772af8
+  firebase_core: 22e117a2e0dec3cb318c8f53f2dd01c140375617
   firebase_crashlytics: 5adb9a5ac7858811cef7a9447a011bb4dcb540c3
   firebase_messaging: 8999827b6efc9c3ab4b1f9dc246deaa7f13dbf88
   firebase_remote_config: f57c28ff78d1d933bbe1b2cc11659cc82f9978e8
