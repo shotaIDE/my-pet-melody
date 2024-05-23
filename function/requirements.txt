@@ -92,7 +92,7 @@ Pyro4==4.82
 pytest==8.0.2
 pytextgrid==0.1.4
 python-dateutil==2.9.0.post0
-pytz==2023.3.post1
+pytz==2024.1
 PyWavelets==1.5.0
 requests==2.32.0
 requests-oauthlib==2.0.0
