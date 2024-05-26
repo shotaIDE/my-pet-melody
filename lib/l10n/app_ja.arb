@@ -19,11 +19,11 @@
   "updateAppDescription": "新しいバージョンがリリースされています。より良い作品を作るために、アップデートしてご利用ください",
   "update": "アップデートする",
   "createdPieces": "つくった作品",
-  "noPiecesDescription": "まだ作品を製作していません。\n右下の “+” ボタンから作品を製作しましょう。",
+  "noPiecesDescription": "まだ作品を制作していません。\n右下の “+” ボタンから作品を制作しましょう。",
   "createPiece": "作品をつくる",
   "pieceExpiredDescription": "作品の保存期限が切れています。この作品を閲覧するには、プレミアムプランへの加入を検討してください。",
   "aboutPremiumPlan": "プレミアムプランとは",
-  "generating": "製作中...",
+  "generating": "制作中...",
   "retentionPeriodFormat": "保存期限: {date} {time}",
   "@retentionPeriodFormat": {
     "placeholders": {
@@ -114,11 +114,11 @@
   "allowPushNotificationDescription": "作品が完成したときに通知が受け取れるよ！通知を許可してね！",
   "allowAndGeneratePiece": "許可して作品をつくる",
   "notAllowAndGeneratePiece": "許可しないで作品をつくる",
-  "generationOfPieceHasBegun": "作品の製作が\n開始されました",
+  "generationOfPieceHasBegun": "作品の制作が\n開始されました",
   "waitALittleDescription": "完成まで少し待ってね！",
   "waitAFewMinutesDescription": "完成までしばらく待ってね！5分くらいかかるよ！",
   "completePieceRightNow": "いますぐ作品を完成させる",
-  "completePieceRightNowIsRestrictedDescription": "製作の待ち時間を減らすにはプレミアムプランに加入してください。",
+  "completePieceRightNowIsRestrictedDescription": "制作の待ち時間を減らすにはプレミアムプランに加入してください。",
   "thisScreenWillBeClosedInNSeconds": "この画面はあと{seconds}秒で自動的に閉じます。",
   "@thisScreenWillBeClosedInNSeconds": {
     "placeholders": {
@@ -150,7 +150,7 @@
       }
     }
   },
-  "deleteAccountDescription": "本当にアカウントを削除しますか？削除すると、これまで製作した作品を閲覧できなくなります。",
+  "deleteAccountDescription": "本当にアカウントを削除しますか？削除すると、これまで制作した作品を閲覧できなくなります。",
   "delete": "削除する",
   "deletingAccount": "アカウントを削除しています",
   "accountCreation": "アカウント作成",
