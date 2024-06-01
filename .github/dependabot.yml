@@ -11,6 +11,10 @@ updates:
       timezone: "Asia/Tokyo"
   - package-ecosystem: "github-actions"
     directory: "/"
+    ignore:
+      - dependency-name: "google-github-actions/deploy-cloud-functions"
+        # For functions v1, ignore all updates greater than or equal to version 3
+        versions: ">= 3"
     open-pull-requests-limit: 1
     reviewers:
       - "shotaIDE"
