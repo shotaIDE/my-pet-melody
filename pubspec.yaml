@@ -13,7 +13,7 @@ environment:
 dependencies:
   audioplayers: 6.0.0
   chewie: 1.8.1
-  cloud_firestore: 4.17.4
+  cloud_firestore: 4.17.5
   collection: 1.18.0
   cross_file: 0.3.4+1
   cupertino_icons: 1.0.8
@@ -23,7 +23,7 @@ dependencies:
   file_picker: 8.0.3
   firebase_analytics: 10.10.6
   firebase_auth: 4.19.6
-  firebase_core: 2.31.1
+  firebase_core: 2.32.0
   firebase_crashlytics: 3.5.6
   firebase_messaging: 14.9.3
   firebase_remote_config: 4.4.6
