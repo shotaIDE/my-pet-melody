@@ -49,7 +49,7 @@ dependencies:
   shared_preferences: 2.2.3
   skeletons: 0.0.3
   twitter_login: 4.4.2
-  url_launcher: 6.2.6
+  url_launcher: 6.3.0
   video_player: 2.8.6
   video_thumbnail: 0.5.3
   video_trimmer: 3.0.1
