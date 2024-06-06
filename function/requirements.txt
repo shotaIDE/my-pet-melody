@@ -124,7 +124,7 @@ uritemplate==4.1.1
 # "'HTTPResponse' object has no attribute 'strict'" error occurs, so do not use 2.x series
 # See https://stackoverflow.com/questions/76423515/how-to-fix-poetry-error-httpresponse-object-has-no-attribute-strict for details
 urllib3==2.2.1
-watchdog==4.0.0
+watchdog==4.0.1
 Werkzeug==3.0.1
 wrapt==1.14.1
 xarray==2024.5.0
