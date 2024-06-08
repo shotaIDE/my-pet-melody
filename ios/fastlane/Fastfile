@@ -93,7 +93,7 @@ platform :ios do
 
     app_store_connect_api_key_path = 'fastlane/app-store-connect-api-key.p8'
 
-    lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/MyPetMelody.ipa'
+    lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/うちメロ.ipa'
 
     api_key = app_store_connect_api_key(
       key_id: apple_api_key_id,
@@ -130,6 +130,6 @@ platform :ios do
       )
     end
 
-    lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/MyPetMelody.ipa'
+    lane_context[SharedValues::IPA_OUTPUT_PATH] = 'build/ios/ipa/うちメロ.ipa'
   end
 end
