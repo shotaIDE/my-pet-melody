@@ -106,10 +106,9 @@ def set_localized_template_metadata(
 
     db = firestore.client()
 
-    system_media_ref = db.collection('localized')
+    template_doc_ref = db.collection('localized')\
+        .document(language_tag)\
+        .collection('systemMedia')\
+        .document(template_id)
 
-    # TODO
-
-    _, created_document = system_media_ref.add(store_data)
-
-    return created_document.id
+    template_doc_ref.set(store_data)
