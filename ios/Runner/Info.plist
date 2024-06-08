@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>My Pet Melody</string>
+	<string>うちのコメロディー</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>MyPetMelody</string>
+	<string>うちメロ</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -72,8 +72,8 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>You can set thumbnails of your pieces.</string>
+	<string>作品のサムネイルを設定するために必要です。</string>
 	<key>NSCameraUsageDescription</key>
-	<string>You can add meows to your pieces.</string>
+	<string>作品に鳴き声を入れるために必要です。</string>
 </dict>
 </plist>
