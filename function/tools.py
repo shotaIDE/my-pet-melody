@@ -6,7 +6,7 @@ from datetime import datetime
 
 import storage
 import storage_local
-from database import set_template
+from database import set_localized_template_metadata, set_template
 from firebase import initialize_firebase
 from storage_rule import TEMPLATE_FILE_NAME, THUMBNAIL_FILE_NAME
 
@@ -32,7 +32,7 @@ def generate_template():
             meta_json = json.load(f)
 
         meta_version = meta_json['version']
-        if meta_version != 1:
+        if meta_version != 2:
             print(
                 f'Invalid meta version: {meta_version}, '
                 'so skipped this template.'
@@ -57,6 +57,14 @@ def generate_template():
         )
 
         print(f'Created template: ID = {template_id}')
+
+        localized = meta_json['localized']
+        for language_tag, localized_data in localized.items():
+            set_localized_template_metadata(
+                language_tag=language_tag,
+                template_id=template_id,
+                localized_name=localized_data['name'],
+            )
 
         bgm_source_path = f'{target_directory}/{TEMPLATE_FILE_NAME}'
         thumbnail_source_path = f'{target_directory}/{THUMBNAIL_FILE_NAME}'

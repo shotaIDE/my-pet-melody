@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
 import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
@@ -30,7 +30,7 @@ class TrimSoundForGenerationViewModel
   static const maxDurationToTrim = Duration(seconds: 10);
 
   final Ref _ref;
-  final Template _template;
+  final LocalizedTemplate _template;
   final String _displayName;
   final String _moviePath;
 

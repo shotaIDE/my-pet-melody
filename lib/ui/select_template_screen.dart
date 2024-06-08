@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/circled_play_button.dart';
 import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/select_sounds_screen.dart';
 import 'package:my_pet_melody/ui/select_template_state.dart';
 import 'package:my_pet_melody/ui/select_template_view_model.dart';
@@ -14,6 +14,7 @@ import 'package:my_pet_melody/ui/select_template_view_model.dart';
 final selectTemplateViewModelProvider = StateNotifierProvider.autoDispose<
     SelectTemplateViewModel, SelectTemplateState>(
   (ref) => SelectTemplateViewModel(
+    ref: ref,
     listener: ref.listen,
   ),
 );
@@ -35,6 +36,15 @@ class SelectTemplateScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+
+    await ref
+        .read(widget.viewModel.notifier)
+        .didChangeLocale(WidgetsBinding.instance.platformDispatcher.locale);
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
@@ -78,7 +88,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final showNewChip = current.difference(publishedAt).inDays < 7;
 
               final title = Text(
-                template.name,
+                template.localizedName,
                 style: Theme.of(context).textTheme.bodyMedium,
               );
 
@@ -213,7 +223,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     );
   }
 
-  Future<void> _onSelect(Template template) async {
+  Future<void> _onSelect(LocalizedTemplate template) async {
     await ref.read(widget.viewModel.notifier).beforeHideScreen();
 
     if (!mounted) {

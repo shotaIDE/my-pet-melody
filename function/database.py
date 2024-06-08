@@ -92,3 +92,22 @@ def set_template(
     _, created_document = system_media_ref.add(store_data)
 
     return created_document.id
+
+
+def set_localized_template_metadata(
+    language_tag: str,
+    template_id: str,
+    localized_name: str,
+) -> str:
+    store_data = {
+        'name': localized_name,
+    }
+
+    db = firestore.client()
+
+    template_doc_ref = db.collection('localized')\
+        .document(language_tag)\
+        .collection('systemMedia')\
+        .document(template_id)
+
+    template_doc_ref.set(store_data)

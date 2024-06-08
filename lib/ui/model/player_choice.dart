@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
 import 'package:my_pet_melody/data/model/piece.dart';
-import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/select_sounds_state.dart';
 
@@ -17,7 +17,7 @@ class PlayerChoice with _$PlayerChoice {
 
   const factory PlayerChoice.template({
     required PlayStatus status,
-    required Template template,
+    required LocalizedTemplate template,
   }) = PlayerChoiceTemplate;
 
   const factory PlayerChoice.sound({

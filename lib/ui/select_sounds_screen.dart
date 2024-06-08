@@ -2,25 +2,25 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/select_sounds_state.dart';
 import 'package:my_pet_melody/ui/select_sounds_view_model.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_screen.dart';
 
 final _selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
-    .family<SelectSoundsViewModel, SelectSoundsState, Template>(
+    .family<SelectSoundsViewModel, SelectSoundsState, LocalizedTemplate>(
   (ref, template) => SelectSoundsViewModel(
     selectedTemplate: template,
   ),
 );
 
 class SelectSoundsScreen extends ConsumerStatefulWidget {
-  SelectSoundsScreen({required Template template, super.key})
+  SelectSoundsScreen({required LocalizedTemplate template, super.key})
       : viewModelProvider = _selectSoundsViewModelProvider(template);
 
   static const name = 'SelectSoundsScreen';
@@ -29,7 +29,7 @@ class SelectSoundsScreen extends ConsumerStatefulWidget {
       SelectSoundsState> viewModelProvider;
 
   static MaterialPageRoute<SelectSoundsScreen> route({
-    required Template template,
+    required LocalizedTemplate template,
   }) =>
       MaterialPageRoute(
         builder: (_) => SelectSoundsScreen(template: template),
@@ -94,7 +94,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ],
     );
 
-    final templateName = Text(template.template.name);
+    final templateName = Text(template.template.localizedName);
 
     final templatePositionBar = ChoicePositionBar(status: status);
 

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer-match-file-name
 
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/login_session.dart';
@@ -22,6 +24,33 @@ final templateDraftsProvider = StreamProvider(
                 id: id,
                 name: name,
                 publishedAt: publishedAt,
+              );
+            },
+          ).toList(),
+        );
+  },
+);
+
+final localizedTemplateMetadataListProvider =
+    StreamProvider.family<List<LocalizedTemplateMetadata>, Locale>(
+  (_, locale) {
+    final languageTag = locale.toLanguageTag();
+
+    return FirebaseFirestore.instance
+        .collection('localized')
+        .doc(languageTag)
+        .collection('systemMedia')
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs.map(
+            (documentSnapshot) {
+              final id = documentSnapshot.id;
+              final data = documentSnapshot.data();
+              final name = data['name'] as String;
+
+              return LocalizedTemplateMetadata(
+                id: id,
+                name: name,
               );
             },
           ).toList(),

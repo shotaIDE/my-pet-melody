@@ -1,23 +1,28 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/types.dart';
-import 'package:my_pet_melody/data/model/template.dart';
-import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
+import 'package:my_pet_melody/data/service/device_service.dart';
 import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
+import 'package:my_pet_melody/ui/helper/localization_helper.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_template_state.dart';
 
 class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   SelectTemplateViewModel({
+    required Ref ref,
     required Listener listener,
-  }) : super(const SelectTemplateState()) {
+  })  : _ref = ref,
+        super(const SelectTemplateState()) {
     _setup(listener: listener);
   }
 
+  final Ref _ref;
   final _player = AudioPlayer();
 
   Duration? _currentAudioDuration;
@@ -36,6 +41,13 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     await Future.wait<void>(tasks);
 
     super.dispose();
+  }
+
+  Future<void> didChangeLocale(Locale locale) async {
+    // Wait for a while to avoid change states in ui updating cycle.
+    await Future.delayed(const Duration(milliseconds: 1), () {
+      _ref.read(deviceLocaleProvider.notifier).updateIfNeeded(locale);
+    });
   }
 
   Future<void> play({required PlayerChoiceTemplate template}) async {
@@ -106,8 +118,8 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   }
 
   Future<void> _setup({required Listener listener}) async {
-    listener<Future<List<Template>>>(
-      templatesProvider.future,
+    listener<Future<List<LocalizedTemplate>>>(
+      localizedTemplatesProvider.future,
       (_, next) async {
         final templateDataList = await next;
 

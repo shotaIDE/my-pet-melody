@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_sounds_state.dart';
@@ -11,7 +11,7 @@ import 'package:my_pet_melody/ui/trim_sound_for_detection_state.dart';
 
 class SelectSoundsViewModel extends StateNotifier<SelectSoundsState> {
   SelectSoundsViewModel({
-    required Template selectedTemplate,
+    required LocalizedTemplate selectedTemplate,
   }) : super(
           SelectSoundsState(
             template: PlayerChoiceTemplate(
