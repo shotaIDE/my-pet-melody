@@ -23,6 +23,10 @@ class _RootAppState extends ConsumerState<RootApp> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    debugPrint(
+      'Device locale: ${WidgetsBinding.instance.platformDispatcher.locale.toLanguageTag()}',
+    );
+
     ref
         .read(widget.viewModel.notifier)
         .didChangeLocale(WidgetsBinding.instance.platformDispatcher.locale);
