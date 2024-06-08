@@ -20,6 +20,15 @@ class RootApp extends ConsumerStatefulWidget {
 
 class _RootAppState extends ConsumerState<RootApp> {
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    ref
+        .read(widget.viewModel.notifier)
+        .didChangeLocale(WidgetsBinding.instance.platformDispatcher.locale);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
     final startPage = state.startPage;
