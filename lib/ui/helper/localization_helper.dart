@@ -18,24 +18,9 @@ final localizedTemplatesProvider = FutureProvider.autoDispose((ref) async {
         (templateMetadata) => templateMetadata.id == template.id,
       );
 
-      if (localizedTemplateMetadata == null) {
-        return LocalizedTemplate(
-          id: template.id,
-          defaultName: template.name,
-          localizedName: template.name,
-          publishedAt: template.publishedAt,
-          musicUrl: template.musicUrl,
-          thumbnailUrl: template.thumbnailUrl,
-        );
-      }
-
-      return LocalizedTemplate(
-        id: template.id,
-        defaultName: template.name,
-        localizedName: localizedTemplateMetadata.name,
-        publishedAt: template.publishedAt,
-        musicUrl: template.musicUrl,
-        thumbnailUrl: template.thumbnailUrl,
+      return LocalizedTemplate.fromTemplate(
+        template,
+        localizedTemplateMetadata: localizedTemplateMetadata,
       );
     },
   ).toList();

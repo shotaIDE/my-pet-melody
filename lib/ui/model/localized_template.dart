@@ -15,6 +15,33 @@ class LocalizedTemplate with _$LocalizedTemplate {
   }) = _LocalizedTemplate;
 }
 
+extension LocalizedTemplateGenerator on LocalizedTemplate {
+  static LocalizedTemplate fromTemplate(
+    Template template, {
+    LocalizedTemplateMetadata? localizedTemplateMetadata,
+  }) {
+    if (localizedTemplateMetadata == null) {
+      return LocalizedTemplate(
+        id: template.id,
+        defaultName: template.name,
+        localizedName: template.name,
+        publishedAt: template.publishedAt,
+        musicUrl: template.musicUrl,
+        thumbnailUrl: template.thumbnailUrl,
+      );
+    }
+
+    return LocalizedTemplate(
+      id: template.id,
+      defaultName: template.name,
+      localizedName: localizedTemplateMetadata.name,
+      publishedAt: template.publishedAt,
+      musicUrl: template.musicUrl,
+      thumbnailUrl: template.thumbnailUrl,
+    );
+  }
+}
+
 extension LocalizedTemplateConverter on LocalizedTemplate {
   Template toTemplate() {
     return Template(
