@@ -37,10 +37,10 @@ class SelectTemplateScreen extends ConsumerStatefulWidget {
 
 class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    ref
+    await ref
         .read(widget.viewModel.notifier)
         .didChangeLocale(WidgetsBinding.instance.platformDispatcher.locale);
   }

@@ -44,8 +44,11 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     super.dispose();
   }
 
-  void didChangeLocale(Locale locale) {
-    _ref.read(deviceLocaleProvider.notifier).updateIfNeeded(locale);
+  Future<void> didChangeLocale(Locale locale) async {
+    // Wait for a while to avoid change states in ui updating cycle.
+    await Future.delayed(const Duration(milliseconds: 1), () {
+      _ref.read(deviceLocaleProvider.notifier).updateIfNeeded(locale);
+    });
   }
 
   Future<void> play({required PlayerChoiceTemplate template}) async {
@@ -216,7 +219,7 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   }
 }
 
-final _localizedTemplatesProvider = FutureProvider((ref) async {
+final _localizedTemplatesProvider = FutureProvider.autoDispose((ref) async {
   final deviceLocale = ref.watch(deviceLocaleProvider);
   final localizedTemplateMetadataList = await ref
       .watch(localizedTemplateMetadataListProvider(deviceLocale).future);
