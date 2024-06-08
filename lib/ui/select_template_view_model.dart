@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
@@ -15,11 +16,14 @@ import 'package:my_pet_melody/ui/select_template_state.dart';
 
 class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   SelectTemplateViewModel({
+    required Ref ref,
     required Listener listener,
-  }) : super(const SelectTemplateState()) {
+  })  : _ref = ref,
+        super(const SelectTemplateState()) {
     _setup(listener: listener);
   }
 
+  final Ref _ref;
   final _player = AudioPlayer();
 
   Duration? _currentAudioDuration;
@@ -38,6 +42,10 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     await Future.wait<void>(tasks);
 
     super.dispose();
+  }
+
+  void didChangeLocale(Locale locale) {
+    _ref.read(deviceLocaleProvider.notifier).updateIfNeeded(locale);
   }
 
   Future<void> play({required PlayerChoiceTemplate template}) async {

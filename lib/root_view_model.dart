@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/types.dart';
 import 'package:my_pet_melody/data/service/database_service.dart';
-import 'package:my_pet_melody/data/service/device_service.dart';
 import 'package:my_pet_melody/data/service/remote_config_service.dart';
 import 'package:my_pet_melody/data/usecase/app_use_case.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
@@ -40,10 +38,6 @@ class RootViewModel extends StateNotifier<RootState> {
     await Future<void>.delayed(const Duration(seconds: 1));
 
     await _determineStartPage();
-  }
-
-  void didChangeLocale(Locale locale) {
-    _ref.read(deviceLocaleProvider.notifier).updateIfNeeded(locale);
   }
 
   Future<void> _setup() async {

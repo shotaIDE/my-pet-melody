@@ -14,6 +14,7 @@ import 'package:my_pet_melody/ui/select_template_view_model.dart';
 final selectTemplateViewModelProvider = StateNotifierProvider.autoDispose<
     SelectTemplateViewModel, SelectTemplateState>(
   (ref) => SelectTemplateViewModel(
+    ref: ref,
     listener: ref.listen,
   ),
 );
@@ -35,6 +36,15 @@ class SelectTemplateScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    ref
+        .read(widget.viewModel.notifier)
+        .didChangeLocale(WidgetsBinding.instance.platformDispatcher.locale);
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(widget.viewModel);
