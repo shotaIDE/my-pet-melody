@@ -55,7 +55,7 @@ dependencies:
   video_trimmer: 3.0.1
 
 dev_dependencies:
-  build_runner: 2.4.9
+  build_runner: 2.4.11
   cider: 0.2.7
   flutter_test:
     sdk: flutter
