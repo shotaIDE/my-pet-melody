@@ -32,7 +32,7 @@ def generate_template():
             meta_json = json.load(f)
 
         meta_version = meta_json['version']
-        if meta_version != 1:
+        if meta_version != 2:
             print(
                 f'Invalid meta version: {meta_version}, '
                 'so skipped this template.'
@@ -51,9 +51,17 @@ def generate_template():
         ]
 
         template_id = set_template(
-            name=meta_json['name'],
+            default_name=meta_json['defaultName'],
             published_at=datetime.now(),
             overlays=overlays,
+        )
+
+        
+
+        set_localized_template_metadata(
+            language_tag='ja',
+            template_id=template_id,
+            localized_name=meta_json['localized']['ja']['name'],
         )
 
         print(f'Created template: ID = {template_id}')

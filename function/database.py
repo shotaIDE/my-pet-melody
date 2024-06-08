@@ -75,12 +75,13 @@ def set_generated_piece(
 
 
 def set_template(
-    name: str,
+    default_name: str,
     published_at: DateTime,
     overlays: list[dict[str, Any]],
 ) -> str:
     store_data = {
-        'name': name,
+        'name': default_name, # for older version
+        'defaultName': default_name,
         'publishedAt': published_at,
         'overlays': overlays,
     }
@@ -88,6 +89,26 @@ def set_template(
     db = firestore.client()
 
     system_media_ref = db.collection('systemMedia')
+
+    _, created_document = system_media_ref.add(store_data)
+
+    return created_document.id
+
+
+def set_localized_template_metadata(
+    language_tag: str,
+    template_id: str,
+    localized_name: str,
+) -> str:
+    store_data = {
+        'name': localized_name,
+    }
+
+    db = firestore.client()
+
+    system_media_ref = db.collection('localized')
+
+    # TODO
 
     _, created_document = system_media_ref.add(store_data)
 
