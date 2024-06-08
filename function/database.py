@@ -75,13 +75,12 @@ def set_generated_piece(
 
 
 def set_template(
-    default_name: str,
+    name: str,
     published_at: DateTime,
     overlays: list[dict[str, Any]],
 ) -> str:
     store_data = {
-        'name': default_name, # for older version
-        'defaultName': default_name,
+        'name': name,
         'publishedAt': published_at,
         'overlays': overlays,
     }

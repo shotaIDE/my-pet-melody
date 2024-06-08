@@ -51,7 +51,7 @@ def generate_template():
         ]
 
         template_id = set_template(
-            default_name=meta_json['defaultName'],
+            name=meta_json['name'],
             published_at=datetime.now(),
             overlays=overlays,
         )
