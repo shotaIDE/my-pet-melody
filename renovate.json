@@ -29,6 +29,11 @@
     },
     {
       "matchManagers": ["pub"],
+      "matchPackageNames": ["dart"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["pub"],
       "addLabels": ["dart"],
       "automerge": true
     },
