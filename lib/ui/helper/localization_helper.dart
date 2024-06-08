@@ -18,7 +18,7 @@ final localizedTemplatesProvider = FutureProvider.autoDispose((ref) async {
         (templateMetadata) => templateMetadata.id == template.id,
       );
 
-      return LocalizedTemplate.fromTemplate(
+      return LocalizedTemplateGenerator.fromTemplate(
         template,
         localizedTemplateMetadata: localizedTemplateMetadata,
       );
