@@ -10,5 +10,8 @@ service cloud.firestore {
     match /systemMedia/{id} {
       allow read: if request.auth != null;
     }
+    match /localized/{languageTag}/systemMedia/{id} {
+      allow read: if request.auth != null;
+    }
   }
 }
