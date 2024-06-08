@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/request_push_notification_permission_state.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:path/path.dart';
@@ -28,7 +28,7 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
     _setup();
   }
 
-  final Template _template;
+  final LocalizedTemplate _template;
   final List<UploadedMedia> _sounds;
 
   final Ref _ref;
@@ -74,7 +74,7 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
 
     final submitAction = await _ref.read(submitActionProvider.future);
     await submitAction(
-      template: _template,
+      template: _template.toTemplate(),
       sounds: _sounds,
       displayName: displayName,
       thumbnail: uploadedThumbnail,

@@ -4,9 +4,11 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/types.dart';
-import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/data/service/database_service.dart';
+import 'package:my_pet_melody/data/service/device_service.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_template_state.dart';
@@ -106,8 +108,8 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   }
 
   Future<void> _setup({required Listener listener}) async {
-    listener<Future<List<Template>>>(
-      templatesProvider.future,
+    listener<Future<List<LocalizedTemplate>>>(
+      _localizedTemplatesProvider.future,
       (_, next) async {
         final templateDataList = await next;
 
@@ -205,3 +207,39 @@ class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
     );
   }
 }
+
+final _localizedTemplatesProvider = FutureProvider((ref) async {
+  final deviceLocale = ref.watch(deviceLocaleProvider);
+  final localizedTemplateMetadataList = await ref
+      .watch(localizedTemplateMetadataListProvider(deviceLocale).future);
+  final templates = await ref.watch(templatesProvider.future);
+
+  return templates.map(
+    (template) {
+      final localizedTemplateMetadata =
+          localizedTemplateMetadataList.firstWhereOrNull(
+        (templateMetadata) => templateMetadata.id == template.id,
+      );
+
+      if (localizedTemplateMetadata == null) {
+        return LocalizedTemplate(
+          id: template.id,
+          defaultName: template.name,
+          localizedName: template.name,
+          publishedAt: template.publishedAt,
+          musicUrl: template.musicUrl,
+          thumbnailUrl: template.thumbnailUrl,
+        );
+      }
+
+      return LocalizedTemplate(
+        id: template.id,
+        defaultName: template.name,
+        localizedName: localizedTemplateMetadata.name,
+        publishedAt: template.publishedAt,
+        musicUrl: template.musicUrl,
+        thumbnailUrl: template.thumbnailUrl,
+      );
+    },
+  ).toList();
+});

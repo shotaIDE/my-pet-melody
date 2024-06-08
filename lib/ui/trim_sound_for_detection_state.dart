@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:my_pet_melody/data/model/template.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 part 'trim_sound_for_detection_state.freezed.dart';
@@ -26,7 +26,7 @@ enum TrimSoundForDetectionScreenProcess {
 @freezed
 class TrimSoundForDetectionArgs with _$TrimSoundForDetectionArgs {
   const factory TrimSoundForDetectionArgs({
-    required Template template,
+    required LocalizedTemplate template,
     required String moviePath,
   }) = _TrimSoundForDetectionArgs;
 }

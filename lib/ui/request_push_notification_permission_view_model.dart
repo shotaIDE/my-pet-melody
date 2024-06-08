@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/request_push_notification_permission_state.dart';
 import 'package:path/path.dart';
 
@@ -48,7 +49,7 @@ class RequestPushNotificationPermissionViewModel
 
     final submitAction = await _ref.read(submitActionProvider.future);
     await submitAction(
-      template: _args.template,
+      template: _args.template.toTemplate(),
       sounds: _args.sounds,
       displayName: _args.displayName,
       thumbnail: uploadedThumbnail,

@@ -8,10 +8,10 @@ import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
-import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/model/player_choice.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
@@ -51,7 +51,7 @@ class SelectTrimmedSoundViewModel
         );
 
   final Ref _ref;
-  final Template _template;
+  final LocalizedTemplate _template;
   final String _displayName;
   final String _moviePath;
   final MovieSegmentation _movieSegmentation;

@@ -21,3 +21,11 @@ class TemplateDraft with _$TemplateDraft {
     required DateTime publishedAt,
   }) = _TemplateDraft;
 }
+
+@freezed
+class LocalizedTemplateMetadata with _$LocalizedTemplateMetadata {
+  const factory LocalizedTemplateMetadata({
+    required String id,
+    required String name,
+  }) = _LocalizedTemplateMetadata;
+}

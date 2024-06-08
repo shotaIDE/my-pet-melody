@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
+import 'package:my_pet_melody/ui/model/localized_template.dart';
 
 part 'request_push_notification_permission_state.freezed.dart';
 
@@ -16,7 +16,7 @@ class RequestPushNotificationPermissionState
 class RequestPushNotificationPermissionArgs
     with _$RequestPushNotificationPermissionArgs {
   const factory RequestPushNotificationPermissionArgs({
-    required Template template,
+    required LocalizedTemplate template,
     required List<UploadedMedia> sounds,
     required String displayName,
     required String thumbnailLocalPath,
