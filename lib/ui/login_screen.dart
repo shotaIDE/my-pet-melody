@@ -37,14 +37,6 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    // final locale = Localizations.localeOf(context);
-    final locale = WidgetsBinding.instance.platformDispatcher.locale;
-    debugPrint(
-      'Language tag: ${locale.toLanguageTag()} '
-      'Language code: ${locale.languageCode}, '
-      'Country code: ${locale.countryCode}',
-    );
-
     final state = ref.watch(widget.viewModel);
 
     final isCreateMode = state.isCreateMode;
