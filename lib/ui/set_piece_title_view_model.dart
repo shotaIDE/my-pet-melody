@@ -47,7 +47,7 @@ class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
     final displayName = state.displayNameController.text;
 
     return RequestPushNotificationPermissionArgs(
-      template: _template,
+      template: _template.toTemplate(),
       sounds: _sounds,
       displayName: displayName,
       thumbnailLocalPath: state.thumbnailLocalPath,
