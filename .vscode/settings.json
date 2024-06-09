@@ -31,9 +31,6 @@
     "editor.formatOnSave": true,
     "editor.tabSize": 2
   },
-  "[terraform]": {
-    "editor.formatOnSave": true
-  },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
