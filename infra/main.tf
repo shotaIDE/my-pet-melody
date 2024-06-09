@@ -51,9 +51,7 @@ resource "google_project" "default" {
   project_id      = "colomney-my-pet-melody${var.google_project_id_suffix}"
   billing_account = var.google_billing_account_id
 
-  labels = {
-    "firebase" = "enabled"
-  }
+  labels = {}
 }
 
 resource "google_project_service" "default" {
@@ -89,7 +87,7 @@ resource "google_firebase_apple_app" "default" {
   provider = google-beta
 
   project      = google_project.default.project_id
-  display_name = "iOS"
+  display_name = "iOS-Dev"
   bundle_id    = "ide.shota.colomney.MyPetMelody${var.application_id_suffix}"
   team_id      = "4UGYN353AH"
 
@@ -102,8 +100,12 @@ resource "google_firebase_android_app" "default" {
   provider = google-beta
 
   project      = google_project.default.project_id
-  display_name = "Android"
+  display_name = "Android-Dev"
   package_name = "ide.shota.colomney.MyPetMelody${var.application_id_suffix}"
+  sha1_hashes = [
+    "9caa5a8af776c9eddfbfe01fbe620c25ad97e9f5",
+    "d8eed8412b16ad696870fc9cea0876dea4cc0aa4",
+  ]
 
   depends_on = [
     google_firebase_project.default,

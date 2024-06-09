@@ -3,8 +3,8 @@ resource "google_firestore_database" "default" {
   name                    = "(default)"
   location_id             = var.google_project_location
   type                    = "FIRESTORE_NATIVE"
-  delete_protection_state = "DELETE_PROTECTION_ENABLED"
-  deletion_policy         = "DELETE"
+  delete_protection_state = "DELETE_PROTECTION_DISABLED"
+  deletion_policy         = "ABANDON"
 }
 
 # Creates a ruleset of Firestore Security Rules from a local file.
