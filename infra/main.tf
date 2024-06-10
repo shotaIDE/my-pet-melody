@@ -1,6 +1,18 @@
+variable "google_project_id" {
+  type        = string
+  default     = "colomney-my-pet-melody"
+  description = "ID for GCP project."
+}
+
 variable "google_project_id_suffix" {
   type        = string
   description = "ID suffix for GCP project."
+}
+
+variable "google_project_display_name" {
+  type        = string
+  default     = "MyPetMelody"
+  description = "Display name for GCP project."
 }
 
 variable "google_project_display_name_suffix" {
@@ -18,9 +30,25 @@ variable "google_project_location" {
   description = "Location for GCP project."
 }
 
+variable "application_id" {
+  type        = string
+  default     = "ide.shota.colomney.MyPetMelody"
+  description = "Application ID for iOS and Android."
+}
+
 variable "application_id_suffix" {
   type        = string
   description = "Application ID suffix for iOS and Android."
+}
+
+variable "ios_app_team_id" {
+  type        = string
+  description = "Team ID for iOS app."
+}
+
+variable "firebase_android_app_sha1_hashes" {
+  type        = list(string)
+  description = "Allowed SHA-1 hashes for Firebase Android app."
 }
 
 terraform {
@@ -47,8 +75,8 @@ provider "google-beta" {
 resource "google_project" "default" {
   provider = google-beta.no_user_project_override
 
-  name            = "MyPetMelody${var.google_project_display_name_suffix}"
-  project_id      = "colomney-my-pet-melody${var.google_project_id_suffix}"
+  name            = "${var.google_project_display_name}${var.google_project_display_name_suffix}"
+  project_id      = "${var.google_project_id}${var.google_project_id_suffix}"
   billing_account = var.google_billing_account_id
 
   labels = {}
@@ -88,8 +116,8 @@ resource "google_firebase_apple_app" "default" {
 
   project      = google_project.default.project_id
   display_name = "iOS-Dev"
-  bundle_id    = "ide.shota.colomney.MyPetMelody${var.application_id_suffix}"
-  team_id      = "4UGYN353AH"
+  bundle_id    = "${var.application_id}${var.application_id_suffix}"
+  team_id      = var.ios_app_team_id
 
   depends_on = [
     google_firebase_project.default,
@@ -101,11 +129,8 @@ resource "google_firebase_android_app" "default" {
 
   project      = google_project.default.project_id
   display_name = "Android-Dev"
-  package_name = "ide.shota.colomney.MyPetMelody${var.application_id_suffix}"
-  sha1_hashes = [
-    "9caa5a8af776c9eddfbfe01fbe620c25ad97e9f5",
-    "d8eed8412b16ad696870fc9cea0876dea4cc0aa4",
-  ]
+  package_name = "${var.application_id}${var.application_id_suffix}"
+  sha1_hashes = var.firebase_android_app_sha1_hashes
 
   depends_on = [
     google_firebase_project.default,
