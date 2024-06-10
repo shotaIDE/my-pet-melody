@@ -16,6 +16,7 @@ GoogleService-Info.plist
 /fastlane/report.xml
 /fastlane/spreadsheet-service-account-key.json
 /function/samples/
+/function2
 /infra/google-cloud-credentials.json
 /ios/firebase_app_id_file.json
 /ios/Flutter/DartDefines.xcconfig
