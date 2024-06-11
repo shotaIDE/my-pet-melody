@@ -2,6 +2,7 @@ locals {
   runtime = "python310"
   docker_registry = "CONTAINER_REGISTRY"
   https_trigger_security_level = "SECURE_OPTIONAL"
+  timeout = "10m"
 }
 
 data "archive_file" "functions_src" {
@@ -33,6 +34,10 @@ resource "google_cloudfunctions_function" "detect" {
   https_trigger_security_level = local.https_trigger_security_level
   max_instances                = 1
   min_instances                = 0
+
+  timeouts {
+    create = local.timeout
+  }
 }
 
 resource "google_cloudfunctions_function" "submit" {
@@ -48,6 +53,10 @@ resource "google_cloudfunctions_function" "submit" {
   https_trigger_security_level = local.https_trigger_security_level
   max_instances                = 1
   min_instances                = 0
+
+  timeouts {
+    create = local.timeout
+  }
 }
 
 resource "google_cloudfunctions_function" "piece" {
@@ -63,4 +72,8 @@ resource "google_cloudfunctions_function" "piece" {
   https_trigger_security_level = local.https_trigger_security_level
   max_instances                = 1
   min_instances                = 0
+
+  timeouts {
+    create = local.timeout
+  }
 }
