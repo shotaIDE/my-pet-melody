@@ -87,14 +87,15 @@ resource "google_project_service" "default" {
   project  = google_project.default.project_id
   for_each = toset([
     "cloudbilling.googleapis.com",
+    "cloudfunctions.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "cloudtasks.googleapis.com",
     "firebase.googleapis.com",
     "firebaserules.googleapis.com",
     "firebasestorage.googleapis.com",
     "firestore.googleapis.com",
-    "serviceusage.googleapis.com",
     "identitytoolkit.googleapis.com",
+    "serviceusage.googleapis.com",
   ])
   service = each.key
 
