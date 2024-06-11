@@ -38,7 +38,7 @@ locals {
   runtime = "python310"
   docker_registry = "CONTAINER_REGISTRY"
   https_trigger_security_level = "SECURE_OPTIONAL"
-  timeout = "10m"
+  timeout = "20m"
   environment_variables = {
     "FIREBASE_ADMIN_KEY_FILE_NAME" = var.firebase_admin_key_file_name
     "FIREBASE_STORAGE_BUCKET_NAME" = google_storage_bucket.default.name
