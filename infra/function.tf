@@ -92,6 +92,15 @@ resource "google_cloudfunctions_function" "detect" {
   }
 }
 
+resource "google_cloudfunctions_function_iam_member" "invoker" {
+  project        = google_cloudfunctions_function.detect.project
+  region         = google_cloudfunctions_function.detect.region
+  cloud_function = google_cloudfunctions_function.detect.name
+
+  role   = "roles/cloudfunctions.invoker"
+  member = "allUsers"
+}
+
 resource "google_cloudfunctions_function" "submit" {
   name                         = "submit"
   runtime                      = local.runtime
@@ -113,6 +122,15 @@ resource "google_cloudfunctions_function" "submit" {
   }
 }
 
+resource "google_cloudfunctions_function_iam_member" "invoker" {
+  project        = google_cloudfunctions_function.submit.project
+  region         = google_cloudfunctions_function.submit.region
+  cloud_function = google_cloudfunctions_function.submit.name
+
+  role   = "roles/cloudfunctions.invoker"
+  member = "allUsers"
+}
+
 resource "google_cloudfunctions_function" "piece" {
   name                         = "piece"
   runtime                      = local.runtime
@@ -132,4 +150,13 @@ resource "google_cloudfunctions_function" "piece" {
   timeouts {
     create = local.timeout
   }
+}
+
+resource "google_cloudfunctions_function_iam_member" "invoker" {
+  project        = google_cloudfunctions_function.piece.project
+  region         = google_cloudfunctions_function.piece.region
+  cloud_function = google_cloudfunctions_function.piece.name
+
+  role   = "roles/cloudfunctions.invoker"
+  member = "allUsers"
 }
