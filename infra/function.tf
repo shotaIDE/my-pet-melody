@@ -38,6 +38,7 @@ locals {
   runtime = "python310"
   docker_registry = "CONTAINER_REGISTRY"
   https_trigger_security_level = "SECURE_OPTIONAL"
+  ingress_settings = "ALLOW_ALL"
   timeout = "20m"
   environment_variables = {
     "FIREBASE_ADMIN_KEY_FILE_NAME" = var.firebase_admin_key_file_name
@@ -81,6 +82,7 @@ resource "google_cloudfunctions_function" "detect" {
   entry_point                  = "detect"
   docker_registry              = local.docker_registry
   https_trigger_security_level = local.https_trigger_security_level
+  ingress_settings             = local.ingress_settings
   max_instances                = 1
   min_instances                = 0
   environment_variables = local.environment_variables
@@ -101,6 +103,7 @@ resource "google_cloudfunctions_function" "submit" {
   entry_point                  = "submit"
   docker_registry              = local.docker_registry
   https_trigger_security_level = local.https_trigger_security_level
+  ingress_settings             = local.ingress_settings
   max_instances                = 1
   min_instances                = 0
   environment_variables = local.environment_variables
@@ -121,6 +124,7 @@ resource "google_cloudfunctions_function" "piece" {
   entry_point                  = "piece"
   docker_registry              = local.docker_registry
   https_trigger_security_level = local.https_trigger_security_level
+  ingress_settings             = local.ingress_settings
   max_instances                = 1
   min_instances                = 0
   environment_variables = local.environment_variables
