@@ -37,8 +37,6 @@ variable "waiting_time_seconds_to_generate" {
 locals {
   runtime = "python310"
   docker_registry = "CONTAINER_REGISTRY"
-  https_trigger_security_level = "SECURE_OPTIONAL"
-  ingress_settings = "ALLOW_ALL"
   timeout = "20m"
   environment_variables = {
     "FIREBASE_ADMIN_KEY_FILE_NAME" = var.firebase_admin_key_file_name
@@ -81,8 +79,6 @@ resource "google_cloudfunctions_function" "detect" {
   timeout                      = 60
   entry_point                  = "detect"
   docker_registry              = local.docker_registry
-  https_trigger_security_level = local.https_trigger_security_level
-  ingress_settings             = local.ingress_settings
   max_instances                = 1
   min_instances                = 0
   environment_variables = local.environment_variables
@@ -92,7 +88,7 @@ resource "google_cloudfunctions_function" "detect" {
   }
 }
 
-resource "google_cloudfunctions_function_iam_member" "invoker" {
+resource "google_cloudfunctions_function_iam_member" "detect_invoker" {
   project        = google_cloudfunctions_function.detect.project
   region         = google_cloudfunctions_function.detect.region
   cloud_function = google_cloudfunctions_function.detect.name
@@ -111,8 +107,6 @@ resource "google_cloudfunctions_function" "submit" {
   timeout                      = 60
   entry_point                  = "submit"
   docker_registry              = local.docker_registry
-  https_trigger_security_level = local.https_trigger_security_level
-  ingress_settings             = local.ingress_settings
   max_instances                = 1
   min_instances                = 0
   environment_variables = local.environment_variables
@@ -122,7 +116,7 @@ resource "google_cloudfunctions_function" "submit" {
   }
 }
 
-resource "google_cloudfunctions_function_iam_member" "invoker" {
+resource "google_cloudfunctions_function_iam_member" "submit_invoker" {
   project        = google_cloudfunctions_function.submit.project
   region         = google_cloudfunctions_function.submit.region
   cloud_function = google_cloudfunctions_function.submit.name
@@ -141,8 +135,6 @@ resource "google_cloudfunctions_function" "piece" {
   timeout                      = 60
   entry_point                  = "piece"
   docker_registry              = local.docker_registry
-  https_trigger_security_level = local.https_trigger_security_level
-  ingress_settings             = local.ingress_settings
   max_instances                = 1
   min_instances                = 0
   environment_variables = local.environment_variables
@@ -152,7 +144,7 @@ resource "google_cloudfunctions_function" "piece" {
   }
 }
 
-resource "google_cloudfunctions_function_iam_member" "invoker" {
+resource "google_cloudfunctions_function_iam_member" "piece_invoker" {
   project        = google_cloudfunctions_function.piece.project
   region         = google_cloudfunctions_function.piece.region
   cloud_function = google_cloudfunctions_function.piece.name
