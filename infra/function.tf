@@ -40,7 +40,7 @@ locals {
   timeout = "20m"
   environment_variables = {
     "FIREBASE_ADMIN_KEY_FILE_NAME" = var.firebase_admin_key_file_name
-    "FIREBASE_STORAGE_BUCKET_NAME" = google_storage_bucket.default.name
+    "FIREBASE_STORAGE_BUCKET_NAME" = google_app_engine_application.default.default_bucket
     "FIREBASE_FUNCTIONS_API_ORIGIN" = "https://${var.google_project_location}-${google_project.default.project_id}.cloudfunctions.net"
     "GOOGLE_APPLICATION_CREDENTIALS" = var.google_application_credentials
     "GOOGLE_CLOUD_PROJECT_ID" = google_project.default.project_id
