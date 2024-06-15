@@ -107,10 +107,10 @@ import {
   to = google_app_engine_application.default
 }
 
-# import {
-#   id = "projects/${local.google_project_id}-deploy"
-#   to = google_storage_bucket.deploy
-# }
+import {
+  id = "projects/${local.google_project_id}-deploy"
+  to = google_storage_bucket.deploy
+}
 
 import {
   id = "projects/${local.google_project_id}/buckets/${local.google_project_id}.appspot.com"
