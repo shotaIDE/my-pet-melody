@@ -77,3 +77,13 @@ import {
   id = "${local.google_project_id}/${var.google_project_location}/piece roles/cloudfunctions.invoker allUsers"
   to = google_cloudfunctions_function_iam_member.piece_invoker
 }
+
+import {
+  id = "projects/${local.google_project_id}/serviceAccounts/cloud-tasks@${local.google_project_id}.iam.gserviceaccount.com"
+  to = google_service_account.cloud_tasks
+}
+
+import {
+  id = "${local.google_project_id} roles/cloudtasks.enqueuer serviceAccount:cloud-tasks@${local.google_project_id}.iam.gserviceaccount.com"
+  to = google_project_iam_member.cloud_tasks_enqueuer
+}
