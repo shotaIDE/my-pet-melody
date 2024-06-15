@@ -59,6 +59,8 @@ jobs:
       - name: Terraform Plan
         id: plan
         working-directory: infra
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: tfcmt plan -- terraform plan
         continue-on-error: true
       - name: Terraform Plan Status
