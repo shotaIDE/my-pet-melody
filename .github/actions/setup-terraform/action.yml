@@ -1,3 +1,8 @@
+inputs:
+  service-account-email:
+    required: true
+  workload-identity-provider:
+    required: true
 runs:
   using: "composite"
   steps:
@@ -10,6 +15,12 @@ runs:
         key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
         restore-keys: |
           ${{ runner.os }}-terraform-
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      id: "auth"
+      with:
+        service_account: ${{ inputs.service-account-email }}
+        workload_identity_provider: ${{ inputs.workload-identity-provider }}
     - name: Terraform Init
       working-directory: infra
       shell: bash

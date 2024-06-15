@@ -17,6 +17,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Terraform
         uses: ./.github/actions/setup-terraform
+        with:
+          service-account-email: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_EMAIL_DEV }}
+          workload-identity-provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
       - name: Generate uncommited function files for dev
         uses: ./.github/actions/generate-uncommited-function-files-dev
         with:
@@ -26,12 +29,6 @@ jobs:
         uses: ./.github/actions/generate-terraform-vars-file
         with:
           terraform-vars-base64: ${{ secrets.TERRAFORM_VARS_BASE64_DEV }}
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        id: "auth"
-        with:
-          service_account: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_EMAIL_DEV }}
-          workload_identity_provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
       - name: Terraform Plan
         working-directory: infra
         run: terraform plan
