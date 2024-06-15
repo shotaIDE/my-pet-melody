@@ -3,6 +3,7 @@ inputs:
     required: true
   workload-identity-provider:
     required: true
+
 runs:
   using: "composite"
   steps:
