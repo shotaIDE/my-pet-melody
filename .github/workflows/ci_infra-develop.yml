@@ -1,4 +1,4 @@
-name: CD / Infrastructure Develop
+name: CI / Infrastructure Develop
 
 on:
   pull_request:
