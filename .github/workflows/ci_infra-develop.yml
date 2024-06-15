@@ -27,15 +27,15 @@ jobs:
           tar xzf /tmp/tfcmt.tar.gz -C /tmp
           mv /tmp/tfcmt /usr/local/bin
           tfcmt --version
-      - name: Generate Firebase service account key JSON file
-        working-directory: function
-        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > firebase-serviceAccountKey_dev.json
-      - name: Generate Cloud Tasks service account key JSON file
-        working-directory: function
-        run: echo "${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > cloud-tasks-serviceAccountKey_dev.json
+      - name: Generate uncommited function files for dev
+        uses: ./.github/actions/generate-uncommited-function-files-dev
+        with:
+          firebase-service-account-key-json-base64-dev: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
+          cloud-tasks-service-account-key-json-base64-dev: ${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
       - name: Generate Terraform vars file
-        working-directory: infra
-        run: echo "${{ secrets.TERRAFORM_VARS_BASE64_DEV }}" | base64 -d > terraform.tfvars
+        uses: ./.github/actions/generate-terraform-vars-file
+        with:
+          terraform-vars-base64: ${{ secrets.TERRAFORM_VARS_BASE64_DEV }}
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         id: "auth"
