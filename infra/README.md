@@ -11,3 +11,5 @@ Install dependencies.
 ```shell
 terraform init
 ```
+
+Test.
