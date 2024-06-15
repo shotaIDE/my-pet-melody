@@ -6,7 +6,7 @@ on:
       - "main"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: "use-terraform-lock"
 
 jobs:
   plan:
