@@ -47,8 +47,6 @@ import {
   to = google_identity_platform_config.auth
 }
 
-# TODO: import to google_identity_platform_project_default_config.auth
-
 import {
   id = "projects/${local.google_project_id}/databases/(default)"
   to = google_firestore_database.default
