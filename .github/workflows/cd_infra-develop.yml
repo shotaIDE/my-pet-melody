@@ -44,21 +44,19 @@ jobs:
         with:
           service_account: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_EMAIL_DEV }}
           workload_identity_provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
+      - name: Cache Terraform Plugins
+        uses: actions/cache@v4
+        with:
+          path: ~/infra/.terraform.d/plugin-cache
+          key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
       - name: Terraform Init
-        id: init
         working-directory: infra
         run: terraform init
-      - name: Terraform Validate
-        id: validate
-        working-directory: infra
-        run: terraform validate -no-color
       - name: Terraform Plan
         id: plan
         working-directory: infra
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: tfcmt plan -- terraform plan
-        continue-on-error: true
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
