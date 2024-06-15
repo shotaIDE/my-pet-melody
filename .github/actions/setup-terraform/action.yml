@@ -3,15 +3,6 @@ runs:
   steps:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
-    - name: Setup tfcmt
-      env:
-        TFCMT_VERSION: v4.10.0
-      shell: bash
-      run: |
-        wget "https://github.com/suzuki-shunsuke/tfcmt/releases/download/${TFCMT_VERSION}/tfcmt_linux_amd64.tar.gz" -O /tmp/tfcmt.tar.gz
-        tar xzf /tmp/tfcmt.tar.gz -C /tmp
-        mv /tmp/tfcmt /usr/local/bin
-        tfcmt --version
     - name: Cache Terraform Plugins
       uses: actions/cache@v4
       with:
