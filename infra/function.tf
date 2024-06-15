@@ -55,7 +55,7 @@ locals {
 
 data "archive_file" "functions_src" {
   type        = "zip"
-  source_dir  = "../function2"
+  source_dir  = "../function"
   output_path = "./function.zip"
 }
 
