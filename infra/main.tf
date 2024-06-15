@@ -58,6 +58,11 @@ terraform {
       version = "5.32.0"
     }
   }
+
+  backend "gcs" {
+    bucket = "colomney-my-pet-melody-dev-deploy"
+    prefix = "terraform/state"
+  }
 }
 
 provider "google-beta" {
@@ -92,8 +97,11 @@ resource "google_project_service" "default" {
     "firebaserules.googleapis.com",
     "firebasestorage.googleapis.com",
     "firestore.googleapis.com",
+    "iam.googleapis.com",
+    "iamcredentials.googleapis.com",
     "identitytoolkit.googleapis.com",
     "serviceusage.googleapis.com",
+    "sts.googleapis.com",
   ])
   service = each.key
 
@@ -128,7 +136,7 @@ resource "google_firebase_android_app" "default" {
   project      = google_project.default.project_id
   display_name = "Android-Dev"
   package_name = "${var.application_id}${var.application_id_suffix}"
-  sha1_hashes = var.firebase_android_app_sha1_hashes
+  sha1_hashes  = var.firebase_android_app_sha1_hashes
 
   depends_on = [
     google_firebase_project.default,
