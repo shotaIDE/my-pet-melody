@@ -49,6 +49,11 @@ import {
 # TODO: import to google_firebaserules_release.firestore
 
 import {
+  id = "projects/${local.google_project_id}/releases/firebase.storage/${local.google_project_id}"
+  to = google_firebaserules_release.firestore
+}
+
+import {
   id = "${local.google_project_id}/${var.google_project_location}/detect"
   to = google_cloudfunctions_function.detect
 }
