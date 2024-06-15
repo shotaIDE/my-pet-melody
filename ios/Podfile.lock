@@ -98,7 +98,7 @@ PODS:
   - Firebase/Storage (10.27.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 10.27.0)
-  - firebase_analytics (11.0.0):
+  - firebase_analytics (11.0.1):
     - Firebase/Analytics (= 10.27.0)
     - firebase_core
     - Flutter
@@ -509,7 +509,7 @@ SPEC CHECKSUMS:
   ffmpeg_kit_flutter: b4ca70cac3fc1d8ac14cdc660754b60870358732
   file_picker: 09aa5ec1ab24135ccd7a1621c46c84134bfd6655
   Firebase: 26b040b20866a55f55eb3611b9fcf3ae64816b86
-  firebase_analytics: 921262f343360193f8376eb89c01fb5f15571ca2
+  firebase_analytics: 0627e95b73eb9e04f59167687ed5bc3f6fb50f23
   firebase_auth: 17ce83d25a062b2a594e5dfce91a4ad36e3739d5
   firebase_core: 483cfad66d24d8f3c233f31db4263830c625c909
   firebase_crashlytics: fd7d916778823b47ca742a7cbd552c9520da1f1c
