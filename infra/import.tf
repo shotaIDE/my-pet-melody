@@ -97,7 +97,7 @@ import {
 }
 
 import {
-  id = "${local.google_project_id}/${local.google_project_id}-default"
+  id = "projects/${local.google_project_id}-default"
   to = google_storage_bucket.default
 }
 
