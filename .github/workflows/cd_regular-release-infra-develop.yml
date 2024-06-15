@@ -12,21 +12,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
       contents: read
-      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - name: Setup Terraform
         uses: ./.github/actions/setup-terraform
-      - name: Setup tfcmt
-        env:
-          TFCMT_VERSION: v4.10.0
-        run: |
-          wget "https://github.com/suzuki-shunsuke/tfcmt/releases/download/${TFCMT_VERSION}/tfcmt_linux_amd64.tar.gz" -O /tmp/tfcmt.tar.gz
-          tar xzf /tmp/tfcmt.tar.gz -C /tmp
-          mv /tmp/tfcmt /usr/local/bin
-          tfcmt --version
       - name: Generate Firebase service account key JSON file
         working-directory: function
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > firebase-serviceAccountKey_dev.json
@@ -44,6 +34,7 @@ jobs:
           workload_identity_provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
       - name: Terraform Plan
         working-directory: infra
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: tfcmt plan -- terraform plan
+        run: terraform plan
+      - name: Terraform Apply
+        working-directory: infra
+        run: terraform apply -auto-approve -input=false
