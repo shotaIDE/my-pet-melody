@@ -19,11 +19,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: aquaproj/aqua-installer@v3.0.1
-        with:
-          aqua_version: v2.28.0
-      - name: Install tfcmt
-        run: aqua g -i suzuki-shunsuke/tfcmt
+      - name: setup tfcmt
+        env:
+          TFCMT_VERSION: v4.10.0
+        run: |
+          wget "https://github.com/suzuki-shunsuke/tfcmt/releases/download/${TFCMT_VERSION}/tfcmt_linux_amd64.tar.gz" -O /tmp/tfcmt.tar.gz
+          tar xzf /tmp/tfcmt.tar.gz -C /tmp
+          mv /tmp/tfcmt /usr/local/bin
+          tfcmt --version
       - name: Generate Firebase service account key JSON file
         working-directory: function
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > firebase-serviceAccountKey_dev.json
