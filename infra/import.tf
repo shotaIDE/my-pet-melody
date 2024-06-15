@@ -46,10 +46,8 @@ import {
 
 # TODO: import to google_firebaserules_ruleset.firestore
 
-# TODO: import to google_firebaserules_release.firestore
-
 import {
-  id = "projects/${local.google_project_id}/releases/firebase.storage/${local.google_project_id}"
+  id = "projects/${local.google_project_id}/releases/cloud.firestore"
   to = google_firebaserules_release.firestore
 }
 
