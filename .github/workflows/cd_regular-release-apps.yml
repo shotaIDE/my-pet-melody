@@ -5,7 +5,7 @@ on:
     - cron: '0 23 * * *' # 08:00 JST every day
   repository_dispatch:
     types:
-      - "regular-release"
+      - "regular-release-apps"
   workflow_dispatch:
 
 concurrency:
