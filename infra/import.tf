@@ -87,3 +87,8 @@ import {
   id = "${local.google_project_id} roles/cloudtasks.enqueuer serviceAccount:cloud-tasks@${local.google_project_id}.iam.gserviceaccount.com"
   to = google_project_iam_member.cloud_tasks_enqueuer
 }
+
+import {
+  id = local.google_project_id
+  to = google_app_engine_application.default
+}
