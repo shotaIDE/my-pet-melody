@@ -9,7 +9,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  deploy:
+  plan:
     runs-on: ubuntu-latest
     permissions:
       contents: read
