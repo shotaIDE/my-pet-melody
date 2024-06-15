@@ -1,11 +1,11 @@
-name: CD / Regular release
+name: CD / Regular release for apps
 
 on:
   schedule:
     - cron: '0 23 * * *' # 08:00 JST every day
   repository_dispatch:
     types:
-      - "regular-release"
+      - "regular-release-apps"
   workflow_dispatch:
 
 concurrency:

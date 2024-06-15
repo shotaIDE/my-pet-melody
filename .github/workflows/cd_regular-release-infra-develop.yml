@@ -1,0 +1,37 @@
+name: CD / Regular release for infrastructure Develop
+
+on:
+  schedule:
+    - cron: '0 23 * * *' # 08:00 JST every day
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: ./.github/actions/setup-terraform
+        with:
+          service-account-email: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_EMAIL_DEV }}
+          workload-identity-provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
+      - name: Generate uncommited function files for dev
+        uses: ./.github/actions/generate-uncommited-function-files-dev
+        with:
+          firebase-service-account-key-json-base64-dev: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
+          cloud-tasks-service-account-key-json-base64-dev: ${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
+      - name: Generate Terraform vars file
+        uses: ./.github/actions/generate-terraform-vars-file
+        with:
+          terraform-vars-base64: ${{ secrets.TERRAFORM_VARS_BASE64_DEV }}
+      - name: Terraform Plan
+        working-directory: infra
+        run: terraform plan
+      - name: Terraform Apply
+        working-directory: infra
+        run: terraform apply -auto-approve -input=false
