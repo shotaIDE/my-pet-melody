@@ -1,4 +1,4 @@
-name: CD / Regular release
+name: CD / Regular release for apps
 
 on:
   schedule:

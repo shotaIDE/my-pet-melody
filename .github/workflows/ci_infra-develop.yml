@@ -12,8 +12,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
       contents: read
+      id-token: write
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
