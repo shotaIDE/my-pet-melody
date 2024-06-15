@@ -1,9 +1,9 @@
-name: CD / Infrastructure Develop
+name: CD / Regular release for infrastructure Develop
 
 on:
-  pull_request:
-    branches:
-      - "main"
+  schedule:
+    - cron: '0 23 * * *' # 08:00 JST every day
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
