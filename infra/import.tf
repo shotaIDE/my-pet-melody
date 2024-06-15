@@ -108,8 +108,8 @@ import {
 }
 
 # import {
-#   id = "projects/${local.google_project_id}-default"
-#   to = google_storage_bucket.default
+#   id = "projects/${local.google_project_id}-deploy"
+#   to = google_storage_bucket.deploy
 # }
 
 import {

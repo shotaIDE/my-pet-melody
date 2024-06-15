@@ -8,8 +8,8 @@ resource "google_app_engine_application" "default" {
   ]
 }
 
-resource "google_storage_bucket" "default" {
-  name                        = "${google_project.default.project_id}-default"
+resource "google_storage_bucket" "deploy" {
+  name                        = "${google_project.default.project_id}-deploy"
   provider                    = google-beta
   project                     = google_project.default.project_id
   default_event_based_hold    = false

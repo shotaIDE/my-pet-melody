@@ -61,7 +61,7 @@ data "archive_file" "functions_src" {
 
 resource "google_storage_bucket_object" "functions_src" {
   name   = "functions/src_${data.archive_file.functions_src.output_md5}.zip"
-  bucket = google_storage_bucket.default.name
+  bucket = google_storage_bucket.deploy.name
   source = data.archive_file.functions_src.output_path
 
   depends_on = [
@@ -74,7 +74,7 @@ resource "google_cloudfunctions_function" "detect" {
   name                         = "detect"
   runtime                      = local.runtime
   region                       = var.google_project_location
-  source_archive_bucket        = google_storage_bucket.default.name
+  source_archive_bucket        = google_storage_bucket.deploy.name
   source_archive_object        = google_storage_bucket_object.functions_src.name
   trigger_http                 = true
   available_memory_mb          = 2048
@@ -104,7 +104,7 @@ resource "google_cloudfunctions_function" "submit" {
   name                         = "submit"
   runtime                      = local.runtime
   region                       = var.google_project_location
-  source_archive_bucket        = google_storage_bucket.default.name
+  source_archive_bucket        = google_storage_bucket.deploy.name
   source_archive_object        = google_storage_bucket_object.functions_src.name
   trigger_http                 = true
   available_memory_mb          = 1024
@@ -134,7 +134,7 @@ resource "google_cloudfunctions_function" "piece" {
   name                         = "piece"
   runtime                      = local.runtime
   region                       = var.google_project_location
-  source_archive_bucket        = google_storage_bucket.default.name
+  source_archive_bucket        = google_storage_bucket.deploy.name
   source_archive_object        = google_storage_bucket_object.functions_src.name
   trigger_http                 = true
   available_memory_mb          = 1024
