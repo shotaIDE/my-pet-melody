@@ -3,6 +3,10 @@ resource "google_iam_workload_identity_pool" "github" {
   project                   = google_project.default.project_id
   workload_identity_pool_id = "github"
   display_name              = "GitHub"
+
+  depends_on = [
+    google_project_service.default,
+  ]
 }
 
 resource "google_iam_workload_identity_pool_provider" "myprovider" {
