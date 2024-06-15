@@ -131,3 +131,18 @@ import {
   id = "projects/${local.google_project_id}/locations/${var.google_project_location}/queues/${local.google_project_id}-service"
   to = google_cloud_tasks_queue.default
 }
+
+import {
+  id = "projects/${local.google_project_id}/locations/global/workloadIdentityPools/github"
+  to = google_iam_workload_identity_pool.github
+}
+
+import {
+  id = "projects/${local.google_project_id}/locations/global/workloadIdentityPools/github/providers/my-pet-melody"
+  to = google_iam_workload_identity_pool_provider.myprovider
+}
+
+import {
+  id = "projects/${local.google_project_id}/serviceAccounts/deploy-functions-from-github@${local.google_project_id}.iam.gserviceaccount.com roles/iam.workloadIdentityUser principalSet://iam.googleapis.com/github/attribute.repository/shotaIDE/my-pet-melody"
+  to = google_service_account_iam_member.as_deploy_service_account
+}
