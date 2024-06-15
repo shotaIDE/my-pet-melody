@@ -19,7 +19,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: setup tfcmt
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: Setup tfcmt
         env:
           TFCMT_VERSION: v4.10.0
         run: |
@@ -42,12 +44,6 @@ jobs:
         with:
           service_account: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_EMAIL_DEV }}
           workload_identity_provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
-      - uses: hashicorp/setup-terraform@v2
-      - name: Terraform format
-        id: fmt
-        working-directory: infra
-        run: terraform fmt -check -recursive
-        continue-on-error: true
       - name: Terraform Init
         id: init
         working-directory: infra
