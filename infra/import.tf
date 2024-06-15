@@ -92,3 +92,17 @@ import {
   id = local.google_project_id
   to = google_app_engine_application.default
 }
+
+import {
+  id = "${local.google_project_id}-default"
+  to = google_storage_bucket.default
+}
+
+import {
+  id = "projects/${local.google_project_id}/buckets/${local.google_project_id}.appspot.com"
+  to = google_firebase_storage_bucket.default
+}
+
+# TODO: import to google_firebaserules_ruleset.storage
+
+# TODO: import to google_firebaserules_release.storage
