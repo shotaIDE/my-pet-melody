@@ -39,3 +39,12 @@ import {
 
 # TODO: import to google_identity_platform_project_default_config.auth
 
+import {
+  id = "projects/${local.google_project_id}/databases/(default)"
+  to = google_firestore_database.default
+}
+
+# TODO: import to google_firebaserules_ruleset.firestore
+
+# TODO: import to google_firebaserules_release.firestore
+

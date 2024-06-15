@@ -7,7 +7,6 @@ resource "google_firestore_database" "default" {
   deletion_policy         = "ABANDON"
 }
 
-# Creates a ruleset of Firestore Security Rules from a local file.
 resource "google_firebaserules_ruleset" "firestore" {
   provider = google-beta
   project  = google_project.default.project_id
@@ -18,20 +17,17 @@ resource "google_firebaserules_ruleset" "firestore" {
     }
   }
 
-  # Wait for Firestore to be provisioned before creating this ruleset.
   depends_on = [
     google_firestore_database.default,
   ]
 }
 
-# Releases the ruleset for the Firestore instance.
 resource "google_firebaserules_release" "firestore" {
   provider     = google-beta
-  name         = "cloud.firestore" # must be cloud.firestore
+  name         = "cloud.firestore"
   ruleset_name = google_firebaserules_ruleset.firestore.name
   project      = google_project.default.project_id
 
-  # Wait for Firestore to be provisioned before releasing the ruleset.
   depends_on = [
     google_firestore_database.default,
   ]
