@@ -59,10 +59,10 @@ terraform {
     }
   }
 
-  # backend "gcs" {
-  #   bucket = "colomney-my-pet-melody-dev-deploy"
-  #   prefix = "terraform/state"
-  # }
+  backend "gcs" {
+    bucket = "colomney-my-pet-melody-dev-deploy"
+    prefix = "terraform/state"
+  }
 }
 
 provider "google-beta" {
