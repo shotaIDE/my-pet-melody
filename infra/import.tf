@@ -1,11 +1,16 @@
-variable "firebase_apple_app_id" {
+variable "import_firebase_apple_app_id" {
   type        = string
   description = "App ID for Firebase Apple app, such as 1:000000000000:ios:xxxxxxxxxxxxxxxxxxxxxx."
 }
 
-variable "firebase_android_app_id" {
+variable "import_firebase_android_app_id" {
   type        = string
   description = "App ID for Firebase Android app, such as 1:000000000000:android:xxxxxxxxxxxxxxxxxxxxxx."
+}
+
+variable "import_firestore_ruleset_name" {
+  type        = string
+  description = "Firestore rule set name."
 }
 
 locals {
@@ -23,12 +28,12 @@ import {
 }
 
 import {
-  id = "projects/${local.google_project_id}/iosApps/${var.firebase_apple_app_id}"
+  id = "projects/${local.google_project_id}/iosApps/${var.import_firebase_apple_app_id}"
   to = google_firebase_apple_app.default
 }
 
 import {
-  id = "projects/${local.google_project_id}/androidApps/${var.firebase_android_app_id}"
+  id = "projects/${local.google_project_id}/androidApps/${var.import_firebase_android_app_id}"
   to = google_firebase_android_app.default
 }
 
@@ -44,7 +49,10 @@ import {
   to = google_firestore_database.default
 }
 
-# TODO: import to google_firebaserules_ruleset.firestore
+import {
+  id = "projects/${local.google_project_id}/rulesets/${var.import_firestore_ruleset_name}"
+  to = google_firebaserules_ruleset.firestore
+}
 
 import {
   id = "projects/${local.google_project_id}/releases/cloud.firestore"
@@ -96,10 +104,10 @@ import {
   to = google_app_engine_application.default
 }
 
-import {
-  id = "projects/${local.google_project_id}-default"
-  to = google_storage_bucket.default
-}
+# import {
+#   id = "projects/${local.google_project_id}-default"
+#   to = google_storage_bucket.default
+# }
 
 import {
   id = "projects/${local.google_project_id}/buckets/${local.google_project_id}.appspot.com"
@@ -108,7 +116,10 @@ import {
 
 # TODO: import to google_firebaserules_ruleset.storage
 
-# TODO: import to google_firebaserules_release.storage
+import {
+  id = "projects/${local.google_project_id}/releases/firebase.storage/${local.google_project_id}.appspot.com"
+  to = google_firebaserules_release.storage
+}
 
 import {
   id = "projects/${local.google_project_id}/locations/${var.google_project_location}/queues/${local.google_project_id}-service"
