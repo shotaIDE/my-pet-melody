@@ -23,7 +23,7 @@ resource "google_iam_workload_identity_pool_provider" "myprovider" {
 }
 
 resource "google_service_account_iam_member" "terraform_service_account" {
-  service_account_id = "projects/${google_project.default.project_id}/serviceAccounts/deploy-functions-from-github@${google_project.default.project_id}.iam.gserviceaccount.com"
+  service_account_id = "deploy-functions-from-github"
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github.name}/attribute.repository/shotaIDE/my-pet-melody"
 }
