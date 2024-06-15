@@ -8,7 +8,6 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -20,6 +19,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: aquaproj/aqua-installer@v3.0.1
+        with:
+          aqua_version: v2.28.0
+      - name: Install tfcmt
+        run: aqua g -i suzuki-shunsuke/tfcmt
       - name: Generate Firebase service account key JSON file
         working-directory: function
         run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}" | base64 -d > firebase-serviceAccountKey_dev.json
@@ -52,37 +56,8 @@ jobs:
       - name: Terraform Plan
         id: plan
         working-directory: infra
-        run: terraform plan -no-color
+        run: tfcmt plan -- terraform plan
         continue-on-error: true
-      - name: Comment Terraform Plan
-        uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-            <details><summary>Validation Output</summary>
-            \`\`\`\n
-            ${{ steps.validate.outputs.stdout }}
-            \`\`\`
-            </details>
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            <details><summary>Show Plan</summary>
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-            </details>
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
