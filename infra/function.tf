@@ -70,8 +70,10 @@ resource "google_storage_bucket_object" "functions_src" {
 }
 
 resource "google_cloudfunctions_function" "detect" {
+  project                      = google_project.default.project_id
   name                         = "detect"
   runtime                      = local.runtime
+  region                       = var.google_project_location
   source_archive_bucket        = google_storage_bucket.default.name
   source_archive_object        = google_storage_bucket_object.functions_src.name
   trigger_http                 = true
@@ -98,8 +100,10 @@ resource "google_cloudfunctions_function_iam_member" "detect_invoker" {
 }
 
 resource "google_cloudfunctions_function" "submit" {
+  project                      = google_project.default.project_id
   name                         = "submit"
   runtime                      = local.runtime
+  region                       = var.google_project_location
   source_archive_bucket        = google_storage_bucket.default.name
   source_archive_object        = google_storage_bucket_object.functions_src.name
   trigger_http                 = true
@@ -126,8 +130,10 @@ resource "google_cloudfunctions_function_iam_member" "submit_invoker" {
 }
 
 resource "google_cloudfunctions_function" "piece" {
+  project                      = google_project.default.project_id
   name                         = "piece"
   runtime                      = local.runtime
+  region                       = var.google_project_location
   source_archive_bucket        = google_storage_bucket.default.name
   source_archive_object        = google_storage_bucket_object.functions_src.name
   trigger_http                 = true

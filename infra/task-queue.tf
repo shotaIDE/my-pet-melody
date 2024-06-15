@@ -1,4 +1,5 @@
 resource "google_cloud_tasks_queue" "default" {
+  project = google_project.default.project_id
   name     = "${google_project.default.project_id}-service"
   location = var.google_project_location
 
