@@ -87,6 +87,7 @@ resource "google_cloudfunctions_function" "detect" {
 
   timeouts {
     create = local.timeout
+    update = local.timeout
   }
 }
 
@@ -117,6 +118,7 @@ resource "google_cloudfunctions_function" "submit" {
 
   timeouts {
     create = local.timeout
+    update = local.timeout
   }
 }
 
@@ -147,6 +149,7 @@ resource "google_cloudfunctions_function" "piece" {
 
   timeouts {
     create = local.timeout
+    update = local.timeout
   }
 }
 
