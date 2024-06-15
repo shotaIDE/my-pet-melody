@@ -13,6 +13,11 @@ variable "import_firestore_ruleset_name" {
   description = "Firestore rule set name."
 }
 
+variable "import_firebase_storage_ruleset_name" {
+  type        = string
+  description = "Firebase Storage rule set name."
+}
+
 locals {
   google_project_id = "${var.google_project_id}${var.google_project_id_suffix}"
 }
@@ -114,7 +119,10 @@ import {
   to = google_firebase_storage_bucket.default
 }
 
-# TODO: import to google_firebaserules_ruleset.storage
+import {
+  id = "projects/${local.google_project_id}/rulesets/${var.import_firebase_storage_ruleset_name}"
+  to = google_firebaserules_ruleset.storage
+}
 
 import {
   id = "projects/${local.google_project_id}/releases/firebase.storage/${local.google_project_id}.appspot.com"
