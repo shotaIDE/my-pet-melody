@@ -106,3 +106,8 @@ import {
 # TODO: import to google_firebaserules_ruleset.storage
 
 # TODO: import to google_firebaserules_release.storage
+
+import {
+  id = "projects/${local.google_project_id}/locations/${var.google_project_location}/queues/${local.google_project_id}-service"
+  to = google_cloud_tasks_queue.default
+}

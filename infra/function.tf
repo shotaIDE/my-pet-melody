@@ -45,7 +45,7 @@ locals {
     "GOOGLE_APPLICATION_CREDENTIALS" = var.google_application_credentials
     "GOOGLE_CLOUD_PROJECT_ID" = google_project.default.project_id
     "GOOGLE_CLOUD_TASKS_LOCATION" = var.google_project_location
-    "GOOGLE_CLOUD_TASKS_QUEUE_ID" = google_cloud_tasks_queue.advanced_configuration.name
+    "GOOGLE_CLOUD_TASKS_QUEUE_ID" = google_cloud_tasks_queue.default.name
     "REVENUE_CAT_PUBLIC_APPLE_API_KEY" = var.revenue_cat_public_apple_api_key
     "REVENUE_CAT_PUBLIC_GOOGLE_API_KEY" = var.revenue_cat_public_google_api_key
     "FEATURE_ELIMINATE_WAITING_TIME_TO_GENERATE" = var.feature_eliminate_waiting_time_to_generate
