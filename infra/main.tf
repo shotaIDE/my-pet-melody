@@ -1,6 +1,18 @@
+variable "google_project_id" {
+  type        = string
+  default     = "colomney-my-pet-melody"
+  description = "ID for GCP project."
+}
+
 variable "google_project_id_suffix" {
   type        = string
   description = "ID suffix for GCP project."
+}
+
+variable "google_project_display_name" {
+  type        = string
+  default     = "MyPetMelody"
+  description = "Display name for GCP project."
 }
 
 variable "google_project_display_name_suffix" {
@@ -18,9 +30,25 @@ variable "google_project_location" {
   description = "Location for GCP project."
 }
 
+variable "application_id" {
+  type        = string
+  default     = "ide.shota.colomney.MyPetMelody"
+  description = "Application ID for iOS and Android."
+}
+
 variable "application_id_suffix" {
   type        = string
   description = "Application ID suffix for iOS and Android."
+}
+
+variable "ios_app_team_id" {
+  type        = string
+  description = "Team ID for iOS app."
+}
+
+variable "firebase_android_app_sha1_hashes" {
+  type        = list(string)
+  description = "Allowed SHA-1 hashes for Firebase Android app."
 }
 
 terraform {
@@ -32,13 +60,10 @@ terraform {
   }
 }
 
-# Configures the provider to use the resource block's specified project for quota checks.
 provider "google-beta" {
   user_project_override = true
 }
 
-# Configures the provider to not use the resource block's specified project for quota checks.
-# This provider should only be used during project creation and initializing services.
 provider "google-beta" {
   alias                 = "no_user_project_override"
   user_project_override = false
@@ -47,13 +72,11 @@ provider "google-beta" {
 resource "google_project" "default" {
   provider = google-beta.no_user_project_override
 
-  name            = "MyPetMelody${var.google_project_display_name_suffix}"
-  project_id      = "colomney-my-pet-melody${var.google_project_id_suffix}"
+  name            = "${var.google_project_display_name}${var.google_project_display_name_suffix}"
+  project_id      = "${var.google_project_id}${var.google_project_id_suffix}"
   billing_account = var.google_billing_account_id
 
-  labels = {
-    "firebase" = "enabled"
-  }
+  labels = {}
 }
 
 resource "google_project_service" "default" {
@@ -61,18 +84,19 @@ resource "google_project_service" "default" {
   project  = google_project.default.project_id
   for_each = toset([
     "cloudbilling.googleapis.com",
+    "cloudbuild.googleapis.com",
+    "cloudfunctions.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "cloudtasks.googleapis.com",
     "firebase.googleapis.com",
     "firebaserules.googleapis.com",
     "firebasestorage.googleapis.com",
     "firestore.googleapis.com",
-    "serviceusage.googleapis.com",
     "identitytoolkit.googleapis.com",
+    "serviceusage.googleapis.com",
   ])
   service = each.key
 
-  # Don't disable the service if the resource block is removed by accident.
   disable_on_destroy = false
 }
 
@@ -89,9 +113,9 @@ resource "google_firebase_apple_app" "default" {
   provider = google-beta
 
   project      = google_project.default.project_id
-  display_name = "iOS"
-  bundle_id    = "ide.shota.colomney.MyPetMelody${var.application_id_suffix}"
-  team_id      = "4UGYN353AH"
+  display_name = "iOS-Dev"
+  bundle_id    = "${var.application_id}${var.application_id_suffix}"
+  team_id      = var.ios_app_team_id
 
   depends_on = [
     google_firebase_project.default,
@@ -102,8 +126,9 @@ resource "google_firebase_android_app" "default" {
   provider = google-beta
 
   project      = google_project.default.project_id
-  display_name = "Android"
-  package_name = "ide.shota.colomney.MyPetMelody${var.application_id_suffix}"
+  display_name = "Android-Dev"
+  package_name = "${var.application_id}${var.application_id_suffix}"
+  sha1_hashes = var.firebase_android_app_sha1_hashes
 
   depends_on = [
     google_firebase_project.default,

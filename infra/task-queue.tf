@@ -1,11 +1,6 @@
-provider "google" {
-  project     = "colomney-my-pet-melody${var.google_project_id_suffix}"
-  region      = var.google_project_location
-  credentials = file("google-cloud-credentials.json")
-}
-
-resource "google_cloud_tasks_queue" "advanced_configuration" {
-  name     = "colomney-my-pet-melody${var.google_project_id_suffix}-service"
+resource "google_cloud_tasks_queue" "default" {
+  project = google_project.default.project_id
+  name     = "${google_project.default.project_id}-service"
   location = var.google_project_location
 
   rate_limits {
