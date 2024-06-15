@@ -48,3 +48,32 @@ import {
 
 # TODO: import to google_firebaserules_release.firestore
 
+import {
+  id = "${local.google_project_id}/${var.google_project_location}/detect"
+  to = google_cloudfunctions_function.detect
+}
+
+import {
+  id = "${local.google_project_id}/${var.google_project_location}/detect roles/cloudfunctions.invoker allUsers"
+  to = google_cloudfunctions_function_iam_member.detect_invoker
+}
+
+import {
+  id = "${local.google_project_id}/${var.google_project_location}/submit"
+  to = google_cloudfunctions_function.submit
+}
+
+import {
+  id = "${local.google_project_id}/${var.google_project_location}/submit roles/cloudfunctions.invoker allUsers"
+  to = google_cloudfunctions_function_iam_member.submit_invoker
+}
+
+import {
+  id = "${local.google_project_id}/${var.google_project_location}/piece"
+  to = google_cloudfunctions_function.piece
+}
+
+import {
+  id = "${local.google_project_id}/${var.google_project_location}/piece roles/cloudfunctions.invoker allUsers"
+  to = google_cloudfunctions_function_iam_member.piece_invoker
+}
