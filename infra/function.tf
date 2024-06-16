@@ -41,10 +41,10 @@ locals {
   environment_variables = {
     "FIREBASE_ADMIN_KEY_FILE_NAME"               = var.firebase_admin_key_file_name
     "FIREBASE_STORAGE_BUCKET_NAME"               = google_app_engine_application.default.default_bucket
-    "FIREBASE_FUNCTIONS_API_ORIGIN"              = "https://${google_project.default.google_project_location}-${google_project.default.project_id}.cloudfunctions.net"
+    "FIREBASE_FUNCTIONS_API_ORIGIN"              = "https://${var.google_project_location}-${google_project.default.project_id}.cloudfunctions.net"
     "GOOGLE_APPLICATION_CREDENTIALS"             = var.google_application_credentials
     "GOOGLE_CLOUD_PROJECT_ID"                    = google_project.default.project_id
-    "GOOGLE_CLOUD_TASKS_LOCATION"                = google_project.default.google_project_location
+    "GOOGLE_CLOUD_TASKS_LOCATION"                = var.google_project_location
     "GOOGLE_CLOUD_TASKS_QUEUE_ID"                = google_cloud_tasks_queue.default.name
     "REVENUE_CAT_PUBLIC_APPLE_API_KEY"           = var.revenue_cat_public_apple_api_key
     "REVENUE_CAT_PUBLIC_GOOGLE_API_KEY"          = var.revenue_cat_public_google_api_key
@@ -73,7 +73,7 @@ resource "google_cloudfunctions_function" "detect" {
   project               = google_project.default.project_id
   name                  = "detect"
   runtime               = local.runtime
-  region                = google_project.default.google_project_location
+  region                = var.google_project_location
   source_archive_bucket = google_storage_bucket.deploy.name
   source_archive_object = google_storage_bucket_object.functions_src.name
   trigger_http          = true
@@ -104,7 +104,7 @@ resource "google_cloudfunctions_function" "submit" {
   project               = google_project.default.project_id
   name                  = "submit"
   runtime               = local.runtime
-  region                = google_project.default.google_project_location
+  region                = var.google_project_location
   source_archive_bucket = google_storage_bucket.deploy.name
   source_archive_object = google_storage_bucket_object.functions_src.name
   trigger_http          = true
@@ -135,7 +135,7 @@ resource "google_cloudfunctions_function" "piece" {
   project               = google_project.default.project_id
   name                  = "piece"
   runtime               = local.runtime
-  region                = google_project.default.google_project_location
+  region                = var.google_project_location
   source_archive_bucket = google_storage_bucket.deploy.name
   source_archive_object = google_storage_bucket_object.functions_src.name
   trigger_http          = true

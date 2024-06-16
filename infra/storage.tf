@@ -1,7 +1,7 @@
 resource "google_app_engine_application" "default" {
   provider    = google-beta
   project     = google_project.default.project_id
-  location_id = google_project.default.location_id
+  location_id = var.google_project_location
 
   depends_on = [
     google_firestore_database.default
@@ -14,7 +14,7 @@ resource "google_storage_bucket" "deploy" {
   project                     = google_project.default.project_id
   default_event_based_hold    = false
   enable_object_retention     = false
-  location                    = google_project.default.google_project_location
+  location                    = var.google_project_location
   uniform_bucket_level_access = false
   requester_pays              = false
 

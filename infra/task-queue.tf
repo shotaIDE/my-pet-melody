@@ -1,7 +1,7 @@
 resource "google_cloud_tasks_queue" "default" {
   project  = google_project.default.project_id
   name     = "${google_project.default.project_id}-service"
-  location = google_project.default.google_project_location
+  location = var.google_project_location
 
   rate_limits {
     max_concurrent_dispatches = 1
