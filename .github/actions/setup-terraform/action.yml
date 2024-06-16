@@ -3,6 +3,8 @@ inputs:
     required: true
   workload-identity-provider:
     required: true
+  tfbackend-file-name:
+    required: false
 
 runs:
   using: "composite"
@@ -25,4 +27,4 @@ runs:
     - name: Terraform Init
       working-directory: infra
       shell: bash
-      run: terraform init
+      run: terraform init -backend-config="${{ inputs.tfbackend-file-name }}"

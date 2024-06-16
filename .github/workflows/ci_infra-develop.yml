@@ -41,6 +41,7 @@ jobs:
         with:
           service-account-email: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_EMAIL_DEV }}
           workload-identity-provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
+          tfbackend-file-name: "dev.tfbackend"
       - name: Setup tfcmt
         env:
           TFCMT_VERSION: v4.10.0
@@ -55,14 +56,14 @@ jobs:
           firebase-service-account-key-json-base64-dev: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
           cloud-tasks-service-account-key-json-base64-dev: ${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
       - name: Generate Terraform vars file
-        uses: ./.github/actions/generate-terraform-vars-file
+        uses: ./.github/actions/generate-terraform-vars-file-dev
         with:
-          terraform-vars-base64: ${{ secrets.TERRAFORM_VARS_BASE64_DEV }}
+          terraform-vars-base64-dev: ${{ secrets.TERRAFORM_VARS_BASE64_DEV }}
       - name: Terraform Plan
         working-directory: infra
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: tfcmt plan -- terraform plan
+        run: tfcmt plan -- terraform plan -var-file=dev.tfvars
   check-plan-no-need:
     name: Check Terraform plan (no need)
     needs: check-impact
