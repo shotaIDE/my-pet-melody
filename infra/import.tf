@@ -19,7 +19,8 @@ variable "import_firebase_storage_ruleset_name" {
 }
 
 locals {
-  google_project_id = "${var.google_project_id}${var.google_project_id_suffix}"
+  google_project_id       = "colomney-my-pet-melody${var.google_project_id_suffix}"
+  google_project_location = "asia-east1"
 }
 
 import {
@@ -63,32 +64,32 @@ import {
 }
 
 import {
-  id = "${local.google_project_id}/${var.google_project_location}/detect"
+  id = "${local.google_project_id}/${local.google_project_location}/detect"
   to = google_cloudfunctions_function.detect
 }
 
 import {
-  id = "${local.google_project_id}/${var.google_project_location}/detect roles/cloudfunctions.invoker allUsers"
+  id = "${local.google_project_id}/${local.google_project_location}/detect roles/cloudfunctions.invoker allUsers"
   to = google_cloudfunctions_function_iam_member.detect_invoker
 }
 
 import {
-  id = "${local.google_project_id}/${var.google_project_location}/submit"
+  id = "${local.google_project_id}/${local.google_project_location}/submit"
   to = google_cloudfunctions_function.submit
 }
 
 import {
-  id = "${local.google_project_id}/${var.google_project_location}/submit roles/cloudfunctions.invoker allUsers"
+  id = "${local.google_project_id}/${local.google_project_location}/submit roles/cloudfunctions.invoker allUsers"
   to = google_cloudfunctions_function_iam_member.submit_invoker
 }
 
 import {
-  id = "${local.google_project_id}/${var.google_project_location}/piece"
+  id = "${local.google_project_id}/${local.google_project_location}/piece"
   to = google_cloudfunctions_function.piece
 }
 
 import {
-  id = "${local.google_project_id}/${var.google_project_location}/piece roles/cloudfunctions.invoker allUsers"
+  id = "${local.google_project_id}/${local.google_project_location}/piece roles/cloudfunctions.invoker allUsers"
   to = google_cloudfunctions_function_iam_member.piece_invoker
 }
 
@@ -128,7 +129,7 @@ import {
 }
 
 import {
-  id = "projects/${local.google_project_id}/locations/${var.google_project_location}/queues/${local.google_project_id}-service"
+  id = "projects/${local.google_project_id}/locations/${local.google_project_location}/queues/${local.google_project_id}-service"
   to = google_cloud_tasks_queue.default
 }
 

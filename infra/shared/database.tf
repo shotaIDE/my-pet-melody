@@ -1,7 +1,7 @@
 resource "google_firestore_database" "default" {
   project                 = google_project.default.project_id
   name                    = "(default)"
-  location_id             = var.google_project_location
+  location_id             = google_project.default.location_id
   type                    = "FIRESTORE_NATIVE"
   delete_protection_state = "DELETE_PROTECTION_DISABLED"
   deletion_policy         = "ABANDON"
