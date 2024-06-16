@@ -1,0 +1,39 @@
+name: CD / Regular release for infrastructure Production
+
+on:
+  schedule:
+    - cron: '0 23 * * 1' # 08:00 JST every Tuesday
+  workflow_dispatch:
+
+concurrency:
+  group: "use-terraform-lock-prod"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: ./.github/actions/setup-terraform
+        with:
+          service-account-email: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_EMAIL_PROD }}
+          workload-identity-provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_PROD }}
+          tfbackend-file-name: "prod.tfbackend"
+      - name: Generate uncommited function files for prod
+        uses: ./.github/actions/generate-uncommited-function-files-prod
+        with:
+          firebase-service-account-key-json-base64-prod: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_PROD }}
+          cloud-tasks-service-account-key-json-base64-prod: ${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_PROD }}
+      - name: Generate Terraform vars file
+        uses: ./.github/actions/generate-terraform-vars-file
+        with:
+          terraform-vars-base64: ${{ secrets.TERRAFORM_VARS_BASE64_PROD }}
+      - name: Terraform Plan
+        working-directory: infra
+        run: terraform plan
+      - name: Terraform Apply
+        working-directory: infra
+        run: terraform apply -auto-approve -input=false

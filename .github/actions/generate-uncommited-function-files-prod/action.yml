@@ -1,0 +1,17 @@
+inputs:
+  firebase-service-account-key-json-base64-prod:
+    required: true
+  cloud-tasks-service-account-key-json-base64-prod:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate Firebase service account key JSON file
+      working-directory: function
+      shell: bash
+      run: echo "${{ inputs.firebase-service-account-key-json-base64-prod }}" | base64 -d > firebase-serviceAccountKey_prod.json
+    - name: Generate Cloud Tasks service account key JSON file
+      working-directory: function
+      shell: bash
+      run: echo "${{ inputs.cloud-tasks-service-account-key-json-base64-prod }}" | base64 -d > cloud-tasks-serviceAccountKey_prod.json

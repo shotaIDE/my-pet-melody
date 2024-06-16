@@ -1,5 +1,5 @@
 inputs:
-  terraform-vars-base64-dev:
+  terraform-vars-base64:
     required: true
 
 runs:
@@ -8,4 +8,4 @@ runs:
     - name: Generate Terraform vars file
       working-directory: infra
       shell: bash
-      run: echo "${{ inputs.terraform-vars-base64 }}" | base64 -d > dev.tfvars
+      run: echo "${{ inputs.terraform-vars-base64 }}" | base64 -d > terraform.tfvars

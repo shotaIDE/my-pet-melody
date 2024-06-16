@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: "use-terraform-lock"
+  group: "use-terraform-lock-dev"
 
 jobs:
   deploy:
@@ -28,12 +28,12 @@ jobs:
           firebase-service-account-key-json-base64-dev: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
           cloud-tasks-service-account-key-json-base64-dev: ${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
       - name: Generate Terraform vars file
-        uses: ./.github/actions/generate-terraform-vars-file-dev
+        uses: ./.github/actions/generate-terraform-vars-file
         with:
-          terraform-vars-base64-dev: ${{ secrets.TERRAFORM_VARS_BASE64_DEV }}
+          terraform-vars-base64: ${{ secrets.TERRAFORM_VARS_BASE64_DEV }}
       - name: Terraform Plan
         working-directory: infra
-        run: terraform plan -var-file=dev.tfvars
+        run: terraform plan
       - name: Terraform Apply
         working-directory: infra
-        run: terraform apply -var-file=dev.tfvars -auto-approve -input=false
+        run: terraform apply -auto-approve -input=false
