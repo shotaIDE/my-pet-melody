@@ -58,10 +58,6 @@ terraform {
       version = "5.33.0"
     }
   }
-
-  backend "gcs" {
-    prefix = "terraform/state"
-  }
 }
 
 provider "google-beta" {
