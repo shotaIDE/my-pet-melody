@@ -19,7 +19,7 @@ variable "import_firebase_storage_ruleset_name" {
 }
 
 locals {
-  google_project_id = "${var.google_project_id}${var.google_project_id_suffix}"
+  google_project_id = "colomney-my-pet-melody${var.google_project_id_suffix}"
 }
 
 import {

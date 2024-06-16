@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: "use-terraform-lock"
+  group: "use-terraform-lock-dev"
 
 jobs:
   deploy:
@@ -21,6 +21,7 @@ jobs:
         with:
           service-account-email: ${{ secrets.DEPLOY_FUNCTIONS_SERVICE_ACCOUNT_EMAIL_DEV }}
           workload-identity-provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
+          tfbackend-file-name: "dev.tfbackend"
       - name: Generate uncommited function files for dev
         uses: ./.github/actions/generate-uncommited-function-files-dev
         with:
@@ -30,9 +31,6 @@ jobs:
         uses: ./.github/actions/generate-terraform-vars-file
         with:
           terraform-vars-base64: ${{ secrets.TERRAFORM_VARS_BASE64_DEV }}
-      - name: Terraform Plan
-        working-directory: infra
-        run: terraform plan
       - name: Terraform Apply
         working-directory: infra
         run: terraform apply -auto-approve -input=false
