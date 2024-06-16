@@ -31,9 +31,6 @@ jobs:
         uses: ./.github/actions/generate-terraform-vars-file
         with:
           terraform-vars-base64: ${{ secrets.TERRAFORM_VARS_BASE64_DEV }}
-      - name: Terraform Plan
-        working-directory: infra
-        run: terraform plan
       - name: Terraform Apply
         working-directory: infra
         run: terraform apply -auto-approve -input=false

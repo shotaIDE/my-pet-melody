@@ -43,13 +43,7 @@ jobs:
           workload-identity-provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_PROD }}
           tfbackend-file-name: "prod.tfbackend"
       - name: Setup tfcmt
-        env:
-          TFCMT_VERSION: v4.10.0
-        run: |
-          wget "https://github.com/suzuki-shunsuke/tfcmt/releases/download/${TFCMT_VERSION}/tfcmt_linux_amd64.tar.gz" -O /tmp/tfcmt.tar.gz
-          tar xzf /tmp/tfcmt.tar.gz -C /tmp
-          mv /tmp/tfcmt /usr/local/bin
-          tfcmt --version
+        uses: ./.github/actions/setup-tfcmt
       - name: Generate uncommited function files for prod
         uses: ./.github/actions/generate-uncommited-function-files-prod
         with:
