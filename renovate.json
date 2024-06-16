@@ -29,7 +29,7 @@
     },
     {
       "matchManagers": ["pub"],
-      "matchPackageNames": ["dart"],
+      "matchPackageNames": ["collection", "dart"],
       "enabled": false
     },
     {
