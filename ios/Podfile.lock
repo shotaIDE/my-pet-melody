@@ -327,13 +327,13 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
-  - purchases_flutter (6.29.3):
+  - purchases_flutter (6.29.4):
     - Flutter
-    - PurchasesHybridCommon (= 10.8.0)
-  - PurchasesHybridCommon (10.8.0):
-    - RevenueCat (= 4.42.0)
+    - PurchasesHybridCommon (= 10.9.0)
+  - PurchasesHybridCommon (10.9.0):
+    - RevenueCat (= 4.43.0)
   - RecaptchaInterop (100.0.0)
-  - RevenueCat (4.42.0)
+  - RevenueCat (4.43.0)
   - SDWebImage (5.19.0):
     - SDWebImage/Core (= 5.19.0)
   - SDWebImage/Core (5.19.0)
@@ -556,10 +556,10 @@ SPEC CHECKSUMS:
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  purchases_flutter: 71bcb09c0ef69612abe998ab895277421e85e968
-  PurchasesHybridCommon: dff07d838f74ac859a6ce20f0fbee527ba61e035
+  purchases_flutter: a10ab0c4bb4effbc9b78be6513658ae659e67a20
+  PurchasesHybridCommon: 0e157d11d04fdfdd434b5c6d05acb58fd1cc9db8
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  RevenueCat: 39f2fbf5eda66f0f87bb72329406f45488f6916e
+  RevenueCat: f7b90c52f4b7e322bc9e7adaf734030523534b06
   SDWebImage: 981fd7e860af070920f249fd092420006014c3eb
   share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
