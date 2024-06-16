@@ -104,7 +104,7 @@ resource "google_firebase_apple_app" "default" {
   provider = google-beta
 
   project      = google_project.default.project_id
-  display_name = "iOS-Dev"
+  display_name = "iOS"
   bundle_id    = "${local.application_id_base}${var.application_id_suffix}"
   team_id      = var.ios_app_team_id
 
@@ -117,7 +117,7 @@ resource "google_firebase_android_app" "default" {
   provider = google-beta
 
   project      = google_project.default.project_id
-  display_name = "Android-Dev"
+  display_name = "Android"
   package_name = "${local.application_id_base}${var.application_id_suffix}"
   sha1_hashes  = var.firebase_android_app_sha1_hashes
 
