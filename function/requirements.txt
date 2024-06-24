@@ -5,7 +5,7 @@ autopep8==2.1.0
 blinker==1.8.2
 CacheControl==0.14.0
 cachetools==5.3.3
-certifi==2024.2.2
+certifi==2024.6.2
 cffi==1.16.0
 charset-normalizer==3.3.2
 click==8.1.7
