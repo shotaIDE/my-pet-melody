@@ -2,7 +2,7 @@ name: CD / Regular release for infrastructure Develop
 
 on:
   schedule:
-    - cron: '0 23 * * *' # 08:00 JST every day
+    - cron: '0 23 * * 4' # 08:00 JST every Friday
   workflow_dispatch:
 
 concurrency:
