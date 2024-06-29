@@ -1462,10 +1462,10 @@ packages:
     dependency: "direct main"
     description:
       name: video_player
-      sha256: "3f7694b0fa01ee654f439b1161f3c23cd8e87e15a714fd894307240fe1de1a4a"
+      sha256: e30df0d226c4ef82e2c150ebf6834b3522cf3f654d8e2f9419d376cdc071425d
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.0"
+    version: "2.9.1"
   video_player_android:
     dependency: transitive
     description:
@@ -1494,10 +1494,10 @@ packages:
     dependency: transitive
     description:
       name: video_player_web
-      sha256: "44ce41424d104dfb7cf6982cc6b84af2b007a24d126406025bf40de5d481c74c"
+      sha256: ff4d69a6614b03f055397c27a71c9d3ddea2b2a23d71b2ba0164f59ca32b8fe2
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.16"
+    version: "2.3.1"
   video_thumbnail:
     dependency: "direct main"
     description:
