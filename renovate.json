@@ -32,6 +32,10 @@
       "groupName": "cloud_firestore"
     },
     {
+      "matchPackageNames": ["freezed", "freezed_annotation"],
+      "groupName": "freezed"
+    },
+    {
       "matchManagers": ["pub"],
       "matchPackageNames": ["collection", "dart"],
       "enabled": false
