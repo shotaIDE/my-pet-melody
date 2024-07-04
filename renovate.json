@@ -57,7 +57,7 @@
       "automerge": true
     }
   ],
-  "prConcurrentLimit": 1,
+  "prConcurrentLimit": 2,
   "rangeStrategy": "pin",
   "reviewers": ["shotaIDE"]
 }
