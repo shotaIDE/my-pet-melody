@@ -128,4 +128,4 @@ watchdog==4.0.1
 Werkzeug==3.0.3
 wrapt==1.14.1
 xarray==2024.5.0
-zipp==3.19.0
+zipp==3.19.1
