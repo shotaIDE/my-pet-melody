@@ -31,7 +31,8 @@
       "matchPackageNames": [
         "cloud_firestore",
         "firebase_auth",
-        "firebase_core"
+        "firebase_core",
+        "firebase_crashlytics"
       ],
       "groupName": "cloud_firestore"
     },
