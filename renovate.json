@@ -28,7 +28,11 @@
       "automerge": true
     },
     {
-      "matchPackageNames": ["cloud_firestore", "firebase_core"],
+      "matchPackageNames": [
+        "cloud_firestore",
+        "firebase_auth",
+        "firebase_core"
+      ],
       "groupName": "cloud_firestore"
     },
     {
