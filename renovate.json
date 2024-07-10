@@ -30,11 +30,14 @@
     {
       "matchPackageNames": [
         "cloud_firestore",
+        "firebase_analytics",
         "firebase_auth",
         "firebase_core",
-        "firebase_crashlytics"
+        "firebase_crashlytics",
+        "firebase_messaging",
+        "firebase_remote_config"
       ],
-      "groupName": "cloud_firestore"
+      "groupName": "firebase"
     },
     {
       "matchManagers": ["pub"],
