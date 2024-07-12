@@ -7,7 +7,8 @@
     "pub",
     "ruby-version",
     "terraform",
-    "terraform-version"
+    "terraform-version",
+    "github-actions"
   ],
   "extends": ["config:recommended", ":pinDevDependencies"],
   "labels": ["dependencies"],
@@ -59,6 +60,11 @@
     {
       "matchManagers": ["terraform", "terraform-version"],
       "addLabels": ["terraform"],
+      "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["github_actions"],
       "automerge": true
     }
   ],
