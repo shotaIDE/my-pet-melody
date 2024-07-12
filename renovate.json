@@ -63,6 +63,12 @@
       "automerge": true
     },
     {
+      "matchManagers": ["github-action"],
+      "matchPackageNames": ["google-github-actions/deploy-cloud-functions"],
+      "matchCurrentVersion": ">= 3",
+      "enabled": false
+    },
+    {
       "matchManagers": ["github-actions"],
       "addLabels": ["github_actions"],
       "automerge": true
