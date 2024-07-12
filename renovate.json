@@ -10,7 +10,7 @@
     "terraform-version",
     "github-actions"
   ],
-  "extends": ["config:recommended", ":pinDevDependencies"],
+  "extends": ["config:best-practices"],
   "labels": ["dependencies"],
   "packageRules": [
     {
