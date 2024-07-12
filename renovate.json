@@ -65,7 +65,7 @@
     {
       "matchManagers": ["github-actions"],
       "matchPackageNames": ["google-github-actions/deploy-cloud-functions"],
-      "matchCurrentVersion": ">= 3",
+      "matchNewValue": "v3",
       "enabled": false
     },
     {
