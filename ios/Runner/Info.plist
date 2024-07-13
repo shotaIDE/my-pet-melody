@@ -30,7 +30,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>$(GOOGLE_SERVICE_REVERSED_CLIENT_ID)</string>
-				<string>$(TWITTER_REDIRECT_SCHEME)</string>
 			</array>
 		</dict>
 	</array>

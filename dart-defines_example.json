@@ -1,7 +1,5 @@
 {
   "FLAVOR": "dev",
-  "TWITTER_CONSUMER_API_KEY": "xxxxxxxxxxxxxxxxxxxxxxxxx",
-  "TWITTER_CONSUMER_SECRET": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "REVENUE_CAT_PUBLIC_APPLE_API_KEY": "appl_xxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "REVENUE_CAT_PUBLIC_GOOGLE_API_KEY": "goog_xxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "SERVER_HOST": "192.168.1.1",

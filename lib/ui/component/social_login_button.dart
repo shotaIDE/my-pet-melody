@@ -28,31 +28,6 @@ class ContinueWithGoogleButton extends StatelessWidget {
   }
 }
 
-class ContinueWithTwitterButton extends StatelessWidget {
-  const ContinueWithTwitterButton({
-    required this.onPressed,
-    super.key,
-  });
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    const foregroundColor = Colors.white;
-
-    return _ContinueWithThirdPartyProviderButton(
-      onPressed: onPressed,
-      icon: const Icon(
-        FontAwesomeIcons.twitter,
-        color: foregroundColor,
-      ),
-      text: AppLocalizations.of(context)!.continueWithTwitter,
-      textColor: foregroundColor,
-      backgroundColor: const Color(0xFF1DA1F2),
-    );
-  }
-}
-
 class ContinueWithAppleButton extends StatelessWidget {
   const ContinueWithAppleButton({
     required this.onPressed,
