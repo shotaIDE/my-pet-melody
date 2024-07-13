@@ -8,7 +8,6 @@ import 'package:my_pet_melody/data/model/google_credential.dart';
 import 'package:my_pet_melody/data/model/login_error.dart';
 import 'package:my_pet_melody/data/model/login_third_party_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
-import 'package:my_pet_melody/data/model/twitter_credential.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
 import 'package:my_pet_melody/data/service/push_notification_service.dart';
 import 'package:my_pet_melody/data/service/third_party_auth_service.dart';
@@ -135,97 +134,6 @@ final linkWithGoogleActionProvider =
   return action;
 });
 
-final loginWithTwitterActionProvider =
-    Provider<Future<Result<void, LoginError>> Function()>((ref) {
-  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
-  final authActions = ref.watch(authActionsProvider);
-  final eventReporter = ref.watch(eventReporterProvider);
-
-  Future<Result<void, LoginError>> action() async {
-    final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
-    final convertedLoginError = loginTwitterResult.whenOrNull<LoginError>(
-      failure: (error) => error.when(
-        cancelledByUser: LoginError.cancelledByUser,
-        unrecoverable: LoginError.unrecoverable,
-      ),
-    );
-    if (convertedLoginError != null) {
-      return Result.failure(convertedLoginError);
-    }
-
-    final credential =
-        (loginTwitterResult as Success<TwitterCredential, LoginThirdPartyError>)
-            .value;
-    final loginResult = await authActions.loginWithTwitter(
-      authToken: credential.authToken,
-      secret: credential.secret,
-    );
-    final convertedLinkError = loginResult.whenOrNull(
-      failure: (error) => error.when(
-        alreadyInUse: LoginError.alreadyInUse,
-        unrecoverable: LoginError.unrecoverable,
-      ),
-    );
-    if (convertedLinkError != null) {
-      return Result.failure(convertedLinkError);
-    }
-
-    unawaited(
-      eventReporter.signUp(AccountProvider.twitter),
-    );
-
-    return const Result.success(null);
-  }
-
-  return action;
-});
-
-final linkWithTwitterActionProvider =
-    Provider<Future<Result<void, LoginError>> Function()>((ref) {
-  final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
-  final authActions = ref.watch(authActionsProvider);
-  final eventReporter = ref.watch(eventReporterProvider);
-
-  Future<Result<void, LoginError>> action() async {
-    final loginResult = await thirdPartyAuthActions.loginTwitter();
-    final convertedLoginError =
-        loginResult.whenOrNull<Result<void, LoginError>>(
-      failure: (error) => error.when(
-        cancelledByUser: () =>
-            const Result.failure(LoginError.cancelledByUser()),
-        unrecoverable: () => const Result.failure(LoginError.unrecoverable()),
-      ),
-    );
-    if (convertedLoginError != null) {
-      return convertedLoginError;
-    }
-
-    final credential =
-        (loginResult as Success<TwitterCredential, LoginThirdPartyError>).value;
-    final linkResult = await authActions.linkWithTwitter(
-      authToken: credential.authToken,
-      secret: credential.secret,
-    );
-    final convertedLinkError = linkResult.whenOrNull(
-      failure: (error) => error.when(
-        alreadyInUse: LoginError.alreadyInUse,
-        unrecoverable: LoginError.unrecoverable,
-      ),
-    );
-    if (convertedLinkError != null) {
-      return Result.failure(convertedLinkError);
-    }
-
-    unawaited(
-      eventReporter.signUp(AccountProvider.twitter),
-    );
-
-    return const Result.success(null);
-  }
-
-  return action;
-});
-
 final loginWithAppleActionProvider =
     Provider<Future<Result<void, LoginError>> Function()>((ref) {
   final authActions = ref.watch(authActionsProvider);
@@ -324,39 +232,6 @@ final deleteAccountActionProvider = Provider((ref) {
           return Result.failure(convertedReauthenticateError);
         }
 
-
-      case AccountProvider.twitter:
-        final loginTwitterResult = await thirdPartyAuthActions.loginTwitter();
-        final convertedLoginError =
-            loginTwitterResult.whenOrNull<DeleteAccountError>(
-          failure: (error) => error.when(
-            cancelledByUser: DeleteAccountError.cancelledByUser,
-            unrecoverable: DeleteAccountError.unrecoverable,
-          ),
-        );
-        if (convertedLoginError != null) {
-          return Result.failure(convertedLoginError);
-        }
-
-        final twitterCredential = (loginTwitterResult
-                as Success<TwitterCredential, LoginThirdPartyError>)
-            .value;
-        final reauthenticateResult =
-            await authActions.reauthenticateWithTwitter(
-          authToken: twitterCredential.authToken,
-          secret: twitterCredential.secret,
-        );
-        final convertedReauthenticateError = reauthenticateResult.whenOrNull(
-          failure: (error) => error.when(
-            alreadyInUse: DeleteAccountError.unrecoverable,
-            unrecoverable: DeleteAccountError.unrecoverable,
-          ),
-        );
-        if (convertedReauthenticateError != null) {
-          return Result.failure(convertedReauthenticateError);
-        }
-
-
       case AccountProvider.apple:
         final reauthenticateWithAppleResult =
             await authActions.loginOrLinkWithApple();
@@ -371,7 +246,6 @@ final deleteAccountActionProvider = Provider((ref) {
         if (convertedLoginError != null) {
           return Result.failure(convertedLoginError);
         }
-
     }
 
     final deleteOnSecondResult = await authActions.delete();

@@ -47,9 +47,6 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
     final continueWithGoogleButton = ContinueWithGoogleButton(
       onPressed: _continueWithGoogle,
     );
-    final continueWithTwitterButton = ContinueWithTwitterButton(
-      onPressed: _continueWithTwitter,
-    );
     final continueWithAppleButton = ContinueWithAppleButton(
       onPressed: _continueWithApple,
     );
@@ -61,8 +58,6 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           continueWithGoogleButton,
-          const SizedBox(height: 16),
-          continueWithTwitterButton,
           const SizedBox(height: 16),
           continueWithAppleButton,
         ],
@@ -144,38 +139,6 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
             content: Text(
               AppLocalizations.of(context)!
                   .googleAccountIsAlreadyUsedErrorDescription,
-            ),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-        unrecoverable: (_) async {
-          final snackBar = SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!.unknownErrorDescription,
-            ),
-          );
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-      ),
-    );
-  }
-
-  Future<void> _continueWithTwitter() async {
-    final result =
-        await ref.read(widget.viewModel.notifier).continueWithTwitter();
-
-    await result.when(
-      success: (_) async {
-        Navigator.pop(context);
-      },
-      failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
-          final snackBar = SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!
-                  .twitterAccountIsAlreadyUsedErrorDescription,
             ),
           );
 
