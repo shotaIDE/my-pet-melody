@@ -36,7 +36,7 @@ variable "waiting_time_seconds_to_generate" {
 
 locals {
   runtime         = "python311"
-  docker_registry = "CONTAINER_REGISTRY"
+  docker_registry = "ARTIFACT_REGISTRY"
   timeout         = "20m"
   environment_variables = {
     "FIREBASE_ADMIN_KEY_FILE_NAME"               = var.firebase_admin_key_file_name
