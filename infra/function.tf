@@ -35,7 +35,7 @@ variable "waiting_time_seconds_to_generate" {
 }
 
 locals {
-  runtime         = "python310"
+  runtime         = "python311"
   docker_registry = "CONTAINER_REGISTRY"
   timeout         = "20m"
   environment_variables = {
