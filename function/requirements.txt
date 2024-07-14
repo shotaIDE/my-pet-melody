@@ -45,7 +45,7 @@ h5py==3.11.0
 httplib2==0.22.0
 idna==3.7
 imageio==2.34.1
-importlib_metadata==7.1.0
+importlib_metadata==8.0.0
 iniconfig==2.0.0
 itsdangerous==2.2.0
 jax==0.4.30
