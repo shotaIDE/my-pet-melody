@@ -34,11 +34,14 @@ final templateDraftsProvider = StreamProvider(
 final localizedTemplateMetadataListProvider =
     StreamProvider.family<List<LocalizedTemplateMetadata>, Locale>(
   (_, locale) {
-    final languageTag = locale.toLanguageTag();
+    // Currently, we only care about the language code.
+    // When we need to support languages varies by region,
+    // we should consider the country code as well.
+    final languageCode = locale.languageCode;
 
     return FirebaseFirestore.instance
         .collection('localized')
-        .doc(languageTag)
+        .doc(languageCode)
         .collection('systemMedia')
         .snapshots()
         .map(
