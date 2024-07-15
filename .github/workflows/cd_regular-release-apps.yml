@@ -2,7 +2,7 @@ name: CD / Regular release for apps
 
 on:
   schedule:
-    - cron: '0 23 * * *' # 08:00 JST every day
+    - cron: "0 23 * * *" # 08:00 JST every day
   repository_dispatch:
     types:
       - "regular-release-apps"
@@ -91,7 +91,7 @@ jobs:
             dart-defines_example.json
             pubspec.lock
             pubspec.yaml
-          sha: 'HEAD'
+          sha: "HEAD"
   e2e-test-ios:
     name: E2E test iOS app
     needs: check-unreleased-diff
@@ -136,7 +136,7 @@ jobs:
       - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: 'build/ios/iphonesimulator/Runner.app'
+          app-file: "build/ios/iphonesimulator/Runner.app"
           ios-version: 17
           device-locale: ja_JP
           env: |
@@ -186,7 +186,7 @@ jobs:
       - uses: mobile-dev-inc/action-maestro-cloud@v1.8.1
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-          app-file: 'build/app/outputs/flutter-apk/app-dev-release.apk'
+          app-file: "build/app/outputs/flutter-apk/app-dev-release.apk"
           android-api-level: 33
           device-locale: ja_JP
           env: |
@@ -194,7 +194,8 @@ jobs:
   trigger-cd-production:
     name: Trigger CD production
     runs-on: ubuntu-latest
-    needs: 
+    needs:
+      - e2e-test-ios
       - e2e-test-android
     steps:
       - name: Generate token
