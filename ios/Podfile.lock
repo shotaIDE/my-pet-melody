@@ -327,7 +327,7 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
-  - purchases_flutter (6.30.1):
+  - purchases_flutter (6.30.2):
     - Flutter
     - PurchasesHybridCommon (= 11.1.0)
   - PurchasesHybridCommon (11.1.0):
@@ -551,7 +551,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  purchases_flutter: a7dba78a5da88e0672a881372d2a34478e723537
+  purchases_flutter: 42d5544e7730ea89a88cc2f008b7c700fd147052
   PurchasesHybridCommon: 4022d5944cb30ec44ba5159e42aa161fe0e30175
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RevenueCat: 3d934653b7e8b09af88fd47e9e84cfaf5d0a89ba
