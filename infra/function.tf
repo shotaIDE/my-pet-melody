@@ -35,7 +35,7 @@ variable "waiting_time_seconds_to_generate" {
 }
 
 locals {
-  runtime         = "python311"
+  runtime         = "python312"
   docker_registry = "ARTIFACT_REGISTRY"
   timeout         = "20m"
   environment_variables = {
