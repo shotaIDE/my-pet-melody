@@ -20,12 +20,12 @@ jobs:
     outputs:
       has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           fetch-depth: 0
       - name: Check related files
         id: check-related-files
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@6b2903bdce6310cfbddd87c418f253cf29b2dec9 # v44
         with:
           files: |
             ios/**
@@ -39,7 +39,7 @@ jobs:
     if: needs.check-impact.outputs.has-changed-related-files == 'true'
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Setup Xcode
@@ -72,11 +72,11 @@ jobs:
     steps:
       - name: Generate token
         id: generate-token
-        uses: tibdex/github-app-token@v2
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2
         with:
           app_id: ${{ secrets.COLOMNEY_WORKFLOW_APP_ID }}
           private_key: ${{ secrets.COLOMNEY_WORKFLOW_APP_PRIVATE_KEY_PEM }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           ref: ${{ github.head_ref }}
           # Use App tokens instead of default token `GITHUB_TOKEN`

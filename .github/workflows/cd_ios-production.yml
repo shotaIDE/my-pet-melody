@@ -14,7 +14,7 @@ jobs:
   deploy:
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Setup Xcode
@@ -44,7 +44,7 @@ jobs:
       - name: Generate App Store Connect API key file
         run: echo "${{ secrets.APP_STORE_CONNECT_API_KEY_P8_BASE64 }}" | base64 -d > fastlane/app-store-connect-api-key.p8
       - name: Import Code-Signing Certificates
-        uses: Apple-Actions/import-codesign-certs@v3
+        uses: Apple-Actions/import-codesign-certs@63fff01cd422d4b7b855d40ca1e9d34d2de9427d # v3
         with:
           p12-file-base64: ${{ secrets.APP_DISTRIBUTION_P12_BASE64 }}
           p12-password: ${{ secrets.APP_DISTRIBUTION_P12_PASSWORD }}
@@ -56,7 +56,7 @@ jobs:
         run: bundle exec fastlane ios build_prod
       # Uploading to App Store may fail for temporary reasons, so we retry.
       - name: Deploy prod app to App Store
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@7152eba30c6575329ac0576536151aca5a72780e # v3
         with:
           timeout_minutes: 360
           max_attempts: 3
