@@ -29,10 +29,11 @@ Subscribing to the premium plan will speed up the time it takes to complete the 
 If you do not cancel automatic renewal at least 24 hours before the end of the period, the contract period will be automatically renewed.
 
 ■Confirmation and cancellation
-Open the Play Store app and go to Settings > [Subscriptions] > [Uchi no Komelody] to check the next automatic renewal timing and cancel automatic renewal.
+Open the Settings app, and go to [Your name] > [Subscriptions] > [My Comorody] to check the next automatic renewal date and cancel automatic renewal.
 
 ■Restoration when changing devices
-When changing devices, you can restore previously purchased plans for free from this screen. Please restore after logging in to the Play Store with the same Google account as when you purchased it.
+When changing devices, you can restore your previously purchased plan for free from this screen. Please restore after logging in to the App Store with the same Apple ID as when you purchased it.
 
 ■Notes
-Those who have been charged within the app cannot cancel by any method other than the above. Cancellations for the current month are not accepted. Charges will be made via your Google account.
+Those who have been charged within the app cannot cancel by any method other than the above. Cancellations for the current month are not accepted. Charges will be made via your Apple ID account.
+
