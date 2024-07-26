@@ -2,13 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "enabledManagers": [
     "asdf",
+    "github-actions",
     "gradle-wrapper",
-    "pyenv",
+    "pip_requirements",
     "pub",
+    "pyenv",
     "ruby-version",
-    "terraform",
     "terraform-version",
-    "github-actions"
+    "terraform"
   ],
   "extends": ["config:best-practices"],
   "labels": ["dependencies"],
@@ -21,6 +22,11 @@
     {
       "matchManagers": ["gradle-wrapper"],
       "addLabels": ["gradle"],
+      "automerge": true
+    },
+    {
+      "matchManagers": ["pip_requirements"],
+      "addLabels": ["python"],
       "automerge": true
     },
     {

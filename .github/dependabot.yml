@@ -18,12 +18,3 @@ updates:
       interval: "daily"
       time: "05:00"
       timezone: "Asia/Tokyo"
-  - package-ecosystem: "pip"
-    directory: "/function/"
-    open-pull-requests-limit: 1
-    reviewers:
-      - "shotaIDE"
-    schedule:
-      interval: "daily"
-      time: "06:00"
-      timezone: "Asia/Tokyo"
