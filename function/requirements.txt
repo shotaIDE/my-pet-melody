@@ -49,6 +49,7 @@ importlib_metadata==8.0.0
 iniconfig==2.0.0
 itsdangerous==2.2.0
 jax==0.4.30
+jaxlib==0.4.30
 Jinja2==3.1.4
 joblib==1.4.2
 keras==3.4.1
@@ -82,7 +83,7 @@ pyannote.core==5.0.0
 pyannote.parser==0.8
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
-pycodestyle==2.11.1
+pycodestyle==2.12.0
 pycparser==2.22
 pydub==0.25.1
 Pygments==2.18.0
@@ -102,6 +103,7 @@ scikit-image==0.24.0
 scikit-learn==1.5.1
 scipy==1.13.1
 serpent==1.41
+setuptools==71.1.0
 simplejson==3.19.2
 six==1.16.0
 sortedcollections==2.1.0
@@ -126,6 +128,7 @@ uritemplate==4.1.1
 urllib3==2.2.2
 watchdog==4.0.1
 Werkzeug==3.0.3
+wheel==0.43.0
 wrapt==1.14.1
 xarray==2024.6.0
 zipp==3.19.2
