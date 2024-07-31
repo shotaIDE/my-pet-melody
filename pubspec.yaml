@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   audioplayers: 6.0.0
-  chewie: 1.8.1
+  chewie: 1.8.2
   cloud_firestore: 5.1.0
   collection: 1.18.0
   cross_file: 0.3.4+1
