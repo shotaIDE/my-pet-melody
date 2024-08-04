@@ -90,7 +90,7 @@ Pygments==2.18.0
 PyJWT==2.9.0
 pyparsing==3.1.2
 Pyro4==4.82
-pytest==8.0.2
+pytest==8.3.2
 pytextgrid==0.1.4
 python-dateutil==2.9.0.post0
 pytz==2024.1
