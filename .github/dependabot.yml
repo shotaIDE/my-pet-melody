@@ -1,14 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: "bundler"
-    directory: "/"
-    open-pull-requests-limit: 1
-    reviewers:
-      - "shotaIDE"
-    schedule:
-      interval: "daily"
-      time: "03:00"
-      timezone: "Asia/Tokyo"
   - package-ecosystem: "gradle"
     directory: "/android/"
     open-pull-requests-limit: 1
