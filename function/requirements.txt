@@ -83,7 +83,7 @@ pyannote.core==5.0.0
 pyannote.parser==0.8
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
-pycodestyle==2.12.0
+pycodestyle==2.12.1
 pycparser==2.22
 pydub==0.25.1
 Pygments==2.18.0
