@@ -380,14 +380,14 @@ class _PurchasableButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 DisplayDefinition.cornerRadiusSizeLarge,
               ),
             ),
           ),
-          textStyle: MaterialStateProperty.all<TextStyle>(
+          textStyle: WidgetStateProperty.all<TextStyle>(
             Theme.of(context).textTheme.labelLarge!.copyWith(
                   fontSize: 16,
                   // Specify a default text theme to apply the system font
