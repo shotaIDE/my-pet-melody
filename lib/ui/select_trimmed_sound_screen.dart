@@ -16,7 +16,7 @@ import 'package:my_pet_melody/ui/select_trimmed_sound_state.dart';
 import 'package:my_pet_melody/ui/select_trimmed_sound_view_model.dart';
 import 'package:my_pet_melody/ui/set_piece_title_screen.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_screen.dart';
-import 'package:skeletons/skeletons.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
     .family<SelectTrimmedSoundViewModel, SelectTrimmedSoundState,
@@ -883,10 +883,12 @@ class _Thumbnail extends StatelessWidget {
             width: width,
             height: height,
           )
-        : SizedBox(
-            width: width,
-            height: height,
-            child: const SkeletonAvatar(),
+        : Skeletonizer(
+            child: SizedBox(
+              width: width,
+              height: height,
+              child: const Icon(Icons.ac_unit, size: 48),
+            ),
           );
   }
 }

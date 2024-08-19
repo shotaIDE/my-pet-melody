@@ -12,6 +12,7 @@ mocktail
 reorderable
 riverpod
 rxdart
+skeletonizer
 sublist
 unawaited
 unfocus

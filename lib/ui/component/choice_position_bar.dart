@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_pet_melody/ui/model/play_status.dart';
-import 'package:skeletons/skeletons.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ChoicePositionBar extends StatelessWidget {
   const ChoicePositionBar({
@@ -16,8 +16,11 @@ class ChoicePositionBar extends StatelessWidget {
 
     return status.when(
       stop: () => const SizedBox(height: height),
-      loadingMedia: () => const SkeletonLine(
-        style: SkeletonLineStyle(height: height),
+      loadingMedia: () => const Skeletonizer(
+        child: LinearProgressIndicator(
+          value: 0.5,
+          minHeight: height,
+        ),
       ),
       playing: (position) => LinearProgressIndicator(
         value: position,
