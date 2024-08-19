@@ -16,14 +16,10 @@ class ChoicePositionBar extends StatelessWidget {
 
     return status.when(
       stop: () => const SizedBox(height: height),
-      loadingMedia: () => Skeletonizer(
+      loadingMedia: () => const Skeletonizer(
         child: Skeleton.leaf(
-          child: ColoredBox(
-            color: Theme.of(context).primaryColor,
-            child: const SizedBox(
-              width: double.infinity,
-              height: height,
-            ),
+          child: LinearProgressIndicator(
+            minHeight: height,
           ),
         ),
       ),
