@@ -10,7 +10,7 @@ runs:
   using: "composite"
   steps:
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@651471c36a6092792c552e8b1bef71e592b462d8 # v3
+      uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
     - name: Cache Terraform Plugins
       uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
       with:
