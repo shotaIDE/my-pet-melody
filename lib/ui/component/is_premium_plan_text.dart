@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:skeletons/skeletons.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class IsPremiumPlanText extends StatelessWidget {
   const IsPremiumPlanText({
@@ -14,17 +14,11 @@ class IsPremiumPlanText extends StatelessWidget {
   Widget build(BuildContext context) {
     final isPremium = isPremiumPlan;
 
-    if (isPremium == null) {
-      return SizedBox(
-        width: 100,
-        child: SkeletonParagraph(
-          style: const SkeletonParagraphStyle(lines: 1),
-        ),
-      );
-    }
-
-    return isPremium
-        ? Text(AppLocalizations.of(context)!.premiumPlan)
-        : Text(AppLocalizations.of(context)!.freePlan);
+    return Skeletonizer(
+      enabled: isPremium == null,
+      child: isPremium == true
+          ? Text(AppLocalizations.of(context)!.premiumPlan)
+          : Text(AppLocalizations.of(context)!.freePlan),
+    );
   }
 }

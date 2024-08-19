@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skeletons/skeletons.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class FetchedThumbnail extends StatelessWidget {
   const FetchedThumbnail({
@@ -18,12 +18,10 @@ class FetchedThumbnail extends StatelessWidget {
     return Image.network(
       url!,
       loadingBuilder: (_, child, loadingProgress) {
-        if (loadingProgress != null) {
-          return const SkeletonLine(
-            style: SkeletonLineStyle(height: double.infinity),
-          );
-        }
-        return child;
+        return Skeletonizer(
+          enabled: loadingProgress != null,
+          child: child,
+        );
       },
       fit: BoxFit.fitWidth,
     );
