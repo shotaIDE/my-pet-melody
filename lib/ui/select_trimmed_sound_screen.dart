@@ -876,19 +876,16 @@ class _Thumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return path != null
-        ? Image.file(
-            File(path!),
-            fit: BoxFit.cover,
-            width: width,
-            height: height,
-          )
-        : Skeletonizer(
-            child: SizedBox(
-              width: width,
-              height: height,
-              child: const Icon(Icons.ac_unit, size: 48),
-            ),
-          );
+    return Skeletonizer(
+      enabled: path == null,
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: Image.file(
+          File(path ?? ''),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
   }
 }
