@@ -876,15 +876,22 @@ class _Thumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final skeletonEnabled = path == null;
+    final child = skeletonEnabled
+        ? ColoredBox(
+            color: Theme.of(context).primaryColor,
+          )
+        : Image.file(
+            File(path!),
+            fit: BoxFit.cover,
+          );
+
     return Skeletonizer(
-      enabled: path == null,
+      enabled: skeletonEnabled,
       child: SizedBox(
         width: width,
         height: height,
-        child: Image.file(
-          File(path ?? ''),
-          fit: BoxFit.cover,
-        ),
+        child: child,
       ),
     );
   }
