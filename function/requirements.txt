@@ -104,7 +104,7 @@ scikit-learn==1.5.1
 scipy==1.14.0
 serpent==1.41
 setuptools==71.1.0
-simplejson==3.19.2
+simplejson==3.19.3
 six==1.16.0
 sortedcollections==2.1.0
 sortedcontainers==2.4.0
