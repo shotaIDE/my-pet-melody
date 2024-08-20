@@ -18,9 +18,16 @@ class FetchedThumbnail extends StatelessWidget {
     return Image.network(
       url!,
       loadingBuilder: (_, child, loadingProgress) {
+        final skeletonEnabled = loadingProgress != null;
+        final fixedChild = skeletonEnabled
+            ? ColoredBox(
+                color: Theme.of(context).primaryColor,
+              )
+            : child;
+
         return Skeletonizer(
-          enabled: loadingProgress != null,
-          child: child,
+          enabled: skeletonEnabled,
+          child: fixedChild,
         );
       },
       fit: BoxFit.fitWidth,
