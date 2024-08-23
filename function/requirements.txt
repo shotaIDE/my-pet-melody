@@ -101,7 +101,7 @@ rich==13.7.1
 rsa==4.9
 scikit-image==0.24.0
 scikit-learn==1.5.1
-scipy==1.14.0
+scipy==1.14.1
 serpent==1.41
 setuptools==71.1.0
 simplejson==3.19.3
