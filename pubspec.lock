@@ -1081,10 +1081,10 @@ packages:
     dependency: "direct main"
     description:
       name: purchases_flutter
-      sha256: "83f58c4ef331c06af0548b009632ec2c45b119b87bf02a74f8f77a40e0f64bad"
+      sha256: "3724f32ff64dd2b55a2ef64f10d927d30b127734b6b0a48cbaf0a47bab89b380"
       url: "https://pub.dev"
     source: hosted
-    version: "6.30.2"
+    version: "8.1.0"
   rfc_6901:
     dependency: transitive
     description:
