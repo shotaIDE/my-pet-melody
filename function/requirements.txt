@@ -130,5 +130,5 @@ watchdog==4.0.2
 Werkzeug==3.0.4
 wheel==0.43.0
 wrapt==1.14.1
-xarray==2024.6.0
+xarray==2024.7.0
 zipp==3.19.2
