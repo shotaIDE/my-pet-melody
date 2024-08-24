@@ -38,7 +38,7 @@ google-pasta==0.2.0
 google-resumable-media==2.7.2
 googleapis-common-protos==1.63.2
 grpc-google-iam-v1==0.13.1
-grpcio==1.65.5
+grpcio==1.66.0
 grpcio-status==1.62.2
 gunicorn==22.0.0
 h5py==3.11.0
