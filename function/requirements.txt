@@ -25,7 +25,7 @@ functions-framework==3.8.1
 future==1.0.0
 gast==0.6.0
 google-api-core==2.19.2
-google-api-python-client==2.142.0
+google-api-python-client==2.143.0
 google-auth==2.34.0
 google-auth-httplib2==0.2.0
 google-auth-oauthlib==1.2.1
