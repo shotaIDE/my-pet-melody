@@ -58,11 +58,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: tfcmt plan -- terraform plan
-  check-plan-no-need:
-    name: Check Terraform plan (no need)
-    needs: check-impact
-    if: needs.check-impact.outputs.has-changed-related-files == 'false'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Skip
-        run: echo "No changes in files related to Terraform, skipping."
