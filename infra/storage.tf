@@ -27,7 +27,6 @@ resource "google_storage_bucket" "deploy" {
       days_since_custom_time                  = 0
       days_since_noncurrent_time              = 0
       matches_prefix                          = ["userTemporaryMedia/"]
-      no_age                                  = false
       num_newer_versions                      = 0
       send_days_since_custom_time_if_zero     = false
       send_days_since_noncurrent_time_if_zero = false
