@@ -67,11 +67,3 @@ jobs:
           key-alias: ${{ secrets.KEYSTORE_KEY_ALIAS }}
       - name: Android build
         run: bundle exec fastlane android build_dev
-  build-no-need:
-    name: Build Android app (no need)
-    needs: check-impact
-    if: needs.check-impact.outputs.has-changed-related-files == 'false'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Skip
-        run: echo "No changes in files related to build Android, skipping."

@@ -72,11 +72,3 @@ jobs:
           sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Test
         run: pytest
-  build-no-need:
-    name: Test API (no need)
-    needs: check-impact
-    if: needs.check-impact.outputs.has-changed-related-files == 'false'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Skip
-        run: echo "No changes in files related to API, skipping."

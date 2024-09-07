@@ -103,11 +103,3 @@ jobs:
         run: |
           BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           git push origin "$BRANCH_NAME"
-  build-no-need:
-    name: Build iOS app (no need)
-    needs: check-impact
-    if: needs.check-impact.outputs.has-changed-related-files == 'false'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Skip
-        run: echo "No changes in files related to build iOS, skipping."
