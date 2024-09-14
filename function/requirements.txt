@@ -43,7 +43,7 @@ grpcio-status==1.62.2
 gunicorn==23.0.0
 h5py==3.11.0
 httplib2==0.22.0
-idna==3.8
+idna==3.9
 imageio==2.35.1
 importlib_metadata==8.5.0
 iniconfig==2.0.0
