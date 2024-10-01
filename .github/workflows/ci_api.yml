@@ -34,7 +34,7 @@ jobs:
     if: needs.check-impact.outputs.has-changed-related-files == 'true'
     # Use the same version to the production runtime.
     # https://cloud.google.com/functions/docs/concepts/execution-environment#python
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: function
