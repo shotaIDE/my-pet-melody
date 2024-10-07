@@ -82,6 +82,11 @@
     },
     {
       "matchManagers": ["github-actions"],
+      "matchPackageNames": ["ubuntu"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["github-actions"],
       "addLabels": ["github_actions"],
       "automerge": true
     }
