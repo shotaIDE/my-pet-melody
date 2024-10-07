@@ -18,14 +18,14 @@ runs:
         echo "flutter-version=$flutter_version" >> $GITHUB_OUTPUT
 
     - name: Cache Flutter on Linux
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@2cdf405574d6ef1f33a1d12acccd3ae82f47b3f2 # v4
       if: startsWith(runner.os, 'Linux')
       with:
         path: /opt/hostedtoolcache/flutter
         key: ${{ runner.OS }}-flutter-${{ steps.get-flutter-version.outputs.flutter-version }}
 
     - name: Cache Flutter on macOS
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
+      uses: actions/cache@2cdf405574d6ef1f33a1d12acccd3ae82f47b3f2 # v4
       if: startsWith(runner.os, 'macOS')
       with:
         path: /Users/runner/hostedtoolcache/flutter
