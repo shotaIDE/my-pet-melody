@@ -48,8 +48,8 @@ imageio==2.35.1
 importlib_metadata==8.5.0
 iniconfig==2.0.0
 itsdangerous==2.2.0
-jax==0.4.33
-jaxlib==0.4.33
+jax==0.4.34
+jaxlib==0.4.34
 Jinja2==3.1.4
 joblib==1.4.2
 keras==3.5.0
@@ -70,7 +70,7 @@ networkx==3.3
 numpy==1.26.4
 oauthlib==3.2.2
 opencv-python==4.10.0.84
-opt-einsum==3.4.0
+opt_einsum==3.4.0
 optree==0.12.1
 packaging==24.1
 pandas==2.2.3
