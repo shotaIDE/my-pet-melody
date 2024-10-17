@@ -41,7 +41,7 @@ dependencies:
   package_info_plus: 8.0.3
   path: 1.9.0
   path_provider: 2.1.4
-  purchases_flutter: 8.1.2
+  purchases_flutter: 8.1.6
   rxdart: 0.28.0
   share_plus: 10.0.2
   shared_preferences: 2.3.2
