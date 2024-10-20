@@ -24,7 +24,7 @@ fonttools==4.54.1
 functions-framework==3.8.1
 future==1.0.0
 gast==0.6.0
-google-api-core==2.20.0
+google-api-core==2.21.0
 google-api-python-client==2.147.0
 google-auth==2.35.0
 google-auth-httplib2==0.2.0
