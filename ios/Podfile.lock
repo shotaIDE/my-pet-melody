@@ -7,7 +7,7 @@ PODS:
     - AppAuth/Core
   - audioplayers_darwin (0.0.1):
     - Flutter
-  - cloud_firestore (5.4.3):
+  - cloud_firestore (5.4.4):
     - Firebase/Firestore (= 11.2.0)
     - firebase_core
     - Flutter
@@ -102,7 +102,7 @@ PODS:
     - Firebase/RemoteConfig (= 11.2.0)
     - firebase_core
     - Flutter
-  - firebase_storage (12.3.2):
+  - firebase_storage (12.3.3):
     - Firebase/Storage (= 11.2.0)
     - firebase_core
     - Flutter
@@ -478,7 +478,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
-  cloud_firestore: 85b71ddbbeda32758a10fc0e34f7eefc90fb3346
+  cloud_firestore: 5cb927f1a8c9d748d6fdbf16c6b267956cb82c53
   device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
@@ -492,7 +492,7 @@ SPEC CHECKSUMS:
   firebase_crashlytics: 37d104d457b51760b48504a93a12b3bf70995d77
   firebase_messaging: 15d114e1a41fc31e4fbabcd48d765a19eec94a38
   firebase_remote_config: d522653d828836503715498f1662901a6efcd809
-  firebase_storage: 61d62709bb4eda114cf68172f0dfde7ec23779ad
+  firebase_storage: 65d4aea1e6a42b153b738412f7ac8b1c9bfa6206
   FirebaseABTesting: c4559fcd2eba9f6bdaf0599e2c37ded01c343e4c
   FirebaseAnalytics: c36efd5710c60c17558650fa58c2066eca7e9265
   FirebaseAppCheckInterop: 7789a8adfb09e905ce02a76540b94b059029ea81
