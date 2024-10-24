@@ -20,7 +20,7 @@ jobs:
     outputs:
       has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
     steps:
-      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           fetch-depth: 0
       - name: Check related files
@@ -39,7 +39,7 @@ jobs:
     if: needs.check-impact.outputs.has-changed-related-files == 'true'
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Setup Xcode
@@ -76,7 +76,7 @@ jobs:
         with:
           app_id: ${{ secrets.COLOMNEY_WORKFLOW_APP_ID }}
           private_key: ${{ secrets.COLOMNEY_WORKFLOW_APP_PRIVATE_KEY_PEM }}
-      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: ${{ github.head_ref }}
           # Use App tokens instead of default token `GITHUB_TOKEN`
