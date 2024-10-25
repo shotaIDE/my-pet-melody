@@ -66,7 +66,7 @@ ml-dtypes==0.4.1
 msgpack==1.1.0
 munkres==1.1.4
 namex==0.0.8
-networkx==3.3
+networkx==3.4.2
 numpy==1.26.4
 oauthlib==3.2.2
 opencv-python==4.10.0.84
