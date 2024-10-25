@@ -44,7 +44,7 @@ gunicorn==23.0.0
 h5py==3.12.1
 httplib2==0.22.0
 idna==3.10
-imageio==2.35.1
+imageio==2.36.0
 importlib_metadata==8.5.0
 iniconfig==2.0.0
 itsdangerous==2.2.0
