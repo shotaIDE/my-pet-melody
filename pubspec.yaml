@@ -28,7 +28,7 @@ dependencies:
   firebase_storage: 12.3.4
   flutter:
     sdk: flutter
-  flutter_local_notifications: 17.2.3
+  flutter_local_notifications: 17.2.4
   flutter_localizations:
     sdk: flutter
   flutter_riverpod: 2.5.3
