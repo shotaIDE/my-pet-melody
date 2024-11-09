@@ -70,7 +70,7 @@ jobs:
           fi
       - name: Check related files
         id: check-related-files
-        uses: tj-actions/changed-files@c3a1bb2c992d77180ae65be6ae6c166cf40f857c # v45
+        uses: tj-actions/changed-files@4edd678ac3f81e2dc578756871e4d00c19191daf # v45
         if: ${{ steps.check-latest-release-is-not-based-on-latest-commit.outputs.result == 'true' }}
         with:
           base_sha: ${{ steps.get-latest-rc-tag-name.outputs.tag-name }}
