@@ -7,7 +7,7 @@ PODS:
     - AppAuth/Core
   - audioplayers_darwin (0.0.1):
     - Flutter
-  - cloud_firestore (5.4.5):
+  - cloud_firestore (5.5.0):
     - Firebase/Firestore (= 11.4.0)
     - firebase_core
     - Flutter
@@ -79,30 +79,30 @@ PODS:
   - Firebase/Storage (11.4.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 11.4.0)
-  - firebase_analytics (11.3.4):
+  - firebase_analytics (11.3.5):
     - Firebase/Analytics (= 11.4.0)
     - firebase_core
     - Flutter
-  - firebase_auth (5.3.2):
+  - firebase_auth (5.3.3):
     - Firebase/Auth (= 11.4.0)
     - firebase_core
     - Flutter
-  - firebase_core (3.7.0):
+  - firebase_core (3.8.0):
     - Firebase/CoreOnly (= 11.4.0)
     - Flutter
-  - firebase_crashlytics (4.1.4):
+  - firebase_crashlytics (4.1.5):
     - Firebase/Crashlytics (= 11.4.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (15.1.4):
+  - firebase_messaging (15.1.5):
     - Firebase/Messaging (= 11.4.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (5.1.4):
+  - firebase_remote_config (5.1.5):
     - Firebase/RemoteConfig (= 11.4.0)
     - firebase_core
     - Flutter
-  - firebase_storage (12.3.5):
+  - firebase_storage (12.3.6):
     - Firebase/Storage (= 11.4.0)
     - firebase_core
     - Flutter
@@ -478,7 +478,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
-  cloud_firestore: 6bae2db322e02f737234a0ce847ddaf18d5012b6
+  cloud_firestore: 8794ea2885e367f0a2096338964ddfd49739b2c7
   device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
@@ -486,13 +486,13 @@ SPEC CHECKSUMS:
   ffmpeg_kit_flutter: b4ca70cac3fc1d8ac14cdc660754b60870358732
   file_picker: 09aa5ec1ab24135ccd7a1621c46c84134bfd6655
   Firebase: cf1b19f21410b029b6786a54e9764a0cacad3c99
-  firebase_analytics: 69a0f3e2ca2722c0758544eafcdcfa906b0f5227
-  firebase_auth: 5defc54c120ef8d00a359ba787f1f3f521db59ce
-  firebase_core: f8c5b220a8f9c436fdbd075ae321cef3d96ef181
-  firebase_crashlytics: 4b31ac507cf01d25151cc34cbb0fec66d21c7138
-  firebase_messaging: a7f18d98006bbd8fd0918f4db64b9a70df29aaa8
-  firebase_remote_config: 1b2da0c0a4f781a970ccf84597b8092e3ec69142
-  firebase_storage: bf03a2047d656c332c4b151185ec3840550112fd
+  firebase_analytics: fa7e5b20c2b58042e3301f5112a473d365bd490c
+  firebase_auth: 42718683069d35d73af7a986b55b194589039e5e
+  firebase_core: 9efc3ecf689cdbc90f13f4dc58108c83ea46b266
+  firebase_crashlytics: 72a8b504422ba8bb435a7a0c0a9341320cbcbe29
+  firebase_messaging: 6bf60adb4b33a848d135e16bc363fb4924f98fba
+  firebase_remote_config: 96a9b7e79624c5d9d16befdef60791966bb83919
+  firebase_storage: 942caaa628c22c941bff8af058347cc5c38a70bf
   FirebaseABTesting: aef1719704fade00b200827e7973f352efc4caee
   FirebaseAnalytics: 3feef9ae8733c567866342a1000691baaa7cad49
   FirebaseAppCheckInterop: 1b9643ae2f1ee214488caa2f8e32b7bc2f0f3735
