@@ -49,7 +49,7 @@ dependencies:
   url_launcher: 6.3.1
   video_player: 2.9.2
   video_thumbnail: 0.5.3
-  video_trimmer: 3.0.1
+  video_trimmer: 4.0.1
 
 dependency_overrides:
   # Workaround until video_trimmer update
