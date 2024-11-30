@@ -119,7 +119,7 @@ termcolor==2.5.0
 threadpoolctl==3.5.0
 tifffile==2024.9.20
 toml==0.10.2
-tomli==2.1.0
+tomli==2.2.1
 typing_extensions==4.12.2
 tzdata==2024.2
 uritemplate==4.1.1
