@@ -105,7 +105,7 @@ scipy==1.14.1
 serpent==1.41
 setuptools==75.6.0
 simplejson==3.19.3
-six==1.16.0
+six==1.17.0
 sortedcollections==2.1.0
 sortedcontainers==2.4.0
 soundfile==0.12.1
