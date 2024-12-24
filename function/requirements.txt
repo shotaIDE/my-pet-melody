@@ -1,6 +1,6 @@
 absl-py==2.1.0
 astunparse==1.6.3
-attrs==24.2.0
+attrs==24.3.0
 autopep8==2.3.1
 blinker==1.9.0
 CacheControl==0.14.1
