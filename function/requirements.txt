@@ -54,7 +54,7 @@ Jinja2==3.1.5
 joblib==1.4.2
 keras==3.7.0
 Keras-Preprocessing==1.1.2
-kiwisolver==1.4.7
+kiwisolver==1.4.8
 lazy_loader==0.4
 libclang==18.1.1
 Markdown==3.7
