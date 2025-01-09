@@ -52,7 +52,7 @@ jax==0.4.35
 jaxlib==0.4.35
 Jinja2==3.1.5
 joblib==1.4.2
-keras==3.7.0
+keras==3.8.0
 Keras-Preprocessing==1.1.2
 kiwisolver==1.4.8
 lazy_loader==0.4
