@@ -91,6 +91,5 @@
       "automerge": true
     }
   ],
-  "prConcurrentLimit": 1,
   "rangeStrategy": "pin"
 }
