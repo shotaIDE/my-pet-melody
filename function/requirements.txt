@@ -86,7 +86,7 @@ pyasn1_modules==0.4.1
 pycodestyle==2.12.1
 pycparser==2.22
 pydub==0.25.1
-Pygments==2.18.0
+Pygments==2.19.1
 PyJWT==2.10.1
 pyparsing==3.2.1
 Pyro4==4.82
