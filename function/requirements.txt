@@ -4,7 +4,7 @@ attrs==24.3.0
 autopep8==2.3.2
 blinker==1.9.0
 CacheControl==0.14.2
-cachetools==5.5.0
+cachetools==5.5.1
 certifi==2024.12.14
 cffi==1.17.1
 charset-normalizer==3.4.1
