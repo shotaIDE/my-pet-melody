@@ -215,11 +215,10 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        spacing: 32,
         children: [
           templateTile,
-          const SizedBox(height: 32),
           description,
-          const SizedBox(height: 32),
           soundsList,
         ],
       ),
