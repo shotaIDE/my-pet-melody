@@ -55,7 +55,7 @@
     },
     {
       "matchManagers": ["pub"],
-      "matchPackageNames": ["collection", "dart"],
+      "matchPackageNames": ["collection", "dart", "intl", "path"],
       "enabled": false
     },
     {
