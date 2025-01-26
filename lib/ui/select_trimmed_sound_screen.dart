@@ -329,6 +329,7 @@ class _SelectTrimmedSoundScreenState
                 color: Colors.black.withAlpha(128),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  spacing: 16,
                   children: [
                     Text(
                       AppLocalizations.of(context)!.uploading,
@@ -337,10 +338,7 @@ class _SelectTrimmedSoundScreenState
                           .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: LinearProgressIndicator(),
-                    ),
+                    const LinearProgressIndicator(),
                   ],
                 ),
               ),
@@ -635,9 +633,9 @@ class _PositionText extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8,
       children: [
         indexText,
-        const SizedBox(height: 8),
         durationText,
       ],
     );

@@ -286,6 +286,7 @@ class _GrayMask extends ConsumerWidget {
             color: Colors.black.withAlpha(128),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              spacing: 16,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -293,7 +294,6 @@ class _GrayMask extends ConsumerWidget {
                   ),
                   child: messageText,
                 ),
-                const SizedBox(height: 16),
                 const LinearProgressIndicator(),
               ],
             ),
