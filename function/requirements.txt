@@ -121,7 +121,7 @@ tifffile==2025.1.10
 toml==0.10.2
 tomli==2.2.1
 typing_extensions==4.12.2
-tzdata==2024.2
+tzdata==2025.1
 uritemplate==4.1.1
 # "'HTTPResponse' object has no attribute 'strict'" error occurs, so do not use 2.x series
 # See https://stackoverflow.com/questions/76423515/how-to-fix-poetry-error-httpresponse-object-has-no-attribute-strict for details
