@@ -274,7 +274,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
               scaffold,
               Container(
                 alignment: Alignment.center,
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withAlpha(128),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

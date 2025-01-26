@@ -326,7 +326,7 @@ class _SelectTrimmedSoundScreenState
               scaffold,
               Container(
                 alignment: Alignment.center,
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withAlpha(128),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -717,7 +717,7 @@ class _SeekBar extends ConsumerWidget {
                       left: _seekBarBorderWidth,
                     ),
                     width: positionX1 - _seekBarBorderWidth,
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withAlpha(128),
                   ),
                   Container(
                     margin: EdgeInsets.only(
@@ -725,7 +725,7 @@ class _SeekBar extends ConsumerWidget {
                     ),
                     width: constraints.maxWidth -
                         (positionX2 + _seekBarBorderWidth),
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withAlpha(128),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: positionX1 - 4),
