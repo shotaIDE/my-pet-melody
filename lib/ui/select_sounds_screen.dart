@@ -276,6 +276,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                 color: Colors.black.withAlpha(128),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  spacing: 16,
                   children: [
                     Text(
                       AppLocalizations.of(context)!.selectingVideo,
@@ -284,10 +285,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
                           .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: LinearProgressIndicator(),
-                    ),
+                    const LinearProgressIndicator(),
                   ],
                 ),
               ),
