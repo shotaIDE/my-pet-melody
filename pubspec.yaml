@@ -16,7 +16,7 @@ dependencies:
   cross_file: 0.3.4+2
   cupertino_icons: 1.0.8
   device_info_plus: 11.2.2
-  dio: 5.7.0
+  dio: 5.8.0
   ffmpeg_kit_flutter: 6.0.3
   file_picker: 8.1.7
   firebase_analytics: 11.4.1
