@@ -9,7 +9,7 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  audioplayers: 6.1.0
+  audioplayers: 6.1.1
   chewie: 1.10.0
   cloud_firestore: 5.6.2
   collection: 1.18.0
