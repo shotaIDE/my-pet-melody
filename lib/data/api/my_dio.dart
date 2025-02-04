@@ -115,8 +115,8 @@ class MyDio {
           reason: 'exception when calling API',
           information: [
             error.message?.toString() ?? '(No message)',
-            error.type.name,
-            error.response.toString(),
+            error.type.toString(),
+            error.response?.toString() ?? '(No response)',
           ],
         ),
       );
