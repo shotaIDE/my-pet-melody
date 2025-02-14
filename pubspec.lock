@@ -787,7 +787,7 @@ packages:
     source: hosted
     version: "2.0.5"
   intl:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -963,7 +963,7 @@ packages:
     source: hosted
     version: "3.0.2"
   path:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: path
       sha256: "087ce49c3f0dc39180befefc60fdb4acd8f8620e5682fe2476afd0b3688bb4af"
@@ -1515,10 +1515,10 @@ packages:
     dependency: "direct main"
     description:
       name: video_trimmer
-      sha256: "9f25516d21788a91c5448e9a57e0c876509aaf735686b007862ff124ab6aff9e"
+      sha256: ac45bfaadb83ba3e0b21a71fa079f72305ccc3401767f81b093742826b891c2b
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "4.0.0-LTS"
   vm_service:
     dependency: transitive
     description:
