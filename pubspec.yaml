@@ -36,9 +36,11 @@ dependencies:
   font_awesome_flutter: 10.8.0
   freezed_annotation: 2.4.4
   google_sign_in: 6.2.2
+  intl: 0.20.0
   in_app_review: 2.0.10
   package_info_plus: 8.2.1
   path_provider: 2.1.5
+  path: 1.9.1
   purchases_flutter: 8.4.5
   rxdart: 0.28.0
   share_plus: 10.1.4
@@ -51,7 +53,7 @@ dependencies:
 
 dependency_overrides:
   # Workaround until Flutter SDK update to adopt video_trimmer's dependencies.
-  # https://github.com/sbis04/video_trimmer/issues/232#issuecomment-2135007897
+  # https://github.com/sbis04/video_trimmer/blob/4a369390303586fef7408048f536e5151be7569f/pubspec.yaml#L16-L17
   intl: 0.19.0
   path: 1.9.0
 
