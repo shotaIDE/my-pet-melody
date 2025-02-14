@@ -50,6 +50,8 @@ dependencies:
   video_trimmer: 4.0.0-LTS
 
 dependency_overrides:
+  # Workaround until Flutter SDK update to adopt video_trimmer's dependencies.
+  # https://github.com/sbis04/video_trimmer/issues/232#issuecomment-2135007897
   intl: 0.19.0
   path: 1.9.0
 
