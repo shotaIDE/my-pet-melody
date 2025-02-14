@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0
       - name: Check related files
         id: check-related-files
-        uses: tj-actions/changed-files@d6e91a2266cdb9d62096cebf1e8546899c6aa18f # v45
+        uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
         with:
           files: "function/**"
   test:
@@ -59,7 +59,7 @@ jobs:
           python_version="$(cat .python-version)"
           echo "python-version=$python_version" >> $GITHUB_OUTPUT
       - name: Set up Python
-        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
         with:
           python-version: ${{ steps.get-python-version.outputs.python-version }}
       - name: Install Python dependencies
