@@ -48,7 +48,6 @@ dependencies:
   skeletonizer: 1.4.3
   url_launcher: 6.3.1
   video_player: 2.9.2
-  video_thumbnail: 0.5.3
   video_trimmer: 4.0.2
 
 dependency_overrides:
