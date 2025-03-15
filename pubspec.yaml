@@ -9,23 +9,23 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  audioplayers: 6.1.2
+  audioplayers: 6.2.0
   chewie: 1.10.0
-  cloud_firestore: 5.6.3
+  cloud_firestore: 5.6.5
   collection: 1.19.0
   cross_file: 0.3.4+2
   cupertino_icons: 1.0.8
   device_info_plus: 11.3.0
   dio: 5.8.0+1
   ffmpeg_kit_flutter: 6.0.3
-  file_picker: 9.0.0
-  firebase_analytics: 11.4.2
-  firebase_auth: 5.4.2
-  firebase_core: 3.11.0
-  firebase_crashlytics: 4.3.2
-  firebase_messaging: 15.2.2
-  firebase_remote_config: 5.4.0
-  firebase_storage: 12.4.2
+  file_picker: 9.0.2
+  firebase_analytics: 11.4.4
+  firebase_auth: 5.5.1
+  firebase_core: 3.12.1
+  firebase_crashlytics: 4.3.4
+  firebase_messaging: 15.2.4
+  firebase_remote_config: 5.4.2
+  firebase_storage: 12.4.4
   flutter:
     sdk: flutter
   flutter_local_notifications: 18.0.1
@@ -41,13 +41,13 @@ dependencies:
   package_info_plus: 8.2.1
   path: 1.9.1
   path_provider: 2.1.5
-  purchases_flutter: 8.4.6
+  purchases_flutter: 8.6.0
   rxdart: 0.28.0
   share_plus: 10.1.4
   shared_preferences: 2.5.2
   skeletonizer: 1.4.3
   url_launcher: 6.3.1
-  video_player: 2.9.2
+  video_player: 2.9.3
   video_trimmer: 4.0.2
 
 dependency_overrides:
