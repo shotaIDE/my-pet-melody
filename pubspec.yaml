@@ -17,7 +17,6 @@ dependencies:
   cupertino_icons: 1.0.8
   device_info_plus: 11.3.0
   dio: 5.8.0+1
-  ffmpeg_kit_flutter: 6.0.3
   file_picker: 9.0.2
   firebase_analytics: 11.4.4
   firebase_auth: 5.5.1
