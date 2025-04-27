@@ -3,12 +3,10 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
-import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 class TrimSoundForGenerationViewModel
@@ -64,6 +62,7 @@ class TrimSoundForGenerationViewModel
     final convertedExtension = extension(_moviePath);
 
     final trimmedPathCompleter = Completer<String?>();
+    final thumbnailPathCompleter = Completer<String?>();
 
     final startMilliseconds = state.startValue;
     final endMilliseconds = state.endValue;
@@ -76,25 +75,21 @@ class TrimSoundForGenerationViewModel
       },
     );
 
+    await state.trimmer.saveTrimmedVideo(
+      startValue: startMilliseconds,
+      endValue: startMilliseconds,
+      onSave: (value) {
+        thumbnailPathCompleter.complete(value);
+      },
+      outputType: OutputType.gif,
+    );
+
     final trimmedPath = await trimmedPathCompleter.future;
-    if (trimmedPath == null) {
+    final thumbnailPath = await thumbnailPathCompleter.future;
+    if (trimmedPath == null || thumbnailPath == null) {
       state = state.copyWith(process: null);
       return null;
     }
-
-    final startPosition = formattedAudioPosition(
-      milliseconds: startMilliseconds.toInt(),
-    );
-    final thumbnailDirectory = await getTemporaryDirectory();
-    final thumbnailParentPath = thumbnailDirectory.path;
-    final thumbnailPath = '$thumbnailParentPath/thumbnail.png';
-
-    await FFmpegKit.execute(
-      '-ss $startPosition '
-      '-i $_moviePath '
-      '-vframes 1 '
-      '$thumbnailPath',
-    );
 
     state = state.copyWith(process: TrimSoundForGenerationScreenProcess.upload);
 
