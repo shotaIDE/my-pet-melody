@@ -18,6 +18,7 @@ import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:video_trimmer/video_trimmer.dart';
 
 class SelectTrimmedSoundViewModel
     extends StateNotifier<SelectTrimmedSoundState> {
@@ -55,6 +56,7 @@ class SelectTrimmedSoundViewModel
   final String _moviePath;
   final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
+  final _trimmer = Trimmer();
 
   void Function(TrimSoundForGenerationArgs)?
       _moveToTrimSoundForGenerationScreen;
@@ -97,8 +99,6 @@ class SelectTrimmedSoundViewModel
     final outputDirectory = await getTemporaryDirectory();
     final outputParentPath = outputDirectory.path;
 
-    final originalExtension = extension(_moviePath);
-
     await Future.wait(
       state.choices.mapIndexed((index, choice) async {
         final paddedHash = '${choice.hashCode}'.padLeft(8, '0');
@@ -140,29 +140,28 @@ class SelectTrimmedSoundViewModel
       }),
     );
 
+    final movieFile = File(_moviePath);
+    await _trimmer.loadVideo(videoFile: movieFile);
+
     await Future.wait(
       state.choices.mapIndexed((index, choice) async {
-        final paddedIndex = '$index'.padLeft(2, '0');
-        final outputFileName = 'choice_$paddedIndex$originalExtension';
-        final outputPath = '$outputParentPath/$outputFileName';
+        final trimmedPathCompleter = Completer<String?>();
 
-        final startPosition = formattedAudioPosition(
-          milliseconds: choice.segment.startMilliseconds,
-        );
-        final endPosition = formattedAudioPosition(
-          milliseconds: choice.segment.endMilliseconds,
+        await _trimmer.saveTrimmedVideo(
+          startValue: choice.segment.startMilliseconds.toDouble(),
+          endValue: choice.segment.endMilliseconds.toDouble(),
+          onSave: (value) {
+            trimmedPathCompleter.complete(value);
+          },
         );
 
-        await FFmpegKit.execute(
-          '-ss $startPosition '
-          '-to $endPosition '
-          '-i $_moviePath '
-          '-y '
-          '$outputPath',
-        );
+        final trimmedPath = await trimmedPathCompleter.future;
+        if (trimmedPath == null) {
+          return;
+        }
 
         final choices = [...state.choices];
-        final replacedChoice = choices[index].copyWith(path: outputPath);
+        final replacedChoice = choices[index].copyWith(path: trimmedPath);
         choices[index] = replacedChoice;
         state = state.copyWith(
           choices: choices,
@@ -252,21 +251,23 @@ class SelectTrimmedSoundViewModel
 
     state = state.copyWith(isUploading: true);
 
-    await FFmpegKit.cancel();
+    final thumbnailPathCompleter = Completer<String?>();
 
-    final startPosition = formattedAudioPosition(
-      milliseconds: choice.segment.startMilliseconds,
+    await _trimmer.saveTrimmedVideo(
+      startValue: choice.segment.startMilliseconds.toDouble(),
+      endValue: choice.segment.startMilliseconds.toDouble(),
+      onSave: (value) {
+        thumbnailPathCompleter.complete(value);
+      },
+      outputType: OutputType.gif,
     );
-    final thumbnailDirectory = await getTemporaryDirectory();
-    final thumbnailParentPath = thumbnailDirectory.path;
-    final thumbnailPath = '$thumbnailParentPath/thumbnail.png';
 
-    await FFmpegKit.execute(
-      '-ss $startPosition '
-      '-i $_moviePath '
-      '-vframes 1 '
-      '$thumbnailPath',
-    );
+    final thumbnailPath = await thumbnailPathCompleter.future;
+    if (thumbnailPath == null) {
+      state = state.copyWith(isUploading: false);
+
+      return null;
+    }
 
     final uploadAction = await _ref.read(uploadActionProvider.future);
     final outputFile = File(outputPath);
