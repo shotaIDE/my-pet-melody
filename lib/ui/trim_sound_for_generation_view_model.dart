@@ -1,15 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
-import 'package:my_pet_melody/ui/helper/audio_position_helper.dart';
 import 'package:my_pet_melody/ui/model/localized_template.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 class TrimSoundForGenerationViewModel
@@ -61,15 +58,11 @@ class TrimSoundForGenerationViewModel
 
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
-    const desiredSizeMegaBytes = 10;
-    const desiredSizeBytes = desiredSizeMegaBytes * 1000 * 1000;
-    final desiredBitrate =
-        (desiredSizeBytes * 8) ~/ maxDurationToTrim.inSeconds;
-    final ffmpegCommand = '-b:v $desiredBitrate -maxrate $desiredBitrate '
-        '-bufsize ${desiredBitrate * 2}';
-    const convertedExtension = '.mp4';
+    // Trimmed movie is saved in the same extension as the original movie.
+    final convertedExtension = extension(_moviePath);
 
     final trimmedPathCompleter = Completer<String?>();
+    final thumbnailPathCompleter = Completer<String?>();
 
     final startMilliseconds = state.startValue;
     final endMilliseconds = state.endValue;
@@ -80,29 +73,23 @@ class TrimSoundForGenerationViewModel
       onSave: (value) {
         trimmedPathCompleter.complete(value);
       },
-      ffmpegCommand: ffmpegCommand,
-      customVideoFormat: convertedExtension,
+    );
+
+    await state.trimmer.saveTrimmedVideo(
+      startValue: startMilliseconds,
+      endValue: startMilliseconds,
+      onSave: (value) {
+        thumbnailPathCompleter.complete(value);
+      },
+      outputType: OutputType.gif,
     );
 
     final trimmedPath = await trimmedPathCompleter.future;
-    if (trimmedPath == null) {
+    final thumbnailPath = await thumbnailPathCompleter.future;
+    if (trimmedPath == null || thumbnailPath == null) {
       state = state.copyWith(process: null);
       return null;
     }
-
-    final startPosition = formattedAudioPosition(
-      milliseconds: startMilliseconds.toInt(),
-    );
-    final thumbnailDirectory = await getTemporaryDirectory();
-    final thumbnailParentPath = thumbnailDirectory.path;
-    final thumbnailPath = '$thumbnailParentPath/thumbnail.png';
-
-    await FFmpegKit.execute(
-      '-ss $startPosition '
-      '-i $_moviePath '
-      '-vframes 1 '
-      '$thumbnailPath',
-    );
 
     state = state.copyWith(process: TrimSoundForGenerationScreenProcess.upload);
 
