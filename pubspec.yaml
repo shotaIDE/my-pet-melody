@@ -47,8 +47,8 @@ dependencies:
   shared_preferences: 2.5.2
   skeletonizer: 1.4.3
   url_launcher: 6.3.1
-  video_player: 2.9.3
-  video_trimmer: 4.0.2
+  video_player: 2.9.5
+  video_trimmer: 5.0.0
 
 dependency_overrides:
   # Workaround until Flutter SDK update to adopt video_trimmer's dependencies.
