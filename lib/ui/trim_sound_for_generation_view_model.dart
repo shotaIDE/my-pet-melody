@@ -61,13 +61,8 @@ class TrimSoundForGenerationViewModel
 
     final originalFileNameWithoutExtension =
         basenameWithoutExtension(_moviePath);
-    const desiredSizeMegaBytes = 10;
-    const desiredSizeBytes = desiredSizeMegaBytes * 1000 * 1000;
-    final desiredBitrate =
-        (desiredSizeBytes * 8) ~/ maxDurationToTrim.inSeconds;
-    final ffmpegCommand = '-b:v $desiredBitrate -maxrate $desiredBitrate '
-        '-bufsize ${desiredBitrate * 2}';
-    const convertedExtension = '.mp4';
+    // Trimmed movie is saved in the same extension as the original movie.
+    final convertedExtension = extension(_moviePath);
 
     final trimmedPathCompleter = Completer<String?>();
 
@@ -80,8 +75,6 @@ class TrimSoundForGenerationViewModel
       onSave: (value) {
         trimmedPathCompleter.complete(value);
       },
-      ffmpegCommand: ffmpegCommand,
-      customVideoFormat: convertedExtension,
     );
 
     final trimmedPath = await trimmedPathCompleter.future;
