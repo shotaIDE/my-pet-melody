@@ -143,31 +143,32 @@ class SelectTrimmedSoundViewModel
     final movieFile = File(_moviePath);
     await _trimmer.loadVideo(videoFile: movieFile);
 
-    await Future.wait(
-      state.choices.mapIndexed((index, choice) async {
-        final trimmedPathCompleter = Completer<String?>();
+    for (var i = 0; i < state.choices.length; i++) {
+      final choice = state.choices[i];
+      final index = i;
 
-        await _trimmer.saveTrimmedVideo(
-          startValue: choice.segment.startMilliseconds.toDouble(),
-          endValue: choice.segment.endMilliseconds.toDouble(),
-          onSave: (value) {
-            trimmedPathCompleter.complete(value);
-          },
-        );
+      final trimmedPathCompleter = Completer<String?>();
 
-        final trimmedPath = await trimmedPathCompleter.future;
-        if (trimmedPath == null) {
-          return;
-        }
+      await _trimmer.saveTrimmedVideo(
+        startValue: choice.segment.startMilliseconds.toDouble(),
+        endValue: choice.segment.endMilliseconds.toDouble(),
+        onSave: (value) {
+          trimmedPathCompleter.complete(value);
+        },
+      );
 
-        final choices = [...state.choices];
-        final replacedChoice = choices[index].copyWith(path: trimmedPath);
-        choices[index] = replacedChoice;
-        state = state.copyWith(
-          choices: choices,
-        );
-      }),
-    );
+      final trimmedPath = await trimmedPathCompleter.future;
+      if (trimmedPath == null) {
+        continue;
+      }
+
+      final choices = [...state.choices];
+      final replacedChoice = choices[index].copyWith(path: trimmedPath);
+      choices[index] = replacedChoice;
+      state = state.copyWith(
+        choices: choices,
+      );
+    }
 
     final endDateTime = DateTime.now();
 
