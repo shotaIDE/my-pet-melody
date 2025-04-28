@@ -69,7 +69,6 @@ dev_dependencies:
   watcher: 1.1.1
 
 flutter:
-  disable-swift-package-manager: true
   uses-material-design: true
   generate: true
   assets:
