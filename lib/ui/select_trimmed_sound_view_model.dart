@@ -281,6 +281,8 @@ class SelectTrimmedSoundViewModel
       return null;
     }
 
+    debugPrint('Thumbnail output path: $thumbnailPath');
+
     final uploadAction = await _ref.read(uploadActionProvider.future);
     final outputFile = File(outputPath);
     final uploadedSound = await uploadAction(
