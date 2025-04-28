@@ -139,15 +139,12 @@ class SelectTrimmedSoundViewModel
       }),
     );
 
+    final trimmer = Trimmer();
     final movieFile = File(_moviePath);
+    await trimmer.loadVideo(videoFile: movieFile);
 
     for (var index = 0; index < state.choices.length; index++) {
-      final trimmer = Trimmer();
-      // As workaround, call `loadVideo` every time.
-      // When first call `loadVideo` once and call `saveTrimmedVideo` multiple,
-      // trimmed movies are sometimes saved in the same file.
-      await trimmer.loadVideo(videoFile: movieFile);
-
+      final paddedIndex = '$index'.padLeft(2, '0');
       final choice = state.choices[index];
 
       final trimmedPathCompleter = Completer<String?>();
@@ -158,6 +155,9 @@ class SelectTrimmedSoundViewModel
         onSave: (value) {
           trimmedPathCompleter.complete(value);
         },
+        // Workaround since not specifying file name,
+        // may result in trimmed movies being saved with the same file name.
+        videoFileName: 'equally-divided-movie_$paddedIndex',
       );
 
       final trimmedPath = await trimmedPathCompleter.future;
@@ -165,7 +165,7 @@ class SelectTrimmedSoundViewModel
         continue;
       }
 
-      debugPrint('Trimmed path: $trimmedPath');
+      debugPrint('Trimmed video output path: $trimmedPath');
 
       final choices = [...state.choices];
       final replacedChoice = choices[index].copyWith(path: trimmedPath);
