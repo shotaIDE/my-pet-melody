@@ -60,7 +60,7 @@ def generate_specified_segments(
             resized_height=_SPECIFIED_SEGMENT_THUMBNAIL_HEIGHT
         )
 
-        base64_images.append(encoded_frame)            
+        base64_images.append(encoded_frame)
 
     capture.release()
 
