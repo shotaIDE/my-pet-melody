@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import base64
+from typing import Optional
 
 import cv2
 
@@ -71,7 +72,7 @@ def _get_resized_base64_frame(
         capture,
         start_frame: int,
         resized_height: int,
-) -> str:
+) -> Optional[str]:
     capture.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
     result, frame = capture.read()
     if not result:
