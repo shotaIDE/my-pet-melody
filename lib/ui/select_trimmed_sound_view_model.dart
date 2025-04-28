@@ -56,7 +56,6 @@ class SelectTrimmedSoundViewModel
   final String _moviePath;
   final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
-  final _trimmer = Trimmer();
 
   void Function(TrimSoundForGenerationArgs)?
       _moveToTrimSoundForGenerationScreen;
@@ -140,34 +139,43 @@ class SelectTrimmedSoundViewModel
       }),
     );
 
+    final trimmer = Trimmer();
     final movieFile = File(_moviePath);
-    await _trimmer.loadVideo(videoFile: movieFile);
+    await trimmer.loadVideo(videoFile: movieFile);
 
-    await Future.wait(
-      state.choices.mapIndexed((index, choice) async {
-        final trimmedPathCompleter = Completer<String?>();
+    // `saveTrimmedVideo` must be called sequentially,
+    // so do not use `Future.wait`.
+    for (var index = 0; index < state.choices.length; index++) {
+      final paddedIndex = '$index'.padLeft(2, '0');
+      final choice = state.choices[index];
 
-        await _trimmer.saveTrimmedVideo(
-          startValue: choice.segment.startMilliseconds.toDouble(),
-          endValue: choice.segment.endMilliseconds.toDouble(),
-          onSave: (value) {
-            trimmedPathCompleter.complete(value);
-          },
-        );
+      final trimmedPathCompleter = Completer<String?>();
 
-        final trimmedPath = await trimmedPathCompleter.future;
-        if (trimmedPath == null) {
-          return;
-        }
+      await trimmer.saveTrimmedVideo(
+        startValue: choice.segment.startMilliseconds.toDouble(),
+        endValue: choice.segment.endMilliseconds.toDouble(),
+        onSave: (value) {
+          trimmedPathCompleter.complete(value);
+        },
+        // Workaround since not specifying file name,
+        // may result in trimmed movies being saved with the same file name.
+        videoFileName: 'equally-divided-movie_$paddedIndex',
+      );
 
-        final choices = [...state.choices];
-        final replacedChoice = choices[index].copyWith(path: trimmedPath);
-        choices[index] = replacedChoice;
-        state = state.copyWith(
-          choices: choices,
-        );
-      }),
-    );
+      final trimmedPath = await trimmedPathCompleter.future;
+      if (trimmedPath == null) {
+        continue;
+      }
+
+      debugPrint('Trimmed video output path: $trimmedPath');
+
+      final choices = [...state.choices];
+      final replacedChoice = choices[index].copyWith(path: trimmedPath);
+      choices[index] = replacedChoice;
+      state = state.copyWith(
+        choices: choices,
+      );
+    }
 
     final endDateTime = DateTime.now();
 
@@ -251,9 +259,13 @@ class SelectTrimmedSoundViewModel
 
     state = state.copyWith(isUploading: true);
 
+    final trimmer = Trimmer();
+    final movieFile = File(_moviePath);
+    await trimmer.loadVideo(videoFile: movieFile);
+
     final thumbnailPathCompleter = Completer<String?>();
 
-    await _trimmer.saveTrimmedVideo(
+    await trimmer.saveTrimmedVideo(
       startValue: choice.segment.startMilliseconds.toDouble(),
       endValue: choice.segment.startMilliseconds.toDouble(),
       onSave: (value) {
@@ -268,6 +280,8 @@ class SelectTrimmedSoundViewModel
 
       return null;
     }
+
+    debugPrint('Thumbnail output path: $thumbnailPath');
 
     final uploadAction = await _ref.read(uploadActionProvider.future);
     final outputFile = File(outputPath);

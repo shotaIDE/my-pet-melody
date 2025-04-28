@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import base64
+from typing import Optional
 
 import cv2
 
@@ -29,6 +30,11 @@ def generate_equally_divided_segments(sound_path: str) -> list[str]:
             start_frame=start_frame,
             resized_height=_EQUALLY_DIVIDED_SEGMENT_THUMBNAIL_HEIGHT
         )
+
+        if encoded_frame is None:
+            # Workaround when frame is not read.
+            base64_images.append(base64_images[-1])
+            continue
 
         base64_images.append(encoded_frame)
 
@@ -66,9 +72,17 @@ def _get_resized_base64_frame(
         capture,
         start_frame: int,
         resized_height: int,
-) -> str:
+) -> Optional[str]:
     capture.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
-    _, frame = capture.read()
+    result, frame = capture.read()
+    if not result:
+        # Ignore when the frame is not read.
+        # This is a known issue with OpenCV loading video files.
+        # See the following for more details:
+        # https://stackoverflow.com/questions/31472155/python-opencv-cv2-cv-cv-cap-prop-frame-count-get-wrong-numbers
+        # https://qiita.com/mwww/items/750b38d51010f74a98b0
+        print("Failed to read frame at position:", start_frame)
+        return None
 
     height, width = frame.shape[:2]
     new_width = int(
