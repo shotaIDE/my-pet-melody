@@ -22,7 +22,7 @@ class SubmissionApi {
   Future<DetectResponse?> detect(
     DetectRequest request, {
     required String token,
-  }) async {
+  }) {
     return _dio.post(
       path: '/detect',
       responseParser: DetectResponse.fromJson,

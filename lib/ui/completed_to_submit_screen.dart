@@ -42,7 +42,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
     super.initState();
 
     ref.read(widget.viewModelProvider.notifier).setup(
-      onClose: () async {
+      onClose: () {
         Navigator.pop(context);
       },
       onCompleteImmediately: () async {

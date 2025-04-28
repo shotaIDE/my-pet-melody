@@ -132,12 +132,12 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
     final result =
         await ref.read(widget.viewModel.notifier).continueWithGoogle();
 
-    await result.when(
-      success: (_) async {
+    result.when(
+      success: (_) {
         Navigator.pop(context);
       },
       failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
+        alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!
@@ -147,7 +147,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
-        unrecoverable: (_) async {
+        unrecoverable: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!.unknownErrorDescription,
@@ -164,12 +164,12 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
     final result =
         await ref.read(widget.viewModel.notifier).continueWithApple();
 
-    await result.when(
-      success: (_) async {
+    result.when(
+      success: (_) {
         Navigator.pop(context);
       },
       failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
+        alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!
@@ -179,7 +179,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
-        unrecoverable: (_) async {
+        unrecoverable: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!.unknownErrorDescription,

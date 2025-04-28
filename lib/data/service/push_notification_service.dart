@@ -77,7 +77,7 @@ class PushNotificationService {
     }
   }
 
-  Future<String?> registrationToken() async {
+  Future<String?> registrationToken() {
     return FirebaseMessaging.instance.getToken();
   }
 

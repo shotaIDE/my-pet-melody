@@ -85,7 +85,7 @@ class SessionProvider extends StateNotifier<LoginSession?> {
     });
   }
 
-  Future<LoginSession?> _currentSession() async {
+  Future<LoginSession?> _currentSession() {
     final user = FirebaseAuth.instance.currentUser;
     return _convertFirebaseUserToLoginSession(user);
   }

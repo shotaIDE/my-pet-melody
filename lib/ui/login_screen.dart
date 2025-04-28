@@ -177,7 +177,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         );
       },
       failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
+        alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!
@@ -187,7 +187,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
-        unrecoverable: (_) async {
+        unrecoverable: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!.unknownErrorDescription,
@@ -212,7 +212,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         );
       },
       failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
+        alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!
@@ -222,7 +222,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
-        unrecoverable: (_) async {
+        unrecoverable: (_) {
           final snackBar = SnackBar(
             content:
                 Text(AppLocalizations.of(context)!.unknownErrorDescription),

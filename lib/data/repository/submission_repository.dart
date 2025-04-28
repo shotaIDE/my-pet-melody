@@ -18,7 +18,7 @@ class SubmissionRepository {
   Future<MovieSegmentation?> detect({
     required UploadedMedia from,
     required String token,
-  }) async {
+  }) {
     return _remote.detect(
       from: from,
       token: token,

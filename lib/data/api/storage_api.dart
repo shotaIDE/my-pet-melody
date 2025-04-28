@@ -21,7 +21,7 @@ class StorageApi {
   Future<UploadResponse?> upload(
     File file, {
     required String fileName,
-  }) async {
+  }) {
     return _dio.postFile(
       path: '/upload',
       file: file,

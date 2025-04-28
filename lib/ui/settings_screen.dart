@@ -251,7 +251,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       },
       failure: (error) => error.when(
         cancelledByUser: () {},
-        unrecoverable: () async {
+        unrecoverable: () {
           final snackBar = SnackBar(
             content:
                 Text(AppLocalizations.of(context)!.unknownErrorDescription),
