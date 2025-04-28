@@ -56,7 +56,6 @@ class SelectTrimmedSoundViewModel
   final String _moviePath;
   final MovieSegmentation _movieSegmentation;
   final _player = AudioPlayer();
-  final _trimmer = Trimmer();
 
   void Function(TrimSoundForGenerationArgs)?
       _moveToTrimSoundForGenerationScreen;
@@ -141,15 +140,19 @@ class SelectTrimmedSoundViewModel
     );
 
     final movieFile = File(_moviePath);
-    await _trimmer.loadVideo(videoFile: movieFile);
 
-    for (var i = 0; i < state.choices.length; i++) {
-      final choice = state.choices[i];
-      final index = i;
+    for (var index = 0; index < state.choices.length; index++) {
+      final trimmer = Trimmer();
+      // As workaround, call `loadVideo` every time.
+      // When first call `loadVideo` once and call `saveTrimmedVideo` multiple,
+      // trimmed movies are sometimes saved in the same file.
+      await trimmer.loadVideo(videoFile: movieFile);
+
+      final choice = state.choices[index];
 
       final trimmedPathCompleter = Completer<String?>();
 
-      await _trimmer.saveTrimmedVideo(
+      await trimmer.saveTrimmedVideo(
         startValue: choice.segment.startMilliseconds.toDouble(),
         endValue: choice.segment.endMilliseconds.toDouble(),
         onSave: (value) {
@@ -161,6 +164,8 @@ class SelectTrimmedSoundViewModel
       if (trimmedPath == null) {
         continue;
       }
+
+      debugPrint('Trimmed path: $trimmedPath');
 
       final choices = [...state.choices];
       final replacedChoice = choices[index].copyWith(path: trimmedPath);
@@ -252,9 +257,13 @@ class SelectTrimmedSoundViewModel
 
     state = state.copyWith(isUploading: true);
 
+    final trimmer = Trimmer();
+    final movieFile = File(_moviePath);
+    await trimmer.loadVideo(videoFile: movieFile);
+
     final thumbnailPathCompleter = Completer<String?>();
 
-    await _trimmer.saveTrimmedVideo(
+    await trimmer.saveTrimmedVideo(
       startValue: choice.segment.startMilliseconds.toDouble(),
       endValue: choice.segment.startMilliseconds.toDouble(),
       onSave: (value) {
