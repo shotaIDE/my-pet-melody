@@ -12,7 +12,8 @@ import 'package:my_pet_melody/update_app_screen.dart';
 class RootApp extends ConsumerStatefulWidget {
   RootApp({super.key});
 
-  final viewModel = rootViewModelProvider;
+  final AutoDisposeStateNotifierProvider<RootViewModel, RootState> viewModel =
+      rootViewModelProvider;
 
   @override
   ConsumerState<RootApp> createState() => _RootAppState();

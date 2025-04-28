@@ -8,7 +8,7 @@ import 'package:my_pet_melody/flavor.dart';
 part 'submission_api.freezed.dart';
 part 'submission_api.g.dart';
 
-final submissionApiProvider = Provider(
+final Provider<SubmissionApi> submissionApiProvider = Provider(
   (ref) => SubmissionApi(
     dio: ref.watch(dioProvider),
   ),

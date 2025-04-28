@@ -7,7 +7,7 @@ import 'package:my_pet_melody/data/api/my_dio.dart';
 part 'storage_api.freezed.dart';
 part 'storage_api.g.dart';
 
-final storageApiProvider = Provider(
+final Provider<StorageApi> storageApiProvider = Provider(
   (ref) => StorageApi(
     dio: ref.watch(dioProvider),
   ),

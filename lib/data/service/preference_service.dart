@@ -2,7 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/preference_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final preferenceServiceProvider = Provider((ref) => PreferenceService());
+final Provider<PreferenceService> preferenceServiceProvider =
+    Provider((ref) => PreferenceService());
 
 class PreferenceService {
   Future<bool?> getBool(PreferenceKey key) async {

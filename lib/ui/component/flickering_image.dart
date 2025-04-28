@@ -22,7 +22,7 @@ class FlickeringImageState extends State<FlickeringImage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late List<String> _images;
-  int _imageIndex = 0;
+  var _imageIndex = 0;
 
   @override
   void initState() {

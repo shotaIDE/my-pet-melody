@@ -18,9 +18,12 @@ import 'package:my_pet_melody/ui/set_piece_title_screen.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_screen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-final selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
-    .family<SelectTrimmedSoundViewModel, SelectTrimmedSoundState,
-        SelectTrimmedSoundArgs>(
+final AutoDisposeStateNotifierProviderFamily<
+        SelectTrimmedSoundViewModel,
+        SelectTrimmedSoundState,
+        SelectTrimmedSoundArgs> selectTrimmedSoundViewModelProvider =
+    StateNotifierProvider.autoDispose.family<SelectTrimmedSoundViewModel,
+        SelectTrimmedSoundState, SelectTrimmedSoundArgs>(
   (ref, args) => SelectTrimmedSoundViewModel(
     ref: ref,
     args: args,

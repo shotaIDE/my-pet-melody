@@ -13,7 +13,8 @@ import 'package:my_pet_melody/ui/select_template_screen.dart';
 import 'package:my_pet_melody/ui/settings_screen.dart';
 import 'package:my_pet_melody/ui/video_screen.dart';
 
-final homeViewModelProvider =
+final AutoDisposeStateNotifierProvider<HomeViewModel, HomeState>
+    homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (ref) => HomeViewModel(
     ref: ref,
@@ -28,7 +29,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 
   static const name = 'HomeScreen';
 
-  final viewModelProvider = homeViewModelProvider;
+  final AutoDisposeStateNotifierProvider<HomeViewModel, HomeState>
+      viewModelProvider = homeViewModelProvider;
 
   static MaterialPageRoute<HomeScreen> route() => MaterialPageRoute<HomeScreen>(
         builder: (_) => HomeScreen(),

@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/logger/error_reporter.dart';
 
-final dioProvider = Provider(
+final Provider<MyDio> dioProvider = Provider(
   (ref) => MyDio(
     errorReporter: ref.watch(errorReporterProvider),
   ),

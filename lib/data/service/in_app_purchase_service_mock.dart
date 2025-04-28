@@ -11,7 +11,8 @@ final isPremiumPlanStateProviderMock =
   (ref) => _IsPremiumPlanNotifierMock(),
 );
 
-final toggleIsPremiumPlanForDebugActionProvider = Provider((ref) {
+final Provider<void Function()> toggleIsPremiumPlanForDebugActionProvider =
+    Provider((ref) {
   final isPremiumPlanStateNotifier =
       ref.watch(isPremiumPlanStateProviderMock.notifier);
 

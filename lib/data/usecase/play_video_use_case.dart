@@ -3,7 +3,8 @@ import 'package:my_pet_melody/data/model/preference_key.dart';
 import 'package:my_pet_melody/data/service/in_app_review_service.dart';
 import 'package:my_pet_melody/data/service/preference_service.dart';
 
-final onAppCompletedToPlayVideoActionProvider = Provider((ref) {
+final Provider<Future<void> Function()>
+    onAppCompletedToPlayVideoActionProvider = Provider((ref) {
   final preferenceService = ref.watch(preferenceServiceProvider);
   final requestInAppReviewAction = ref.watch(requestInAppReviewActionProvider);
 

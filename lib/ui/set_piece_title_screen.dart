@@ -15,8 +15,10 @@ import 'package:my_pet_melody/ui/select_template_screen.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:my_pet_melody/ui/set_piece_title_view_model.dart';
 
-final setPieceTitleViewModelProvider = StateNotifierProvider.autoDispose
-    .family<SetPieceTitleViewModel, SetPieceTitleState, SetPieceTitleArgs>(
+final AutoDisposeStateNotifierProviderFamily<SetPieceTitleViewModel,
+        SetPieceTitleState, SetPieceTitleArgs> setPieceTitleViewModelProvider =
+    StateNotifierProvider.autoDispose
+        .family<SetPieceTitleViewModel, SetPieceTitleState, SetPieceTitleArgs>(
   (ref, args) => SetPieceTitleViewModel(
     ref: ref,
     args: args,

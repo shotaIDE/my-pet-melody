@@ -9,7 +9,8 @@ import 'package:my_pet_melody/data/usecase/app_use_case.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
 import 'package:my_pet_melody/root_state.dart';
 
-final rootViewModelProvider =
+final AutoDisposeStateNotifierProvider<RootViewModel, RootState>
+    rootViewModelProvider =
     StateNotifierProvider.autoDispose<RootViewModel, RootState>(
   (ref) => RootViewModel(
     ref: ref,

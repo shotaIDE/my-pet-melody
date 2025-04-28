@@ -41,7 +41,7 @@ final sessionStreamProvider = StreamProvider<LoginSession>((ref) {
   return Stream.value(maybeSession);
 });
 
-final authActionsProvider = Provider(
+final Provider<AuthActions> authActionsProvider = Provider(
   (ref) {
     final errorReporter = ref.watch(errorReporterProvider);
     final eventReporter = ref.watch(eventReporterProvider);

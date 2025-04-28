@@ -9,7 +9,8 @@ import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
 
-final templateDraftsProvider = StreamProvider(
+final StreamProvider<List<TemplateDraft>> templateDraftsProvider =
+    StreamProvider(
   (_) {
     return FirebaseFirestore.instance.collection('systemMedia').snapshots().map(
           (snapshot) => snapshot.docs.map(
@@ -31,7 +32,8 @@ final templateDraftsProvider = StreamProvider(
   },
 );
 
-final localizedTemplateMetadataListProvider =
+final StreamProviderFamily<List<LocalizedTemplateMetadata>, Locale>
+    localizedTemplateMetadataListProvider =
     StreamProvider.family<List<LocalizedTemplateMetadata>, Locale>(
   (_, locale) {
     // Currently, we only care about the language code.
@@ -61,7 +63,8 @@ final localizedTemplateMetadataListProvider =
   },
 );
 
-final pieceDraftsProvider = StreamProvider((ref) {
+final StreamProvider<List<PieceDraft>> pieceDraftsProvider =
+    StreamProvider((ref) {
   final session = ref.watch(sessionProvider);
   if (session == null) {
     return const Stream<List<PieceDraft>>.empty();
@@ -109,7 +112,7 @@ final pieceDraftsProvider = StreamProvider((ref) {
       );
 });
 
-final databaseActionsProvider = FutureProvider(
+final FutureProvider<DatabaseActions> databaseActionsProvider = FutureProvider(
   (ref) async {
     final session = await ref.watch(sessionStreamProvider.future);
 

@@ -7,8 +7,10 @@ import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/link_with_account_state.dart';
 import 'package:my_pet_melody/ui/link_with_account_view_model.dart';
 
-final _linkWithAccountViewModelProvider = StateNotifierProvider.autoDispose<
-    LinkWithAccountViewModel, LinkWithAccountState>(
+final AutoDisposeStateNotifierProvider<LinkWithAccountViewModel,
+        LinkWithAccountState> _linkWithAccountViewModelProvider =
+    StateNotifierProvider.autoDispose<LinkWithAccountViewModel,
+        LinkWithAccountState>(
   (ref) => LinkWithAccountViewModel(
     ref: ref,
   ),
@@ -21,7 +23,8 @@ class LinkWithAccountScreen extends ConsumerStatefulWidget {
 
   static const name = 'LinkWithAccountScreen';
 
-  final viewModel = _linkWithAccountViewModelProvider;
+  final AutoDisposeStateNotifierProvider<LinkWithAccountViewModel,
+      LinkWithAccountState> viewModel = _linkWithAccountViewModelProvider;
 
   static MaterialPageRoute<LinkWithAccountScreen> route() =>
       MaterialPageRoute<LinkWithAccountScreen>(

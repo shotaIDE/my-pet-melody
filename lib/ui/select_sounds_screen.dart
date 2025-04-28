@@ -12,8 +12,10 @@ import 'package:my_pet_melody/ui/select_sounds_state.dart';
 import 'package:my_pet_melody/ui/select_sounds_view_model.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_screen.dart';
 
-final _selectSoundsViewModelProvider = StateNotifierProvider.autoDispose
-    .family<SelectSoundsViewModel, SelectSoundsState, LocalizedTemplate>(
+final AutoDisposeStateNotifierProviderFamily<SelectSoundsViewModel,
+        SelectSoundsState, LocalizedTemplate> _selectSoundsViewModelProvider =
+    StateNotifierProvider.autoDispose
+        .family<SelectSoundsViewModel, SelectSoundsState, LocalizedTemplate>(
   (ref, template) => SelectSoundsViewModel(
     selectedTemplate: template,
   ),

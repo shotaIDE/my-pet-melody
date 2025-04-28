@@ -11,7 +11,10 @@ import 'package:my_pet_melody/ui/trim_sound_for_generation_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_generation_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
-final _trimSoundForGenerationViewModelProvider =
+final AutoDisposeStateNotifierProviderFamily<
+        TrimSoundForGenerationViewModel,
+        TrimSoundForGenerationState,
+        TrimSoundForGenerationArgs> _trimSoundForGenerationViewModelProvider =
     StateNotifierProvider.autoDispose.family<TrimSoundForGenerationViewModel,
         TrimSoundForGenerationState, TrimSoundForGenerationArgs>(
   (ref, args) => TrimSoundForGenerationViewModel(

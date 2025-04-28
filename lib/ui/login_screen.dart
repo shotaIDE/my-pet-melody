@@ -8,7 +8,8 @@ import 'package:my_pet_melody/ui/home_screen.dart';
 import 'package:my_pet_melody/ui/login_state.dart';
 import 'package:my_pet_melody/ui/login_view_model.dart';
 
-final _loginViewModelProvider =
+final AutoDisposeStateNotifierProvider<LoginViewModel, LoginState>
+    _loginViewModelProvider =
     StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
   (ref) => LoginViewModel(
     ref: ref,
@@ -22,7 +23,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 
   static const name = 'LoginScreen';
 
-  final viewModel = _loginViewModelProvider;
+  final AutoDisposeStateNotifierProvider<LoginViewModel, LoginState> viewModel =
+      _loginViewModelProvider;
 
   static MaterialPageRoute<LoginScreen> route() =>
       MaterialPageRoute<LoginScreen>(

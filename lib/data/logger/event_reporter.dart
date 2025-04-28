@@ -2,7 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
 
-final eventReporterProvider = Provider(
+final Provider<EventReporter> eventReporterProvider = Provider(
   (_) => EventReporter(),
 );
 
