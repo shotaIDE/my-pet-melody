@@ -143,6 +143,8 @@ class SelectTrimmedSoundViewModel
     final movieFile = File(_moviePath);
     await trimmer.loadVideo(videoFile: movieFile);
 
+    // `saveTrimmedVideo` must be called sequentially,
+    // so do not use `Future.wait`.
     for (var index = 0; index < state.choices.length; index++) {
       final paddedIndex = '$index'.padLeft(2, '0');
       final choice = state.choices[index];
