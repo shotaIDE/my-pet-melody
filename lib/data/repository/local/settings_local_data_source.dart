@@ -2,7 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/preference_key.dart';
 import 'package:my_pet_melody/data/service/preference_service.dart';
 
-final settingsLocalDataSourceProvider = Provider(
+final Provider<SettingsLocalDataSource> settingsLocalDataSourceProvider =
+    Provider(
   (ref) => SettingsLocalDataSource(
     preferenceService: ref.watch(preferenceServiceProvider),
   ),

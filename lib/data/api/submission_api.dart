@@ -8,7 +8,7 @@ import 'package:my_pet_melody/flavor.dart';
 part 'submission_api.freezed.dart';
 part 'submission_api.g.dart';
 
-final submissionApiProvider = Provider(
+final Provider<SubmissionApi> submissionApiProvider = Provider(
   (ref) => SubmissionApi(
     dio: ref.watch(dioProvider),
   ),
@@ -22,7 +22,7 @@ class SubmissionApi {
   Future<DetectResponse?> detect(
     DetectRequest request, {
     required String token,
-  }) async {
+  }) {
     return _dio.post(
       path: '/detect',
       responseParser: DetectResponse.fromJson,

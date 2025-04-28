@@ -4,7 +4,7 @@ enum Flavor {
   prod,
 }
 
-final flavor = _getFlavor();
+final Flavor flavor = _getFlavor();
 
 Flavor _getFlavor() {
   const flavorString = String.fromEnvironment('FLAVOR');

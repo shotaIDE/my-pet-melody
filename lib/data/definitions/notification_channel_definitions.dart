@@ -14,11 +14,11 @@ final _completedToGeneratePiece = NotificationChannel(
   groupId: _makePieceGroup.id,
 );
 
-final _groups = [
+final List<NotificationChannelGroup> _groups = [
   _makePieceGroup,
 ];
 
-final _notificationChannels = [
+final List<NotificationChannel> _notificationChannels = [
   _completedToGeneratePiece,
 ];
 

@@ -41,7 +41,7 @@ final sessionStreamProvider = StreamProvider<LoginSession>((ref) {
   return Stream.value(maybeSession);
 });
 
-final authActionsProvider = Provider(
+final Provider<AuthActions> authActionsProvider = Provider(
   (ref) {
     final errorReporter = ref.watch(errorReporterProvider);
     final eventReporter = ref.watch(eventReporterProvider);
@@ -85,7 +85,7 @@ class SessionProvider extends StateNotifier<LoginSession?> {
     });
   }
 
-  Future<LoginSession?> _currentSession() async {
+  Future<LoginSession?> _currentSession() {
     final user = FirebaseAuth.instance.currentUser;
     return _convertFirebaseUserToLoginSession(user);
   }

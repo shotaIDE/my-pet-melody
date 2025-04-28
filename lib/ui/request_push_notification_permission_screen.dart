@@ -11,7 +11,11 @@ import 'package:my_pet_melody/ui/request_push_notification_permission_state.dart
 import 'package:my_pet_melody/ui/request_push_notification_permission_view_model.dart';
 import 'package:my_pet_melody/ui/select_template_screen.dart';
 
-final requestPushNotificationPermissionViewModelProvider =
+final AutoDisposeStateNotifierProviderFamily<
+        RequestPushNotificationPermissionViewModel,
+        RequestPushNotificationPermissionState,
+        RequestPushNotificationPermissionArgs>
+    requestPushNotificationPermissionViewModelProvider =
     StateNotifierProvider.autoDispose.family<
         RequestPushNotificationPermissionViewModel,
         RequestPushNotificationPermissionState,

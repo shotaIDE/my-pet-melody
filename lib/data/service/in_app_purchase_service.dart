@@ -8,7 +8,7 @@ import 'package:my_pet_melody/data/model/purchase_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
-final isPremiumPlanProvider = Provider((ref) {
+final Provider<bool?> isPremiumPlanProvider = Provider((ref) {
   final isPremiumPlan = ref.watch(_isPremiumPlanStateProvider);
   return isPremiumPlan;
 });
@@ -42,7 +42,7 @@ final purchasableListProvider = FutureProvider<List<Purchasable>?>((ref) async {
   }
 });
 
-final purchaseActionsProvider = Provider(
+final Provider<PurchaseActions> purchaseActionsProvider = Provider(
   (ref) {
     final errorReporter = ref.watch(errorReporterProvider);
 
@@ -58,7 +58,7 @@ class PurchaseActions {
 
   final ErrorReporter _errorReporter;
 
-  Future<String> userId() async {
+  Future<String> userId() {
     return Purchases.appUserID;
   }
 

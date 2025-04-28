@@ -27,7 +27,7 @@ class StorageServiceFirebase implements StorageService {
   final LoginSession _session;
 
   @override
-  Future<String> templateMusicUrl({required String id}) async {
+  Future<String> templateMusicUrl({required String id}) {
     final storageRef = FirebaseStorage.instance.ref();
 
     final pathRef = storageRef.child('systemMedia/templates/$id/bgm.m4a');
@@ -36,7 +36,7 @@ class StorageServiceFirebase implements StorageService {
   }
 
   @override
-  Future<String> templateThumbnailUrl({required String id}) async {
+  Future<String> templateThumbnailUrl({required String id}) {
     final storageRef = FirebaseStorage.instance.ref();
 
     final pathRef = storageRef.child('systemMedia/templates/$id/thumbnail.png');
@@ -47,7 +47,7 @@ class StorageServiceFirebase implements StorageService {
   @override
   Future<String> pieceMovieDownloadUrl({
     required String fileName,
-  }) async {
+  }) {
     final userId = _session.userId;
 
     final storageRef = FirebaseStorage.instance.ref();
@@ -84,7 +84,7 @@ class StorageServiceFirebase implements StorageService {
   @override
   Future<String> generatedPieceThumbnailDownloadUrl({
     required String fileName,
-  }) async {
+  }) {
     final userId = _session.userId;
 
     final storageRef = FirebaseStorage.instance.ref();

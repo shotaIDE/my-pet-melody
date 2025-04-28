@@ -3,7 +3,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 
-final requestInAppReviewActionProvider = Provider((_) {
+final Provider<Future<void> Function()> requestInAppReviewActionProvider =
+    Provider((_) {
   Future<void> action() async {
     final isAvailable = await InAppReview.instance.isAvailable();
     if (!isAvailable) {

@@ -3,7 +3,8 @@ import 'package:my_pet_melody/data/api/submission_api.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
 
-final submissionRemoteDataSourceProvider = Provider(
+final Provider<SubmissionRemoteDataSource> submissionRemoteDataSourceProvider =
+    Provider(
   (ref) => SubmissionRemoteDataSource(
     api: ref.watch(submissionApiProvider),
   ),

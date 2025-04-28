@@ -8,7 +8,8 @@ import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/service/storage_service_firebase.dart';
 import 'package:path/path.dart';
 
-final templatesProvider = FutureProvider((ref) async {
+final FutureProvider<List<Template>> templatesProvider =
+    FutureProvider((ref) async {
   final templateDrafts = await ref.watch(templateDraftsProvider.future);
   final storageService = await ref.watch(storageServiceProvider.future);
 
@@ -35,7 +36,7 @@ final templatesProvider = FutureProvider((ref) async {
       .toList();
 });
 
-final piecesProvider = FutureProvider(
+final FutureProvider<List<Piece>> piecesProvider = FutureProvider(
   (ref) async {
     final isPremiumPlan = ref.watch(isPremiumPlanProvider);
     final pieceDrafts = await ref.watch(pieceDraftsProvider.future);

@@ -8,7 +8,8 @@ import 'package:my_pet_melody/ui/home_screen.dart';
 import 'package:my_pet_melody/ui/login_state.dart';
 import 'package:my_pet_melody/ui/login_view_model.dart';
 
-final _loginViewModelProvider =
+final AutoDisposeStateNotifierProvider<LoginViewModel, LoginState>
+    _loginViewModelProvider =
     StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
   (ref) => LoginViewModel(
     ref: ref,
@@ -22,7 +23,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 
   static const name = 'LoginScreen';
 
-  final viewModel = _loginViewModelProvider;
+  final AutoDisposeStateNotifierProvider<LoginViewModel, LoginState> viewModel =
+      _loginViewModelProvider;
 
   static MaterialPageRoute<LoginScreen> route() =>
       MaterialPageRoute<LoginScreen>(
@@ -175,7 +177,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         );
       },
       failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
+        alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!
@@ -185,7 +187,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
-        unrecoverable: (_) async {
+        unrecoverable: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!.unknownErrorDescription,
@@ -210,7 +212,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         );
       },
       failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
+        alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!
@@ -220,7 +222,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
-        unrecoverable: (_) async {
+        unrecoverable: (_) {
           final snackBar = SnackBar(
             content:
                 Text(AppLocalizations.of(context)!.unknownErrorDescription),

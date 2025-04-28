@@ -5,7 +5,8 @@ import 'package:my_pet_melody/data/service/device_service.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 import 'package:my_pet_melody/ui/model/localized_template.dart';
 
-final localizedTemplatesProvider = FutureProvider.autoDispose((ref) async {
+final AutoDisposeFutureProvider<List<LocalizedTemplate>>
+    localizedTemplatesProvider = FutureProvider.autoDispose((ref) async {
   final locale = ref.watch(deviceLocaleProvider);
   final localizedTemplateMetadataList =
       await ref.watch(localizedTemplateMetadataListProvider(locale).future);

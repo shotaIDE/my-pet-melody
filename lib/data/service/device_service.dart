@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final deviceLocaleProvider =
+final AutoDisposeStateNotifierProvider<DeviceLocaleNotifier, Locale>
+    deviceLocaleProvider =
     StateNotifierProvider.autoDispose<DeviceLocaleNotifier, Locale>((_) {
   return DeviceLocaleNotifier();
 });

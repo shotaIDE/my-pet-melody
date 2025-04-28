@@ -6,8 +6,10 @@ import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/ui/video_state.dart';
 import 'package:my_pet_melody/ui/video_view_model.dart';
 
-final _videoViewModelProvider = StateNotifierProvider.autoDispose
-    .family<VideoViewModel, VideoState, PieceGenerated>(
+final AutoDisposeStateNotifierProviderFamily<VideoViewModel, VideoState,
+        PieceGenerated> _videoViewModelProvider =
+    StateNotifierProvider.autoDispose
+        .family<VideoViewModel, VideoState, PieceGenerated>(
   (ref, piece) {
     final eventReporter = ref.watch(eventReporterProvider);
 

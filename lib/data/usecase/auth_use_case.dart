@@ -7,27 +7,29 @@ import 'package:my_pet_melody/data/model/delete_account_error.dart';
 import 'package:my_pet_melody/data/model/google_credential.dart';
 import 'package:my_pet_melody/data/model/login_error.dart';
 import 'package:my_pet_melody/data/model/login_third_party_error.dart';
+import 'package:my_pet_melody/data/model/profile.dart';
 import 'package:my_pet_melody/data/model/result.dart';
 import 'package:my_pet_melody/data/service/auth_service.dart';
 import 'package:my_pet_melody/data/service/push_notification_service.dart';
 import 'package:my_pet_melody/data/service/third_party_auth_service.dart';
 
-final nonAnonymousProfileProvider = Provider((ref) {
+final Provider<Profile?> nonAnonymousProfileProvider = Provider((ref) {
   final session = ref.watch(sessionProvider);
   return session?.nonAnonymousProfile;
 });
 
-final isLoggedInNotAnonymouslyProvider = Provider((ref) {
+final Provider<bool> isLoggedInNotAnonymouslyProvider = Provider((ref) {
   final session = ref.watch(sessionProvider);
   return session?.nonAnonymousProfile != null;
 });
 
-final profilePhotoUrlProvider = Provider((ref) {
+final Provider<String?> profilePhotoUrlProvider = Provider((ref) {
   final session = ref.watch(sessionProvider);
   return session?.nonAnonymousProfile?.photoUrl;
 });
 
-final registrationTokenProvider = FutureProvider((ref) async {
+final FutureProvider<String?> registrationTokenProvider =
+    FutureProvider((ref) async {
   // Gets a registration token each time the session is not null.
   await ref.watch(sessionStreamProvider.future);
 
@@ -36,7 +38,8 @@ final registrationTokenProvider = FutureProvider((ref) async {
   return pushNotificationService.registrationToken();
 });
 
-final ensureDetermineIfLoggedInActionProvider = FutureProvider((ref) async {
+final FutureProvider<bool> ensureDetermineIfLoggedInActionProvider =
+    FutureProvider((ref) async {
   await ref.read(sessionProvider.notifier).setup();
 
   return ref.read(sessionProvider) != null;
@@ -170,7 +173,7 @@ final linkWithAppleActionProvider =
   return action;
 });
 
-final signOutActionProvider = Provider((ref) {
+final Provider<Future<void> Function()> signOutActionProvider = Provider((ref) {
   final authActions = ref.watch(authActionsProvider);
   final pushNotificationService = ref.watch(pushNotificationServiceProvider);
 
@@ -183,7 +186,8 @@ final signOutActionProvider = Provider((ref) {
   return action;
 });
 
-final deleteAccountActionProvider = Provider((ref) {
+final Provider<Future<Result<void, DeleteAccountError>> Function()>
+    deleteAccountActionProvider = Provider((ref) {
   final authActions = ref.watch(authActionsProvider);
   final thirdPartyAuthActions = ref.watch(thirdPartyAuthActionsProvider);
 

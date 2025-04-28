@@ -8,8 +8,10 @@ import 'package:my_pet_melody/ui/component/listening_music_cat_image.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_screen.dart';
 
-final completedToSubmitViewModelProvider = StateNotifierProvider.autoDispose<
-    CompletedToSubmitViewModel, CompletedToSubmitState>(
+final AutoDisposeStateNotifierProvider<CompletedToSubmitViewModel,
+        CompletedToSubmitState> completedToSubmitViewModelProvider =
+    StateNotifierProvider.autoDispose<CompletedToSubmitViewModel,
+        CompletedToSubmitState>(
   (_) => CompletedToSubmitViewModel(),
 );
 
@@ -18,7 +20,9 @@ class CompletedToSubmitScreen extends ConsumerStatefulWidget {
 
   static const name = 'CompletedToSubmitScreen';
 
-  final viewModelProvider = completedToSubmitViewModelProvider;
+  final AutoDisposeStateNotifierProvider<CompletedToSubmitViewModel,
+          CompletedToSubmitState> viewModelProvider =
+      completedToSubmitViewModelProvider;
 
   static MaterialPageRoute<CompletedToSubmitScreen> route() =>
       MaterialPageRoute<CompletedToSubmitScreen>(
@@ -38,7 +42,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
     super.initState();
 
     ref.read(widget.viewModelProvider.notifier).setup(
-      onClose: () async {
+      onClose: () {
         Navigator.pop(context);
       },
       onCompleteImmediately: () async {

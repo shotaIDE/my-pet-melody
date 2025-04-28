@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/logger/error_reporter.dart';
 
-final dioProvider = Provider(
+final Provider<MyDio> dioProvider = Provider(
   (ref) => MyDio(
     errorReporter: ref.watch(errorReporterProvider),
   ),
@@ -30,12 +30,11 @@ class MyDio {
     required String token,
     String? purchaseUserId,
     Map<String, dynamic>? data,
-  }) async {
+  }) {
     return _getResult<T>(
       path: path,
       contentType: _contentTypeJson,
-      connectionExecutor: (url, options) async =>
-          _dio.post<Map<String, dynamic>>(
+      connectionExecutor: (url, options) => _dio.post<Map<String, dynamic>>(
         url,
         data: data,
         options: options,
@@ -61,8 +60,7 @@ class MyDio {
     return _getResult<T>(
       path: path,
       contentType: _contentTypeForm,
-      connectionExecutor: (url, options) async =>
-          _dio.post<Map<String, dynamic>>(
+      connectionExecutor: (url, options) => _dio.post<Map<String, dynamic>>(
         url,
         data: data,
         options: options,

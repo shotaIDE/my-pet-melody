@@ -8,7 +8,7 @@ import 'package:my_pet_melody/data/model/google_credential.dart';
 import 'package:my_pet_melody/data/model/login_third_party_error.dart';
 import 'package:my_pet_melody/data/model/result.dart';
 
-final thirdPartyAuthActionsProvider = Provider(
+final Provider<ThirdPartyAuthActions> thirdPartyAuthActionsProvider = Provider(
   (ref) => ThirdPartyAuthActions(),
 );
 

@@ -12,8 +12,10 @@ import 'package:my_pet_melody/ui/definition/list_tile_position_in_group.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_state.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_view_model.dart';
 
-final _joinPremiumPlanViewModelProvider = StateNotifierProvider.autoDispose<
-    JoinPremiumPlanViewModel, JoinPremiumPlanState>(
+final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
+        JoinPremiumPlanState> _joinPremiumPlanViewModelProvider =
+    StateNotifierProvider.autoDispose<JoinPremiumPlanViewModel,
+        JoinPremiumPlanState>(
   (ref) => JoinPremiumPlanViewModel(ref: ref),
 );
 
@@ -22,7 +24,9 @@ class JoinPremiumPlanScreen extends ConsumerStatefulWidget {
 
   static const name = 'SetPieceTitleScreen';
 
-  final viewModelProvider = _joinPremiumPlanViewModelProvider;
+  final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
+          JoinPremiumPlanState> viewModelProvider =
+      _joinPremiumPlanViewModelProvider;
 
   static MaterialPageRoute<JoinPremiumPlanScreen> route() => MaterialPageRoute(
         builder: (_) => JoinPremiumPlanScreen(),

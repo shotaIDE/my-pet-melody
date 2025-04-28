@@ -11,8 +11,10 @@ import 'package:my_pet_melody/ui/select_sounds_screen.dart';
 import 'package:my_pet_melody/ui/select_template_state.dart';
 import 'package:my_pet_melody/ui/select_template_view_model.dart';
 
-final selectTemplateViewModelProvider = StateNotifierProvider.autoDispose<
-    SelectTemplateViewModel, SelectTemplateState>(
+final AutoDisposeStateNotifierProvider<SelectTemplateViewModel,
+        SelectTemplateState> selectTemplateViewModelProvider =
+    StateNotifierProvider.autoDispose<SelectTemplateViewModel,
+        SelectTemplateState>(
   (ref) => SelectTemplateViewModel(
     ref: ref,
     listener: ref.listen,
@@ -24,7 +26,8 @@ class SelectTemplateScreen extends ConsumerStatefulWidget {
 
   static const name = 'SelectTemplateScreen';
 
-  final viewModel = selectTemplateViewModelProvider;
+  final AutoDisposeStateNotifierProvider<SelectTemplateViewModel,
+      SelectTemplateState> viewModel = selectTemplateViewModelProvider;
 
   static MaterialPageRoute<SelectTemplateScreen> route() => MaterialPageRoute(
         builder: (_) => SelectTemplateScreen(),

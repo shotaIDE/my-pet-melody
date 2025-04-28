@@ -5,17 +5,19 @@ import 'dart:io';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final ensureActivateFetchedRemoteConfigsActionProvider = Provider((_) {
+final Provider<Future<bool> Function()>
+    ensureActivateFetchedRemoteConfigsActionProvider = Provider((_) {
   return FirebaseRemoteConfig.instance.activate;
 });
 
-final updatedRemoteConfigKeysProvider = StreamProvider((_) {
+final StreamProvider<Set<String>> updatedRemoteConfigKeysProvider =
+    StreamProvider((_) {
   return FirebaseRemoteConfig.instance.onConfigUpdated.map(
     (event) => event.updatedKeys,
   );
 });
 
-final minimumBuildNumberProvider = FutureProvider((_) async {
+final FutureProvider<int> minimumBuildNumberProvider = FutureProvider((_) {
   final key =
       Platform.isIOS ? 'iosMinimumBuildNumber' : 'androidMinimumBuildNumber';
   return FirebaseRemoteConfig.instance.getInt(key);

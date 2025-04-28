@@ -24,7 +24,8 @@ import 'package:my_pet_melody/ui/settings_view_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final _settingsViewModelProvider =
+final AutoDisposeStateNotifierProvider<SettingsViewModel, SettingsState>
+    _settingsViewModelProvider =
     StateNotifierProvider.autoDispose<SettingsViewModel, SettingsState>(
   (ref) => SettingsViewModel(ref: ref),
 );
@@ -36,7 +37,8 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
   static const name = 'SettingsScreen';
 
-  final viewModelProvider = _settingsViewModelProvider;
+  final AutoDisposeStateNotifierProvider<SettingsViewModel, SettingsState>
+      viewModelProvider = _settingsViewModelProvider;
 
   static MaterialPageRoute<SettingsScreen> route() =>
       MaterialPageRoute<SettingsScreen>(
@@ -249,7 +251,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       },
       failure: (error) => error.when(
         cancelledByUser: () {},
-        unrecoverable: () async {
+        unrecoverable: () {
           final snackBar = SnackBar(
             content:
                 Text(AppLocalizations.of(context)!.unknownErrorDescription),

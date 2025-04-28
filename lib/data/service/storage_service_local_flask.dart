@@ -47,7 +47,7 @@ class StorageServiceLocalFlask implements StorageService {
   Future<UploadedMedia?> uploadUnedited(
     File file, {
     required String fileName,
-  }) async {
+  }) {
     return _upload(file, fileName: fileName);
   }
 
@@ -55,7 +55,7 @@ class StorageServiceLocalFlask implements StorageService {
   Future<UploadedMedia?> uploadEdited(
     File file, {
     required String fileName,
-  }) async {
+  }) {
     return _upload(file, fileName: fileName);
   }
 

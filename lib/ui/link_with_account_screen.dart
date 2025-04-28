@@ -7,8 +7,10 @@ import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/link_with_account_state.dart';
 import 'package:my_pet_melody/ui/link_with_account_view_model.dart';
 
-final _linkWithAccountViewModelProvider = StateNotifierProvider.autoDispose<
-    LinkWithAccountViewModel, LinkWithAccountState>(
+final AutoDisposeStateNotifierProvider<LinkWithAccountViewModel,
+        LinkWithAccountState> _linkWithAccountViewModelProvider =
+    StateNotifierProvider.autoDispose<LinkWithAccountViewModel,
+        LinkWithAccountState>(
   (ref) => LinkWithAccountViewModel(
     ref: ref,
   ),
@@ -21,7 +23,8 @@ class LinkWithAccountScreen extends ConsumerStatefulWidget {
 
   static const name = 'LinkWithAccountScreen';
 
-  final viewModel = _linkWithAccountViewModelProvider;
+  final AutoDisposeStateNotifierProvider<LinkWithAccountViewModel,
+      LinkWithAccountState> viewModel = _linkWithAccountViewModelProvider;
 
   static MaterialPageRoute<LinkWithAccountScreen> route() =>
       MaterialPageRoute<LinkWithAccountScreen>(
@@ -129,12 +132,12 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
     final result =
         await ref.read(widget.viewModel.notifier).continueWithGoogle();
 
-    await result.when(
-      success: (_) async {
+    result.when(
+      success: (_) {
         Navigator.pop(context);
       },
       failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
+        alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!
@@ -144,7 +147,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
-        unrecoverable: (_) async {
+        unrecoverable: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!.unknownErrorDescription,
@@ -161,12 +164,12 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
     final result =
         await ref.read(widget.viewModel.notifier).continueWithApple();
 
-    await result.when(
-      success: (_) async {
+    result.when(
+      success: (_) {
         Navigator.pop(context);
       },
       failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) async {
+        alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!
@@ -176,7 +179,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
-        unrecoverable: (_) async {
+        unrecoverable: (_) {
           final snackBar = SnackBar(
             content: Text(
               AppLocalizations.of(context)!.unknownErrorDescription,

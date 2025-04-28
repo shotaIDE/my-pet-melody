@@ -18,7 +18,8 @@ import 'package:my_pet_melody/data/service/push_notification_service.dart';
 import 'package:my_pet_melody/data/service/storage_service_firebase.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 
-final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
+final FutureProvider<Future<MakePieceAvailability> Function()>
+    getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
   final isPremiumPlan = ref.watch(isPremiumPlanProvider);
   final pieces = await ref.watch(piecesProvider.future);
   final preferenceService = ref.watch(preferenceServiceProvider);
@@ -60,8 +61,8 @@ final getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
   return action;
 });
 
-final requestDoNotShowWarningsAgainForMakingPieceActionProvider =
-    Provider((ref) {
+final Provider<Future<void> Function()>
+    requestDoNotShowWarningsAgainForMakingPieceActionProvider = Provider((ref) {
   final preferenceService = ref.watch(preferenceServiceProvider);
 
   Future<void> action() async {
@@ -74,13 +75,17 @@ final requestDoNotShowWarningsAgainForMakingPieceActionProvider =
   return action;
 });
 
-final isAvailableToTrimSoundForGenerationProvider = Provider((ref) {
+final Provider<bool> isAvailableToTrimSoundForGenerationProvider =
+    Provider((ref) {
   final isPremiumPlan = ref.watch(isPremiumPlanProvider);
 
   return isPremiumPlan == true;
 });
 
-final detectActionProvider = FutureProvider((ref) async {
+final FutureProvider<
+        Future<MovieSegmentation?> Function(File file,
+            {required String fileName})> detectActionProvider =
+    FutureProvider((ref) async {
   final session = await ref.watch(sessionStreamProvider.future);
   final storageService = await ref.read(storageServiceProvider.future);
   final repository = ref.read(submissionRepositoryProvider);
@@ -106,13 +111,16 @@ final detectActionProvider = FutureProvider((ref) async {
   return action;
 });
 
-final uploadActionProvider = FutureProvider((ref) async {
+final FutureProvider<
+        Future<UploadedMedia?> Function(File file, {required String fileName})>
+    uploadActionProvider = FutureProvider((ref) async {
   final storageService = await ref.read(storageServiceProvider.future);
 
   return storageService.uploadEdited;
 });
 
-final getShouldShowRequestPushNotificationPermissionActionProvider =
+final Provider<Future<bool> Function()>
+    getShouldShowRequestPushNotificationPermissionActionProvider =
     Provider((ref) {
   final settingsRepository = ref.read(settingsRepositoryProvider);
   final androidDeviceSdkIntFuture =
@@ -135,7 +143,8 @@ final getShouldShowRequestPushNotificationPermissionActionProvider =
   return action;
 });
 
-final requestPushNotificationPermissionActionProvider = Provider((ref) {
+final Provider<Future<void> Function()>
+    requestPushNotificationPermissionActionProvider = Provider((ref) {
   final pushNotificationService = ref.read(pushNotificationServiceProvider);
   final settingsRepository = ref.read(settingsRepositoryProvider);
 
@@ -149,7 +158,13 @@ final requestPushNotificationPermissionActionProvider = Provider((ref) {
   return action;
 });
 
-final submitActionProvider = FutureProvider((ref) async {
+final FutureProvider<
+        Future<void> Function(
+            {required String displayName,
+            required List<UploadedMedia> sounds,
+            required Template template,
+            required UploadedMedia thumbnail})> submitActionProvider =
+    FutureProvider((ref) async {
   final repository = ref.read(submissionRepositoryProvider);
   final purchaseActions = ref.watch(purchaseActionsProvider);
   final session = await ref.watch(sessionStreamProvider.future);

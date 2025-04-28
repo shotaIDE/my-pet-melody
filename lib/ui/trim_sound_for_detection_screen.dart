@@ -11,7 +11,10 @@ import 'package:my_pet_melody/ui/trim_sound_for_detection_state.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
-final _trimSoundForDetectionViewModelProvider =
+final AutoDisposeStateNotifierProviderFamily<
+        TrimSoundForDetectionViewModel,
+        TrimSoundForDetectionState,
+        TrimSoundForDetectionArgs> _trimSoundForDetectionViewModelProvider =
     StateNotifierProvider.autoDispose.family<TrimSoundForDetectionViewModel,
         TrimSoundForDetectionState, TrimSoundForDetectionArgs>(
   (ref, args) {
