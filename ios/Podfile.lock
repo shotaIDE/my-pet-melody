@@ -537,7 +537,7 @@ SPEC CHECKSUMS:
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
-  wakelock_plus: 78ec7c5b202cab7761af8e2b2b3d0671be6c4ae1
+  wakelock_plus: 171214abf89daa43342dcdca8c4cbde5f2f79628
 
 PODFILE CHECKSUM: d85112b100de7116806c2ce2ee0d34d2cac731b5
 
