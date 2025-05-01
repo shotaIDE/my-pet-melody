@@ -98,7 +98,7 @@ PyWavelets==1.8.0
 requests==2.32.3
 requests-oauthlib==2.0.0
 rich==13.9.4
-rsa==4.9
+rsa==4.9.1
 scikit-image==0.25.2
 scikit-learn==1.6.1
 scipy==1.15.2
