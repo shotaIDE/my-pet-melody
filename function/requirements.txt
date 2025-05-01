@@ -88,7 +88,7 @@ pycparser==2.22
 pydub==0.25.1
 Pygments==2.19.1
 PyJWT==2.10.1
-pyparsing==3.2.1
+pyparsing==3.2.3
 Pyro4==4.82
 pytest==8.3.5
 pytextgrid==0.1.4
