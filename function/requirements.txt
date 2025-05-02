@@ -1,4 +1,4 @@
-absl-py==2.1.0
+absl-py==2.2.2
 astunparse==1.6.3
 attrs==25.1.0
 autopep8==2.3.2
