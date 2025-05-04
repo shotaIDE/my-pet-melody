@@ -103,7 +103,7 @@ scikit-image==0.25.2
 scikit-learn==1.6.1
 scipy==1.15.2
 serpent==1.41
-setuptools==75.8.2
+setuptools==75.9.1
 simplejson==3.20.1
 six==1.17.0
 sortedcollections==2.1.0
