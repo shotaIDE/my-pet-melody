@@ -120,7 +120,7 @@ threadpoolctl==3.5.0
 tifffile==2025.5.21
 toml==0.10.2
 tomli==2.2.1
-typing_extensions==4.12.2
+typing_extensions==4.14.0
 tzdata==2025.2
 uritemplate==4.1.1
 # "'HTTPResponse' object has no attribute 'strict'" error occurs, so do not use 2.x series
