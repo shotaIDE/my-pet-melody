@@ -3,7 +3,7 @@ firebase-admin==6.8.0
 Flask==3.1.1
 google-cloud-tasks==2.19.2
 opencv-python==4.11.0.86
-protobuf==5.29.5
+protobuf==6.31.1
 pydub==0.25.1
 pytest==8.3.5
 python-dateutil==2.9.0.post0
