@@ -3,24 +3,53 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "storage": {
-    "rules": "storage.rules"
-  },
+  "storage": { "rules": "storage.rules" },
   "emulators": {
-    "auth": {
-      "port": 9099,
-      "host": "0.0.0.0"
-    },
-    "firestore": {
-      "port": 8080,
-      "host": "0.0.0.0"
-    },
-    "storage": {
-      "port": 9199,
-      "host": "0.0.0.0"
-    },
-    "ui": {
-      "enabled": true
+    "auth": { "port": 9099, "host": "0.0.0.0" },
+    "firestore": { "port": 8080, "host": "0.0.0.0" },
+    "storage": { "port": 9199, "host": "0.0.0.0" },
+    "ui": { "enabled": true }
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "colomney-my-pet-melody-dev",
+          "appId": "1:409733918350:android:6e0ef3847f6f80a7fea3df",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "colomney-my-pet-melody-dev",
+          "appId": "1:409733918350:ios:e1fc95560330d3dbfea3df",
+          "uploadDebugSymbols": true,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options_emulator.dart": {
+          "projectId": "colomney-my-pet-melody-dev",
+          "configurations": {
+            "android": "1:409733918350:android:ef93c90eb05091fefea3df",
+            "ios": "1:409733918350:ios:971b8dbacdfdefcafea3df"
+          }
+        },
+        "lib/firebase_options_prod.dart": {
+          "projectId": "colomney-my-pet-melody",
+          "configurations": {
+            "android": "1:340853471718:android:b2d76f5190f742ec377e27",
+            "ios": "1:340853471718:ios:2ea0380733db883e377e27"
+          }
+        },
+        "lib/firebase_options_dev.dart": {
+          "projectId": "colomney-my-pet-melody-dev",
+          "configurations": {
+            "android": "1:409733918350:android:6e0ef3847f6f80a7fea3df",
+            "ios": "1:409733918350:ios:e1fc95560330d3dbfea3df"
+          }
+        }
+      }
     }
   }
 }
