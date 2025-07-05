@@ -1,0 +1,4 @@
+Fixed an issue where we can't play the meow and proceed to the next page on the screen to select a meow!
+We apologize for the inconvenience!
+
+Also improved performance!
