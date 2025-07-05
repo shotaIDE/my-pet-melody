@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
 import 'package:my_pet_melody/ui/model/localized_template.dart';
@@ -90,6 +91,9 @@ class TrimSoundForGenerationViewModel
       state = state.copyWith(process: null);
       return null;
     }
+
+    debugPrint('Trimmed video output path: $trimmedPath');
+    debugPrint('Thumbnail output path: $thumbnailPath');
 
     state = state.copyWith(process: TrimSoundForGenerationScreenProcess.upload);
 

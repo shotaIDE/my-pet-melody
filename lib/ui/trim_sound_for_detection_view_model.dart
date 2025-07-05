@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
@@ -74,6 +75,13 @@ class TrimSoundForDetectionViewModel
       onSave: (value) {
         trimmedPathCompleter.complete(value);
       },
+      // The default file name causes a load error in the Android video module
+      // when we try to trim the output file again in the
+      // `select_trimmed_sound_view_model`.
+      // The default file name is as follows:
+      // - LoudMeow-01trimmed:Jul5,2025-22:45:28.mp4
+      // ':' symbol is likely causing the load error.
+      videoFileName: '${originalFileNameWithoutExtension}_trimmed',
     );
 
     final trimmedPath = await trimmedPathCompleter.future;
@@ -81,6 +89,8 @@ class TrimSoundForDetectionViewModel
       state = state.copyWith(process: null);
       return null;
     }
+
+    debugPrint('Trimmed video output path: $trimmedPath');
 
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.detect);
 
