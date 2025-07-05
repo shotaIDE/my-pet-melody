@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/usecase/submission_use_case.dart';
@@ -81,6 +82,8 @@ class TrimSoundForDetectionViewModel
       state = state.copyWith(process: null);
       return null;
     }
+
+    debugPrint('Trimmed video output path: $trimmedPath');
 
     state = state.copyWith(process: TrimSoundForDetectionScreenProcess.detect);
 
