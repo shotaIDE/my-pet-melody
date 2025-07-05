@@ -37,7 +37,7 @@ dependencies:
   google_sign_in: 6.3.0
   in_app_review: 2.0.10
   intl: 0.20.1
-  package_info_plus: 8.2.1
+  package_info_plus: 8.3.0
   path: 1.9.1
   path_provider: 2.1.5
   purchases_flutter: 8.6.0
