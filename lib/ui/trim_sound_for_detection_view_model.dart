@@ -75,6 +75,13 @@ class TrimSoundForDetectionViewModel
       onSave: (value) {
         trimmedPathCompleter.complete(value);
       },
+      // The default file name causes a load error in the Android video module
+      // when we try to trim the output file again in the
+      // `select_trimmed_sound_view_model`.
+      // The default file name is as follows:
+      // - LoudMeow-01trimmed:Jul5,2025-22:45:28.mp4
+      // ':' symbol is likely causing the load error.
+      videoFileName: '${originalFileNameWithoutExtension}_trimmed',
     );
 
     final trimmedPath = await trimmedPathCompleter.future;
