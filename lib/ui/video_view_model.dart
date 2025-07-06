@@ -79,7 +79,7 @@ class VideoViewModel extends StateNotifier<VideoState> {
     await dio.download(_piece.movieUrl, path);
 
     final xFile = XFile(path);
-    await Share.shareXFiles([xFile]);
+    await SharePlus.instance.share(ShareParams(files: [xFile]));
 
     state = state.copyWith(isProcessing: false);
   }

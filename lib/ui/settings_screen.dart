@@ -191,8 +191,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final storeUrl = Platform.isIOS
         ? 'https://apps.apple.com/us/app/うちのコメロディー/id6450181110'
         : 'https://play.google.com/store/apps/details?id=ide.shota.colomney.MyPetMelody';
-    await Share.share(
-      AppLocalizations.of(context)!.shareWithFriendsSentence(storeUrl),
+    await SharePlus.instance.share(
+      ShareParams(
+        text: AppLocalizations.of(context)!.shareWithFriendsSentence(storeUrl),
+      ),
     );
   }
 

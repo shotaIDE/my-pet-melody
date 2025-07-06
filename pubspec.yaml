@@ -42,7 +42,7 @@ dependencies:
   path_provider: 2.1.5
   purchases_flutter: 8.10.5
   rxdart: 0.28.0
-  share_plus: 10.1.4
+  share_plus: 11.0.0
   shared_preferences: 2.5.3
   skeletonizer: 1.4.3
   url_launcher: 6.3.1
