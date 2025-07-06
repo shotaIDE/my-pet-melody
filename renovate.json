@@ -1,44 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "enabledManagers": [
-    "asdf",
-    "bundler",
-    "github-actions",
-    "gradle-wrapper",
-    "pip_requirements",
-    "pub",
-    "pyenv",
-    "ruby-version",
-    "terraform-version",
-    "terraform"
-  ],
   "extends": ["config:best-practices"],
-  "labels": ["dependencies"],
+  "automerge": true,
   "packageRules": [
     {
-      "matchManagers": ["asdf"],
-      "addLabels": ["flutter"],
-      "automerge": true
-    },
-    {
-      "matchManagers": ["bundler"],
-      "addLabels": ["ruby"],
-      "automerge": true
-    },
-    {
-      "matchManagers": ["gradle-wrapper"],
-      "addLabels": ["gradle"],
-      "automerge": true
-    },
-    {
-      "matchManagers": ["pip_requirements"],
-      "addLabels": ["python"],
-      "automerge": true
-    },
-    {
-      "matchManagers": ["pyenv"],
-      "addLabels": ["python"],
-      "automerge": true
+      "matchPackageNames": ["flutter", "dart"],
+      "groupName": "flutter"
     },
     {
       "matchPackageNames": [
@@ -54,41 +21,14 @@
       "groupName": "firebase"
     },
     {
-      "matchManagers": ["pub"],
-      "matchPackageNames": ["collection", "dart", "intl", "path"],
-      "enabled": false
-    },
-    {
-      "matchManagers": ["pub"],
-      "addLabels": ["dart"],
-      "automerge": true
-    },
-    {
-      "matchManagers": ["ruby-version"],
-      "addLabels": ["ruby"],
-      "automerge": true,
-      "semanticCommitType": "dev"
-    },
-    {
-      "matchManagers": ["terraform", "terraform-version"],
-      "addLabels": ["terraform"],
-      "automerge": true
+      "matchManagers": ["pyenv"],
+      "automerge": false
     },
     {
       "matchManagers": ["github-actions"],
       "matchPackageNames": ["google-github-actions/deploy-cloud-functions"],
       "matchNewValue": "v3",
       "enabled": false
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "matchPackageNames": ["ubuntu"],
-      "enabled": false
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "addLabels": ["github_actions"],
-      "automerge": true
     }
   ],
   "rangeStrategy": "pin"
