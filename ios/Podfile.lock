@@ -1,38 +1,10 @@
 PODS:
-  - AppAuth (1.7.6):
-    - AppAuth/Core (= 1.7.6)
-    - AppAuth/ExternalUserAgent (= 1.7.6)
-  - AppAuth/Core (1.7.6)
-  - AppAuth/ExternalUserAgent (1.7.6):
-    - AppAuth/Core
-  - audioplayers_darwin (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
-  - flutter_local_notifications (0.0.1):
-    - Flutter
   - flutter_native_video_trimmer (1.0.0):
     - Flutter
   - get_thumbnail_video (0.0.1):
     - Flutter
     - libwebp
-  - google_sign_in_ios (0.0.1):
-    - AppAuth (>= 1.7.4)
-    - Flutter
-    - FlutterMacOS
-    - GoogleSignIn (~> 7.1)
-    - GTMSessionFetcher (>= 3.4.0)
-  - GoogleSignIn (7.1.0):
-    - AppAuth (< 2.0, >= 1.7.3)
-    - GTMAppAuth (< 5.0, >= 4.1.1)
-    - GTMSessionFetcher/Core (~> 3.3)
-  - GTMAppAuth (4.1.1):
-    - AppAuth/Core (~> 1.7)
-    - GTMSessionFetcher/Core (< 4.0, >= 3.3)
-  - GTMSessionFetcher (3.5.0):
-    - GTMSessionFetcher/Full (= 3.5.0)
-  - GTMSessionFetcher/Core (3.5.0)
-  - GTMSessionFetcher/Full (3.5.0):
-    - GTMSessionFetcher/Core
   - libwebp (1.5.0):
     - libwebp/demux (= 1.5.0)
     - libwebp/mux (= 1.5.0)
@@ -45,70 +17,44 @@ PODS:
   - libwebp/sharpyuv (1.5.0)
   - libwebp/webp (1.5.0):
     - libwebp/sharpyuv
-  - purchases_flutter (8.6.0):
+  - purchases_flutter (8.10.5):
     - Flutter
-    - PurchasesHybridCommon (= 13.21.0)
-  - PurchasesHybridCommon (13.21.0):
-    - RevenueCat (= 5.18.0)
-  - RevenueCat (5.18.0)
-  - wakelock_plus (0.0.1):
-    - Flutter
+    - PurchasesHybridCommon (= 14.0.2)
+  - PurchasesHybridCommon (14.0.2):
+    - RevenueCat (= 5.30.0)
+  - RevenueCat (5.30.0)
 
 DEPENDENCIES:
-  - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - Flutter (from `Flutter`)
-  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_video_trimmer (from `.symlinks/plugins/flutter_native_video_trimmer/ios`)
   - get_thumbnail_video (from `.symlinks/plugins/get_thumbnail_video/ios`)
-  - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
-  - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
 
 SPEC REPOS:
   trunk:
-    - AppAuth
-    - GoogleSignIn
-    - GTMAppAuth
-    - GTMSessionFetcher
     - libwebp
     - PurchasesHybridCommon
     - RevenueCat
 
 EXTERNAL SOURCES:
-  audioplayers_darwin:
-    :path: ".symlinks/plugins/audioplayers_darwin/ios"
   Flutter:
     :path: Flutter
-  flutter_local_notifications:
-    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_video_trimmer:
     :path: ".symlinks/plugins/flutter_native_video_trimmer/ios"
   get_thumbnail_video:
     :path: ".symlinks/plugins/get_thumbnail_video/ios"
-  google_sign_in_ios:
-    :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   purchases_flutter:
     :path: ".symlinks/plugins/purchases_flutter/ios"
-  wakelock_plus:
-    :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
-  AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
-  audioplayers_darwin: ccf9c770ee768abb07e26d90af093f7bab1c12ab
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_local_notifications: 395056b3175ba4f08480a7c5de30cd36d69827e4
-  flutter_native_video_trimmer: 11f6c679971dc3844519b485b9c878df8675ae3a
-  get_thumbnail_video: 1a754d46b860dffefcc57b7290a43089cd5d7e58
-  google_sign_in_ios: 0ab078e60da6dfe23cbc55c83502b52bba1aad63
-  GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
-  GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
-  GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
+  flutter_native_video_trimmer: 3a81cd49c8b789ed448a5d1606617633550496b5
+  get_thumbnail_video: b9a180957daed3e9179e66268db51d8798e41f65
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
-  purchases_flutter: cbcf97969b7bf0f1db71d802f4e682bb851f0576
-  PurchasesHybridCommon: 9691d74a051f30858360d78936d59dc14575014e
-  RevenueCat: e825836f5d6baa870c53d7281be25a5fd91abd91
-  wakelock_plus: fd58c82b1388f4afe3fe8aa2c856503a262a5b03
+  purchases_flutter: bc57bbcda3f0cb21f893cb601a41370b42ae2c9d
+  PurchasesHybridCommon: e1dbc7e7105c0845444cf82cf9d7c85eb9dbf918
+  RevenueCat: 16058ecaa0b868e04cc7cf53a5de3fe0b96ca7d1
 
 PODFILE CHECKSUM: 95abe136bb51ce85007fe103ad470a10e5dddcf7
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.15.2
