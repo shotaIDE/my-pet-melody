@@ -12,7 +12,9 @@ dependencies:
   audioplayers: 6.5.0
   chewie: 1.12.1
   cloud_firestore: 5.6.11
-  collection: 1.19.1
+  # Not specify any version because this library is pinned by the Flutter SDK.
+  # https://github.com/dart-lang/sdk/blob/main/docs/Flutter-Pinned-Packages.md
+  collection: any
   cross_file: 0.3.4+2
   cupertino_icons: 1.0.8
   device_info_plus: 11.5.0
@@ -36,9 +38,11 @@ dependencies:
   freezed_annotation: 2.4.4
   google_sign_in: 6.3.0
   in_app_review: 2.0.10
-  intl: 0.20.1
+  # As with `collection`, not specify.
+  intl: any
   package_info_plus: 8.3.0
-  path: 1.9.1
+  # As with `collection`, not specify.`
+  path: any
   path_provider: 2.1.5
   purchases_flutter: 8.10.5
   rxdart: 0.28.0
