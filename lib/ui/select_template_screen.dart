@@ -168,7 +168,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               );
             },
             itemCount: templates.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 8),
+            separatorBuilder: (_, _) => const SizedBox(height: 8),
           )
         : const Center(child: CircularProgressIndicator());
 
@@ -190,7 +190,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     );
 
     return PopScope(
-      onPopInvokedWithResult: (_, __) {
+      onPopInvokedWithResult: (_, _) {
         ref.read(widget.viewModel.notifier).beforeHideScreen();
       },
       child: Scaffold(

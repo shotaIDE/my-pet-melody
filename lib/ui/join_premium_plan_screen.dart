@@ -338,14 +338,14 @@ class _PurchaseButtonsPanel extends ConsumerWidget {
               },
             );
           },
-          separatorBuilder: (_, __) => const SizedBox(height: 32),
+          separatorBuilder: (_, _) => const SizedBox(height: 32),
           itemCount: purchasableList.length,
         );
       },
       loading: () {
         return const CircularProgressIndicator();
       },
-      error: (_, __) {
+      error: (_, _) {
         return const _NoAvailablePurchasableText();
       },
     );
