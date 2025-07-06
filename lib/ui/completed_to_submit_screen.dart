@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_state.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_view_model.dart';
 import 'package:my_pet_melody/ui/component/listening_music_cat_image.dart';

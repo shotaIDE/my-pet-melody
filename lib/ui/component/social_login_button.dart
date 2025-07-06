@@ -1,8 +1,8 @@
 // ignore_for_file: prefer-match-file-name
 import 'package:flutter/material.dart';
-import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 
 class ContinueWithGoogleButton extends StatelessWidget {
   const ContinueWithGoogleButton({required this.onPressed, super.key});
