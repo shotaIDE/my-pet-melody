@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/component/social_login_button.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
@@ -9,17 +9,13 @@ import 'package:my_pet_melody/ui/login_state.dart';
 import 'package:my_pet_melody/ui/login_view_model.dart';
 
 final AutoDisposeStateNotifierProvider<LoginViewModel, LoginState>
-    _loginViewModelProvider =
+_loginViewModelProvider =
     StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
-  (ref) => LoginViewModel(
-    ref: ref,
-  ),
-);
+      (ref) => LoginViewModel(ref: ref),
+    );
 
 class LoginScreen extends ConsumerStatefulWidget {
-  LoginScreen({
-    super.key,
-  });
+  LoginScreen({super.key});
 
   static const name = 'LoginScreen';
 
@@ -55,10 +51,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
     final description = isCreateMode
         ? AppLocalizations.of(context)!.accountCreationReasonDescription
         : AppLocalizations.of(context)!.accountLoginReasonDescription;
-    final descriptionText = Text(
-      description,
-      textAlign: TextAlign.center,
-    );
+    final descriptionText = Text(description, textAlign: TextAlign.center);
 
     final continueWithGoogleButton = ContinueWithGoogleButton(
       onPressed: _continueWithGoogle,
@@ -73,10 +66,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 16,
-        children: [
-          continueWithGoogleButton,
-          continueWithAppleButton,
-        ],
+        children: [continueWithGoogleButton, continueWithAppleButton],
       ),
     );
 
@@ -140,11 +130,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
               ),
             ],
           ),
-          const Positioned(
-            bottom: 0,
-            right: 16,
-            child: SpeakingCatImage(),
-          ),
+          const Positioned(bottom: 0, right: 16, child: SpeakingCatImage()),
         ],
       ),
       resizeToAvoidBottomInset: false,
@@ -156,9 +142,7 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
               scaffold,
               ColoredBox(
                 color: Colors.black.withAlpha(128),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                child: const Center(child: CircularProgressIndicator()),
               ),
             ],
           )
@@ -166,8 +150,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _continueWithGoogle() async {
-    final result =
-        await ref.read(widget.viewModel.notifier).continueWithGoogle();
+    final result = await ref
+        .read(widget.viewModel.notifier)
+        .continueWithGoogle();
 
     await result.when(
       success: (_) async {
@@ -180,8 +165,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
-              AppLocalizations.of(context)!
-                  .googleAccountIsAlreadyUsedErrorDescription,
+              AppLocalizations.of(
+                context,
+              )!.googleAccountIsAlreadyUsedErrorDescription,
             ),
           );
 
@@ -201,8 +187,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _continueWithApple() async {
-    final result =
-        await ref.read(widget.viewModel.notifier).continueWithApple();
+    final result = await ref
+        .read(widget.viewModel.notifier)
+        .continueWithApple();
 
     await result.when(
       success: (_) async {
@@ -215,8 +202,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
-              AppLocalizations.of(context)!
-                  .appleAccountIsAlreadyUsedErrorDescription,
+              AppLocalizations.of(
+                context,
+              )!.appleAccountIsAlreadyUsedErrorDescription,
             ),
           );
 
@@ -224,8 +212,9 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         },
         unrecoverable: (_) {
           final snackBar = SnackBar(
-            content:
-                Text(AppLocalizations.of(context)!.unknownErrorDescription),
+            content: Text(
+              AppLocalizations.of(context)!.unknownErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

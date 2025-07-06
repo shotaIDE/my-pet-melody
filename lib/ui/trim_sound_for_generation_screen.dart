@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
 import 'package:my_pet_melody/ui/component/primary_button.dart';
@@ -12,16 +12,16 @@ import 'package:my_pet_melody/ui/trim_sound_for_generation_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 final AutoDisposeStateNotifierProviderFamily<
-        TrimSoundForGenerationViewModel,
-        TrimSoundForGenerationState,
-        TrimSoundForGenerationArgs> _trimSoundForGenerationViewModelProvider =
-    StateNotifierProvider.autoDispose.family<TrimSoundForGenerationViewModel,
-        TrimSoundForGenerationState, TrimSoundForGenerationArgs>(
-  (ref, args) => TrimSoundForGenerationViewModel(
-    ref: ref,
-    args: args,
-  ),
-);
+  TrimSoundForGenerationViewModel,
+  TrimSoundForGenerationState,
+  TrimSoundForGenerationArgs
+>
+_trimSoundForGenerationViewModelProvider = StateNotifierProvider.autoDispose
+    .family<
+      TrimSoundForGenerationViewModel,
+      TrimSoundForGenerationState,
+      TrimSoundForGenerationArgs
+    >((ref, args) => TrimSoundForGenerationViewModel(ref: ref, args: args));
 
 class TrimSoundForGenerationScreen extends ConsumerStatefulWidget {
   TrimSoundForGenerationScreen({
@@ -31,16 +31,18 @@ class TrimSoundForGenerationScreen extends ConsumerStatefulWidget {
 
   static const name = 'TrimSoundForGenerationScreen';
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForGenerationViewModel,
-      TrimSoundForGenerationState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForGenerationViewModel,
+    TrimSoundForGenerationState
+  >
+  viewModelProvider;
 
   static MaterialPageRoute<SelectTrimmedSoundResult?> route({
     required TrimSoundForGenerationArgs args,
-  }) =>
-      MaterialPageRoute<SelectTrimmedSoundResult?>(
-        builder: (_) => TrimSoundForGenerationScreen(args: args),
-        settings: const RouteSettings(name: name),
-      );
+  }) => MaterialPageRoute<SelectTrimmedSoundResult?>(
+    builder: (_) => TrimSoundForGenerationScreen(args: args),
+    settings: const RouteSettings(name: name),
+  );
 
   @override
   ConsumerState<TrimSoundForGenerationScreen> createState() =>
@@ -78,9 +80,7 @@ class _TrimSoundForGenerationScreenState
         alignment: Alignment.center,
         children: [
           viewer,
-          _PlayControlButton(
-            viewModelProvider: widget.viewModelProvider,
-          ),
+          _PlayControlButton(viewModelProvider: widget.viewModelProvider),
         ],
       ),
     );
@@ -126,20 +126,12 @@ class _TrimSoundForGenerationScreenState
           ),
           const SizedBox(height: 32),
           Expanded(
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: playControlPanel,
-            ),
+            child: SafeArea(top: false, bottom: false, child: playControlPanel),
           ),
           const SizedBox(height: 8),
           SizedBox(
             height: 80,
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: editor,
-            ),
+            child: SafeArea(top: false, bottom: false, child: editor),
           ),
           const SizedBox(height: 24),
           footer,
@@ -172,35 +164,39 @@ class _TrimSoundForGenerationScreenState
 }
 
 class _VideoViewer extends ConsumerWidget {
-  const _VideoViewer({
-    required this.viewModelProvider,
-  });
+  const _VideoViewer({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForGenerationViewModel,
-      TrimSoundForGenerationState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForGenerationViewModel,
+    TrimSoundForGenerationState
+  >
+  viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final trimmer =
-        ref.watch(viewModelProvider.select((state) => state.trimmer));
+    final trimmer = ref.watch(
+      viewModelProvider.select((state) => state.trimmer),
+    );
 
     return VideoViewer(trimmer: trimmer);
   }
 }
 
 class _TrimEditor extends ConsumerWidget {
-  const _TrimEditor({
-    required this.viewModelProvider,
-  });
+  const _TrimEditor({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForGenerationViewModel,
-      TrimSoundForGenerationState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForGenerationViewModel,
+    TrimSoundForGenerationState
+  >
+  viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(viewModelProvider.notifier);
-    final trimmer =
-        ref.watch(viewModelProvider.select((state) => state.trimmer));
+    final trimmer = ref.watch(
+      viewModelProvider.select((state) => state.trimmer),
+    );
 
     return LayoutBuilder(
       builder: (context, constraints) => TrimViewer(
@@ -208,8 +204,8 @@ class _TrimEditor extends ConsumerWidget {
         viewerWidth: constraints.maxWidth - 16,
         maxVideoLength: TrimSoundForGenerationViewModel.maxDurationToTrim,
         durationTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
         onChangeStart: viewModel.onUpdateStart,
         onChangeEnd: viewModel.onUpdateEnd,
         onChangePlaybackState: (isPlaying) =>
@@ -229,48 +225,48 @@ class _TrimEditor extends ConsumerWidget {
 }
 
 class _PlayControlButton extends ConsumerWidget {
-  const _PlayControlButton({
-    required this.viewModelProvider,
-  });
+  const _PlayControlButton({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForGenerationViewModel,
-      TrimSoundForGenerationState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForGenerationViewModel,
+    TrimSoundForGenerationState
+  >
+  viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isPlaying =
-        ref.watch(viewModelProvider.select((state) => state.isPlaying));
+    final isPlaying = ref.watch(
+      viewModelProvider.select((state) => state.isPlaying),
+    );
 
     return isPlaying
         ? const SizedBox.shrink()
-        : const Icon(
-            Icons.play_arrow,
-            size: 48,
-            color: Colors.white,
-          );
+        : const Icon(Icons.play_arrow, size: 48, color: Colors.white);
   }
 }
 
 class _GrayMask extends ConsumerWidget {
-  const _GrayMask({
-    required this.viewModelProvider,
-    required this.child,
-  });
+  const _GrayMask({required this.viewModelProvider, required this.child});
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForGenerationViewModel,
-      TrimSoundForGenerationState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForGenerationViewModel,
+    TrimSoundForGenerationState
+  >
+  viewModelProvider;
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final process =
-        ref.watch(viewModelProvider.select((state) => state.process));
+    final process = ref.watch(
+      viewModelProvider.select((state) => state.process),
+    );
 
     final message = process != null ? _processLabel(process, context) : '';
     final messageText = Text(
       message,
-      style:
-          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge!.copyWith(color: Colors.white),
       textAlign: TextAlign.center,
     );
 

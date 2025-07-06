@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
@@ -12,21 +12,24 @@ import 'package:my_pet_melody/ui/trim_sound_for_detection_view_model.dart';
 import 'package:video_trimmer/video_trimmer.dart';
 
 final AutoDisposeStateNotifierProviderFamily<
-        TrimSoundForDetectionViewModel,
-        TrimSoundForDetectionState,
-        TrimSoundForDetectionArgs> _trimSoundForDetectionViewModelProvider =
-    StateNotifierProvider.autoDispose.family<TrimSoundForDetectionViewModel,
-        TrimSoundForDetectionState, TrimSoundForDetectionArgs>(
-  (ref, args) {
-    final eventReporter = ref.watch(eventReporterProvider);
+  TrimSoundForDetectionViewModel,
+  TrimSoundForDetectionState,
+  TrimSoundForDetectionArgs
+>
+_trimSoundForDetectionViewModelProvider = StateNotifierProvider.autoDispose
+    .family<
+      TrimSoundForDetectionViewModel,
+      TrimSoundForDetectionState,
+      TrimSoundForDetectionArgs
+    >((ref, args) {
+      final eventReporter = ref.watch(eventReporterProvider);
 
-    return TrimSoundForDetectionViewModel(
-      eventReporter: eventReporter,
-      ref: ref,
-      args: args,
-    );
-  },
-);
+      return TrimSoundForDetectionViewModel(
+        eventReporter: eventReporter,
+        ref: ref,
+        args: args,
+      );
+    });
 
 class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
   TrimSoundForDetectionScreen({
@@ -36,16 +39,18 @@ class TrimSoundForDetectionScreen extends ConsumerStatefulWidget {
 
   static const name = 'TrimSoundForDetectionScreen';
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
-      TrimSoundForDetectionState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForDetectionViewModel,
+    TrimSoundForDetectionState
+  >
+  viewModelProvider;
 
   static MaterialPageRoute<TrimSoundForDetectionScreen> route({
     required TrimSoundForDetectionArgs args,
-  }) =>
-      MaterialPageRoute<TrimSoundForDetectionScreen>(
-        builder: (_) => TrimSoundForDetectionScreen(args: args),
-        settings: const RouteSettings(name: name),
-      );
+  }) => MaterialPageRoute<TrimSoundForDetectionScreen>(
+    builder: (_) => TrimSoundForDetectionScreen(args: args),
+    settings: const RouteSettings(name: name),
+  );
 
   @override
   ConsumerState<TrimSoundForDetectionScreen> createState() =>
@@ -83,9 +88,7 @@ class _TrimSoundForDetectionScreenState
         alignment: Alignment.center,
         children: [
           viewer,
-          _PlayControlButton(
-            viewModelProvider: widget.viewModelProvider,
-          ),
+          _PlayControlButton(viewModelProvider: widget.viewModelProvider),
         ],
       ),
     );
@@ -131,20 +134,12 @@ class _TrimSoundForDetectionScreenState
           ),
           const SizedBox(height: 32),
           Expanded(
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: playControlPanel,
-            ),
+            child: SafeArea(top: false, bottom: false, child: playControlPanel),
           ),
           const SizedBox(height: 8),
           SizedBox(
             height: 80,
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: editor,
-            ),
+            child: SafeArea(top: false, bottom: false, child: editor),
           ),
           const SizedBox(height: 24),
           footer,
@@ -169,43 +164,44 @@ class _TrimSoundForDetectionScreenState
       return;
     }
 
-    await Navigator.push(
-      context,
-      SelectTrimmedSoundScreen.route(args: args),
-    );
+    await Navigator.push(context, SelectTrimmedSoundScreen.route(args: args));
   }
 }
 
 class _VideoViewer extends ConsumerWidget {
-  const _VideoViewer({
-    required this.viewModelProvider,
-  });
+  const _VideoViewer({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
-      TrimSoundForDetectionState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForDetectionViewModel,
+    TrimSoundForDetectionState
+  >
+  viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final trimmer =
-        ref.watch(viewModelProvider.select((state) => state.trimmer));
+    final trimmer = ref.watch(
+      viewModelProvider.select((state) => state.trimmer),
+    );
 
     return VideoViewer(trimmer: trimmer);
   }
 }
 
 class _TrimEditor extends ConsumerWidget {
-  const _TrimEditor({
-    required this.viewModelProvider,
-  });
+  const _TrimEditor({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
-      TrimSoundForDetectionState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForDetectionViewModel,
+    TrimSoundForDetectionState
+  >
+  viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(viewModelProvider.notifier);
-    final trimmer =
-        ref.watch(viewModelProvider.select((state) => state.trimmer));
+    final trimmer = ref.watch(
+      viewModelProvider.select((state) => state.trimmer),
+    );
 
     return LayoutBuilder(
       builder: (context, constraints) => TrimViewer(
@@ -213,8 +209,8 @@ class _TrimEditor extends ConsumerWidget {
         viewerWidth: constraints.maxWidth - 16,
         maxVideoLength: TrimSoundForDetectionViewModel.maxDurationToTrim,
         durationTextStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
         onChangeStart: viewModel.onUpdateStart,
         onChangeEnd: viewModel.onUpdateEnd,
         onChangePlaybackState: (isPlaying) =>
@@ -234,48 +230,48 @@ class _TrimEditor extends ConsumerWidget {
 }
 
 class _PlayControlButton extends ConsumerWidget {
-  const _PlayControlButton({
-    required this.viewModelProvider,
-  });
+  const _PlayControlButton({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
-      TrimSoundForDetectionState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForDetectionViewModel,
+    TrimSoundForDetectionState
+  >
+  viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isPlaying =
-        ref.watch(viewModelProvider.select((state) => state.isPlaying));
+    final isPlaying = ref.watch(
+      viewModelProvider.select((state) => state.isPlaying),
+    );
 
     return isPlaying
         ? const SizedBox.shrink()
-        : const Icon(
-            Icons.play_arrow,
-            size: 48,
-            color: Colors.white,
-          );
+        : const Icon(Icons.play_arrow, size: 48, color: Colors.white);
   }
 }
 
 class _GrayMask extends ConsumerWidget {
-  const _GrayMask({
-    required this.viewModelProvider,
-    required this.child,
-  });
+  const _GrayMask({required this.viewModelProvider, required this.child});
 
-  final AutoDisposeStateNotifierProvider<TrimSoundForDetectionViewModel,
-      TrimSoundForDetectionState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    TrimSoundForDetectionViewModel,
+    TrimSoundForDetectionState
+  >
+  viewModelProvider;
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final process =
-        ref.watch(viewModelProvider.select((state) => state.process));
+    final process = ref.watch(
+      viewModelProvider.select((state) => state.process),
+    );
 
     final message = process != null ? _processLabel(process, context) : '';
     final messageText = Text(
       message,
-      style:
-          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.white),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge!.copyWith(color: Colors.white),
       textAlign: TextAlign.center,
     );
 

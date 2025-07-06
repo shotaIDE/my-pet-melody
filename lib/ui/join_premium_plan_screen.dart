@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
@@ -12,26 +12,31 @@ import 'package:my_pet_melody/ui/definition/list_tile_position_in_group.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_state.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_view_model.dart';
 
-final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
-        JoinPremiumPlanState> _joinPremiumPlanViewModelProvider =
-    StateNotifierProvider.autoDispose<JoinPremiumPlanViewModel,
-        JoinPremiumPlanState>(
-  (ref) => JoinPremiumPlanViewModel(ref: ref),
-);
+final AutoDisposeStateNotifierProvider<
+  JoinPremiumPlanViewModel,
+  JoinPremiumPlanState
+>
+_joinPremiumPlanViewModelProvider =
+    StateNotifierProvider.autoDispose<
+      JoinPremiumPlanViewModel,
+      JoinPremiumPlanState
+    >((ref) => JoinPremiumPlanViewModel(ref: ref));
 
 class JoinPremiumPlanScreen extends ConsumerStatefulWidget {
   JoinPremiumPlanScreen({super.key});
 
   static const name = 'SetPieceTitleScreen';
 
-  final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
-          JoinPremiumPlanState> viewModelProvider =
-      _joinPremiumPlanViewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    JoinPremiumPlanViewModel,
+    JoinPremiumPlanState
+  >
+  viewModelProvider = _joinPremiumPlanViewModelProvider;
 
   static MaterialPageRoute<JoinPremiumPlanScreen> route() => MaterialPageRoute(
-        builder: (_) => JoinPremiumPlanScreen(),
-        settings: const RouteSettings(name: name),
-      );
+    builder: (_) => JoinPremiumPlanScreen(),
+    settings: const RouteSettings(name: name),
+  );
 
   @override
   ConsumerState<JoinPremiumPlanScreen> createState() =>
@@ -43,37 +48,46 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
   void initState() {
     super.initState();
 
-    ref.read(widget.viewModelProvider.notifier).registerListener(
-      showCompletedJoiningPremiumPlan: () {
-        final snackBar = SnackBar(
-          content: Text(AppLocalizations.of(context)!.youHaveJoinedPremiumPlan),
-        );
+    ref
+        .read(widget.viewModelProvider.notifier)
+        .registerListener(
+          showCompletedJoiningPremiumPlan: () {
+            final snackBar = SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.youHaveJoinedPremiumPlan,
+              ),
+            );
 
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
-      showFailedJoiningPremiumPlan: () {
-        final snackBar = SnackBar(
-          content: Text(AppLocalizations.of(context)!.unknownErrorDescription),
-        );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+          showFailedJoiningPremiumPlan: () {
+            final snackBar = SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.unknownErrorDescription,
+              ),
+            );
 
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
-      showCompletedRestoring: () {
-        final snackBar = SnackBar(
-          content:
-              Text(AppLocalizations.of(context)!.purchasedPlanHasBeenRestored),
-        );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+          showCompletedRestoring: () {
+            final snackBar = SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.purchasedPlanHasBeenRestored,
+              ),
+            );
 
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
-      showFailedRestoring: () {
-        final snackBar = SnackBar(
-          content: Text(AppLocalizations.of(context)!.unknownErrorDescription),
-        );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+          showFailedRestoring: () {
+            final snackBar = SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.unknownErrorDescription,
+              ),
+            );
 
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
-    );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+        );
   }
 
   @override
@@ -82,35 +96,29 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
 
     const iconSize = 48.0;
     final largeStorageFeatureTile = _RoundedDescriptionListTile(
-      leading: const Icon(
-        Icons.cloud_done,
-        size: iconSize,
-      ),
+      leading: const Icon(Icons.cloud_done, size: iconSize),
       title: Text(AppLocalizations.of(context)!.largerCreationSpace),
       description: Text(
-        AppLocalizations.of(context)!
-            .largerCreationSpaceDescription(maxPiecesOnPremiumPlan),
+        AppLocalizations.of(
+          context,
+        )!.largerCreationSpaceDescription(maxPiecesOnPremiumPlan),
       ),
       positionInGroup: ListTilePositionInGroup.first,
     );
     final rapidGenerationFeatureTile = _RoundedDescriptionListTile(
-      leading: const Icon(
-        Icons.hourglass_disabled,
-        size: iconSize,
-      ),
+      leading: const Icon(Icons.hourglass_disabled, size: iconSize),
       title: Text(AppLocalizations.of(context)!.fasterGenerationSpeed),
-      description:
-          Text(AppLocalizations.of(context)!.fasterGenerationSpeedDescription),
+      description: Text(
+        AppLocalizations.of(context)!.fasterGenerationSpeedDescription,
+      ),
       positionInGroup: ListTilePositionInGroup.middle,
     );
     final highQualityGenerationFeatureTile = _RoundedDescriptionListTile(
-      leading: const Icon(
-        Icons.music_video,
-        size: iconSize,
-      ),
+      leading: const Icon(Icons.music_video, size: iconSize),
       title: Text(AppLocalizations.of(context)!.higherCreationQuality),
-      description:
-          Text(AppLocalizations.of(context)!.higherCreationQualityDescription),
+      description: Text(
+        AppLocalizations.of(context)!.higherCreationQualityDescription,
+      ),
       positionInGroup: ListTilePositionInGroup.last,
     );
 
@@ -134,10 +142,12 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       title: Text(AppLocalizations.of(context)!.confirmationAndCancellation),
       description: Text(
         Platform.isIOS
-            ? AppLocalizations.of(context)!
-                .confirmationAndCancellationDescriptionForIOS
-            : AppLocalizations.of(context)!
-                .confirmationAndCancellationDescriptionForAndroid,
+            ? AppLocalizations.of(
+                context,
+              )!.confirmationAndCancellationDescriptionForIOS
+            : AppLocalizations.of(
+                context,
+              )!.confirmationAndCancellationDescriptionForAndroid,
       ),
       positionInGroup: ListTilePositionInGroup.middle,
     );
@@ -145,10 +155,12 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
       title: Text(AppLocalizations.of(context)!.restorationWhenChangedDevice),
       description: Text(
         Platform.isIOS
-            ? AppLocalizations.of(context)!
-                .restorationWhenChangedDeviceDescriptionForIOS
-            : AppLocalizations.of(context)!
-                .restorationWhenChangedDeviceDescriptionForAndroid,
+            ? AppLocalizations.of(
+                context,
+              )!.restorationWhenChangedDeviceDescriptionForIOS
+            : AppLocalizations.of(
+                context,
+              )!.restorationWhenChangedDeviceDescriptionForAndroid,
       ),
       positionInGroup: ListTilePositionInGroup.middle,
     );
@@ -192,14 +204,8 @@ class _JoinPremiumPlanScreenState extends ConsumerState<JoinPremiumPlanScreen> {
     );
 
     final scaffold = Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.premiumPlan),
-      ),
-      body: SafeArea(
-        top: false,
-        bottom: false,
-        child: body,
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.premiumPlan)),
+      body: SafeArea(top: false, bottom: false, child: body),
       resizeToAvoidBottomInset: false,
     );
 
@@ -251,21 +257,12 @@ class _RoundedDescriptionListTile extends StatelessWidget {
 
     final bodyWidgets = <Widget>[];
     if (leading != null) {
-      bodyWidgets.addAll([
-        leading!,
-        const SizedBox(width: 16),
-      ]);
+      bodyWidgets.addAll([leading!, const SizedBox(width: 16)]);
     }
 
-    bodyWidgets.add(
-      Expanded(
-        child: titleAndDescription,
-      ),
-    );
+    bodyWidgets.add(Expanded(child: titleAndDescription));
 
-    final body = Row(
-      children: bodyWidgets,
-    );
+    final body = Row(children: bodyWidgets);
 
     return RoundedAndChainedListTile(
       positionInGroup: positionInGroup,
@@ -275,12 +272,13 @@ class _RoundedDescriptionListTile extends StatelessWidget {
 }
 
 class _PurchaseActionsPanel extends ConsumerWidget {
-  const _PurchaseActionsPanel({
-    required this.viewModelProvider,
-  });
+  const _PurchaseActionsPanel({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
-      JoinPremiumPlanState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    JoinPremiumPlanViewModel,
+    JoinPremiumPlanState
+  >
+  viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -294,10 +292,7 @@ class _PurchaseActionsPanel extends ConsumerWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.check_circle,
-            color: Colors.green,
-          ),
+          const Icon(Icons.check_circle, color: Colors.green),
           const SizedBox(width: 16),
           Text(AppLocalizations.of(context)!.alreadyJoinedPremiumPlan),
           const SizedBox(width: 8),
@@ -310,12 +305,13 @@ class _PurchaseActionsPanel extends ConsumerWidget {
 }
 
 class _PurchaseButtonsPanel extends ConsumerWidget {
-  const _PurchaseButtonsPanel({
-    required this.viewModelProvider,
-  });
+  const _PurchaseButtonsPanel({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<JoinPremiumPlanViewModel,
-      JoinPremiumPlanState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    JoinPremiumPlanViewModel,
+    JoinPremiumPlanState
+  >
+  viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -369,10 +365,7 @@ class _NoAvailablePurchasableText extends StatelessWidget {
 }
 
 class _PurchasableButton extends StatelessWidget {
-  const _PurchasableButton({
-    required this.text,
-    required this.onPressed,
-  });
+  const _PurchasableButton({required this.text, required this.onPressed});
 
   final String text;
   final VoidCallback? onPressed;
@@ -393,17 +386,14 @@ class _PurchasableButton extends StatelessWidget {
           ),
           textStyle: WidgetStateProperty.all<TextStyle>(
             Theme.of(context).textTheme.labelLarge!.copyWith(
-                  fontSize: 16,
-                  // Specify a default text theme to apply the system font
-                  // to allow the Japanese yen symbol to be displayed.
-                  fontFamily: '',
-                ),
+              fontSize: 16,
+              // Specify a default text theme to apply the system font
+              // to allow the Japanese yen symbol to be displayed.
+              fontFamily: '',
+            ),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(text),
-        ),
+        child: Padding(padding: const EdgeInsets.all(16), child: Text(text)),
       ),
     );
   }

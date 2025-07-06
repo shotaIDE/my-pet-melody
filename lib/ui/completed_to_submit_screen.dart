@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_state.dart';
@@ -8,21 +8,26 @@ import 'package:my_pet_melody/ui/component/listening_music_cat_image.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_screen.dart';
 
-final AutoDisposeStateNotifierProvider<CompletedToSubmitViewModel,
-        CompletedToSubmitState> completedToSubmitViewModelProvider =
-    StateNotifierProvider.autoDispose<CompletedToSubmitViewModel,
-        CompletedToSubmitState>(
-  (_) => CompletedToSubmitViewModel(),
-);
+final AutoDisposeStateNotifierProvider<
+  CompletedToSubmitViewModel,
+  CompletedToSubmitState
+>
+completedToSubmitViewModelProvider =
+    StateNotifierProvider.autoDispose<
+      CompletedToSubmitViewModel,
+      CompletedToSubmitState
+    >((_) => CompletedToSubmitViewModel());
 
 class CompletedToSubmitScreen extends ConsumerStatefulWidget {
   CompletedToSubmitScreen({super.key});
 
   static const name = 'CompletedToSubmitScreen';
 
-  final AutoDisposeStateNotifierProvider<CompletedToSubmitViewModel,
-          CompletedToSubmitState> viewModelProvider =
-      completedToSubmitViewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    CompletedToSubmitViewModel,
+    CompletedToSubmitState
+  >
+  viewModelProvider = completedToSubmitViewModelProvider;
 
   static MaterialPageRoute<CompletedToSubmitScreen> route() =>
       MaterialPageRoute<CompletedToSubmitScreen>(
@@ -41,40 +46,45 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
   void initState() {
     super.initState();
 
-    ref.read(widget.viewModelProvider.notifier).setup(
-      onClose: () {
-        Navigator.pop(context);
-      },
-      onCompleteImmediately: () async {
-        final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text(
-                AppLocalizations.of(context)!
-                    .completePieceRightNowIsRestrictedDescription,
-              ),
-              actions: [
-                TextButton(
-                  child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
-                  onPressed: () => Navigator.pop(context, true),
-                ),
-              ],
+    ref
+        .read(widget.viewModelProvider.notifier)
+        .setup(
+          onClose: () {
+            Navigator.pop(context);
+          },
+          onCompleteImmediately: () async {
+            final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: Text(
+                    AppLocalizations.of(
+                      context,
+                    )!.completePieceRightNowIsRestrictedDescription,
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text(
+                        AppLocalizations.of(context)!.aboutPremiumPlan,
+                      ),
+                      onPressed: () => Navigator.pop(context, true),
+                    ),
+                  ],
+                );
+              },
             );
+
+            if (shouldShowJoinPremiumPlanScreen != true) {
+              return;
+            }
+
+            if (!mounted) {
+              return;
+            }
+
+            await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
           },
         );
-
-        if (shouldShowJoinPremiumPlanScreen != true) {
-          return;
-        }
-
-        if (!mounted) {
-          return;
-        }
-
-        await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
-      },
-    );
   }
 
   @override
@@ -114,45 +124,36 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
     } else {
       final remainTimeSeconds = (remainTimeMilliseconds / 1000).ceil();
       final automaticallyCloseText = Text(
-        AppLocalizations.of(context)!
-            .thisScreenWillBeClosedInNSeconds(remainTimeSeconds),
+        AppLocalizations.of(
+          context,
+        )!.thisScreenWillBeClosedInNSeconds(remainTimeSeconds),
         style: Theme.of(context).textTheme.bodyMedium,
       );
       final remainTimeProgressRing = CircularProgressIndicator(
-        value: remainTimeMilliseconds /
+        value:
+            remainTimeMilliseconds /
             CompletedToSubmitViewModel
                 .waitingTimeToCloseAutomaticallyMilliseconds,
       );
       final stopButton = IconButton(
         onPressed: () => ref.read(widget.viewModelProvider.notifier).stop(),
-        icon: Icon(
-          Icons.stop,
-          color: Theme.of(context).primaryColor,
-        ),
+        icon: Icon(Icons.stop, color: Theme.of(context).primaryColor),
       );
       automaticallyClosePanel = Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: automaticallyCloseText,
-          ),
+          Expanded(child: automaticallyCloseText),
           const SizedBox(width: 8),
           Stack(
             alignment: Alignment.center,
-            children: [
-              remainTimeProgressRing,
-              stopButton,
-            ],
+            children: [remainTimeProgressRing, stopButton],
           ),
         ],
       );
     }
 
     return Scaffold(
-      appBar: transparentAppBar(
-        context: context,
-        titleText: '',
-      ),
+      appBar: transparentAppBar(context: context, titleText: ''),
       body: Column(
         children: [
           SafeArea(
@@ -167,13 +168,7 @@ class _SelectTemplateState extends ConsumerState<CompletedToSubmitScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          Expanded(
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: body,
-            ),
-          ),
+          Expanded(child: SafeArea(top: false, bottom: false, child: body)),
           SafeArea(
             top: false,
             child: Column(
@@ -204,17 +199,12 @@ class _Description extends ConsumerWidget {
     final text = isPremiumPlan == true
         ? AppLocalizations.of(context)!.waitALittleDescription
         : AppLocalizations.of(context)!.waitAFewMinutesDescription;
-    return Text(
-      text,
-      textAlign: TextAlign.center,
-    );
+    return Text(text, textAlign: TextAlign.center);
   }
 }
 
 class _CompleteImmediatelyButton extends ConsumerWidget {
-  const _CompleteImmediatelyButton({
-    required this.onPressed,
-  });
+  const _CompleteImmediatelyButton({required this.onPressed});
 
   final VoidCallback onPressed;
 

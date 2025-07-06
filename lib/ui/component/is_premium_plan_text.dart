@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class IsPremiumPlanText extends StatelessWidget {
-  const IsPremiumPlanText({
-    required this.isPremiumPlan,
-    super.key,
-  });
+  const IsPremiumPlanText({required this.isPremiumPlan, super.key});
 
   final bool? isPremiumPlan;
 

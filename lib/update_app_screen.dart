@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
 
 class UpdateAppScreen extends StatefulWidget {
@@ -36,11 +36,7 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
       body: Stack(
         children: [
           SizedBox.expand(),
-          Positioned(
-            bottom: 0,
-            right: 16,
-            child: SpeakingCatImage(),
-          ),
+          Positioned(bottom: 0, right: 16, child: SpeakingCatImage()),
         ],
       ),
     );
@@ -54,9 +50,7 @@ class _UpdateAppScreenState extends State<UpdateAppScreen> {
           // Prevent the Android OS back button from dismissing dialog
           canPop: false,
           child: AlertDialog(
-            content: Text(
-              AppLocalizations.of(context)!.updateAppDescription,
-            ),
+            content: Text(AppLocalizations.of(context)!.updateAppDescription),
             actions: [
               TextButton(
                 child: Text(AppLocalizations.of(context)!.update),

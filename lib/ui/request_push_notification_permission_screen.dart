@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_screen.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
@@ -12,19 +12,20 @@ import 'package:my_pet_melody/ui/request_push_notification_permission_view_model
 import 'package:my_pet_melody/ui/select_template_screen.dart';
 
 final AutoDisposeStateNotifierProviderFamily<
-        RequestPushNotificationPermissionViewModel,
-        RequestPushNotificationPermissionState,
-        RequestPushNotificationPermissionArgs>
-    requestPushNotificationPermissionViewModelProvider =
-    StateNotifierProvider.autoDispose.family<
-        RequestPushNotificationPermissionViewModel,
-        RequestPushNotificationPermissionState,
-        RequestPushNotificationPermissionArgs>(
-  (ref, args) => RequestPushNotificationPermissionViewModel(
-    ref: ref,
-    args: args,
-  ),
-);
+  RequestPushNotificationPermissionViewModel,
+  RequestPushNotificationPermissionState,
+  RequestPushNotificationPermissionArgs
+>
+requestPushNotificationPermissionViewModelProvider = StateNotifierProvider
+    .autoDispose
+    .family<
+      RequestPushNotificationPermissionViewModel,
+      RequestPushNotificationPermissionState,
+      RequestPushNotificationPermissionArgs
+    >(
+      (ref, args) =>
+          RequestPushNotificationPermissionViewModel(ref: ref, args: args),
+    );
 
 class RequestPushNotificationPermissionScreen extends ConsumerStatefulWidget {
   RequestPushNotificationPermissionScreen({
@@ -35,16 +36,17 @@ class RequestPushNotificationPermissionScreen extends ConsumerStatefulWidget {
   static const name = 'RequestPushNotificationPermissionScreen';
 
   final AutoDisposeStateNotifierProvider<
-      RequestPushNotificationPermissionViewModel,
-      RequestPushNotificationPermissionState> viewModel;
+    RequestPushNotificationPermissionViewModel,
+    RequestPushNotificationPermissionState
+  >
+  viewModel;
 
   static MaterialPageRoute<RequestPushNotificationPermissionScreen> route({
     required RequestPushNotificationPermissionArgs args,
-  }) =>
-      MaterialPageRoute(
-        builder: (_) => RequestPushNotificationPermissionScreen(args: args),
-        settings: const RouteSettings(name: name),
-      );
+  }) => MaterialPageRoute(
+    builder: (_) => RequestPushNotificationPermissionScreen(args: args),
+    settings: const RouteSettings(name: name),
+  );
 
   @override
   ConsumerState<RequestPushNotificationPermissionScreen> createState() =>
@@ -69,18 +71,16 @@ class _SelectTemplateState
       textAlign: TextAlign.center,
     );
 
-    final notificationImage =
-        Image.asset('assets/images/push_notification_banner.png');
+    final notificationImage = Image.asset(
+      'assets/images/push_notification_banner.png',
+    );
 
     final body = SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 32,
-        children: [
-          description,
-          notificationImage,
-        ],
+        children: [description, notificationImage],
       ),
     );
 
@@ -99,10 +99,7 @@ class _SelectTemplateState
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 16,
-        children: [
-          requestPermissionAndSubmitButton,
-          submitButton,
-        ],
+        children: [requestPermissionAndSubmitButton, submitButton],
       ),
     );
     final footer = Footer(child: footerContent);
@@ -126,13 +123,7 @@ class _SelectTemplateState
                 ),
               ),
               const SizedBox(height: 16),
-              Expanded(
-                child: SafeArea(
-                  top: false,
-                  bottom: false,
-                  child: body,
-                ),
-              ),
+              Expanded(child: SafeArea(top: false, bottom: false, child: body)),
               footer,
             ],
           ),
@@ -154,10 +145,9 @@ class _SelectTemplateState
                   children: [
                     Text(
                       AppLocalizations.of(context)!.submitting,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.white),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(color: Colors.white),
                     ),
                     const LinearProgressIndicator(),
                   ],
