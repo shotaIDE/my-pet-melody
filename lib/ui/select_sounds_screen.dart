@@ -204,7 +204,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
           ),
         );
       },
-      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      separatorBuilder: (_, _) => const SizedBox(height: 8),
     );
 
     final body = SingleChildScrollView(
@@ -222,7 +222,7 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     );
 
     final scaffold = PopScope(
-      onPopInvokedWithResult: (_, __) {
+      onPopInvokedWithResult: (_, _) {
         ref.read(widget.viewModelProvider.notifier).beforeHideScreen();
       },
       child: Scaffold(

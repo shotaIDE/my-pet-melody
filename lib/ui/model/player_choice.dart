@@ -40,7 +40,7 @@ extension PlayerChoiceGetter on PlayerChoice {
       piece: (_, piece) => piece.id,
       template: (_, template) => template.id,
       sound: (_, sound) => sound.id,
-      trimmedMovie: (_, index, __, ___, ____) => '$index',
+      trimmedMovie: (_, index, _, _, _) => '$index',
     );
   }
 
@@ -50,9 +50,9 @@ extension PlayerChoiceGetter on PlayerChoice {
           piece.mapOrNull(generated: (generated) => generated.movieUrl),
       template: (_, template) => template.musicUrl,
       sound: (_, sound) => sound.whenOrNull(
-        uploaded: (_, __, ___, remoteFileName) => remoteFileName,
+        uploaded: (_, _, _, remoteFileName) => remoteFileName,
       ),
-      trimmedMovie: (_, __, ___, path, ____) => path,
+      trimmedMovie: (_, _, _, path, _) => path,
     );
   }
 }
@@ -73,10 +73,7 @@ extension PlayerChoiceConverter on PlayerChoice {
       return null;
     }
 
-    return getTargetStopped(
-      originalList: originalList,
-      targetId: playing.id,
-    );
+    return getTargetStopped(originalList: originalList, targetId: playing.id);
   }
 
   static List<PlayerChoice>? getPositionUpdatedOrNull({
