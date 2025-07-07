@@ -1,14 +1,11 @@
 // ignore_for_file: prefer-match-file-name
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 
 class ContinueWithGoogleButton extends StatelessWidget {
-  const ContinueWithGoogleButton({
-    required this.onPressed,
-    super.key,
-  });
+  const ContinueWithGoogleButton({required this.onPressed, super.key});
 
   final VoidCallback onPressed;
 
@@ -16,11 +13,7 @@ class ContinueWithGoogleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      icon: SvgPicture.asset(
-        'assets/icon/google.svg',
-        width: 24,
-        height: 24,
-      ),
+      icon: SvgPicture.asset('assets/icon/google.svg', width: 24, height: 24),
       text: AppLocalizations.of(context)!.continueWithGoogle,
       textColor: Colors.black,
       backgroundColor: Colors.white,
@@ -29,10 +22,7 @@ class ContinueWithGoogleButton extends StatelessWidget {
 }
 
 class ContinueWithAppleButton extends StatelessWidget {
-  const ContinueWithAppleButton({
-    required this.onPressed,
-    super.key,
-  });
+  const ContinueWithAppleButton({required this.onPressed, super.key});
 
   final VoidCallback onPressed;
 
@@ -42,10 +32,7 @@ class ContinueWithAppleButton extends StatelessWidget {
 
     return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      icon: const Icon(
-        FontAwesomeIcons.apple,
-        color: foregroundColor,
-      ),
+      icon: const Icon(FontAwesomeIcons.apple, color: foregroundColor),
       text: AppLocalizations.of(context)!.continueWithApple,
       textColor: foregroundColor,
       backgroundColor: Colors.black,
@@ -75,26 +62,22 @@ class _ContinueWithThirdPartyProviderButton extends StatelessWidget {
       style: TextButton.styleFrom(
         backgroundColor: backgroundColor,
         textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
-              fontSize: 16,
-              // Specify a default text theme to apply the system font to
-              // "Continue with Apple" button according to
-              // Apple's design guidelines.
-              fontFamily: '',
-            ),
+          fontSize: 16,
+          // Specify a default text theme to apply the system font to
+          // "Continue with Apple" button according to
+          // Apple's design guidelines.
+          fontFamily: '',
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: icon,
-          ),
+          Expanded(child: icon),
           Expanded(
             flex: 5,
             child: Text(
               text,
-              style: TextStyle(
-                color: textColor,
-              ),
+              style: TextStyle(color: textColor),
               textAlign: TextAlign.center,
             ),
           ),

@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/ui/completed_to_submit_screen.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
 import 'package:my_pet_melody/ui/component/primary_button.dart';
@@ -15,32 +15,34 @@ import 'package:my_pet_melody/ui/select_template_screen.dart';
 import 'package:my_pet_melody/ui/set_piece_title_state.dart';
 import 'package:my_pet_melody/ui/set_piece_title_view_model.dart';
 
-final AutoDisposeStateNotifierProviderFamily<SetPieceTitleViewModel,
-        SetPieceTitleState, SetPieceTitleArgs> setPieceTitleViewModelProvider =
-    StateNotifierProvider.autoDispose
-        .family<SetPieceTitleViewModel, SetPieceTitleState, SetPieceTitleArgs>(
-  (ref, args) => SetPieceTitleViewModel(
-    ref: ref,
-    args: args,
-  ),
-);
+final AutoDisposeStateNotifierProviderFamily<
+  SetPieceTitleViewModel,
+  SetPieceTitleState,
+  SetPieceTitleArgs
+>
+setPieceTitleViewModelProvider = StateNotifierProvider.autoDispose
+    .family<SetPieceTitleViewModel, SetPieceTitleState, SetPieceTitleArgs>(
+      (ref, args) => SetPieceTitleViewModel(ref: ref, args: args),
+    );
 
 class SetPieceTitleScreen extends ConsumerStatefulWidget {
   SetPieceTitleScreen({required SetPieceTitleArgs args, super.key})
-      : viewModelProvider = setPieceTitleViewModelProvider(args);
+    : viewModelProvider = setPieceTitleViewModelProvider(args);
 
   static const name = 'SetPieceTitleScreen';
 
-  final AutoDisposeStateNotifierProvider<SetPieceTitleViewModel,
-      SetPieceTitleState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SetPieceTitleViewModel,
+    SetPieceTitleState
+  >
+  viewModelProvider;
 
   static MaterialPageRoute<SetPieceTitleScreen> route({
     required SetPieceTitleArgs args,
-  }) =>
-      MaterialPageRoute(
-        builder: (_) => SetPieceTitleScreen(args: args),
-        settings: const RouteSettings(name: name),
-      );
+  }) => MaterialPageRoute(
+    builder: (_) => SetPieceTitleScreen(args: args),
+    settings: const RouteSettings(name: name),
+  );
 
   @override
   ConsumerState<SetPieceTitleScreen> createState() => _SetPieceTitleState();
@@ -102,9 +104,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
           borderRadius: BorderRadius.circular(
             DisplayDefinition.cornerRadiusSizeSmall,
           ),
-          borderSide: BorderSide(
-            color: Theme.of(context).dividerColor,
-          ),
+          borderSide: BorderSide(color: Theme.of(context).dividerColor),
         ),
       ),
       autofocus: true,
@@ -123,10 +123,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 32,
-        children: [
-          thumbnail,
-          displayNameInput,
-        ],
+        children: [thumbnail, displayNameInput],
       ),
     );
 
@@ -149,13 +146,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          Expanded(
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: body,
-            ),
-          ),
+          Expanded(child: SafeArea(top: false, bottom: false, child: body)),
           Stack(
             children: [
               footer,
@@ -166,9 +157,7 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
                   const Positioned(
                     top: -SpeakingCatImage.height + 18,
                     left: 16,
-                    child: SpeakingCatImage(
-                      flipHorizontally: true,
-                    ),
+                    child: SpeakingCatImage(flipHorizontally: true),
                   ),
                 ],
               ),
@@ -197,10 +186,9 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
                   children: [
                     Text(
                       AppLocalizations.of(context)!.submitting,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.white),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(color: Colors.white),
                     ),
                     const LinearProgressIndicator(),
                   ],
@@ -212,8 +200,9 @@ class _SetPieceTitleState extends ConsumerState<SetPieceTitleScreen> {
   }
 
   Future<void> _showRequestScreen() async {
-    final args =
-        ref.read(widget.viewModelProvider.notifier).getRequestPermissionArgs();
+    final args = ref
+        .read(widget.viewModelProvider.notifier)
+        .getRequestPermissionArgs();
 
     await Navigator.push<void>(
       context,

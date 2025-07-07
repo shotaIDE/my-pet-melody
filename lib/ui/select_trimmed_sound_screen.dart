@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/circled_play_button.dart';
 import 'package:my_pet_melody/ui/component/footer.dart';
@@ -19,38 +19,38 @@ import 'package:my_pet_melody/ui/trim_sound_for_generation_screen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 final AutoDisposeStateNotifierProviderFamily<
-        SelectTrimmedSoundViewModel,
-        SelectTrimmedSoundState,
-        SelectTrimmedSoundArgs> selectTrimmedSoundViewModelProvider =
-    StateNotifierProvider.autoDispose.family<SelectTrimmedSoundViewModel,
-        SelectTrimmedSoundState, SelectTrimmedSoundArgs>(
-  (ref, args) => SelectTrimmedSoundViewModel(
-    ref: ref,
-    args: args,
-  ),
-);
+  SelectTrimmedSoundViewModel,
+  SelectTrimmedSoundState,
+  SelectTrimmedSoundArgs
+>
+selectTrimmedSoundViewModelProvider = StateNotifierProvider.autoDispose
+    .family<
+      SelectTrimmedSoundViewModel,
+      SelectTrimmedSoundState,
+      SelectTrimmedSoundArgs
+    >((ref, args) => SelectTrimmedSoundViewModel(ref: ref, args: args));
 
 const _seekBarBorderWidth = 4.0;
 const _seekBarHeight = 24.0;
 
 class SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
-  SelectTrimmedSoundScreen({
-    required SelectTrimmedSoundArgs args,
-    super.key,
-  }) : viewModelProvider = selectTrimmedSoundViewModelProvider(args);
+  SelectTrimmedSoundScreen({required SelectTrimmedSoundArgs args, super.key})
+    : viewModelProvider = selectTrimmedSoundViewModelProvider(args);
 
   static const name = 'SelectTrimmedSoundScreen';
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
 
   static MaterialPageRoute<SelectTrimmedSoundResult?> route({
     required SelectTrimmedSoundArgs args,
-  }) =>
-      MaterialPageRoute<SelectTrimmedSoundResult?>(
-        builder: (_) => SelectTrimmedSoundScreen(args: args),
-        settings: const RouteSettings(name: name),
-      );
+  }) => MaterialPageRoute<SelectTrimmedSoundResult?>(
+    builder: (_) => SelectTrimmedSoundScreen(args: args),
+    settings: const RouteSettings(name: name),
+  );
 
   @override
   ConsumerState<SelectTrimmedSoundScreen> createState() =>
@@ -62,51 +62,56 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
   void initState() {
     super.initState();
 
-    ref.read(widget.viewModelProvider.notifier).setup(
-      moveToTrimSoundForGenerationScreen: (args) async {
-        if (!mounted) {
-          return;
-        }
+    ref
+        .read(widget.viewModelProvider.notifier)
+        .setup(
+          moveToTrimSoundForGenerationScreen: (args) async {
+            if (!mounted) {
+              return;
+            }
 
-        await Navigator.push(
-          context,
-          TrimSoundForGenerationScreen.route(args: args),
-        );
-      },
-      displayTrimmingForGenerationIsRestricted: () async {
-        if (!mounted) {
-          return;
-        }
-
-        final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text(
-                AppLocalizations.of(context)!
-                    .manualTrimmingIsRestrictedDescription,
-              ),
-              actions: [
-                TextButton(
-                  child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
-                  onPressed: () => Navigator.pop(context, true),
-                ),
-              ],
+            await Navigator.push(
+              context,
+              TrimSoundForGenerationScreen.route(args: args),
             );
           },
+          displayTrimmingForGenerationIsRestricted: () async {
+            if (!mounted) {
+              return;
+            }
+
+            final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: Text(
+                    AppLocalizations.of(
+                      context,
+                    )!.manualTrimmingIsRestrictedDescription,
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text(
+                        AppLocalizations.of(context)!.aboutPremiumPlan,
+                      ),
+                      onPressed: () => Navigator.pop(context, true),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            if (shouldShowJoinPremiumPlanScreen != true) {
+              return;
+            }
+
+            if (!mounted) {
+              return;
+            }
+
+            await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+          },
         );
-
-        if (shouldShowJoinPremiumPlanScreen != true) {
-          return;
-        }
-
-        if (!mounted) {
-          return;
-        }
-
-        await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
-      },
-    );
   }
 
   @override
@@ -126,12 +131,13 @@ class _SelectTrimmedSoundState extends ConsumerState<SelectTrimmedSoundScreen> {
 }
 
 class _UnavailableTrimmedSoundScreen extends ConsumerStatefulWidget {
-  const _UnavailableTrimmedSoundScreen({
-    required this.viewModelProvider,
-  });
+  const _UnavailableTrimmedSoundScreen({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
 
   @override
   ConsumerState<_UnavailableTrimmedSoundScreen> createState() =>
@@ -195,9 +201,7 @@ class _UnavailableTrimmedSoundScreenState
             const SizedBox(height: 32),
             title,
             const SizedBox(height: 16),
-            Expanded(
-              child: body,
-            ),
+            Expanded(child: body),
           ],
         ),
       ),
@@ -207,12 +211,13 @@ class _UnavailableTrimmedSoundScreenState
 }
 
 class _SelectTrimmedSoundScreen extends ConsumerStatefulWidget {
-  const _SelectTrimmedSoundScreen({
-    required this.viewModelProvider,
-  });
+  const _SelectTrimmedSoundScreen({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
 
   @override
   ConsumerState<_SelectTrimmedSoundScreen> createState() =>
@@ -261,7 +266,7 @@ class _SelectTrimmedSoundScreenState
         onStop: viewModel.stop,
         onSelect: viewModel.select,
       ),
-      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      separatorBuilder: (_, _) => const SizedBox(height: 8),
       itemCount: choicesCount,
     );
 
@@ -313,9 +318,7 @@ class _SelectTrimmedSoundScreenState
               child: title,
             ),
             const SizedBox(height: 16),
-            Expanded(
-              child: body,
-            ),
+            Expanded(child: body),
             footer,
           ],
         ),
@@ -336,10 +339,9 @@ class _SelectTrimmedSoundScreenState
                   children: [
                     Text(
                       AppLocalizations.of(context)!.uploading,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.white),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(color: Colors.white),
                     ),
                     const LinearProgressIndicator(),
                   ],
@@ -374,15 +376,19 @@ class _MovieTile extends ConsumerWidget {
     required this.thumbnailHeight,
   });
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
   final double thumbnailWidth;
   final double thumbnailHeight;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final displayName =
-        ref.watch(viewModelProvider.select((state) => state.displayName));
+    final displayName = ref.watch(
+      viewModelProvider.select((state) => state.displayName),
+    );
 
     final thumbnail = _EquallyDividedThumbnail(
       viewModelProvider: viewModelProvider,
@@ -399,26 +405,20 @@ class _MovieTile extends ConsumerWidget {
       children: [
         thumbnail,
         const SizedBox(width: 16),
-        Expanded(
-          child: title,
-        ),
+        Expanded(child: title),
         const SizedBox(width: 16),
       ],
     );
 
     return ClipRRect(
       borderRadius: const BorderRadius.all(
-        Radius.circular(
-          DisplayDefinition.cornerRadiusSizeSmall,
-        ),
+        Radius.circular(DisplayDefinition.cornerRadiusSizeSmall),
       ),
       child: DecoratedBox(
         decoration: BoxDecoration(
           border: Border.all(color: Theme.of(context).dividerColor),
           borderRadius: const BorderRadius.all(
-            Radius.circular(
-              DisplayDefinition.cornerRadiusSizeSmall,
-            ),
+            Radius.circular(DisplayDefinition.cornerRadiusSizeSmall),
           ),
         ),
         child: contents,
@@ -436,8 +436,11 @@ class _ChoicePanel extends StatelessWidget {
     required this.onSelect,
   });
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
   final int index;
   final void Function({required PlayerChoiceTrimmedMovie choice}) onPlay;
   final void Function({required PlayerChoiceTrimmedMovie choice}) onStop;
@@ -479,10 +482,7 @@ class _ChoicePanel extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: _SeekBar(
-            viewModelProvider: viewModelProvider,
-            index: index,
-          ),
+          child: _SeekBar(viewModelProvider: viewModelProvider, index: index),
         ),
       ],
     );
@@ -495,9 +495,7 @@ class _ChoicePanel extends StatelessWidget {
           onSelect: () => onSelect(index: index),
         ),
         const SizedBox(width: 8 - _seekBarBorderWidth),
-        Expanded(
-          child: detailsPanel,
-        ),
+        Expanded(child: detailsPanel),
         const SizedBox(width: 8 - _seekBarBorderWidth),
         _ChoicePlayButton(
           viewModelProvider: viewModelProvider,
@@ -519,18 +517,13 @@ class _ChoicePanel extends StatelessWidget {
           child: detailsPanelWithControls,
         ),
         const SizedBox(height: 8 - _seekBarBorderWidth),
-        _PlayingIndicator(
-          viewModelProvider: viewModelProvider,
-          index: index,
-        ),
+        _PlayingIndicator(viewModelProvider: viewModelProvider, index: index),
       ],
     );
 
     return ClipRRect(
       borderRadius: const BorderRadius.all(
-        Radius.circular(
-          DisplayDefinition.cornerRadiusSizeSmall,
-        ),
+        Radius.circular(DisplayDefinition.cornerRadiusSizeSmall),
       ),
       child: Material(
         color: Theme.of(context).cardColor,
@@ -555,8 +548,11 @@ class _ChoiceRadioButton extends ConsumerWidget {
     required this.onSelect,
   });
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
   final int index;
   final VoidCallback onSelect;
 
@@ -583,8 +579,11 @@ class _ChoiceThumbnail extends ConsumerWidget {
     required this.index,
   });
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
   final int index;
 
   @override
@@ -602,24 +601,26 @@ class _ChoiceThumbnail extends ConsumerWidget {
 }
 
 class _PositionText extends ConsumerWidget {
-  const _PositionText({
-    required this.viewModelProvider,
-    required this.index,
-  });
+  const _PositionText({required this.viewModelProvider, required this.index});
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
   final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final startMilliseconds = ref.watch(
-      viewModelProvider
-          .select((state) => state.choices[index].segment.startMilliseconds),
+      viewModelProvider.select(
+        (state) => state.choices[index].segment.startMilliseconds,
+      ),
     );
     final endMilliseconds = ref.watch(
-      viewModelProvider
-          .select((state) => state.choices[index].segment.endMilliseconds),
+      viewModelProvider.select(
+        (state) => state.choices[index].segment.endMilliseconds,
+      ),
     );
     final durationMilliseconds = endMilliseconds - startMilliseconds;
     final durationSeconds = durationMilliseconds / 1000;
@@ -637,10 +638,7 @@ class _PositionText extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
-      children: [
-        indexText,
-        durationText,
-      ],
+      children: [indexText, durationText],
     );
   }
 }
@@ -651,8 +649,11 @@ class _PlayingIndicator extends ConsumerWidget {
     required this.index,
   });
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
   final int index;
 
   @override
@@ -666,13 +667,13 @@ class _PlayingIndicator extends ConsumerWidget {
 }
 
 class _SeekBar extends ConsumerWidget {
-  const _SeekBar({
-    required this.viewModelProvider,
-    required this.index,
-  });
+  const _SeekBar({required this.viewModelProvider, required this.index});
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
   final int index;
 
   @override
@@ -681,21 +682,21 @@ class _SeekBar extends ConsumerWidget {
       viewModelProvider.select((state) => state.durationMilliseconds),
     );
     final startMilliseconds = ref.watch(
-      viewModelProvider
-          .select((state) => state.choices[index].segment.startMilliseconds),
+      viewModelProvider.select(
+        (state) => state.choices[index].segment.startMilliseconds,
+      ),
     );
     final endMilliseconds = ref.watch(
-      viewModelProvider
-          .select((state) => state.choices[index].segment.endMilliseconds),
+      viewModelProvider.select(
+        (state) => state.choices[index].segment.endMilliseconds,
+      ),
     );
 
     return Stack(
       children: [
         Padding(
           padding: const EdgeInsets.all(_seekBarBorderWidth),
-          child: _SeekBarBackgroundLayer(
-            viewModelProvider: viewModelProvider,
-          ),
+          child: _SeekBarBackgroundLayer(viewModelProvider: viewModelProvider),
         ),
         ConstrainedBox(
           constraints: const BoxConstraints.expand(
@@ -714,17 +715,14 @@ class _SeekBar extends ConsumerWidget {
               return Stack(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(
-                      left: _seekBarBorderWidth,
-                    ),
+                    margin: const EdgeInsets.only(left: _seekBarBorderWidth),
                     width: positionX1 - _seekBarBorderWidth,
                     color: Colors.white.withAlpha(128),
                   ),
                   Container(
-                    margin: EdgeInsets.only(
-                      left: positionX2,
-                    ),
-                    width: constraints.maxWidth -
+                    margin: EdgeInsets.only(left: positionX2),
+                    width:
+                        constraints.maxWidth -
                         (positionX2 + _seekBarBorderWidth),
                     color: Colors.white.withAlpha(128),
                   ),
@@ -751,18 +749,20 @@ class _SeekBar extends ConsumerWidget {
 }
 
 class _SeekBarBackgroundLayer extends ConsumerWidget {
-  const _SeekBarBackgroundLayer({
-    required this.viewModelProvider,
-  });
+  const _SeekBarBackgroundLayer({required this.viewModelProvider});
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final equallyDividedCount = ref.watch(
-      viewModelProvider
-          .select((state) => state.equallyDividedThumbnailPaths.length),
+      viewModelProvider.select(
+        (state) => state.equallyDividedThumbnailPaths.length,
+      ),
     );
 
     return SizedBox(
@@ -773,10 +773,11 @@ class _SeekBarBackgroundLayer extends ConsumerWidget {
           final equallyDividedWidth = width ~/ equallyDividedCount;
           final thumbnailWidth =
               constraints.maxHeight * DisplayDefinition.aspectRatio;
-          final thumbnailCountShouldBeDisplayed =
-              (width / thumbnailWidth).ceil();
-          final thumbnails =
-              List.generate(thumbnailCountShouldBeDisplayed, (index) {
+          final thumbnailCountShouldBeDisplayed = (width / thumbnailWidth)
+              .ceil();
+          final thumbnails = List.generate(thumbnailCountShouldBeDisplayed, (
+            index,
+          ) {
             final positionX = index * thumbnailWidth;
             final imageIndex = min(
               positionX ~/ equallyDividedWidth,
@@ -796,11 +797,7 @@ class _SeekBarBackgroundLayer extends ConsumerWidget {
             );
           });
 
-          return ClipRect(
-            child: Stack(
-              children: thumbnails,
-            ),
-          );
+          return ClipRect(child: Stack(children: thumbnails));
         },
       ),
     );
@@ -815,8 +812,11 @@ class _ChoicePlayButton extends ConsumerWidget {
     required this.onStop,
   });
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
   final int index;
   final void Function({required PlayerChoiceTrimmedMovie choice}) onPlay;
   final void Function({required PlayerChoiceTrimmedMovie choice}) onStop;
@@ -843,8 +843,11 @@ class _EquallyDividedThumbnail extends ConsumerWidget {
     required this.height,
   });
 
-  final AutoDisposeStateNotifierProvider<SelectTrimmedSoundViewModel,
-      SelectTrimmedSoundState> viewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTrimmedSoundViewModel,
+    SelectTrimmedSoundState
+  >
+  viewModelProvider;
   final int index;
   final double width;
   final double height;
@@ -852,15 +855,12 @@ class _EquallyDividedThumbnail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final thumbnailPath = ref.watch(
-      viewModelProvider
-          .select((state) => state.equallyDividedThumbnailPaths[index]),
+      viewModelProvider.select(
+        (state) => state.equallyDividedThumbnailPaths[index],
+      ),
     );
 
-    return _Thumbnail(
-      path: thumbnailPath,
-      width: width,
-      height: height,
-    );
+    return _Thumbnail(path: thumbnailPath, width: width, height: height);
   }
 }
 
@@ -879,21 +879,12 @@ class _Thumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     final skeletonEnabled = path == null;
     final child = skeletonEnabled
-        ? ColoredBox(
-            color: Theme.of(context).primaryColor,
-          )
-        : Image.file(
-            File(path!),
-            fit: BoxFit.cover,
-          );
+        ? ColoredBox(color: Theme.of(context).primaryColor)
+        : Image.file(File(path!), fit: BoxFit.cover);
 
     return Skeletonizer(
       enabled: skeletonEnabled,
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: child,
-      ),
+      child: SizedBox(width: width, height: height, child: child),
     );
   }
 }

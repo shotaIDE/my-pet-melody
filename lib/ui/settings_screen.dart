@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
@@ -10,6 +9,7 @@ import 'package:my_pet_melody/data/model/profile.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/root_view_model.dart';
 import 'package:my_pet_melody/ui/component/is_premium_plan_text.dart';
 import 'package:my_pet_melody/ui/component/profile_icon.dart';
@@ -25,20 +25,18 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final AutoDisposeStateNotifierProvider<SettingsViewModel, SettingsState>
-    _settingsViewModelProvider =
+_settingsViewModelProvider =
     StateNotifierProvider.autoDispose<SettingsViewModel, SettingsState>(
-  (ref) => SettingsViewModel(ref: ref),
-);
+      (ref) => SettingsViewModel(ref: ref),
+    );
 
 class SettingsScreen extends ConsumerStatefulWidget {
-  SettingsScreen({
-    super.key,
-  });
+  SettingsScreen({super.key});
 
   static const name = 'SettingsScreen';
 
   final AutoDisposeStateNotifierProvider<SettingsViewModel, SettingsState>
-      viewModelProvider = _settingsViewModelProvider;
+  viewModelProvider = _settingsViewModelProvider;
 
   static MaterialPageRoute<SettingsScreen> route() =>
       MaterialPageRoute<SettingsScreen>(
@@ -134,23 +132,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             if (debugScreenAvailable) debugTile,
             versionTile,
             const SizedBox(height: 32),
-            _DeleteAccountPanel(
-              onTap: _deleteAccount,
-            ),
+            _DeleteAccountPanel(onTap: _deleteAccount),
           ],
         ),
       ),
     );
 
     final scaffold = Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings),
-      ),
-      body: SafeArea(
-        top: false,
-        bottom: false,
-        child: body,
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings)),
+      body: SafeArea(top: false, bottom: false, child: body),
       resizeToAvoidBottomInset: false,
     );
 
@@ -167,10 +157,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   children: [
                     Text(
                       AppLocalizations.of(context)!.deletingAccount,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.white),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(color: Colors.white),
                     ),
                     const LinearProgressIndicator(),
                   ],
@@ -238,8 +227,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       return;
     }
 
-    final result =
-        await ref.read(widget.viewModelProvider.notifier).deleteAccount();
+    final result = await ref
+        .read(widget.viewModelProvider.notifier)
+        .deleteAccount();
 
     await result.when(
       success: (_) async {
@@ -255,8 +245,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         cancelledByUser: () {},
         unrecoverable: () {
           final snackBar = SnackBar(
-            content:
-                Text(AppLocalizations.of(context)!.unknownErrorDescription),
+            content: Text(
+              AppLocalizations.of(context)!.unknownErrorDescription,
+            ),
           );
 
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -283,7 +274,8 @@ class _FullVersionNameText extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fullVersionNameAsyncValue = ref.watch(fullVersionNameProvider);
-    final fullVersionName = fullVersionNameAsyncValue.whenOrNull(
+    final fullVersionName =
+        fullVersionNameAsyncValue.whenOrNull(
           data: (fullVersionName) => fullVersionName,
         ) ??
         '';
@@ -292,9 +284,7 @@ class _FullVersionNameText extends ConsumerWidget {
 }
 
 class _ProfileTile extends ConsumerWidget {
-  const _ProfileTile({
-    required this.onTapCreateAccountTile,
-  });
+  const _ProfileTile({required this.onTapCreateAccountTile});
 
   final VoidCallback onTapCreateAccountTile;
 
@@ -308,9 +298,7 @@ class _ProfileTile extends ConsumerWidget {
 }
 
 class _LoggedInProfileTile extends StatelessWidget {
-  const _LoggedInProfileTile({
-    required this.profile,
-  });
+  const _LoggedInProfileTile({required this.profile});
 
   final Profile profile;
 
@@ -323,20 +311,14 @@ class _LoggedInProfileTile extends StatelessWidget {
     final titleText = name ?? AppLocalizations.of(context)!.noNameLabel;
 
     return ListTile(
-      leading: SizedBox(
-        width: 48,
-        height: 48,
-        child: icon,
-      ),
+      leading: SizedBox(width: 48, height: 48, child: icon),
       title: Text(titleText),
     );
   }
 }
 
 class _NotLoggedInTile extends StatelessWidget {
-  const _NotLoggedInTile({
-    required this.onTap,
-  });
+  const _NotLoggedInTile({required this.onTap});
 
   final VoidCallback onTap;
 
@@ -351,9 +333,7 @@ class _NotLoggedInTile extends StatelessWidget {
 }
 
 class _DeleteAccountPanel extends ConsumerWidget {
-  const _DeleteAccountPanel({
-    required this.onTap,
-  });
+  const _DeleteAccountPanel({required this.onTap});
 
   final VoidCallback onTap;
 

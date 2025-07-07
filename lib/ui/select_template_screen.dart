@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/ui/component/choice_position_bar.dart';
 import 'package:my_pet_melody/ui/component/circled_play_button.dart';
 import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
@@ -11,28 +11,31 @@ import 'package:my_pet_melody/ui/select_sounds_screen.dart';
 import 'package:my_pet_melody/ui/select_template_state.dart';
 import 'package:my_pet_melody/ui/select_template_view_model.dart';
 
-final AutoDisposeStateNotifierProvider<SelectTemplateViewModel,
-        SelectTemplateState> selectTemplateViewModelProvider =
-    StateNotifierProvider.autoDispose<SelectTemplateViewModel,
-        SelectTemplateState>(
-  (ref) => SelectTemplateViewModel(
-    ref: ref,
-    listener: ref.listen,
-  ),
-);
+final AutoDisposeStateNotifierProvider<
+  SelectTemplateViewModel,
+  SelectTemplateState
+>
+selectTemplateViewModelProvider =
+    StateNotifierProvider.autoDispose<
+      SelectTemplateViewModel,
+      SelectTemplateState
+    >((ref) => SelectTemplateViewModel(ref: ref, listener: ref.listen));
 
 class SelectTemplateScreen extends ConsumerStatefulWidget {
   SelectTemplateScreen({super.key});
 
   static const name = 'SelectTemplateScreen';
 
-  final AutoDisposeStateNotifierProvider<SelectTemplateViewModel,
-      SelectTemplateState> viewModel = selectTemplateViewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    SelectTemplateViewModel,
+    SelectTemplateState
+  >
+  viewModel = selectTemplateViewModelProvider;
 
   static MaterialPageRoute<SelectTemplateScreen> route() => MaterialPageRoute(
-        builder: (_) => SelectTemplateScreen(),
-        settings: const RouteSettings(name: name),
-      );
+    builder: (_) => SelectTemplateScreen(),
+    settings: const RouteSettings(name: name),
+  );
 
   @override
   ConsumerState<SelectTemplateScreen> createState() => _SelectTemplateState();
@@ -84,9 +87,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               final thumbnail = SizedBox(
                 width: DisplayDefinition.thumbnailWidthLarge,
                 height: DisplayDefinition.thumbnailHeightLarge,
-                child: FetchedThumbnail(
-                  url: template.thumbnailUrl,
-                ),
+                child: FetchedThumbnail(url: template.thumbnailUrl),
               );
               final showNewChip = current.difference(publishedAt).inDays < 7;
 
@@ -114,9 +115,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
 
               return ClipRRect(
                 borderRadius: const BorderRadius.all(
-                  Radius.circular(
-                    DisplayDefinition.cornerRadiusSizeSmall,
-                  ),
+                  Radius.circular(DisplayDefinition.cornerRadiusSizeSmall),
                 ),
                 child: Material(
                   color: Theme.of(context).cardColor,
@@ -148,10 +147,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 spacing: 4,
-                                children: [
-                                  title,
-                                  subtitle,
-                                ],
+                                children: [title, subtitle],
                               ),
                             ),
                             const SizedBox(width: 16),
@@ -172,11 +168,9 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
               );
             },
             itemCount: templates.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 8),
+            separatorBuilder: (_, _) => const SizedBox(height: 8),
           )
-        : const Center(
-            child: CircularProgressIndicator(),
-          );
+        : const Center(child: CircularProgressIndicator());
 
     final body = SingleChildScrollView(
       padding: EdgeInsets.only(
@@ -196,7 +190,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
     );
 
     return PopScope(
-      onPopInvokedWithResult: (_, __) {
+      onPopInvokedWithResult: (_, _) {
         ref.read(widget.viewModel.notifier).beforeHideScreen();
       },
       child: Scaffold(
@@ -215,9 +209,7 @@ class _SelectTemplateState extends ConsumerState<SelectTemplateScreen> {
                 child: title,
               ),
               const SizedBox(height: 16),
-              Expanded(
-                child: body,
-              ),
+              Expanded(child: body),
             ],
           ),
         ),
@@ -246,13 +238,10 @@ class _NewChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(
-      label: Text(
-        AppLocalizations.of(context)!.newDescription,
+      label: Text(AppLocalizations.of(context)!.newDescription),
+      labelStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+        color: Theme.of(context).colorScheme.onPrimary,
       ),
-      labelStyle: Theme.of(context)
-          .textTheme
-          .bodySmall!
-          .copyWith(color: Theme.of(context).colorScheme.onPrimary),
       backgroundColor: Theme.of(context).colorScheme.primary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(

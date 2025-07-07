@@ -1,7 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/root_state.dart';
 import 'package:my_pet_melody/root_view_model.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
@@ -67,9 +67,7 @@ class _RootAppState extends ConsumerState<RootApp> {
       // `initialRoute` and `routes` are ineffective settings
       // that are set to avoid assertion errors.
       initialRoute: '/',
-      routes: {
-        '/': (_) => HomeScreen(),
-      },
+      routes: {'/': (_) => HomeScreen()},
       onGenerateInitialRoutes: (_) => initialRoutes,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -77,22 +75,14 @@ class _RootAppState extends ConsumerState<RootApp> {
     );
   }
 
-  List<MaterialPageRoute<Widget>> _initialRoutes(
-    StartPage startPage,
-  ) {
+  List<MaterialPageRoute<Widget>> _initialRoutes(StartPage startPage) {
     switch (startPage) {
       case StartPage.updateApp:
-        return [
-          UpdateAppScreen.route(),
-        ];
+        return [UpdateAppScreen.route()];
       case StartPage.login:
-        return [
-          LoginScreen.route(),
-        ];
+        return [LoginScreen.route()];
       case StartPage.home:
-        return [
-          HomeScreen.route(),
-        ];
+        return [HomeScreen.route()];
     }
   }
 }

@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/ui/component/social_login_button.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/link_with_account_state.dart';
 import 'package:my_pet_melody/ui/link_with_account_view_model.dart';
 
-final AutoDisposeStateNotifierProvider<LinkWithAccountViewModel,
-        LinkWithAccountState> _linkWithAccountViewModelProvider =
-    StateNotifierProvider.autoDispose<LinkWithAccountViewModel,
-        LinkWithAccountState>(
-  (ref) => LinkWithAccountViewModel(
-    ref: ref,
-  ),
-);
+final AutoDisposeStateNotifierProvider<
+  LinkWithAccountViewModel,
+  LinkWithAccountState
+>
+_linkWithAccountViewModelProvider =
+    StateNotifierProvider.autoDispose<
+      LinkWithAccountViewModel,
+      LinkWithAccountState
+    >((ref) => LinkWithAccountViewModel(ref: ref));
 
 class LinkWithAccountScreen extends ConsumerStatefulWidget {
-  LinkWithAccountScreen({
-    super.key,
-  });
+  LinkWithAccountScreen({super.key});
 
   static const name = 'LinkWithAccountScreen';
 
-  final AutoDisposeStateNotifierProvider<LinkWithAccountViewModel,
-      LinkWithAccountState> viewModel = _linkWithAccountViewModelProvider;
+  final AutoDisposeStateNotifierProvider<
+    LinkWithAccountViewModel,
+    LinkWithAccountState
+  >
+  viewModel = _linkWithAccountViewModelProvider;
 
   static MaterialPageRoute<LinkWithAccountScreen> route() =>
       MaterialPageRoute<LinkWithAccountScreen>(
@@ -60,10 +62,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 16,
-        children: [
-          continueWithGoogleButton,
-          continueWithAppleButton,
-        ],
+        children: [continueWithGoogleButton, continueWithAppleButton],
       ),
     );
 
@@ -78,10 +77,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           spacing: 32,
-          children: [
-            description,
-            buttonsPanel,
-          ],
+          children: [description, buttonsPanel],
         ),
       ),
     );
@@ -95,11 +91,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
           Expanded(
             child: Stack(
               children: [
-                SafeArea(
-                  top: false,
-                  bottom: false,
-                  child: body,
-                ),
+                SafeArea(top: false, bottom: false, child: body),
                 const Positioned(
                   bottom: 0,
                   right: 16,
@@ -119,9 +111,7 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
               scaffold,
               ColoredBox(
                 color: Colors.black.withAlpha(128),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                child: const Center(child: CircularProgressIndicator()),
               ),
             ],
           )
@@ -129,8 +119,9 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
   }
 
   Future<void> _continueWithGoogle() async {
-    final result =
-        await ref.read(widget.viewModel.notifier).continueWithGoogle();
+    final result = await ref
+        .read(widget.viewModel.notifier)
+        .continueWithGoogle();
 
     result.when(
       success: (_) {
@@ -140,8 +131,9 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
         alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
-              AppLocalizations.of(context)!
-                  .googleAccountIsAlreadyUsedErrorDescription,
+              AppLocalizations.of(
+                context,
+              )!.googleAccountIsAlreadyUsedErrorDescription,
             ),
           );
 
@@ -161,8 +153,9 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
   }
 
   Future<void> _continueWithApple() async {
-    final result =
-        await ref.read(widget.viewModel.notifier).continueWithApple();
+    final result = await ref
+        .read(widget.viewModel.notifier)
+        .continueWithApple();
 
     result.when(
       success: (_) {
@@ -172,8 +165,9 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
         alreadyInUse: (_) {
           final snackBar = SnackBar(
             content: Text(
-              AppLocalizations.of(context)!
-                  .appleAccountIsAlreadyUsedErrorDescription,
+              AppLocalizations.of(
+                context,
+              )!.appleAccountIsAlreadyUsedErrorDescription,
             ),
           );
 

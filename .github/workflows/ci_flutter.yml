@@ -50,6 +50,9 @@ jobs:
         run: bundle exec fastlane generate
       - name: Flutter analyze
         run: flutter analyze --fatal-infos > flutter-analyze.log
+      - name: Display Flutter analyze log
+        if: failure()
+        run: cat flutter-analyze.log
       - name: Run reviewdog for Flutter Analyzer
         if: failure()
         env:

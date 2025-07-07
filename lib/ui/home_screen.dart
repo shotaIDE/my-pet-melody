@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
+import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
 import 'package:my_pet_melody/ui/component/lying_down_cat_image.dart';
 import 'package:my_pet_melody/ui/component/profile_icon.dart';
@@ -14,28 +14,23 @@ import 'package:my_pet_melody/ui/settings_screen.dart';
 import 'package:my_pet_melody/ui/video_screen.dart';
 
 final AutoDisposeStateNotifierProvider<HomeViewModel, HomeState>
-    homeViewModelProvider =
+homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
-  (ref) => HomeViewModel(
-    ref: ref,
-    listener: ref.listen,
-  ),
-);
+      (ref) => HomeViewModel(ref: ref, listener: ref.listen),
+    );
 
 class HomeScreen extends ConsumerStatefulWidget {
-  HomeScreen({
-    super.key,
-  });
+  HomeScreen({super.key});
 
   static const name = 'HomeScreen';
 
   final AutoDisposeStateNotifierProvider<HomeViewModel, HomeState>
-      viewModelProvider = homeViewModelProvider;
+  viewModelProvider = homeViewModelProvider;
 
   static MaterialPageRoute<HomeScreen> route() => MaterialPageRoute<HomeScreen>(
-        builder: (_) => HomeScreen(),
-        settings: const RouteSettings(name: name),
-      );
+    builder: (_) => HomeScreen(),
+    settings: const RouteSettings(name: name),
+  );
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -46,111 +41,120 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
 
-    ref.read(widget.viewModelProvider.notifier).registerListener(
-      moveToSelectTemplateScreen: () async {
-        if (!mounted) {
-          return;
-        }
+    ref
+        .read(widget.viewModelProvider.notifier)
+        .registerListener(
+          moveToSelectTemplateScreen: () async {
+            if (!mounted) {
+              return;
+            }
 
-        await Navigator.push<void>(context, SelectTemplateScreen.route());
-      },
-      displayMakingPieceIsRestricted: () async {
-        if (!mounted) {
-          return;
-        }
-
-        final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text(
-                AppLocalizations.of(context)!
-                    .accessiblePiecesCountReachedTheMaxErrorDescription,
-              ),
-              actions: [
-                TextButton(
-                  child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
-                  onPressed: () => Navigator.pop(context, true),
-                ),
-              ],
-            );
+            await Navigator.push<void>(context, SelectTemplateScreen.route());
           },
-        );
+          displayMakingPieceIsRestricted: () async {
+            if (!mounted) {
+              return;
+            }
 
-        if (shouldShowJoinPremiumPlanScreen != true) {
-          return;
-        }
-
-        if (!mounted) {
-          return;
-        }
-
-        await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
-      },
-      confirmToMakePieceWithWarnings: () async {
-        if (!mounted) {
-          return null;
-        }
-
-        return showDialog<ConfirmToMakePieceResult>(
-          context: context,
-          builder: (context) {
-            var requestedDoNotShowAgain = false;
-
-            final text = Text(
-              AppLocalizations.of(context)!
-                  .accessiblePiecesCountReachedTheMaxWarningDescription,
-            );
-
-            return StatefulBuilder(
-              builder: (context, setState) {
+            final shouldShowJoinPremiumPlanScreen = await showDialog<bool>(
+              context: context,
+              builder: (context) {
                 return AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: 16,
-                    children: [
-                      text,
-                      CheckboxListTile(
-                        value: requestedDoNotShowAgain,
-                        onChanged: (value) {
-                          setState(() {
-                            requestedDoNotShowAgain = value!;
-                          });
-                        },
-                        title: Text(
-                          AppLocalizations.of(context)!.doNotShowAgain,
-                        ),
-                      ),
-                    ],
+                  content: Text(
+                    AppLocalizations.of(
+                      context,
+                    )!.accessiblePiecesCountReachedTheMaxErrorDescription,
                   ),
-                  contentPadding:
-                      const EdgeInsets.only(top: 20, left: 24, right: 24),
                   actions: [
                     TextButton(
-                      child: Text(AppLocalizations.of(context)!.doContinue),
-                      onPressed: () => Navigator.pop(
-                        context,
-                        ConfirmToMakePieceResult.continued(
-                          requestedDoNotShowWarningsAgain:
-                              requestedDoNotShowAgain,
-                        ),
+                      child: Text(
+                        AppLocalizations.of(context)!.aboutPremiumPlan,
                       ),
-                    ),
-                    TextButton(
-                      child: Text(AppLocalizations.of(context)!.cancel),
-                      onPressed: () => Navigator.pop(
-                        context,
-                        const ConfirmToMakePieceResult.canceled(),
-                      ),
+                      onPressed: () => Navigator.pop(context, true),
                     ),
                   ],
                 );
               },
             );
+
+            if (shouldShowJoinPremiumPlanScreen != true) {
+              return;
+            }
+
+            if (!mounted) {
+              return;
+            }
+
+            await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+          },
+          confirmToMakePieceWithWarnings: () async {
+            if (!mounted) {
+              return null;
+            }
+
+            return showDialog<ConfirmToMakePieceResult>(
+              context: context,
+              builder: (context) {
+                var requestedDoNotShowAgain = false;
+
+                final text = Text(
+                  AppLocalizations.of(
+                    context,
+                  )!.accessiblePiecesCountReachedTheMaxWarningDescription,
+                );
+
+                return StatefulBuilder(
+                  builder: (context, setState) {
+                    return AlertDialog(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: 16,
+                        children: [
+                          text,
+                          CheckboxListTile(
+                            value: requestedDoNotShowAgain,
+                            onChanged: (value) {
+                              setState(() {
+                                requestedDoNotShowAgain = value!;
+                              });
+                            },
+                            title: Text(
+                              AppLocalizations.of(context)!.doNotShowAgain,
+                            ),
+                          ),
+                        ],
+                      ),
+                      contentPadding: const EdgeInsets.only(
+                        top: 20,
+                        left: 24,
+                        right: 24,
+                      ),
+                      actions: [
+                        TextButton(
+                          child: Text(AppLocalizations.of(context)!.doContinue),
+                          onPressed: () => Navigator.pop(
+                            context,
+                            ConfirmToMakePieceResult.continued(
+                              requestedDoNotShowWarningsAgain:
+                                  requestedDoNotShowAgain,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          child: Text(AppLocalizations.of(context)!.cancel),
+                          onPressed: () => Navigator.pop(
+                            context,
+                            const ConfirmToMakePieceResult.canceled(),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            );
           },
         );
-      },
-    );
   }
 
   @override
@@ -159,9 +163,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final pieces = state.pieces;
     final Widget body;
     if (pieces == null) {
-      body = const Center(
-        child: CircularProgressIndicator(),
-      );
+      body = const Center(child: CircularProgressIndicator());
     } else {
       final currentDateTime = DateTime.now();
 
@@ -228,15 +230,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
             final body = <Widget>[nameText];
             if (detailsText != null) {
-              body.addAll([
-                const SizedBox(height: 8),
-                detailsText,
-              ]);
+              body.addAll([const SizedBox(height: 8), detailsText]);
             }
 
             final onTap = piece.map(
               generating: (_) => null,
-              generated: (generatedPiece) => () => Navigator.push(
+              generated: (generatedPiece) =>
+                  () => Navigator.push(
                     context,
                     VideoScreen.route(piece: generatedPiece),
                   ),
@@ -256,9 +256,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
             return ClipRRect(
               borderRadius: const BorderRadius.all(
-                Radius.circular(
-                  DisplayDefinition.cornerRadiusSizeSmall,
-                ),
+                Radius.circular(DisplayDefinition.cornerRadiusSizeSmall),
               ),
               child: Material(
                 color: backgroundColor,
@@ -288,7 +286,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
           },
           itemCount: pieces.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 8),
+          separatorBuilder: (_, _) => const SizedBox(height: 8),
         );
       } else {
         body = Center(
@@ -297,10 +295,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: Text(
               AppLocalizations.of(context)!.noPiecesDescription,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: Theme.of(context).disabledColor),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Theme.of(context).disabledColor,
+              ),
             ),
           ),
         );
@@ -309,9 +306,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)!.createdPieces,
-        ),
+        title: Text(AppLocalizations.of(context)!.createdPieces),
         actions: [
           _SettingsButton(
             onPressed: () => Navigator.push(context, SettingsScreen.route()),
@@ -323,11 +318,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Expanded(
             child: Stack(
               children: [
-                SafeArea(
-                  top: false,
-                  bottom: false,
-                  child: body,
-                ),
+                SafeArea(top: false, bottom: false, child: body),
                 const Positioned(
                   bottom: 0,
                   left: 16,
@@ -354,9 +345,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: Text(
-            AppLocalizations.of(context)!.pieceExpiredDescription,
-          ),
+          content: Text(AppLocalizations.of(context)!.pieceExpiredDescription),
           actions: [
             TextButton(
               child: Text(AppLocalizations.of(context)!.aboutPremiumPlan),
@@ -380,9 +369,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 }
 
 class _SettingsButton extends ConsumerWidget {
-  const _SettingsButton({
-    required this.onPressed,
-  });
+  const _SettingsButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -410,17 +397,13 @@ class _AvailableUntilText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = AppLocalizations.of(context)!
-        .retentionPeriodFormat(availableUntil, availableUntil);
-    final color = current.isAfter(
-      availableUntil.add(const Duration(days: -1)),
-    )
+    final text = AppLocalizations.of(
+      context,
+    )!.retentionPeriodFormat(availableUntil, availableUntil);
+    final color = current.isAfter(availableUntil.add(const Duration(days: -1)))
         ? Theme.of(context).colorScheme.error
         : defaultForegroundColor;
 
-    return Text(
-      text,
-      style: TextStyle(color: color),
-    );
+    return Text(text, style: TextStyle(color: color));
   }
 }
