@@ -33,7 +33,7 @@ jobs:
     needs: check-impact
     if: needs.check-impact.outputs.has-changed-related-files == 'true'
     # Use the same version to the production runtime.
-    # https://cloud.google.com/functions/docs/runtime-support?hl=ja#python
+    # https://cloud.google.com/docs/buildpacks/base-images?utm_source=chatgpt.com&hl=ja#python
     runs-on: ubuntu-22.04
     defaults:
       run:
