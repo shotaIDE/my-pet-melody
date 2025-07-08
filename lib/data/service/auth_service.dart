@@ -55,8 +55,8 @@ final Provider<AuthActions> authActionsProvider = Provider(
 
 class SessionProvider extends StateNotifier<LoginSession?> {
   SessionProvider({required ErrorReporter errorReporter})
-      : _errorReporter = errorReporter,
-        super(null);
+    : _errorReporter = errorReporter,
+      super(null);
 
   final ErrorReporter _errorReporter;
 
@@ -81,8 +81,8 @@ class SessionProvider extends StateNotifier<LoginSession?> {
         .userChanges()
         .asyncMap(_convertFirebaseUserToLoginSession)
         .listen((session) {
-      state = session;
-    });
+          state = session;
+        });
   }
 
   Future<LoginSession?> _currentSession() {
@@ -117,8 +117,9 @@ class SessionProvider extends StateNotifier<LoginSession?> {
     final providerData = user.providerData.firstOrNull;
     final name = providerData?.displayName;
     final photoUrl = providerData?.photoURL;
-    final profile =
-        providerData != null ? Profile(name: name, photoUrl: photoUrl) : null;
+    final profile = providerData != null
+        ? Profile(name: name, photoUrl: photoUrl)
+        : null;
 
     return LoginSession(
       userId: user.uid,
@@ -132,8 +133,8 @@ class AuthActions {
   const AuthActions({
     required ErrorReporter errorReporter,
     required EventReporter eventReporter,
-  })  : _errorReporter = errorReporter,
-        _eventReporter = eventReporter;
+  }) : _errorReporter = errorReporter,
+       _eventReporter = eventReporter;
 
   final ErrorReporter _errorReporter;
   final EventReporter _eventReporter;
@@ -154,7 +155,6 @@ class AuthActions {
   ) async {
     final googleAuthCredential = GoogleAuthProvider.credential(
       idToken: credential.idToken,
-      accessToken: credential.accessToken,
     );
 
     try {
@@ -189,7 +189,6 @@ class AuthActions {
   ) async {
     final googleAuthCredential = GoogleAuthProvider.credential(
       idToken: credential.idToken,
-      accessToken: credential.accessToken,
     );
 
     final currentUser = FirebaseAuth.instance.currentUser!;
@@ -264,7 +263,6 @@ class AuthActions {
   ) async {
     final googleAuthCredential = GoogleAuthProvider.credential(
       idToken: credential.idToken,
-      accessToken: credential.accessToken,
     );
 
     final currentUser = FirebaseAuth.instance.currentUser!;
@@ -279,7 +277,8 @@ class AuthActions {
       await _errorReporter.send(
         error,
         stack,
-        reason: 'unhandled Firebase Auth exception '
+        reason:
+            'unhandled Firebase Auth exception '
             'when reauthenticate with Google.',
       );
 

@@ -14,22 +14,17 @@ final Provider<ThirdPartyAuthActions> thirdPartyAuthActionsProvider = Provider(
 
 class ThirdPartyAuthActions {
   Future<Result<GoogleCredential, LoginThirdPartyError>> loginGoogle() async {
-    final executor = GoogleSignIn();
+    final account = await GoogleSignIn.instance.authenticate();
 
-    final result = await executor.signIn();
-    if (result == null) {
-      return const Result.failure(LoginThirdPartyError.cancelledByUser());
-    }
-
-    final authentication = await result.authentication;
+    final authentication = account.authentication;
     final idToken = authentication.idToken;
-    final accessToken = authentication.accessToken;
-    if (idToken == null || accessToken == null) {
+    if (idToken == null) {
       return const Result.failure(LoginThirdPartyError.unrecoverable());
     }
 
-    final credential =
-        GoogleCredential(idToken: idToken, accessToken: accessToken);
+    final credential = GoogleCredential(
+      idToken: idToken,
+    );
     return Result.success(credential);
   }
 }

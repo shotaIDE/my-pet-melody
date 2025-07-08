@@ -6,6 +6,5 @@ part 'google_credential.freezed.dart';
 class GoogleCredential with _$GoogleCredential {
   const factory GoogleCredential({
     required String idToken,
-    required String accessToken,
   }) = _GoogleCredential;
 }

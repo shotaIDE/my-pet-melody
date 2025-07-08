@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_pet_melody/data/api/storage_api.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/logger/error_reporter.dart';
@@ -58,6 +59,8 @@ Future<void> main() async {
           ),
         ]);
       }
+
+      await GoogleSignIn.instance.initialize();
 
       if (flavor != Flavor.prod) {
         overrides.addAll([
