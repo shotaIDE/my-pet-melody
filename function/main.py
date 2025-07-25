@@ -24,8 +24,6 @@ from thumbnail import (generate_equally_divided_segments,
 
 initialize_firebase()
 
-# Test
-
 
 def detect(request):
     authorization_value = request.headers['authorization']
