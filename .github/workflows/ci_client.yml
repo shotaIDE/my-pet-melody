@@ -1,4 +1,4 @@
-name: CI / Flutter
+name: CI / Client
 
 on:
   pull_request:
