@@ -16,6 +16,8 @@ permissions:
 jobs:
   check-impact:
     name: Check impact for API
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     outputs:
       has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
@@ -30,6 +32,8 @@ jobs:
           files: "function/**"
   test:
     name: Test API
+    permissions:
+      contents: read
     needs: check-impact
     if: needs.check-impact.outputs.has-changed-related-files == 'true'
     # Use the same version to the production runtime.
