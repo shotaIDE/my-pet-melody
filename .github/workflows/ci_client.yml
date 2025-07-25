@@ -74,6 +74,8 @@ jobs:
 
   check-impact-ios:
     name: Check impact for building iOS
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     outputs:
       has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
@@ -93,6 +95,8 @@ jobs:
             pubspec.lock
   build-ios:
     name: Build iOS app
+    permissions:
+      contents: read
     needs: check-impact-ios
     if: needs.check-impact-ios.outputs.has-changed-related-files == 'true'
     runs-on: macos-15
@@ -125,6 +129,8 @@ jobs:
 
   check-impact-android:
     name: Check impact for building Android
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     outputs:
       has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
@@ -142,6 +148,8 @@ jobs:
             pubspec.lock
   build-android:
     name: Build Android app
+    permissions:
+      contents: read
     needs: check-impact-android
     if: needs.check-impact-android.outputs.has-changed-related-files == 'true'
     runs-on: ubuntu-latest
