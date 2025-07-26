@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Generate env YAML file
         run: echo "${{ secrets.FUNCTIONS_ENV_YAML_BASE64_DEV }}" | base64 -d > .env.dev.yaml
-      - name: Generate uncommited function files for dev
+      - name: Generate uncommitted function files for dev
         uses: ./.github/actions/generate-uncommited-function-files-dev
         with:
           firebase-service-account-key-json-base64-dev: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
