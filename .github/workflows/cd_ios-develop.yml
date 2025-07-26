@@ -34,7 +34,7 @@ jobs:
         with:
           dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
       - name: Generate uncommitted iOS files for dev
-        uses: ./.github/actions/generate-uncommited-ios-files-dev
+        uses: ./.github/actions/generate-uncommitted-ios-files-dev
         with:
           google-service-plist-base64-dev: ${{ secrets.GOOGLE_SERVICE_PLIST_BASE64_DEV }}
       - name: Generate App Store Connect API key file
