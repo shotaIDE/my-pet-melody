@@ -23,7 +23,7 @@ jobs:
           workload-identity-provider: ${{ secrets.DEPLOY_FUNCTIONS_WORKLOAD_IDENTITY_PROVIDER_DEV }}
           tfbackend-file-name: "dev.tfbackend"
       - name: Generate uncommitted function files for dev
-        uses: ./.github/actions/generate-uncommited-function-files-dev
+        uses: ./.github/actions/generate-uncommitted-function-files-dev
         with:
           firebase-service-account-key-json-base64-dev: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
           cloud-tasks-service-account-key-json-base64-dev: ${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_DEV }}
