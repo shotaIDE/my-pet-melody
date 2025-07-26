@@ -45,7 +45,7 @@ jobs:
       - name: Setup tfcmt
         uses: ./.github/actions/setup-tfcmt
       - name: Generate uncommitted function files for prod
-        uses: ./.github/actions/generate-uncommited-function-files-prod
+        uses: ./.github/actions/generate-uncommitted-function-files-prod
         with:
           firebase-service-account-key-json-base64-prod: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY_JSON_BASE64_PROD }}
           cloud-tasks-service-account-key-json-base64-prod: ${{ secrets.CLOUD_TASKS_SERVICE_ACCOUNT_KEY_JSON_BASE64_PROD }}
