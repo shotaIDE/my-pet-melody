@@ -165,7 +165,7 @@ jobs:
         with:
           dart-defines-json-base64-dev: ${{ secrets.DART_DEFINES_JSON_BASE64_DEV }}
       - name: Generate uncommitted Android files for dev
-        uses: ./.github/actions/generate-uncommited-android-files-dev
+        uses: ./.github/actions/generate-uncommitted-android-files-dev
         with:
           google-service-json-base64-dev: ${{ secrets.GOOGLE_SERVICE_JSON_BASE64_DEV }}
       - name: Generate key store
