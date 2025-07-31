@@ -54,7 +54,7 @@ const _premiumPlanEntitlementIdentifier = 'premium';
 
 class PurchaseActions {
   const PurchaseActions({required ErrorReporter errorReporter})
-      : _errorReporter = errorReporter;
+    : _errorReporter = errorReporter;
 
   final ErrorReporter _errorReporter;
 
@@ -67,9 +67,12 @@ class PurchaseActions {
   }) async {
     try {
       final package = purchasable.package;
-      final purchaserInfo = await Purchases.purchasePackage(package);
-      final entitlement =
-          purchaserInfo.entitlements.all[_premiumPlanEntitlementIdentifier];
+      final purchaseResult = await Purchases.purchasePackage(package);
+
+      final entitlement = purchaseResult
+          .customerInfo
+          .entitlements
+          .all[_premiumPlanEntitlementIdentifier];
       if (entitlement == null) {
         return const Result.failure(PurchaseError.unrecoverable());
       }
@@ -107,8 +110,8 @@ class PurchaseActions {
 
 final _isPremiumPlanStateProvider =
     StateNotifierProvider<_IsPremiumPlanNotifier, bool?>(
-  (ref) => _IsPremiumPlanNotifier(),
-);
+      (ref) => _IsPremiumPlanNotifier(),
+    );
 
 class _IsPremiumPlanNotifier extends StateNotifier<bool?> {
   _IsPremiumPlanNotifier() : super(null) {
