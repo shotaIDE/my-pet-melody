@@ -48,13 +48,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_native_video_trimmer: 3a81cd49c8b789ed448a5d1606617633550496b5
-  get_thumbnail_video: b9a180957daed3e9179e66268db51d8798e41f65
+  flutter_native_video_trimmer: 11f6c679971dc3844519b485b9c878df8675ae3a
+  get_thumbnail_video: 1a754d46b860dffefcc57b7290a43089cd5d7e58
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
-  purchases_flutter: 7ab81f1fa09fa531199fd23281c72a2b99b09e2c
+  purchases_flutter: 7f2f923fde8ab75125c3e85522a43f6ed1253580
   PurchasesHybridCommon: f1650b33e9a1dd04d5e8a40dfe757f39e63f935c
   RevenueCat: 7e1d0768fb287c9983173c9b28e39ccbeeb828a9
 
 PODFILE CHECKSUM: 95abe136bb51ce85007fe103ad470a10e5dddcf7
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
