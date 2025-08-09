@@ -17,12 +17,12 @@ PODS:
   - libwebp/sharpyuv (1.5.0)
   - libwebp/webp (1.5.0):
     - libwebp/sharpyuv
-  - purchases_flutter (9.1.0):
+  - purchases_flutter (9.2.0):
     - Flutter
-    - PurchasesHybridCommon (= 16.0.2)
-  - PurchasesHybridCommon (16.0.2):
-    - RevenueCat (= 5.33.1)
-  - RevenueCat (5.33.1)
+    - PurchasesHybridCommon (= 16.2.0)
+  - PurchasesHybridCommon (16.2.0):
+    - RevenueCat (= 5.34.0)
+  - RevenueCat (5.34.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -51,9 +51,9 @@ SPEC CHECKSUMS:
   flutter_native_video_trimmer: 11f6c679971dc3844519b485b9c878df8675ae3a
   get_thumbnail_video: 1a754d46b860dffefcc57b7290a43089cd5d7e58
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
-  purchases_flutter: 818eabac676b9037ac7692d4bc48a52a10b276be
-  PurchasesHybridCommon: ae7a0a6e105ecdde3e8816a004e57f0a2a7b9261
-  RevenueCat: b0ed01125b05a45b8264a2951ad68acb61942038
+  purchases_flutter: b0a7ec52cb03768814b5758b2e8dc7c9a1f381da
+  PurchasesHybridCommon: 55e97b4e090015ed138988e6559def2bd4c50ebe
+  RevenueCat: eb2aa042789d9c99ad5172bd96e28b96286d6ada
 
 PODFILE CHECKSUM: 95abe136bb51ce85007fe103ad470a10e5dddcf7
 
