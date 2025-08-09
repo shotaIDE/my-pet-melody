@@ -4,7 +4,7 @@ import 'package:my_pet_melody/ui/model/player_choice.dart';
 part 'select_sounds_state.freezed.dart';
 
 @freezed
-class SelectSoundsState with _$SelectSoundsState {
+abstract class SelectSoundsState with _$SelectSoundsState {
   const factory SelectSoundsState({
     required PlayerChoiceTemplate template,
     @Default(false) bool isPicking,
@@ -12,7 +12,7 @@ class SelectSoundsState with _$SelectSoundsState {
 }
 
 @freezed
-class SelectedSound with _$SelectedSound {
+abstract class SelectedSound with _$SelectedSound {
   const factory SelectedSound.none({
     required String id,
   }) = SelectedSoundNone;

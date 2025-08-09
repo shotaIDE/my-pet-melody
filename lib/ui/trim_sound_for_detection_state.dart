@@ -5,7 +5,7 @@ import 'package:video_trimmer/video_trimmer.dart';
 part 'trim_sound_for_detection_state.freezed.dart';
 
 @freezed
-class TrimSoundForDetectionState with _$TrimSoundForDetectionState {
+abstract class TrimSoundForDetectionState with _$TrimSoundForDetectionState {
   const factory TrimSoundForDetectionState({
     required Trimmer trimmer,
     @Default(0.0) double startValue,
@@ -24,7 +24,7 @@ enum TrimSoundForDetectionScreenProcess {
 }
 
 @freezed
-class TrimSoundForDetectionArgs with _$TrimSoundForDetectionArgs {
+abstract class TrimSoundForDetectionArgs with _$TrimSoundForDetectionArgs {
   const factory TrimSoundForDetectionArgs({
     required LocalizedTemplate template,
     required String moviePath,

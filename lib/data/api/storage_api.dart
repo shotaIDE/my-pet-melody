@@ -32,7 +32,7 @@ class StorageApi {
 }
 
 @freezed
-class UploadResponse with _$UploadResponse {
+abstract class UploadResponse with _$UploadResponse {
   const factory UploadResponse({
     required String id,
     required String extension,

@@ -7,7 +7,7 @@ import 'package:my_pet_melody/ui/model/player_choice.dart';
 part 'select_trimmed_sound_state.freezed.dart';
 
 @freezed
-class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
+abstract class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
   const factory SelectTrimmedSoundState({
     required String displayName,
     required List<PlayerChoiceTrimmedMovie> choices,
@@ -20,7 +20,7 @@ class SelectTrimmedSoundState with _$SelectTrimmedSoundState {
 }
 
 @freezed
-class SelectTrimmedSoundArgs with _$SelectTrimmedSoundArgs {
+abstract class SelectTrimmedSoundArgs with _$SelectTrimmedSoundArgs {
   const factory SelectTrimmedSoundArgs({
     required LocalizedTemplate template,
     required String displayName,
@@ -30,7 +30,7 @@ class SelectTrimmedSoundArgs with _$SelectTrimmedSoundArgs {
 }
 
 @freezed
-class SelectTrimmedSoundResult with _$SelectTrimmedSoundResult {
+abstract class SelectTrimmedSoundResult with _$SelectTrimmedSoundResult {
   const factory SelectTrimmedSoundResult({
     required UploadedMedia uploaded,
     required String displayName,
@@ -39,7 +39,7 @@ class SelectTrimmedSoundResult with _$SelectTrimmedSoundResult {
 }
 
 @freezed
-class TrimmedSoundChoice with _$TrimmedSoundChoice {
+abstract class TrimmedSoundChoice with _$TrimmedSoundChoice {
   const factory TrimmedSoundChoice({
     required NonSilentSegment segment,
     @Default(null) String? thumbnailPath,

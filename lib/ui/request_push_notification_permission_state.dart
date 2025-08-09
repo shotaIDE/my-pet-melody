@@ -5,7 +5,7 @@ import 'package:my_pet_melody/data/model/uploaded_media.dart';
 part 'request_push_notification_permission_state.freezed.dart';
 
 @freezed
-class RequestPushNotificationPermissionState
+abstract class RequestPushNotificationPermissionState
     with _$RequestPushNotificationPermissionState {
   const factory RequestPushNotificationPermissionState({
     @Default(false) bool isProcessing,
@@ -13,7 +13,7 @@ class RequestPushNotificationPermissionState
 }
 
 @freezed
-class RequestPushNotificationPermissionArgs
+abstract class RequestPushNotificationPermissionArgs
     with _$RequestPushNotificationPermissionArgs {
   const factory RequestPushNotificationPermissionArgs({
     required Template template,

@@ -4,7 +4,7 @@ import 'package:my_pet_melody/data/model/template.dart';
 part 'localized_template.freezed.dart';
 
 @freezed
-class LocalizedTemplate with _$LocalizedTemplate {
+abstract class LocalizedTemplate with _$LocalizedTemplate {
   const factory LocalizedTemplate({
     required String id,
     required String defaultName,

@@ -9,7 +9,7 @@ import 'package:my_pet_melody/ui/select_sounds_state.dart';
 part 'player_choice.freezed.dart';
 
 @freezed
-class PlayerChoice with _$PlayerChoice {
+abstract class PlayerChoice with _$PlayerChoice {
   const factory PlayerChoice.piece({
     required PlayStatus status,
     required Piece piece,

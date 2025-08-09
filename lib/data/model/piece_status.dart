@@ -4,7 +4,7 @@ part 'piece_status.freezed.dart';
 part 'piece_status.g.dart';
 
 @freezed
-class PieceStatus with _$PieceStatus {
+abstract class PieceStatus with _$PieceStatus {
   const factory PieceStatus.generating({
     required DateTime submitted,
   }) = _PieceStatusGenerating;
