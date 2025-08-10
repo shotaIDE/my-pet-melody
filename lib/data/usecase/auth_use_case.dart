@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/logger/event_reporter.dart';
 import 'package:my_pet_melody/data/model/account_provider.dart';
 import 'package:my_pet_melody/data/model/delete_account_error.dart';
+import 'package:my_pet_melody/data/model/delete_account_with_current_session_error.dart';
 import 'package:my_pet_melody/data/model/google_credential.dart';
 import 'package:my_pet_melody/data/model/link_credential_error.dart';
 import 'package:my_pet_melody/data/model/login_error.dart';
@@ -209,10 +210,11 @@ deleteAccountActionProvider = Provider((ref) {
       return const Result.success(null);
     }
 
-    final providerNeededAuthenticate = deleteOnFirstError.when(
-      needReauthenticate: (provider) => provider,
-      unrecoverable: () => null,
-    );
+    final providerNeededAuthenticate = switch (deleteOnFirstError) {
+      DeleteAccountWithCurrentSessionErrorNeedReauthenticate(:final provider) =>
+        provider,
+      DeleteAccountWithCurrentSessionErrorUnrecoverable() => null,
+    };
     if (providerNeededAuthenticate == null) {
       return const Result.failure(DeleteAccountError.unrecoverable());
     }
@@ -268,10 +270,12 @@ deleteAccountActionProvider = Provider((ref) {
 
     final deleteOnSecondResult = await authActions.delete();
     final deleteOnSecondError = deleteOnSecondResult.whenOrNull(
-      failure: (error) => error.when(
-        needReauthenticate: (_) => const DeleteAccountError.unrecoverable(),
-        unrecoverable: DeleteAccountError.unrecoverable,
-      ),
+      failure: (error) => switch (error) {
+        DeleteAccountWithCurrentSessionErrorNeedReauthenticate() =>
+          const DeleteAccountError.unrecoverable(),
+        DeleteAccountWithCurrentSessionErrorUnrecoverable() =>
+          const DeleteAccountError.unrecoverable(),
+      },
     );
     if (deleteOnSecondError != null) {
       return Result.failure(deleteOnSecondError);
