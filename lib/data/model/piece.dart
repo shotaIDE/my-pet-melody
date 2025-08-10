@@ -4,7 +4,7 @@ part 'piece.freezed.dart';
 part 'piece.g.dart';
 
 @freezed
-abstract class Piece with _$Piece {
+sealed class Piece with _$Piece {
   const factory Piece.generating({
     required String id,
     required String name,

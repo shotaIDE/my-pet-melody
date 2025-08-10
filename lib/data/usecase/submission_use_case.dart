@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/model/make_piece_availability.dart';
 import 'package:my_pet_melody/data/model/movie_segmentation.dart';
+import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/data/model/preference_key.dart';
 import 'package:my_pet_melody/data/model/template.dart';
 import 'package:my_pet_melody/data/model/uploaded_media.dart';
@@ -19,25 +20,25 @@ import 'package:my_pet_melody/data/service/storage_service_firebase.dart';
 import 'package:my_pet_melody/data/usecase/piece_use_case.dart';
 
 final FutureProvider<Future<MakePieceAvailability> Function()>
-    getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
+getMakePieceAvailabilityActionProvider = FutureProvider((ref) async {
   final isPremiumPlan = ref.watch(isPremiumPlanProvider);
   final pieces = await ref.watch(piecesProvider.future);
   final preferenceService = ref.watch(preferenceServiceProvider);
 
   final validPieces = pieces.where(
-    (piece) => piece.map(
-      generating: (_) => true,
-      generated: (_) => true,
-      expired: (_) => false,
-    ),
+    (piece) => switch (piece) {
+      PieceGenerating() => true,
+      PieceGenerated() => true,
+      PieceExpired() => false,
+    },
   );
 
   Future<MakePieceAvailability> action() async {
     final userRequestedDoNotShowWarningsAgainForMakingPiece =
         await preferenceService.getBool(
-              PreferenceKey.userRequestedDoNotShowWarningsAgainForMakingPiece,
-            ) ??
-            false;
+          PreferenceKey.userRequestedDoNotShowWarningsAgainForMakingPiece,
+        ) ??
+        false;
 
     if (isPremiumPlan == true) {
       if (validPieces.length < maxPiecesOnPremiumPlan) {
@@ -62,7 +63,7 @@ final FutureProvider<Future<MakePieceAvailability> Function()>
 });
 
 final Provider<Future<void> Function()>
-    requestDoNotShowWarningsAgainForMakingPieceActionProvider = Provider((ref) {
+requestDoNotShowWarningsAgainForMakingPieceActionProvider = Provider((ref) {
   final preferenceService = ref.watch(preferenceServiceProvider);
 
   Future<void> action() async {
@@ -75,17 +76,18 @@ final Provider<Future<void> Function()>
   return action;
 });
 
-final Provider<bool> isAvailableToTrimSoundForGenerationProvider =
-    Provider((ref) {
+final Provider<bool> isAvailableToTrimSoundForGenerationProvider = Provider((
+  ref,
+) {
   final isPremiumPlan = ref.watch(isPremiumPlanProvider);
 
   return isPremiumPlan == true;
 });
 
 final FutureProvider<
-        Future<MovieSegmentation?> Function(File file,
-            {required String fileName})> detectActionProvider =
-    FutureProvider((ref) async {
+  Future<MovieSegmentation?> Function(File file, {required String fileName})
+>
+detectActionProvider = FutureProvider((ref) async {
   final session = await ref.watch(sessionStreamProvider.future);
   final storageService = await ref.read(storageServiceProvider.future);
   final repository = ref.read(submissionRepositoryProvider);
@@ -112,24 +114,25 @@ final FutureProvider<
 });
 
 final FutureProvider<
-        Future<UploadedMedia?> Function(File file, {required String fileName})>
-    uploadActionProvider = FutureProvider((ref) async {
+  Future<UploadedMedia?> Function(File file, {required String fileName})
+>
+uploadActionProvider = FutureProvider((ref) async {
   final storageService = await ref.read(storageServiceProvider.future);
 
   return storageService.uploadEdited;
 });
 
 final Provider<Future<bool> Function()>
-    getShouldShowRequestPushNotificationPermissionActionProvider =
-    Provider((ref) {
+getShouldShowRequestPushNotificationPermissionActionProvider = Provider((ref) {
   final settingsRepository = ref.read(settingsRepositoryProvider);
-  final androidDeviceSdkIntFuture =
-      ref.read(androidDeviceSdkIntProvider.future);
+  final androidDeviceSdkIntFuture = ref.read(
+    androidDeviceSdkIntProvider.future,
+  );
 
   Future<bool> action() async {
     if (Platform.isIOS ||
-            (Platform.isAndroid &&
-                await androidDeviceSdkIntFuture >= 33) // Android 13 or higher
+        (Platform.isAndroid &&
+            await androidDeviceSdkIntFuture >= 33) // Android 13 or higher
         ) {
       final hasRequestedPermission = await settingsRepository
           .getHasRequestedPushNotificationPermissionAtLeastOnce();
@@ -144,7 +147,7 @@ final Provider<Future<bool> Function()>
 });
 
 final Provider<Future<void> Function()>
-    requestPushNotificationPermissionActionProvider = Provider((ref) {
+requestPushNotificationPermissionActionProvider = Provider((ref) {
   final pushNotificationService = ref.read(pushNotificationServiceProvider);
   final settingsRepository = ref.read(settingsRepositoryProvider);
 
@@ -159,12 +162,14 @@ final Provider<Future<void> Function()>
 });
 
 final FutureProvider<
-        Future<void> Function(
-            {required String displayName,
-            required List<UploadedMedia> sounds,
-            required Template template,
-            required UploadedMedia thumbnail})> submitActionProvider =
-    FutureProvider((ref) async {
+  Future<void> Function({
+    required String displayName,
+    required List<UploadedMedia> sounds,
+    required Template template,
+    required UploadedMedia thumbnail,
+  })
+>
+submitActionProvider = FutureProvider((ref) async {
   final repository = ref.read(submissionRepositoryProvider);
   final purchaseActions = ref.watch(purchaseActionsProvider);
   final session = await ref.watch(sessionStreamProvider.future);
