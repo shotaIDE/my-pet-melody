@@ -135,6 +135,9 @@ class _LinkWithAccountScreenState extends ConsumerState<LinkWithAccountScreen> {
 
       case Failure<void, LoginError>(:final error):
         switch (error) {
+          case LoginErrorCancelledByUser():
+            break;
+
           case LoginErrorAlreadyInUse():
             final snackBar = SnackBar(
               content: Text(
