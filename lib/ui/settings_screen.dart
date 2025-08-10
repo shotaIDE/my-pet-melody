@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:my_pet_melody/data/definitions/app_definitions.dart';
 import 'package:my_pet_melody/data/definitions/app_features.dart';
+import 'package:my_pet_melody/data/model/delete_account_error.dart';
 import 'package:my_pet_melody/data/model/profile.dart';
+import 'package:my_pet_melody/data/model/result.dart';
 import 'package:my_pet_melody/data/service/app_service.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
@@ -231,8 +233,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         .read(widget.viewModelProvider.notifier)
         .deleteAccount();
 
-    await result.when(
-      success: (_) async {
+    switch (result) {
+      case Success():
         await ref.read(rootViewModelProvider.notifier).restart();
 
         if (!mounted) {
@@ -240,20 +242,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         }
 
         Navigator.popUntil(context, (route) => route.isFirst);
-      },
-      failure: (error) => error.when(
-        cancelledByUser: () {},
-        unrecoverable: () {
-          final snackBar = SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!.unknownErrorDescription,
-            ),
-          );
 
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-      ),
-    );
+      case Failure<void, DeleteAccountError>(:final error):
+        switch (error) {
+          case DeleteAccountErrorCancelledByUser():
+            break;
+
+          case DeleteAccountErrorUnrecoverable():
+            if (!mounted) {
+              return;
+            }
+
+            final snackBar = SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.unknownErrorDescription,
+              ),
+            );
+
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+    }
   }
 }
 
