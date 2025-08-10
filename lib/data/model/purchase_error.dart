@@ -4,6 +4,6 @@ part 'purchase_error.freezed.dart';
 
 @freezed
 abstract class PurchaseError with _$PurchaseError {
-  const factory PurchaseError.cancelledByUser() = _PurchaseErrorCancelledByUser;
-  const factory PurchaseError.unrecoverable() = _PurchaseErrorUnrecoverable;
+  const factory PurchaseError.cancelledByUser() = PurchaseErrorCancelledByUser;
+  const factory PurchaseError.unrecoverable() = PurchaseErrorUnrecoverable;
 }
