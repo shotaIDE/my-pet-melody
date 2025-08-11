@@ -12,7 +12,7 @@ abstract class SelectSoundsState with _$SelectSoundsState {
 }
 
 @freezed
-abstract class SelectedSound with _$SelectedSound {
+sealed class SelectedSound with _$SelectedSound {
   const factory SelectedSound.none({
     required String id,
   }) = SelectedSoundNone;
