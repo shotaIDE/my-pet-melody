@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_pet_melody/data/model/purchasable.dart';
+import 'package:my_pet_melody/data/model/purchase_error.dart';
+import 'package:my_pet_melody/data/model/result.dart';
 import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_state.dart';
 
 class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
   JoinPremiumPlanViewModel({required Ref ref})
-      : _ref = ref,
-        super(const JoinPremiumPlanState());
+    : _ref = ref,
+      super(const JoinPremiumPlanState());
 
   final Ref _ref;
 
@@ -35,19 +37,17 @@ class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
     final purchaseActions = _ref.read(purchaseActionsProvider);
     final result = await purchaseActions.purchase(purchasable: purchasable);
 
-    result.when(
-      success: (_) {
+    switch (result) {
+      case Success():
         _showCompletedJoiningPremiumPlan?.call();
-      },
-      failure: (error) {
-        error.map(
-          cancelledByUser: (_) {},
-          unrecoverable: (_) {
+      case Failure<void, PurchaseError>(:final error):
+        switch (error) {
+          case PurchaseErrorCancelledByUser():
+            break;
+          case PurchaseErrorUnrecoverable():
             _showFailedJoiningPremiumPlan?.call();
-          },
-        );
-      },
-    );
+        }
+    }
 
     state = state.copyWith(isProcessing: false);
   }

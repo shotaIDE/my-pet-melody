@@ -73,7 +73,7 @@ class SubmissionApi {
 }
 
 @freezed
-class DetectRequest with _$DetectRequest {
+abstract class DetectRequest with _$DetectRequest {
   const factory DetectRequest({
     required String fileName,
   }) = _DetectRequest;
@@ -83,7 +83,7 @@ class DetectRequest with _$DetectRequest {
 }
 
 @freezed
-class DetectResponse with _$DetectResponse {
+abstract class DetectResponse with _$DetectResponse {
   const factory DetectResponse({
     required List<DetectedSegment> detectedSegments,
     required List<EquallyDividedSegment> equallyDividedSegments,
@@ -95,7 +95,7 @@ class DetectResponse with _$DetectResponse {
 }
 
 @freezed
-class DetectedSegment with _$DetectedSegment {
+abstract class DetectedSegment with _$DetectedSegment {
   const factory DetectedSegment({
     required String thumbnailBase64,
     required int startMilliseconds,
@@ -107,7 +107,7 @@ class DetectedSegment with _$DetectedSegment {
 }
 
 @freezed
-class EquallyDividedSegment with _$EquallyDividedSegment {
+abstract class EquallyDividedSegment with _$EquallyDividedSegment {
   const factory EquallyDividedSegment({
     required String thumbnailBase64,
   }) = _EquallyDividedSegment;
@@ -117,7 +117,7 @@ class EquallyDividedSegment with _$EquallyDividedSegment {
 }
 
 @freezed
-class SubmitRequest with _$SubmitRequest {
+abstract class SubmitRequest with _$SubmitRequest {
   const factory SubmitRequest({
     required String templateId,
     required List<String> soundFileNames,
@@ -130,7 +130,7 @@ class SubmitRequest with _$SubmitRequest {
 }
 
 @freezed
-class SubmitResponse with _$SubmitResponse {
+abstract class SubmitResponse with _$SubmitResponse {
   const factory SubmitResponse({
     required String pieceId,
   }) = _SubmitResponse;
@@ -140,7 +140,7 @@ class SubmitResponse with _$SubmitResponse {
 }
 
 @freezed
-class PieceRequest with _$PieceRequest {
+abstract class PieceRequest with _$PieceRequest {
   const factory PieceRequest({
     required String pieceId,
     required String templateId,
@@ -154,7 +154,7 @@ class PieceRequest with _$PieceRequest {
 }
 
 @freezed
-class PieceResponse with _$PieceResponse {
+abstract class PieceResponse with _$PieceResponse {
   const factory PieceResponse() = _PieceResponse;
 
   factory PieceResponse.fromJson(Map<String, dynamic> json) =>

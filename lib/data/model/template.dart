@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'template.freezed.dart';
 
 @freezed
-class Template with _$Template {
+abstract class Template with _$Template {
   const factory Template({
     required String id,
     required String name,
@@ -14,7 +14,7 @@ class Template with _$Template {
 }
 
 @freezed
-class TemplateDraft with _$TemplateDraft {
+abstract class TemplateDraft with _$TemplateDraft {
   const factory TemplateDraft({
     required String id,
     required String name,
@@ -23,7 +23,7 @@ class TemplateDraft with _$TemplateDraft {
 }
 
 @freezed
-class LocalizedTemplateMetadata with _$LocalizedTemplateMetadata {
+abstract class LocalizedTemplateMetadata with _$LocalizedTemplateMetadata {
   const factory LocalizedTemplateMetadata({
     required String id,
     required String name,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/model/piece.dart';
 import 'package:my_pet_melody/data/usecase/auth_use_case.dart';
 import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/ui/component/fetched_thumbnail.dart';
@@ -188,45 +189,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
 
             final piece = playablePiece.piece;
-            final foregroundColor = piece.map(
-              generating: (_) => Theme.of(context).disabledColor,
-              generated: (_) => null,
-              expired: (_) => Theme.of(context).disabledColor,
-            );
+            final foregroundColor = switch (piece) {
+              PieceGenerating() => Theme.of(context).disabledColor,
+              PieceGenerated() => null,
+              PieceExpired() => Theme.of(context).disabledColor,
+            };
             final nameText = Text(
               piece.name,
               style: TextStyle(color: foregroundColor),
             );
 
-            final detailsText = piece.map(
-              generating: (generating) => Text(
-                AppLocalizations.of(context)!.generating,
-                style: TextStyle(color: foregroundColor),
-              ),
-              generated: (generated) {
-                final availableUntil = generated.availableUntil;
-                if (availableUntil == null) {
-                  return null;
-                }
-
-                return _AvailableUntilText(
-                  availableUntil: availableUntil,
-                  current: currentDateTime,
-                  defaultForegroundColor: foregroundColor,
-                );
-              },
-              expired: (expired) {
-                final availableUntil = expired.availableUntil;
-                if (availableUntil == null) {
-                  return null;
-                }
-
-                return _AvailableUntilText(
-                  availableUntil: availableUntil,
-                  current: currentDateTime,
-                  defaultForegroundColor: foregroundColor,
-                );
-              },
+            final detailsText = _getDetailsText(
+              piece: piece,
+              foregroundColor: foregroundColor,
+              currentDateTime: currentDateTime,
             );
             final body = <Widget>[nameText];
             if (detailsText != null) {
@@ -365,6 +341,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     await Navigator.push<void>(context, JoinPremiumPlanScreen.route());
+  }
+
+  Widget? _getDetailsText({
+    required Piece piece,
+    required Color? foregroundColor,
+    required DateTime currentDateTime,
+  }) {
+    switch (piece) {
+      case PieceGenerating():
+        return Text(
+          AppLocalizations.of(context)!.generating,
+          style: TextStyle(color: foregroundColor),
+        );
+
+      case final PieceGenerated generated:
+        final availableUntil = generated.availableUntil;
+        if (availableUntil == null) {
+          return null;
+        }
+
+        return _AvailableUntilText(
+          availableUntil: availableUntil,
+          current: currentDateTime,
+          defaultForegroundColor: foregroundColor,
+        );
+
+      case final PieceExpired expired:
+        final availableUntil = expired.availableUntil;
+        if (availableUntil == null) {
+          return null;
+        }
+
+        return _AvailableUntilText(
+          availableUntil: availableUntil,
+          current: currentDateTime,
+          defaultForegroundColor: foregroundColor,
+        );
+    }
   }
 }
 

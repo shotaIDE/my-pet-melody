@@ -8,6 +8,7 @@ import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
 import 'package:my_pet_melody/ui/component/transparent_app_bar.dart';
 import 'package:my_pet_melody/ui/definition/display_definition.dart';
 import 'package:my_pet_melody/ui/model/localized_template.dart';
+import 'package:my_pet_melody/ui/model/play_status.dart';
 import 'package:my_pet_melody/ui/select_sounds_state.dart';
 import 'package:my_pet_melody/ui/select_sounds_view_model.dart';
 import 'package:my_pet_melody/ui/trim_sound_for_detection_screen.dart';
@@ -81,11 +82,11 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
     final template = state.template;
     final status = template.status;
 
-    final icon = status.map(
-      stop: (_) => Icons.play_arrow,
-      loadingMedia: (_) => Icons.stop,
-      playing: (_) => Icons.stop,
-    );
+    final icon = switch (status) {
+      PlayStatusStop() => Icons.play_arrow,
+      PlayStatusLoadingMedia() => Icons.stop,
+      PlayStatusPlaying() => Icons.stop,
+    };
     final thumbnailImage = SizedBox(
       width: DisplayDefinition.thumbnailWidthSmall,
       height: DisplayDefinition.thumbnailHeightSmall,
@@ -100,20 +101,17 @@ class _SelectTemplateState extends ConsumerState<SelectSoundsScreen> {
 
     final templatePositionBar = ChoicePositionBar(status: status);
 
-    final onTapTemplate = status.map(
-      stop: (_) =>
-          () => ref
-              .read(widget.viewModelProvider.notifier)
-              .play(choice: template),
-      loadingMedia: (_) =>
-          () => ref
-              .read(widget.viewModelProvider.notifier)
-              .stop(choice: template),
-      playing: (_) =>
-          () => ref
-              .read(widget.viewModelProvider.notifier)
-              .stop(choice: template),
-    );
+    final onTapTemplate = switch (status) {
+      PlayStatusStop() =>
+        () =>
+            ref.read(widget.viewModelProvider.notifier).play(choice: template),
+      PlayStatusLoadingMedia() =>
+        () =>
+            ref.read(widget.viewModelProvider.notifier).stop(choice: template),
+      PlayStatusPlaying() =>
+        () =>
+            ref.read(widget.viewModelProvider.notifier).stop(choice: template),
+    };
 
     final templateTile = ClipRRect(
       borderRadius: const BorderRadius.all(

@@ -5,7 +5,7 @@ import 'package:video_trimmer/video_trimmer.dart';
 part 'trim_sound_for_generation_state.freezed.dart';
 
 @freezed
-class TrimSoundForGenerationState with _$TrimSoundForGenerationState {
+abstract class TrimSoundForGenerationState with _$TrimSoundForGenerationState {
   const factory TrimSoundForGenerationState({
     required Trimmer trimmer,
     @Default(0.0) double startValue,
@@ -24,7 +24,7 @@ enum TrimSoundForGenerationScreenProcess {
 }
 
 @freezed
-class TrimSoundForGenerationArgs with _$TrimSoundForGenerationArgs {
+abstract class TrimSoundForGenerationArgs with _$TrimSoundForGenerationArgs {
   const factory TrimSoundForGenerationArgs({
     required LocalizedTemplate template,
     required String displayName,

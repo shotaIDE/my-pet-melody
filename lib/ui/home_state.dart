@@ -4,17 +4,17 @@ import 'package:my_pet_melody/ui/model/player_choice.dart';
 part 'home_state.freezed.dart';
 
 @freezed
-class HomeState with _$HomeState {
+abstract class HomeState with _$HomeState {
   const factory HomeState({
     @Default(null) List<PlayerChoicePiece>? pieces,
   }) = _HomeState;
 }
 
 @freezed
-class ConfirmToMakePieceResult with _$ConfirmToMakePieceResult {
+sealed class ConfirmToMakePieceResult with _$ConfirmToMakePieceResult {
   const factory ConfirmToMakePieceResult.continued({
     required bool requestedDoNotShowWarningsAgain,
-  }) = _ConfirmToMakePieceResultContinued;
+  }) = ConfirmToMakePieceResultContinued;
   const factory ConfirmToMakePieceResult.canceled() =
-      _ConfirmToMakePieceResultCanceled;
+      ConfirmToMakePieceResultCanceled;
 }

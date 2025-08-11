@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'uploaded_media.freezed.dart';
 
 @freezed
-class UploadedMedia with _$UploadedMedia {
+abstract class UploadedMedia with _$UploadedMedia {
   const factory UploadedMedia({
     required String id,
     required String extension,
@@ -12,7 +12,7 @@ class UploadedMedia with _$UploadedMedia {
 }
 
 @freezed
-class UploadedMediaDraft with _$UploadedMediaDraft {
+abstract class UploadedMediaDraft with _$UploadedMediaDraft {
   const factory UploadedMediaDraft({
     required String id,
     required String extension,

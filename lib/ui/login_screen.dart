@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_pet_melody/data/model/login_error.dart';
+import 'package:my_pet_melody/data/model/result.dart';
 import 'package:my_pet_melody/l10n/generated/app_localizations.dart';
 import 'package:my_pet_melody/ui/component/social_login_button.dart';
 import 'package:my_pet_melody/ui/component/speaking_cat_image.dart';
@@ -154,36 +156,43 @@ class _HomeScreenState extends ConsumerState<LoginScreen> {
         .read(widget.viewModel.notifier)
         .continueWithGoogle();
 
-    await result.when(
-      success: (_) async {
+    if (!mounted) {
+      return;
+    }
+
+    switch (result) {
+      case Success():
         await Navigator.pushReplacement<HomeScreen, void>(
           context,
           HomeScreen.route(),
         );
-      },
-      failure: (error) => error.mapOrNull(
-        alreadyInUse: (_) {
-          final snackBar = SnackBar(
-            content: Text(
-              AppLocalizations.of(
-                context,
-              )!.googleAccountIsAlreadyUsedErrorDescription,
-            ),
-          );
 
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-        unrecoverable: (_) {
-          final snackBar = SnackBar(
-            content: Text(
-              AppLocalizations.of(context)!.unknownErrorDescription,
-            ),
-          );
+      case Failure<void, LoginError>(:final error):
+        switch (error) {
+          case LoginErrorCancelledByUser():
+            break;
 
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        },
-      ),
-    );
+          case LoginErrorAlreadyInUse():
+            final snackBar = SnackBar(
+              content: Text(
+                AppLocalizations.of(
+                  context,
+                )!.googleAccountIsAlreadyUsedErrorDescription,
+              ),
+            );
+
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          case LoginErrorUnrecoverable():
+            final snackBar = SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.unknownErrorDescription,
+              ),
+            );
+
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+    }
   }
 
   Future<void> _continueWithApple() async {
