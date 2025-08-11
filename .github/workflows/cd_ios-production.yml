@@ -44,7 +44,7 @@ jobs:
       - name: Generate App Store Connect API key file
         run: echo "${{ secrets.APP_STORE_CONNECT_API_KEY_P8_BASE64 }}" | base64 -d > fastlane/app-store-connect-api-key.p8
       - name: Import Code-Signing Certificates
-        uses: Apple-Actions/import-codesign-certs@65cfbc37e1464d733524cb555b724878f278b8c3 # v5
+        uses: Apple-Actions/import-codesign-certs@95e84a1a18f2bdbc5c6ab9b7f4429372e4b13a8b # v5
         with:
           p12-file-base64: ${{ secrets.APP_DISTRIBUTION_P12_BASE64 }}
           p12-password: ${{ secrets.APP_DISTRIBUTION_P12_PASSWORD }}
