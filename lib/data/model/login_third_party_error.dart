@@ -3,9 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'login_third_party_error.freezed.dart';
 
 @freezed
-abstract class LoginThirdPartyError with _$LoginThirdPartyError {
+sealed class LoginThirdPartyError with _$LoginThirdPartyError {
   const factory LoginThirdPartyError.cancelledByUser() =
-      _LoginThirdPartyErrorCancelledByUser;
+      LoginThirdPartyErrorCancelledByUser;
   const factory LoginThirdPartyError.unrecoverable() =
-      _LoginThirdPartyErrorUnrecoverable;
+      LoginThirdPartyErrorUnrecoverable;
 }
