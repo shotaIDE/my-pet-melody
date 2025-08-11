@@ -11,10 +11,10 @@ abstract class HomeState with _$HomeState {
 }
 
 @freezed
-abstract class ConfirmToMakePieceResult with _$ConfirmToMakePieceResult {
+sealed class ConfirmToMakePieceResult with _$ConfirmToMakePieceResult {
   const factory ConfirmToMakePieceResult.continued({
     required bool requestedDoNotShowWarningsAgain,
-  }) = _ConfirmToMakePieceResultContinued;
+  }) = ConfirmToMakePieceResultContinued;
   const factory ConfirmToMakePieceResult.canceled() =
-      _ConfirmToMakePieceResultCanceled;
+      ConfirmToMakePieceResultCanceled;
 }
