@@ -4,14 +4,14 @@ part 'piece_status.freezed.dart';
 part 'piece_status.g.dart';
 
 @freezed
-abstract class PieceStatus with _$PieceStatus {
+sealed class PieceStatus with _$PieceStatus {
   const factory PieceStatus.generating({
     required DateTime submitted,
-  }) = _PieceStatusGenerating;
+  }) = PieceStatusGenerating;
 
   const factory PieceStatus.generated({
     required DateTime generated,
-  }) = _PieceStatusGenerated;
+  }) = PieceStatusGenerated;
 
   factory PieceStatus.fromJson(Map<String, dynamic> json) =>
       _$PieceStatusFromJson(json);
