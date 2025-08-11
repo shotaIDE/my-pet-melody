@@ -34,13 +34,13 @@ sealed class Piece with _$Piece {
 }
 
 @freezed
-abstract class PieceDraft with _$PieceDraft {
+sealed class PieceDraft with _$PieceDraft {
   const factory PieceDraft.generating({
     required String id,
     required String name,
     required DateTime submittedAt,
     required String thumbnailFileName,
-  }) = _PieceDraftGenerating;
+  }) = PieceDraftGenerating;
 
   const factory PieceDraft.generated({
     required String id,
@@ -48,5 +48,5 @@ abstract class PieceDraft with _$PieceDraft {
     required DateTime generatedAt,
     required String movieFileName,
     required String thumbnailFileName,
-  }) = _PieceDraftGenerated;
+  }) = PieceDraftGenerated;
 }
