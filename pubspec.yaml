@@ -44,7 +44,7 @@ dependencies:
   # As with `collection`, not specify.`
   path: any
   path_provider: 2.1.5
-  purchases_flutter: 9.2.0
+  purchases_flutter: 9.2.1
   rxdart: 0.28.0
   share_plus: 11.1.0
   shared_preferences: 2.5.3
