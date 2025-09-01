@@ -37,7 +37,7 @@ dependencies:
   font_awesome_flutter: 10.9.0
   freezed_annotation: 3.1.0
   google_sign_in: 7.1.1
-  in_app_review: 2.0.10
+  in_app_review: 2.0.11
   # As with `collection`, not specify.
   intl: any
   package_info_plus: 8.3.1
