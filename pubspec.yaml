@@ -9,7 +9,7 @@ environment:
   sdk: "3.8.1"
 
 dependencies:
-  audioplayers: 6.5.0
+  audioplayers: 6.5.1
   chewie: 1.12.1
   cloud_firestore: 6.0.1
   # Not specify any version because this library is pinned by the Flutter SDK.
