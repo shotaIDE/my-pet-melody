@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   audioplayers: 6.5.1
-  chewie: 1.12.1
+  chewie: 1.13.0
   cloud_firestore: 6.0.1
   # Not specify any version because this library is pinned by the Flutter SDK.
   # https://github.com/dart-lang/sdk/blob/main/docs/Flutter-Pinned-Packages.md
