@@ -40,7 +40,7 @@ dependencies:
   in_app_review: 2.0.11
   # As with `collection`, not specify.
   intl: any
-  package_info_plus: 8.3.1
+  package_info_plus: 9.0.0
   # As with `collection`, not specify.`
   path: any
   path_provider: 2.1.5
