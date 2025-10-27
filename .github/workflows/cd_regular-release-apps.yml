@@ -133,7 +133,7 @@ jobs:
           max_attempts: 2
           retry_on: error
           command: bundle exec fastlane ios build_dev_for_simulator
-      - uses: mobile-dev-inc/action-maestro-cloud@80d8a65d8ab808cadbafffd8755ffb7e8e26dc77 # v1.9.8
+      - uses: mobile-dev-inc/action-maestro-cloud@892c9dd6e50cff4f8c9046f6263047dc5bf419d5 # v1.9.9
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
           app-file: "build/ios/iphonesimulator/Runner.app"
@@ -183,7 +183,7 @@ jobs:
           sample-videos-zip-url: ${{ secrets.API_TEST_SAMPLE_MOVIES_ZIP_URL }}
       - name: Build Android dev app
         run: flutter build apk --flavor dev --dart-define-from-file 'dart-defines_dev.json'
-      - uses: mobile-dev-inc/action-maestro-cloud@80d8a65d8ab808cadbafffd8755ffb7e8e26dc77 # v1.9.8
+      - uses: mobile-dev-inc/action-maestro-cloud@892c9dd6e50cff4f8c9046f6263047dc5bf419d5 # v1.9.9
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
           app-file: "build/app/outputs/flutter-apk/app-dev-release.apk"
