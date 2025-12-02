@@ -19,7 +19,7 @@ jobs:
     outputs:
       is-release-available: ${{ steps.check-apps-currently-released.outputs.is_released == 'true' }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
       - name: Generate env file
@@ -46,7 +46,7 @@ jobs:
     outputs:
       has-diff-related-to-app: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
@@ -98,7 +98,7 @@ jobs:
     if: ${{ needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true' }}
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Setup Xcode
@@ -147,7 +147,7 @@ jobs:
     if: ${{ needs.check-unreleased-diff.outputs.has-diff-related-to-app == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Setup Gradle
@@ -203,7 +203,7 @@ jobs:
         with:
           app_id: ${{ secrets.COLOMNEY_WORKFLOW_APP_ID }}
           private_key: ${{ secrets.COLOMNEY_WORKFLOW_APP_PRIVATE_KEY_PEM }}
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
         with:
           # Use App tokens instead of default token `GITHUB_TOKEN`
           # to ensure that GitHub Actions will be triggered again after push back.
@@ -232,7 +232,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: trigger-cd-production
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Setup Ruby
         uses: ./.github/actions/setup-ruby
       - name: Generate env file

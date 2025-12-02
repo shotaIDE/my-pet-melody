@@ -18,7 +18,7 @@ jobs:
     outputs:
       has-changed-related-files: ${{ steps.check-related-files.outputs.any_changed == 'true' }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
         with:
           fetch-depth: 0
       - name: Check related files
@@ -39,7 +39,7 @@ jobs:
       run:
         working-directory: function
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Install dependencies
         # Use the nearest version of FFMpeg installed in the environment
         # on which the production runtime is based.
