@@ -63,7 +63,7 @@ dependency_overrides:
 
 dev_dependencies:
   build_runner: 2.10.4
-  cider: 0.2.7
+  cider: 0.2.9
   flutter_test:
     sdk: flutter
   freezed: 3.2.3
