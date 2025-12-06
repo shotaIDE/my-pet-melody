@@ -11,4 +11,4 @@ pytz==2025.2
 requests==2.32.5
 # "'HTTPResponse' object has no attribute 'strict'" error occurs, so do not use 2.x series
 # See https://stackoverflow.com/questions/76423515/how-to-fix-poetry-error-httpresponse-object-has-no-attribute-strict for details
-urllib3==2.5.0
+urllib3==2.6.0
