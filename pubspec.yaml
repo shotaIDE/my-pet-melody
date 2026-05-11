@@ -34,7 +34,7 @@ dependencies:
     sdk: flutter
   flutter_riverpod: 2.6.1
   flutter_svg: 2.2.3
-  font_awesome_flutter: 10.9.0
+  font_awesome_flutter: 10.12.0
   freezed_annotation: 3.1.0
   google_sign_in: 7.2.0
   in_app_review: 2.0.11
