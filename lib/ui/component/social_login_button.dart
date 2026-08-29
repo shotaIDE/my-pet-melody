@@ -32,7 +32,7 @@ class ContinueWithAppleButton extends StatelessWidget {
 
     return _ContinueWithThirdPartyProviderButton(
       onPressed: onPressed,
-      icon: const Icon(FontAwesomeIcons.apple, color: foregroundColor),
+      icon: const FaIcon(FontAwesomeIcons.apple, color: foregroundColor),
       text: AppLocalizations.of(context)!.continueWithApple,
       textColor: foregroundColor,
       backgroundColor: Colors.black,

@@ -564,10 +564,10 @@ class _ChoiceRadioButton extends ConsumerWidget {
 
     return Semantics(
       label: AppLocalizations.of(context)!.selectNThMeow(index),
-      child: Radio<int?>(
-        value: selectedIndex,
-        groupValue: index,
+      child: RadioGroup<int?>(
+        groupValue: selectedIndex,
         onChanged: (_) => onSelect(),
+        child: Radio<int?>(value: index),
       ),
     );
   }
