@@ -7,6 +7,8 @@ analyzer:
     - "**/*.g.dart"
     - "lib/firebase_options*.dart"
     - "lib/generated_plugin_registrant.dart"
+    - android/**
+    - ios/**
 
 linter:
   rules:
