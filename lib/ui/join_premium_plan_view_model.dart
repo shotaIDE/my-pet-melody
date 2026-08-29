@@ -6,9 +6,8 @@ import 'package:my_pet_melody/data/service/in_app_purchase_service.dart';
 import 'package:my_pet_melody/ui/join_premium_plan_state.dart';
 
 class JoinPremiumPlanViewModel extends StateNotifier<JoinPremiumPlanState> {
-  JoinPremiumPlanViewModel({required Ref ref})
-    : _ref = ref,
-      super(const JoinPremiumPlanState());
+  JoinPremiumPlanViewModel({required this._ref})
+    : super(const JoinPremiumPlanState());
 
   final Ref _ref;
 

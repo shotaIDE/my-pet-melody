@@ -7,9 +7,8 @@ import 'package:my_pet_melody/ui/login_state.dart';
 
 class LoginViewModel extends StateNotifier<LoginState> {
   LoginViewModel({
-    required Ref ref,
-  })  : _ref = ref,
-        super(const LoginState());
+    required this._ref,
+  })  : super(const LoginState());
 
   final Ref _ref;
 

@@ -23,10 +23,9 @@ import 'package:video_trimmer/video_trimmer.dart';
 class SelectTrimmedSoundViewModel
     extends StateNotifier<SelectTrimmedSoundState> {
   SelectTrimmedSoundViewModel({
-    required Ref ref,
+    required this._ref,
     required SelectTrimmedSoundArgs args,
-  })  : _ref = ref,
-        _template = args.template,
+  })  : _template = args.template,
         _displayName = args.displayName,
         _moviePath = args.soundPath,
         _movieSegmentation = args.movieSegmentation,

@@ -10,8 +10,7 @@ final Provider<SettingsLocalDataSource> settingsLocalDataSourceProvider =
 );
 
 class SettingsLocalDataSource {
-  SettingsLocalDataSource({required PreferenceService preferenceService})
-      : _preferenceService = preferenceService;
+  SettingsLocalDataSource({required this._preferenceService});
 
   final PreferenceService _preferenceService;
 

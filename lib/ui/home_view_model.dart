@@ -16,10 +16,9 @@ import 'package:my_pet_melody/ui/model/player_choice.dart';
 
 class HomeViewModel extends StateNotifier<HomeState> {
   HomeViewModel({
-    required Ref ref,
+    required this._ref,
     required Listener listener,
-  })  : _ref = ref,
-        super(const HomeState()) {
+  })  : super(const HomeState()) {
     _setup(listener: listener);
   }
 

@@ -14,7 +14,7 @@ final Provider<StorageApi> storageApiProvider = Provider(
 );
 
 class StorageApi {
-  StorageApi({required MyDio dio}) : _dio = dio;
+  StorageApi({required this._dio});
 
   final MyDio _dio;
 

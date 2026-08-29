@@ -13,10 +13,9 @@ import 'package:video_trimmer/video_trimmer.dart';
 class TrimSoundForGenerationViewModel
     extends StateNotifier<TrimSoundForGenerationState> {
   TrimSoundForGenerationViewModel({
-    required Ref ref,
+    required this._ref,
     required TrimSoundForGenerationArgs args,
-  })  : _ref = ref,
-        _template = args.template,
+  })  : _template = args.template,
         _displayName = args.displayName,
         _moviePath = args.soundPath,
         super(

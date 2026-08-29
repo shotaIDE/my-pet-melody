@@ -14,12 +14,10 @@ import 'package:video_trimmer/video_trimmer.dart';
 class TrimSoundForDetectionViewModel
     extends StateNotifier<TrimSoundForDetectionState> {
   TrimSoundForDetectionViewModel({
-    required EventReporter eventReporter,
-    required Ref ref,
+    required this._eventReporter,
+    required this._ref,
     required TrimSoundForDetectionArgs args,
-  })  : _eventReporter = eventReporter,
-        _ref = ref,
-        _template = args.template,
+  })  : _template = args.template,
         _moviePath = args.moviePath,
         super(
           TrimSoundForDetectionState(

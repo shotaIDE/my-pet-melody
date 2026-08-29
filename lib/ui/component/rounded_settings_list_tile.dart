@@ -24,7 +24,7 @@ class RoundedSettingsListTile extends StatelessWidget {
           child: title,
         ),
         const SizedBox(width: 16),
-        if (trailing != null) trailing!,
+        ?trailing,
       ],
     );
 

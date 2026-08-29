@@ -15,7 +15,7 @@ final Provider<SubmissionApi> submissionApiProvider = Provider(
 );
 
 class SubmissionApi {
-  SubmissionApi({required MyDio dio}) : _dio = dio;
+  SubmissionApi({required this._dio});
 
   final MyDio _dio;
 

@@ -54,9 +54,8 @@ final Provider<AuthActions> authActionsProvider = Provider(
 );
 
 class SessionProvider extends StateNotifier<LoginSession?> {
-  SessionProvider({required ErrorReporter errorReporter})
-    : _errorReporter = errorReporter,
-      super(null);
+  SessionProvider({required this._errorReporter})
+    : super(null);
 
   final ErrorReporter _errorReporter;
 
@@ -131,10 +130,9 @@ class SessionProvider extends StateNotifier<LoginSession?> {
 
 class AuthActions {
   const AuthActions({
-    required ErrorReporter errorReporter,
-    required EventReporter eventReporter,
-  }) : _errorReporter = errorReporter,
-       _eventReporter = eventReporter;
+    required this._errorReporter,
+    required this._eventReporter,
+  });
 
   final ErrorReporter _errorReporter;
   final EventReporter _eventReporter;

@@ -6,9 +6,8 @@ import 'package:my_pet_melody/ui/link_with_account_state.dart';
 
 class LinkWithAccountViewModel extends StateNotifier<LinkWithAccountState> {
   LinkWithAccountViewModel({
-    required Ref ref,
-  })  : _ref = ref,
-        super(const LinkWithAccountState());
+    required this._ref,
+  })  : super(const LinkWithAccountState());
 
   final Ref _ref;
 

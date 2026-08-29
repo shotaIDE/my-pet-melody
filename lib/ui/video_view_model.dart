@@ -15,11 +15,9 @@ import 'package:video_player/video_player.dart';
 class VideoViewModel extends StateNotifier<VideoState> {
   VideoViewModel({
     required PieceGenerated piece,
-    required EventReporter eventReporter,
-    required Ref ref,
+    required this._eventReporter,
+    required this._ref,
   })  : _piece = piece,
-        _eventReporter = eventReporter,
-        _ref = ref,
         super(
           VideoState(title: piece.name),
         );

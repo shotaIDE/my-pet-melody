@@ -15,10 +15,9 @@ import 'package:my_pet_melody/ui/select_template_state.dart';
 
 class SelectTemplateViewModel extends StateNotifier<SelectTemplateState> {
   SelectTemplateViewModel({
-    required Ref ref,
+    required this._ref,
     required Listener listener,
-  })  : _ref = ref,
-        super(const SelectTemplateState()) {
+  })  : super(const SelectTemplateState()) {
     _setup(listener: listener);
   }
 

@@ -9,11 +9,9 @@ import 'package:path/path.dart';
 class RequestPushNotificationPermissionViewModel
     extends StateNotifier<RequestPushNotificationPermissionState> {
   RequestPushNotificationPermissionViewModel({
-    required Ref ref,
-    required RequestPushNotificationPermissionArgs args,
-  })  : _ref = ref,
-        _args = args,
-        super(
+    required this._ref,
+    required this._args,
+  })  : super(
           const RequestPushNotificationPermissionState(),
         );
 

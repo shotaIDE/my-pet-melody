@@ -53,8 +53,7 @@ final Provider<PurchaseActions> purchaseActionsProvider = Provider(
 const _premiumPlanEntitlementIdentifier = 'premium';
 
 class PurchaseActions {
-  const PurchaseActions({required ErrorReporter errorReporter})
-    : _errorReporter = errorReporter;
+  const PurchaseActions({required this._errorReporter});
 
   final ErrorReporter _errorReporter;
 

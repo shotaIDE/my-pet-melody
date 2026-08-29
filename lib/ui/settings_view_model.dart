@@ -6,9 +6,8 @@ import 'package:my_pet_melody/ui/settings_state.dart';
 
 class SettingsViewModel extends StateNotifier<SettingsState> {
   SettingsViewModel({
-    required Ref ref,
-  })  : _ref = ref,
-        super(
+    required this._ref,
+  })  : super(
           const SettingsState(),
         );
 

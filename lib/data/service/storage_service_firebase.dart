@@ -19,8 +19,8 @@ final storageServiceProvider = FutureProvider<StorageService>(
 
 class StorageServiceFirebase implements StorageService {
   StorageServiceFirebase({
-    required LoginSession session,
-  }) : _session = session;
+    required this._session,
+  });
 
   final format = DateFormat('yyyyMMddHHmmss');
 

@@ -11,7 +11,7 @@ final Provider<SubmissionRemoteDataSource> submissionRemoteDataSourceProvider =
 );
 
 class SubmissionRemoteDataSource {
-  SubmissionRemoteDataSource({required SubmissionApi api}) : _api = api;
+  SubmissionRemoteDataSource({required this._api});
 
   final SubmissionApi _api;
 

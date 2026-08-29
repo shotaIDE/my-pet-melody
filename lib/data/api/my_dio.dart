@@ -13,9 +13,8 @@ final Provider<MyDio> dioProvider = Provider(
 );
 
 class MyDio {
-  MyDio({required ErrorReporter errorReporter})
-      : _dio = Dio(BaseOptions()),
-        _errorReporter = errorReporter;
+  MyDio({required this._errorReporter})
+      : _dio = Dio(BaseOptions());
 
   static const _contentTypeJson = 'application/json';
   static const _contentTypeForm = 'application/x-www-form-urlencoded';

@@ -7,8 +7,8 @@ import 'package:my_pet_melody/data/service/storage_service.dart';
 
 class StorageServiceLocalFlask implements StorageService {
   const StorageServiceLocalFlask({
-    required StorageApi api,
-  }) : _api = api;
+    required this._api,
+  });
 
   final StorageApi _api;
 

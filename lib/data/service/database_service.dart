@@ -121,7 +121,7 @@ final FutureProvider<DatabaseActions> databaseActionsProvider = FutureProvider(
 );
 
 class DatabaseActions {
-  const DatabaseActions({required LoginSession session}) : _session = session;
+  const DatabaseActions({required this._session});
 
   final LoginSession _session;
 

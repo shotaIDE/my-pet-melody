@@ -20,11 +20,9 @@ final AutoDisposeStateNotifierProvider<RootViewModel, RootState>
 
 class RootViewModel extends StateNotifier<RootState> {
   RootViewModel({
-    required Ref ref,
-    required Listener listener,
-  })  : _ref = ref,
-        _listener = listener,
-        super(const RootState()) {
+    required this._ref,
+    required this._listener,
+  })  : super(const RootState()) {
     _setup();
   }
 

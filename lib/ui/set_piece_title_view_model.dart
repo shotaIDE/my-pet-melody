@@ -11,11 +11,10 @@ import 'package:path/path.dart';
 
 class SetPieceTitleViewModel extends StateNotifier<SetPieceTitleState> {
   SetPieceTitleViewModel({
-    required Ref ref,
+    required this._ref,
     required SetPieceTitleArgs args,
   })  : _template = args.template,
         _sounds = args.sounds,
-        _ref = ref,
         super(
           SetPieceTitleState(
             thumbnailLocalPath: args.thumbnailLocalPath,
