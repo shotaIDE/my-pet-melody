@@ -17,24 +17,15 @@ PODS:
   - libwebp/sharpyuv (1.5.0)
   - libwebp/webp (1.5.0):
     - libwebp/sharpyuv
-  - purchases_flutter (9.2.0):
-    - Flutter
-    - PurchasesHybridCommon (= 16.2.0)
-  - PurchasesHybridCommon (16.2.0):
-    - RevenueCat (= 5.34.0)
-  - RevenueCat (5.34.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_native_video_trimmer (from `.symlinks/plugins/flutter_native_video_trimmer/ios`)
   - get_thumbnail_video (from `.symlinks/plugins/get_thumbnail_video/ios`)
-  - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
 
 SPEC REPOS:
   trunk:
     - libwebp
-    - PurchasesHybridCommon
-    - RevenueCat
 
 EXTERNAL SOURCES:
   Flutter:
@@ -43,17 +34,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_video_trimmer/ios"
   get_thumbnail_video:
     :path: ".symlinks/plugins/get_thumbnail_video/ios"
-  purchases_flutter:
-    :path: ".symlinks/plugins/purchases_flutter/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_video_trimmer: 11f6c679971dc3844519b485b9c878df8675ae3a
   get_thumbnail_video: 1a754d46b860dffefcc57b7290a43089cd5d7e58
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
-  purchases_flutter: b0a7ec52cb03768814b5758b2e8dc7c9a1f381da
-  PurchasesHybridCommon: 55e97b4e090015ed138988e6559def2bd4c50ebe
-  RevenueCat: eb2aa042789d9c99ad5172bd96e28b96286d6ada
 
 PODFILE CHECKSUM: 95abe136bb51ce85007fe103ad470a10e5dddcf7
 
