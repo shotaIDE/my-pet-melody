@@ -270,6 +270,12 @@ class _SelectTrimmedSoundScreenState
       itemCount: choicesCount,
     );
 
+    final choicesPanelWithRadioGroup = _ChoicesRadioGroup(
+      viewModelProvider: widget.viewModelProvider,
+      onSelect: viewModel.select,
+      child: choicesPanel,
+    );
+
     final body = SingleChildScrollView(
       padding: const EdgeInsets.only(
         top: 16,
@@ -283,7 +289,7 @@ class _SelectTrimmedSoundScreenState
           const SizedBox(height: 16),
           trimManuallyButton,
           const SizedBox(height: 32),
-          choicesPanel,
+          choicesPanelWithRadioGroup,
         ],
       ),
     );
@@ -489,11 +495,7 @@ class _ChoicePanel extends StatelessWidget {
 
     final detailsPanelWithControls = Row(
       children: [
-        _ChoiceRadioButton(
-          viewModelProvider: viewModelProvider,
-          index: index,
-          onSelect: () => onSelect(index: index),
-        ),
+        _ChoiceRadioButton(index: index),
         const SizedBox(width: 8 - _seekBarBorderWidth),
         Expanded(child: detailsPanel),
         const SizedBox(width: 8 - _seekBarBorderWidth),
@@ -541,11 +543,15 @@ class _ChoicePanel extends StatelessWidget {
   }
 }
 
-class _ChoiceRadioButton extends ConsumerWidget {
-  const _ChoiceRadioButton({
+/// [Radio] の選択状態と選択操作を子孫の [Radio] に提供する。
+///
+/// 選択状態の変化で [child] が作り直されないよう、
+/// [child] は呼び出し元で組み立てたものを受け取る。
+class _ChoicesRadioGroup extends ConsumerWidget {
+  const _ChoicesRadioGroup({
     required this.viewModelProvider,
-    required this.index,
     required this.onSelect,
+    required this.child,
   });
 
   final AutoDisposeStateNotifierProvider<
@@ -553,8 +559,8 @@ class _ChoiceRadioButton extends ConsumerWidget {
     SelectTrimmedSoundState
   >
   viewModelProvider;
-  final int index;
-  final VoidCallback onSelect;
+  final void Function({required int index}) onSelect;
+  final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -562,13 +568,30 @@ class _ChoiceRadioButton extends ConsumerWidget {
       viewModelProvider.select((state) => state.selectedIndex),
     );
 
+    return RadioGroup<int>(
+      groupValue: selectedIndex,
+      onChanged: (index) {
+        if (index == null) {
+          return;
+        }
+
+        onSelect(index: index);
+      },
+      child: child,
+    );
+  }
+}
+
+class _ChoiceRadioButton extends StatelessWidget {
+  const _ChoiceRadioButton({required this.index});
+
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
     return Semantics(
       label: AppLocalizations.of(context)!.selectNThMeow(index),
-      child: Radio<int?>(
-        value: selectedIndex,
-        groupValue: index,
-        onChanged: (_) => onSelect(),
-      ),
+      child: Radio<int>(value: index),
     );
   }
 }
