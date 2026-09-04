@@ -50,7 +50,7 @@ dependencies:
   purchases_flutter: 9.5.0
   rxdart: 0.28.0
   share_plus: 12.0.2
-  shared_preferences: 2.5.3
+  shared_preferences: 2.5.5
   skeletonizer: 2.1.1
   url_launcher: 6.3.2
   video_player: 2.10.1
