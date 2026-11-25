@@ -5,7 +5,7 @@ google-cloud-tasks==2.26.0
 opencv-python==4.14.0.94
 protobuf==6.33.6
 pydub==0.25.1
-pytest==9.0.3
+pytest==9.2.0
 python-dateutil==2.9.0.post0
 pytz==2025.2
 requests==2.33.0
