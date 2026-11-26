@@ -9,7 +9,7 @@ environment:
   # Flutter 3.44に上げると、CrashlyticsのdSYMアップロードに失敗するため、
   # Flutter 3.41.9を維持している。
   # https://github.com/invertase/flutterfire_cli/issues/428
-  sdk: "3.11.5"
+  sdk: "3.14.1"
 
 dependencies:
   audioplayers: 6.5.1
